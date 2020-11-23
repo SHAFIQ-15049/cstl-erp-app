@@ -3,34 +3,25 @@ package software.cstl.web.rest;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Company;
 import software.cstl.repository.CompanyRepository;
-import software.cstl.repository.search.CompanySearchRepository;
 import software.cstl.service.CompanyService;
 import software.cstl.service.dto.CompanyCriteria;
 import software.cstl.service.CompanyQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link CompanyResource} REST controller.
  */
 @SpringBootTest(classes = CodeNodeErpApp.class)
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class CompanyResourceIT {
@@ -60,14 +50,6 @@ public class CompanyResourceIT {
 
     @Autowired
     private CompanyService companyService;
-
-    /**
-     * This repository is mocked in the software.cstl.repository.search test package.
-     *
-     * @see software.cstl.repository.search.CompanySearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private CompanySearchRepository mockCompanySearchRepository;
 
     @Autowired
     private CompanyQueryService companyQueryService;
@@ -132,9 +114,6 @@ public class CompanyResourceIT {
         assertThat(testCompany.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
         assertThat(testCompany.getNameInBangla()).isEqualTo(DEFAULT_NAME_IN_BANGLA);
         assertThat(testCompany.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-
-        // Validate the Company in Elasticsearch
-        verify(mockCompanySearchRepository, times(1)).save(testCompany);
     }
 
     @Test
@@ -154,9 +133,6 @@ public class CompanyResourceIT {
         // Validate the Company in the database
         List<Company> companyList = companyRepository.findAll();
         assertThat(companyList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the Company in Elasticsearch
-        verify(mockCompanySearchRepository, times(0)).save(company);
     }
 
 
@@ -542,9 +518,6 @@ public class CompanyResourceIT {
         assertThat(testCompany.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
         assertThat(testCompany.getNameInBangla()).isEqualTo(UPDATED_NAME_IN_BANGLA);
         assertThat(testCompany.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-
-        // Validate the Company in Elasticsearch
-        verify(mockCompanySearchRepository, times(2)).save(testCompany);
     }
 
     @Test
@@ -561,9 +534,6 @@ public class CompanyResourceIT {
         // Validate the Company in the database
         List<Company> companyList = companyRepository.findAll();
         assertThat(companyList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the Company in Elasticsearch
-        verify(mockCompanySearchRepository, times(0)).save(company);
     }
 
     @Test
@@ -582,28 +552,5 @@ public class CompanyResourceIT {
         // Validate the database contains one less item
         List<Company> companyList = companyRepository.findAll();
         assertThat(companyList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Company in Elasticsearch
-        verify(mockCompanySearchRepository, times(1)).deleteById(company.getId());
-    }
-
-    @Test
-    @Transactional
-    public void searchCompany() throws Exception {
-        // Configure the mock search repository
-        // Initialize the database
-        companyService.save(company);
-        when(mockCompanySearchRepository.search(queryStringQuery("id:" + company.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(company), PageRequest.of(0, 1), 1));
-
-        // Search the company
-        restCompanyMockMvc.perform(get("/api/_search/companies?query=id:" + company.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(company.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
-            .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 }

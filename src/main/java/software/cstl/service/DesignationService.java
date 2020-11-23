@@ -2,7 +2,6 @@ package software.cstl.service;
 
 import software.cstl.domain.Designation;
 import software.cstl.repository.DesignationRepository;
-import software.cstl.repository.search.DesignationSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Designation}.
@@ -26,11 +23,8 @@ public class DesignationService {
 
     private final DesignationRepository designationRepository;
 
-    private final DesignationSearchRepository designationSearchRepository;
-
-    public DesignationService(DesignationRepository designationRepository, DesignationSearchRepository designationSearchRepository) {
+    public DesignationService(DesignationRepository designationRepository) {
         this.designationRepository = designationRepository;
-        this.designationSearchRepository = designationSearchRepository;
     }
 
     /**
@@ -41,9 +35,7 @@ public class DesignationService {
      */
     public Designation save(Designation designation) {
         log.debug("Request to save Designation : {}", designation);
-        Designation result = designationRepository.save(designation);
-        designationSearchRepository.save(result);
-        return result;
+        return designationRepository.save(designation);
     }
 
     /**
@@ -79,18 +71,5 @@ public class DesignationService {
     public void delete(Long id) {
         log.debug("Request to delete Designation : {}", id);
         designationRepository.deleteById(id);
-        designationSearchRepository.deleteById(id);
     }
-
-    /**
-     * Search for the designation corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<Designation> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Designations for query {}", query);
-        return designationSearchRepository.search(queryStringQuery(query), pageable);    }
 }

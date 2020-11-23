@@ -25,9 +25,6 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * REST controller for managing {@link software.cstl.domain.Company}.
@@ -144,20 +141,4 @@ public class CompanyResource {
         companyService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
-
-    /**
-     * {@code SEARCH  /_search/companies?query=:query} : search for the company corresponding
-     * to the query.
-     *
-     * @param query the query of the company search.
-     * @param pageable the pagination information.
-     * @return the result of the search.
-     */
-    @GetMapping("/_search/companies")
-    public ResponseEntity<List<Company>> searchCompanies(@RequestParam String query, Pageable pageable) {
-        log.debug("REST request to search for a page of Companies for query {}", query);
-        Page<Company> page = companyService.search(query, pageable);
-        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
-        return ResponseEntity.ok().headers(headers).body(page.getContent());
-        }
 }

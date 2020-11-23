@@ -2,7 +2,6 @@ package software.cstl.service;
 
 import software.cstl.domain.Department;
 import software.cstl.repository.DepartmentRepository;
-import software.cstl.repository.search.DepartmentSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Department}.
@@ -26,11 +23,8 @@ public class DepartmentService {
 
     private final DepartmentRepository departmentRepository;
 
-    private final DepartmentSearchRepository departmentSearchRepository;
-
-    public DepartmentService(DepartmentRepository departmentRepository, DepartmentSearchRepository departmentSearchRepository) {
+    public DepartmentService(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
-        this.departmentSearchRepository = departmentSearchRepository;
     }
 
     /**
@@ -41,9 +35,7 @@ public class DepartmentService {
      */
     public Department save(Department department) {
         log.debug("Request to save Department : {}", department);
-        Department result = departmentRepository.save(department);
-        departmentSearchRepository.save(result);
-        return result;
+        return departmentRepository.save(department);
     }
 
     /**
@@ -79,18 +71,5 @@ public class DepartmentService {
     public void delete(Long id) {
         log.debug("Request to delete Department : {}", id);
         departmentRepository.deleteById(id);
-        departmentSearchRepository.deleteById(id);
     }
-
-    /**
-     * Search for the department corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<Department> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Departments for query {}", query);
-        return departmentSearchRepository.search(queryStringQuery(query), pageable);    }
 }

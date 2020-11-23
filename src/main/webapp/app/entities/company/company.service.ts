@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
+import { createRequestOption } from 'app/shared/util/request-util';
 import { ICompany } from 'app/shared/model/company.model';
 
 type EntityResponseType = HttpResponse<ICompany>;
@@ -12,7 +12,6 @@ type EntityArrayResponseType = HttpResponse<ICompany[]>;
 @Injectable({ providedIn: 'root' })
 export class CompanyService {
   public resourceUrl = SERVER_API_URL + 'api/companies';
-  public resourceSearchUrl = SERVER_API_URL + 'api/_search/companies';
 
   constructor(protected http: HttpClient) {}
 
@@ -35,10 +34,5 @@ export class CompanyService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
-    const options = createRequestOption(req);
-    return this.http.get<ICompany[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
 }

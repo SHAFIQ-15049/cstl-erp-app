@@ -17,7 +17,6 @@ import io.github.jhipster.service.QueryService;
 import software.cstl.domain.Designation;
 import software.cstl.domain.*; // for static metamodels
 import software.cstl.repository.DesignationRepository;
-import software.cstl.repository.search.DesignationSearchRepository;
 import software.cstl.service.dto.DesignationCriteria;
 
 /**
@@ -34,11 +33,8 @@ public class DesignationQueryService extends QueryService<Designation> {
 
     private final DesignationRepository designationRepository;
 
-    private final DesignationSearchRepository designationSearchRepository;
-
-    public DesignationQueryService(DesignationRepository designationRepository, DesignationSearchRepository designationSearchRepository) {
+    public DesignationQueryService(DesignationRepository designationRepository) {
         this.designationRepository = designationRepository;
-        this.designationSearchRepository = designationSearchRepository;
     }
 
     /**

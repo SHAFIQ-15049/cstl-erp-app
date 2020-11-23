@@ -17,7 +17,6 @@ import io.github.jhipster.service.QueryService;
 import software.cstl.domain.Department;
 import software.cstl.domain.*; // for static metamodels
 import software.cstl.repository.DepartmentRepository;
-import software.cstl.repository.search.DepartmentSearchRepository;
 import software.cstl.service.dto.DepartmentCriteria;
 
 /**
@@ -34,11 +33,8 @@ public class DepartmentQueryService extends QueryService<Department> {
 
     private final DepartmentRepository departmentRepository;
 
-    private final DepartmentSearchRepository departmentSearchRepository;
-
-    public DepartmentQueryService(DepartmentRepository departmentRepository, DepartmentSearchRepository departmentSearchRepository) {
+    public DepartmentQueryService(DepartmentRepository departmentRepository) {
         this.departmentRepository = departmentRepository;
-        this.departmentSearchRepository = departmentSearchRepository;
     }
 
     /**

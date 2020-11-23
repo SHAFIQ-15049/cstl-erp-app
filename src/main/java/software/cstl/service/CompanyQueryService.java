@@ -17,7 +17,6 @@ import io.github.jhipster.service.QueryService;
 import software.cstl.domain.Company;
 import software.cstl.domain.*; // for static metamodels
 import software.cstl.repository.CompanyRepository;
-import software.cstl.repository.search.CompanySearchRepository;
 import software.cstl.service.dto.CompanyCriteria;
 
 /**
@@ -34,11 +33,8 @@ public class CompanyQueryService extends QueryService<Company> {
 
     private final CompanyRepository companyRepository;
 
-    private final CompanySearchRepository companySearchRepository;
-
-    public CompanyQueryService(CompanyRepository companyRepository, CompanySearchRepository companySearchRepository) {
+    public CompanyQueryService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
-        this.companySearchRepository = companySearchRepository;
     }
 
     /**

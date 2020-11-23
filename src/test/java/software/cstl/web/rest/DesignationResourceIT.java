@@ -3,34 +3,25 @@ package software.cstl.web.rest;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Designation;
 import software.cstl.repository.DesignationRepository;
-import software.cstl.repository.search.DesignationSearchRepository;
 import software.cstl.service.DesignationService;
 import software.cstl.service.dto.DesignationCriteria;
 import software.cstl.service.DesignationQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link DesignationResource} REST controller.
  */
 @SpringBootTest(classes = CodeNodeErpApp.class)
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class DesignationResourceIT {
@@ -60,14 +50,6 @@ public class DesignationResourceIT {
 
     @Autowired
     private DesignationService designationService;
-
-    /**
-     * This repository is mocked in the software.cstl.repository.search test package.
-     *
-     * @see software.cstl.repository.search.DesignationSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private DesignationSearchRepository mockDesignationSearchRepository;
 
     @Autowired
     private DesignationQueryService designationQueryService;
@@ -132,9 +114,6 @@ public class DesignationResourceIT {
         assertThat(testDesignation.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
         assertThat(testDesignation.getNameInBangla()).isEqualTo(DEFAULT_NAME_IN_BANGLA);
         assertThat(testDesignation.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-
-        // Validate the Designation in Elasticsearch
-        verify(mockDesignationSearchRepository, times(1)).save(testDesignation);
     }
 
     @Test
@@ -154,9 +133,6 @@ public class DesignationResourceIT {
         // Validate the Designation in the database
         List<Designation> designationList = designationRepository.findAll();
         assertThat(designationList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the Designation in Elasticsearch
-        verify(mockDesignationSearchRepository, times(0)).save(designation);
     }
 
 
@@ -542,9 +518,6 @@ public class DesignationResourceIT {
         assertThat(testDesignation.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
         assertThat(testDesignation.getNameInBangla()).isEqualTo(UPDATED_NAME_IN_BANGLA);
         assertThat(testDesignation.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-
-        // Validate the Designation in Elasticsearch
-        verify(mockDesignationSearchRepository, times(2)).save(testDesignation);
     }
 
     @Test
@@ -561,9 +534,6 @@ public class DesignationResourceIT {
         // Validate the Designation in the database
         List<Designation> designationList = designationRepository.findAll();
         assertThat(designationList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the Designation in Elasticsearch
-        verify(mockDesignationSearchRepository, times(0)).save(designation);
     }
 
     @Test
@@ -582,28 +552,5 @@ public class DesignationResourceIT {
         // Validate the database contains one less item
         List<Designation> designationList = designationRepository.findAll();
         assertThat(designationList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Designation in Elasticsearch
-        verify(mockDesignationSearchRepository, times(1)).deleteById(designation.getId());
-    }
-
-    @Test
-    @Transactional
-    public void searchDesignation() throws Exception {
-        // Configure the mock search repository
-        // Initialize the database
-        designationService.save(designation);
-        when(mockDesignationSearchRepository.search(queryStringQuery("id:" + designation.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(designation), PageRequest.of(0, 1), 1));
-
-        // Search the designation
-        restDesignationMockMvc.perform(get("/api/_search/designations?query=id:" + designation.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(designation.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
-            .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 }

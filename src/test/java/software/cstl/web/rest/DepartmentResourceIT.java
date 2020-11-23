@@ -3,34 +3,25 @@ package software.cstl.web.rest;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Department;
 import software.cstl.repository.DepartmentRepository;
-import software.cstl.repository.search.DepartmentSearchRepository;
 import software.cstl.service.DepartmentService;
 import software.cstl.service.dto.DepartmentCriteria;
 import software.cstl.service.DepartmentQueryService;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.PageImpl;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
-import java.util.Collections;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
 import static org.hamcrest.Matchers.hasItem;
-import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -38,7 +29,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  * Integration tests for the {@link DepartmentResource} REST controller.
  */
 @SpringBootTest(classes = CodeNodeErpApp.class)
-@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 public class DepartmentResourceIT {
@@ -60,14 +50,6 @@ public class DepartmentResourceIT {
 
     @Autowired
     private DepartmentService departmentService;
-
-    /**
-     * This repository is mocked in the software.cstl.repository.search test package.
-     *
-     * @see software.cstl.repository.search.DepartmentSearchRepositoryMockConfiguration
-     */
-    @Autowired
-    private DepartmentSearchRepository mockDepartmentSearchRepository;
 
     @Autowired
     private DepartmentQueryService departmentQueryService;
@@ -132,9 +114,6 @@ public class DepartmentResourceIT {
         assertThat(testDepartment.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
         assertThat(testDepartment.getNameInBangla()).isEqualTo(DEFAULT_NAME_IN_BANGLA);
         assertThat(testDepartment.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
-
-        // Validate the Department in Elasticsearch
-        verify(mockDepartmentSearchRepository, times(1)).save(testDepartment);
     }
 
     @Test
@@ -154,9 +133,6 @@ public class DepartmentResourceIT {
         // Validate the Department in the database
         List<Department> departmentList = departmentRepository.findAll();
         assertThat(departmentList).hasSize(databaseSizeBeforeCreate);
-
-        // Validate the Department in Elasticsearch
-        verify(mockDepartmentSearchRepository, times(0)).save(department);
     }
 
 
@@ -542,9 +518,6 @@ public class DepartmentResourceIT {
         assertThat(testDepartment.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
         assertThat(testDepartment.getNameInBangla()).isEqualTo(UPDATED_NAME_IN_BANGLA);
         assertThat(testDepartment.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
-
-        // Validate the Department in Elasticsearch
-        verify(mockDepartmentSearchRepository, times(2)).save(testDepartment);
     }
 
     @Test
@@ -561,9 +534,6 @@ public class DepartmentResourceIT {
         // Validate the Department in the database
         List<Department> departmentList = departmentRepository.findAll();
         assertThat(departmentList).hasSize(databaseSizeBeforeUpdate);
-
-        // Validate the Department in Elasticsearch
-        verify(mockDepartmentSearchRepository, times(0)).save(department);
     }
 
     @Test
@@ -582,28 +552,5 @@ public class DepartmentResourceIT {
         // Validate the database contains one less item
         List<Department> departmentList = departmentRepository.findAll();
         assertThat(departmentList).hasSize(databaseSizeBeforeDelete - 1);
-
-        // Validate the Department in Elasticsearch
-        verify(mockDepartmentSearchRepository, times(1)).deleteById(department.getId());
-    }
-
-    @Test
-    @Transactional
-    public void searchDepartment() throws Exception {
-        // Configure the mock search repository
-        // Initialize the database
-        departmentService.save(department);
-        when(mockDepartmentSearchRepository.search(queryStringQuery("id:" + department.getId()), PageRequest.of(0, 20)))
-            .thenReturn(new PageImpl<>(Collections.singletonList(department), PageRequest.of(0, 1), 1));
-
-        // Search the department
-        restDepartmentMockMvc.perform(get("/api/_search/departments?query=id:" + department.getId()))
-            .andExpect(status().isOk())
-            .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
-            .andExpect(jsonPath("$.[*].id").value(hasItem(department.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
-            .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
 }

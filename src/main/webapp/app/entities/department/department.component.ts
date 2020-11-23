@@ -18,7 +18,6 @@ import { DepartmentDeleteDialogComponent } from './department-delete-dialog.comp
 export class DepartmentComponent implements OnInit, OnDestroy {
   departments?: IDepartment[];
   eventSubscriber?: Subscription;
-  currentSearch: string;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -33,30 +32,10 @@ export class DepartmentComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
-  ) {
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
-        ? this.activatedRoute.snapshot.queryParams['search']
-        : '';
-  }
+  ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
-    if (this.currentSearch) {
-      this.departmentService
-        .search({
-          page: pageToLoad - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .subscribe(
-          (res: HttpResponse<IDepartment[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-          () => this.onError()
-        );
-      return;
-    }
 
     this.departmentService
       .query({
@@ -68,11 +47,6 @@ export class DepartmentComponent implements OnInit, OnDestroy {
         (res: HttpResponse<IDepartment[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
         () => this.onError()
       );
-  }
-
-  search(query: string): void {
-    this.currentSearch = query;
-    this.loadPage(1);
   }
 
   ngOnInit(): void {
@@ -134,13 +108,11 @@ export class DepartmentComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IDepartment[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
-    this.ngbPaginationPage = this.page;
     if (navigate) {
       this.router.navigate(['/department'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
-          search: this.currentSearch,
           sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
         },
       });
