@@ -1,0 +1,30 @@
+
+entity Company (mst_company){
+   name String required,
+   shortName String,
+   nameInBangla String,
+   description TextBlob
+}
+
+entity Department (mst_department) {
+	name String required,
+    shortName String,
+    nameInBangla String,
+    description TextBlob
+}
+
+entity Designation (mst_designation){
+	name String required,
+	shortName String,
+	nameInBangla String,
+    description TextBlob
+}
+
+entity Grade (mst_grade){
+	name String required,
+    description TextBlob
+}
+
+service Company, Department, Designation, Grade with serviceClass
+filter Company, Department, Designation, Grade
+paginate Company, Department, Designation, Grade with pagination
