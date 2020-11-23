@@ -19,11 +19,6 @@ logging:
     io.github.jhipster: DEBUG
     software.cstl: DEBUG
 
-management:
-  health:
-    elasticsearch:
-      enabled: false
-
 spring:
   profiles:
     active: dev
@@ -55,11 +50,6 @@ spring:
         useServerPrepStmts: true
   jpa:
     show-sql: true
-  data:
-    elasticsearch:
-      properties:
-        path:
-          home: target/elasticsearch
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker

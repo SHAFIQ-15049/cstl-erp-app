@@ -21,12 +21,7 @@ export class LoginModalComponent implements AfterViewInit {
     rememberMe: [false],
   });
 
-  constructor(
-    protected loginService: LoginService,
-    protected router: Router,
-    public activeModal: NgbActiveModal,
-    protected fb: FormBuilder
-  ) {}
+  constructor(private loginService: LoginService, private router: Router, public activeModal: NgbActiveModal, private fb: FormBuilder) {}
 
   ngAfterViewInit(): void {
     if (this.username) {
