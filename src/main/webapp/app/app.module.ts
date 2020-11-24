@@ -26,6 +26,7 @@ import { LeftSideMenuComponent } from 'app/layouts/left-side-menu/left-side-menu
     CodeNodeErpHomeModule,
     LoginPageModule,
     SidebarModule.forRoot(),
+    NgbModule,
     // jhipster-needle-angular-add-module JHipster will add new module here
     CodeNodeErpEntityModule,
     CodeNodeErpAppRoutingModule,
