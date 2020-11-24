@@ -18,7 +18,6 @@ import { GradeDeleteDialogComponent } from './grade-delete-dialog.component';
 export class GradeComponent implements OnInit, OnDestroy {
   grades?: IGrade[];
   eventSubscriber?: Subscription;
-  currentSearch: string;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
@@ -33,30 +32,10 @@ export class GradeComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
-  ) {
-    this.currentSearch =
-      this.activatedRoute.snapshot && this.activatedRoute.snapshot.queryParams['search']
-        ? this.activatedRoute.snapshot.queryParams['search']
-        : '';
-  }
+  ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
-    if (this.currentSearch) {
-      this.gradeService
-        .search({
-          page: pageToLoad - 1,
-          query: this.currentSearch,
-          size: this.itemsPerPage,
-          sort: this.sort(),
-        })
-        .subscribe(
-          (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-          () => this.onError()
-        );
-      return;
-    }
 
     this.gradeService
       .query({
@@ -68,11 +47,6 @@ export class GradeComponent implements OnInit, OnDestroy {
         (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
         () => this.onError()
       );
-  }
-
-  search(query: string): void {
-    this.currentSearch = query;
-    this.loadPage(1);
   }
 
   ngOnInit(): void {
@@ -134,13 +108,11 @@ export class GradeComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IGrade[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
-    this.ngbPaginationPage = this.page;
     if (navigate) {
       this.router.navigate(['/grade'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
-          search: this.currentSearch,
           sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
         },
       });

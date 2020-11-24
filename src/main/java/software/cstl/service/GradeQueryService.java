@@ -17,7 +17,6 @@ import io.github.jhipster.service.QueryService;
 import software.cstl.domain.Grade;
 import software.cstl.domain.*; // for static metamodels
 import software.cstl.repository.GradeRepository;
-import software.cstl.repository.search.GradeSearchRepository;
 import software.cstl.service.dto.GradeCriteria;
 
 /**
@@ -34,11 +33,8 @@ public class GradeQueryService extends QueryService<Grade> {
 
     private final GradeRepository gradeRepository;
 
-    private final GradeSearchRepository gradeSearchRepository;
-
-    public GradeQueryService(GradeRepository gradeRepository, GradeSearchRepository gradeSearchRepository) {
+    public GradeQueryService(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;
-        this.gradeSearchRepository = gradeSearchRepository;
     }
 
     /**

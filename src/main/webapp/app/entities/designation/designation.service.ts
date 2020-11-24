@@ -3,7 +3,7 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
-import { createRequestOption, SearchWithPagination } from 'app/shared/util/request-util';
+import { createRequestOption } from 'app/shared/util/request-util';
 import { IDesignation } from 'app/shared/model/designation.model';
 
 type EntityResponseType = HttpResponse<IDesignation>;
@@ -12,7 +12,6 @@ type EntityArrayResponseType = HttpResponse<IDesignation[]>;
 @Injectable({ providedIn: 'root' })
 export class DesignationService {
   public resourceUrl = SERVER_API_URL + 'api/designations';
-  public resourceSearchUrl = SERVER_API_URL + 'api/_search/designations';
 
   constructor(protected http: HttpClient) {}
 
@@ -35,10 +34,5 @@ export class DesignationService {
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
-  }
-
-  search(req: SearchWithPagination): Observable<EntityArrayResponseType> {
-    const options = createRequestOption(req);
-    return this.http.get<IDesignation[]>(this.resourceSearchUrl, { params: options, observe: 'response' });
   }
 }

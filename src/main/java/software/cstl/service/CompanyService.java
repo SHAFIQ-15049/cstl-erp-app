@@ -2,7 +2,6 @@ package software.cstl.service;
 
 import software.cstl.domain.Company;
 import software.cstl.repository.CompanyRepository;
-import software.cstl.repository.search.CompanySearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Company}.
@@ -26,11 +23,8 @@ public class CompanyService {
 
     private final CompanyRepository companyRepository;
 
-    private final CompanySearchRepository companySearchRepository;
-
-    public CompanyService(CompanyRepository companyRepository, CompanySearchRepository companySearchRepository) {
+    public CompanyService(CompanyRepository companyRepository) {
         this.companyRepository = companyRepository;
-        this.companySearchRepository = companySearchRepository;
     }
 
     /**
@@ -41,9 +35,7 @@ public class CompanyService {
      */
     public Company save(Company company) {
         log.debug("Request to save Company : {}", company);
-        Company result = companyRepository.save(company);
-        companySearchRepository.save(result);
-        return result;
+        return companyRepository.save(company);
     }
 
     /**
@@ -79,18 +71,5 @@ public class CompanyService {
     public void delete(Long id) {
         log.debug("Request to delete Company : {}", id);
         companyRepository.deleteById(id);
-        companySearchRepository.deleteById(id);
     }
-
-    /**
-     * Search for the company corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<Company> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Companies for query {}", query);
-        return companySearchRepository.search(queryStringQuery(query), pageable);    }
 }

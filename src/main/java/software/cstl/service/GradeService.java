@@ -2,7 +2,6 @@ package software.cstl.service;
 
 import software.cstl.domain.Grade;
 import software.cstl.repository.GradeRepository;
-import software.cstl.repository.search.GradeSearchRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,8 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-
-import static org.elasticsearch.index.query.QueryBuilders.*;
 
 /**
  * Service Implementation for managing {@link Grade}.
@@ -26,11 +23,8 @@ public class GradeService {
 
     private final GradeRepository gradeRepository;
 
-    private final GradeSearchRepository gradeSearchRepository;
-
-    public GradeService(GradeRepository gradeRepository, GradeSearchRepository gradeSearchRepository) {
+    public GradeService(GradeRepository gradeRepository) {
         this.gradeRepository = gradeRepository;
-        this.gradeSearchRepository = gradeSearchRepository;
     }
 
     /**
@@ -41,9 +35,7 @@ public class GradeService {
      */
     public Grade save(Grade grade) {
         log.debug("Request to save Grade : {}", grade);
-        Grade result = gradeRepository.save(grade);
-        gradeSearchRepository.save(result);
-        return result;
+        return gradeRepository.save(grade);
     }
 
     /**
@@ -79,18 +71,5 @@ public class GradeService {
     public void delete(Long id) {
         log.debug("Request to delete Grade : {}", id);
         gradeRepository.deleteById(id);
-        gradeSearchRepository.deleteById(id);
     }
-
-    /**
-     * Search for the grade corresponding to the query.
-     *
-     * @param query the query of the search.
-     * @param pageable the pagination information.
-     * @return the list of entities.
-     */
-    @Transactional(readOnly = true)
-    public Page<Grade> search(String query, Pageable pageable) {
-        log.debug("Request to search for a page of Grades for query {}", query);
-        return gradeSearchRepository.search(queryStringQuery(query), pageable);    }
 }
