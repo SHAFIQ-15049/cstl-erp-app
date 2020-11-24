@@ -73,6 +73,7 @@ Generic styles
   padding: 1.5%;
   margin-top: 20px;
   border: none;
+  min-height: 91vh;
 }
 
 .error {
@@ -192,4 +193,10 @@ ui bootstrap tweaks
   white-space: nowrap;
 }
 
+/* ==========================================================================
+Custom
+========================================================================== */
+.main-wrapper {
+  display: flex;
+}
 /* jhipster-needle-scss-add-main JHipster will add new css style */

@@ -1,0 +1,78 @@
+<style>
+    .navbar-width{
+        width: 190px;
+    }
+
+    li{
+        border-bottom: 1px solid #b3d4fc;
+    }
+
+    .navbar-component{
+        background-color: whitesmoke;
+    }
+
+    .navbar-internal{
+        background-color: ghostwhite;
+    }
+
+    .dropdown-toggle::after {
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-left: .3em;
+        vertical-align: middle;
+        content: "";
+        border-top: .3em solid;
+        border-right: .3em solid transparent;
+        border-left: .3em solid transparent;
+        float: right;
+        margin-top: 8px;
+    }
+</style>
+<nav style="height: 100%;background-color: whitesmoke;" id="sidebar" class="navbar-width" [class.active]="leftMenuHidden">
+    <ul class="list-unstyled components navbar-component" >
+
+<!--        <li>
+            <img src="../../../content/images/admin.jpg"  class="img-circle" height="200" width="200"/>
+        </li>-->
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="entities=!entities" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Entities
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!entities" class="list-unstyled navbar-internal" id="homeSubmenu">
+                <li class="list-custom">
+                    <a class="dropdown-item" routerLink="company" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Company</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="department" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Department</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="designation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Designation</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" routerLink="grade" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Grade</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+    </ul>
+</nav>

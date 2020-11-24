@@ -40,4 +40,8 @@ export class MainComponent implements OnInit {
     }
     this.titleService.setTitle(pageTitle);
   }
+
+  isAuthenticated(): boolean {
+    return this.accountService.isAuthenticated();
+  }
 }
