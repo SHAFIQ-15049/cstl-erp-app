@@ -25,6 +25,159 @@ entity Grade (mst_grade){
     description TextBlob
 }
 
-service Company, Department, Designation, Grade with serviceClass
-filter Company, Department, Designation, Grade
-paginate Company, Department, Designation, Grade with pagination
+entity Division (mst_division){
+    name String required,
+}
+
+entity District (mst_district){
+    name String required,
+}
+
+entity Thana (mst_thana){
+    name String required,
+}
+
+
+entity Employee (mst_employee){
+    employeeId String required,
+    globalId String required,
+    // company
+    localId String required,
+    //department
+    //grade
+    //designation
+    type EmployeeType,
+    joiningDate LocalDate,
+    terminationDate LocalDate,
+    terminationReason TextBlob
+}
+
+entity PersonalInfo (personal_info){
+    name String required,
+    banglaName String required,
+    photo Blob,
+    fatherName String required,
+    motherName String required,
+    maritalStatus MaritalStatus,
+    spouseName String,
+    dateOfBirth LocalDate,
+    nationalId String,
+    birthRegistration String,
+    height Double,
+    gender GenderType,
+    bloodGroup BloodGroupType,
+    emergencyContact String max(500),
+}
+
+entity Address (address){
+    //division
+    //district
+    //thana
+    street String required,
+    area String required,
+    postCode Integer,
+    addressType
+}
+
+entity EducationalInfo (educational_info){
+    serial Integer required,
+    degree String required,
+    institution String required,
+    passingYear Integer required,
+    courseDuration Integer,
+    attachment Blob
+}
+
+entity Training (training){
+    serial Integer required,
+    name String required,
+    trainingInstitute String required,
+    receivedOn LocalDate
+}
+
+entity EmployeeAccount (emp_account){
+    accountType AccountType required,
+    accountNo String required,
+    isSalaryAccount Boolean
+}
+
+entity JobHistory (job_history){
+    serial Integer required,
+    organization String required,
+    from LocalDate,
+    to LocalDate,
+    total Integer
+}
+
+entity ServiceHistory (service_history){
+    //department
+    //designation
+    //grade
+    employeeType EmployeeType,
+    from LocalDate,
+    to LocalDate
+}
+
+enum AccountType{
+    BANK,
+    BKASH,
+    ROCKET,
+    NAGAD
+}
+
+enum EmployeeType{
+    PERMANENT,
+    TEMPORARY,
+    PART_TIME,
+    CONTRACTUAL
+}
+
+enum MaritalStatus{
+    SINGLE,
+    MARRIED
+}
+
+enum GenderType{
+    MALE,
+    FEMALE,
+    OTHERS
+}
+
+enum AddressType{
+    PRESENT,
+    PERMANENT
+}
+
+enum BloodGroupType{
+   A+,A-,B+,B-,O+,O-,AB+,AB-
+}
+
+relationShip OneToMany{
+    Employee{company(name)} to Company,
+    Employee{department(name)} to Department,
+    Employee{grade(name)} to Grade,
+    Employee{designation(name)} to Designation,
+    Employee{address} to Address,
+    Employee{educationalInfo} to EducationalInfo,
+    Employee{training} to Training,
+    Employee{employeeAccount} to EmployeeAccount,
+    Employee{jobHistory} to JobHistory,
+    Employee{serviceHistory} to ServiceHistory,
+    District{division(name)} to Division,
+    Thana{district(name)} to District,
+    Address{division(name)} to Division,
+    Address{district(name)} to District,
+    Address{thana(name)} to Thana,
+    ServiceHistory{department(name)} to Department,
+    ServiceHistory{designation(name)} to Designation,
+    ServiceHistory{grade(name)} to Grade
+}
+
+
+relationShip OneToOne{
+    Employee{personalInfo(name)} to PersonalInfo,
+}
+
+service Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, Department, Designation, Grade, Employee, personalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
