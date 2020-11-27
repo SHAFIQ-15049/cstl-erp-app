@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="jobHistory">
+            <h2><span>Job History</span> {{ jobHistory.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Serial</span></dt>
+                <dd>
+                    <span>{{ jobHistory.serial }}</span>
+                </dd>
+                <dt><span>Organization</span></dt>
+                <dd>
+                    <span>{{ jobHistory.organization }}</span>
+                </dd>
+                <dt><span>From</span></dt>
+                <dd>
+                    <span>{{ jobHistory.from }}</span>
+                </dd>
+                <dt><span>To</span></dt>
+                <dd>
+                    <span>{{ jobHistory.to }}</span>
+                </dd>
+                <dt><span>Total</span></dt>
+                <dd>
+                    <span>{{ jobHistory.total }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="jobHistory.employee">
+                        <a [routerLink]="['/employee', jobHistory.employee?.id, 'view']">{{ jobHistory.employee?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/job-history', jobHistory.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

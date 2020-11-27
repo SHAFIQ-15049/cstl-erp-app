@@ -1,0 +1,101 @@
+<div>
+    <h2 id="page-heading">
+        <span>Addresses</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-address" [routerLink]="['/address/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Address
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="addresses?.length === 0">
+        <span>No addresses found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="addresses && addresses.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="street"><span>Street</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="area"><span>Area</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="postCode"><span>Post Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="addressType"><span>Address Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="division.name"><span>Division</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="district.name"><span>District</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="thana.name"><span>Thana</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let address of addresses ;trackBy: trackId">
+                    <td><a [routerLink]="['/address', address.id, 'view']">{{ address.id }}</a></td>
+                    <td>{{ address.street }}</td>
+                    <td>{{ address.area }}</td>
+                    <td>{{ address.postCode }}</td>
+                    <td>{{ address.addressType }}</td>
+                    <td>
+                        <div *ngIf="address.division">
+                            <a [routerLink]="['/division', address.division?.id, 'view']" >{{ address.division?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.district">
+                            <a [routerLink]="['/district', address.district?.id, 'view']" >{{ address.district?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.thana">
+                            <a [routerLink]="['/thana', address.thana?.id, 'view']" >{{ address.thana?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.employee">
+                            <a [routerLink]="['/employee', address.employee?.id, 'view']" >{{ address.employee?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/address', address.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/address', address.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(address)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="addresses && addresses.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,69 @@
+{
+  "name": "Address",
+  "fields": [
+    {
+      "fieldName": "street",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "area",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "postCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "addressType",
+      "fieldType": "AddressType",
+      "fieldValues": "PRESENT,PERMANENT"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "division",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "division",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "district",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "district",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "thana",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "thana",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "employee",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201127213727",
+  "entityTableName": "address",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

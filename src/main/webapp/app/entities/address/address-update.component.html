@@ -1,0 +1,96 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-address-heading">Create or edit a Address</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_street">Street</label>
+                    <input type="text" class="form-control" name="street" id="field_street"
+                           formControlName="street"/>
+                    <div *ngIf="editForm.get('street')!.invalid && (editForm.get('street')!.dirty || editForm.get('street')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('street')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_area">Area</label>
+                    <input type="text" class="form-control" name="area" id="field_area"
+                           formControlName="area"/>
+                    <div *ngIf="editForm.get('area')!.invalid && (editForm.get('area')!.dirty || editForm.get('area')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('area')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_postCode">Post Code</label>
+                    <input type="number" class="form-control" name="postCode" id="field_postCode"
+                           formControlName="postCode"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_addressType">Address Type</label>
+                    <select class="form-control" name="addressType" formControlName="addressType" id="field_addressType">
+                        <option value="PRESENT">PRESENT</option>
+                        <option value="PERMANENT">PERMANENT</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_division">Division</label>
+                    <select class="form-control" id="field_division" name="division" formControlName="division">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="divisionOption.id === editForm.get('division')!.value?.id ? editForm.get('division')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_district">District</label>
+                    <select class="form-control" id="field_district" name="district" formControlName="district">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="districtOption.id === editForm.get('district')!.value?.id ? editForm.get('district')!.value : districtOption" *ngFor="let districtOption of districts; trackBy: trackById">{{ districtOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_thana">Thana</label>
+                    <select class="form-control" id="field_thana" name="thana" formControlName="thana">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="thanaOption.id === editForm.get('thana')!.value?.id ? editForm.get('thana')!.value : thanaOption" *ngFor="let thanaOption of thanas; trackBy: trackById">{{ thanaOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

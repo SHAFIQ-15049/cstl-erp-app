@@ -1,0 +1,84 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employee">
+            <h2><span>Employee</span> {{ employee.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Employee Id</span></dt>
+                <dd>
+                    <span>{{ employee.employeeId }}</span>
+                </dd>
+                <dt><span>Global Id</span></dt>
+                <dd>
+                    <span>{{ employee.globalId }}</span>
+                </dd>
+                <dt><span>Local Id</span></dt>
+                <dd>
+                    <span>{{ employee.localId }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ employee.type }}</span>
+                </dd>
+                <dt><span>Joining Date</span></dt>
+                <dd>
+                    <span>{{ employee.joiningDate }}</span>
+                </dd>
+                <dt><span>Termination Date</span></dt>
+                <dd>
+                    <span>{{ employee.terminationDate }}</span>
+                </dd>
+                <dt><span>Termination Reason</span></dt>
+                <dd>
+                    <span>{{ employee.terminationReason }}</span>
+                </dd>
+                <dt><span>Personal Info</span></dt>
+                <dd>
+                    <div *ngIf="employee.personalInfo">
+                        <a [routerLink]="['/personal-info', employee.personalInfo?.id, 'view']">{{ employee.personalInfo?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Company</span></dt>
+                <dd>
+                    <div *ngIf="employee.company">
+                        <a [routerLink]="['/company', employee.company?.id, 'view']">{{ employee.company?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="employee.department">
+                        <a [routerLink]="['/department', employee.department?.id, 'view']">{{ employee.department?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Grade</span></dt>
+                <dd>
+                    <div *ngIf="employee.grade">
+                        <a [routerLink]="['/grade', employee.grade?.id, 'view']">{{ employee.grade?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <div *ngIf="employee.designation">
+                        <a [routerLink]="['/designation', employee.designation?.id, 'view']">{{ employee.designation?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee', employee.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
