@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span>Grades</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-grade" [routerLink]="['/grade/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-grade" (click)="addNew()">
             <fa-icon icon="plus"></fa-icon>
             <span>
             Create a new Grade
@@ -13,6 +13,22 @@
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
+    <hr/>
+    <div class="row" style="padding: 10px;">
+        <div class="col-md-1" >
+            Category
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" name="category" [(ngModel)]="employeeCategory"  id="field_category">
+                <option value="null"></option>
+                <option value="MANAGERIAL">MANAGERIAL</option>
+                <option value="STAFF">STAFF</option>
+                <option value="WORKER">WORKER</option>
+            </select>
+        </div>
+        <div class="col-md-3"><button class="btn btn-primary">Fetch</button></div>
+        <div class="col-md-6" align="right"><button class="btn btn-secondary">Fetch All</button></div>
+    </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="grades?.length === 0">
         <span>No grades found</span>

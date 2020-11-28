@@ -10,6 +10,7 @@ import { IGrade } from 'app/shared/model/grade.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { GradeService } from './grade.service';
 import { GradeDeleteDialogComponent } from './grade-delete-dialog.component';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 @Component({
   selector: 'jhi-grade',
@@ -24,6 +25,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  employeeCategory!: EmployeeCategory;
 
   constructor(
     protected gradeService: GradeService,
@@ -37,16 +39,26 @@ export class GradeComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.gradeService
-      .query({
+    let queryBuilder = {};
+    if (this.employeeCategory) {
+      queryBuilder = {
+        page: pageToLoad - 1,
+        'employeeCategory.equals': this.employeeCategory,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      };
+    } else {
+      queryBuilder = {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+      };
+    }
+
+    this.gradeService.query(queryBuilder).subscribe(
+      (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+      () => this.onError()
+    );
   }
 
   ngOnInit(): void {
@@ -73,6 +85,11 @@ export class GradeComponent implements OnInit, OnDestroy {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
+  }
+
+  addNew(): void {
+    if (this.employeeCategory) this.router.navigate(['grade', this.employeeCategory, '/new']);
+    else this.router.navigate(['grade/new']);
   }
 
   trackId(index: number, item: IGrade): number {
