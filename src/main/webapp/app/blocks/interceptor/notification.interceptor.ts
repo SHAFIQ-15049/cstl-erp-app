@@ -16,7 +16,10 @@ export class NotificationInterceptor implements HttpInterceptor {
 
           event.headers.keys().forEach(entry => {
             if (entry.toLowerCase().endsWith('app-alert')) {
-              alert = event.headers.get(entry);
+              const alertMsg = event.headers.get(entry);
+              if (alertMsg!.includes('created')) alert = 'Creation success';
+              else if (alertMsg!.includes('updated')) alert = 'Updated successfully';
+              else if (alertMsg!.includes('deleted')) alert = 'Deleted successfully';
             }
           });
 
