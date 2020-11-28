@@ -10,6 +10,7 @@ export class LeftSideMenuComponent implements OnInit {
   employeeName = '';
   username = '';
   entities = false;
+  employeeManagement = false;
 
   @Input() leftMenuHidden = false;
   constructor(private accountService: AccountService) {}

@@ -9,8 +9,8 @@ import { CompanyDeleteDialogComponent } from './company-delete-dialog.component'
 import { companyRoute } from './company.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(companyRoute)],
-  declarations: [CompanyComponent, CompanyDetailComponent, CompanyUpdateComponent, CompanyDeleteDialogComponent],
-  entryComponents: [CompanyDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(companyRoute)],
+  // declarations: [CompanyComponent, CompanyDetailComponent, CompanyUpdateComponent, CompanyDeleteDialogComponent],
+  // entryComponents: [CompanyDeleteDialogComponent],
 })
 export class CodeNodeErpCompanyModule {}
