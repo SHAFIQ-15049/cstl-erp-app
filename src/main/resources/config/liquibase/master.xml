@@ -48,6 +48,8 @@
     <include file="config/liquibase/changelog/20201128070252_changelog_constraints_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201128071908_changelog_grade_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201128080926_changelog_employee_refactored.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201128091535_changelog_auditing_added.xml" relativeToChangelogFile="false"/>
+
 
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

@@ -17,7 +17,7 @@ import software.cstl.domain.enumeration.AddressType;
 @Entity
 @Table(name = "address")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Address implements Serializable {
+public class Address extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

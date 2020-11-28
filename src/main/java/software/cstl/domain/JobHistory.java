@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "job_history")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class JobHistory implements Serializable {
+public class JobHistory extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

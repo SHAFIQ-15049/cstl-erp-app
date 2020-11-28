@@ -16,7 +16,7 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "training")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Training implements Serializable {
+public class Training extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

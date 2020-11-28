@@ -17,7 +17,7 @@ import software.cstl.domain.enumeration.AccountType;
 @Entity
 @Table(name = "emp_account")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class EmployeeAccount implements Serializable {
+public class EmployeeAccount extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

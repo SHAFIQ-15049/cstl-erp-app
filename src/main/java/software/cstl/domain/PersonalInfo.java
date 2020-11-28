@@ -21,7 +21,7 @@ import software.cstl.domain.enumeration.BloodGroupType;
 @Entity
 @Table(name = "personal_info")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class PersonalInfo implements Serializable {
+public class PersonalInfo extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

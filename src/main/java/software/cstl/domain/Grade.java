@@ -16,7 +16,7 @@ import software.cstl.domain.enumeration.EmployeeCategory;
 @Entity
 @Table(name = "mst_grade")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Grade implements Serializable {
+public class Grade extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

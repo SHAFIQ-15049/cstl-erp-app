@@ -17,7 +17,7 @@ import software.cstl.domain.enumeration.EmployeeType;
 @Entity
 @Table(name = "service_history")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class ServiceHistory implements Serializable {
+public class ServiceHistory extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

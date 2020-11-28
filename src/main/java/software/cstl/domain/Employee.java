@@ -24,7 +24,7 @@ import software.cstl.domain.enumeration.EmployeeStatus;
 @Entity
 @Table(name = "mst_employee")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Employee implements Serializable {
+public class Employee extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -66,31 +66,31 @@ public class Employee implements Serializable {
     @Column(name = "termination_reason")
     private String terminationReason;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
     private PersonalInfo personalInfo;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Address> addresses = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee" , cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EducationalInfo> educationalInfos = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Training> trainings = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EmployeeAccount> employeeAccounts = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<JobHistory> jobHistories = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<ServiceHistory> serviceHistories = new HashSet<>();
 
