@@ -40,6 +40,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import software.cstl.domain.enumeration.EmployeeCategory;
 import software.cstl.domain.enumeration.EmployeeType;
+import software.cstl.domain.enumeration.EmployeeStatus;
 /**
  * Integration tests for the {@link EmployeeResource} REST controller.
  */
@@ -66,6 +67,9 @@ public class EmployeeResourceIT {
     private static final LocalDate DEFAULT_JOINING_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_JOINING_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_JOINING_DATE = LocalDate.ofEpochDay(-1L);
+
+    private static final EmployeeStatus DEFAULT_STATUS = EmployeeStatus.ACTIVE;
+    private static final EmployeeStatus UPDATED_STATUS = EmployeeStatus.TERMINATED;
 
     private static final LocalDate DEFAULT_TERMINATION_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_TERMINATION_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -105,6 +109,7 @@ public class EmployeeResourceIT {
             .category(DEFAULT_CATEGORY)
             .type(DEFAULT_TYPE)
             .joiningDate(DEFAULT_JOINING_DATE)
+            .status(DEFAULT_STATUS)
             .terminationDate(DEFAULT_TERMINATION_DATE)
             .terminationReason(DEFAULT_TERMINATION_REASON);
         return employee;
@@ -123,6 +128,7 @@ public class EmployeeResourceIT {
             .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
             .joiningDate(UPDATED_JOINING_DATE)
+            .status(UPDATED_STATUS)
             .terminationDate(UPDATED_TERMINATION_DATE)
             .terminationReason(UPDATED_TERMINATION_REASON);
         return employee;
@@ -153,6 +159,7 @@ public class EmployeeResourceIT {
         assertThat(testEmployee.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testEmployee.getJoiningDate()).isEqualTo(DEFAULT_JOINING_DATE);
+        assertThat(testEmployee.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(DEFAULT_TERMINATION_DATE);
         assertThat(testEmployee.getTerminationReason()).isEqualTo(DEFAULT_TERMINATION_REASON);
     }
@@ -251,6 +258,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].terminationReason").value(hasItem(DEFAULT_TERMINATION_REASON.toString())));
     }
@@ -272,6 +280,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.joiningDate").value(DEFAULT_JOINING_DATE.toString()))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.terminationDate").value(DEFAULT_TERMINATION_DATE.toString()))
             .andExpect(jsonPath("$.terminationReason").value(DEFAULT_TERMINATION_REASON.toString()));
     }
@@ -741,6 +750,58 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
+    public void getAllEmployeesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where status equals to DEFAULT_STATUS
+        defaultEmployeeShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the employeeList where status equals to UPDATED_STATUS
+        defaultEmployeeShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where status not equals to DEFAULT_STATUS
+        defaultEmployeeShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+
+        // Get all the employeeList where status not equals to UPDATED_STATUS
+        defaultEmployeeShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultEmployeeShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the employeeList where status equals to UPDATED_STATUS
+        defaultEmployeeShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where status is not null
+        defaultEmployeeShouldBeFound("status.specified=true");
+
+        // Get all the employeeList where status is null
+        defaultEmployeeShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllEmployeesByTerminationDateIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
@@ -1077,6 +1138,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
             .andExpect(jsonPath("$.[*].terminationReason").value(hasItem(DEFAULT_TERMINATION_REASON.toString())));
 
@@ -1131,6 +1193,7 @@ public class EmployeeResourceIT {
             .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
             .joiningDate(UPDATED_JOINING_DATE)
+            .status(UPDATED_STATUS)
             .terminationDate(UPDATED_TERMINATION_DATE)
             .terminationReason(UPDATED_TERMINATION_REASON);
 
@@ -1149,6 +1212,7 @@ public class EmployeeResourceIT {
         assertThat(testEmployee.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testEmployee.getJoiningDate()).isEqualTo(UPDATED_JOINING_DATE);
+        assertThat(testEmployee.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(UPDATED_TERMINATION_DATE);
         assertThat(testEmployee.getTerminationReason()).isEqualTo(UPDATED_TERMINATION_REASON);
     }

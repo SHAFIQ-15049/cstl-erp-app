@@ -12,6 +12,7 @@ import { IGrade } from 'app/shared/model/grade.model';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
+import { EmployeeStatus } from 'app/shared/model/enumerations/employee-status.model';
 
 export interface IEmployee {
   id?: number;
@@ -21,6 +22,7 @@ export interface IEmployee {
   category?: EmployeeCategory;
   type?: EmployeeType;
   joiningDate?: Moment;
+  status?: EmployeeStatus;
   terminationDate?: Moment;
   terminationReason?: any;
   personalInfo?: IPersonalInfo;
@@ -45,6 +47,7 @@ export class Employee implements IEmployee {
     public category?: EmployeeCategory,
     public type?: EmployeeType,
     public joiningDate?: Moment,
+    public status?: EmployeeStatus,
     public terminationDate?: Moment,
     public terminationReason?: any,
     public personalInfo?: IPersonalInfo,

@@ -50,6 +50,7 @@ entity Employee (mst_employee){
     category EmployeeCategory,
     type EmployeeType,
     joiningDate LocalDate,
+    status EmployeeStatus,
     terminationDate LocalDate,
     terminationReason TextBlob
 }
@@ -150,6 +151,11 @@ enum GenderType{
     MALE,
     FEMALE,
     OTHERS
+}
+
+enum EmployeeStatus{
+    ACTIVE,
+    TERMINATED
 }
 
 enum AddressType{

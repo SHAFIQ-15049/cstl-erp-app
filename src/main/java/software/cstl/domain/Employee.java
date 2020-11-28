@@ -16,6 +16,8 @@ import software.cstl.domain.enumeration.EmployeeCategory;
 
 import software.cstl.domain.enumeration.EmployeeType;
 
+import software.cstl.domain.enumeration.EmployeeStatus;
+
 /**
  * A Employee.
  */
@@ -52,6 +54,10 @@ public class Employee implements Serializable {
 
     @Column(name = "joining_date")
     private LocalDate joiningDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private EmployeeStatus status;
 
     @Column(name = "termination_date")
     private LocalDate terminationDate;
@@ -189,6 +195,19 @@ public class Employee implements Serializable {
 
     public void setJoiningDate(LocalDate joiningDate) {
         this.joiningDate = joiningDate;
+    }
+
+    public EmployeeStatus getStatus() {
+        return status;
+    }
+
+    public Employee status(EmployeeStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(EmployeeStatus status) {
+        this.status = status;
     }
 
     public LocalDate getTerminationDate() {
@@ -460,6 +479,7 @@ public class Employee implements Serializable {
             ", category='" + getCategory() + "'" +
             ", type='" + getType() + "'" +
             ", joiningDate='" + getJoiningDate() + "'" +
+            ", status='" + getStatus() + "'" +
             ", terminationDate='" + getTerminationDate() + "'" +
             ", terminationReason='" + getTerminationReason() + "'" +
             "}";

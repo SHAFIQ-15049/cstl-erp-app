@@ -6,6 +6,7 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 import { IEmployee, Employee } from 'app/shared/model/employee.model';
 import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
+import { EmployeeStatus } from 'app/shared/model/enumerations/employee-status.model';
 
 describe('Service Tests', () => {
   describe('Employee Service', () => {
@@ -34,6 +35,7 @@ describe('Service Tests', () => {
         EmployeeCategory.MANAGERIAL,
         EmployeeType.PERMANENT,
         currentDate,
+        EmployeeStatus.ACTIVE,
         currentDate,
         'AAAAAAA'
       );
@@ -90,6 +92,7 @@ describe('Service Tests', () => {
             category: 'BBBBBB',
             type: 'BBBBBB',
             joiningDate: currentDate.format(DATE_FORMAT),
+            status: 'BBBBBB',
             terminationDate: currentDate.format(DATE_FORMAT),
             terminationReason: 'BBBBBB',
           },
@@ -120,6 +123,7 @@ describe('Service Tests', () => {
             category: 'BBBBBB',
             type: 'BBBBBB',
             joiningDate: currentDate.format(DATE_FORMAT),
+            status: 'BBBBBB',
             terminationDate: currentDate.format(DATE_FORMAT),
             terminationReason: 'BBBBBB',
           },

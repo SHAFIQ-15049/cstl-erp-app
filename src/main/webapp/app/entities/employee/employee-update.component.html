@@ -77,6 +77,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="TERMINATED">TERMINATED</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_terminationDate">Termination Date</label>
                     <div class="input-group">
                         <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker #terminationDateDp="ngbDatepicker" formControlName="terminationDate"/>

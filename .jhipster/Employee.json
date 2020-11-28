@@ -37,6 +37,11 @@
       "fieldType": "LocalDate"
     },
     {
+      "fieldName": "status",
+      "fieldType": "EmployeeStatus",
+      "fieldValues": "ACTIVE,TERMINATED"
+    },
+    {
       "fieldName": "terminationDate",
       "fieldType": "LocalDate"
     },

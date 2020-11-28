@@ -5,6 +5,7 @@ import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.EmployeeCategory;
 import software.cstl.domain.enumeration.EmployeeType;
+import software.cstl.domain.enumeration.EmployeeStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -60,6 +61,24 @@ public class EmployeeCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering EmployeeStatus
+     */
+    public static class EmployeeStatusFilter extends Filter<EmployeeStatus> {
+
+        public EmployeeStatusFilter() {
+        }
+
+        public EmployeeStatusFilter(EmployeeStatusFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeStatusFilter copy() {
+            return new EmployeeStatusFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -76,6 +95,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
     private EmployeeTypeFilter type;
 
     private LocalDateFilter joiningDate;
+
+    private EmployeeStatusFilter status;
 
     private LocalDateFilter terminationDate;
 
@@ -112,6 +133,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.category = other.category == null ? null : other.category.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.joiningDate = other.joiningDate == null ? null : other.joiningDate.copy();
+        this.status = other.status == null ? null : other.status.copy();
         this.terminationDate = other.terminationDate == null ? null : other.terminationDate.copy();
         this.personalInfoId = other.personalInfoId == null ? null : other.personalInfoId.copy();
         this.addressId = other.addressId == null ? null : other.addressId.copy();
@@ -185,6 +207,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setJoiningDate(LocalDateFilter joiningDate) {
         this.joiningDate = joiningDate;
+    }
+
+    public EmployeeStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(EmployeeStatusFilter status) {
+        this.status = status;
     }
 
     public LocalDateFilter getTerminationDate() {
@@ -301,6 +331,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(category, that.category) &&
             Objects.equals(type, that.type) &&
             Objects.equals(joiningDate, that.joiningDate) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(terminationDate, that.terminationDate) &&
             Objects.equals(personalInfoId, that.personalInfoId) &&
             Objects.equals(addressId, that.addressId) &&
@@ -325,6 +356,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         category,
         type,
         joiningDate,
+        status,
         terminationDate,
         personalInfoId,
         addressId,
@@ -351,6 +383,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (category != null ? "category=" + category + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
                 (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +
                 (personalInfoId != null ? "personalInfoId=" + personalInfoId + ", " : "") +
                 (addressId != null ? "addressId=" + addressId + ", " : "") +

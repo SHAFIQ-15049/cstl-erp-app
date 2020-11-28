@@ -78,6 +78,7 @@ class EmployeeGatlingTest extends Simulation {
                 , "category":"MANAGERIAL"
                 , "type":"PERMANENT"
                 , "joiningDate":"2020-01-01T00:00:00.000Z"
+                , "status":"ACTIVE"
                 , "terminationDate":"2020-01-01T00:00:00.000Z"
                 , "terminationReason":null
                 }""")).asJson

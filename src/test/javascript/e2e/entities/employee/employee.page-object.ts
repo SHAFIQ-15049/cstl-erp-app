@@ -35,6 +35,7 @@ export class EmployeeUpdatePage {
   categorySelect = element(by.id('field_category'));
   typeSelect = element(by.id('field_type'));
   joiningDateInput = element(by.id('field_joiningDate'));
+  statusSelect = element(by.id('field_status'));
   terminationDateInput = element(by.id('field_terminationDate'));
   terminationReasonInput = element(by.id('field_terminationReason'));
 
@@ -102,6 +103,18 @@ export class EmployeeUpdatePage {
 
   async getJoiningDateInput(): Promise<string> {
     return await this.joiningDateInput.getAttribute('value');
+  }
+
+  async setStatusSelect(status: string): Promise<void> {
+    await this.statusSelect.sendKeys(status);
+  }
+
+  async getStatusSelect(): Promise<string> {
+    return await this.statusSelect.element(by.css('option:checked')).getText();
+  }
+
+  async statusSelectLastOption(): Promise<void> {
+    await this.statusSelect.all(by.tagName('option')).last().click();
   }
 
   async setTerminationDateInput(terminationDate: string): Promise<void> {

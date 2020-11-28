@@ -29,6 +29,7 @@
                     <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="type"><span>Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="joiningDate"><span>Joining Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="terminationDate"><span>Termination Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="terminationReason"><span>Termination Reason</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="personalInfo.name"><span>Personal Info</span> <fa-icon icon="sort"></fa-icon></th>
@@ -48,6 +49,7 @@
                     <td>{{ employee.category }}</td>
                     <td>{{ employee.type }}</td>
                     <td>{{ employee.joiningDate | date:'mediumDate' }}</td>
+                    <td>{{ employee.status }}</td>
                     <td>{{ employee.terminationDate | date:'mediumDate' }}</td>
                     <td>{{ employee.terminationReason }}</td>
                     <td>
