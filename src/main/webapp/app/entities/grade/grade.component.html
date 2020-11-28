@@ -30,11 +30,10 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let grade of grades ;trackBy: trackId">
-                    <td><a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a></td>
+                <tr *ngFor="let grade of grades ;trackBy: trackId; index as i">
+                    <td><a [routerLink]="['/grade', grade.id, 'view']">{{ i+1 }}</a></td>
                     <td>{{ grade.category }}</td>
                     <td>{{ grade.name }}</td>
-                    <td>{{ grade.description }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
