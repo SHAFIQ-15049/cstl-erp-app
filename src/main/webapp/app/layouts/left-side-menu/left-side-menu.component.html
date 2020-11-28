@@ -1,6 +1,6 @@
 <style>
     .navbar-width{
-        width: 190px;
+        width: 230px;
     }
 
     li{
@@ -71,6 +71,27 @@
                         <span>Grade</span>
                     </a>
                 </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Employee Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!employeeManagement" class="list-unstyled navbar-internal" id="empploye">
+                <li class="list-custom">
+                    <a class="dropdown-item" routerLink="company" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Company</span>
+                    </a>
+                </li>
+
             </ul>
         </li>
 

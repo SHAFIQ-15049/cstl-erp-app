@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Grade.
+    -->
+    <changeSet id="20201123193035-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="mst_grade"
+                                 constraintName="fk_mst_grade_employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_employee"/>
+
+        <addForeignKeyConstraint baseColumnNames="service_history_id"
+                                 baseTableName="mst_grade"
+                                 constraintName="fk_mst_grade_service_history_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="service_history"/>
+
+    </changeSet>
+</databaseChangeLog>

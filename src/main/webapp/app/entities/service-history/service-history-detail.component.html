@@ -1,0 +1,62 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="serviceHistory">
+            <h2><span>Service History</span> {{ serviceHistory.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Employee Type</span></dt>
+                <dd>
+                    <span>{{ serviceHistory.employeeType }}</span>
+                </dd>
+                <dt><span>From</span></dt>
+                <dd>
+                    <span>{{ serviceHistory.from }}</span>
+                </dd>
+                <dt><span>To</span></dt>
+                <dd>
+                    <span>{{ serviceHistory.to }}</span>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.department">
+                        <a [routerLink]="['/department', serviceHistory.department?.id, 'view']">{{ serviceHistory.department?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.designation">
+                        <a [routerLink]="['/designation', serviceHistory.designation?.id, 'view']">{{ serviceHistory.designation?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Grade</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.grade">
+                        <a [routerLink]="['/grade', serviceHistory.grade?.id, 'view']">{{ serviceHistory.grade?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.employee">
+                        <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']">{{ serviceHistory.employee?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/service-history', serviceHistory.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

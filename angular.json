@@ -31,6 +31,7 @@
   },
   "defaultProject": "code-node-erp",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "a85028f3-9904-4069-aa3c-97b66870fa9e"
   }
 }

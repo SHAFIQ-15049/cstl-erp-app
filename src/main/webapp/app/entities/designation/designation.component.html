@@ -31,12 +31,11 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let designation of designations ;trackBy: trackId">
-                    <td><a [routerLink]="['/designation', designation.id, 'view']">{{ designation.id }}</a></td>
+                <tr *ngFor="let designation of designations ;trackBy: trackId; index as i">
+                    <td><a [routerLink]="['/designation', designation.id, 'view']">{{ i+1}}</a></td>
                     <td>{{ designation.name }}</td>
                     <td>{{ designation.shortName }}</td>
                     <td>{{ designation.nameInBangla }}</td>
-                    <td>{{ designation.description }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

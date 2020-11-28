@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Employee.
+    -->
+    <changeSet id="20201127213527-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="personal_info_id"
+                                 baseTableName="mst_employee"
+                                 constraintName="fk_mst_employee_personal_info_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="personal_info"/>
+
+        <addForeignKeyConstraint baseColumnNames="company_id"
+                                 baseTableName="mst_employee"
+                                 constraintName="fk_mst_employee_company_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_company"/>
+
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="mst_employee"
+                                 constraintName="fk_mst_employee_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_department"/>
+
+        <addForeignKeyConstraint baseColumnNames="grade_id"
+                                 baseTableName="mst_employee"
+                                 constraintName="fk_mst_employee_grade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_grade"/>
+
+        <addForeignKeyConstraint baseColumnNames="designation_id"
+                                 baseTableName="mst_employee"
+                                 constraintName="fk_mst_employee_designation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_designation"/>
+
+    </changeSet>
+</databaseChangeLog>

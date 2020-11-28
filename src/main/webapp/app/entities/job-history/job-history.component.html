@@ -1,0 +1,85 @@
+<div>
+    <h2 id="page-heading">
+        <span>Job Histories</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-job-history" [routerLink]="['/job-history/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Job History
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="jobHistories?.length === 0">
+        <span>No jobHistories found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="jobHistories && jobHistories.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="serial"><span>Serial</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="organization"><span>Organization</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="total"><span>Total</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let jobHistory of jobHistories ;trackBy: trackId">
+                    <td><a [routerLink]="['/job-history', jobHistory.id, 'view']">{{ jobHistory.id }}</a></td>
+                    <td>{{ jobHistory.serial }}</td>
+                    <td>{{ jobHistory.organization }}</td>
+                    <td>{{ jobHistory.from | date:'mediumDate' }}</td>
+                    <td>{{ jobHistory.to | date:'mediumDate' }}</td>
+                    <td>{{ jobHistory.total }}</td>
+                    <td>
+                        <div *ngIf="jobHistory.employee">
+                            <a [routerLink]="['/employee', jobHistory.employee?.id, 'view']" >{{ jobHistory.employee?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/job-history', jobHistory.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/job-history', jobHistory.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(jobHistory)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="jobHistories && jobHistories.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

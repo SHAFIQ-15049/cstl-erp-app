@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity ServiceHistory.
+    -->
+    <changeSet id="20201127214227-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="service_history"
+                                 constraintName="fk_service_history_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_department"/>
+
+        <addForeignKeyConstraint baseColumnNames="designation_id"
+                                 baseTableName="service_history"
+                                 constraintName="fk_service_history_designation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_designation"/>
+
+        <addForeignKeyConstraint baseColumnNames="grade_id"
+                                 baseTableName="service_history"
+                                 constraintName="fk_service_history_grade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_grade"/>
+
+        <addForeignKeyConstraint baseColumnNames="employee_id"
+                                 baseTableName="service_history"
+                                 constraintName="fk_service_history_employee_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_employee"/>
+
+    </changeSet>
+</databaseChangeLog>

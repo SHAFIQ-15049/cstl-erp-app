@@ -1,0 +1,66 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="address">
+            <h2><span>Address</span> {{ address.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Street</span></dt>
+                <dd>
+                    <span>{{ address.street }}</span>
+                </dd>
+                <dt><span>Area</span></dt>
+                <dd>
+                    <span>{{ address.area }}</span>
+                </dd>
+                <dt><span>Post Code</span></dt>
+                <dd>
+                    <span>{{ address.postCode }}</span>
+                </dd>
+                <dt><span>Address Type</span></dt>
+                <dd>
+                    <span>{{ address.addressType }}</span>
+                </dd>
+                <dt><span>Division</span></dt>
+                <dd>
+                    <div *ngIf="address.division">
+                        <a [routerLink]="['/division', address.division?.id, 'view']">{{ address.division?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>District</span></dt>
+                <dd>
+                    <div *ngIf="address.district">
+                        <a [routerLink]="['/district', address.district?.id, 'view']">{{ address.district?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Thana</span></dt>
+                <dd>
+                    <div *ngIf="address.thana">
+                        <a [routerLink]="['/thana', address.thana?.id, 'view']">{{ address.thana?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="address.employee">
+                        <a [routerLink]="['/employee', address.employee?.id, 'view']">{{ address.employee?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/address', address.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

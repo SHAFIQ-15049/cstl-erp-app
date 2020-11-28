@@ -1,0 +1,139 @@
+{
+  "name": "Employee",
+  "fields": [
+    {
+      "fieldName": "empId",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "globalId",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "localId",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "EmployeeCategory",
+      "fieldValues": "MANAGERIAL,STAFF,WORKER"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "EmployeeType",
+      "fieldValues": "PERMANENT,TEMPORARY,PART_TIME,CONTRACTUAL"
+    },
+    {
+      "fieldName": "joiningDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "EmployeeStatus",
+      "fieldValues": "ACTIVE,TERMINATED"
+    },
+    {
+      "fieldName": "terminationDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "terminationReason",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "personalInfo",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "personalInfo",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "address"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "educationalInfo",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "educationalInfo"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "training",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "training"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "employeeAccount",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "employeeAccount"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "jobHistory",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "jobHistory"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "serviceHistory",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "serviceHistory"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "company",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "company",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "department",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "grade",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "grade",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "designation",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20201127213527",
+  "entityTableName": "mst_employee",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

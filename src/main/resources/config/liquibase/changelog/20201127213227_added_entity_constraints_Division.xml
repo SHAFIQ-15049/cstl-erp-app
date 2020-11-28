@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <!--
+        Added the constraints for entity Division.
+    -->
+    <changeSet id="20201127213227-2" author="jhipster">
+        
+        <addForeignKeyConstraint baseColumnNames="district_id"
+                                 baseTableName="mst_division"
+                                 constraintName="fk_mst_division_district_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_district"/>
+
+        <addForeignKeyConstraint baseColumnNames="address_id"
+                                 baseTableName="mst_division"
+                                 constraintName="fk_mst_division_address_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="address"/>
+
+    </changeSet>
+</databaseChangeLog>

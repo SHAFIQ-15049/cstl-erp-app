@@ -1,0 +1,9 @@
+export const enum EmployeeType {
+  PERMANENT = 'PERMANENT',
+
+  TEMPORARY = 'TEMPORARY',
+
+  PART_TIME = 'PART_TIME',
+
+  CONTRACTUAL = 'CONTRACTUAL',
+}

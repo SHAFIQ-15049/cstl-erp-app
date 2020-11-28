@@ -1,0 +1,89 @@
+{
+  "name": "PersonalInfo",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "banglaName",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "photo",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "fatherName",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "motherName",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "maritalStatus",
+      "fieldType": "MaritalStatus",
+      "fieldValues": "SINGLE,MARRIED"
+    },
+    {
+      "fieldName": "spouseName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "nationalId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthRegistration",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "height",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "gender",
+      "fieldType": "GenderType",
+      "fieldValues": "MALE,FEMALE,OTHERS"
+    },
+    {
+      "fieldName": "bloodGroup",
+      "fieldType": "BloodGroupType",
+      "fieldValues": "A_POSITIVE,A_NEGATIVE,B_POSITIVE,B_NEGATIVE,O_POSITIVE,O_NEGATIVE,AB_POSITIVE,AB_NEGATIVE"
+    },
+    {
+      "fieldName": "emergencyContact",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [],
+  "changelogDate": "20201127213627",
+  "entityTableName": "personal_info",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

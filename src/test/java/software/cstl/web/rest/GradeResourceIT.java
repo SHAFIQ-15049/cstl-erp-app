@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
 /**
  * Integration tests for the {@link GradeResource} REST controller.
  */
@@ -32,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class GradeResourceIT {
+
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.MANAGERIAL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.STAFF;
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -64,6 +68,7 @@ public class GradeResourceIT {
      */
     public static Grade createEntity(EntityManager em) {
         Grade grade = new Grade()
+            .category(DEFAULT_CATEGORY)
             .name(DEFAULT_NAME)
             .description(DEFAULT_DESCRIPTION);
         return grade;
@@ -76,6 +81,7 @@ public class GradeResourceIT {
      */
     public static Grade createUpdatedEntity(EntityManager em) {
         Grade grade = new Grade()
+            .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION);
         return grade;
@@ -100,6 +106,7 @@ public class GradeResourceIT {
         List<Grade> gradeList = gradeRepository.findAll();
         assertThat(gradeList).hasSize(databaseSizeBeforeCreate + 1);
         Grade testGrade = gradeList.get(gradeList.size() - 1);
+        assertThat(testGrade.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testGrade.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testGrade.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
     }
@@ -154,6 +161,7 @@ public class GradeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(grade.getId().intValue())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
     }
@@ -169,6 +177,7 @@ public class GradeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(grade.getId().intValue()))
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
     }
@@ -192,6 +201,58 @@ public class GradeResourceIT {
         defaultGradeShouldNotBeFound("id.lessThan=" + id);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllGradesByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where category equals to DEFAULT_CATEGORY
+        defaultGradeShouldBeFound("category.equals=" + DEFAULT_CATEGORY);
+
+        // Get all the gradeList where category equals to UPDATED_CATEGORY
+        defaultGradeShouldNotBeFound("category.equals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByCategoryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where category not equals to DEFAULT_CATEGORY
+        defaultGradeShouldNotBeFound("category.notEquals=" + DEFAULT_CATEGORY);
+
+        // Get all the gradeList where category not equals to UPDATED_CATEGORY
+        defaultGradeShouldBeFound("category.notEquals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where category in DEFAULT_CATEGORY or UPDATED_CATEGORY
+        defaultGradeShouldBeFound("category.in=" + DEFAULT_CATEGORY + "," + UPDATED_CATEGORY);
+
+        // Get all the gradeList where category equals to UPDATED_CATEGORY
+        defaultGradeShouldNotBeFound("category.in=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where category is not null
+        defaultGradeShouldBeFound("category.specified=true");
+
+        // Get all the gradeList where category is null
+        defaultGradeShouldNotBeFound("category.specified=false");
+    }
 
     @Test
     @Transactional
@@ -278,6 +339,7 @@ public class GradeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(grade.getId().intValue())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
 
@@ -326,6 +388,7 @@ public class GradeResourceIT {
         // Disconnect from session so that the updates on updatedGrade are not directly saved in db
         em.detach(updatedGrade);
         updatedGrade
+            .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
             .description(UPDATED_DESCRIPTION);
 
@@ -338,6 +401,7 @@ public class GradeResourceIT {
         List<Grade> gradeList = gradeRepository.findAll();
         assertThat(gradeList).hasSize(databaseSizeBeforeUpdate);
         Grade testGrade = gradeList.get(gradeList.size() - 1);
+        assertThat(testGrade.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testGrade.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testGrade.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
     }

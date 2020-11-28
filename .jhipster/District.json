@@ -1,0 +1,32 @@
+{
+  "name": "District",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "division",
+      "otherEntityRelationshipName": "district",
+      "relationshipName": "division",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20201127213327",
+  "entityTableName": "mst_district",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

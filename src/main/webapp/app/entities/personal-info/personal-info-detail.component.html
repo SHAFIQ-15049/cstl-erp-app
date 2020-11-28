@@ -1,0 +1,85 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="personalInfo">
+            <h2><span>Personal Info</span> {{ personalInfo.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ personalInfo.name }}</span>
+                </dd>
+                <dt><span>Bangla Name</span></dt>
+                <dd>
+                    <span>{{ personalInfo.banglaName }}</span>
+                </dd>
+                <dt><span>Photo</span></dt>
+                <dd>
+                    <div *ngIf="personalInfo.photo">
+                        <a (click)="openFile(personalInfo.photoContentType, personalInfo.photo)">open</a>
+                        {{ personalInfo.photoContentType }}, {{ byteSize(personalInfo.photo) }}
+                    </div>
+                </dd>
+                <dt><span>Father Name</span></dt>
+                <dd>
+                    <span>{{ personalInfo.fatherName }}</span>
+                </dd>
+                <dt><span>Mother Name</span></dt>
+                <dd>
+                    <span>{{ personalInfo.motherName }}</span>
+                </dd>
+                <dt><span>Marital Status</span></dt>
+                <dd>
+                    <span>{{ personalInfo.maritalStatus }}</span>
+                </dd>
+                <dt><span>Spouse Name</span></dt>
+                <dd>
+                    <span>{{ personalInfo.spouseName }}</span>
+                </dd>
+                <dt><span>Date Of Birth</span></dt>
+                <dd>
+                    <span>{{ personalInfo.dateOfBirth }}</span>
+                </dd>
+                <dt><span>National Id</span></dt>
+                <dd>
+                    <span>{{ personalInfo.nationalId }}</span>
+                </dd>
+                <dt><span>Birth Registration</span></dt>
+                <dd>
+                    <span>{{ personalInfo.birthRegistration }}</span>
+                </dd>
+                <dt><span>Height</span></dt>
+                <dd>
+                    <span>{{ personalInfo.height }}</span>
+                </dd>
+                <dt><span>Gender</span></dt>
+                <dd>
+                    <span>{{ personalInfo.gender }}</span>
+                </dd>
+                <dt><span>Blood Group</span></dt>
+                <dd>
+                    <span>{{ personalInfo.bloodGroup }}</span>
+                </dd>
+                <dt><span>Emergency Contact</span></dt>
+                <dd>
+                    <span>{{ personalInfo.emergencyContact }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/personal-info', personalInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

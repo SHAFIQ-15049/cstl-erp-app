@@ -1,0 +1,59 @@
+{
+  "name": "ServiceHistory",
+  "fields": [
+    {
+      "fieldName": "employeeType",
+      "fieldType": "EmployeeType",
+      "fieldValues": "PERMANENT,TEMPORARY,PART_TIME,CONTRACTUAL"
+    },
+    {
+      "fieldName": "from",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "to",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "department",
+      "otherEntityRelationshipName": "serviceHistory",
+      "relationshipName": "department",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "designation",
+      "otherEntityRelationshipName": "serviceHistory",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "grade",
+      "otherEntityRelationshipName": "serviceHistory",
+      "relationshipName": "grade",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "serviceHistory",
+      "relationshipName": "employee",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201127214227",
+  "entityTableName": "service_history",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

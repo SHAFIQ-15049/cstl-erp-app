@@ -2,6 +2,7 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { GradeService } from 'app/entities/grade/grade.service';
 import { IGrade, Grade } from 'app/shared/model/grade.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 describe('Service Tests', () => {
   describe('Grade Service', () => {
@@ -20,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(GradeService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Grade(0, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Grade(0, EmployeeCategory.MANAGERIAL, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -54,6 +55,7 @@ describe('Service Tests', () => {
       it('should update a Grade', () => {
         const returnedFromService = Object.assign(
           {
+            category: 'BBBBBB',
             name: 'BBBBBB',
             description: 'BBBBBB',
           },
@@ -72,6 +74,7 @@ describe('Service Tests', () => {
       it('should return a list of Grade', () => {
         const returnedFromService = Object.assign(
           {
+            category: 'BBBBBB',
             name: 'BBBBBB',
             description: 'BBBBBB',
           },

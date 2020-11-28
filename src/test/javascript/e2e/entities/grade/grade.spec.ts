@@ -40,7 +40,11 @@ describe('Grade e2e test', () => {
 
     await gradeComponentsPage.clickOnCreateButton();
 
-    await promise.all([gradeUpdatePage.setNameInput('name'), gradeUpdatePage.setDescriptionInput('description')]);
+    await promise.all([
+      gradeUpdatePage.categorySelectLastOption(),
+      gradeUpdatePage.setNameInput('name'),
+      gradeUpdatePage.setDescriptionInput('description'),
+    ]);
 
     expect(await gradeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await gradeUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');

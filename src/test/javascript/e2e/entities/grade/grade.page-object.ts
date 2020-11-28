@@ -29,11 +29,24 @@ export class GradeUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
+  categorySelect = element(by.id('field_category'));
   nameInput = element(by.id('field_name'));
   descriptionInput = element(by.id('field_description'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
+  }
+
+  async setCategorySelect(category: string): Promise<void> {
+    await this.categorySelect.sendKeys(category);
+  }
+
+  async getCategorySelect(): Promise<string> {
+    return await this.categorySelect.element(by.css('option:checked')).getText();
+  }
+
+  async categorySelectLastOption(): Promise<void> {
+    await this.categorySelect.all(by.tagName('option')).last().click();
   }
 
   async setNameInput(name: string): Promise<void> {
