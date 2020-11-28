@@ -2,7 +2,7 @@
   "name": "Employee",
   "fields": [
     {
-      "fieldName": "employeeId",
+      "fieldName": "empId",
       "fieldType": "String",
       "fieldValidateRules": [
         "required"
@@ -21,6 +21,11 @@
       "fieldValidateRules": [
         "required"
       ]
+    },
+    {
+      "fieldName": "category",
+      "fieldType": "EmployeeCategory",
+      "fieldValues": "MANAGERIAL,STAFF,WORKER"
     },
     {
       "fieldName": "type",

@@ -41,9 +41,10 @@ describe('Employee e2e test', () => {
     await employeeComponentsPage.clickOnCreateButton();
 
     await promise.all([
-      employeeUpdatePage.setEmployeeIdInput('employeeId'),
+      employeeUpdatePage.setEmpIdInput('empId'),
       employeeUpdatePage.setGlobalIdInput('globalId'),
       employeeUpdatePage.setLocalIdInput('localId'),
+      employeeUpdatePage.categorySelectLastOption(),
       employeeUpdatePage.typeSelectLastOption(),
       employeeUpdatePage.setJoiningDateInput('2000-12-31'),
       employeeUpdatePage.setTerminationDateInput('2000-12-31'),
@@ -55,7 +56,7 @@ describe('Employee e2e test', () => {
       employeeUpdatePage.designationSelectLastOption(),
     ]);
 
-    expect(await employeeUpdatePage.getEmployeeIdInput()).to.eq('employeeId', 'Expected EmployeeId value to be equals to employeeId');
+    expect(await employeeUpdatePage.getEmpIdInput()).to.eq('empId', 'Expected EmpId value to be equals to empId');
     expect(await employeeUpdatePage.getGlobalIdInput()).to.eq('globalId', 'Expected GlobalId value to be equals to globalId');
     expect(await employeeUpdatePage.getLocalIdInput()).to.eq('localId', 'Expected LocalId value to be equals to localId');
     expect(await employeeUpdatePage.getJoiningDateInput()).to.eq('2000-12-31', 'Expected joiningDate value to be equals to 2000-12-31');

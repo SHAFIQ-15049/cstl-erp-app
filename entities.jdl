@@ -21,6 +21,7 @@ entity Designation (mst_designation){
 }
 
 entity Grade (mst_grade){
+    category EmployeeCategory,
 	name String required,
     description TextBlob
 }
@@ -39,13 +40,14 @@ entity Thana (mst_thana){
 
 
 entity Employee (mst_employee){
-    employeeId String required,
+    empId String required,
     globalId String required,
     // company
     localId String required,
     //department
     //grade
     //designation
+    category EmployeeCategory,
     type EmployeeType,
     joiningDate LocalDate,
     terminationDate LocalDate,
@@ -122,7 +124,8 @@ enum AccountType{
     BANK,
     BKASH,
     ROCKET,
-    NAGAD
+    NAGAD,
+    OTHERS
 }
 
 enum EmployeeType{
@@ -130,6 +133,12 @@ enum EmployeeType{
     TEMPORARY,
     PART_TIME,
     CONTRACTUAL
+}
+
+enum EmployeeCategory{
+    MANAGERIAL,
+    STAFF,
+    WORKER
 }
 
 enum MaritalStatus{
@@ -160,7 +169,7 @@ enum BloodGroupType{
 }
 
 relationship ManyToOne{
-  Employee{company(name)} to Company,
+    Employee{company(name)} to Company,
     Employee{department(name)} to Department,
     Employee{grade(name)} to Grade,
     Employee{designation(name)} to Designation,

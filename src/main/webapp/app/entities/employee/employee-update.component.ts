@@ -39,9 +39,10 @@ export class EmployeeUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    employeeId: [null, [Validators.required]],
+    empId: [null, [Validators.required]],
     globalId: [null, [Validators.required]],
     localId: [null, [Validators.required]],
+    category: [],
     type: [],
     joiningDate: [],
     terminationDate: [],
@@ -105,9 +106,10 @@ export class EmployeeUpdateComponent implements OnInit {
   updateForm(employee: IEmployee): void {
     this.editForm.patchValue({
       id: employee.id,
-      employeeId: employee.employeeId,
+      empId: employee.empId,
       globalId: employee.globalId,
       localId: employee.localId,
+      category: employee.category,
       type: employee.type,
       joiningDate: employee.joiningDate,
       terminationDate: employee.terminationDate,
@@ -154,9 +156,10 @@ export class EmployeeUpdateComponent implements OnInit {
     return {
       ...new Employee(),
       id: this.editForm.get(['id'])!.value,
-      employeeId: this.editForm.get(['employeeId'])!.value,
+      empId: this.editForm.get(['empId'])!.value,
       globalId: this.editForm.get(['globalId'])!.value,
       localId: this.editForm.get(['localId'])!.value,
+      category: this.editForm.get(['category'])!.value,
       type: this.editForm.get(['type'])!.value,
       joiningDate: this.editForm.get(['joiningDate'])!.value,
       terminationDate: this.editForm.get(['terminationDate'])!.value,

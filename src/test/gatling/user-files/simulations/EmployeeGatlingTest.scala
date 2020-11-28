@@ -72,9 +72,10 @@ class EmployeeGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "employeeId":"SAMPLE_TEXT"
+                , "empId":"SAMPLE_TEXT"
                 , "globalId":"SAMPLE_TEXT"
                 , "localId":"SAMPLE_TEXT"
+                , "category":"MANAGERIAL"
                 , "type":"PERMANENT"
                 , "joiningDate":"2020-01-01T00:00:00.000Z"
                 , "terminationDate":"2020-01-01T00:00:00.000Z"

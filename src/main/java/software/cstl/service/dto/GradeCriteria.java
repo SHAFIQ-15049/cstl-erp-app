@@ -3,6 +3,7 @@ package software.cstl.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import software.cstl.domain.enumeration.EmployeeCategory;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -21,10 +22,30 @@ import io.github.jhipster.service.filter.StringFilter;
  * fix type specific filters.
  */
 public class GradeCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering EmployeeCategory
+     */
+    public static class EmployeeCategoryFilter extends Filter<EmployeeCategory> {
+
+        public EmployeeCategoryFilter() {
+        }
+
+        public EmployeeCategoryFilter(EmployeeCategoryFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeCategoryFilter copy() {
+            return new EmployeeCategoryFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
+
+    private EmployeeCategoryFilter category;
 
     private StringFilter name;
 
@@ -33,6 +54,7 @@ public class GradeCriteria implements Serializable, Criteria {
 
     public GradeCriteria(GradeCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.category = other.category == null ? null : other.category.copy();
         this.name = other.name == null ? null : other.name.copy();
     }
 
@@ -47,6 +69,14 @@ public class GradeCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public EmployeeCategoryFilter getCategory() {
+        return category;
+    }
+
+    public void setCategory(EmployeeCategoryFilter category) {
+        this.category = category;
     }
 
     public StringFilter getName() {
@@ -69,6 +99,7 @@ public class GradeCriteria implements Serializable, Criteria {
         final GradeCriteria that = (GradeCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(category, that.category) &&
             Objects.equals(name, that.name);
     }
 
@@ -76,6 +107,7 @@ public class GradeCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        category,
         name
         );
     }
@@ -85,6 +117,7 @@ public class GradeCriteria implements Serializable, Criteria {
     public String toString() {
         return "GradeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (category != null ? "category=" + category + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
             "}";
     }

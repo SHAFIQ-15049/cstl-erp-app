@@ -3,6 +3,7 @@ package software.cstl.service.dto;
 import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
+import software.cstl.domain.enumeration.EmployeeCategory;
 import software.cstl.domain.enumeration.EmployeeType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -23,6 +24,24 @@ import io.github.jhipster.service.filter.LocalDateFilter;
  * fix type specific filters.
  */
 public class EmployeeCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering EmployeeCategory
+     */
+    public static class EmployeeCategoryFilter extends Filter<EmployeeCategory> {
+
+        public EmployeeCategoryFilter() {
+        }
+
+        public EmployeeCategoryFilter(EmployeeCategoryFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeCategoryFilter copy() {
+            return new EmployeeCategoryFilter(this);
+        }
+
+    }
     /**
      * Class for filtering EmployeeType
      */
@@ -46,11 +65,13 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private StringFilter employeeId;
+    private StringFilter empId;
 
     private StringFilter globalId;
 
     private StringFilter localId;
+
+    private EmployeeCategoryFilter category;
 
     private EmployeeTypeFilter type;
 
@@ -85,9 +106,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public EmployeeCriteria(EmployeeCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
+        this.empId = other.empId == null ? null : other.empId.copy();
         this.globalId = other.globalId == null ? null : other.globalId.copy();
         this.localId = other.localId == null ? null : other.localId.copy();
+        this.category = other.category == null ? null : other.category.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.joiningDate = other.joiningDate == null ? null : other.joiningDate.copy();
         this.terminationDate = other.terminationDate == null ? null : other.terminationDate.copy();
@@ -117,12 +139,12 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getEmployeeId() {
-        return employeeId;
+    public StringFilter getEmpId() {
+        return empId;
     }
 
-    public void setEmployeeId(StringFilter employeeId) {
-        this.employeeId = employeeId;
+    public void setEmpId(StringFilter empId) {
+        this.empId = empId;
     }
 
     public StringFilter getGlobalId() {
@@ -139,6 +161,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setLocalId(StringFilter localId) {
         this.localId = localId;
+    }
+
+    public EmployeeCategoryFilter getCategory() {
+        return category;
+    }
+
+    public void setCategory(EmployeeCategoryFilter category) {
+        this.category = category;
     }
 
     public EmployeeTypeFilter getType() {
@@ -265,9 +295,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
         final EmployeeCriteria that = (EmployeeCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(empId, that.empId) &&
             Objects.equals(globalId, that.globalId) &&
             Objects.equals(localId, that.localId) &&
+            Objects.equals(category, that.category) &&
             Objects.equals(type, that.type) &&
             Objects.equals(joiningDate, that.joiningDate) &&
             Objects.equals(terminationDate, that.terminationDate) &&
@@ -288,9 +319,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        employeeId,
+        empId,
         globalId,
         localId,
+        category,
         type,
         joiningDate,
         terminationDate,
@@ -313,9 +345,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
     public String toString() {
         return "EmployeeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (empId != null ? "empId=" + empId + ", " : "") +
                 (globalId != null ? "globalId=" + globalId + ", " : "") +
                 (localId != null ? "localId=" + localId + ", " : "") +
+                (category != null ? "category=" + category + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
                 (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +

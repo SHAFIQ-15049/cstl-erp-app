@@ -4,7 +4,7 @@
     {
       "fieldName": "accountType",
       "fieldType": "AccountType",
-      "fieldValues": "BANK,BKASH,ROCKET,NAGAD",
+      "fieldValues": "BANK,BKASH,ROCKET,NAGAD,OTHERS",
       "fieldValidateRules": [
         "required"
       ]

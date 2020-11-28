@@ -1,0 +1,45 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1606546987517-1">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="educational_info" constraintName="fk_edu_employee_id" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-2">
+        <addForeignKeyConstraint baseColumnNames="division_id" baseTableName="mst_district" constraintName="fk_division_district" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_division" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-3">
+        <addForeignKeyConstraint baseColumnNames="thana_id" baseTableName="address" constraintName="fk_addr_thana" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_thana" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-4">
+        <addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="service_history" constraintName="fk_service_hst_grade" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_grade" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-5">
+        <addForeignKeyConstraint baseColumnNames="division_id" baseTableName="address" constraintName="fk_addr_division" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_division" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-6">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="address" constraintName="fk_addr_emp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-7">
+        <addForeignKeyConstraint baseColumnNames="designation_id" baseTableName="service_history" constraintName="fk_service_hst_designation" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_designation" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-8">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="service_history" constraintName="fk_service_hst_department" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_department" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-9">
+        <addForeignKeyConstraint baseColumnNames="district_id" baseTableName="mst_thana" constraintName="fk_thana_district" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_district" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-10">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="service_history" constraintName="fk_service_hst_employee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-11">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="emp_account" constraintName="fk_emp_account_employee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-12">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="training" constraintName="fk_training_emp" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-13">
+        <addForeignKeyConstraint baseColumnNames="district_id" baseTableName="address" constraintName="fk_addr_district" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_district" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606546987517-14">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="job_history" constraintName="fk_job_hst_employee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

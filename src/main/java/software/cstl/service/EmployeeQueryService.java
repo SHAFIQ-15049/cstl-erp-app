@@ -85,14 +85,17 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Employee_.id));
             }
-            if (criteria.getEmployeeId() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getEmployeeId(), Employee_.employeeId));
+            if (criteria.getEmpId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEmpId(), Employee_.empId));
             }
             if (criteria.getGlobalId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGlobalId(), Employee_.globalId));
             }
             if (criteria.getLocalId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLocalId(), Employee_.localId));
+            }
+            if (criteria.getCategory() != null) {
+                specification = specification.and(buildSpecification(criteria.getCategory(), Employee_.category));
             }
             if (criteria.getType() != null) {
                 specification = specification.and(buildSpecification(criteria.getType(), Employee_.type));

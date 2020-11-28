@@ -23,9 +23,10 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employeeId"><span>Employee Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="empId"><span>Emp Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="globalId"><span>Global Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="localId"><span>Local Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="type"><span>Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="joiningDate"><span>Joining Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="terminationDate"><span>Termination Date</span> <fa-icon icon="sort"></fa-icon></th>
@@ -41,9 +42,10 @@
             <tbody>
                 <tr *ngFor="let employee of employees ;trackBy: trackId">
                     <td><a [routerLink]="['/employee', employee.id, 'view']">{{ employee.id }}</a></td>
-                    <td>{{ employee.employeeId }}</td>
+                    <td>{{ employee.empId }}</td>
                     <td>{{ employee.globalId }}</td>
                     <td>{{ employee.localId }}</td>
+                    <td>{{ employee.category }}</td>
                     <td>{{ employee.type }}</td>
                     <td>{{ employee.joiningDate | date:'mediumDate' }}</td>
                     <td>{{ employee.terminationDate | date:'mediumDate' }}</td>

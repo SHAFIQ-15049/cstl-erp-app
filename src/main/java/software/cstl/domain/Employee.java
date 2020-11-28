@@ -12,6 +12,8 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
+
 import software.cstl.domain.enumeration.EmployeeType;
 
 /**
@@ -29,8 +31,8 @@ public class Employee implements Serializable {
     private Long id;
 
     @NotNull
-    @Column(name = "employee_id", nullable = false)
-    private String employeeId;
+    @Column(name = "emp_id", nullable = false)
+    private String empId;
 
     @NotNull
     @Column(name = "global_id", nullable = false)
@@ -39,6 +41,10 @@ public class Employee implements Serializable {
     @NotNull
     @Column(name = "local_id", nullable = false)
     private String localId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private EmployeeCategory category;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "type")
@@ -107,17 +113,17 @@ public class Employee implements Serializable {
         this.id = id;
     }
 
-    public String getEmployeeId() {
-        return employeeId;
+    public String getEmpId() {
+        return empId;
     }
 
-    public Employee employeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public Employee empId(String empId) {
+        this.empId = empId;
         return this;
     }
 
-    public void setEmployeeId(String employeeId) {
-        this.employeeId = employeeId;
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 
     public String getGlobalId() {
@@ -144,6 +150,19 @@ public class Employee implements Serializable {
 
     public void setLocalId(String localId) {
         this.localId = localId;
+    }
+
+    public EmployeeCategory getCategory() {
+        return category;
+    }
+
+    public Employee category(EmployeeCategory category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(EmployeeCategory category) {
+        this.category = category;
     }
 
     public EmployeeType getType() {
@@ -435,9 +454,10 @@ public class Employee implements Serializable {
     public String toString() {
         return "Employee{" +
             "id=" + getId() +
-            ", employeeId='" + getEmployeeId() + "'" +
+            ", empId='" + getEmpId() + "'" +
             ", globalId='" + getGlobalId() + "'" +
             ", localId='" + getLocalId() + "'" +
+            ", category='" + getCategory() + "'" +
             ", type='" + getType() + "'" +
             ", joiningDate='" + getJoiningDate() + "'" +
             ", terminationDate='" + getTerminationDate() + "'" +

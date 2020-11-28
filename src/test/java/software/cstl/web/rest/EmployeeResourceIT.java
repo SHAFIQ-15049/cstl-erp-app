@@ -38,6 +38,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
 import software.cstl.domain.enumeration.EmployeeType;
 /**
  * Integration tests for the {@link EmployeeResource} REST controller.
@@ -47,14 +48,17 @@ import software.cstl.domain.enumeration.EmployeeType;
 @WithMockUser
 public class EmployeeResourceIT {
 
-    private static final String DEFAULT_EMPLOYEE_ID = "AAAAAAAAAA";
-    private static final String UPDATED_EMPLOYEE_ID = "BBBBBBBBBB";
+    private static final String DEFAULT_EMP_ID = "AAAAAAAAAA";
+    private static final String UPDATED_EMP_ID = "BBBBBBBBBB";
 
     private static final String DEFAULT_GLOBAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_GLOBAL_ID = "BBBBBBBBBB";
 
     private static final String DEFAULT_LOCAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_LOCAL_ID = "BBBBBBBBBB";
+
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.MANAGERIAL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.STAFF;
 
     private static final EmployeeType DEFAULT_TYPE = EmployeeType.PERMANENT;
     private static final EmployeeType UPDATED_TYPE = EmployeeType.TEMPORARY;
@@ -95,9 +99,10 @@ public class EmployeeResourceIT {
      */
     public static Employee createEntity(EntityManager em) {
         Employee employee = new Employee()
-            .employeeId(DEFAULT_EMPLOYEE_ID)
+            .empId(DEFAULT_EMP_ID)
             .globalId(DEFAULT_GLOBAL_ID)
             .localId(DEFAULT_LOCAL_ID)
+            .category(DEFAULT_CATEGORY)
             .type(DEFAULT_TYPE)
             .joiningDate(DEFAULT_JOINING_DATE)
             .terminationDate(DEFAULT_TERMINATION_DATE)
@@ -112,9 +117,10 @@ public class EmployeeResourceIT {
      */
     public static Employee createUpdatedEntity(EntityManager em) {
         Employee employee = new Employee()
-            .employeeId(UPDATED_EMPLOYEE_ID)
+            .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
             .localId(UPDATED_LOCAL_ID)
+            .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
             .joiningDate(UPDATED_JOINING_DATE)
             .terminationDate(UPDATED_TERMINATION_DATE)
@@ -141,9 +147,10 @@ public class EmployeeResourceIT {
         List<Employee> employeeList = employeeRepository.findAll();
         assertThat(employeeList).hasSize(databaseSizeBeforeCreate + 1);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
-        assertThat(testEmployee.getEmployeeId()).isEqualTo(DEFAULT_EMPLOYEE_ID);
+        assertThat(testEmployee.getEmpId()).isEqualTo(DEFAULT_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(DEFAULT_GLOBAL_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(DEFAULT_LOCAL_ID);
+        assertThat(testEmployee.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testEmployee.getJoiningDate()).isEqualTo(DEFAULT_JOINING_DATE);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(DEFAULT_TERMINATION_DATE);
@@ -172,10 +179,10 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
-    public void checkEmployeeIdIsRequired() throws Exception {
+    public void checkEmpIdIsRequired() throws Exception {
         int databaseSizeBeforeTest = employeeRepository.findAll().size();
         // set the field null
-        employee.setEmployeeId(null);
+        employee.setEmpId(null);
 
         // Create the Employee, which fails.
 
@@ -238,9 +245,10 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
+            .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
@@ -258,9 +266,10 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(employee.getId().intValue()))
-            .andExpect(jsonPath("$.employeeId").value(DEFAULT_EMPLOYEE_ID))
+            .andExpect(jsonPath("$.empId").value(DEFAULT_EMP_ID))
             .andExpect(jsonPath("$.globalId").value(DEFAULT_GLOBAL_ID))
             .andExpect(jsonPath("$.localId").value(DEFAULT_LOCAL_ID))
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.joiningDate").value(DEFAULT_JOINING_DATE.toString()))
             .andExpect(jsonPath("$.terminationDate").value(DEFAULT_TERMINATION_DATE.toString()))
@@ -289,79 +298,79 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdIsEqualToSomething() throws Exception {
+    public void getAllEmployeesByEmpIdIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId equals to DEFAULT_EMPLOYEE_ID
-        defaultEmployeeShouldBeFound("employeeId.equals=" + DEFAULT_EMPLOYEE_ID);
+        // Get all the employeeList where empId equals to DEFAULT_EMP_ID
+        defaultEmployeeShouldBeFound("empId.equals=" + DEFAULT_EMP_ID);
 
-        // Get all the employeeList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldNotBeFound("employeeId.equals=" + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId equals to UPDATED_EMP_ID
+        defaultEmployeeShouldNotBeFound("empId.equals=" + UPDATED_EMP_ID);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdIsNotEqualToSomething() throws Exception {
+    public void getAllEmployeesByEmpIdIsNotEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId not equals to DEFAULT_EMPLOYEE_ID
-        defaultEmployeeShouldNotBeFound("employeeId.notEquals=" + DEFAULT_EMPLOYEE_ID);
+        // Get all the employeeList where empId not equals to DEFAULT_EMP_ID
+        defaultEmployeeShouldNotBeFound("empId.notEquals=" + DEFAULT_EMP_ID);
 
-        // Get all the employeeList where employeeId not equals to UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldBeFound("employeeId.notEquals=" + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId not equals to UPDATED_EMP_ID
+        defaultEmployeeShouldBeFound("empId.notEquals=" + UPDATED_EMP_ID);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdIsInShouldWork() throws Exception {
+    public void getAllEmployeesByEmpIdIsInShouldWork() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId in DEFAULT_EMPLOYEE_ID or UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldBeFound("employeeId.in=" + DEFAULT_EMPLOYEE_ID + "," + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId in DEFAULT_EMP_ID or UPDATED_EMP_ID
+        defaultEmployeeShouldBeFound("empId.in=" + DEFAULT_EMP_ID + "," + UPDATED_EMP_ID);
 
-        // Get all the employeeList where employeeId equals to UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldNotBeFound("employeeId.in=" + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId equals to UPDATED_EMP_ID
+        defaultEmployeeShouldNotBeFound("empId.in=" + UPDATED_EMP_ID);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdIsNullOrNotNull() throws Exception {
+    public void getAllEmployeesByEmpIdIsNullOrNotNull() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId is not null
-        defaultEmployeeShouldBeFound("employeeId.specified=true");
+        // Get all the employeeList where empId is not null
+        defaultEmployeeShouldBeFound("empId.specified=true");
 
-        // Get all the employeeList where employeeId is null
-        defaultEmployeeShouldNotBeFound("employeeId.specified=false");
+        // Get all the employeeList where empId is null
+        defaultEmployeeShouldNotBeFound("empId.specified=false");
     }
                 @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdContainsSomething() throws Exception {
+    public void getAllEmployeesByEmpIdContainsSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId contains DEFAULT_EMPLOYEE_ID
-        defaultEmployeeShouldBeFound("employeeId.contains=" + DEFAULT_EMPLOYEE_ID);
+        // Get all the employeeList where empId contains DEFAULT_EMP_ID
+        defaultEmployeeShouldBeFound("empId.contains=" + DEFAULT_EMP_ID);
 
-        // Get all the employeeList where employeeId contains UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldNotBeFound("employeeId.contains=" + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId contains UPDATED_EMP_ID
+        defaultEmployeeShouldNotBeFound("empId.contains=" + UPDATED_EMP_ID);
     }
 
     @Test
     @Transactional
-    public void getAllEmployeesByEmployeeIdNotContainsSomething() throws Exception {
+    public void getAllEmployeesByEmpIdNotContainsSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
 
-        // Get all the employeeList where employeeId does not contain DEFAULT_EMPLOYEE_ID
-        defaultEmployeeShouldNotBeFound("employeeId.doesNotContain=" + DEFAULT_EMPLOYEE_ID);
+        // Get all the employeeList where empId does not contain DEFAULT_EMP_ID
+        defaultEmployeeShouldNotBeFound("empId.doesNotContain=" + DEFAULT_EMP_ID);
 
-        // Get all the employeeList where employeeId does not contain UPDATED_EMPLOYEE_ID
-        defaultEmployeeShouldBeFound("employeeId.doesNotContain=" + UPDATED_EMPLOYEE_ID);
+        // Get all the employeeList where empId does not contain UPDATED_EMP_ID
+        defaultEmployeeShouldBeFound("empId.doesNotContain=" + UPDATED_EMP_ID);
     }
 
 
@@ -520,6 +529,58 @@ public class EmployeeResourceIT {
         defaultEmployeeShouldBeFound("localId.doesNotContain=" + UPDATED_LOCAL_ID);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where category equals to DEFAULT_CATEGORY
+        defaultEmployeeShouldBeFound("category.equals=" + DEFAULT_CATEGORY);
+
+        // Get all the employeeList where category equals to UPDATED_CATEGORY
+        defaultEmployeeShouldNotBeFound("category.equals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByCategoryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where category not equals to DEFAULT_CATEGORY
+        defaultEmployeeShouldNotBeFound("category.notEquals=" + DEFAULT_CATEGORY);
+
+        // Get all the employeeList where category not equals to UPDATED_CATEGORY
+        defaultEmployeeShouldBeFound("category.notEquals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where category in DEFAULT_CATEGORY or UPDATED_CATEGORY
+        defaultEmployeeShouldBeFound("category.in=" + DEFAULT_CATEGORY + "," + UPDATED_CATEGORY);
+
+        // Get all the employeeList where category equals to UPDATED_CATEGORY
+        defaultEmployeeShouldNotBeFound("category.in=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where category is not null
+        defaultEmployeeShouldBeFound("category.specified=true");
+
+        // Get all the employeeList where category is null
+        defaultEmployeeShouldNotBeFound("category.specified=false");
+    }
 
     @Test
     @Transactional
@@ -1010,9 +1071,10 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
-            .andExpect(jsonPath("$.[*].employeeId").value(hasItem(DEFAULT_EMPLOYEE_ID)))
+            .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].joiningDate").value(hasItem(DEFAULT_JOINING_DATE.toString())))
             .andExpect(jsonPath("$.[*].terminationDate").value(hasItem(DEFAULT_TERMINATION_DATE.toString())))
@@ -1063,9 +1125,10 @@ public class EmployeeResourceIT {
         // Disconnect from session so that the updates on updatedEmployee are not directly saved in db
         em.detach(updatedEmployee);
         updatedEmployee
-            .employeeId(UPDATED_EMPLOYEE_ID)
+            .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
             .localId(UPDATED_LOCAL_ID)
+            .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
             .joiningDate(UPDATED_JOINING_DATE)
             .terminationDate(UPDATED_TERMINATION_DATE)
@@ -1080,9 +1143,10 @@ public class EmployeeResourceIT {
         List<Employee> employeeList = employeeRepository.findAll();
         assertThat(employeeList).hasSize(databaseSizeBeforeUpdate);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
-        assertThat(testEmployee.getEmployeeId()).isEqualTo(UPDATED_EMPLOYEE_ID);
+        assertThat(testEmployee.getEmpId()).isEqualTo(UPDATED_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(UPDATED_GLOBAL_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(UPDATED_LOCAL_ID);
+        assertThat(testEmployee.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testEmployee.getJoiningDate()).isEqualTo(UPDATED_JOINING_DATE);
         assertThat(testEmployee.getTerminationDate()).isEqualTo(UPDATED_TERMINATION_DATE);

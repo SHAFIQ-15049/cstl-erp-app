@@ -6,4 +6,6 @@ export const enum AccountType {
   ROCKET = 'ROCKET',
 
   NAGAD = 'NAGAD',
+
+  OTHERS = 'OTHERS',
 }

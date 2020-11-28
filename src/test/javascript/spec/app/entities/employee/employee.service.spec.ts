@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { IEmployee, Employee } from 'app/shared/model/employee.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
 
 describe('Service Tests', () => {
@@ -25,7 +26,17 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Employee(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', EmployeeType.PERMANENT, currentDate, currentDate, 'AAAAAAA');
+      elemDefault = new Employee(
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        EmployeeCategory.MANAGERIAL,
+        EmployeeType.PERMANENT,
+        currentDate,
+        currentDate,
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -73,9 +84,10 @@ describe('Service Tests', () => {
       it('should update a Employee', () => {
         const returnedFromService = Object.assign(
           {
-            employeeId: 'BBBBBB',
+            empId: 'BBBBBB',
             globalId: 'BBBBBB',
             localId: 'BBBBBB',
+            category: 'BBBBBB',
             type: 'BBBBBB',
             joiningDate: currentDate.format(DATE_FORMAT),
             terminationDate: currentDate.format(DATE_FORMAT),
@@ -102,9 +114,10 @@ describe('Service Tests', () => {
       it('should return a list of Employee', () => {
         const returnedFromService = Object.assign(
           {
-            employeeId: 'BBBBBB',
+            empId: 'BBBBBB',
             globalId: 'BBBBBB',
             localId: 'BBBBBB',
+            category: 'BBBBBB',
             type: 'BBBBBB',
             joiningDate: currentDate.format(DATE_FORMAT),
             terminationDate: currentDate.format(DATE_FORMAT),

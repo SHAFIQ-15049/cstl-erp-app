@@ -10,13 +10,15 @@ import { ICompany } from 'app/shared/model/company.model';
 import { IDepartment } from 'app/shared/model/department.model';
 import { IGrade } from 'app/shared/model/grade.model';
 import { IDesignation } from 'app/shared/model/designation.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
 
 export interface IEmployee {
   id?: number;
-  employeeId?: string;
+  empId?: string;
   globalId?: string;
   localId?: string;
+  category?: EmployeeCategory;
   type?: EmployeeType;
   joiningDate?: Moment;
   terminationDate?: Moment;
@@ -37,9 +39,10 @@ export interface IEmployee {
 export class Employee implements IEmployee {
   constructor(
     public id?: number,
-    public employeeId?: string,
+    public empId?: string,
     public globalId?: string,
     public localId?: string,
+    public category?: EmployeeCategory,
     public type?: EmployeeType,
     public joiningDate?: Moment,
     public terminationDate?: Moment,

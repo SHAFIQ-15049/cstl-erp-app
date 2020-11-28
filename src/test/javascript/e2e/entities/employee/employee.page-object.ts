@@ -29,9 +29,10 @@ export class EmployeeUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
-  employeeIdInput = element(by.id('field_employeeId'));
+  empIdInput = element(by.id('field_empId'));
   globalIdInput = element(by.id('field_globalId'));
   localIdInput = element(by.id('field_localId'));
+  categorySelect = element(by.id('field_category'));
   typeSelect = element(by.id('field_type'));
   joiningDateInput = element(by.id('field_joiningDate'));
   terminationDateInput = element(by.id('field_terminationDate'));
@@ -47,12 +48,12 @@ export class EmployeeUpdatePage {
     return this.pageTitle.getText();
   }
 
-  async setEmployeeIdInput(employeeId: string): Promise<void> {
-    await this.employeeIdInput.sendKeys(employeeId);
+  async setEmpIdInput(empId: string): Promise<void> {
+    await this.empIdInput.sendKeys(empId);
   }
 
-  async getEmployeeIdInput(): Promise<string> {
-    return await this.employeeIdInput.getAttribute('value');
+  async getEmpIdInput(): Promise<string> {
+    return await this.empIdInput.getAttribute('value');
   }
 
   async setGlobalIdInput(globalId: string): Promise<void> {
@@ -69,6 +70,18 @@ export class EmployeeUpdatePage {
 
   async getLocalIdInput(): Promise<string> {
     return await this.localIdInput.getAttribute('value');
+  }
+
+  async setCategorySelect(category: string): Promise<void> {
+    await this.categorySelect.sendKeys(category);
+  }
+
+  async getCategorySelect(): Promise<string> {
+    return await this.categorySelect.element(by.css('option:checked')).getText();
+  }
+
+  async categorySelectLastOption(): Promise<void> {
+    await this.categorySelect.all(by.tagName('option')).last().click();
   }
 
   async setTypeSelect(type: string): Promise<void> {

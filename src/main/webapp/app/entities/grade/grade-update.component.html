@@ -12,6 +12,15 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_category">Category</label>
+                    <select class="form-control" name="category" formControlName="category" id="field_category">
+                        <option value="MANAGERIAL">MANAGERIAL</option>
+                        <option value="STAFF">STAFF</option>
+                        <option value="WORKER">WORKER</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_name">Name</label>
                     <input type="text" class="form-control" name="name" id="field_name"
                            formControlName="name"/>

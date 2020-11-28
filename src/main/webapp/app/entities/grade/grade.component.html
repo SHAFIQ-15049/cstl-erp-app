@@ -23,6 +23,7 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
@@ -31,6 +32,7 @@
             <tbody>
                 <tr *ngFor="let grade of grades ;trackBy: trackId">
                     <td><a [routerLink]="['/grade', grade.id, 'view']">{{ grade.id }}</a></td>
+                    <td>{{ grade.category }}</td>
                     <td>{{ grade.name }}</td>
                     <td>{{ grade.description }}</td>
                     <td class="text-right">
