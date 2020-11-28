@@ -21,46 +21,44 @@
     <div class="table-responsive" id="entities" *ngIf="companies && companies.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="shortName"><span>Short Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="nameInBangla"><span>Name In Bangla</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"></th>
-                </tr>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="shortName"><span>Short Name</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="nameInBangla"><span>Name In Bangla</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"></th>
+            </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let company of companies ;trackBy: trackId">
-                    <td><a [routerLink]="['/company', company.id, 'view']">{{ company.id }}</a></td>
-                    <td>{{ company.name }}</td>
-                    <td>{{ company.shortName }}</td>
-                    <td>{{ company.nameInBangla }}</td>
-                    <td>{{ company.description }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/company', company.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
+            <tr *ngFor="let company of companies; trackBy: trackId; index as i">
+                <td>{{i+1}}</td>
+                <td>{{ company.name }}</td>
+                <td>{{ company.shortName }}</td>
+                <td>{{ company.nameInBangla }}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/company', company.id, 'view']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
 
-                            <button type="submit"
-                                    [routerLink]="['/company', company.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
+                        <button type="submit"
+                                [routerLink]="['/company', company.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
 
-                            <button type="submit" (click)="delete(company)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        <button type="submit" (click)="delete(company)"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>

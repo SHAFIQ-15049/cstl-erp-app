@@ -13,7 +13,7 @@ import { companyExtendedRoute } from 'app/app-components/company-extended/compan
 import { CompanyExtendedDetailComponent } from 'app/app-components/company-extended/company-extended-detail.component';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(companyExtendedRoute)],
+  /*  imports: [CodeNodeErpSharedModule, RouterModule.forChild(companyExtendedRoute)],
   declarations: [
     CompanyComponent,
     CompanyExtendedComponent,
@@ -23,6 +23,6 @@ import { CompanyExtendedDetailComponent } from 'app/app-components/company-exten
     CompanyExtendedUpdateComponent,
     CompanyDeleteDialogComponent,
   ],
-  entryComponents: [CompanyDeleteDialogComponent],
+  entryComponents: [CompanyDeleteDialogComponent],*/
 })
 export class CodeNodeErpCompanyModule {}

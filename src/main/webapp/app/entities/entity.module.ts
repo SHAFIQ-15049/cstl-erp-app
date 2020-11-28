@@ -6,7 +6,7 @@ import { RouterModule } from '@angular/router';
     RouterModule.forChild([
       {
         path: 'company',
-        loadChildren: () => import('../app-components/company-extended/company-extended.module').then(m => m.CodeNodeErpCompanyModule),
+        loadChildren: () => import('./company/company.module').then(m => m.CodeNodeErpCompanyModule),
       },
       {
         path: 'department',
