@@ -9,7 +9,7 @@ export const HOME_ROUTE: Route = {
   component: HomeComponent,
   data: {
     authorities: [Authority.USER],
-    pageTitle: 'Welcome, Java Hipster!',
+    pageTitle: 'Welcome to CSTL!',
   },
   canActivate: [UserRouteAccessService],
 };

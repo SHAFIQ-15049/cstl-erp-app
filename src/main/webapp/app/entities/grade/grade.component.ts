@@ -25,7 +25,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
-  employeeCategory!: EmployeeCategory;
+  employeeCategory?: EmployeeCategory | null;
 
   constructor(
     protected gradeService: GradeService,
@@ -43,7 +43,7 @@ export class GradeComponent implements OnInit, OnDestroy {
     if (this.employeeCategory) {
       queryBuilder = {
         page: pageToLoad - 1,
-        'employeeCategory.equals': this.employeeCategory,
+        'category.equals': this.employeeCategory,
         size: this.itemsPerPage,
         sort: this.sort(),
       };
@@ -54,6 +54,8 @@ export class GradeComponent implements OnInit, OnDestroy {
         sort: this.sort(),
       };
     }
+    // eslint-disable-next-line no-console
+    console.log(queryBuilder);
 
     this.gradeService.query(queryBuilder).subscribe(
       (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -67,6 +69,8 @@ export class GradeComponent implements OnInit, OnDestroy {
   }
 
   protected handleNavigation(): void {
+    // eslint-disable-next-line no-console
+    console.log('Handle navigation called');
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
@@ -88,8 +92,17 @@ export class GradeComponent implements OnInit, OnDestroy {
   }
 
   addNew(): void {
-    if (this.employeeCategory) this.router.navigate(['grade', this.employeeCategory, '/new']);
-    else this.router.navigate(['grade/new']);
+    this.router.navigate(['grade/new']);
+  }
+
+  fetch(): void {
+    this.page = 0;
+    this.handleNavigation();
+  }
+
+  fetchAll(): void {
+    this.employeeCategory = null;
+    this.fetch();
   }
 
   trackId(index: number, item: IGrade): number {

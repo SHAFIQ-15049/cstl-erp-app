@@ -26,8 +26,8 @@
                 <option value="WORKER">WORKER</option>
             </select>
         </div>
-        <div class="col-md-3"><button class="btn btn-primary">Fetch</button></div>
-        <div class="col-md-6" align="right"><button class="btn btn-secondary">Fetch All</button></div>
+        <div class="col-md-3"><button class="btn btn-primary" (click)="fetch()">Fetch</button></div>
+        <div class="col-md-6" align="right"><button class="btn btn-secondary" (click)="fetchAll()">Fetch All</button></div>
     </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="grades?.length === 0">
