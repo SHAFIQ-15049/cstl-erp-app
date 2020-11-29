@@ -49,6 +49,9 @@ import software.cstl.domain.enumeration.EmployeeStatus;
 @WithMockUser
 public class EmployeeResourceIT {
 
+    private static final String DEFAULT_NAME = "AAAAAAAAAA";
+    private static final String UPDATED_NAME = "BBBBBBBBBB";
+
     private static final String DEFAULT_EMP_ID = "AAAAAAAAAA";
     private static final String UPDATED_EMP_ID = "BBBBBBBBBB";
 
@@ -103,6 +106,7 @@ public class EmployeeResourceIT {
      */
     public static Employee createEntity(EntityManager em) {
         Employee employee = new Employee()
+            .name(DEFAULT_NAME)
             .empId(DEFAULT_EMP_ID)
             .globalId(DEFAULT_GLOBAL_ID)
             .localId(DEFAULT_LOCAL_ID)
@@ -122,6 +126,7 @@ public class EmployeeResourceIT {
      */
     public static Employee createUpdatedEntity(EntityManager em) {
         Employee employee = new Employee()
+            .name(UPDATED_NAME)
             .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
             .localId(UPDATED_LOCAL_ID)
@@ -153,6 +158,7 @@ public class EmployeeResourceIT {
         List<Employee> employeeList = employeeRepository.findAll();
         assertThat(employeeList).hasSize(databaseSizeBeforeCreate + 1);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
+        assertThat(testEmployee.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testEmployee.getEmpId()).isEqualTo(DEFAULT_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(DEFAULT_GLOBAL_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(DEFAULT_LOCAL_ID);
@@ -183,6 +189,25 @@ public class EmployeeResourceIT {
         assertThat(employeeList).hasSize(databaseSizeBeforeCreate);
     }
 
+
+    @Test
+    @Transactional
+    public void checkNameIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeRepository.findAll().size();
+        // set the field null
+        employee.setName(null);
+
+        // Create the Employee, which fails.
+
+
+        restEmployeeMockMvc.perform(post("/api/employees")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employee)))
+            .andExpect(status().isBadRequest());
+
+        List<Employee> employeeList = employeeRepository.findAll();
+        assertThat(employeeList).hasSize(databaseSizeBeforeTest);
+    }
 
     @Test
     @Transactional
@@ -252,6 +277,7 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
@@ -274,6 +300,7 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(employee.getId().intValue()))
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.empId").value(DEFAULT_EMP_ID))
             .andExpect(jsonPath("$.globalId").value(DEFAULT_GLOBAL_ID))
             .andExpect(jsonPath("$.localId").value(DEFAULT_LOCAL_ID))
@@ -302,6 +329,84 @@ public class EmployeeResourceIT {
 
         defaultEmployeeShouldBeFound("id.lessThanOrEqual=" + id);
         defaultEmployeeShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByNameIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name equals to DEFAULT_NAME
+        defaultEmployeeShouldBeFound("name.equals=" + DEFAULT_NAME);
+
+        // Get all the employeeList where name equals to UPDATED_NAME
+        defaultEmployeeShouldNotBeFound("name.equals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByNameIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name not equals to DEFAULT_NAME
+        defaultEmployeeShouldNotBeFound("name.notEquals=" + DEFAULT_NAME);
+
+        // Get all the employeeList where name not equals to UPDATED_NAME
+        defaultEmployeeShouldBeFound("name.notEquals=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByNameIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name in DEFAULT_NAME or UPDATED_NAME
+        defaultEmployeeShouldBeFound("name.in=" + DEFAULT_NAME + "," + UPDATED_NAME);
+
+        // Get all the employeeList where name equals to UPDATED_NAME
+        defaultEmployeeShouldNotBeFound("name.in=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByNameIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name is not null
+        defaultEmployeeShouldBeFound("name.specified=true");
+
+        // Get all the employeeList where name is null
+        defaultEmployeeShouldNotBeFound("name.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByNameContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name contains DEFAULT_NAME
+        defaultEmployeeShouldBeFound("name.contains=" + DEFAULT_NAME);
+
+        // Get all the employeeList where name contains UPDATED_NAME
+        defaultEmployeeShouldNotBeFound("name.contains=" + UPDATED_NAME);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByNameNotContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where name does not contain DEFAULT_NAME
+        defaultEmployeeShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
+
+        // Get all the employeeList where name does not contain UPDATED_NAME
+        defaultEmployeeShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
     }
 
 
@@ -1132,6 +1237,7 @@ public class EmployeeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(employee.getId().intValue())))
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
@@ -1187,6 +1293,7 @@ public class EmployeeResourceIT {
         // Disconnect from session so that the updates on updatedEmployee are not directly saved in db
         em.detach(updatedEmployee);
         updatedEmployee
+            .name(UPDATED_NAME)
             .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
             .localId(UPDATED_LOCAL_ID)
@@ -1206,6 +1313,7 @@ public class EmployeeResourceIT {
         List<Employee> employeeList = employeeRepository.findAll();
         assertThat(employeeList).hasSize(databaseSizeBeforeUpdate);
         Employee testEmployee = employeeList.get(employeeList.size() - 1);
+        assertThat(testEmployee.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testEmployee.getEmpId()).isEqualTo(UPDATED_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(UPDATED_GLOBAL_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(UPDATED_LOCAL_ID);

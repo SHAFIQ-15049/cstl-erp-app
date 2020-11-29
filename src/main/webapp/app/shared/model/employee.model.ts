@@ -16,6 +16,7 @@ import { EmployeeStatus } from 'app/shared/model/enumerations/employee-status.mo
 
 export interface IEmployee {
   id?: number;
+  name?: string;
   empId?: string;
   globalId?: string;
   localId?: string;
@@ -41,6 +42,7 @@ export interface IEmployee {
 export class Employee implements IEmployee {
   constructor(
     public id?: number,
+    public name?: string,
     public empId?: string,
     public globalId?: string,
     public localId?: string,

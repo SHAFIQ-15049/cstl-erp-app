@@ -32,6 +32,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
+        'AAAAAAA',
         EmployeeCategory.MANAGERIAL,
         EmployeeType.PERMANENT,
         currentDate,
@@ -86,6 +87,7 @@ describe('Service Tests', () => {
       it('should update a Employee', () => {
         const returnedFromService = Object.assign(
           {
+            name: 'BBBBBB',
             empId: 'BBBBBB',
             globalId: 'BBBBBB',
             localId: 'BBBBBB',
@@ -117,6 +119,7 @@ describe('Service Tests', () => {
       it('should return a list of Employee', () => {
         const returnedFromService = Object.assign(
           {
+            name: 'BBBBBB',
             empId: 'BBBBBB',
             globalId: 'BBBBBB',
             localId: 'BBBBBB',
