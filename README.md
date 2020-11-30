@@ -238,6 +238,36 @@ For more information refer to [Using Docker and Docker-Compose][], this page als
 
 To configure CI for your project, run the ci-cd sub-generator (`jhipster ci-cd`), this will let you generate configuration files for a number of Continuous Integration systems. Consult the [Setting up Continuous Integration][] page for more information.
 
+## Database Migration
+
+The project maintains all it\'s entities in a JDL file for <b>crud</b> code generation.
+Write entities in entities.jdl file. To import the jdl, follow the following jdl command.
+
+```
+jhipster import-jdl --skip-db-changelog
+```
+
+<b>Note</b> here we are asking jhipster not to create any changelog file. The changelog created by jhipster often cause issues in the system. Rather use the liquibase plugin command:
+
+```
+mvn liquibase:diff
+```
+
+It will add a changelog file in the changelogs folder. Rename the file for future reference and add the file in <b>master.xml</b> file.
+
+## Angular pagination with Index
+
+In the generated code, <b>ID</b> is used. But normal users often don't understand the ID and even they don't care. So, use the following angular code if <b>\$index</b> is needed to be used in table.
+
+```
+<tr *ngFor="let user of _data | paginate: config; let i=index">
+  <td>{{ (config.currentPage - 1) * config.itemsPerPage + index +1 }}</td>
+  <td>{{user.FirstName}}</td>
+  <td>{{user.LastName}}</td>
+  <td>{{user.Email}}</td>
+</tr>
+```
+
 [jhipster homepage and latest documentation]: https://www.jhipster.tech
 [jhipster 6.10.5 archive]: https://www.jhipster.tech/documentation-archive/v6.10.5
 [using jhipster in development]: https://www.jhipster.tech/documentation-archive/v6.10.5/development/
