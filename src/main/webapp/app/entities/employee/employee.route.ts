@@ -56,6 +56,36 @@ export const employeeRoute: Routes = [
       pageTitle: 'Employees',
     },
     canActivate: [UserRouteAccessService],
+    children: [
+      {
+        path: 'personal-info-employee',
+        loadChildren: () => import('../personal-info/personal-info.module').then(m => m.CodeNodeErpPersonalInfoModule),
+      },
+      {
+        path: 'address-employee',
+        loadChildren: () => import('../address/address.module').then(m => m.CodeNodeErpAddressModule),
+      },
+      {
+        path: 'educational-info-employee',
+        loadChildren: () => import('../educational-info/educational-info.module').then(m => m.CodeNodeErpEducationalInfoModule),
+      },
+      {
+        path: 'training-employee',
+        loadChildren: () => import('../training/training.module').then(m => m.CodeNodeErpTrainingModule),
+      },
+      {
+        path: 'employee-account',
+        loadChildren: () => import('../employee-account/employee-account.module').then(m => m.CodeNodeErpEmployeeAccountModule),
+      },
+      {
+        path: 'job-history-employee',
+        loadChildren: () => import('../job-history/job-history.module').then(m => m.CodeNodeErpJobHistoryModule),
+      },
+      {
+        path: 'service-history-employee',
+        loadChildren: () => import('../service-history/service-history.module').then(m => m.CodeNodeErpServiceHistoryModule),
+      },
+    ],
   },
   {
     path: 'new',
