@@ -2,6 +2,11 @@
   "name": "Designation",
   "fields": [
     {
+      "fieldName": "category",
+      "fieldType": "EmployeeCategory",
+      "fieldValues": "MANAGERIAL,STAFF,WORKER"
+    },
+    {
       "fieldName": "name",
       "fieldType": "String",
       "fieldValidateRules": [

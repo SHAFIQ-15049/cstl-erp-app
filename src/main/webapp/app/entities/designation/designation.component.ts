@@ -10,6 +10,8 @@ import { IDesignation } from 'app/shared/model/designation.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { DesignationService } from './designation.service';
 import { DesignationDeleteDialogComponent } from './designation-delete-dialog.component';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
+import { Filter, IFilter } from 'app/shared/model/filter.model';
 
 @Component({
   selector: 'jhi-designation',
@@ -18,12 +20,14 @@ import { DesignationDeleteDialogComponent } from './designation-delete-dialog.co
 export class DesignationComponent implements OnInit, OnDestroy {
   designations?: IDesignation[];
   eventSubscriber?: Subscription;
+  employeeCategory!: EmployeeCategory | null;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
   page!: number;
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  param?: any;
 
   constructor(
     protected designationService: DesignationService,
@@ -36,22 +40,50 @@ export class DesignationComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
+    const filter: IFilter[] = [];
+    filter.push(new Filter(page, pageToLoad - 1));
+    filter.push(new Filter('size', this.itemsPerPage));
+    filter.push(new Filter('sort', this.sort()));
+    if (this.employeeCategory) filter.push(new Filter('category.equals', this.employeeCategory));
 
-    this.designationService
-      .query({
+    let query = {};
+    if (this.employeeCategory) {
+      query = {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IDesignation[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+        'category.equals': this.employeeCategory,
+      };
+    } else {
+      query = {
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      };
+    }
+
+    const filterStr = JSON.stringify(filter);
+    this.designationService.query(query).subscribe(
+      (res: HttpResponse<IDesignation[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+      () => this.onError()
+    );
   }
 
   ngOnInit(): void {
+    this.designationService.getEmployeeCategory().subscribe(e => (this.employeeCategory = e));
+
     this.handleNavigation();
     this.registerChangeInDesignations();
+  }
+
+  fetch(): void {
+    this.designationService.setEmployeeCategory(this.employeeCategory);
+    this.loadPage();
+  }
+
+  fetchAll(): void {
+    this.employeeCategory = null;
+    this.fetch();
   }
 
   protected handleNavigation(): void {
@@ -73,6 +105,7 @@ export class DesignationComponent implements OnInit, OnDestroy {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
+    //this.designationService.setEmployeeCategory(null);
   }
 
   trackId(index: number, item: IDesignation): number {

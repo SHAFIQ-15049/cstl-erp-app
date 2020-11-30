@@ -84,6 +84,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private StringFilter name;
+
     private StringFilter empId;
 
     private StringFilter globalId;
@@ -127,6 +129,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public EmployeeCriteria(EmployeeCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.name = other.name == null ? null : other.name.copy();
         this.empId = other.empId == null ? null : other.empId.copy();
         this.globalId = other.globalId == null ? null : other.globalId.copy();
         this.localId = other.localId == null ? null : other.localId.copy();
@@ -159,6 +162,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public StringFilter getName() {
+        return name;
+    }
+
+    public void setName(StringFilter name) {
+        this.name = name;
     }
 
     public StringFilter getEmpId() {
@@ -325,6 +336,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         final EmployeeCriteria that = (EmployeeCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(name, that.name) &&
             Objects.equals(empId, that.empId) &&
             Objects.equals(globalId, that.globalId) &&
             Objects.equals(localId, that.localId) &&
@@ -350,6 +362,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        name,
         empId,
         globalId,
         localId,
@@ -377,6 +390,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
     public String toString() {
         return "EmployeeCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (name != null ? "name=" + name + ", " : "") +
                 (empId != null ? "empId=" + empId + ", " : "") +
                 (globalId != null ? "globalId=" + globalId + ", " : "") +
                 (localId != null ? "localId=" + localId + ", " : "") +

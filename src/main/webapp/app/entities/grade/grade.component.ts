@@ -10,6 +10,7 @@ import { IGrade } from 'app/shared/model/grade.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { GradeService } from './grade.service';
 import { GradeDeleteDialogComponent } from './grade-delete-dialog.component';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 @Component({
   selector: 'jhi-grade',
@@ -24,6 +25,7 @@ export class GradeComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  employeeCategory?: EmployeeCategory | null;
 
   constructor(
     protected gradeService: GradeService,
@@ -37,16 +39,28 @@ export class GradeComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.gradeService
-      .query({
+    let queryBuilder = {};
+    if (this.employeeCategory) {
+      queryBuilder = {
+        page: pageToLoad - 1,
+        'category.equals': this.employeeCategory,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      };
+    } else {
+      queryBuilder = {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+      };
+    }
+    // eslint-disable-next-line no-console
+    console.log(queryBuilder);
+
+    this.gradeService.query(queryBuilder).subscribe(
+      (res: HttpResponse<IGrade[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+      () => this.onError()
+    );
   }
 
   ngOnInit(): void {
@@ -55,6 +69,8 @@ export class GradeComponent implements OnInit, OnDestroy {
   }
 
   protected handleNavigation(): void {
+    // eslint-disable-next-line no-console
+    console.log('Handle navigation called');
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
@@ -73,6 +89,20 @@ export class GradeComponent implements OnInit, OnDestroy {
     if (this.eventSubscriber) {
       this.eventManager.destroy(this.eventSubscriber);
     }
+  }
+
+  addNew(): void {
+    this.router.navigate(['grade/new']);
+  }
+
+  fetch(): void {
+    this.page = 0;
+    this.handleNavigation();
+  }
+
+  fetchAll(): void {
+    this.employeeCategory = null;
+    this.fetch();
   }
 
   trackId(index: number, item: IGrade): number {

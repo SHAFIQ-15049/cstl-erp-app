@@ -29,6 +29,7 @@ export class EmployeeUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
+  nameInput = element(by.id('field_name'));
   empIdInput = element(by.id('field_empId'));
   globalIdInput = element(by.id('field_globalId'));
   localIdInput = element(by.id('field_localId'));
@@ -47,6 +48,14 @@ export class EmployeeUpdatePage {
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
+  }
+
+  async setNameInput(name: string): Promise<void> {
+    await this.nameInput.sendKeys(name);
+  }
+
+  async getNameInput(): Promise<string> {
+    return await this.nameInput.getAttribute('value');
   }
 
   async setEmpIdInput(empId: string): Promise<void> {

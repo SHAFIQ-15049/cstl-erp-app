@@ -2,6 +2,13 @@
   "name": "Employee",
   "fields": [
     {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "empId",
       "fieldType": "String",
       "fieldValidateRules": [

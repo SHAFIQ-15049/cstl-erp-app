@@ -1,10 +1,11 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable, ReplaySubject, Subject } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IDesignation } from 'app/shared/model/designation.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 type EntityResponseType = HttpResponse<IDesignation>;
 type EntityArrayResponseType = HttpResponse<IDesignation[]>;
@@ -13,7 +14,17 @@ type EntityArrayResponseType = HttpResponse<IDesignation[]>;
 export class DesignationService {
   public resourceUrl = SERVER_API_URL + 'api/designations';
 
+  private employeeCategorySubject = new ReplaySubject<EmployeeCategory | null>(1);
+
   constructor(protected http: HttpClient) {}
+
+  setEmployeeCategory(employeeCategory: EmployeeCategory | null): void {
+    this.employeeCategorySubject.next(employeeCategory);
+  }
+
+  getEmployeeCategory(): Observable<EmployeeCategory | null> {
+    return this.employeeCategorySubject.asObservable();
+  }
 
   create(designation: IDesignation): Observable<EntityResponseType> {
     return this.http.post<IDesignation>(this.resourceUrl, designation, { observe: 'response' });

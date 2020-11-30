@@ -49,6 +49,8 @@
     <include file="config/liquibase/changelog/20201128071908_changelog_grade_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201128080926_changelog_employee_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201128091535_changelog_auditing_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201129175749_changelog_employee_name_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201130103523_changelog_employee_category_added.xml" relativeToChangelogFile="false"/>
 
 
 

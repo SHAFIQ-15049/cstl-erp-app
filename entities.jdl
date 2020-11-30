@@ -14,6 +14,7 @@ entity Department (mst_department) {
 }
 
 entity Designation (mst_designation){
+    category EmployeeCategory,
 	name String required,
 	shortName String,
 	nameInBangla String,
@@ -40,6 +41,7 @@ entity Thana (mst_thana){
 
 
 entity Employee (mst_employee){
+    name String required,
     empId String required,
     globalId String required,
     // company

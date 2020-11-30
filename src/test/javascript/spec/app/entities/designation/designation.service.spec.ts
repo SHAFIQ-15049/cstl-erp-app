@@ -2,6 +2,7 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { DesignationService } from 'app/entities/designation/designation.service';
 import { IDesignation, Designation } from 'app/shared/model/designation.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 describe('Service Tests', () => {
   describe('Designation Service', () => {
@@ -20,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(DesignationService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Designation(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Designation(0, EmployeeCategory.MANAGERIAL, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -54,6 +55,7 @@ describe('Service Tests', () => {
       it('should update a Designation', () => {
         const returnedFromService = Object.assign(
           {
+            category: 'BBBBBB',
             name: 'BBBBBB',
             shortName: 'BBBBBB',
             nameInBangla: 'BBBBBB',
@@ -74,6 +76,7 @@ describe('Service Tests', () => {
       it('should return a list of Designation', () => {
         const returnedFromService = Object.assign(
           {
+            category: 'BBBBBB',
             name: 'BBBBBB',
             shortName: 'BBBBBB',
             nameInBangla: 'BBBBBB',

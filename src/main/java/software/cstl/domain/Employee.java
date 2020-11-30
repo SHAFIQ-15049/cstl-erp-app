@@ -33,6 +33,10 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     private Long id;
 
     @NotNull
+    @Column(name = "name", nullable = false)
+    private String name;
+
+    @NotNull
     @Column(name = "emp_id", nullable = false)
     private String empId;
 
@@ -117,6 +121,19 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public Employee name(String name) {
+        this.name = name;
+        return this;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getEmpId() {
@@ -473,6 +490,7 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     public String toString() {
         return "Employee{" +
             "id=" + getId() +
+            ", name='" + getName() + "'" +
             ", empId='" + getEmpId() + "'" +
             ", globalId='" + getGlobalId() + "'" +
             ", localId='" + getLocalId() + "'" +

@@ -72,6 +72,7 @@ class EmployeeGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "name":"SAMPLE_TEXT"
                 , "empId":"SAMPLE_TEXT"
                 , "globalId":"SAMPLE_TEXT"
                 , "localId":"SAMPLE_TEXT"
