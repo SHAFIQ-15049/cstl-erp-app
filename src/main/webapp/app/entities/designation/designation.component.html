@@ -14,6 +14,25 @@
 
     <jhi-alert></jhi-alert>
 
+
+    <div class="row" style="padding: 10px;">
+        <div class="col-md-1" >
+            Category
+        </div>
+        <div class="col-md-2">
+            <select class="form-control" name="category" [(ngModel)]="employeeCategory"  id="field_category">
+                <option value="null"></option>
+                <option value="MANAGERIAL">MANAGERIAL</option>
+                <option value="STAFF">STAFF</option>
+                <option value="WORKER">WORKER</option>
+            </select>
+        </div>
+        <div class="col-md-9">
+            <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+            <button class="btn btn-secondary" (click)="fetchAll()">Fetch All</button>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="designations?.length === 0">
         <span>No designations found</span>
     </div>
@@ -23,16 +42,17 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="shortName"><span>Short Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="nameInBangla"><span>Name In Bangla</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let designation of designations ;trackBy: trackId; index as i">
-                    <td><a [routerLink]="['/designation', designation.id, 'view']">{{ i+1}}</a></td>
+                    <td><a [routerLink]="['/designation', designation.id, 'view']">{{ (page -1) * itemsPerPage + (i+1)}}</a></td>
+                    <td>{{ designation.category }}</td>
                     <td>{{ designation.name }}</td>
                     <td>{{ designation.shortName }}</td>
                     <td>{{ designation.nameInBangla }}</td>

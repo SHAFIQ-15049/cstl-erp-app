@@ -25,6 +25,7 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
 /**
  * Integration tests for the {@link DesignationResource} REST controller.
  */
@@ -32,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class DesignationResourceIT {
+
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.MANAGERIAL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.STAFF;
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
@@ -70,6 +74,7 @@ public class DesignationResourceIT {
      */
     public static Designation createEntity(EntityManager em) {
         Designation designation = new Designation()
+            .category(DEFAULT_CATEGORY)
             .name(DEFAULT_NAME)
             .shortName(DEFAULT_SHORT_NAME)
             .nameInBangla(DEFAULT_NAME_IN_BANGLA)
@@ -84,6 +89,7 @@ public class DesignationResourceIT {
      */
     public static Designation createUpdatedEntity(EntityManager em) {
         Designation designation = new Designation()
+            .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
             .shortName(UPDATED_SHORT_NAME)
             .nameInBangla(UPDATED_NAME_IN_BANGLA)
@@ -110,6 +116,7 @@ public class DesignationResourceIT {
         List<Designation> designationList = designationRepository.findAll();
         assertThat(designationList).hasSize(databaseSizeBeforeCreate + 1);
         Designation testDesignation = designationList.get(designationList.size() - 1);
+        assertThat(testDesignation.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testDesignation.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testDesignation.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
         assertThat(testDesignation.getNameInBangla()).isEqualTo(DEFAULT_NAME_IN_BANGLA);
@@ -166,6 +173,7 @@ public class DesignationResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(designation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
             .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
@@ -183,6 +191,7 @@ public class DesignationResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(designation.getId().intValue()))
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME))
             .andExpect(jsonPath("$.nameInBangla").value(DEFAULT_NAME_IN_BANGLA))
@@ -208,6 +217,58 @@ public class DesignationResourceIT {
         defaultDesignationShouldNotBeFound("id.lessThan=" + id);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where category equals to DEFAULT_CATEGORY
+        defaultDesignationShouldBeFound("category.equals=" + DEFAULT_CATEGORY);
+
+        // Get all the designationList where category equals to UPDATED_CATEGORY
+        defaultDesignationShouldNotBeFound("category.equals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByCategoryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where category not equals to DEFAULT_CATEGORY
+        defaultDesignationShouldNotBeFound("category.notEquals=" + DEFAULT_CATEGORY);
+
+        // Get all the designationList where category not equals to UPDATED_CATEGORY
+        defaultDesignationShouldBeFound("category.notEquals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where category in DEFAULT_CATEGORY or UPDATED_CATEGORY
+        defaultDesignationShouldBeFound("category.in=" + DEFAULT_CATEGORY + "," + UPDATED_CATEGORY);
+
+        // Get all the designationList where category equals to UPDATED_CATEGORY
+        defaultDesignationShouldNotBeFound("category.in=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDesignationsByCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        designationRepository.saveAndFlush(designation);
+
+        // Get all the designationList where category is not null
+        defaultDesignationShouldBeFound("category.specified=true");
+
+        // Get all the designationList where category is null
+        defaultDesignationShouldNotBeFound("category.specified=false");
+    }
 
     @Test
     @Transactional
@@ -450,6 +511,7 @@ public class DesignationResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(designation.getId().intValue())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
             .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
@@ -500,6 +562,7 @@ public class DesignationResourceIT {
         // Disconnect from session so that the updates on updatedDesignation are not directly saved in db
         em.detach(updatedDesignation);
         updatedDesignation
+            .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
             .shortName(UPDATED_SHORT_NAME)
             .nameInBangla(UPDATED_NAME_IN_BANGLA)
@@ -514,6 +577,7 @@ public class DesignationResourceIT {
         List<Designation> designationList = designationRepository.findAll();
         assertThat(designationList).hasSize(databaseSizeBeforeUpdate);
         Designation testDesignation = designationList.get(designationList.size() - 1);
+        assertThat(testDesignation.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testDesignation.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testDesignation.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
         assertThat(testDesignation.getNameInBangla()).isEqualTo(UPDATED_NAME_IN_BANGLA);

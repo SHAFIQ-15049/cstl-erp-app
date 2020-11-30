@@ -19,6 +19,7 @@ export class DesignationUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    category: [],
     name: [null, [Validators.required]],
     shortName: [],
     nameInBangla: [],
@@ -42,6 +43,7 @@ export class DesignationUpdateComponent implements OnInit {
   updateForm(designation: IDesignation): void {
     this.editForm.patchValue({
       id: designation.id,
+      category: designation.category,
       name: designation.name,
       shortName: designation.shortName,
       nameInBangla: designation.nameInBangla,
@@ -83,6 +85,7 @@ export class DesignationUpdateComponent implements OnInit {
     return {
       ...new Designation(),
       id: this.editForm.get(['id'])!.value,
+      category: this.editForm.get(['category'])!.value,
       name: this.editForm.get(['name'])!.value,
       shortName: this.editForm.get(['shortName'])!.value,
       nameInBangla: this.editForm.get(['nameInBangla'])!.value,

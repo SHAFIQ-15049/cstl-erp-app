@@ -8,6 +8,8 @@ import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
+
 /**
  * A Designation.
  */
@@ -21,6 +23,10 @@ public class Designation extends AbstractAuditingEntity implements Serializable 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private EmployeeCategory category;
 
     @NotNull
     @Column(name = "name", nullable = false)
@@ -43,6 +49,19 @@ public class Designation extends AbstractAuditingEntity implements Serializable 
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public EmployeeCategory getCategory() {
+        return category;
+    }
+
+    public Designation category(EmployeeCategory category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(EmployeeCategory category) {
+        this.category = category;
     }
 
     public String getName() {
@@ -119,6 +138,7 @@ public class Designation extends AbstractAuditingEntity implements Serializable 
     public String toString() {
         return "Designation{" +
             "id=" + getId() +
+            ", category='" + getCategory() + "'" +
             ", name='" + getName() + "'" +
             ", shortName='" + getShortName() + "'" +
             ", nameInBangla='" + getNameInBangla() + "'" +

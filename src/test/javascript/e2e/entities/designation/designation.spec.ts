@@ -44,6 +44,7 @@ describe('Designation e2e test', () => {
     await designationComponentsPage.clickOnCreateButton();
 
     await promise.all([
+      designationUpdatePage.categorySelectLastOption(),
       designationUpdatePage.setNameInput('name'),
       designationUpdatePage.setShortNameInput('shortName'),
       designationUpdatePage.setNameInBanglaInput('nameInBangla'),

@@ -85,6 +85,9 @@ public class DesignationQueryService extends QueryService<Designation> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Designation_.id));
             }
+            if (criteria.getCategory() != null) {
+                specification = specification.and(buildSpecification(criteria.getCategory(), Designation_.category));
+            }
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Designation_.name));
             }
