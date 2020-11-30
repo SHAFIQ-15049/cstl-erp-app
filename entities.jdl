@@ -7,6 +7,7 @@ entity Company (mst_company){
 }
 
 entity Department (mst_department) {
+    category EmployeeCategory,
 	name String required,
     shortName String,
     nameInBangla String,
