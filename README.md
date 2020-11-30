@@ -244,7 +244,7 @@ The project maintains all it\'s entities in a JDL file for <b>crud</b> code gene
 Write entities in entities.jdl file. To import the jdl, follow the following jdl command.
 
 ```
-jhipster import-jdl --skip-db-changelog
+jhipster import-jdl entities.jdl --skip-db-changelog
 ```
 
 <b>Note</b> here we are asking jhipster not to create any changelog file. The changelog created by jhipster often cause issues in the system. Rather use the liquibase plugin command:
