@@ -51,6 +51,8 @@
     <include file="config/liquibase/changelog/20201128091535_changelog_auditing_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201129175749_changelog_employee_name_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201130103523_changelog_employee_category_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201201191426_changelog.xml" relativeToChangelogFile="false"/>
+
 
 
 
