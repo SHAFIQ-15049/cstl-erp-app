@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
-import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
+import {ActivatedRoute, ParamMap, Router, Data, ActivatedRouteSnapshot} from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -24,24 +24,38 @@ export class AddressComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  employeeId?: number|null;
 
   constructor(
     protected addressService: AddressService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private activatedRouteSnapShot: ActivatedRouteSnapshot
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.addressService
-      .query({
+    let query = {};
+    if(this.employeeId){
+      query = {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-      })
+        'employeeId.equals': this.employeeId
+      }
+    }else{
+      query = {
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+      }
+    }
+
+    this.addressService
+      .query(query)
       .subscribe(
         (res: HttpResponse<IAddress[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
         () => this.onError()
@@ -60,6 +74,7 @@ export class AddressComponent implements OnInit, OnDestroy {
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
+      this.employeeId = +(this.activatedRouteSnapShot.paramMap.get('employeeId')!);
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;

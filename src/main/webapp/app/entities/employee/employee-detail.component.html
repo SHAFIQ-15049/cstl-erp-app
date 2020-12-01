@@ -1,6 +1,13 @@
 <div class="row justify-content-center">
     <div class="col-md-12" *ngIf="employee">
-        Name: <b>{{employee.name}}</b>, Department: <b>{{employee.department?.name}}</b>, Designation: <b>{{employee.designation?.name}}</b>, Category: <b>{{employee.category}}</b>
+        <div class="row">
+            <div class="col-md-1">
+                <fa-icon (click)="previousState()" style="cursor: pointer;" icon="angle-double-left" size="2x" title="Back to list" ></fa-icon>
+            </div>
+            <div class="col-md-11">
+                <p>Name: <b>{{employee.name}}</b>, Department: <b>{{employee.department?.name}}</b>, Designation: <b>{{employee.designation?.name}}</b>, Category: <b>{{employee.category}}</b></p>
+            </div>
+        </div>
         <hr/>
     </div>
 

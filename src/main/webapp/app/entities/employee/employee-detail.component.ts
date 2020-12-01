@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { JhiDataUtils } from 'ng-jhipster';
 
 import { IEmployee } from 'app/shared/model/employee.model';
@@ -11,7 +11,7 @@ import { IEmployee } from 'app/shared/model/employee.model';
 export class EmployeeDetailComponent implements OnInit {
   employee: IEmployee | null = null;
 
-  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ employee }) => (this.employee = employee));
@@ -27,5 +27,11 @@ export class EmployeeDetailComponent implements OnInit {
 
   previousState(): void {
     window.history.back();
+  }
+
+  gotoAddress():void{
+    if(this.employee?.addresses){
+      this.router.navigate(['address-employee'])
+    }
   }
 }
