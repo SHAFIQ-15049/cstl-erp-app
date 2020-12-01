@@ -78,8 +78,8 @@ entity Address (address){
     //division
     //district
     //thana
-    street String required,
-    area String required,
+    street String,
+    area String,
     postCode Integer,
     addressType AddressType
 }
