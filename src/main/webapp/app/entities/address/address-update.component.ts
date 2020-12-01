@@ -31,8 +31,8 @@ export class AddressUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    street: [null, [Validators.required]],
-    area: [null, [Validators.required]],
+    street: [],
+    area: [],
     postCode: [],
     addressType: [],
     division: [],

@@ -143,44 +143,6 @@ public class AddressResourceIT {
 
     @Test
     @Transactional
-    public void checkStreetIsRequired() throws Exception {
-        int databaseSizeBeforeTest = addressRepository.findAll().size();
-        // set the field null
-        address.setStreet(null);
-
-        // Create the Address, which fails.
-
-
-        restAddressMockMvc.perform(post("/api/addresses")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(address)))
-            .andExpect(status().isBadRequest());
-
-        List<Address> addressList = addressRepository.findAll();
-        assertThat(addressList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkAreaIsRequired() throws Exception {
-        int databaseSizeBeforeTest = addressRepository.findAll().size();
-        // set the field null
-        address.setArea(null);
-
-        // Create the Address, which fails.
-
-
-        restAddressMockMvc.perform(post("/api/addresses")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(address)))
-            .andExpect(status().isBadRequest());
-
-        List<Address> addressList = addressRepository.findAll();
-        assertThat(addressList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAddresses() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);

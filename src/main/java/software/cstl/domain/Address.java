@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 
@@ -25,12 +24,10 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotNull
-    @Column(name = "street", nullable = false)
+    @Column(name = "street")
     private String street;
 
-    @NotNull
-    @Column(name = "area", nullable = false)
+    @Column(name = "area")
     private String area;
 
     @Column(name = "post_code")

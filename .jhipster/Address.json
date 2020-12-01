@@ -3,17 +3,11 @@
   "fields": [
     {
       "fieldName": "street",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "String"
     },
     {
       "fieldName": "area",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "String"
     },
     {
       "fieldName": "postCode",

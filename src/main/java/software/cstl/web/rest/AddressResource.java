@@ -20,7 +20,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -57,7 +56,7 @@ public class AddressResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/addresses")
-    public ResponseEntity<Address> createAddress(@Valid @RequestBody Address address) throws URISyntaxException {
+    public ResponseEntity<Address> createAddress(@RequestBody Address address) throws URISyntaxException {
         log.debug("REST request to save Address : {}", address);
         if (address.getId() != null) {
             throw new BadRequestAlertException("A new address cannot already have an ID", ENTITY_NAME, "idexists");
@@ -78,7 +77,7 @@ public class AddressResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/addresses")
-    public ResponseEntity<Address> updateAddress(@Valid @RequestBody Address address) throws URISyntaxException {
+    public ResponseEntity<Address> updateAddress(@RequestBody Address address) throws URISyntaxException {
         log.debug("REST request to update Address : {}", address);
         if (address.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
