@@ -74,7 +74,15 @@
       "fieldType": "String"
     }
   ],
-  "relationships": [],
+  "relationships": [
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "personalInfo",
+      "relationshipName": "employee",
+      "ownerSide": false
+    }
+  ],
   "changelogDate": "20201127213627",
   "entityTableName": "personal_info",
   "dto": "no",

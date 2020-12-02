@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.PersonalInfo;
+import software.cstl.domain.Employee;
 import software.cstl.repository.PersonalInfoRepository;
 import software.cstl.service.PersonalInfoService;
 import software.cstl.service.dto.PersonalInfoCriteria;
@@ -1347,6 +1348,27 @@ public class PersonalInfoResourceIT {
 
         // Get all the personalInfoList where emergencyContact does not contain UPDATED_EMERGENCY_CONTACT
         defaultPersonalInfoShouldBeFound("emergencyContact.doesNotContain=" + UPDATED_EMERGENCY_CONTACT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+        Employee employee = EmployeeResourceIT.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        personalInfo.setEmployee(employee);
+        employee.setPersonalInfo(personalInfo);
+        personalInfoRepository.saveAndFlush(personalInfo);
+        Long employeeId = employee.getId();
+
+        // Get all the personalInfoList where employee equals to employeeId
+        defaultPersonalInfoShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the personalInfoList where employee equals to employeeId + 1
+        defaultPersonalInfoShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
     }
 
     /**

@@ -27,7 +27,7 @@
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="trainingInstitute"><span>Training Institute</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="receivedOn"><span>Received On</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -40,7 +40,7 @@
                     <td>{{ training.receivedOn | date:'mediumDate' }}</td>
                     <td>
                         <div *ngIf="training.employee">
-                            <a [routerLink]="['/employee', training.employee?.id, 'view']" >{{ training.employee?.id }}</a>
+                            <a [routerLink]="['/employee', training.employee?.id, 'view']" >{{ training.employee?.name }}</a>
                         </div>
                     </td>
                     <td class="text-right">

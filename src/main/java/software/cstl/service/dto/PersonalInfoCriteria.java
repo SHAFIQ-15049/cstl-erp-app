@@ -110,6 +110,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter emergencyContact;
 
+    private LongFilter employeeId;
+
     public PersonalInfoCriteria() {
     }
 
@@ -128,6 +130,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.gender = other.gender == null ? null : other.gender.copy();
         this.bloodGroup = other.bloodGroup == null ? null : other.bloodGroup.copy();
         this.emergencyContact = other.emergencyContact == null ? null : other.emergencyContact.copy();
+        this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
     @Override
@@ -247,6 +250,14 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.emergencyContact = emergencyContact;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -271,7 +282,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(height, that.height) &&
             Objects.equals(gender, that.gender) &&
             Objects.equals(bloodGroup, that.bloodGroup) &&
-            Objects.equals(emergencyContact, that.emergencyContact);
+            Objects.equals(emergencyContact, that.emergencyContact) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
@@ -290,7 +302,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         height,
         gender,
         bloodGroup,
-        emergencyContact
+        emergencyContact,
+        employeeId
         );
     }
 
@@ -312,6 +325,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (gender != null ? "gender=" + gender + ", " : "") +
                 (bloodGroup != null ? "bloodGroup=" + bloodGroup + ", " : "") +
                 (emergencyContact != null ? "emergencyContact=" + emergencyContact + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

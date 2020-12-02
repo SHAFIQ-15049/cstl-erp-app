@@ -1,5 +1,6 @@
 package software.cstl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -81,6 +82,10 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     @Column(name = "emergency_contact")
     private String emergencyContact;
+
+    @OneToOne(mappedBy = "personalInfo")
+    @JsonIgnore
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -284,6 +289,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     public void setEmergencyContact(String emergencyContact) {
         this.emergencyContact = emergencyContact;
+    }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public PersonalInfo employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

@@ -41,7 +41,7 @@
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="serviceHistory.employee">
-                        <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']">{{ serviceHistory.employee?.id }}</a>
+                        <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']">{{ serviceHistory.employee?.name }}</a>
                     </div>
                 </dd>
             </dl>

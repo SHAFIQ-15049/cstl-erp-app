@@ -30,7 +30,7 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   gotoAddress():void{
-    if(this.employee?.addresses){
+    if(this.employee?.address){
       this.router.navigate(['address-employee'])
     }
   }

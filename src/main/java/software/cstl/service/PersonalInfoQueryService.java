@@ -124,6 +124,10 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getEmergencyContact() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmergencyContact(), PersonalInfo_.emergencyContact));
             }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(PersonalInfo_.employee, JoinType.LEFT).get(Employee_.id)));
+            }
         }
         return specification;
     }

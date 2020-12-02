@@ -200,17 +200,17 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
-    Employee{educationalInfo} to EducationalInfo,
-    Employee{training} to Training,
-    Employee{employeeAccount} to EmployeeAccount,
-    Employee{jobHistory} to JobHistory,
-    Employee{serviceHistory} to ServiceHistory,
+    Employee{educationalInfo} to EducationalInfo{employee(name)},
+    Employee{training} to Training{employee(name)},
+    Employee{employeeAccount} to EmployeeAccount{employee(name)},
+    Employee{jobHistory} to JobHistory{employee(name)},
+    Employee{serviceHistory} to ServiceHistory{employee(name)},
 }
 
 
 relationship OneToOne{
     Employee{address} to Address{employee(name)},
-    Employee{personalInfo(name)} to PersonalInfo,
+    Employee{personalInfo(name)} to PersonalInfo{employee(name)},
 }
 
 service Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass

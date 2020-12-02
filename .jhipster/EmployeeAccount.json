@@ -27,7 +27,7 @@
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "employeeAccount",
       "relationshipName": "employee",
-      "otherEntityField": "id"
+      "otherEntityField": "name"
     }
   ],
   "changelogDate": "20201127214027",

@@ -26,7 +26,7 @@
                     <th scope="col"  jhiSortBy="accountType"><span>Account Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="accountNo"><span>Account No</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="isSalaryAccount"><span>Is Salary Account</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -38,7 +38,7 @@
                     <td>{{ employeeAccount.isSalaryAccount }}</td>
                     <td>
                         <div *ngIf="employeeAccount.employee">
-                            <a [routerLink]="['/employee', employeeAccount.employee?.id, 'view']" >{{ employeeAccount.employee?.id }}</a>
+                            <a [routerLink]="['/employee', employeeAccount.employee?.id, 'view']" >{{ employeeAccount.employee?.name }}</a>
                         </div>
                     </td>
                     <td class="text-right">

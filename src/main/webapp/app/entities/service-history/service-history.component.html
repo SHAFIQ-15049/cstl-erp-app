@@ -29,7 +29,7 @@
                     <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="grade.name"><span>Grade</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.id"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -56,7 +56,7 @@
                     </td>
                     <td>
                         <div *ngIf="serviceHistory.employee">
-                            <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']" >{{ serviceHistory.employee?.id }}</a>
+                            <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']" >{{ serviceHistory.employee?.name }}</a>
                         </div>
                     </td>
                     <td class="text-right">
