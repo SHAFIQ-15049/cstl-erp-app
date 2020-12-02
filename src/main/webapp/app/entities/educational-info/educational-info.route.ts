@@ -11,19 +11,37 @@ import { EducationalInfoService } from './educational-info.service';
 import { EducationalInfoComponent } from './educational-info.component';
 import { EducationalInfoDetailComponent } from './educational-info-detail.component';
 import { EducationalInfoUpdateComponent } from './educational-info-update.component';
+import {EmployeeService} from "app/entities/employee/employee.service";
+import {Employee} from "app/shared/model/employee.model";
+import {Address} from "app/shared/model/address.model";
 
 @Injectable({ providedIn: 'root' })
 export class EducationalInfoResolve implements Resolve<IEducationalInfo> {
-  constructor(private service: EducationalInfoService, private router: Router) {}
+  constructor(private service: EducationalInfoService, private employeeService: EmployeeService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IEducationalInfo> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((educationalInfo: HttpResponse<EducationalInfo>) => {
           if (educationalInfo.body) {
             return of(educationalInfo.body);
           } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }
+    else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employee: HttpResponse<Employee>)=>{
+          if(employee.body){
+            const educationalInfo = new EducationalInfo();
+            educationalInfo.employee = employee.body;
+            return of(educationalInfo);
+          }else{
             this.router.navigate(['404']);
             return EMPTY;
           }

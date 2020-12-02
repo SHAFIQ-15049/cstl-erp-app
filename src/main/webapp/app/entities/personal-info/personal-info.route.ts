@@ -11,19 +11,37 @@ import { PersonalInfoService } from './personal-info.service';
 import { PersonalInfoComponent } from './personal-info.component';
 import { PersonalInfoDetailComponent } from './personal-info-detail.component';
 import { PersonalInfoUpdateComponent } from './personal-info-update.component';
+import {EmployeeService} from "app/entities/employee/employee.service";
+import {Employee} from "app/shared/model/employee.model";
+import {Address} from "app/shared/model/address.model";
 
 @Injectable({ providedIn: 'root' })
 export class PersonalInfoResolve implements Resolve<IPersonalInfo> {
-  constructor(private service: PersonalInfoService, private router: Router) {}
+  constructor(private service: PersonalInfoService, private employeeService: EmployeeService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IPersonalInfo> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
+
     if (id) {
       return this.service.find(id).pipe(
         flatMap((personalInfo: HttpResponse<PersonalInfo>) => {
           if (personalInfo.body) {
             return of(personalInfo.body);
           } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employee: HttpResponse<Employee>)=>{
+          if(employee.body){
+            const personalInfo = new PersonalInfo();
+            personalInfo.employee = employee.body;
+            return of(personalInfo);
+          }else{
             this.router.navigate(['404']);
             return EMPTY;
           }
@@ -59,6 +77,18 @@ export const personalInfoRoute: Routes = [
   },
   {
     path: 'new',
+    component: PersonalInfoUpdateComponent,
+    resolve: {
+      personalInfo: PersonalInfoResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'PersonalInfos',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/new',
     component: PersonalInfoUpdateComponent,
     resolve: {
       personalInfo: PersonalInfoResolve,
