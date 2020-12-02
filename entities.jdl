@@ -78,10 +78,15 @@ entity Address (address){
     //division
     //district
     //thana
-    street String,
-    area String,
-    postCode Integer,
-    addressType AddressType
+    presentThanaTxt String,
+    presentStreet String,
+    presentArea String,
+    presentPostCode Integer,
+    permanentThanaTxt String,
+    permanentStreet String,
+    permanentArea String,
+    permanentPostCode Integer,
+    isSame Boolean
 }
 
 entity EducationalInfo (educational_info){
@@ -183,16 +188,18 @@ relationship ManyToOne{
     Employee{designation(name)} to Designation,
     District{division(name)} to Division,
     Thana{district(name)} to District,
-    Address{division(name)} to Division,
-    Address{district(name)} to District,
-    Address{thana(name)} to Thana,
+    Address{presentDivision(name)} to Division,
+    Address{presentDistrict(name)} to District,
+    Address{presentThana(name)} to Thana,
+    Address{permanentDivision(name)} to Division,
+    Address{permanentDistrict(name)} to District,
+    Address{permanentThana(name)} to Thana,
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade
 }
 
 relationship OneToMany{
-    Employee{address} to Address,
     Employee{educationalInfo} to EducationalInfo,
     Employee{training} to Training,
     Employee{employeeAccount} to EmployeeAccount,
@@ -202,6 +209,7 @@ relationship OneToMany{
 
 
 relationship OneToOne{
+    Employee{address} to Address,
     Employee{personalInfo(name)} to PersonalInfo,
 }
 

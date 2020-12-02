@@ -28,6 +28,13 @@ export class AddressUpdateComponent implements OnInit {
   districts: IDistrict[] = [];
   thanas: IThana[] = [];
   employees: IEmployee[] = [];
+  employeeId?: number | null;
+
+  addressForm = this.fb.group({
+    addressArr : this.fb.array([
+
+    ])
+  });
 
   editForm = this.fb.group({
     id: [],
