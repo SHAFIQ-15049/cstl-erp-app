@@ -1,0 +1,158 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1606927481378-1">
+        <addColumn tableName="mst_employee">
+            <column name="address_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-2">
+        <addColumn tableName="address">
+            <column name="is_same" type="bit"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-3">
+        <addColumn tableName="address">
+            <column name="permanent_area" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-4">
+        <addColumn tableName="address">
+            <column name="permanent_district_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-5">
+        <addColumn tableName="address">
+            <column name="permanent_division_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-6">
+        <addColumn tableName="address">
+            <column name="permanent_post_code" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-7">
+        <addColumn tableName="address">
+            <column name="permanent_street" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-8">
+        <addColumn tableName="address">
+            <column name="permanent_thana_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-9">
+        <addColumn tableName="address">
+            <column name="permanent_thana_txt" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-10">
+        <addColumn tableName="address">
+            <column name="present_area" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-11">
+        <addColumn tableName="address">
+            <column name="present_district_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-12">
+        <addColumn tableName="address">
+            <column name="present_division_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-13">
+        <addColumn tableName="address">
+            <column name="present_post_code" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-14">
+        <addColumn tableName="address">
+            <column name="present_street" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-15">
+        <addColumn tableName="address">
+            <column name="present_thana_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-16">
+        <addColumn tableName="address">
+            <column name="present_thana_txt" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-17">
+        <addUniqueConstraint columnNames="address_id" constraintName="UC_MST_EMPLOYEEADDRESS_ID_COL" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-18">
+        <addForeignKeyConstraint baseColumnNames="present_division_id" baseTableName="address" constraintName="fk_present_division" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_division" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-19">
+        <addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="mst_employee" constraintName="fk_employee_grade" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_grade" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-20">
+        <addForeignKeyConstraint baseColumnNames="designation_id" baseTableName="mst_employee" constraintName="fk_employee_designation" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_designation" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-21">
+        <addForeignKeyConstraint baseColumnNames="permanent_district_id" baseTableName="address" constraintName="fk_permanent_district" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_district" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-22">
+        <addForeignKeyConstraint baseColumnNames="permanent_thana_id" baseTableName="address" constraintName="fk_permanent_thana" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_thana" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-23">
+        <addForeignKeyConstraint baseColumnNames="personal_info_id" baseTableName="mst_employee" constraintName="fk_employee_personal_info" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="personal_info" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-24">
+        <addForeignKeyConstraint baseColumnNames="present_thana_id" baseTableName="address" constraintName="fk_present_thana" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_thana" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-25">
+        <addForeignKeyConstraint baseColumnNames="present_district_id" baseTableName="address" constraintName="fk_present_district" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_district" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-26">
+        <addForeignKeyConstraint baseColumnNames="company_id" baseTableName="mst_employee" constraintName="fk_employee_company" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_company" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-27">
+        <addForeignKeyConstraint baseColumnNames="permanent_division_id" baseTableName="address" constraintName="fk_permament_division" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_division" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-28">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="mst_employee" constraintName="fk_employee_division" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_department" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-29">
+        <addForeignKeyConstraint baseColumnNames="address_id" baseTableName="mst_employee" constraintName="fk_employee_address" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="address" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-30">
+        <dropForeignKeyConstraint baseTableName="address" constraintName="fk_addr_district"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-31">
+        <dropForeignKeyConstraint baseTableName="address" constraintName="fk_addr_division"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-32">
+        <dropForeignKeyConstraint baseTableName="address" constraintName="fk_addr_emp"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-33">
+        <dropForeignKeyConstraint baseTableName="address" constraintName="fk_addr_thana"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-34">
+        <dropColumn columnName="address_type" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-35">
+        <dropColumn columnName="area" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-36">
+        <dropColumn columnName="district_id" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-37">
+        <dropColumn columnName="division_id" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-38">
+        <dropColumn columnName="employee_id" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-39">
+        <dropColumn columnName="post_code" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-40">
+        <dropColumn columnName="street" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1606927481378-41">
+        <dropColumn columnName="thana_id" tableName="address"/>
+    </changeSet>
+</databaseChangeLog>
