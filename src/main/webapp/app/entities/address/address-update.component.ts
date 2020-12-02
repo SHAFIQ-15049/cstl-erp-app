@@ -13,10 +13,8 @@ import { IDistrict } from 'app/shared/model/district.model';
 import { DistrictService } from 'app/entities/district/district.service';
 import { IThana } from 'app/shared/model/thana.model';
 import { ThanaService } from 'app/entities/thana/thana.service';
-import { IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee/employee.service';
 
-type SelectableEntity = IDivision | IDistrict | IThana | IEmployee;
+type SelectableEntity = IDivision | IDistrict | IThana;
 
 @Component({
   selector: 'jhi-address-update',
@@ -27,25 +25,24 @@ export class AddressUpdateComponent implements OnInit {
   divisions: IDivision[] = [];
   districts: IDistrict[] = [];
   thanas: IThana[] = [];
-  employees: IEmployee[] = [];
-  employeeId?: number | null;
-
-  addressForm = this.fb.group({
-    addressArr : this.fb.array([
-
-    ])
-  });
 
   editForm = this.fb.group({
     id: [],
-    street: [],
-    area: [],
-    postCode: [],
-    addressType: [],
-    division: [],
-    district: [],
-    thana: [],
-    employee: [],
+    presentThanaTxt: [],
+    presentStreet: [],
+    presentArea: [],
+    presentPostCode: [],
+    permanentThanaTxt: [],
+    permanentStreet: [],
+    permanentArea: [],
+    permanentPostCode: [],
+    isSame: [],
+    presentDivision: [],
+    presentDistrict: [],
+    presentThana: [],
+    permanentDivision: [],
+    permanentDistrict: [],
+    permanentThana: [],
   });
 
   constructor(
@@ -53,7 +50,6 @@ export class AddressUpdateComponent implements OnInit {
     protected divisionService: DivisionService,
     protected districtService: DistrictService,
     protected thanaService: ThanaService,
-    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -67,22 +63,27 @@ export class AddressUpdateComponent implements OnInit {
       this.districtService.query().subscribe((res: HttpResponse<IDistrict[]>) => (this.districts = res.body || []));
 
       this.thanaService.query().subscribe((res: HttpResponse<IThana[]>) => (this.thanas = res.body || []));
-
-      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
   }
 
   updateForm(address: IAddress): void {
     this.editForm.patchValue({
       id: address.id,
-      street: address.street,
-      area: address.area,
-      postCode: address.postCode,
-      addressType: address.addressType,
-      division: address.division,
-      district: address.district,
-      thana: address.thana,
-      employee: address.employee,
+      presentThanaTxt: address.presentThanaTxt,
+      presentStreet: address.presentStreet,
+      presentArea: address.presentArea,
+      presentPostCode: address.presentPostCode,
+      permanentThanaTxt: address.permanentThanaTxt,
+      permanentStreet: address.permanentStreet,
+      permanentArea: address.permanentArea,
+      permanentPostCode: address.permanentPostCode,
+      isSame: address.isSame,
+      presentDivision: address.presentDivision,
+      presentDistrict: address.presentDistrict,
+      presentThana: address.presentThana,
+      permanentDivision: address.permanentDivision,
+      permanentDistrict: address.permanentDistrict,
+      permanentThana: address.permanentThana,
     });
   }
 
@@ -104,14 +105,21 @@ export class AddressUpdateComponent implements OnInit {
     return {
       ...new Address(),
       id: this.editForm.get(['id'])!.value,
-      street: this.editForm.get(['street'])!.value,
-      area: this.editForm.get(['area'])!.value,
-      postCode: this.editForm.get(['postCode'])!.value,
-      addressType: this.editForm.get(['addressType'])!.value,
-      division: this.editForm.get(['division'])!.value,
-      district: this.editForm.get(['district'])!.value,
-      thana: this.editForm.get(['thana'])!.value,
-      employee: this.editForm.get(['employee'])!.value,
+      presentThanaTxt: this.editForm.get(['presentThanaTxt'])!.value,
+      presentStreet: this.editForm.get(['presentStreet'])!.value,
+      presentArea: this.editForm.get(['presentArea'])!.value,
+      presentPostCode: this.editForm.get(['presentPostCode'])!.value,
+      permanentThanaTxt: this.editForm.get(['permanentThanaTxt'])!.value,
+      permanentStreet: this.editForm.get(['permanentStreet'])!.value,
+      permanentArea: this.editForm.get(['permanentArea'])!.value,
+      permanentPostCode: this.editForm.get(['permanentPostCode'])!.value,
+      isSame: this.editForm.get(['isSame'])!.value,
+      presentDivision: this.editForm.get(['presentDivision'])!.value,
+      presentDistrict: this.editForm.get(['presentDistrict'])!.value,
+      presentThana: this.editForm.get(['presentThana'])!.value,
+      permanentDivision: this.editForm.get(['permanentDivision'])!.value,
+      permanentDistrict: this.editForm.get(['permanentDistrict'])!.value,
+      permanentThana: this.editForm.get(['permanentThana'])!.value,
     };
   }
 

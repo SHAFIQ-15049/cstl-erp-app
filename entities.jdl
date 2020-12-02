@@ -209,7 +209,7 @@ relationship OneToMany{
 
 
 relationship OneToOne{
-    Employee{address} to Address,
+    Employee{address} to Address{employee(name)},
     Employee{personalInfo(name)} to PersonalInfo,
 }
 

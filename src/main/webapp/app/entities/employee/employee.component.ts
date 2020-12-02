@@ -25,7 +25,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
-
   constructor(
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,

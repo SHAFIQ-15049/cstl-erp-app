@@ -2,21 +2,40 @@
   "name": "Address",
   "fields": [
     {
-      "fieldName": "street",
+      "fieldName": "presentThanaTxt",
       "fieldType": "String"
     },
     {
-      "fieldName": "area",
+      "fieldName": "presentStreet",
       "fieldType": "String"
     },
     {
-      "fieldName": "postCode",
+      "fieldName": "presentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "presentPostCode",
       "fieldType": "Integer"
     },
     {
-      "fieldName": "addressType",
-      "fieldType": "AddressType",
-      "fieldValues": "PRESENT,PERMANENT"
+      "fieldName": "permanentThanaTxt",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentStreet",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentPostCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "isSame",
+      "fieldType": "Boolean"
     }
   ],
   "relationships": [
@@ -24,29 +43,50 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "division",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "division",
+      "relationshipName": "presentDivision",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "district",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "district",
+      "relationshipName": "presentDistrict",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "thana",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "thana",
+      "relationshipName": "presentThana",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
+      "otherEntityName": "division",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentDivision",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "district",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentDistrict",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "thana",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentThana",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "one-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "address",
       "relationshipName": "employee",
-      "otherEntityField": "id"
+      "ownerSide": false
     }
   ],
   "changelogDate": "20201127213727",

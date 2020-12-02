@@ -29,118 +29,189 @@ export class AddressUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
-  streetInput = element(by.id('field_street'));
-  areaInput = element(by.id('field_area'));
-  postCodeInput = element(by.id('field_postCode'));
-  addressTypeSelect = element(by.id('field_addressType'));
+  presentThanaTxtInput = element(by.id('field_presentThanaTxt'));
+  presentStreetInput = element(by.id('field_presentStreet'));
+  presentAreaInput = element(by.id('field_presentArea'));
+  presentPostCodeInput = element(by.id('field_presentPostCode'));
+  permanentThanaTxtInput = element(by.id('field_permanentThanaTxt'));
+  permanentStreetInput = element(by.id('field_permanentStreet'));
+  permanentAreaInput = element(by.id('field_permanentArea'));
+  permanentPostCodeInput = element(by.id('field_permanentPostCode'));
+  isSameInput = element(by.id('field_isSame'));
 
-  divisionSelect = element(by.id('field_division'));
-  districtSelect = element(by.id('field_district'));
-  thanaSelect = element(by.id('field_thana'));
-  employeeSelect = element(by.id('field_employee'));
+  presentDivisionSelect = element(by.id('field_presentDivision'));
+  presentDistrictSelect = element(by.id('field_presentDistrict'));
+  presentThanaSelect = element(by.id('field_presentThana'));
+  permanentDivisionSelect = element(by.id('field_permanentDivision'));
+  permanentDistrictSelect = element(by.id('field_permanentDistrict'));
+  permanentThanaSelect = element(by.id('field_permanentThana'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async setStreetInput(street: string): Promise<void> {
-    await this.streetInput.sendKeys(street);
+  async setPresentThanaTxtInput(presentThanaTxt: string): Promise<void> {
+    await this.presentThanaTxtInput.sendKeys(presentThanaTxt);
   }
 
-  async getStreetInput(): Promise<string> {
-    return await this.streetInput.getAttribute('value');
+  async getPresentThanaTxtInput(): Promise<string> {
+    return await this.presentThanaTxtInput.getAttribute('value');
   }
 
-  async setAreaInput(area: string): Promise<void> {
-    await this.areaInput.sendKeys(area);
+  async setPresentStreetInput(presentStreet: string): Promise<void> {
+    await this.presentStreetInput.sendKeys(presentStreet);
   }
 
-  async getAreaInput(): Promise<string> {
-    return await this.areaInput.getAttribute('value');
+  async getPresentStreetInput(): Promise<string> {
+    return await this.presentStreetInput.getAttribute('value');
   }
 
-  async setPostCodeInput(postCode: string): Promise<void> {
-    await this.postCodeInput.sendKeys(postCode);
+  async setPresentAreaInput(presentArea: string): Promise<void> {
+    await this.presentAreaInput.sendKeys(presentArea);
   }
 
-  async getPostCodeInput(): Promise<string> {
-    return await this.postCodeInput.getAttribute('value');
+  async getPresentAreaInput(): Promise<string> {
+    return await this.presentAreaInput.getAttribute('value');
   }
 
-  async setAddressTypeSelect(addressType: string): Promise<void> {
-    await this.addressTypeSelect.sendKeys(addressType);
+  async setPresentPostCodeInput(presentPostCode: string): Promise<void> {
+    await this.presentPostCodeInput.sendKeys(presentPostCode);
   }
 
-  async getAddressTypeSelect(): Promise<string> {
-    return await this.addressTypeSelect.element(by.css('option:checked')).getText();
+  async getPresentPostCodeInput(): Promise<string> {
+    return await this.presentPostCodeInput.getAttribute('value');
   }
 
-  async addressTypeSelectLastOption(): Promise<void> {
-    await this.addressTypeSelect.all(by.tagName('option')).last().click();
+  async setPermanentThanaTxtInput(permanentThanaTxt: string): Promise<void> {
+    await this.permanentThanaTxtInput.sendKeys(permanentThanaTxt);
   }
 
-  async divisionSelectLastOption(): Promise<void> {
-    await this.divisionSelect.all(by.tagName('option')).last().click();
+  async getPermanentThanaTxtInput(): Promise<string> {
+    return await this.permanentThanaTxtInput.getAttribute('value');
   }
 
-  async divisionSelectOption(option: string): Promise<void> {
-    await this.divisionSelect.sendKeys(option);
+  async setPermanentStreetInput(permanentStreet: string): Promise<void> {
+    await this.permanentStreetInput.sendKeys(permanentStreet);
   }
 
-  getDivisionSelect(): ElementFinder {
-    return this.divisionSelect;
+  async getPermanentStreetInput(): Promise<string> {
+    return await this.permanentStreetInput.getAttribute('value');
   }
 
-  async getDivisionSelectedOption(): Promise<string> {
-    return await this.divisionSelect.element(by.css('option:checked')).getText();
+  async setPermanentAreaInput(permanentArea: string): Promise<void> {
+    await this.permanentAreaInput.sendKeys(permanentArea);
   }
 
-  async districtSelectLastOption(): Promise<void> {
-    await this.districtSelect.all(by.tagName('option')).last().click();
+  async getPermanentAreaInput(): Promise<string> {
+    return await this.permanentAreaInput.getAttribute('value');
   }
 
-  async districtSelectOption(option: string): Promise<void> {
-    await this.districtSelect.sendKeys(option);
+  async setPermanentPostCodeInput(permanentPostCode: string): Promise<void> {
+    await this.permanentPostCodeInput.sendKeys(permanentPostCode);
   }
 
-  getDistrictSelect(): ElementFinder {
-    return this.districtSelect;
+  async getPermanentPostCodeInput(): Promise<string> {
+    return await this.permanentPostCodeInput.getAttribute('value');
   }
 
-  async getDistrictSelectedOption(): Promise<string> {
-    return await this.districtSelect.element(by.css('option:checked')).getText();
+  getIsSameInput(): ElementFinder {
+    return this.isSameInput;
   }
 
-  async thanaSelectLastOption(): Promise<void> {
-    await this.thanaSelect.all(by.tagName('option')).last().click();
+  async presentDivisionSelectLastOption(): Promise<void> {
+    await this.presentDivisionSelect.all(by.tagName('option')).last().click();
   }
 
-  async thanaSelectOption(option: string): Promise<void> {
-    await this.thanaSelect.sendKeys(option);
+  async presentDivisionSelectOption(option: string): Promise<void> {
+    await this.presentDivisionSelect.sendKeys(option);
   }
 
-  getThanaSelect(): ElementFinder {
-    return this.thanaSelect;
+  getPresentDivisionSelect(): ElementFinder {
+    return this.presentDivisionSelect;
   }
 
-  async getThanaSelectedOption(): Promise<string> {
-    return await this.thanaSelect.element(by.css('option:checked')).getText();
+  async getPresentDivisionSelectedOption(): Promise<string> {
+    return await this.presentDivisionSelect.element(by.css('option:checked')).getText();
   }
 
-  async employeeSelectLastOption(): Promise<void> {
-    await this.employeeSelect.all(by.tagName('option')).last().click();
+  async presentDistrictSelectLastOption(): Promise<void> {
+    await this.presentDistrictSelect.all(by.tagName('option')).last().click();
   }
 
-  async employeeSelectOption(option: string): Promise<void> {
-    await this.employeeSelect.sendKeys(option);
+  async presentDistrictSelectOption(option: string): Promise<void> {
+    await this.presentDistrictSelect.sendKeys(option);
   }
 
-  getEmployeeSelect(): ElementFinder {
-    return this.employeeSelect;
+  getPresentDistrictSelect(): ElementFinder {
+    return this.presentDistrictSelect;
   }
 
-  async getEmployeeSelectedOption(): Promise<string> {
-    return await this.employeeSelect.element(by.css('option:checked')).getText();
+  async getPresentDistrictSelectedOption(): Promise<string> {
+    return await this.presentDistrictSelect.element(by.css('option:checked')).getText();
+  }
+
+  async presentThanaSelectLastOption(): Promise<void> {
+    await this.presentThanaSelect.all(by.tagName('option')).last().click();
+  }
+
+  async presentThanaSelectOption(option: string): Promise<void> {
+    await this.presentThanaSelect.sendKeys(option);
+  }
+
+  getPresentThanaSelect(): ElementFinder {
+    return this.presentThanaSelect;
+  }
+
+  async getPresentThanaSelectedOption(): Promise<string> {
+    return await this.presentThanaSelect.element(by.css('option:checked')).getText();
+  }
+
+  async permanentDivisionSelectLastOption(): Promise<void> {
+    await this.permanentDivisionSelect.all(by.tagName('option')).last().click();
+  }
+
+  async permanentDivisionSelectOption(option: string): Promise<void> {
+    await this.permanentDivisionSelect.sendKeys(option);
+  }
+
+  getPermanentDivisionSelect(): ElementFinder {
+    return this.permanentDivisionSelect;
+  }
+
+  async getPermanentDivisionSelectedOption(): Promise<string> {
+    return await this.permanentDivisionSelect.element(by.css('option:checked')).getText();
+  }
+
+  async permanentDistrictSelectLastOption(): Promise<void> {
+    await this.permanentDistrictSelect.all(by.tagName('option')).last().click();
+  }
+
+  async permanentDistrictSelectOption(option: string): Promise<void> {
+    await this.permanentDistrictSelect.sendKeys(option);
+  }
+
+  getPermanentDistrictSelect(): ElementFinder {
+    return this.permanentDistrictSelect;
+  }
+
+  async getPermanentDistrictSelectedOption(): Promise<string> {
+    return await this.permanentDistrictSelect.element(by.css('option:checked')).getText();
+  }
+
+  async permanentThanaSelectLastOption(): Promise<void> {
+    await this.permanentThanaSelect.all(by.tagName('option')).last().click();
+  }
+
+  async permanentThanaSelectOption(option: string): Promise<void> {
+    await this.permanentThanaSelect.sendKeys(option);
+  }
+
+  getPermanentThanaSelect(): ElementFinder {
+    return this.permanentThanaSelect;
+  }
+
+  async getPermanentThanaSelectedOption(): Promise<string> {
+    return await this.permanentThanaSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

@@ -1,5 +1,6 @@
 package software.cstl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -8,15 +9,13 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 
-import software.cstl.domain.enumeration.AddressType;
-
 /**
  * A Address.
  */
 @Entity
 @Table(name = "address")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Address extends AbstractAuditingEntity implements Serializable {
+public class Address implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -24,33 +23,59 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "street")
-    private String street;
+    @Column(name = "present_thana_txt")
+    private String presentThanaTxt;
 
-    @Column(name = "area")
-    private String area;
+    @Column(name = "present_street")
+    private String presentStreet;
 
-    @Column(name = "post_code")
-    private Integer postCode;
+    @Column(name = "present_area")
+    private String presentArea;
 
-    @Enumerated(EnumType.STRING)
-    @Column(name = "address_type")
-    private AddressType addressType;
+    @Column(name = "present_post_code")
+    private Integer presentPostCode;
+
+    @Column(name = "permanent_thana_txt")
+    private String permanentThanaTxt;
+
+    @Column(name = "permanent_street")
+    private String permanentStreet;
+
+    @Column(name = "permanent_area")
+    private String permanentArea;
+
+    @Column(name = "permanent_post_code")
+    private Integer permanentPostCode;
+
+    @Column(name = "is_same")
+    private Boolean isSame;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
-    private Division division;
+    private Division presentDivision;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
-    private District district;
+    private District presentDistrict;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
-    private Thana thana;
+    private Thana presentThana;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
+    private Division permanentDivision;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "addresses", allowSetters = true)
+    private District permanentDistrict;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "addresses", allowSetters = true)
+    private Thana permanentThana;
+
+    @OneToOne(mappedBy = "address")
+    @JsonIgnore
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -62,95 +87,199 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
-    public String getStreet() {
-        return street;
+    public String getPresentThanaTxt() {
+        return presentThanaTxt;
     }
 
-    public Address street(String street) {
-        this.street = street;
+    public Address presentThanaTxt(String presentThanaTxt) {
+        this.presentThanaTxt = presentThanaTxt;
         return this;
     }
 
-    public void setStreet(String street) {
-        this.street = street;
+    public void setPresentThanaTxt(String presentThanaTxt) {
+        this.presentThanaTxt = presentThanaTxt;
     }
 
-    public String getArea() {
-        return area;
+    public String getPresentStreet() {
+        return presentStreet;
     }
 
-    public Address area(String area) {
-        this.area = area;
+    public Address presentStreet(String presentStreet) {
+        this.presentStreet = presentStreet;
         return this;
     }
 
-    public void setArea(String area) {
-        this.area = area;
+    public void setPresentStreet(String presentStreet) {
+        this.presentStreet = presentStreet;
     }
 
-    public Integer getPostCode() {
-        return postCode;
+    public String getPresentArea() {
+        return presentArea;
     }
 
-    public Address postCode(Integer postCode) {
-        this.postCode = postCode;
+    public Address presentArea(String presentArea) {
+        this.presentArea = presentArea;
         return this;
     }
 
-    public void setPostCode(Integer postCode) {
-        this.postCode = postCode;
+    public void setPresentArea(String presentArea) {
+        this.presentArea = presentArea;
     }
 
-    public AddressType getAddressType() {
-        return addressType;
+    public Integer getPresentPostCode() {
+        return presentPostCode;
     }
 
-    public Address addressType(AddressType addressType) {
-        this.addressType = addressType;
+    public Address presentPostCode(Integer presentPostCode) {
+        this.presentPostCode = presentPostCode;
         return this;
     }
 
-    public void setAddressType(AddressType addressType) {
-        this.addressType = addressType;
+    public void setPresentPostCode(Integer presentPostCode) {
+        this.presentPostCode = presentPostCode;
     }
 
-    public Division getDivision() {
-        return division;
+    public String getPermanentThanaTxt() {
+        return permanentThanaTxt;
     }
 
-    public Address division(Division division) {
-        this.division = division;
+    public Address permanentThanaTxt(String permanentThanaTxt) {
+        this.permanentThanaTxt = permanentThanaTxt;
         return this;
     }
 
-    public void setDivision(Division division) {
-        this.division = division;
+    public void setPermanentThanaTxt(String permanentThanaTxt) {
+        this.permanentThanaTxt = permanentThanaTxt;
     }
 
-    public District getDistrict() {
-        return district;
+    public String getPermanentStreet() {
+        return permanentStreet;
     }
 
-    public Address district(District district) {
-        this.district = district;
+    public Address permanentStreet(String permanentStreet) {
+        this.permanentStreet = permanentStreet;
         return this;
     }
 
-    public void setDistrict(District district) {
-        this.district = district;
+    public void setPermanentStreet(String permanentStreet) {
+        this.permanentStreet = permanentStreet;
     }
 
-    public Thana getThana() {
-        return thana;
+    public String getPermanentArea() {
+        return permanentArea;
     }
 
-    public Address thana(Thana thana) {
-        this.thana = thana;
+    public Address permanentArea(String permanentArea) {
+        this.permanentArea = permanentArea;
         return this;
     }
 
-    public void setThana(Thana thana) {
-        this.thana = thana;
+    public void setPermanentArea(String permanentArea) {
+        this.permanentArea = permanentArea;
+    }
+
+    public Integer getPermanentPostCode() {
+        return permanentPostCode;
+    }
+
+    public Address permanentPostCode(Integer permanentPostCode) {
+        this.permanentPostCode = permanentPostCode;
+        return this;
+    }
+
+    public void setPermanentPostCode(Integer permanentPostCode) {
+        this.permanentPostCode = permanentPostCode;
+    }
+
+    public Boolean isIsSame() {
+        return isSame;
+    }
+
+    public Address isSame(Boolean isSame) {
+        this.isSame = isSame;
+        return this;
+    }
+
+    public void setIsSame(Boolean isSame) {
+        this.isSame = isSame;
+    }
+
+    public Division getPresentDivision() {
+        return presentDivision;
+    }
+
+    public Address presentDivision(Division division) {
+        this.presentDivision = division;
+        return this;
+    }
+
+    public void setPresentDivision(Division division) {
+        this.presentDivision = division;
+    }
+
+    public District getPresentDistrict() {
+        return presentDistrict;
+    }
+
+    public Address presentDistrict(District district) {
+        this.presentDistrict = district;
+        return this;
+    }
+
+    public void setPresentDistrict(District district) {
+        this.presentDistrict = district;
+    }
+
+    public Thana getPresentThana() {
+        return presentThana;
+    }
+
+    public Address presentThana(Thana thana) {
+        this.presentThana = thana;
+        return this;
+    }
+
+    public void setPresentThana(Thana thana) {
+        this.presentThana = thana;
+    }
+
+    public Division getPermanentDivision() {
+        return permanentDivision;
+    }
+
+    public Address permanentDivision(Division division) {
+        this.permanentDivision = division;
+        return this;
+    }
+
+    public void setPermanentDivision(Division division) {
+        this.permanentDivision = division;
+    }
+
+    public District getPermanentDistrict() {
+        return permanentDistrict;
+    }
+
+    public Address permanentDistrict(District district) {
+        this.permanentDistrict = district;
+        return this;
+    }
+
+    public void setPermanentDistrict(District district) {
+        this.permanentDistrict = district;
+    }
+
+    public Thana getPermanentThana() {
+        return permanentThana;
+    }
+
+    public Address permanentThana(Thana thana) {
+        this.permanentThana = thana;
+        return this;
+    }
+
+    public void setPermanentThana(Thana thana) {
+        this.permanentThana = thana;
     }
 
     public Employee getEmployee() {
@@ -188,10 +317,15 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     public String toString() {
         return "Address{" +
             "id=" + getId() +
-            ", street='" + getStreet() + "'" +
-            ", area='" + getArea() + "'" +
-            ", postCode=" + getPostCode() +
-            ", addressType='" + getAddressType() + "'" +
+            ", presentThanaTxt='" + getPresentThanaTxt() + "'" +
+            ", presentStreet='" + getPresentStreet() + "'" +
+            ", presentArea='" + getPresentArea() + "'" +
+            ", presentPostCode=" + getPresentPostCode() +
+            ", permanentThanaTxt='" + getPermanentThanaTxt() + "'" +
+            ", permanentStreet='" + getPermanentStreet() + "'" +
+            ", permanentArea='" + getPermanentArea() + "'" +
+            ", permanentPostCode=" + getPermanentPostCode() +
+            ", isSame='" + isIsSame() + "'" +
             "}";
     }
 }

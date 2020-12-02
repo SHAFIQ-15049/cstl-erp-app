@@ -61,17 +61,19 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "address",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
       "otherEntityName": "personalInfo",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "personalInfo",
       "otherEntityField": "name",
       "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "address",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "address"
     },
     {
       "relationshipType": "one-to-many",

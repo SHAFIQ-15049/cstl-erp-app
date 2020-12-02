@@ -8,44 +8,76 @@
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span>Street</span></dt>
+                <dt><span>Present Thana Txt</span></dt>
                 <dd>
-                    <span>{{ address.street }}</span>
+                    <span>{{ address.presentThanaTxt }}</span>
                 </dd>
-                <dt><span>Area</span></dt>
+                <dt><span>Present Street</span></dt>
                 <dd>
-                    <span>{{ address.area }}</span>
+                    <span>{{ address.presentStreet }}</span>
                 </dd>
-                <dt><span>Post Code</span></dt>
+                <dt><span>Present Area</span></dt>
                 <dd>
-                    <span>{{ address.postCode }}</span>
+                    <span>{{ address.presentArea }}</span>
                 </dd>
-                <dt><span>Address Type</span></dt>
+                <dt><span>Present Post Code</span></dt>
                 <dd>
-                    <span>{{ address.addressType }}</span>
+                    <span>{{ address.presentPostCode }}</span>
                 </dd>
-                <dt><span>Division</span></dt>
+                <dt><span>Permanent Thana Txt</span></dt>
                 <dd>
-                    <div *ngIf="address.division">
-                        <a [routerLink]="['/division', address.division?.id, 'view']">{{ address.division?.name }}</a>
+                    <span>{{ address.permanentThanaTxt }}</span>
+                </dd>
+                <dt><span>Permanent Street</span></dt>
+                <dd>
+                    <span>{{ address.permanentStreet }}</span>
+                </dd>
+                <dt><span>Permanent Area</span></dt>
+                <dd>
+                    <span>{{ address.permanentArea }}</span>
+                </dd>
+                <dt><span>Permanent Post Code</span></dt>
+                <dd>
+                    <span>{{ address.permanentPostCode }}</span>
+                </dd>
+                <dt><span>Is Same</span></dt>
+                <dd>
+                    <span>{{ address.isSame }}</span>
+                </dd>
+                <dt><span>Present Division</span></dt>
+                <dd>
+                    <div *ngIf="address.presentDivision">
+                        <a [routerLink]="['/division', address.presentDivision?.id, 'view']">{{ address.presentDivision?.name }}</a>
                     </div>
                 </dd>
-                <dt><span>District</span></dt>
+                <dt><span>Present District</span></dt>
                 <dd>
-                    <div *ngIf="address.district">
-                        <a [routerLink]="['/district', address.district?.id, 'view']">{{ address.district?.name }}</a>
+                    <div *ngIf="address.presentDistrict">
+                        <a [routerLink]="['/district', address.presentDistrict?.id, 'view']">{{ address.presentDistrict?.name }}</a>
                     </div>
                 </dd>
-                <dt><span>Thana</span></dt>
+                <dt><span>Present Thana</span></dt>
                 <dd>
-                    <div *ngIf="address.thana">
-                        <a [routerLink]="['/thana', address.thana?.id, 'view']">{{ address.thana?.name }}</a>
+                    <div *ngIf="address.presentThana">
+                        <a [routerLink]="['/thana', address.presentThana?.id, 'view']">{{ address.presentThana?.name }}</a>
                     </div>
                 </dd>
-                <dt><span>Employee</span></dt>
+                <dt><span>Permanent Division</span></dt>
                 <dd>
-                    <div *ngIf="address.employee">
-                        <a [routerLink]="['/employee', address.employee?.id, 'view']">{{ address.employee?.id }}</a>
+                    <div *ngIf="address.permanentDivision">
+                        <a [routerLink]="['/division', address.permanentDivision?.id, 'view']">{{ address.permanentDivision?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Permanent District</span></dt>
+                <dd>
+                    <div *ngIf="address.permanentDistrict">
+                        <a [routerLink]="['/district', address.permanentDistrict?.id, 'view']">{{ address.permanentDistrict?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Permanent Thana</span></dt>
+                <dd>
+                    <div *ngIf="address.permanentThana">
+                        <a [routerLink]="['/thana', address.permanentThana?.id, 'view']">{{ address.permanentThana?.name }}</a>
                     </div>
                 </dd>
             </dl>

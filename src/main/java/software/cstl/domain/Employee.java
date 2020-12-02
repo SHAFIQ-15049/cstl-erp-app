@@ -72,13 +72,13 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(unique = true)
+    private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(unique = true)
     private PersonalInfo personalInfo;
 
     @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
-    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    private Set<Address> addresses = new HashSet<>();
-
-    @OneToMany(mappedBy = "employee" , cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EducationalInfo> educationalInfos = new HashSet<>();
 
@@ -253,6 +253,19 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
         this.terminationReason = terminationReason;
     }
 
+    public Address getAddress() {
+        return address;
+    }
+
+    public Employee address(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
     public PersonalInfo getPersonalInfo() {
         return personalInfo;
     }
@@ -264,31 +277,6 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setPersonalInfo(PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
-    }
-
-    public Set<Address> getAddresses() {
-        return addresses;
-    }
-
-    public Employee addresses(Set<Address> addresses) {
-        this.addresses = addresses;
-        return this;
-    }
-
-    public Employee addAddress(Address address) {
-        this.addresses.add(address);
-        address.setEmployee(this);
-        return this;
-    }
-
-    public Employee removeAddress(Address address) {
-        this.addresses.remove(address);
-        address.setEmployee(null);
-        return this;
-    }
-
-    public void setAddresses(Set<Address> addresses) {
-        this.addresses = addresses;
     }
 
     public Set<EducationalInfo> getEducationalInfos() {

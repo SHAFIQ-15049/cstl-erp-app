@@ -2,7 +2,6 @@ import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { AddressService } from 'app/entities/address/address.service';
 import { IAddress, Address } from 'app/shared/model/address.model';
-import { AddressType } from 'app/shared/model/enumerations/address-type.model';
 
 describe('Service Tests', () => {
   describe('Address Service', () => {
@@ -21,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(AddressService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Address(0, 'AAAAAAA', 'AAAAAAA', 0, AddressType.PRESENT);
+      elemDefault = new Address(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, false);
     });
 
     describe('Service methods', () => {
@@ -55,10 +54,15 @@ describe('Service Tests', () => {
       it('should update a Address', () => {
         const returnedFromService = Object.assign(
           {
-            street: 'BBBBBB',
-            area: 'BBBBBB',
-            postCode: 1,
-            addressType: 'BBBBBB',
+            presentThanaTxt: 'BBBBBB',
+            presentStreet: 'BBBBBB',
+            presentArea: 'BBBBBB',
+            presentPostCode: 1,
+            permanentThanaTxt: 'BBBBBB',
+            permanentStreet: 'BBBBBB',
+            permanentArea: 'BBBBBB',
+            permanentPostCode: 1,
+            isSame: true,
           },
           elemDefault
         );
@@ -75,10 +79,15 @@ describe('Service Tests', () => {
       it('should return a list of Address', () => {
         const returnedFromService = Object.assign(
           {
-            street: 'BBBBBB',
-            area: 'BBBBBB',
-            postCode: 1,
-            addressType: 'BBBBBB',
+            presentThanaTxt: 'BBBBBB',
+            presentStreet: 'BBBBBB',
+            presentArea: 'BBBBBB',
+            presentPostCode: 1,
+            permanentThanaTxt: 'BBBBBB',
+            permanentStreet: 'BBBBBB',
+            permanentArea: 'BBBBBB',
+            permanentPostCode: 1,
+            isSame: true,
           },
           elemDefault
         );

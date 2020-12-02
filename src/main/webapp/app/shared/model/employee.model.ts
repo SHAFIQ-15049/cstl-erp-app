@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { IPersonalInfo } from 'app/shared/model/personal-info.model';
 import { IAddress } from 'app/shared/model/address.model';
+import { IPersonalInfo } from 'app/shared/model/personal-info.model';
 import { IEducationalInfo } from 'app/shared/model/educational-info.model';
 import { ITraining } from 'app/shared/model/training.model';
 import { IEmployeeAccount } from 'app/shared/model/employee-account.model';
@@ -26,8 +26,8 @@ export interface IEmployee {
   status?: EmployeeStatus;
   terminationDate?: Moment;
   terminationReason?: any;
+  address?: IAddress;
   personalInfo?: IPersonalInfo;
-  addresses?: IAddress[];
   educationalInfos?: IEducationalInfo[];
   trainings?: ITraining[];
   employeeAccounts?: IEmployeeAccount[];
@@ -52,8 +52,8 @@ export class Employee implements IEmployee {
     public status?: EmployeeStatus,
     public terminationDate?: Moment,
     public terminationReason?: any,
+    public address?: IAddress,
     public personalInfo?: IPersonalInfo,
-    public addresses?: IAddress[],
     public educationalInfos?: IEducationalInfo[],
     public trainings?: ITraining[],
     public employeeAccounts?: IEmployeeAccount[],

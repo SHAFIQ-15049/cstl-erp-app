@@ -41,19 +41,53 @@ describe('Address e2e test', () => {
     await addressComponentsPage.clickOnCreateButton();
 
     await promise.all([
-      addressUpdatePage.setStreetInput('street'),
-      addressUpdatePage.setAreaInput('area'),
-      addressUpdatePage.setPostCodeInput('5'),
-      addressUpdatePage.addressTypeSelectLastOption(),
-      addressUpdatePage.divisionSelectLastOption(),
-      addressUpdatePage.districtSelectLastOption(),
-      addressUpdatePage.thanaSelectLastOption(),
-      addressUpdatePage.employeeSelectLastOption(),
+      addressUpdatePage.setPresentThanaTxtInput('presentThanaTxt'),
+      addressUpdatePage.setPresentStreetInput('presentStreet'),
+      addressUpdatePage.setPresentAreaInput('presentArea'),
+      addressUpdatePage.setPresentPostCodeInput('5'),
+      addressUpdatePage.setPermanentThanaTxtInput('permanentThanaTxt'),
+      addressUpdatePage.setPermanentStreetInput('permanentStreet'),
+      addressUpdatePage.setPermanentAreaInput('permanentArea'),
+      addressUpdatePage.setPermanentPostCodeInput('5'),
+      addressUpdatePage.presentDivisionSelectLastOption(),
+      addressUpdatePage.presentDistrictSelectLastOption(),
+      addressUpdatePage.presentThanaSelectLastOption(),
+      addressUpdatePage.permanentDivisionSelectLastOption(),
+      addressUpdatePage.permanentDistrictSelectLastOption(),
+      addressUpdatePage.permanentThanaSelectLastOption(),
     ]);
 
-    expect(await addressUpdatePage.getStreetInput()).to.eq('street', 'Expected Street value to be equals to street');
-    expect(await addressUpdatePage.getAreaInput()).to.eq('area', 'Expected Area value to be equals to area');
-    expect(await addressUpdatePage.getPostCodeInput()).to.eq('5', 'Expected postCode value to be equals to 5');
+    expect(await addressUpdatePage.getPresentThanaTxtInput()).to.eq(
+      'presentThanaTxt',
+      'Expected PresentThanaTxt value to be equals to presentThanaTxt'
+    );
+    expect(await addressUpdatePage.getPresentStreetInput()).to.eq(
+      'presentStreet',
+      'Expected PresentStreet value to be equals to presentStreet'
+    );
+    expect(await addressUpdatePage.getPresentAreaInput()).to.eq('presentArea', 'Expected PresentArea value to be equals to presentArea');
+    expect(await addressUpdatePage.getPresentPostCodeInput()).to.eq('5', 'Expected presentPostCode value to be equals to 5');
+    expect(await addressUpdatePage.getPermanentThanaTxtInput()).to.eq(
+      'permanentThanaTxt',
+      'Expected PermanentThanaTxt value to be equals to permanentThanaTxt'
+    );
+    expect(await addressUpdatePage.getPermanentStreetInput()).to.eq(
+      'permanentStreet',
+      'Expected PermanentStreet value to be equals to permanentStreet'
+    );
+    expect(await addressUpdatePage.getPermanentAreaInput()).to.eq(
+      'permanentArea',
+      'Expected PermanentArea value to be equals to permanentArea'
+    );
+    expect(await addressUpdatePage.getPermanentPostCodeInput()).to.eq('5', 'Expected permanentPostCode value to be equals to 5');
+    const selectedIsSame = addressUpdatePage.getIsSameInput();
+    if (await selectedIsSame.isSelected()) {
+      await addressUpdatePage.getIsSameInput().click();
+      expect(await addressUpdatePage.getIsSameInput().isSelected(), 'Expected isSame not to be selected').to.be.false;
+    } else {
+      await addressUpdatePage.getIsSameInput().click();
+      expect(await addressUpdatePage.getIsSameInput().isSelected(), 'Expected isSame to be selected').to.be.true;
+    }
 
     await addressUpdatePage.save();
     expect(await addressUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

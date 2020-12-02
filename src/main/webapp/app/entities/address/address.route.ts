@@ -63,16 +63,6 @@ export const addressRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':employeeId',
-    component: AddressComponent,
-    data: {
-      authorities: [Authority.USER],
-      defaultSort: 'id,asc',
-      pageTitle: 'Addresses',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
     path: ':id/view',
     component: AddressDetailComponent,
     resolve: {

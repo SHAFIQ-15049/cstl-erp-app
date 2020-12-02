@@ -40,6 +40,7 @@ export class EmployeeUpdatePage {
   terminationDateInput = element(by.id('field_terminationDate'));
   terminationReasonInput = element(by.id('field_terminationReason'));
 
+  addressSelect = element(by.id('field_address'));
   personalInfoSelect = element(by.id('field_personalInfo'));
   companySelect = element(by.id('field_company'));
   departmentSelect = element(by.id('field_department'));
@@ -140,6 +141,22 @@ export class EmployeeUpdatePage {
 
   async getTerminationReasonInput(): Promise<string> {
     return await this.terminationReasonInput.getAttribute('value');
+  }
+
+  async addressSelectLastOption(): Promise<void> {
+    await this.addressSelect.all(by.tagName('option')).last().click();
+  }
+
+  async addressSelectOption(option: string): Promise<void> {
+    await this.addressSelect.sendKeys(option);
+  }
+
+  getAddressSelect(): ElementFinder {
+    return this.addressSelect;
+  }
+
+  async getAddressSelectedOption(): Promise<string> {
+    return await this.addressSelect.element(by.css('option:checked')).getText();
   }
 
   async personalInfoSelectLastOption(): Promise<void> {
