@@ -51,7 +51,7 @@ export class AddressUpdateComponent implements OnInit {
     protected districtService: DistrictService,
     protected thanaService: ThanaService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

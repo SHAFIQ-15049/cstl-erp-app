@@ -71,7 +71,7 @@ export class EmployeeUpdateComponent implements OnInit {
     protected gradeService: GradeService,
     protected designationService: DesignationService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

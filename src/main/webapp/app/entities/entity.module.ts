@@ -37,6 +37,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./employee/employee.module').then(m => m.CodeNodeErpEmployeeModule),
       },
       {
+        path: 'employee-ext',
+        loadChildren: () => import('../app-components/employee-ext/employee-ext.module').then(m => m.CodeNodeErpEmployeeModule),
+      },
+      {
         path: 'personal-info',
         loadChildren: () => import('./personal-info/personal-info.module').then(m => m.CodeNodeErpPersonalInfoModule),
       },

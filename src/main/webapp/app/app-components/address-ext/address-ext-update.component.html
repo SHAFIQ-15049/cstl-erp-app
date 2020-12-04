@@ -1,0 +1,128 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-address-heading">Create or edit a Address</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentThanaTxt">Present Thana Txt</label>
+                    <input type="text" class="form-control" name="presentThanaTxt" id="field_presentThanaTxt"
+                           formControlName="presentThanaTxt"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentStreet">Present Street</label>
+                    <input type="text" class="form-control" name="presentStreet" id="field_presentStreet"
+                           formControlName="presentStreet"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentArea">Present Area</label>
+                    <input type="text" class="form-control" name="presentArea" id="field_presentArea"
+                           formControlName="presentArea"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentPostCode">Present Post Code</label>
+                    <input type="number" class="form-control" name="presentPostCode" id="field_presentPostCode"
+                           formControlName="presentPostCode"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentThanaTxt">Permanent Thana Txt</label>
+                    <input type="text" class="form-control" name="permanentThanaTxt" id="field_permanentThanaTxt"
+                           formControlName="permanentThanaTxt"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentStreet">Permanent Street</label>
+                    <input type="text" class="form-control" name="permanentStreet" id="field_permanentStreet"
+                           formControlName="permanentStreet"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentArea">Permanent Area</label>
+                    <input type="text" class="form-control" name="permanentArea" id="field_permanentArea"
+                           formControlName="permanentArea"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentPostCode">Permanent Post Code</label>
+                    <input type="number" class="form-control" name="permanentPostCode" id="field_permanentPostCode"
+                           formControlName="permanentPostCode"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_isSame">Is Same</label>
+                    <input type="checkbox" class="form-control" name="isSame" id="field_isSame"
+                           formControlName="isSame"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentDivision">Present Division</label>
+                    <select class="form-control" id="field_presentDivision" name="presentDivision" formControlName="presentDivision">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="divisionOption.id === editForm.get('presentDivision')!.value?.id ? editForm.get('presentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentDistrict">Present District</label>
+                    <select class="form-control" id="field_presentDistrict" name="presentDistrict" formControlName="presentDistrict">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="districtOption.id === editForm.get('presentDistrict')!.value?.id ? editForm.get('presentDistrict')!.value : districtOption" *ngFor="let districtOption of districts; trackBy: trackById">{{ districtOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentThana">Present Thana</label>
+                    <select class="form-control" id="field_presentThana" name="presentThana" formControlName="presentThana">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="thanaOption.id === editForm.get('presentThana')!.value?.id ? editForm.get('presentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas; trackBy: trackById">{{ thanaOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentDivision">Permanent Division</label>
+                    <select class="form-control" id="field_permanentDivision" name="permanentDivision" formControlName="permanentDivision">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="divisionOption.id === editForm.get('permanentDivision')!.value?.id ? editForm.get('permanentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentDistrict">Permanent District</label>
+                    <select class="form-control" id="field_permanentDistrict" name="permanentDistrict" formControlName="permanentDistrict">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="districtOption.id === editForm.get('permanentDistrict')!.value?.id ? editForm.get('permanentDistrict')!.value : districtOption" *ngFor="let districtOption of districts; trackBy: trackById">{{ districtOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_permanentThana">Permanent Thana</label>
+                    <select class="form-control" id="field_permanentThana" name="permanentThana" formControlName="permanentThana">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="thanaOption.id === editForm.get('permanentThana')!.value?.id ? editForm.get('permanentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas; trackBy: trackById">{{ thanaOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

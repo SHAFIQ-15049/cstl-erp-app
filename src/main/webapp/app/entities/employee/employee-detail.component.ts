@@ -14,13 +14,11 @@ export class EmployeeDetailComponent implements OnInit {
   employeeId?: number | number;
   gotoEmployeeListRoute?: any;
 
-  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, private router: Router, private stateStorageService: StateStorageService) {}
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
   ngOnInit(): void {
-    this.gotoEmployeeListRoute = this.router.routerState.snapshot.url;
     this.activatedRoute.data.subscribe(({ employee }) => {
       this.employee = employee;
-      this.employeeId = this.employee?.id;
     });
   }
 
@@ -33,39 +31,8 @@ export class EmployeeDetailComponent implements OnInit {
   }
 
   previousState(): void {
-    this.router.navigateByUrl(this.stateStorageService.getCustomUrl()!);
+    window.history.back();
   }
 
-  gotoPersonalInfo():void{
-    const employeeId = this.employeeId;
-    if(this.employee?.personalInfo){
-      this.router.navigate(['personal-info-employee', this.employee.personalInfo.id, 'view'])
-    }else{
-      this.router.navigate(['personal-info-employee', this.employeeId,'new'],{relativeTo: this.activatedRoute});
-    }
-  }
 
-  gotoEducationalInfo(): void{
-
-  }
-
-  gotoJobHistory(): void{
-
-  }
-
-  gotoTraining():void{
-
-  }
-
-  gotoServiceHistory(): void{
-
-  }
-
-  gotoAddress():void{1
-    if(this.employee?.address){
-      this.router.navigate(['address-employee', this.employee.address.id, 'view'], {relativeTo: this.activatedRoute});
-    }else{
-      this.router.navigate(['address-employee', this.employeeId,'new'], {relativeTo: this.activatedRoute});
-    }
-  }
 }

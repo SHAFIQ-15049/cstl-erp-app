@@ -1,0 +1,115 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-educational-info-heading">Create or edit a Educational Info</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_serial">Serial</label>
+                    <input type="number" class="form-control" name="serial" id="field_serial"
+                           formControlName="serial"/>
+                    <div *ngIf="editForm.get('serial')!.invalid && (editForm.get('serial')!.dirty || editForm.get('serial')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('serial')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('serial')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_degree">Degree</label>
+                    <input type="text" class="form-control" name="degree" id="field_degree"
+                           formControlName="degree"/>
+                    <div *ngIf="editForm.get('degree')!.invalid && (editForm.get('degree')!.dirty || editForm.get('degree')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('degree')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_institution">Institution</label>
+                    <input type="text" class="form-control" name="institution" id="field_institution"
+                           formControlName="institution"/>
+                    <div *ngIf="editForm.get('institution')!.invalid && (editForm.get('institution')!.dirty || editForm.get('institution')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('institution')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_passingYear">Passing Year</label>
+                    <input type="number" class="form-control" name="passingYear" id="field_passingYear"
+                           formControlName="passingYear"/>
+                    <div *ngIf="editForm.get('passingYear')!.invalid && (editForm.get('passingYear')!.dirty || editForm.get('passingYear')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('passingYear')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('passingYear')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_courseDuration">Course Duration</label>
+                    <input type="number" class="form-control" name="courseDuration" id="field_courseDuration"
+                           formControlName="courseDuration"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_attachment">Attachment</label>
+                    <div>
+                        <div *ngIf="editForm.get('attachment')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('attachmentContentType')!.value, editForm.get('attachment')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('attachmentContentType')!.value }}, {{ byteSize(editForm.get('attachment')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({attachment: null});editForm.patchValue({attachmentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_attachment" (change)="setFileData($event, 'attachment', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="attachment" id="field_attachment"
+                           formControlName="attachment"/>
+                    <input type="hidden" class="form-control" name="attachmentContentType" id="field_attachmentContentType"
+                           formControlName="attachmentContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

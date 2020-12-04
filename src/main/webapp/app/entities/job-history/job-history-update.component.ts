@@ -34,7 +34,7 @@ export class JobHistoryUpdateComponent implements OnInit {
     protected jobHistoryService: JobHistoryService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

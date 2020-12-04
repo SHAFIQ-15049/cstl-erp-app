@@ -1,0 +1,98 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="address">
+            <h2><span>Address</span> {{ address.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Present Thana Txt</span></dt>
+                <dd>
+                    <span>{{ address.presentThanaTxt }}</span>
+                </dd>
+                <dt><span>Present Street</span></dt>
+                <dd>
+                    <span>{{ address.presentStreet }}</span>
+                </dd>
+                <dt><span>Present Area</span></dt>
+                <dd>
+                    <span>{{ address.presentArea }}</span>
+                </dd>
+                <dt><span>Present Post Code</span></dt>
+                <dd>
+                    <span>{{ address.presentPostCode }}</span>
+                </dd>
+                <dt><span>Permanent Thana Txt</span></dt>
+                <dd>
+                    <span>{{ address.permanentThanaTxt }}</span>
+                </dd>
+                <dt><span>Permanent Street</span></dt>
+                <dd>
+                    <span>{{ address.permanentStreet }}</span>
+                </dd>
+                <dt><span>Permanent Area</span></dt>
+                <dd>
+                    <span>{{ address.permanentArea }}</span>
+                </dd>
+                <dt><span>Permanent Post Code</span></dt>
+                <dd>
+                    <span>{{ address.permanentPostCode }}</span>
+                </dd>
+                <dt><span>Is Same</span></dt>
+                <dd>
+                    <span>{{ address.isSame }}</span>
+                </dd>
+                <dt><span>Present Division</span></dt>
+                <dd>
+                    <div *ngIf="address.presentDivision">
+                        <a [routerLink]="['/division', address.presentDivision?.id, 'view']">{{ address.presentDivision?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Present District</span></dt>
+                <dd>
+                    <div *ngIf="address.presentDistrict">
+                        <a [routerLink]="['/district', address.presentDistrict?.id, 'view']">{{ address.presentDistrict?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Present Thana</span></dt>
+                <dd>
+                    <div *ngIf="address.presentThana">
+                        <a [routerLink]="['/thana', address.presentThana?.id, 'view']">{{ address.presentThana?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Permanent Division</span></dt>
+                <dd>
+                    <div *ngIf="address.permanentDivision">
+                        <a [routerLink]="['/division', address.permanentDivision?.id, 'view']">{{ address.permanentDivision?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Permanent District</span></dt>
+                <dd>
+                    <div *ngIf="address.permanentDistrict">
+                        <a [routerLink]="['/district', address.permanentDistrict?.id, 'view']">{{ address.permanentDistrict?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Permanent Thana</span></dt>
+                <dd>
+                    <div *ngIf="address.permanentThana">
+                        <a [routerLink]="['/thana', address.permanentThana?.id, 'view']">{{ address.permanentThana?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/address', address.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employeeAccount">
+            <h2><span>Employee Account</span> {{ employeeAccount.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Account Type</span></dt>
+                <dd>
+                    <span>{{ employeeAccount.accountType }}</span>
+                </dd>
+                <dt><span>Account No</span></dt>
+                <dd>
+                    <span>{{ employeeAccount.accountNo }}</span>
+                </dd>
+                <dt><span>Is Salary Account</span></dt>
+                <dd>
+                    <span>{{ employeeAccount.isSalaryAccount }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="employeeAccount.employee">
+                        <a [routerLink]="['/employee', employeeAccount.employee?.id, 'view']">{{ employeeAccount.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee-account', employeeAccount.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

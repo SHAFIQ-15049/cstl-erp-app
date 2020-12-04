@@ -42,7 +42,7 @@ export class PersonalInfoUpdateComponent implements OnInit {
     protected eventManager: JhiEventManager,
     protected personalInfoService: PersonalInfoService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

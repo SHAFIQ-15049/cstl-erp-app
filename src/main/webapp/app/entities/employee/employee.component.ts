@@ -32,8 +32,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal,
-    private stateStorageService: StateStorageService
+    protected modalService: NgbModal
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -53,7 +52,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // storing the url in the session, it will help in return from employee detail to employee list (with url parameters)
-    this.stateStorageService.storeCustomUrl(this.router.routerState.snapshot.url);
     this.handleNavigation();
     this.registerChangeInEmployees();
   }

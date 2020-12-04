@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="educationalInfo">
+            <h2><span>Educational Info</span> {{ educationalInfo.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Serial</span></dt>
+                <dd>
+                    <span>{{ educationalInfo.serial }}</span>
+                </dd>
+                <dt><span>Degree</span></dt>
+                <dd>
+                    <span>{{ educationalInfo.degree }}</span>
+                </dd>
+                <dt><span>Institution</span></dt>
+                <dd>
+                    <span>{{ educationalInfo.institution }}</span>
+                </dd>
+                <dt><span>Passing Year</span></dt>
+                <dd>
+                    <span>{{ educationalInfo.passingYear }}</span>
+                </dd>
+                <dt><span>Course Duration</span></dt>
+                <dd>
+                    <span>{{ educationalInfo.courseDuration }}</span>
+                </dd>
+                <dt><span>Attachment</span></dt>
+                <dd>
+                    <div *ngIf="educationalInfo.attachment">
+                        <a (click)="openFile(educationalInfo.attachmentContentType, educationalInfo.attachment)">open</a>
+                        {{ educationalInfo.attachmentContentType }}, {{ byteSize(educationalInfo.attachment) }}
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="educationalInfo.employee">
+                        <a [routerLink]="['/employee', educationalInfo.employee?.id, 'view']">{{ educationalInfo.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/educational-info', educationalInfo.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
