@@ -9,8 +9,8 @@ import { PersonalInfoDeleteDialogComponent } from './personal-info-delete-dialog
 import { personalInfoRoute } from './personal-info.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(personalInfoRoute)],
-  declarations: [PersonalInfoComponent, PersonalInfoDetailComponent, PersonalInfoUpdateComponent, PersonalInfoDeleteDialogComponent],
-  entryComponents: [PersonalInfoDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(personalInfoRoute)],
+  // declarations: [PersonalInfoComponent, PersonalInfoDetailComponent, PersonalInfoUpdateComponent, PersonalInfoDeleteDialogComponent],
+  // entryComponents: [PersonalInfoDeleteDialogComponent],
 })
 export class CodeNodeErpPersonalInfoModule {}

@@ -7,10 +7,14 @@ import { EmployeeExtDetailComponent } from './employee-ext-detail.component';
 import { EmployeeExtUpdateComponent } from './employee-ext-update.component';
 import { EmployeeExtDeleteDialogComponent } from './employee-ext-delete-dialog.component';
 import { employeeExtRoute } from './employee-ext.route';
+import {EmployeeComponent} from "app/entities/employee/employee.component";
+import {EmployeeDetailComponent} from "app/entities/employee/employee-detail.component";
+import {EmployeeUpdateComponent} from "app/entities/employee/employee-update.component";
+import {EmployeeDeleteDialogComponent} from "app/entities/employee/employee-delete-dialog.component";
 
 @NgModule({
   imports: [CodeNodeErpSharedModule, RouterModule.forChild(employeeExtRoute)],
-  declarations: [EmployeeExtComponent, EmployeeExtDetailComponent, EmployeeExtUpdateComponent, EmployeeExtDeleteDialogComponent],
+  declarations: [EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeExtComponent, EmployeeExtDetailComponent, EmployeeExtUpdateComponent, EmployeeExtDeleteDialogComponent],
   entryComponents: [EmployeeExtDeleteDialogComponent],
 })
 export class CodeNodeErpEmployeeModule {}

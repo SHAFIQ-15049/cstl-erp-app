@@ -9,8 +9,8 @@ import { TrainingDeleteDialogComponent } from './training-delete-dialog.componen
 import { trainingRoute } from './training.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(trainingRoute)],
-  declarations: [TrainingComponent, TrainingDetailComponent, TrainingUpdateComponent, TrainingDeleteDialogComponent],
-  entryComponents: [TrainingDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(trainingRoute)],
+  // declarations: [TrainingComponent, TrainingDetailComponent, TrainingUpdateComponent, TrainingDeleteDialogComponent],
+  // entryComponents: [TrainingDeleteDialogComponent],
 })
 export class CodeNodeErpTrainingModule {}

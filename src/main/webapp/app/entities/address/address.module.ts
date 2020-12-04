@@ -9,8 +9,8 @@ import { AddressDeleteDialogComponent } from './address-delete-dialog.component'
 import { addressRoute } from './address.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(addressRoute)],
-  declarations: [AddressComponent, AddressDetailComponent, AddressUpdateComponent, AddressDeleteDialogComponent],
-  entryComponents: [AddressDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(addressRoute)],
+  // declarations: [AddressComponent, AddressDetailComponent, AddressUpdateComponent, AddressDeleteDialogComponent],
+  // entryComponents: [AddressDeleteDialogComponent],
 })
 export class CodeNodeErpAddressModule {}

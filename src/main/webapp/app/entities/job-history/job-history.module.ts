@@ -9,8 +9,8 @@ import { JobHistoryDeleteDialogComponent } from './job-history-delete-dialog.com
 import { jobHistoryRoute } from './job-history.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(jobHistoryRoute)],
-  declarations: [JobHistoryComponent, JobHistoryDetailComponent, JobHistoryUpdateComponent, JobHistoryDeleteDialogComponent],
-  entryComponents: [JobHistoryDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(jobHistoryRoute)],
+  // declarations: [JobHistoryComponent, JobHistoryDetailComponent, JobHistoryUpdateComponent, JobHistoryDeleteDialogComponent],
+  // entryComponents: [JobHistoryDeleteDialogComponent],
 })
 export class CodeNodeErpJobHistoryModule {}

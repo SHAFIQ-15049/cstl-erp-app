@@ -9,13 +9,13 @@ import { EmployeeAccountDeleteDialogComponent } from './employee-account-delete-
 import { employeeAccountRoute } from './employee-account.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(employeeAccountRoute)],
-  declarations: [
-    EmployeeAccountComponent,
-    EmployeeAccountDetailComponent,
-    EmployeeAccountUpdateComponent,
-    EmployeeAccountDeleteDialogComponent,
-  ],
-  entryComponents: [EmployeeAccountDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(employeeAccountRoute)],
+  // declarations: [
+  //   EmployeeAccountComponent,
+  //   EmployeeAccountDetailComponent,
+  //   EmployeeAccountUpdateComponent,
+  //   EmployeeAccountDeleteDialogComponent,
+  // ],
+  // entryComponents: [EmployeeAccountDeleteDialogComponent],
 })
 export class CodeNodeErpEmployeeAccountModule {}

@@ -71,7 +71,7 @@ export const employeeExtRoute: Routes = [
       },
       {
         path: 'training-employee',
-        loadChildren: () => import('../training-training/training-ext.module').then(m => m.CodeNodeErpTrainingModule),
+        loadChildren: () => import('../training-ext/training-ext.module').then(m => m.CodeNodeErpTrainingModule),
       },
       {
         path: 'employee-account',

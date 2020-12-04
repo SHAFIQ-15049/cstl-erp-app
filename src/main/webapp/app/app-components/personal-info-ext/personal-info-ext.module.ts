@@ -7,10 +7,14 @@ import { PersonalInfoExtDetailComponent } from './personal-info-ext-detail.compo
 import { PersonalInfoExtUpdateComponent } from './personal-info-ext-update.component';
 import { PersonalInfoExtDeleteDialogComponent } from './personal-info-ext-delete-dialog.component';
 import { personalInfoExtRoute } from './personal-info-ext.route';
+import {PersonalInfoComponent} from "app/entities/personal-info/personal-info.component";
+import {PersonalInfoDetailComponent} from "app/entities/personal-info/personal-info-detail.component";
+import {PersonalInfoUpdateComponent} from "app/entities/personal-info/personal-info-update.component";
+import {PersonalInfoDeleteDialogComponent} from "app/entities/personal-info/personal-info-delete-dialog.component";
 
 @NgModule({
   imports: [CodeNodeErpSharedModule, RouterModule.forChild(personalInfoExtRoute)],
-  declarations: [PersonalInfoExtComponent, PersonalInfoExtDetailComponent, PersonalInfoExtUpdateComponent, PersonalInfoExtDeleteDialogComponent],
+  declarations: [PersonalInfoComponent, PersonalInfoDetailComponent, PersonalInfoUpdateComponent, PersonalInfoDeleteDialogComponent,PersonalInfoExtComponent, PersonalInfoExtDetailComponent, PersonalInfoExtUpdateComponent, PersonalInfoExtDeleteDialogComponent],
   entryComponents: [PersonalInfoExtDeleteDialogComponent],
 })
 export class CodeNodeErpPersonalInfoModule {}
