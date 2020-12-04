@@ -49,7 +49,7 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
   }
 
   gotoEducationalInfo(): void{
-
+    this.router.navigate(['educational-info'], {relativeTo: this.activatedRoute});
   }
 
   gotoJobHistory(): void{

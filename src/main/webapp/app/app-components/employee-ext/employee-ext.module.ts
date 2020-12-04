@@ -13,7 +13,7 @@ import {EmployeeUpdateComponent} from "app/entities/employee/employee-update.com
 import {EmployeeDeleteDialogComponent} from "app/entities/employee/employee-delete-dialog.component";
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(employeeExtRoute)],
+  imports: [CodeNodeErpSharedModule, RouterModule, RouterModule.forChild(employeeExtRoute)],
   declarations: [EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeExtComponent, EmployeeExtDetailComponent, EmployeeExtUpdateComponent, EmployeeExtDeleteDialogComponent],
   entryComponents: [EmployeeExtDeleteDialogComponent],
 })
