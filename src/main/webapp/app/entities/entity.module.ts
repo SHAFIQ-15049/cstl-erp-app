@@ -70,7 +70,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'line',
-        loadChildren: () => import('./line/line.module').then(m => m.CodeNodeErpLineModule),
+        loadChildren: () => import('../app-components/line-ext/line-ext.module').then(m => m.CodeNodeErpLineModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

@@ -9,8 +9,8 @@ import { LineDeleteDialogComponent } from './line-delete-dialog.component';
 import { lineRoute } from './line.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(lineRoute)],
-  declarations: [LineComponent, LineDetailComponent, LineUpdateComponent, LineDeleteDialogComponent],
-  entryComponents: [LineDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(lineRoute)],
+  // declarations: [LineComponent, LineDetailComponent, LineUpdateComponent, LineDeleteDialogComponent],
+  // entryComponents: [LineDeleteDialogComponent],
 })
 export class CodeNodeErpLineModule {}

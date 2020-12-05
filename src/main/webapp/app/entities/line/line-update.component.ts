@@ -33,7 +33,7 @@ export class LineUpdateComponent implements OnInit {
     protected lineService: LineService,
     protected departmentService: DepartmentService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
