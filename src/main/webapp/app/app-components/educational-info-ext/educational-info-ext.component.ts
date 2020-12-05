@@ -11,6 +11,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EducationalInfoExtService } from './educational-info-ext.service';
 import { EducationalInfoExtDeleteDialogComponent } from './educational-info-ext-delete-dialog.component';
 import {EducationalInfoComponent} from "app/entities/educational-info/educational-info.component";
+import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
 
 @Component({
   selector: 'jhi-educational-info',
@@ -19,6 +20,7 @@ import {EducationalInfoComponent} from "app/entities/educational-info/educationa
 export class EducationalInfoExtComponent extends EducationalInfoComponent implements OnInit, OnDestroy {
 
   employeeId?: number|null;
+  parentRoute?: string | null;
 
   constructor(
     protected educationalInfoService: EducationalInfoExtService,
@@ -27,28 +29,51 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
+    private employeeService: EmployeeExtService
   ) {
     super(educationalInfoService, activatedRoute, dataUtils, router, eventManager, modalService);
+  }
+
+  ngOnInit(): void {
+    this.employeeId = this.employeeService.getEmployeeId();
+    this.activatedRoute.parent?.url.subscribe((res)=>{
+      this.parentRoute = res[res.length -1].path;
+    })
+    super.ngOnInit();
   }
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.educationalInfoService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IEducationalInfo[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+    if(this.employeeId){
+      this.educationalInfoService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'employeeId.equals': this.employeeService.getEmployeeId()
+        })
+        .subscribe(
+          (res: HttpResponse<IEducationalInfo[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    }else{
+      this.educationalInfoService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        })
+        .subscribe(
+          (res: HttpResponse<IEducationalInfo[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    }
+
   }
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      this.employeeId = this.activatedRoute.snapshot.params['employeeId'];
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
@@ -70,6 +95,6 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
   }
 
   addNew():void{
-    this.router.navigate(['educational-info/new'], {relativeTo: this.activatedRoute});
+    this.router.navigate([{ outlets: { emp: ['educational-info/new'] } }], {relativeTo: this.activatedRoute});
   }
 }

@@ -44,6 +44,7 @@ export class EmployeeExtComponent extends EmployeeComponent implements OnInit, O
   ngOnInit(): void {
     // storing the url in the session, it will help in return from employee detail to employee list (with url parameters)
     this.stateStorageService.storeCustomUrl(this.router.routerState.snapshot.url);
+    this.employeeService.clearEmployeeId();
     this.handleNavigation();
     this.registerChangeInEmployees();
   }

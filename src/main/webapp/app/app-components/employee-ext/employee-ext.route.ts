@@ -70,22 +70,27 @@ export const employeeExtRoute: Routes = [
       {
         path: 'educational-info',
         loadChildren: () => import('../educational-info-ext/educational-info-ext.module').then(m => m.CodeNodeErpEducationalInfoModule),
+        outlet: 'emp'
       },
       {
-        path: 'training-employee',
+        path: 'training',
         loadChildren: () => import('../training-ext/training-ext.module').then(m => m.CodeNodeErpTrainingModule),
+        outlet: 'emp'
       },
       {
         path: 'employee-account',
         loadChildren: () => import('../employee-account-ext/employee-account-ext.module').then(m => m.CodeNodeErpEmployeeAccountModule),
+        outlet: 'emp'
       },
       {
-        path: 'job-history-employee',
+        path: 'job-history',
         loadChildren: () => import('../job-history-ext/job-history-ext.module').then(m => m.CodeNodeErpJobHistoryModule),
+        outlet: 'emp'
       },
       {
-        path: 'service-history-employee',
+        path: 'service-history',
         loadChildren: () => import('../service-history-ext/service-history-ext.module').then(m => m.CodeNodeErpServiceHistoryModule),
+        outlet: 'emp'
       },
     ],
   },

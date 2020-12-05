@@ -5,6 +5,7 @@ import { JhiDataUtils } from 'ng-jhipster';
 import { IEmployee } from 'app/shared/model/employee.model';
 import {StateStorageService} from "app/core/auth/state-storage.service";
 import {EmployeeDetailComponent} from "app/entities/employee/employee-detail.component";
+import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
 
 @Component({
   selector: 'jhi-employee-detail',
@@ -15,7 +16,7 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
   employeeId?: number | number;
   gotoEmployeeListRoute?: any;
 
-  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, private router: Router, private stateStorageService: StateStorageService) {
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute, private router: Router, private stateStorageService: StateStorageService, private employeeService: EmployeeExtService) {
     super(dataUtils, activatedRoute);
   }
 
@@ -24,6 +25,7 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
     this.activatedRoute.data.subscribe(({ employee }) => {
       this.employee = employee;
       this.employeeId = this.employee?.id;
+      this.employeeService.storeEmployeeId(this.employee?.id!);
     });
   }
 
@@ -49,22 +51,22 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
   }
 
   gotoEducationalInfo(): void{
-    this.router.navigate(['educational-info'], {relativeTo: this.activatedRoute});
+    this.router.navigate([{outlets:{emp: ['educational-info']}}], {relativeTo: this.activatedRoute});
   }
 
   gotoJobHistory(): void{
-
+    this.router.navigate([{outlets:{emp: ['job-history']}}], {relativeTo: this.activatedRoute});
   }
 
   gotoTraining():void{
-
+    this.router.navigate([{outlets:{emp: ['training']}}], {relativeTo: this.activatedRoute});
   }
 
   gotoServiceHistory(): void{
-
+    this.router.navigate([{outlets:{emp: ['service-history']}}], {relativeTo: this.activatedRoute});
   }
 
-  gotoAddress():void{1
+  gotoAddress():void{
     if(this.employee?.address){
       this.router.navigate([{outlets:{emp: ['address-employee', this.employee.address.id, 'view']}}], {relativeTo: this.activatedRoute});
     }else{

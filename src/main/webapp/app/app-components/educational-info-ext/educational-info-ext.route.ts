@@ -64,16 +64,6 @@ export const educationalInfoExtRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':employeeId/list',
-    component: EducationalInfoExtComponent,
-    data: {
-      authorities: [Authority.USER],
-      defaultSort: 'id,asc',
-      pageTitle: 'EducationalInfos',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
     path: ':id/view',
     component: EducationalInfoExtDetailComponent,
     resolve: {
