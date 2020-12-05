@@ -13,6 +13,11 @@ entity Department (mst_department) {
     description TextBlob
 }
 
+entity Line (line){
+    name String required,
+    description TextBlob
+}
+
 entity Designation (mst_designation){
     category EmployeeCategory,
 	name String required,
@@ -144,7 +149,8 @@ enum EmployeeType{
 }
 
 enum EmployeeCategory{
-    MANAGERIAL,
+    TOP_LEVEL,
+    MID_LEVEL,
     STAFF,
     WORKER
 }
@@ -186,6 +192,7 @@ relationship ManyToOne{
     Employee{department(name)} to Department,
     Employee{grade(name)} to Grade,
     Employee{designation(name)} to Designation,
+    Line{department(name)} to Department,
     District{division(name)} to Division,
     Thana{district(name)} to District,
     Address{presentDivision(name)} to Division,
