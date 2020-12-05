@@ -8,6 +8,8 @@ import { ILine } from 'app/shared/model/line.model';
 import { LineExtService } from './line-ext.service';
 import { LineExtDeleteDialogComponent } from './line-ext-delete-dialog.component';
 import {LineComponent} from "app/entities/line/line.component";
+import {LineService} from "app/entities/line/line.service";
+import {ActivatedRoute, Router} from "@angular/router";
 
 @Component({
   selector: 'jhi-line',
@@ -18,12 +20,14 @@ export class LineExtComponent extends LineComponent implements OnInit, OnDestroy
   eventSubscriber?: Subscription;
 
   constructor(
-    protected lineService: LineExtService,
+    protected lineService: LineService,
+    protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
+    protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
   ) {
-    super(lineService, dataUtils, eventManager, modalService);
+    super(lineService, activatedRoute, dataUtils, router, eventManager, modalService);
   }
 
 
