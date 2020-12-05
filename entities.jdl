@@ -151,6 +151,7 @@ enum EmployeeType{
 enum EmployeeCategory{
     TOP_LEVEL,
     MID_LEVEL,
+    MANAGERIAL,
     STAFF,
     WORKER
 }
