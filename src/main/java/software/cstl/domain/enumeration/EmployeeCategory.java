@@ -4,5 +4,5 @@ package software.cstl.domain.enumeration;
  * The EmployeeCategory enumeration.
  */
 public enum EmployeeCategory {
-    MANAGERIAL, STAFF, WORKER
+    TOP_LEVEL, MID_LEVEL, STAFF, WORKER
 }

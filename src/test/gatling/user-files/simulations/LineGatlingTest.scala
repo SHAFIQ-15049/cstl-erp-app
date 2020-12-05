@@ -7,9 +7,9 @@ import org.slf4j.LoggerFactory
 import scala.concurrent.duration._
 
 /**
- * Performance test for the Employee entity.
+ * Performance test for the Line entity.
  */
-class EmployeeGatlingTest extends Simulation {
+class LineGatlingTest extends Simulation {
 
     val context: LoggerContext = LoggerFactory.getILoggerFactory.asInstanceOf[LoggerContext]
     // Log all HTTP requests
@@ -43,7 +43,7 @@ class EmployeeGatlingTest extends Simulation {
         "Authorization" -> "${access_token}"
     )
 
-    val scn = scenario("Test the Employee entity")
+    val scn = scenario("Test the Line entity")
         .exec(http("First unauthenticated request")
         .get("/api/account")
         .headers(headers_http)
@@ -62,38 +62,30 @@ class EmployeeGatlingTest extends Simulation {
         .check(status.is(200)))
         .pause(10)
         .repeat(2) {
-            exec(http("Get all employees")
-            .get("/api/employees")
+            exec(http("Get all lines")
+            .get("/api/lines")
             .headers(headers_http_authenticated)
             .check(status.is(200)))
             .pause(10 seconds, 20 seconds)
-            .exec(http("Create new employee")
-            .post("/api/employees")
+            .exec(http("Create new line")
+            .post("/api/lines")
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
                 , "name":"SAMPLE_TEXT"
-                , "empId":"SAMPLE_TEXT"
-                , "globalId":"SAMPLE_TEXT"
-                , "localId":"SAMPLE_TEXT"
-                , "category":"TOP_LEVEL"
-                , "type":"PERMANENT"
-                , "joiningDate":"2020-01-01T00:00:00.000Z"
-                , "status":"ACTIVE"
-                , "terminationDate":"2020-01-01T00:00:00.000Z"
-                , "terminationReason":null
+                , "description":null
                 }""")).asJson
             .check(status.is(201))
-            .check(headerRegex("Location", "(.*)").saveAs("new_employee_url"))).exitHereIfFailed
+            .check(headerRegex("Location", "(.*)").saveAs("new_line_url"))).exitHereIfFailed
             .pause(10)
             .repeat(5) {
-                exec(http("Get created employee")
-                .get("${new_employee_url}")
+                exec(http("Get created line")
+                .get("${new_line_url}")
                 .headers(headers_http_authenticated))
                 .pause(10)
             }
-            .exec(http("Delete created employee")
-            .delete("${new_employee_url}")
+            .exec(http("Delete created line")
+            .delete("${new_line_url}")
             .headers(headers_http_authenticated))
             .pause(10)
         }

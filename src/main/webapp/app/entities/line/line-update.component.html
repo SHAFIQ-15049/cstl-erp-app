@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-designation-heading">{{!editForm.get('id')!.value?'Create': 'Update'}} Designation</h2>
+            <h2 id="jhi-line-heading">Create or edit a Line</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -9,16 +9,6 @@
                 <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id">ID</label>
                     <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_category">Category</label>
-                    <select class="form-control" name="category" formControlName="category" id="field_category">
-                        <option value="TOP_LEVEL">TOP_LEVEL</option>
-                        <option value="MID_LEVEL">MID_LEVEL</option>
-                        <option value="STAFF">STAFF</option>
-                        <option value="WORKER">WORKER</option>
-                    </select>
                 </div>
 
                 <div class="form-group">
@@ -34,21 +24,17 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_shortName">Short Name</label>
-                    <input type="text" class="form-control" name="shortName" id="field_shortName"
-                           formControlName="shortName"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_nameInBangla">Name In Bangla</label>
-                    <input type="text" class="form-control" name="nameInBangla" id="field_nameInBangla"
-                           formControlName="nameInBangla"/>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" for="field_description">Description</label>
                     <textarea class="form-control" name="description" id="field_description"
                               formControlName="description"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_department">Department</label>
+                    <select class="form-control" id="field_department" name="department" formControlName="department">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="departmentOption.id === editForm.get('department')!.value?.id ? editForm.get('department')!.value : departmentOption" *ngFor="let departmentOption of departments; trackBy: trackById">{{ departmentOption.name }}</option>
+                    </select>
                 </div>
             </div>
 

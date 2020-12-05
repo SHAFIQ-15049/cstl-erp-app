@@ -61,8 +61,8 @@ public class EmployeeResourceIT {
     private static final String DEFAULT_LOCAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_LOCAL_ID = "BBBBBBBBBB";
 
-    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.MANAGERIAL;
-    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.STAFF;
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.TOP_LEVEL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.MID_LEVEL;
 
     private static final EmployeeType DEFAULT_TYPE = EmployeeType.PERMANENT;
     private static final EmployeeType UPDATED_TYPE = EmployeeType.TEMPORARY;

@@ -1,16 +1,15 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { DesignationService } from 'app/entities/designation/designation.service';
-import { IDesignation, Designation } from 'app/shared/model/designation.model';
-import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
+import { LineService } from 'app/entities/line/line.service';
+import { ILine, Line } from 'app/shared/model/line.model';
 
 describe('Service Tests', () => {
-  describe('Designation Service', () => {
+  describe('Line Service', () => {
     let injector: TestBed;
-    let service: DesignationService;
+    let service: LineService;
     let httpMock: HttpTestingController;
-    let elemDefault: IDesignation;
-    let expectedResult: IDesignation | IDesignation[] | boolean | null;
+    let elemDefault: ILine;
+    let expectedResult: ILine | ILine[] | boolean | null;
 
     beforeEach(() => {
       TestBed.configureTestingModule({
@@ -18,10 +17,10 @@ describe('Service Tests', () => {
       });
       expectedResult = null;
       injector = getTestBed();
-      service = injector.get(DesignationService);
+      service = injector.get(LineService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Designation(0, EmployeeCategory.TOP_LEVEL, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Line(0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -35,7 +34,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject(elemDefault);
       });
 
-      it('should create a Designation', () => {
+      it('should create a Line', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
@@ -45,20 +44,17 @@ describe('Service Tests', () => {
 
         const expected = Object.assign({}, returnedFromService);
 
-        service.create(new Designation()).subscribe(resp => (expectedResult = resp.body));
+        service.create(new Line()).subscribe(resp => (expectedResult = resp.body));
 
         const req = httpMock.expectOne({ method: 'POST' });
         req.flush(returnedFromService);
         expect(expectedResult).toMatchObject(expected);
       });
 
-      it('should update a Designation', () => {
+      it('should update a Line', () => {
         const returnedFromService = Object.assign(
           {
-            category: 'BBBBBB',
             name: 'BBBBBB',
-            shortName: 'BBBBBB',
-            nameInBangla: 'BBBBBB',
             description: 'BBBBBB',
           },
           elemDefault
@@ -73,13 +69,10 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject(expected);
       });
 
-      it('should return a list of Designation', () => {
+      it('should return a list of Line', () => {
         const returnedFromService = Object.assign(
           {
-            category: 'BBBBBB',
             name: 'BBBBBB',
-            shortName: 'BBBBBB',
-            nameInBangla: 'BBBBBB',
             description: 'BBBBBB',
           },
           elemDefault
@@ -95,7 +88,7 @@ describe('Service Tests', () => {
         expect(expectedResult).toContainEqual(expected);
       });
 
-      it('should delete a Designation', () => {
+      it('should delete a Line', () => {
         service.delete(123).subscribe(resp => (expectedResult = resp.ok));
 
         const req = httpMock.expectOne({ method: 'DELETE' });

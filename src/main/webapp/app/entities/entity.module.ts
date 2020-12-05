@@ -38,7 +38,8 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'personal-info',
-        loadChildren: () => import('../app-components/personal-info-ext/personal-info-ext.module').then(m => m.CodeNodeErpPersonalInfoModule),
+        loadChildren: () =>
+          import('../app-components/personal-info-ext/personal-info-ext.module').then(m => m.CodeNodeErpPersonalInfoModule),
       },
       {
         path: 'address',
@@ -46,7 +47,8 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'educational-info',
-        loadChildren: () => import('../app-components/educational-info-ext/educational-info-ext.module').then(m => m.CodeNodeErpEducationalInfoModule),
+        loadChildren: () =>
+          import('../app-components/educational-info-ext/educational-info-ext.module').then(m => m.CodeNodeErpEducationalInfoModule),
       },
       {
         path: 'training',
@@ -54,7 +56,8 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'employee-account',
-        loadChildren: () => import('../app-components/employee-account-ext/employee-account-ext.module').then(m => m.CodeNodeErpEmployeeAccountModule),
+        loadChildren: () =>
+          import('../app-components/employee-account-ext/employee-account-ext.module').then(m => m.CodeNodeErpEmployeeAccountModule),
       },
       {
         path: 'job-history',
@@ -62,7 +65,12 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'service-history',
-        loadChildren: () => import('../app-components/service-history-ext/service-history-ext.module').then(m => m.CodeNodeErpServiceHistoryModule),
+        loadChildren: () =>
+          import('../app-components/service-history-ext/service-history-ext.module').then(m => m.CodeNodeErpServiceHistoryModule),
+      },
+      {
+        path: 'line',
+        loadChildren: () => import('./line/line.module').then(m => m.CodeNodeErpLineModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

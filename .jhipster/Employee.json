@@ -32,7 +32,7 @@
     {
       "fieldName": "category",
       "fieldType": "EmployeeCategory",
-      "fieldValues": "MANAGERIAL,STAFF,WORKER"
+      "fieldValues": "TOP_LEVEL,MID_LEVEL,STAFF,WORKER"
     },
     {
       "fieldName": "type",

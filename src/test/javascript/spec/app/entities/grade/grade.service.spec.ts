@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(GradeService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Grade(0, EmployeeCategory.MANAGERIAL, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Grade(0, EmployeeCategory.TOP_LEVEL, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {

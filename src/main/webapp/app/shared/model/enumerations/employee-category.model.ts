@@ -1,5 +1,7 @@
 export const enum EmployeeCategory {
-  MANAGERIAL = 'MANAGERIAL',
+  TOP_LEVEL = 'TOP_LEVEL',
+
+  MID_LEVEL = 'MID_LEVEL',
 
   STAFF = 'STAFF',
 

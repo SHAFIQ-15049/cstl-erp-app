@@ -34,8 +34,8 @@ import software.cstl.domain.enumeration.EmployeeCategory;
 @WithMockUser
 public class DesignationResourceIT {
 
-    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.MANAGERIAL;
-    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.STAFF;
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.TOP_LEVEL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.MID_LEVEL;
 
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
