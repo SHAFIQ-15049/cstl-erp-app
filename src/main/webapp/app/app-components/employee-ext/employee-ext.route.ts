@@ -55,16 +55,17 @@ export const employeeExtRoute: Routes = [
       authorities: [Authority.USER],
       pageTitle: 'Employees',
     },
-    pathMatch: 'prefix',
     canActivate: [UserRouteAccessService],
     children: [
       {
         path: 'personal-info-employee',
         loadChildren: () => import('../personal-info-ext/personal-info-ext.module').then(m => m.CodeNodeErpPersonalInfoModule),
+        outlet: 'emp'
       },
       {
         path: 'address-employee',
         loadChildren: () => import('../address-ext/address-ext.module').then(m => m.CodeNodeErpAddressModule),
+        outlet: 'emp'
       },
       {
         path: 'educational-info',

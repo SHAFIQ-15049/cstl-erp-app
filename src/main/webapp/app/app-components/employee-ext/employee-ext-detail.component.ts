@@ -42,9 +42,9 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
   gotoPersonalInfo():void{
     const employeeId = this.employeeId;
     if(this.employee?.personalInfo){
-      this.router.navigate(['personal-info-employee', this.employee.personalInfo.id, 'view'])
+      this.router.navigate([{outlets:{emp: ['personal-info-employee', this.employee.personalInfo.id,'view']}}], {relativeTo: this.activatedRoute});
     }else{
-      this.router.navigate(['personal-info-employee', this.employeeId,'new'],{relativeTo: this.activatedRoute});
+      this.router.navigate([{outlets:{emp: ['personal-info-employee', this.employeeId,'new']}}], {relativeTo: this.activatedRoute});
     }
   }
 
@@ -66,9 +66,9 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
 
   gotoAddress():void{1
     if(this.employee?.address){
-      this.router.navigate(['address-employee', this.employee.address.id, 'view'], {relativeTo: this.activatedRoute});
+      this.router.navigate([{outlets:{emp: ['address-employee', this.employee.address.id, 'view']}}], {relativeTo: this.activatedRoute});
     }else{
-      this.router.navigate(['address-employee', this.employeeId,'new'], {relativeTo: this.activatedRoute});
+      this.router.navigate([{outlets:{emp: ['address-employee', this.employeeId, 'new']}}], {relativeTo: this.activatedRoute});
     }
   }
 }
