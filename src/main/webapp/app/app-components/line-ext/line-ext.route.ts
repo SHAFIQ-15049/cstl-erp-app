@@ -11,10 +11,14 @@ import { LineExtService } from './line-ext.service';
 import { LineExtComponent } from './line-ext.component';
 import { LineExtDetailComponent } from './line-ext-detail.component';
 import { LineExtUpdateComponent } from './line-ext-update.component';
+import {LineService} from "app/entities/line/line.service";
+import {LineComponent} from "app/entities/line/line.component";
+import {LineDetailComponent} from "app/entities/line/line-detail.component";
+import {LineUpdateComponent} from "app/entities/line/line-update.component";
 
 @Injectable({ providedIn: 'root' })
 export class LineExtResolve implements Resolve<ILine> {
-  constructor(private service: LineExtService, private router: Router) {}
+  constructor(private service: LineService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<ILine> | Observable<never> {
     const id = route.params['id'];
@@ -40,6 +44,7 @@ export const lineExtRoute: Routes = [
     component: LineExtComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'Lines',
     },
     canActivate: [UserRouteAccessService],
