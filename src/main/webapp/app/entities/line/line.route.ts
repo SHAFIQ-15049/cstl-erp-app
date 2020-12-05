@@ -40,6 +40,7 @@ export const lineRoute: Routes = [
     component: LineComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'Lines',
     },
     canActivate: [UserRouteAccessService],

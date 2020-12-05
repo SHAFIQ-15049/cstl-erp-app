@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface LineRepository extends JpaRepository<Line, Long> {
+public interface LineRepository extends JpaRepository<Line, Long>, JpaSpecificationExecutor<Line> {
 }
