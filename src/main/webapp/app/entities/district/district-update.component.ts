@@ -22,6 +22,7 @@ export class DistrictUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     bangla: [null, [Validators.required]],
+    web: [],
     division: [],
   });
 
@@ -45,6 +46,7 @@ export class DistrictUpdateComponent implements OnInit {
       id: district.id,
       name: district.name,
       bangla: district.bangla,
+      web: district.web,
       division: district.division,
     });
   }
@@ -69,6 +71,7 @@ export class DistrictUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       bangla: this.editForm.get(['bangla'])!.value,
+      web: this.editForm.get(['web'])!.value,
       division: this.editForm.get(['division'])!.value,
     };
   }

@@ -74,6 +74,7 @@ class DistrictGatlingTest extends Simulation {
                 "id":null
                 , "name":"SAMPLE_TEXT"
                 , "bangla":"SAMPLE_TEXT"
+                , "web":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_district_url"))).exitHereIfFailed

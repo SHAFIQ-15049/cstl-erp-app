@@ -39,6 +39,9 @@ public class ThanaResourceIT {
     private static final String DEFAULT_BANGLA = "AAAAAAAAAA";
     private static final String UPDATED_BANGLA = "BBBBBBBBBB";
 
+    private static final String DEFAULT_WEB = "AAAAAAAAAA";
+    private static final String UPDATED_WEB = "BBBBBBBBBB";
+
     @Autowired
     private ThanaRepository thanaRepository;
 
@@ -65,7 +68,8 @@ public class ThanaResourceIT {
     public static Thana createEntity(EntityManager em) {
         Thana thana = new Thana()
             .name(DEFAULT_NAME)
-            .bangla(DEFAULT_BANGLA);
+            .bangla(DEFAULT_BANGLA)
+            .web(DEFAULT_WEB);
         return thana;
     }
     /**
@@ -77,7 +81,8 @@ public class ThanaResourceIT {
     public static Thana createUpdatedEntity(EntityManager em) {
         Thana thana = new Thana()
             .name(UPDATED_NAME)
-            .bangla(UPDATED_BANGLA);
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
         return thana;
     }
 
@@ -102,6 +107,7 @@ public class ThanaResourceIT {
         Thana testThana = thanaList.get(thanaList.size() - 1);
         assertThat(testThana.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testThana.getBangla()).isEqualTo(DEFAULT_BANGLA);
+        assertThat(testThana.getWeb()).isEqualTo(DEFAULT_WEB);
     }
 
     @Test
@@ -174,7 +180,8 @@ public class ThanaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(thana.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)));
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
     }
     
     @Test
@@ -189,7 +196,8 @@ public class ThanaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(thana.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA));
+            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA))
+            .andExpect(jsonPath("$.web").value(DEFAULT_WEB));
     }
 
 
@@ -370,6 +378,84 @@ public class ThanaResourceIT {
 
     @Test
     @Transactional
+    public void getAllThanasByWebIsEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web equals to DEFAULT_WEB
+        defaultThanaShouldBeFound("web.equals=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web equals to UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.equals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web not equals to DEFAULT_WEB
+        defaultThanaShouldNotBeFound("web.notEquals=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web not equals to UPDATED_WEB
+        defaultThanaShouldBeFound("web.notEquals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsInShouldWork() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web in DEFAULT_WEB or UPDATED_WEB
+        defaultThanaShouldBeFound("web.in=" + DEFAULT_WEB + "," + UPDATED_WEB);
+
+        // Get all the thanaList where web equals to UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.in=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web is not null
+        defaultThanaShouldBeFound("web.specified=true");
+
+        // Get all the thanaList where web is null
+        defaultThanaShouldNotBeFound("web.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllThanasByWebContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web contains DEFAULT_WEB
+        defaultThanaShouldBeFound("web.contains=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web contains UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.contains=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebNotContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web does not contain DEFAULT_WEB
+        defaultThanaShouldNotBeFound("web.doesNotContain=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web does not contain UPDATED_WEB
+        defaultThanaShouldBeFound("web.doesNotContain=" + UPDATED_WEB);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllThanasByDistrictIsEqualToSomething() throws Exception {
         // Initialize the database
         thanaRepository.saveAndFlush(thana);
@@ -396,7 +482,8 @@ public class ThanaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(thana.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)));
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
 
         // Check, that the count call also returns 1
         restThanaMockMvc.perform(get("/api/thanas/count?sort=id,desc&" + filter))
@@ -444,7 +531,8 @@ public class ThanaResourceIT {
         em.detach(updatedThana);
         updatedThana
             .name(UPDATED_NAME)
-            .bangla(UPDATED_BANGLA);
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
 
         restThanaMockMvc.perform(put("/api/thanas")
             .contentType(MediaType.APPLICATION_JSON)
@@ -457,6 +545,7 @@ public class ThanaResourceIT {
         Thana testThana = thanaList.get(thanaList.size() - 1);
         assertThat(testThana.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testThana.getBangla()).isEqualTo(UPDATED_BANGLA);
+        assertThat(testThana.getWeb()).isEqualTo(UPDATED_WEB);
     }
 
     @Test

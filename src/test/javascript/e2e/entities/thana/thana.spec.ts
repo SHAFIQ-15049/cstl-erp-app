@@ -43,11 +43,13 @@ describe('Thana e2e test', () => {
     await promise.all([
       thanaUpdatePage.setNameInput('name'),
       thanaUpdatePage.setBanglaInput('bangla'),
+      thanaUpdatePage.setWebInput('web'),
       thanaUpdatePage.districtSelectLastOption(),
     ]);
 
     expect(await thanaUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await thanaUpdatePage.getBanglaInput()).to.eq('bangla', 'Expected Bangla value to be equals to bangla');
+    expect(await thanaUpdatePage.getWebInput()).to.eq('web', 'Expected Web value to be equals to web');
 
     await thanaUpdatePage.save();
     expect(await thanaUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

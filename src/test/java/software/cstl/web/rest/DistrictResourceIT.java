@@ -39,6 +39,9 @@ public class DistrictResourceIT {
     private static final String DEFAULT_BANGLA = "AAAAAAAAAA";
     private static final String UPDATED_BANGLA = "BBBBBBBBBB";
 
+    private static final String DEFAULT_WEB = "AAAAAAAAAA";
+    private static final String UPDATED_WEB = "BBBBBBBBBB";
+
     @Autowired
     private DistrictRepository districtRepository;
 
@@ -65,7 +68,8 @@ public class DistrictResourceIT {
     public static District createEntity(EntityManager em) {
         District district = new District()
             .name(DEFAULT_NAME)
-            .bangla(DEFAULT_BANGLA);
+            .bangla(DEFAULT_BANGLA)
+            .web(DEFAULT_WEB);
         return district;
     }
     /**
@@ -77,7 +81,8 @@ public class DistrictResourceIT {
     public static District createUpdatedEntity(EntityManager em) {
         District district = new District()
             .name(UPDATED_NAME)
-            .bangla(UPDATED_BANGLA);
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
         return district;
     }
 
@@ -102,6 +107,7 @@ public class DistrictResourceIT {
         District testDistrict = districtList.get(districtList.size() - 1);
         assertThat(testDistrict.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testDistrict.getBangla()).isEqualTo(DEFAULT_BANGLA);
+        assertThat(testDistrict.getWeb()).isEqualTo(DEFAULT_WEB);
     }
 
     @Test
@@ -174,7 +180,8 @@ public class DistrictResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(district.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)));
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
     }
     
     @Test
@@ -189,7 +196,8 @@ public class DistrictResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(district.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA));
+            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA))
+            .andExpect(jsonPath("$.web").value(DEFAULT_WEB));
     }
 
 
@@ -370,6 +378,84 @@ public class DistrictResourceIT {
 
     @Test
     @Transactional
+    public void getAllDistrictsByWebIsEqualToSomething() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web equals to DEFAULT_WEB
+        defaultDistrictShouldBeFound("web.equals=" + DEFAULT_WEB);
+
+        // Get all the districtList where web equals to UPDATED_WEB
+        defaultDistrictShouldNotBeFound("web.equals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDistrictsByWebIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web not equals to DEFAULT_WEB
+        defaultDistrictShouldNotBeFound("web.notEquals=" + DEFAULT_WEB);
+
+        // Get all the districtList where web not equals to UPDATED_WEB
+        defaultDistrictShouldBeFound("web.notEquals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDistrictsByWebIsInShouldWork() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web in DEFAULT_WEB or UPDATED_WEB
+        defaultDistrictShouldBeFound("web.in=" + DEFAULT_WEB + "," + UPDATED_WEB);
+
+        // Get all the districtList where web equals to UPDATED_WEB
+        defaultDistrictShouldNotBeFound("web.in=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDistrictsByWebIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web is not null
+        defaultDistrictShouldBeFound("web.specified=true");
+
+        // Get all the districtList where web is null
+        defaultDistrictShouldNotBeFound("web.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllDistrictsByWebContainsSomething() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web contains DEFAULT_WEB
+        defaultDistrictShouldBeFound("web.contains=" + DEFAULT_WEB);
+
+        // Get all the districtList where web contains UPDATED_WEB
+        defaultDistrictShouldNotBeFound("web.contains=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDistrictsByWebNotContainsSomething() throws Exception {
+        // Initialize the database
+        districtRepository.saveAndFlush(district);
+
+        // Get all the districtList where web does not contain DEFAULT_WEB
+        defaultDistrictShouldNotBeFound("web.doesNotContain=" + DEFAULT_WEB);
+
+        // Get all the districtList where web does not contain UPDATED_WEB
+        defaultDistrictShouldBeFound("web.doesNotContain=" + UPDATED_WEB);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllDistrictsByDivisionIsEqualToSomething() throws Exception {
         // Initialize the database
         districtRepository.saveAndFlush(district);
@@ -396,7 +482,8 @@ public class DistrictResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(district.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)));
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
 
         // Check, that the count call also returns 1
         restDistrictMockMvc.perform(get("/api/districts/count?sort=id,desc&" + filter))
@@ -444,7 +531,8 @@ public class DistrictResourceIT {
         em.detach(updatedDistrict);
         updatedDistrict
             .name(UPDATED_NAME)
-            .bangla(UPDATED_BANGLA);
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
 
         restDistrictMockMvc.perform(put("/api/districts")
             .contentType(MediaType.APPLICATION_JSON)
@@ -457,6 +545,7 @@ public class DistrictResourceIT {
         District testDistrict = districtList.get(districtList.size() - 1);
         assertThat(testDistrict.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testDistrict.getBangla()).isEqualTo(UPDATED_BANGLA);
+        assertThat(testDistrict.getWeb()).isEqualTo(UPDATED_WEB);
     }
 
     @Test

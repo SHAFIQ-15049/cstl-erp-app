@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "mst_thana")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Thana extends AbstractAuditingEntity implements Serializable {
+public class Thana implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -30,6 +30,9 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
     @NotNull
     @Column(name = "bangla", nullable = false)
     private String bangla;
+
+    @Column(name = "web")
+    private String web;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "thanas", allowSetters = true)
@@ -70,6 +73,19 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
         this.bangla = bangla;
     }
 
+    public String getWeb() {
+        return web;
+    }
+
+    public Thana web(String web) {
+        this.web = web;
+        return this;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
+    }
+
     public District getDistrict() {
         return district;
     }
@@ -107,6 +123,7 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", bangla='" + getBangla() + "'" +
+            ", web='" + getWeb() + "'" +
             "}";
     }
 }

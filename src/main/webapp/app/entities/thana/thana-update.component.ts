@@ -22,6 +22,7 @@ export class ThanaUpdateComponent implements OnInit {
     id: [],
     name: [null, [Validators.required]],
     bangla: [null, [Validators.required]],
+    web: [],
     district: [],
   });
 
@@ -45,6 +46,7 @@ export class ThanaUpdateComponent implements OnInit {
       id: thana.id,
       name: thana.name,
       bangla: thana.bangla,
+      web: thana.web,
       district: thana.district,
     });
   }
@@ -69,6 +71,7 @@ export class ThanaUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       bangla: this.editForm.get(['bangla'])!.value,
+      web: this.editForm.get(['web'])!.value,
       district: this.editForm.get(['district'])!.value,
     };
   }

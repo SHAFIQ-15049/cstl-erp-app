@@ -25,6 +25,7 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bangla"><span>Bangla</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="web"><span>Web</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                     <td><a [routerLink]="['/division', division.id, 'view']">{{ division.id }}</a></td>
                     <td>{{ division.name }}</td>
                     <td>{{ division.bangla }}</td>
+                    <td>{{ division.web }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

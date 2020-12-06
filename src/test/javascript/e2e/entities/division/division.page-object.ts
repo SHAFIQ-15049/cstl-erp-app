@@ -31,6 +31,7 @@ export class DivisionUpdatePage {
 
   nameInput = element(by.id('field_name'));
   banglaInput = element(by.id('field_bangla'));
+  webInput = element(by.id('field_web'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -50,6 +51,14 @@ export class DivisionUpdatePage {
 
   async getBanglaInput(): Promise<string> {
     return await this.banglaInput.getAttribute('value');
+  }
+
+  async setWebInput(web: string): Promise<void> {
+    await this.webInput.sendKeys(web);
+  }
+
+  async getWebInput(): Promise<string> {
+    return await this.webInput.getAttribute('value');
   }
 
   async save(): Promise<void> {

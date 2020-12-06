@@ -31,6 +31,7 @@ export class ThanaUpdatePage {
 
   nameInput = element(by.id('field_name'));
   banglaInput = element(by.id('field_bangla'));
+  webInput = element(by.id('field_web'));
 
   districtSelect = element(by.id('field_district'));
 
@@ -52,6 +53,14 @@ export class ThanaUpdatePage {
 
   async getBanglaInput(): Promise<string> {
     return await this.banglaInput.getAttribute('value');
+  }
+
+  async setWebInput(web: string): Promise<void> {
+    await this.webInput.sendKeys(web);
+  }
+
+  async getWebInput(): Promise<string> {
+    return await this.webInput.getAttribute('value');
   }
 
   async districtSelectLastOption(): Promise<void> {

@@ -25,6 +25,7 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bangla"><span>Bangla</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="web"><span>Web</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="district.name"><span>District</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -34,6 +35,7 @@
                     <td><a [routerLink]="['/thana', thana.id, 'view']">{{ thana.id }}</a></td>
                     <td>{{ thana.name }}</td>
                     <td>{{ thana.bangla }}</td>
+                    <td>{{ thana.web }}</td>
                     <td>
                         <div *ngIf="thana.district">
                             <a [routerLink]="['/district', thana.district?.id, 'view']" >{{ thana.district?.name }}</a>
