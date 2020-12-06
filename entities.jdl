@@ -35,16 +35,19 @@ entity Grade (mst_grade){
 entity Division (mst_division){
     name String required,
     bangla String required,
+    web String,
 }
 
 entity District (mst_district){
     name String required,
-    bangla String required
+    bangla String required,
+    web String,
 }
 
 entity Thana (mst_thana){
     name String required,
     bangla String required,
+    web String,
 }
 
 
