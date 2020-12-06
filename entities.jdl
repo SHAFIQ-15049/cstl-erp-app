@@ -34,14 +34,17 @@ entity Grade (mst_grade){
 
 entity Division (mst_division){
     name String required,
+    bangla String required,
 }
 
 entity District (mst_district){
     name String required,
+    bangla String required
 }
 
 entity Thana (mst_thana){
     name String required,
+    bangla String required,
 }
 
 
@@ -67,7 +70,9 @@ entity PersonalInfo {
     banglaName String required,
     photo Blob,
     fatherName String required,
+    fatherNameBangla String,
     motherName String required,
+    motherNameBangla String,
     maritalStatus MaritalStatus,
     spouseName String,
     dateOfBirth LocalDate,
@@ -85,12 +90,18 @@ entity Address (address){
     //thana
     presentThanaTxt String,
     presentStreet String,
+    presentStreetBangla String,
     presentArea String,
+    presentAreaBangla String,
     presentPostCode Integer,
+    presentPostCodeBangla String,
     permanentThanaTxt String,
     permanentStreet String,
+    permanentStreetBangla String,
     permanentArea String,
+    permanentAreaBangla String
     permanentPostCode Integer,
+    permenentPostCodeBangla String,
     isSame Boolean
 }
 
