@@ -21,6 +21,7 @@ export class ThanaUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
+    bangla: [null, [Validators.required]],
     district: [],
   });
 
@@ -43,6 +44,7 @@ export class ThanaUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: thana.id,
       name: thana.name,
+      bangla: thana.bangla,
       district: thana.district,
     });
   }
@@ -66,6 +68,7 @@ export class ThanaUpdateComponent implements OnInit {
       ...new Thana(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
+      bangla: this.editForm.get(['bangla'])!.value,
       district: this.editForm.get(['district'])!.value,
     };
   }

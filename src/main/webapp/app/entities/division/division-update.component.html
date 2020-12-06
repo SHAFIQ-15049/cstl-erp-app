@@ -22,6 +22,18 @@
                         </small>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bangla">Bangla</label>
+                    <input type="text" class="form-control" name="bangla" id="field_bangla"
+                           formControlName="bangla"/>
+                    <div *ngIf="editForm.get('bangla')!.invalid && (editForm.get('bangla')!.dirty || editForm.get('bangla')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('bangla')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
             </div>
 
             <div>

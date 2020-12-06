@@ -27,6 +27,10 @@ public class District extends AbstractAuditingEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @Column(name = "bangla", nullable = false)
+    private String bangla;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "districts", allowSetters = true)
     private Division division;
@@ -51,6 +55,19 @@ public class District extends AbstractAuditingEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBangla() {
+        return bangla;
+    }
+
+    public District bangla(String bangla) {
+        this.bangla = bangla;
+        return this;
+    }
+
+    public void setBangla(String bangla) {
+        this.bangla = bangla;
     }
 
     public Division getDivision() {
@@ -89,6 +106,7 @@ public class District extends AbstractAuditingEntity implements Serializable {
         return "District{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", bangla='" + getBangla() + "'" +
             "}";
     }
 }

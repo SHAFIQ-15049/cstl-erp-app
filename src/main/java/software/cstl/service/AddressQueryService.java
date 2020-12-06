@@ -91,11 +91,20 @@ public class AddressQueryService extends QueryService<Address> {
             if (criteria.getPresentStreet() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPresentStreet(), Address_.presentStreet));
             }
+            if (criteria.getPresentStreetBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentStreetBangla(), Address_.presentStreetBangla));
+            }
             if (criteria.getPresentArea() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPresentArea(), Address_.presentArea));
             }
+            if (criteria.getPresentAreaBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentAreaBangla(), Address_.presentAreaBangla));
+            }
             if (criteria.getPresentPostCode() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPresentPostCode(), Address_.presentPostCode));
+            }
+            if (criteria.getPresentPostCodeBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentPostCodeBangla(), Address_.presentPostCodeBangla));
             }
             if (criteria.getPermanentThanaTxt() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPermanentThanaTxt(), Address_.permanentThanaTxt));
@@ -103,11 +112,20 @@ public class AddressQueryService extends QueryService<Address> {
             if (criteria.getPermanentStreet() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPermanentStreet(), Address_.permanentStreet));
             }
+            if (criteria.getPermanentStreetBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentStreetBangla(), Address_.permanentStreetBangla));
+            }
             if (criteria.getPermanentArea() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPermanentArea(), Address_.permanentArea));
             }
+            if (criteria.getPermanentAreaBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentAreaBangla(), Address_.permanentAreaBangla));
+            }
             if (criteria.getPermanentPostCode() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getPermanentPostCode(), Address_.permanentPostCode));
+            }
+            if (criteria.getPermenentPostCodeBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermenentPostCodeBangla(), Address_.permenentPostCodeBangla));
             }
             if (criteria.getIsSame() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsSame(), Address_.isSame));

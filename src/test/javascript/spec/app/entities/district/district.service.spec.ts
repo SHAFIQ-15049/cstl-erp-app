@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(DistrictService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new District(0, 'AAAAAAA');
+      elemDefault = new District(0, 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -55,6 +55,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            bangla: 'BBBBBB',
           },
           elemDefault
         );
@@ -72,6 +73,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            bangla: 'BBBBBB',
           },
           elemDefault
         );

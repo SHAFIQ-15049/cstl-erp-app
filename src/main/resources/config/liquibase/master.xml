@@ -54,6 +54,7 @@
     <include file="config/liquibase/changelog/20201201191426_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201202164430_changelog_employee_related_tables_refactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201205173352_changelog_entity_Line_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201206164121_changelog_bangla_added.xml" relativeToChangelogFile="false"/>
 
 
 

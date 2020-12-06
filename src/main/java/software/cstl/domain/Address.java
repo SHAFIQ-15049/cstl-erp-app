@@ -29,11 +29,20 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @Column(name = "present_street")
     private String presentStreet;
 
+    @Column(name = "present_street_bangla")
+    private String presentStreetBangla;
+
     @Column(name = "present_area")
     private String presentArea;
 
+    @Column(name = "present_area_bangla")
+    private String presentAreaBangla;
+
     @Column(name = "present_post_code")
     private Integer presentPostCode;
+
+    @Column(name = "present_post_code_bangla")
+    private String presentPostCodeBangla;
 
     @Column(name = "permanent_thana_txt")
     private String permanentThanaTxt;
@@ -41,11 +50,20 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @Column(name = "permanent_street")
     private String permanentStreet;
 
+    @Column(name = "permanent_street_bangla")
+    private String permanentStreetBangla;
+
     @Column(name = "permanent_area")
     private String permanentArea;
 
+    @Column(name = "permanent_area_bangla")
+    private String permanentAreaBangla;
+
     @Column(name = "permanent_post_code")
     private Integer permanentPostCode;
+
+    @Column(name = "permenent_post_code_bangla")
+    private String permenentPostCodeBangla;
 
     @Column(name = "is_same")
     private Boolean isSame;
@@ -113,6 +131,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.presentStreet = presentStreet;
     }
 
+    public String getPresentStreetBangla() {
+        return presentStreetBangla;
+    }
+
+    public Address presentStreetBangla(String presentStreetBangla) {
+        this.presentStreetBangla = presentStreetBangla;
+        return this;
+    }
+
+    public void setPresentStreetBangla(String presentStreetBangla) {
+        this.presentStreetBangla = presentStreetBangla;
+    }
+
     public String getPresentArea() {
         return presentArea;
     }
@@ -126,6 +157,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.presentArea = presentArea;
     }
 
+    public String getPresentAreaBangla() {
+        return presentAreaBangla;
+    }
+
+    public Address presentAreaBangla(String presentAreaBangla) {
+        this.presentAreaBangla = presentAreaBangla;
+        return this;
+    }
+
+    public void setPresentAreaBangla(String presentAreaBangla) {
+        this.presentAreaBangla = presentAreaBangla;
+    }
+
     public Integer getPresentPostCode() {
         return presentPostCode;
     }
@@ -137,6 +181,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
 
     public void setPresentPostCode(Integer presentPostCode) {
         this.presentPostCode = presentPostCode;
+    }
+
+    public String getPresentPostCodeBangla() {
+        return presentPostCodeBangla;
+    }
+
+    public Address presentPostCodeBangla(String presentPostCodeBangla) {
+        this.presentPostCodeBangla = presentPostCodeBangla;
+        return this;
+    }
+
+    public void setPresentPostCodeBangla(String presentPostCodeBangla) {
+        this.presentPostCodeBangla = presentPostCodeBangla;
     }
 
     public String getPermanentThanaTxt() {
@@ -165,6 +222,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.permanentStreet = permanentStreet;
     }
 
+    public String getPermanentStreetBangla() {
+        return permanentStreetBangla;
+    }
+
+    public Address permanentStreetBangla(String permanentStreetBangla) {
+        this.permanentStreetBangla = permanentStreetBangla;
+        return this;
+    }
+
+    public void setPermanentStreetBangla(String permanentStreetBangla) {
+        this.permanentStreetBangla = permanentStreetBangla;
+    }
+
     public String getPermanentArea() {
         return permanentArea;
     }
@@ -178,6 +248,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.permanentArea = permanentArea;
     }
 
+    public String getPermanentAreaBangla() {
+        return permanentAreaBangla;
+    }
+
+    public Address permanentAreaBangla(String permanentAreaBangla) {
+        this.permanentAreaBangla = permanentAreaBangla;
+        return this;
+    }
+
+    public void setPermanentAreaBangla(String permanentAreaBangla) {
+        this.permanentAreaBangla = permanentAreaBangla;
+    }
+
     public Integer getPermanentPostCode() {
         return permanentPostCode;
     }
@@ -189,6 +272,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
 
     public void setPermanentPostCode(Integer permanentPostCode) {
         this.permanentPostCode = permanentPostCode;
+    }
+
+    public String getPermenentPostCodeBangla() {
+        return permenentPostCodeBangla;
+    }
+
+    public Address permenentPostCodeBangla(String permenentPostCodeBangla) {
+        this.permenentPostCodeBangla = permenentPostCodeBangla;
+        return this;
+    }
+
+    public void setPermenentPostCodeBangla(String permenentPostCodeBangla) {
+        this.permenentPostCodeBangla = permenentPostCodeBangla;
     }
 
     public Boolean isIsSame() {
@@ -319,12 +415,18 @@ public class Address extends AbstractAuditingEntity implements Serializable {
             "id=" + getId() +
             ", presentThanaTxt='" + getPresentThanaTxt() + "'" +
             ", presentStreet='" + getPresentStreet() + "'" +
+            ", presentStreetBangla='" + getPresentStreetBangla() + "'" +
             ", presentArea='" + getPresentArea() + "'" +
+            ", presentAreaBangla='" + getPresentAreaBangla() + "'" +
             ", presentPostCode=" + getPresentPostCode() +
+            ", presentPostCodeBangla='" + getPresentPostCodeBangla() + "'" +
             ", permanentThanaTxt='" + getPermanentThanaTxt() + "'" +
             ", permanentStreet='" + getPermanentStreet() + "'" +
+            ", permanentStreetBangla='" + getPermanentStreetBangla() + "'" +
             ", permanentArea='" + getPermanentArea() + "'" +
+            ", permanentAreaBangla='" + getPermanentAreaBangla() + "'" +
             ", permanentPostCode=" + getPermanentPostCode() +
+            ", permenentPostCodeBangla='" + getPermenentPostCodeBangla() + "'" +
             ", isSame='" + isIsSame() + "'" +
             "}";
     }

@@ -53,8 +53,14 @@ public class PersonalInfoResourceIT {
     private static final String DEFAULT_FATHER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FATHER_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_FATHER_NAME_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_FATHER_NAME_BANGLA = "BBBBBBBBBB";
+
     private static final String DEFAULT_MOTHER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_MOTHER_NAME = "BBBBBBBBBB";
+
+    private static final String DEFAULT_MOTHER_NAME_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_MOTHER_NAME_BANGLA = "BBBBBBBBBB";
 
     private static final MaritalStatus DEFAULT_MARITAL_STATUS = MaritalStatus.SINGLE;
     private static final MaritalStatus UPDATED_MARITAL_STATUS = MaritalStatus.MARRIED;
@@ -115,7 +121,9 @@ public class PersonalInfoResourceIT {
             .photo(DEFAULT_PHOTO)
             .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE)
             .fatherName(DEFAULT_FATHER_NAME)
+            .fatherNameBangla(DEFAULT_FATHER_NAME_BANGLA)
             .motherName(DEFAULT_MOTHER_NAME)
+            .motherNameBangla(DEFAULT_MOTHER_NAME_BANGLA)
             .maritalStatus(DEFAULT_MARITAL_STATUS)
             .spouseName(DEFAULT_SPOUSE_NAME)
             .dateOfBirth(DEFAULT_DATE_OF_BIRTH)
@@ -140,7 +148,9 @@ public class PersonalInfoResourceIT {
             .photo(UPDATED_PHOTO)
             .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .fatherName(UPDATED_FATHER_NAME)
+            .fatherNameBangla(UPDATED_FATHER_NAME_BANGLA)
             .motherName(UPDATED_MOTHER_NAME)
+            .motherNameBangla(UPDATED_MOTHER_NAME_BANGLA)
             .maritalStatus(UPDATED_MARITAL_STATUS)
             .spouseName(UPDATED_SPOUSE_NAME)
             .dateOfBirth(UPDATED_DATE_OF_BIRTH)
@@ -177,7 +187,9 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getPhoto()).isEqualTo(DEFAULT_PHOTO);
         assertThat(testPersonalInfo.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
         assertThat(testPersonalInfo.getFatherName()).isEqualTo(DEFAULT_FATHER_NAME);
+        assertThat(testPersonalInfo.getFatherNameBangla()).isEqualTo(DEFAULT_FATHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMotherName()).isEqualTo(DEFAULT_MOTHER_NAME);
+        assertThat(testPersonalInfo.getMotherNameBangla()).isEqualTo(DEFAULT_MOTHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMaritalStatus()).isEqualTo(DEFAULT_MARITAL_STATUS);
         assertThat(testPersonalInfo.getSpouseName()).isEqualTo(DEFAULT_SPOUSE_NAME);
         assertThat(testPersonalInfo.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
@@ -301,7 +313,9 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
             .andExpect(jsonPath("$.[*].fatherName").value(hasItem(DEFAULT_FATHER_NAME)))
+            .andExpect(jsonPath("$.[*].fatherNameBangla").value(hasItem(DEFAULT_FATHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].motherName").value(hasItem(DEFAULT_MOTHER_NAME)))
+            .andExpect(jsonPath("$.[*].motherNameBangla").value(hasItem(DEFAULT_MOTHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS.toString())))
             .andExpect(jsonPath("$.[*].spouseName").value(hasItem(DEFAULT_SPOUSE_NAME)))
             .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
@@ -329,7 +343,9 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
             .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)))
             .andExpect(jsonPath("$.fatherName").value(DEFAULT_FATHER_NAME))
+            .andExpect(jsonPath("$.fatherNameBangla").value(DEFAULT_FATHER_NAME_BANGLA))
             .andExpect(jsonPath("$.motherName").value(DEFAULT_MOTHER_NAME))
+            .andExpect(jsonPath("$.motherNameBangla").value(DEFAULT_MOTHER_NAME_BANGLA))
             .andExpect(jsonPath("$.maritalStatus").value(DEFAULT_MARITAL_STATUS.toString()))
             .andExpect(jsonPath("$.spouseName").value(DEFAULT_SPOUSE_NAME))
             .andExpect(jsonPath("$.dateOfBirth").value(DEFAULT_DATE_OF_BIRTH.toString()))
@@ -597,6 +613,84 @@ public class PersonalInfoResourceIT {
 
     @Test
     @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla equals to DEFAULT_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.equals=" + DEFAULT_FATHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where fatherNameBangla equals to UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.equals=" + UPDATED_FATHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla not equals to DEFAULT_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.notEquals=" + DEFAULT_FATHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where fatherNameBangla not equals to UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.notEquals=" + UPDATED_FATHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla in DEFAULT_FATHER_NAME_BANGLA or UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.in=" + DEFAULT_FATHER_NAME_BANGLA + "," + UPDATED_FATHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where fatherNameBangla equals to UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.in=" + UPDATED_FATHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla is not null
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.specified=true");
+
+        // Get all the personalInfoList where fatherNameBangla is null
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla contains DEFAULT_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.contains=" + DEFAULT_FATHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where fatherNameBangla contains UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.contains=" + UPDATED_FATHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByFatherNameBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where fatherNameBangla does not contain DEFAULT_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("fatherNameBangla.doesNotContain=" + DEFAULT_FATHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where fatherNameBangla does not contain UPDATED_FATHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("fatherNameBangla.doesNotContain=" + UPDATED_FATHER_NAME_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPersonalInfosByMotherNameIsEqualToSomething() throws Exception {
         // Initialize the database
         personalInfoRepository.saveAndFlush(personalInfo);
@@ -670,6 +764,84 @@ public class PersonalInfoResourceIT {
 
         // Get all the personalInfoList where motherName does not contain UPDATED_MOTHER_NAME
         defaultPersonalInfoShouldBeFound("motherName.doesNotContain=" + UPDATED_MOTHER_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla equals to DEFAULT_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("motherNameBangla.equals=" + DEFAULT_MOTHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where motherNameBangla equals to UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.equals=" + UPDATED_MOTHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla not equals to DEFAULT_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.notEquals=" + DEFAULT_MOTHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where motherNameBangla not equals to UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("motherNameBangla.notEquals=" + UPDATED_MOTHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla in DEFAULT_MOTHER_NAME_BANGLA or UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("motherNameBangla.in=" + DEFAULT_MOTHER_NAME_BANGLA + "," + UPDATED_MOTHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where motherNameBangla equals to UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.in=" + UPDATED_MOTHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla is not null
+        defaultPersonalInfoShouldBeFound("motherNameBangla.specified=true");
+
+        // Get all the personalInfoList where motherNameBangla is null
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla contains DEFAULT_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("motherNameBangla.contains=" + DEFAULT_MOTHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where motherNameBangla contains UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.contains=" + UPDATED_MOTHER_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByMotherNameBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where motherNameBangla does not contain DEFAULT_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("motherNameBangla.doesNotContain=" + DEFAULT_MOTHER_NAME_BANGLA);
+
+        // Get all the personalInfoList where motherNameBangla does not contain UPDATED_MOTHER_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("motherNameBangla.doesNotContain=" + UPDATED_MOTHER_NAME_BANGLA);
     }
 
 
@@ -1384,7 +1556,9 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
             .andExpect(jsonPath("$.[*].fatherName").value(hasItem(DEFAULT_FATHER_NAME)))
+            .andExpect(jsonPath("$.[*].fatherNameBangla").value(hasItem(DEFAULT_FATHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].motherName").value(hasItem(DEFAULT_MOTHER_NAME)))
+            .andExpect(jsonPath("$.[*].motherNameBangla").value(hasItem(DEFAULT_MOTHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS.toString())))
             .andExpect(jsonPath("$.[*].spouseName").value(hasItem(DEFAULT_SPOUSE_NAME)))
             .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
@@ -1445,7 +1619,9 @@ public class PersonalInfoResourceIT {
             .photo(UPDATED_PHOTO)
             .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
             .fatherName(UPDATED_FATHER_NAME)
+            .fatherNameBangla(UPDATED_FATHER_NAME_BANGLA)
             .motherName(UPDATED_MOTHER_NAME)
+            .motherNameBangla(UPDATED_MOTHER_NAME_BANGLA)
             .maritalStatus(UPDATED_MARITAL_STATUS)
             .spouseName(UPDATED_SPOUSE_NAME)
             .dateOfBirth(UPDATED_DATE_OF_BIRTH)
@@ -1470,7 +1646,9 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testPersonalInfo.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
         assertThat(testPersonalInfo.getFatherName()).isEqualTo(UPDATED_FATHER_NAME);
+        assertThat(testPersonalInfo.getFatherNameBangla()).isEqualTo(UPDATED_FATHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMotherName()).isEqualTo(UPDATED_MOTHER_NAME);
+        assertThat(testPersonalInfo.getMotherNameBangla()).isEqualTo(UPDATED_MOTHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMaritalStatus()).isEqualTo(UPDATED_MARITAL_STATUS);
         assertThat(testPersonalInfo.getSpouseName()).isEqualTo(UPDATED_SPOUSE_NAME);
         assertThat(testPersonalInfo.getDateOfBirth()).isEqualTo(UPDATED_DATE_OF_BIRTH);

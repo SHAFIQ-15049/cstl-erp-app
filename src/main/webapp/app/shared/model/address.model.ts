@@ -7,12 +7,18 @@ export interface IAddress {
   id?: number;
   presentThanaTxt?: string;
   presentStreet?: string;
+  presentStreetBangla?: string;
   presentArea?: string;
+  presentAreaBangla?: string;
   presentPostCode?: number;
+  presentPostCodeBangla?: string;
   permanentThanaTxt?: string;
   permanentStreet?: string;
+  permanentStreetBangla?: string;
   permanentArea?: string;
+  permanentAreaBangla?: string;
   permanentPostCode?: number;
+  permenentPostCodeBangla?: string;
   isSame?: boolean;
   presentDivision?: IDivision;
   presentDistrict?: IDistrict;
@@ -28,12 +34,18 @@ export class Address implements IAddress {
     public id?: number,
     public presentThanaTxt?: string,
     public presentStreet?: string,
+    public presentStreetBangla?: string,
     public presentArea?: string,
+    public presentAreaBangla?: string,
     public presentPostCode?: number,
+    public presentPostCodeBangla?: string,
     public permanentThanaTxt?: string,
     public permanentStreet?: string,
+    public permanentStreetBangla?: string,
     public permanentArea?: string,
+    public permanentAreaBangla?: string,
     public permanentPostCode?: number,
+    public permenentPostCodeBangla?: string,
     public isSame?: boolean,
     public presentDivision?: IDivision,
     public presentDistrict?: IDistrict,

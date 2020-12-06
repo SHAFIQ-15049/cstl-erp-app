@@ -31,12 +31,18 @@ export class AddressUpdatePage {
 
   presentThanaTxtInput = element(by.id('field_presentThanaTxt'));
   presentStreetInput = element(by.id('field_presentStreet'));
+  presentStreetBanglaInput = element(by.id('field_presentStreetBangla'));
   presentAreaInput = element(by.id('field_presentArea'));
+  presentAreaBanglaInput = element(by.id('field_presentAreaBangla'));
   presentPostCodeInput = element(by.id('field_presentPostCode'));
+  presentPostCodeBanglaInput = element(by.id('field_presentPostCodeBangla'));
   permanentThanaTxtInput = element(by.id('field_permanentThanaTxt'));
   permanentStreetInput = element(by.id('field_permanentStreet'));
+  permanentStreetBanglaInput = element(by.id('field_permanentStreetBangla'));
   permanentAreaInput = element(by.id('field_permanentArea'));
+  permanentAreaBanglaInput = element(by.id('field_permanentAreaBangla'));
   permanentPostCodeInput = element(by.id('field_permanentPostCode'));
+  permenentPostCodeBanglaInput = element(by.id('field_permenentPostCodeBangla'));
   isSameInput = element(by.id('field_isSame'));
 
   presentDivisionSelect = element(by.id('field_presentDivision'));
@@ -66,6 +72,14 @@ export class AddressUpdatePage {
     return await this.presentStreetInput.getAttribute('value');
   }
 
+  async setPresentStreetBanglaInput(presentStreetBangla: string): Promise<void> {
+    await this.presentStreetBanglaInput.sendKeys(presentStreetBangla);
+  }
+
+  async getPresentStreetBanglaInput(): Promise<string> {
+    return await this.presentStreetBanglaInput.getAttribute('value');
+  }
+
   async setPresentAreaInput(presentArea: string): Promise<void> {
     await this.presentAreaInput.sendKeys(presentArea);
   }
@@ -74,12 +88,28 @@ export class AddressUpdatePage {
     return await this.presentAreaInput.getAttribute('value');
   }
 
+  async setPresentAreaBanglaInput(presentAreaBangla: string): Promise<void> {
+    await this.presentAreaBanglaInput.sendKeys(presentAreaBangla);
+  }
+
+  async getPresentAreaBanglaInput(): Promise<string> {
+    return await this.presentAreaBanglaInput.getAttribute('value');
+  }
+
   async setPresentPostCodeInput(presentPostCode: string): Promise<void> {
     await this.presentPostCodeInput.sendKeys(presentPostCode);
   }
 
   async getPresentPostCodeInput(): Promise<string> {
     return await this.presentPostCodeInput.getAttribute('value');
+  }
+
+  async setPresentPostCodeBanglaInput(presentPostCodeBangla: string): Promise<void> {
+    await this.presentPostCodeBanglaInput.sendKeys(presentPostCodeBangla);
+  }
+
+  async getPresentPostCodeBanglaInput(): Promise<string> {
+    return await this.presentPostCodeBanglaInput.getAttribute('value');
   }
 
   async setPermanentThanaTxtInput(permanentThanaTxt: string): Promise<void> {
@@ -98,6 +128,14 @@ export class AddressUpdatePage {
     return await this.permanentStreetInput.getAttribute('value');
   }
 
+  async setPermanentStreetBanglaInput(permanentStreetBangla: string): Promise<void> {
+    await this.permanentStreetBanglaInput.sendKeys(permanentStreetBangla);
+  }
+
+  async getPermanentStreetBanglaInput(): Promise<string> {
+    return await this.permanentStreetBanglaInput.getAttribute('value');
+  }
+
   async setPermanentAreaInput(permanentArea: string): Promise<void> {
     await this.permanentAreaInput.sendKeys(permanentArea);
   }
@@ -106,12 +144,28 @@ export class AddressUpdatePage {
     return await this.permanentAreaInput.getAttribute('value');
   }
 
+  async setPermanentAreaBanglaInput(permanentAreaBangla: string): Promise<void> {
+    await this.permanentAreaBanglaInput.sendKeys(permanentAreaBangla);
+  }
+
+  async getPermanentAreaBanglaInput(): Promise<string> {
+    return await this.permanentAreaBanglaInput.getAttribute('value');
+  }
+
   async setPermanentPostCodeInput(permanentPostCode: string): Promise<void> {
     await this.permanentPostCodeInput.sendKeys(permanentPostCode);
   }
 
   async getPermanentPostCodeInput(): Promise<string> {
     return await this.permanentPostCodeInput.getAttribute('value');
+  }
+
+  async setPermenentPostCodeBanglaInput(permenentPostCodeBangla: string): Promise<void> {
+    await this.permenentPostCodeBanglaInput.sendKeys(permenentPostCodeBangla);
+  }
+
+  async getPermenentPostCodeBanglaInput(): Promise<string> {
+    return await this.permenentPostCodeBanglaInput.getAttribute('value');
   }
 
   getIsSameInput(): ElementFinder {

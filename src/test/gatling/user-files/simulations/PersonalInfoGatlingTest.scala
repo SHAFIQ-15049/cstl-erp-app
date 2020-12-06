@@ -76,7 +76,9 @@ class PersonalInfoGatlingTest extends Simulation {
                 , "banglaName":"SAMPLE_TEXT"
                 , "photo":null
                 , "fatherName":"SAMPLE_TEXT"
+                , "fatherNameBangla":"SAMPLE_TEXT"
                 , "motherName":"SAMPLE_TEXT"
+                , "motherNameBangla":"SAMPLE_TEXT"
                 , "maritalStatus":"SINGLE"
                 , "spouseName":"SAMPLE_TEXT"
                 , "dateOfBirth":"2020-01-01T00:00:00.000Z"

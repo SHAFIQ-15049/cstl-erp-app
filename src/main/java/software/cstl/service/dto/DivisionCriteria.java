@@ -28,12 +28,15 @@ public class DivisionCriteria implements Serializable, Criteria {
 
     private StringFilter name;
 
+    private StringFilter bangla;
+
     public DivisionCriteria() {
     }
 
     public DivisionCriteria(DivisionCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
+        this.bangla = other.bangla == null ? null : other.bangla.copy();
     }
 
     @Override
@@ -57,6 +60,14 @@ public class DivisionCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
+    public StringFilter getBangla() {
+        return bangla;
+    }
+
+    public void setBangla(StringFilter bangla) {
+        this.bangla = bangla;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -69,14 +80,16 @@ public class DivisionCriteria implements Serializable, Criteria {
         final DivisionCriteria that = (DivisionCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(name, that.name);
+            Objects.equals(name, that.name) &&
+            Objects.equals(bangla, that.bangla);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
         id,
-        name
+        name,
+        bangla
         );
     }
 
@@ -86,6 +99,7 @@ public class DivisionCriteria implements Serializable, Criteria {
         return "DivisionCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (bangla != null ? "bangla=" + bangla + ", " : "") +
             "}";
     }
 

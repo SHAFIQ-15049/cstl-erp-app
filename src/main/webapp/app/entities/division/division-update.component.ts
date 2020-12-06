@@ -18,6 +18,7 @@ export class DivisionUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
+    bangla: [null, [Validators.required]],
   });
 
   constructor(protected divisionService: DivisionService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -32,6 +33,7 @@ export class DivisionUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: division.id,
       name: division.name,
+      bangla: division.bangla,
     });
   }
 
@@ -54,6 +56,7 @@ export class DivisionUpdateComponent implements OnInit {
       ...new Division(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
+      bangla: this.editForm.get(['bangla'])!.value,
     };
   }
 

@@ -42,12 +42,21 @@ public class AddressResourceIT {
     private static final String DEFAULT_PRESENT_STREET = "AAAAAAAAAA";
     private static final String UPDATED_PRESENT_STREET = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PRESENT_STREET_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PRESENT_STREET_BANGLA = "BBBBBBBBBB";
+
     private static final String DEFAULT_PRESENT_AREA = "AAAAAAAAAA";
     private static final String UPDATED_PRESENT_AREA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PRESENT_AREA_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PRESENT_AREA_BANGLA = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_PRESENT_POST_CODE = 1;
     private static final Integer UPDATED_PRESENT_POST_CODE = 2;
     private static final Integer SMALLER_PRESENT_POST_CODE = 1 - 1;
+
+    private static final String DEFAULT_PRESENT_POST_CODE_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PRESENT_POST_CODE_BANGLA = "BBBBBBBBBB";
 
     private static final String DEFAULT_PERMANENT_THANA_TXT = "AAAAAAAAAA";
     private static final String UPDATED_PERMANENT_THANA_TXT = "BBBBBBBBBB";
@@ -55,12 +64,21 @@ public class AddressResourceIT {
     private static final String DEFAULT_PERMANENT_STREET = "AAAAAAAAAA";
     private static final String UPDATED_PERMANENT_STREET = "BBBBBBBBBB";
 
+    private static final String DEFAULT_PERMANENT_STREET_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PERMANENT_STREET_BANGLA = "BBBBBBBBBB";
+
     private static final String DEFAULT_PERMANENT_AREA = "AAAAAAAAAA";
     private static final String UPDATED_PERMANENT_AREA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PERMANENT_AREA_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PERMANENT_AREA_BANGLA = "BBBBBBBBBB";
 
     private static final Integer DEFAULT_PERMANENT_POST_CODE = 1;
     private static final Integer UPDATED_PERMANENT_POST_CODE = 2;
     private static final Integer SMALLER_PERMANENT_POST_CODE = 1 - 1;
+
+    private static final String DEFAULT_PERMENENT_POST_CODE_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_PERMENENT_POST_CODE_BANGLA = "BBBBBBBBBB";
 
     private static final Boolean DEFAULT_IS_SAME = false;
     private static final Boolean UPDATED_IS_SAME = true;
@@ -92,12 +110,18 @@ public class AddressResourceIT {
         Address address = new Address()
             .presentThanaTxt(DEFAULT_PRESENT_THANA_TXT)
             .presentStreet(DEFAULT_PRESENT_STREET)
+            .presentStreetBangla(DEFAULT_PRESENT_STREET_BANGLA)
             .presentArea(DEFAULT_PRESENT_AREA)
+            .presentAreaBangla(DEFAULT_PRESENT_AREA_BANGLA)
             .presentPostCode(DEFAULT_PRESENT_POST_CODE)
+            .presentPostCodeBangla(DEFAULT_PRESENT_POST_CODE_BANGLA)
             .permanentThanaTxt(DEFAULT_PERMANENT_THANA_TXT)
             .permanentStreet(DEFAULT_PERMANENT_STREET)
+            .permanentStreetBangla(DEFAULT_PERMANENT_STREET_BANGLA)
             .permanentArea(DEFAULT_PERMANENT_AREA)
+            .permanentAreaBangla(DEFAULT_PERMANENT_AREA_BANGLA)
             .permanentPostCode(DEFAULT_PERMANENT_POST_CODE)
+            .permenentPostCodeBangla(DEFAULT_PERMENENT_POST_CODE_BANGLA)
             .isSame(DEFAULT_IS_SAME);
         return address;
     }
@@ -111,12 +135,18 @@ public class AddressResourceIT {
         Address address = new Address()
             .presentThanaTxt(UPDATED_PRESENT_THANA_TXT)
             .presentStreet(UPDATED_PRESENT_STREET)
+            .presentStreetBangla(UPDATED_PRESENT_STREET_BANGLA)
             .presentArea(UPDATED_PRESENT_AREA)
+            .presentAreaBangla(UPDATED_PRESENT_AREA_BANGLA)
             .presentPostCode(UPDATED_PRESENT_POST_CODE)
+            .presentPostCodeBangla(UPDATED_PRESENT_POST_CODE_BANGLA)
             .permanentThanaTxt(UPDATED_PERMANENT_THANA_TXT)
             .permanentStreet(UPDATED_PERMANENT_STREET)
+            .permanentStreetBangla(UPDATED_PERMANENT_STREET_BANGLA)
             .permanentArea(UPDATED_PERMANENT_AREA)
+            .permanentAreaBangla(UPDATED_PERMANENT_AREA_BANGLA)
             .permanentPostCode(UPDATED_PERMANENT_POST_CODE)
+            .permenentPostCodeBangla(UPDATED_PERMENENT_POST_CODE_BANGLA)
             .isSame(UPDATED_IS_SAME);
         return address;
     }
@@ -142,12 +172,18 @@ public class AddressResourceIT {
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getPresentThanaTxt()).isEqualTo(DEFAULT_PRESENT_THANA_TXT);
         assertThat(testAddress.getPresentStreet()).isEqualTo(DEFAULT_PRESENT_STREET);
+        assertThat(testAddress.getPresentStreetBangla()).isEqualTo(DEFAULT_PRESENT_STREET_BANGLA);
         assertThat(testAddress.getPresentArea()).isEqualTo(DEFAULT_PRESENT_AREA);
+        assertThat(testAddress.getPresentAreaBangla()).isEqualTo(DEFAULT_PRESENT_AREA_BANGLA);
         assertThat(testAddress.getPresentPostCode()).isEqualTo(DEFAULT_PRESENT_POST_CODE);
+        assertThat(testAddress.getPresentPostCodeBangla()).isEqualTo(DEFAULT_PRESENT_POST_CODE_BANGLA);
         assertThat(testAddress.getPermanentThanaTxt()).isEqualTo(DEFAULT_PERMANENT_THANA_TXT);
         assertThat(testAddress.getPermanentStreet()).isEqualTo(DEFAULT_PERMANENT_STREET);
+        assertThat(testAddress.getPermanentStreetBangla()).isEqualTo(DEFAULT_PERMANENT_STREET_BANGLA);
         assertThat(testAddress.getPermanentArea()).isEqualTo(DEFAULT_PERMANENT_AREA);
+        assertThat(testAddress.getPermanentAreaBangla()).isEqualTo(DEFAULT_PERMANENT_AREA_BANGLA);
         assertThat(testAddress.getPermanentPostCode()).isEqualTo(DEFAULT_PERMANENT_POST_CODE);
+        assertThat(testAddress.getPermenentPostCodeBangla()).isEqualTo(DEFAULT_PERMENENT_POST_CODE_BANGLA);
         assertThat(testAddress.isIsSame()).isEqualTo(DEFAULT_IS_SAME);
     }
 
@@ -184,12 +220,18 @@ public class AddressResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
             .andExpect(jsonPath("$.[*].presentThanaTxt").value(hasItem(DEFAULT_PRESENT_THANA_TXT)))
             .andExpect(jsonPath("$.[*].presentStreet").value(hasItem(DEFAULT_PRESENT_STREET)))
+            .andExpect(jsonPath("$.[*].presentStreetBangla").value(hasItem(DEFAULT_PRESENT_STREET_BANGLA)))
             .andExpect(jsonPath("$.[*].presentArea").value(hasItem(DEFAULT_PRESENT_AREA)))
+            .andExpect(jsonPath("$.[*].presentAreaBangla").value(hasItem(DEFAULT_PRESENT_AREA_BANGLA)))
             .andExpect(jsonPath("$.[*].presentPostCode").value(hasItem(DEFAULT_PRESENT_POST_CODE)))
+            .andExpect(jsonPath("$.[*].presentPostCodeBangla").value(hasItem(DEFAULT_PRESENT_POST_CODE_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentThanaTxt").value(hasItem(DEFAULT_PERMANENT_THANA_TXT)))
             .andExpect(jsonPath("$.[*].permanentStreet").value(hasItem(DEFAULT_PERMANENT_STREET)))
+            .andExpect(jsonPath("$.[*].permanentStreetBangla").value(hasItem(DEFAULT_PERMANENT_STREET_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentArea").value(hasItem(DEFAULT_PERMANENT_AREA)))
+            .andExpect(jsonPath("$.[*].permanentAreaBangla").value(hasItem(DEFAULT_PERMANENT_AREA_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentPostCode").value(hasItem(DEFAULT_PERMANENT_POST_CODE)))
+            .andExpect(jsonPath("$.[*].permenentPostCodeBangla").value(hasItem(DEFAULT_PERMENENT_POST_CODE_BANGLA)))
             .andExpect(jsonPath("$.[*].isSame").value(hasItem(DEFAULT_IS_SAME.booleanValue())));
     }
     
@@ -206,12 +248,18 @@ public class AddressResourceIT {
             .andExpect(jsonPath("$.id").value(address.getId().intValue()))
             .andExpect(jsonPath("$.presentThanaTxt").value(DEFAULT_PRESENT_THANA_TXT))
             .andExpect(jsonPath("$.presentStreet").value(DEFAULT_PRESENT_STREET))
+            .andExpect(jsonPath("$.presentStreetBangla").value(DEFAULT_PRESENT_STREET_BANGLA))
             .andExpect(jsonPath("$.presentArea").value(DEFAULT_PRESENT_AREA))
+            .andExpect(jsonPath("$.presentAreaBangla").value(DEFAULT_PRESENT_AREA_BANGLA))
             .andExpect(jsonPath("$.presentPostCode").value(DEFAULT_PRESENT_POST_CODE))
+            .andExpect(jsonPath("$.presentPostCodeBangla").value(DEFAULT_PRESENT_POST_CODE_BANGLA))
             .andExpect(jsonPath("$.permanentThanaTxt").value(DEFAULT_PERMANENT_THANA_TXT))
             .andExpect(jsonPath("$.permanentStreet").value(DEFAULT_PERMANENT_STREET))
+            .andExpect(jsonPath("$.permanentStreetBangla").value(DEFAULT_PERMANENT_STREET_BANGLA))
             .andExpect(jsonPath("$.permanentArea").value(DEFAULT_PERMANENT_AREA))
+            .andExpect(jsonPath("$.permanentAreaBangla").value(DEFAULT_PERMANENT_AREA_BANGLA))
             .andExpect(jsonPath("$.permanentPostCode").value(DEFAULT_PERMANENT_POST_CODE))
+            .andExpect(jsonPath("$.permenentPostCodeBangla").value(DEFAULT_PERMENENT_POST_CODE_BANGLA))
             .andExpect(jsonPath("$.isSame").value(DEFAULT_IS_SAME.booleanValue()));
     }
 
@@ -393,6 +441,84 @@ public class AddressResourceIT {
 
     @Test
     @Transactional
+    public void getAllAddressesByPresentStreetBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla equals to DEFAULT_PRESENT_STREET_BANGLA
+        defaultAddressShouldBeFound("presentStreetBangla.equals=" + DEFAULT_PRESENT_STREET_BANGLA);
+
+        // Get all the addressList where presentStreetBangla equals to UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("presentStreetBangla.equals=" + UPDATED_PRESENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentStreetBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla not equals to DEFAULT_PRESENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("presentStreetBangla.notEquals=" + DEFAULT_PRESENT_STREET_BANGLA);
+
+        // Get all the addressList where presentStreetBangla not equals to UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldBeFound("presentStreetBangla.notEquals=" + UPDATED_PRESENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentStreetBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla in DEFAULT_PRESENT_STREET_BANGLA or UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldBeFound("presentStreetBangla.in=" + DEFAULT_PRESENT_STREET_BANGLA + "," + UPDATED_PRESENT_STREET_BANGLA);
+
+        // Get all the addressList where presentStreetBangla equals to UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("presentStreetBangla.in=" + UPDATED_PRESENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentStreetBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla is not null
+        defaultAddressShouldBeFound("presentStreetBangla.specified=true");
+
+        // Get all the addressList where presentStreetBangla is null
+        defaultAddressShouldNotBeFound("presentStreetBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPresentStreetBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla contains DEFAULT_PRESENT_STREET_BANGLA
+        defaultAddressShouldBeFound("presentStreetBangla.contains=" + DEFAULT_PRESENT_STREET_BANGLA);
+
+        // Get all the addressList where presentStreetBangla contains UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("presentStreetBangla.contains=" + UPDATED_PRESENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentStreetBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentStreetBangla does not contain DEFAULT_PRESENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("presentStreetBangla.doesNotContain=" + DEFAULT_PRESENT_STREET_BANGLA);
+
+        // Get all the addressList where presentStreetBangla does not contain UPDATED_PRESENT_STREET_BANGLA
+        defaultAddressShouldBeFound("presentStreetBangla.doesNotContain=" + UPDATED_PRESENT_STREET_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAddressesByPresentAreaIsEqualToSomething() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);
@@ -466,6 +592,84 @@ public class AddressResourceIT {
 
         // Get all the addressList where presentArea does not contain UPDATED_PRESENT_AREA
         defaultAddressShouldBeFound("presentArea.doesNotContain=" + UPDATED_PRESENT_AREA);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla equals to DEFAULT_PRESENT_AREA_BANGLA
+        defaultAddressShouldBeFound("presentAreaBangla.equals=" + DEFAULT_PRESENT_AREA_BANGLA);
+
+        // Get all the addressList where presentAreaBangla equals to UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("presentAreaBangla.equals=" + UPDATED_PRESENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla not equals to DEFAULT_PRESENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("presentAreaBangla.notEquals=" + DEFAULT_PRESENT_AREA_BANGLA);
+
+        // Get all the addressList where presentAreaBangla not equals to UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldBeFound("presentAreaBangla.notEquals=" + UPDATED_PRESENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla in DEFAULT_PRESENT_AREA_BANGLA or UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldBeFound("presentAreaBangla.in=" + DEFAULT_PRESENT_AREA_BANGLA + "," + UPDATED_PRESENT_AREA_BANGLA);
+
+        // Get all the addressList where presentAreaBangla equals to UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("presentAreaBangla.in=" + UPDATED_PRESENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla is not null
+        defaultAddressShouldBeFound("presentAreaBangla.specified=true");
+
+        // Get all the addressList where presentAreaBangla is null
+        defaultAddressShouldNotBeFound("presentAreaBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla contains DEFAULT_PRESENT_AREA_BANGLA
+        defaultAddressShouldBeFound("presentAreaBangla.contains=" + DEFAULT_PRESENT_AREA_BANGLA);
+
+        // Get all the addressList where presentAreaBangla contains UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("presentAreaBangla.contains=" + UPDATED_PRESENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentAreaBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentAreaBangla does not contain DEFAULT_PRESENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("presentAreaBangla.doesNotContain=" + DEFAULT_PRESENT_AREA_BANGLA);
+
+        // Get all the addressList where presentAreaBangla does not contain UPDATED_PRESENT_AREA_BANGLA
+        defaultAddressShouldBeFound("presentAreaBangla.doesNotContain=" + UPDATED_PRESENT_AREA_BANGLA);
     }
 
 
@@ -571,6 +775,84 @@ public class AddressResourceIT {
 
         // Get all the addressList where presentPostCode is greater than SMALLER_PRESENT_POST_CODE
         defaultAddressShouldBeFound("presentPostCode.greaterThan=" + SMALLER_PRESENT_POST_CODE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla equals to DEFAULT_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("presentPostCodeBangla.equals=" + DEFAULT_PRESENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where presentPostCodeBangla equals to UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.equals=" + UPDATED_PRESENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla not equals to DEFAULT_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.notEquals=" + DEFAULT_PRESENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where presentPostCodeBangla not equals to UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("presentPostCodeBangla.notEquals=" + UPDATED_PRESENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla in DEFAULT_PRESENT_POST_CODE_BANGLA or UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("presentPostCodeBangla.in=" + DEFAULT_PRESENT_POST_CODE_BANGLA + "," + UPDATED_PRESENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where presentPostCodeBangla equals to UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.in=" + UPDATED_PRESENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla is not null
+        defaultAddressShouldBeFound("presentPostCodeBangla.specified=true");
+
+        // Get all the addressList where presentPostCodeBangla is null
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla contains DEFAULT_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("presentPostCodeBangla.contains=" + DEFAULT_PRESENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where presentPostCodeBangla contains UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.contains=" + UPDATED_PRESENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPresentPostCodeBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where presentPostCodeBangla does not contain DEFAULT_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("presentPostCodeBangla.doesNotContain=" + DEFAULT_PRESENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where presentPostCodeBangla does not contain UPDATED_PRESENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("presentPostCodeBangla.doesNotContain=" + UPDATED_PRESENT_POST_CODE_BANGLA);
     }
 
 
@@ -732,6 +1014,84 @@ public class AddressResourceIT {
 
     @Test
     @Transactional
+    public void getAllAddressesByPermanentStreetBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla equals to DEFAULT_PERMANENT_STREET_BANGLA
+        defaultAddressShouldBeFound("permanentStreetBangla.equals=" + DEFAULT_PERMANENT_STREET_BANGLA);
+
+        // Get all the addressList where permanentStreetBangla equals to UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("permanentStreetBangla.equals=" + UPDATED_PERMANENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentStreetBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla not equals to DEFAULT_PERMANENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("permanentStreetBangla.notEquals=" + DEFAULT_PERMANENT_STREET_BANGLA);
+
+        // Get all the addressList where permanentStreetBangla not equals to UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldBeFound("permanentStreetBangla.notEquals=" + UPDATED_PERMANENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentStreetBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla in DEFAULT_PERMANENT_STREET_BANGLA or UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldBeFound("permanentStreetBangla.in=" + DEFAULT_PERMANENT_STREET_BANGLA + "," + UPDATED_PERMANENT_STREET_BANGLA);
+
+        // Get all the addressList where permanentStreetBangla equals to UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("permanentStreetBangla.in=" + UPDATED_PERMANENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentStreetBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla is not null
+        defaultAddressShouldBeFound("permanentStreetBangla.specified=true");
+
+        // Get all the addressList where permanentStreetBangla is null
+        defaultAddressShouldNotBeFound("permanentStreetBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPermanentStreetBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla contains DEFAULT_PERMANENT_STREET_BANGLA
+        defaultAddressShouldBeFound("permanentStreetBangla.contains=" + DEFAULT_PERMANENT_STREET_BANGLA);
+
+        // Get all the addressList where permanentStreetBangla contains UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("permanentStreetBangla.contains=" + UPDATED_PERMANENT_STREET_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentStreetBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentStreetBangla does not contain DEFAULT_PERMANENT_STREET_BANGLA
+        defaultAddressShouldNotBeFound("permanentStreetBangla.doesNotContain=" + DEFAULT_PERMANENT_STREET_BANGLA);
+
+        // Get all the addressList where permanentStreetBangla does not contain UPDATED_PERMANENT_STREET_BANGLA
+        defaultAddressShouldBeFound("permanentStreetBangla.doesNotContain=" + UPDATED_PERMANENT_STREET_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAddressesByPermanentAreaIsEqualToSomething() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);
@@ -805,6 +1165,84 @@ public class AddressResourceIT {
 
         // Get all the addressList where permanentArea does not contain UPDATED_PERMANENT_AREA
         defaultAddressShouldBeFound("permanentArea.doesNotContain=" + UPDATED_PERMANENT_AREA);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla equals to DEFAULT_PERMANENT_AREA_BANGLA
+        defaultAddressShouldBeFound("permanentAreaBangla.equals=" + DEFAULT_PERMANENT_AREA_BANGLA);
+
+        // Get all the addressList where permanentAreaBangla equals to UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("permanentAreaBangla.equals=" + UPDATED_PERMANENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla not equals to DEFAULT_PERMANENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("permanentAreaBangla.notEquals=" + DEFAULT_PERMANENT_AREA_BANGLA);
+
+        // Get all the addressList where permanentAreaBangla not equals to UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldBeFound("permanentAreaBangla.notEquals=" + UPDATED_PERMANENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla in DEFAULT_PERMANENT_AREA_BANGLA or UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldBeFound("permanentAreaBangla.in=" + DEFAULT_PERMANENT_AREA_BANGLA + "," + UPDATED_PERMANENT_AREA_BANGLA);
+
+        // Get all the addressList where permanentAreaBangla equals to UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("permanentAreaBangla.in=" + UPDATED_PERMANENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla is not null
+        defaultAddressShouldBeFound("permanentAreaBangla.specified=true");
+
+        // Get all the addressList where permanentAreaBangla is null
+        defaultAddressShouldNotBeFound("permanentAreaBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla contains DEFAULT_PERMANENT_AREA_BANGLA
+        defaultAddressShouldBeFound("permanentAreaBangla.contains=" + DEFAULT_PERMANENT_AREA_BANGLA);
+
+        // Get all the addressList where permanentAreaBangla contains UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("permanentAreaBangla.contains=" + UPDATED_PERMANENT_AREA_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermanentAreaBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permanentAreaBangla does not contain DEFAULT_PERMANENT_AREA_BANGLA
+        defaultAddressShouldNotBeFound("permanentAreaBangla.doesNotContain=" + DEFAULT_PERMANENT_AREA_BANGLA);
+
+        // Get all the addressList where permanentAreaBangla does not contain UPDATED_PERMANENT_AREA_BANGLA
+        defaultAddressShouldBeFound("permanentAreaBangla.doesNotContain=" + UPDATED_PERMANENT_AREA_BANGLA);
     }
 
 
@@ -910,6 +1348,84 @@ public class AddressResourceIT {
 
         // Get all the addressList where permanentPostCode is greater than SMALLER_PERMANENT_POST_CODE
         defaultAddressShouldBeFound("permanentPostCode.greaterThan=" + SMALLER_PERMANENT_POST_CODE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla equals to DEFAULT_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("permenentPostCodeBangla.equals=" + DEFAULT_PERMENENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where permenentPostCodeBangla equals to UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.equals=" + UPDATED_PERMENENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla not equals to DEFAULT_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.notEquals=" + DEFAULT_PERMENENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where permenentPostCodeBangla not equals to UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("permenentPostCodeBangla.notEquals=" + UPDATED_PERMENENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla in DEFAULT_PERMENENT_POST_CODE_BANGLA or UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("permenentPostCodeBangla.in=" + DEFAULT_PERMENENT_POST_CODE_BANGLA + "," + UPDATED_PERMENENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where permenentPostCodeBangla equals to UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.in=" + UPDATED_PERMENENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla is not null
+        defaultAddressShouldBeFound("permenentPostCodeBangla.specified=true");
+
+        // Get all the addressList where permenentPostCodeBangla is null
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla contains DEFAULT_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("permenentPostCodeBangla.contains=" + DEFAULT_PERMENENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where permenentPostCodeBangla contains UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.contains=" + UPDATED_PERMENENT_POST_CODE_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAddressesByPermenentPostCodeBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+
+        // Get all the addressList where permenentPostCodeBangla does not contain DEFAULT_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldNotBeFound("permenentPostCodeBangla.doesNotContain=" + DEFAULT_PERMENENT_POST_CODE_BANGLA);
+
+        // Get all the addressList where permenentPostCodeBangla does not contain UPDATED_PERMENENT_POST_CODE_BANGLA
+        defaultAddressShouldBeFound("permenentPostCodeBangla.doesNotContain=" + UPDATED_PERMENENT_POST_CODE_BANGLA);
     }
 
 
@@ -1115,12 +1631,18 @@ public class AddressResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(address.getId().intValue())))
             .andExpect(jsonPath("$.[*].presentThanaTxt").value(hasItem(DEFAULT_PRESENT_THANA_TXT)))
             .andExpect(jsonPath("$.[*].presentStreet").value(hasItem(DEFAULT_PRESENT_STREET)))
+            .andExpect(jsonPath("$.[*].presentStreetBangla").value(hasItem(DEFAULT_PRESENT_STREET_BANGLA)))
             .andExpect(jsonPath("$.[*].presentArea").value(hasItem(DEFAULT_PRESENT_AREA)))
+            .andExpect(jsonPath("$.[*].presentAreaBangla").value(hasItem(DEFAULT_PRESENT_AREA_BANGLA)))
             .andExpect(jsonPath("$.[*].presentPostCode").value(hasItem(DEFAULT_PRESENT_POST_CODE)))
+            .andExpect(jsonPath("$.[*].presentPostCodeBangla").value(hasItem(DEFAULT_PRESENT_POST_CODE_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentThanaTxt").value(hasItem(DEFAULT_PERMANENT_THANA_TXT)))
             .andExpect(jsonPath("$.[*].permanentStreet").value(hasItem(DEFAULT_PERMANENT_STREET)))
+            .andExpect(jsonPath("$.[*].permanentStreetBangla").value(hasItem(DEFAULT_PERMANENT_STREET_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentArea").value(hasItem(DEFAULT_PERMANENT_AREA)))
+            .andExpect(jsonPath("$.[*].permanentAreaBangla").value(hasItem(DEFAULT_PERMANENT_AREA_BANGLA)))
             .andExpect(jsonPath("$.[*].permanentPostCode").value(hasItem(DEFAULT_PERMANENT_POST_CODE)))
+            .andExpect(jsonPath("$.[*].permenentPostCodeBangla").value(hasItem(DEFAULT_PERMENENT_POST_CODE_BANGLA)))
             .andExpect(jsonPath("$.[*].isSame").value(hasItem(DEFAULT_IS_SAME.booleanValue())));
 
         // Check, that the count call also returns 1
@@ -1170,12 +1692,18 @@ public class AddressResourceIT {
         updatedAddress
             .presentThanaTxt(UPDATED_PRESENT_THANA_TXT)
             .presentStreet(UPDATED_PRESENT_STREET)
+            .presentStreetBangla(UPDATED_PRESENT_STREET_BANGLA)
             .presentArea(UPDATED_PRESENT_AREA)
+            .presentAreaBangla(UPDATED_PRESENT_AREA_BANGLA)
             .presentPostCode(UPDATED_PRESENT_POST_CODE)
+            .presentPostCodeBangla(UPDATED_PRESENT_POST_CODE_BANGLA)
             .permanentThanaTxt(UPDATED_PERMANENT_THANA_TXT)
             .permanentStreet(UPDATED_PERMANENT_STREET)
+            .permanentStreetBangla(UPDATED_PERMANENT_STREET_BANGLA)
             .permanentArea(UPDATED_PERMANENT_AREA)
+            .permanentAreaBangla(UPDATED_PERMANENT_AREA_BANGLA)
             .permanentPostCode(UPDATED_PERMANENT_POST_CODE)
+            .permenentPostCodeBangla(UPDATED_PERMENENT_POST_CODE_BANGLA)
             .isSame(UPDATED_IS_SAME);
 
         restAddressMockMvc.perform(put("/api/addresses")
@@ -1189,12 +1717,18 @@ public class AddressResourceIT {
         Address testAddress = addressList.get(addressList.size() - 1);
         assertThat(testAddress.getPresentThanaTxt()).isEqualTo(UPDATED_PRESENT_THANA_TXT);
         assertThat(testAddress.getPresentStreet()).isEqualTo(UPDATED_PRESENT_STREET);
+        assertThat(testAddress.getPresentStreetBangla()).isEqualTo(UPDATED_PRESENT_STREET_BANGLA);
         assertThat(testAddress.getPresentArea()).isEqualTo(UPDATED_PRESENT_AREA);
+        assertThat(testAddress.getPresentAreaBangla()).isEqualTo(UPDATED_PRESENT_AREA_BANGLA);
         assertThat(testAddress.getPresentPostCode()).isEqualTo(UPDATED_PRESENT_POST_CODE);
+        assertThat(testAddress.getPresentPostCodeBangla()).isEqualTo(UPDATED_PRESENT_POST_CODE_BANGLA);
         assertThat(testAddress.getPermanentThanaTxt()).isEqualTo(UPDATED_PERMANENT_THANA_TXT);
         assertThat(testAddress.getPermanentStreet()).isEqualTo(UPDATED_PERMANENT_STREET);
+        assertThat(testAddress.getPermanentStreetBangla()).isEqualTo(UPDATED_PERMANENT_STREET_BANGLA);
         assertThat(testAddress.getPermanentArea()).isEqualTo(UPDATED_PERMANENT_AREA);
+        assertThat(testAddress.getPermanentAreaBangla()).isEqualTo(UPDATED_PERMANENT_AREA_BANGLA);
         assertThat(testAddress.getPermanentPostCode()).isEqualTo(UPDATED_PERMANENT_POST_CODE);
+        assertThat(testAddress.getPermenentPostCodeBangla()).isEqualTo(UPDATED_PERMENENT_POST_CODE_BANGLA);
         assertThat(testAddress.isIsSame()).isEqualTo(UPDATED_IS_SAME);
     }
 

@@ -1,0 +1,64 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1607272890244-1">
+        <addColumn tableName="mst_district">
+            <column name="bangla" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-2">
+        <addColumn tableName="mst_division">
+            <column name="bangla" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-3">
+        <addColumn tableName="mst_thana">
+            <column name="bangla" type="varchar(255)">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-4">
+        <addColumn tableName="personal_info">
+            <column name="father_name_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-5">
+        <addColumn tableName="personal_info">
+            <column name="mother_name_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-6">
+        <addColumn tableName="address">
+            <column name="permanent_area_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-7">
+        <addColumn tableName="address">
+            <column name="permanent_street_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-8">
+        <addColumn tableName="address">
+            <column name="permenent_post_code_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-9">
+        <addColumn tableName="address">
+            <column name="present_area_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-10">
+        <addColumn tableName="address">
+            <column name="present_post_code_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607272890244-11">
+        <addColumn tableName="address">
+            <column name="present_street_bangla" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+</databaseChangeLog>

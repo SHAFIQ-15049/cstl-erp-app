@@ -28,6 +28,8 @@ public class DistrictCriteria implements Serializable, Criteria {
 
     private StringFilter name;
 
+    private StringFilter bangla;
+
     private LongFilter divisionId;
 
     public DistrictCriteria() {
@@ -36,6 +38,7 @@ public class DistrictCriteria implements Serializable, Criteria {
     public DistrictCriteria(DistrictCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
+        this.bangla = other.bangla == null ? null : other.bangla.copy();
         this.divisionId = other.divisionId == null ? null : other.divisionId.copy();
     }
 
@@ -60,6 +63,14 @@ public class DistrictCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
+    public StringFilter getBangla() {
+        return bangla;
+    }
+
+    public void setBangla(StringFilter bangla) {
+        this.bangla = bangla;
+    }
+
     public LongFilter getDivisionId() {
         return divisionId;
     }
@@ -81,6 +92,7 @@ public class DistrictCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
+            Objects.equals(bangla, that.bangla) &&
             Objects.equals(divisionId, that.divisionId);
     }
 
@@ -89,6 +101,7 @@ public class DistrictCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         name,
+        bangla,
         divisionId
         );
     }
@@ -99,6 +112,7 @@ public class DistrictCriteria implements Serializable, Criteria {
         return "DistrictCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (bangla != null ? "bangla=" + bangla + ", " : "") +
                 (divisionId != null ? "divisionId=" + divisionId + ", " : "") +
             "}";
     }

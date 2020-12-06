@@ -30,6 +30,7 @@ export class DistrictUpdatePage {
   cancelButton = element(by.id('cancel-save'));
 
   nameInput = element(by.id('field_name'));
+  banglaInput = element(by.id('field_bangla'));
 
   divisionSelect = element(by.id('field_division'));
 
@@ -43,6 +44,14 @@ export class DistrictUpdatePage {
 
   async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
+  }
+
+  async setBanglaInput(bangla: string): Promise<void> {
+    await this.banglaInput.sendKeys(bangla);
+  }
+
+  async getBanglaInput(): Promise<string> {
+    return await this.banglaInput.getAttribute('value');
   }
 
   async divisionSelectLastOption(): Promise<void> {

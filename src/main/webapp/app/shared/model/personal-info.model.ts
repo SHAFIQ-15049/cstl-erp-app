@@ -11,7 +11,9 @@ export interface IPersonalInfo {
   photoContentType?: string;
   photo?: any;
   fatherName?: string;
+  fatherNameBangla?: string;
   motherName?: string;
+  motherNameBangla?: string;
   maritalStatus?: MaritalStatus;
   spouseName?: string;
   dateOfBirth?: Moment;
@@ -32,7 +34,9 @@ export class PersonalInfo implements IPersonalInfo {
     public photoContentType?: string,
     public photo?: any,
     public fatherName?: string,
+    public fatherNameBangla?: string,
     public motherName?: string,
+    public motherNameBangla?: string,
     public maritalStatus?: MaritalStatus,
     public spouseName?: string,
     public dateOfBirth?: Moment,

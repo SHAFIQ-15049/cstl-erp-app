@@ -21,6 +21,7 @@ export class DistrictUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
+    bangla: [null, [Validators.required]],
     division: [],
   });
 
@@ -43,6 +44,7 @@ export class DistrictUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: district.id,
       name: district.name,
+      bangla: district.bangla,
       division: district.division,
     });
   }
@@ -66,6 +68,7 @@ export class DistrictUpdateComponent implements OnInit {
       ...new District(),
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
+      bangla: this.editForm.get(['bangla'])!.value,
       division: this.editForm.get(['division'])!.value,
     };
   }

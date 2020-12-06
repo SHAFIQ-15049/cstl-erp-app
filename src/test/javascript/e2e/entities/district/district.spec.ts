@@ -40,9 +40,14 @@ describe('District e2e test', () => {
 
     await districtComponentsPage.clickOnCreateButton();
 
-    await promise.all([districtUpdatePage.setNameInput('name'), districtUpdatePage.divisionSelectLastOption()]);
+    await promise.all([
+      districtUpdatePage.setNameInput('name'),
+      districtUpdatePage.setBanglaInput('bangla'),
+      districtUpdatePage.divisionSelectLastOption(),
+    ]);
 
     expect(await districtUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
+    expect(await districtUpdatePage.getBanglaInput()).to.eq('bangla', 'Expected Bangla value to be equals to bangla');
 
     await districtUpdatePage.save();
     expect(await districtUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

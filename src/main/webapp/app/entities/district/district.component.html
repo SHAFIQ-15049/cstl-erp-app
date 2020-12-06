@@ -24,6 +24,7 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="bangla"><span>Bangla</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="division.name"><span>Division</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -32,6 +33,7 @@
                 <tr *ngFor="let district of districts ;trackBy: trackId">
                     <td><a [routerLink]="['/district', district.id, 'view']">{{ district.id }}</a></td>
                     <td>{{ district.name }}</td>
+                    <td>{{ district.bangla }}</td>
                     <td>
                         <div *ngIf="district.division">
                             <a [routerLink]="['/division', district.division?.id, 'view']" >{{ district.division?.name }}</a>

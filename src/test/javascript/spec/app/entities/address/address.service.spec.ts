@@ -20,7 +20,24 @@ describe('Service Tests', () => {
       service = injector.get(AddressService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Address(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 0, false);
+      elemDefault = new Address(
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        0,
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        'AAAAAAA',
+        0,
+        'AAAAAAA',
+        false
+      );
     });
 
     describe('Service methods', () => {
@@ -56,12 +73,18 @@ describe('Service Tests', () => {
           {
             presentThanaTxt: 'BBBBBB',
             presentStreet: 'BBBBBB',
+            presentStreetBangla: 'BBBBBB',
             presentArea: 'BBBBBB',
+            presentAreaBangla: 'BBBBBB',
             presentPostCode: 1,
+            presentPostCodeBangla: 'BBBBBB',
             permanentThanaTxt: 'BBBBBB',
             permanentStreet: 'BBBBBB',
+            permanentStreetBangla: 'BBBBBB',
             permanentArea: 'BBBBBB',
+            permanentAreaBangla: 'BBBBBB',
             permanentPostCode: 1,
+            permenentPostCodeBangla: 'BBBBBB',
             isSame: true,
           },
           elemDefault
@@ -81,12 +104,18 @@ describe('Service Tests', () => {
           {
             presentThanaTxt: 'BBBBBB',
             presentStreet: 'BBBBBB',
+            presentStreetBangla: 'BBBBBB',
             presentArea: 'BBBBBB',
+            presentAreaBangla: 'BBBBBB',
             presentPostCode: 1,
+            presentPostCodeBangla: 'BBBBBB',
             permanentThanaTxt: 'BBBBBB',
             permanentStreet: 'BBBBBB',
+            permanentStreetBangla: 'BBBBBB',
             permanentArea: 'BBBBBB',
+            permanentAreaBangla: 'BBBBBB',
             permanentPostCode: 1,
+            permenentPostCodeBangla: 'BBBBBB',
             isSame: true,
           },
           elemDefault

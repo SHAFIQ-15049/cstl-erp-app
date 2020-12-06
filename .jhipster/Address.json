@@ -10,12 +10,24 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "presentStreetBangla",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "presentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "presentAreaBangla",
       "fieldType": "String"
     },
     {
       "fieldName": "presentPostCode",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "presentPostCodeBangla",
+      "fieldType": "String"
     },
     {
       "fieldName": "permanentThanaTxt",
@@ -26,12 +38,24 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "permanentStreetBangla",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "permanentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentAreaBangla",
       "fieldType": "String"
     },
     {
       "fieldName": "permanentPostCode",
       "fieldType": "Integer"
+    },
+    {
+      "fieldName": "permenentPostCodeBangla",
+      "fieldType": "String"
     },
     {
       "fieldName": "isSame",

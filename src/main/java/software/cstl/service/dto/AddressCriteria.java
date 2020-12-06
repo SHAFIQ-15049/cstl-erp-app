@@ -30,17 +30,29 @@ public class AddressCriteria implements Serializable, Criteria {
 
     private StringFilter presentStreet;
 
+    private StringFilter presentStreetBangla;
+
     private StringFilter presentArea;
 
+    private StringFilter presentAreaBangla;
+
     private IntegerFilter presentPostCode;
+
+    private StringFilter presentPostCodeBangla;
 
     private StringFilter permanentThanaTxt;
 
     private StringFilter permanentStreet;
 
+    private StringFilter permanentStreetBangla;
+
     private StringFilter permanentArea;
 
+    private StringFilter permanentAreaBangla;
+
     private IntegerFilter permanentPostCode;
+
+    private StringFilter permenentPostCodeBangla;
 
     private BooleanFilter isSame;
 
@@ -65,12 +77,18 @@ public class AddressCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.presentThanaTxt = other.presentThanaTxt == null ? null : other.presentThanaTxt.copy();
         this.presentStreet = other.presentStreet == null ? null : other.presentStreet.copy();
+        this.presentStreetBangla = other.presentStreetBangla == null ? null : other.presentStreetBangla.copy();
         this.presentArea = other.presentArea == null ? null : other.presentArea.copy();
+        this.presentAreaBangla = other.presentAreaBangla == null ? null : other.presentAreaBangla.copy();
         this.presentPostCode = other.presentPostCode == null ? null : other.presentPostCode.copy();
+        this.presentPostCodeBangla = other.presentPostCodeBangla == null ? null : other.presentPostCodeBangla.copy();
         this.permanentThanaTxt = other.permanentThanaTxt == null ? null : other.permanentThanaTxt.copy();
         this.permanentStreet = other.permanentStreet == null ? null : other.permanentStreet.copy();
+        this.permanentStreetBangla = other.permanentStreetBangla == null ? null : other.permanentStreetBangla.copy();
         this.permanentArea = other.permanentArea == null ? null : other.permanentArea.copy();
+        this.permanentAreaBangla = other.permanentAreaBangla == null ? null : other.permanentAreaBangla.copy();
         this.permanentPostCode = other.permanentPostCode == null ? null : other.permanentPostCode.copy();
+        this.permenentPostCodeBangla = other.permenentPostCodeBangla == null ? null : other.permenentPostCodeBangla.copy();
         this.isSame = other.isSame == null ? null : other.isSame.copy();
         this.presentDivisionId = other.presentDivisionId == null ? null : other.presentDivisionId.copy();
         this.presentDistrictId = other.presentDistrictId == null ? null : other.presentDistrictId.copy();
@@ -110,6 +128,14 @@ public class AddressCriteria implements Serializable, Criteria {
         this.presentStreet = presentStreet;
     }
 
+    public StringFilter getPresentStreetBangla() {
+        return presentStreetBangla;
+    }
+
+    public void setPresentStreetBangla(StringFilter presentStreetBangla) {
+        this.presentStreetBangla = presentStreetBangla;
+    }
+
     public StringFilter getPresentArea() {
         return presentArea;
     }
@@ -118,12 +144,28 @@ public class AddressCriteria implements Serializable, Criteria {
         this.presentArea = presentArea;
     }
 
+    public StringFilter getPresentAreaBangla() {
+        return presentAreaBangla;
+    }
+
+    public void setPresentAreaBangla(StringFilter presentAreaBangla) {
+        this.presentAreaBangla = presentAreaBangla;
+    }
+
     public IntegerFilter getPresentPostCode() {
         return presentPostCode;
     }
 
     public void setPresentPostCode(IntegerFilter presentPostCode) {
         this.presentPostCode = presentPostCode;
+    }
+
+    public StringFilter getPresentPostCodeBangla() {
+        return presentPostCodeBangla;
+    }
+
+    public void setPresentPostCodeBangla(StringFilter presentPostCodeBangla) {
+        this.presentPostCodeBangla = presentPostCodeBangla;
     }
 
     public StringFilter getPermanentThanaTxt() {
@@ -142,6 +184,14 @@ public class AddressCriteria implements Serializable, Criteria {
         this.permanentStreet = permanentStreet;
     }
 
+    public StringFilter getPermanentStreetBangla() {
+        return permanentStreetBangla;
+    }
+
+    public void setPermanentStreetBangla(StringFilter permanentStreetBangla) {
+        this.permanentStreetBangla = permanentStreetBangla;
+    }
+
     public StringFilter getPermanentArea() {
         return permanentArea;
     }
@@ -150,12 +200,28 @@ public class AddressCriteria implements Serializable, Criteria {
         this.permanentArea = permanentArea;
     }
 
+    public StringFilter getPermanentAreaBangla() {
+        return permanentAreaBangla;
+    }
+
+    public void setPermanentAreaBangla(StringFilter permanentAreaBangla) {
+        this.permanentAreaBangla = permanentAreaBangla;
+    }
+
     public IntegerFilter getPermanentPostCode() {
         return permanentPostCode;
     }
 
     public void setPermanentPostCode(IntegerFilter permanentPostCode) {
         this.permanentPostCode = permanentPostCode;
+    }
+
+    public StringFilter getPermenentPostCodeBangla() {
+        return permenentPostCodeBangla;
+    }
+
+    public void setPermenentPostCodeBangla(StringFilter permenentPostCodeBangla) {
+        this.permenentPostCodeBangla = permenentPostCodeBangla;
     }
 
     public BooleanFilter getIsSame() {
@@ -236,12 +302,18 @@ public class AddressCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(presentThanaTxt, that.presentThanaTxt) &&
             Objects.equals(presentStreet, that.presentStreet) &&
+            Objects.equals(presentStreetBangla, that.presentStreetBangla) &&
             Objects.equals(presentArea, that.presentArea) &&
+            Objects.equals(presentAreaBangla, that.presentAreaBangla) &&
             Objects.equals(presentPostCode, that.presentPostCode) &&
+            Objects.equals(presentPostCodeBangla, that.presentPostCodeBangla) &&
             Objects.equals(permanentThanaTxt, that.permanentThanaTxt) &&
             Objects.equals(permanentStreet, that.permanentStreet) &&
+            Objects.equals(permanentStreetBangla, that.permanentStreetBangla) &&
             Objects.equals(permanentArea, that.permanentArea) &&
+            Objects.equals(permanentAreaBangla, that.permanentAreaBangla) &&
             Objects.equals(permanentPostCode, that.permanentPostCode) &&
+            Objects.equals(permenentPostCodeBangla, that.permenentPostCodeBangla) &&
             Objects.equals(isSame, that.isSame) &&
             Objects.equals(presentDivisionId, that.presentDivisionId) &&
             Objects.equals(presentDistrictId, that.presentDistrictId) &&
@@ -258,12 +330,18 @@ public class AddressCriteria implements Serializable, Criteria {
         id,
         presentThanaTxt,
         presentStreet,
+        presentStreetBangla,
         presentArea,
+        presentAreaBangla,
         presentPostCode,
+        presentPostCodeBangla,
         permanentThanaTxt,
         permanentStreet,
+        permanentStreetBangla,
         permanentArea,
+        permanentAreaBangla,
         permanentPostCode,
+        permenentPostCodeBangla,
         isSame,
         presentDivisionId,
         presentDistrictId,
@@ -282,12 +360,18 @@ public class AddressCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (presentThanaTxt != null ? "presentThanaTxt=" + presentThanaTxt + ", " : "") +
                 (presentStreet != null ? "presentStreet=" + presentStreet + ", " : "") +
+                (presentStreetBangla != null ? "presentStreetBangla=" + presentStreetBangla + ", " : "") +
                 (presentArea != null ? "presentArea=" + presentArea + ", " : "") +
+                (presentAreaBangla != null ? "presentAreaBangla=" + presentAreaBangla + ", " : "") +
                 (presentPostCode != null ? "presentPostCode=" + presentPostCode + ", " : "") +
+                (presentPostCodeBangla != null ? "presentPostCodeBangla=" + presentPostCodeBangla + ", " : "") +
                 (permanentThanaTxt != null ? "permanentThanaTxt=" + permanentThanaTxt + ", " : "") +
                 (permanentStreet != null ? "permanentStreet=" + permanentStreet + ", " : "") +
+                (permanentStreetBangla != null ? "permanentStreetBangla=" + permanentStreetBangla + ", " : "") +
                 (permanentArea != null ? "permanentArea=" + permanentArea + ", " : "") +
+                (permanentAreaBangla != null ? "permanentAreaBangla=" + permanentAreaBangla + ", " : "") +
                 (permanentPostCode != null ? "permanentPostCode=" + permanentPostCode + ", " : "") +
+                (permenentPostCodeBangla != null ? "permenentPostCodeBangla=" + permenentPostCodeBangla + ", " : "") +
                 (isSame != null ? "isSame=" + isSame + ", " : "") +
                 (presentDivisionId != null ? "presentDivisionId=" + presentDivisionId + ", " : "") +
                 (presentDistrictId != null ? "presentDistrictId=" + presentDistrictId + ", " : "") +

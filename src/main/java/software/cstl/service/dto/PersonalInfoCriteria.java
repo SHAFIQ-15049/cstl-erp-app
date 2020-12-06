@@ -90,7 +90,11 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter fatherName;
 
+    private StringFilter fatherNameBangla;
+
     private StringFilter motherName;
+
+    private StringFilter motherNameBangla;
 
     private MaritalStatusFilter maritalStatus;
 
@@ -120,7 +124,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.banglaName = other.banglaName == null ? null : other.banglaName.copy();
         this.fatherName = other.fatherName == null ? null : other.fatherName.copy();
+        this.fatherNameBangla = other.fatherNameBangla == null ? null : other.fatherNameBangla.copy();
         this.motherName = other.motherName == null ? null : other.motherName.copy();
+        this.motherNameBangla = other.motherNameBangla == null ? null : other.motherNameBangla.copy();
         this.maritalStatus = other.maritalStatus == null ? null : other.maritalStatus.copy();
         this.spouseName = other.spouseName == null ? null : other.spouseName.copy();
         this.dateOfBirth = other.dateOfBirth == null ? null : other.dateOfBirth.copy();
@@ -170,12 +176,28 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.fatherName = fatherName;
     }
 
+    public StringFilter getFatherNameBangla() {
+        return fatherNameBangla;
+    }
+
+    public void setFatherNameBangla(StringFilter fatherNameBangla) {
+        this.fatherNameBangla = fatherNameBangla;
+    }
+
     public StringFilter getMotherName() {
         return motherName;
     }
 
     public void setMotherName(StringFilter motherName) {
         this.motherName = motherName;
+    }
+
+    public StringFilter getMotherNameBangla() {
+        return motherNameBangla;
+    }
+
+    public void setMotherNameBangla(StringFilter motherNameBangla) {
+        this.motherNameBangla = motherNameBangla;
     }
 
     public MaritalStatusFilter getMaritalStatus() {
@@ -273,7 +295,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(banglaName, that.banglaName) &&
             Objects.equals(fatherName, that.fatherName) &&
+            Objects.equals(fatherNameBangla, that.fatherNameBangla) &&
             Objects.equals(motherName, that.motherName) &&
+            Objects.equals(motherNameBangla, that.motherNameBangla) &&
             Objects.equals(maritalStatus, that.maritalStatus) &&
             Objects.equals(spouseName, that.spouseName) &&
             Objects.equals(dateOfBirth, that.dateOfBirth) &&
@@ -293,7 +317,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         name,
         banglaName,
         fatherName,
+        fatherNameBangla,
         motherName,
+        motherNameBangla,
         maritalStatus,
         spouseName,
         dateOfBirth,
@@ -315,7 +341,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (banglaName != null ? "banglaName=" + banglaName + ", " : "") +
                 (fatherName != null ? "fatherName=" + fatherName + ", " : "") +
+                (fatherNameBangla != null ? "fatherNameBangla=" + fatherNameBangla + ", " : "") +
                 (motherName != null ? "motherName=" + motherName + ", " : "") +
+                (motherNameBangla != null ? "motherNameBangla=" + motherNameBangla + ", " : "") +
                 (maritalStatus != null ? "maritalStatus=" + maritalStatus + ", " : "") +
                 (spouseName != null ? "spouseName=" + spouseName + ", " : "") +
                 (dateOfBirth != null ? "dateOfBirth=" + dateOfBirth + ", " : "") +

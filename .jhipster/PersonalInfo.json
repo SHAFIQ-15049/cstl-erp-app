@@ -28,11 +28,19 @@
       ]
     },
     {
+      "fieldName": "fatherNameBangla",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "motherName",
       "fieldType": "String",
       "fieldValidateRules": [
         "required"
       ]
+    },
+    {
+      "fieldName": "motherNameBangla",
+      "fieldType": "String"
     },
     {
       "fieldName": "maritalStatus",

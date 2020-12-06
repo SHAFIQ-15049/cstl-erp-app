@@ -40,9 +40,10 @@ describe('Division e2e test', () => {
 
     await divisionComponentsPage.clickOnCreateButton();
 
-    await promise.all([divisionUpdatePage.setNameInput('name')]);
+    await promise.all([divisionUpdatePage.setNameInput('name'), divisionUpdatePage.setBanglaInput('bangla')]);
 
     expect(await divisionUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
+    expect(await divisionUpdatePage.getBanglaInput()).to.eq('bangla', 'Expected Bangla value to be equals to bangla');
 
     await divisionUpdatePage.save();
     expect(await divisionUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

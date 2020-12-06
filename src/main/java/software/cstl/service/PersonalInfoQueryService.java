@@ -94,8 +94,14 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getFatherName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFatherName(), PersonalInfo_.fatherName));
             }
+            if (criteria.getFatherNameBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFatherNameBangla(), PersonalInfo_.fatherNameBangla));
+            }
             if (criteria.getMotherName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMotherName(), PersonalInfo_.motherName));
+            }
+            if (criteria.getMotherNameBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMotherNameBangla(), PersonalInfo_.motherNameBangla));
             }
             if (criteria.getMaritalStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getMaritalStatus(), PersonalInfo_.maritalStatus));
