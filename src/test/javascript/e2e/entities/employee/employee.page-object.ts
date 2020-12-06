@@ -46,6 +46,7 @@ export class EmployeeUpdatePage {
   departmentSelect = element(by.id('field_department'));
   gradeSelect = element(by.id('field_grade'));
   designationSelect = element(by.id('field_designation'));
+  lineSelect = element(by.id('field_line'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -237,6 +238,22 @@ export class EmployeeUpdatePage {
 
   async getDesignationSelectedOption(): Promise<string> {
     return await this.designationSelect.element(by.css('option:checked')).getText();
+  }
+
+  async lineSelectLastOption(): Promise<void> {
+    await this.lineSelect.all(by.tagName('option')).last().click();
+  }
+
+  async lineSelectOption(option: string): Promise<void> {
+    await this.lineSelect.sendKeys(option);
+  }
+
+  getLineSelect(): ElementFinder {
+    return this.lineSelect;
+  }
+
+  async getLineSelectedOption(): Promise<string> {
+    return await this.lineSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

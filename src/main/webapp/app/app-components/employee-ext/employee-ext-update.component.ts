@@ -23,6 +23,8 @@ import { GradeService } from 'app/entities/grade/grade.service';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation/designation.service';
 import {EmployeeUpdateComponent} from "app/entities/employee/employee-update.component";
+import {LineService} from "app/entities/line/line.service";
+import {ILine} from "app/shared/model/line.model";
 
 type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGrade | IDesignation;
 
@@ -31,35 +33,7 @@ type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGra
   templateUrl: './employee-ext-update.component.html',
 })
 export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implements OnInit {
-  isSaving = false;
-  addresses: IAddress[] = [];
-  personalinfos: IPersonalInfo[] = [];
-  companies: ICompany[] = [];
-  departments: IDepartment[] = [];
-  grades: IGrade[] = [];
-  designations: IDesignation[] = [];
-  joiningDateDp: any;
-  terminationDateDp: any;
 
-  editForm = this.fb.group({
-    id: [],
-    name: [null, [Validators.required]],
-    empId: [null, [Validators.required]],
-    globalId: [null, [Validators.required]],
-    localId: [null, [Validators.required]],
-    category: [],
-    type: [],
-    joiningDate: [],
-    status: [],
-    terminationDate: [],
-    terminationReason: [],
-    address: [],
-    personalInfo: [],
-    company: [],
-    department: [],
-    grade: [],
-    designation: [],
-  });
 
   constructor(
     protected dataUtils: JhiDataUtils,
@@ -71,16 +45,18 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
     protected departmentService: DepartmentService,
     protected gradeService: GradeService,
     protected designationService: DesignationService,
+    protected lineService: LineService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(dataUtils, eventManager, employeeService, addressService, personalInfoService, companyService, departmentService, gradeService, designationService, activatedRoute, fb);
+    super(dataUtils, eventManager, employeeService, addressService, personalInfoService, companyService, departmentService, gradeService, designationService, lineService, activatedRoute, fb);
   }
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ employee }) => {
       this.updateForm(employee);
-
+      this.categorySelected();
+      this.departmentSelected();
       this.addressService
         .query({ 'employeeId.specified': 'false' })
         .pipe(
@@ -135,19 +111,28 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
 
   categorySelected():void{
     const category = this.editForm.get('category')?.value;
-    this.designationService.query({
-      size:10000,
-      'category.equals': category,
-    }).subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+    if(category){
+      this.designationService.query({
+        size:10000,
+        'category.equals': category,
+      }).subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
 
-    this.gradeService.query({
-      size:10000,
-      'category.equals': category,
-    }).subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
+      this.gradeService.query({
+        size:10000,
+        'category.equals': category,
+      }).subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
+    }
+
   }
 
   departmentSelected(): void{
-    const departmentId = this.editForm.get('department')?.value;
+    const department = this.editForm.get('department')?.value;
+    if(department?.id){
+      this.lineService.query({
+        'departmentId.equals': department.id,
+        size: 10000
+      }).subscribe((res: HttpResponse<ILine[]>) => (this.lines = res.body || []));
+    }
   }
 
 }

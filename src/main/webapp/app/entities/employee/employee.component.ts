@@ -10,7 +10,6 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EmployeeService } from './employee.service';
 import { EmployeeDeleteDialogComponent } from './employee-delete-dialog.component';
-import {StateStorageService} from "app/core/auth/state-storage.service";
 
 @Component({
   selector: 'jhi-employee',
@@ -51,7 +50,6 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    // storing the url in the session, it will help in return from employee detail to employee list (with url parameters)
     this.handleNavigation();
     this.registerChangeInEmployees();
   }

@@ -1,30 +1,108 @@
 <div class="row justify-content-center">
-    <div class="col-md-12" *ngIf="employee">
-        <div class="row">
-            <div class="col-md-1">
-                <fa-icon (click)="previousState()" style="cursor: pointer;" icon="angle-double-left" size="2x" title="Back to list" ></fa-icon>
-            </div>
-            <div class="col-md-11">
-                <p>Name: <b>{{employee.name}}</b>, Department: <b>{{employee.department?.name}}</b>, Designation: <b>{{employee.designation?.name}}</b>, Category: <b>{{employee.category}}</b></p>
-            </div>
+    <div class="col-8">
+        <div *ngIf="employee">
+            <h2><span>Employee</span> {{ employee.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ employee.name }}</span>
+                </dd>
+                <dt><span>Emp Id</span></dt>
+                <dd>
+                    <span>{{ employee.empId }}</span>
+                </dd>
+                <dt><span>Global Id</span></dt>
+                <dd>
+                    <span>{{ employee.globalId }}</span>
+                </dd>
+                <dt><span>Local Id</span></dt>
+                <dd>
+                    <span>{{ employee.localId }}</span>
+                </dd>
+                <dt><span>Category</span></dt>
+                <dd>
+                    <span>{{ employee.category }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ employee.type }}</span>
+                </dd>
+                <dt><span>Joining Date</span></dt>
+                <dd>
+                    <span>{{ employee.joiningDate }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ employee.status }}</span>
+                </dd>
+                <dt><span>Termination Date</span></dt>
+                <dd>
+                    <span>{{ employee.terminationDate }}</span>
+                </dd>
+                <dt><span>Termination Reason</span></dt>
+                <dd>
+                    <span>{{ employee.terminationReason }}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <div *ngIf="employee.address">
+                        <a [routerLink]="['/address', employee.address?.id, 'view']">{{ employee.address?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Personal Info</span></dt>
+                <dd>
+                    <div *ngIf="employee.personalInfo">
+                        <a [routerLink]="['/personal-info', employee.personalInfo?.id, 'view']">{{ employee.personalInfo?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Company</span></dt>
+                <dd>
+                    <div *ngIf="employee.company">
+                        <a [routerLink]="['/company', employee.company?.id, 'view']">{{ employee.company?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="employee.department">
+                        <a [routerLink]="['/department', employee.department?.id, 'view']">{{ employee.department?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Grade</span></dt>
+                <dd>
+                    <div *ngIf="employee.grade">
+                        <a [routerLink]="['/grade', employee.grade?.id, 'view']">{{ employee.grade?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <div *ngIf="employee.designation">
+                        <a [routerLink]="['/designation', employee.designation?.id, 'view']">{{ employee.designation?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Line</span></dt>
+                <dd>
+                    <div *ngIf="employee.line">
+                        <a [routerLink]="['/line', employee.line?.id, 'view']">{{ employee.line?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee', employee.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
         </div>
-        <hr/>
     </div>
-
-    <div class="col-md-10">
-        <router-outlet></router-outlet>
-    </div>
-
-<!--    <div class="col-md-2 " style="height: 100%; display:flex: center; justify-items: center;">
-        <div class="row">
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoPersonalInfo()">Personal Info</button></div>
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoAddress()">Address</button></div>
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info">Education</button></div>
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info">Job History</button></div>
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info">Training</button></div>
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info">Training</button></div>
-
-        </div>
-
-    </div>-->
 </div>

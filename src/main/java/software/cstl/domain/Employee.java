@@ -114,6 +114,10 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @JsonIgnoreProperties(value = "employees", allowSetters = true)
     private Designation designation;
 
+    @ManyToOne
+    @JsonIgnoreProperties(value = "employees", allowSetters = true)
+    private Line line;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -454,6 +458,19 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setDesignation(Designation designation) {
         this.designation = designation;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public Employee line(Line line) {
+        this.line = line;
+        return this;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

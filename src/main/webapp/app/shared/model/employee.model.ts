@@ -10,6 +10,7 @@ import { ICompany } from 'app/shared/model/company.model';
 import { IDepartment } from 'app/shared/model/department.model';
 import { IGrade } from 'app/shared/model/grade.model';
 import { IDesignation } from 'app/shared/model/designation.model';
+import { ILine } from 'app/shared/model/line.model';
 import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
 import { EmployeeStatus } from 'app/shared/model/enumerations/employee-status.model';
@@ -37,6 +38,7 @@ export interface IEmployee {
   department?: IDepartment;
   grade?: IGrade;
   designation?: IDesignation;
+  line?: ILine;
 }
 
 export class Employee implements IEmployee {
@@ -62,6 +64,7 @@ export class Employee implements IEmployee {
     public company?: ICompany,
     public department?: IDepartment,
     public grade?: IGrade,
-    public designation?: IDesignation
+    public designation?: IDesignation,
+    public line?: ILine
   ) {}
 }

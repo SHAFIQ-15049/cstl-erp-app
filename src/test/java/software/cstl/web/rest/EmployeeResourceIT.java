@@ -13,6 +13,7 @@ import software.cstl.domain.Company;
 import software.cstl.domain.Department;
 import software.cstl.domain.Grade;
 import software.cstl.domain.Designation;
+import software.cstl.domain.Line;
 import software.cstl.repository.EmployeeRepository;
 import software.cstl.service.EmployeeService;
 import software.cstl.service.dto.EmployeeCriteria;
@@ -1227,6 +1228,26 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where designation equals to designationId + 1
         defaultEmployeeShouldNotBeFound("designationId.equals=" + (designationId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByLineIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Line line = LineResourceIT.createEntity(em);
+        em.persist(line);
+        em.flush();
+        employee.setLine(line);
+        employeeRepository.saveAndFlush(employee);
+        Long lineId = line.getId();
+
+        // Get all the employeeList where line equals to lineId
+        defaultEmployeeShouldBeFound("lineId.equals=" + lineId);
+
+        // Get all the employeeList where line equals to lineId + 1
+        defaultEmployeeShouldNotBeFound("lineId.equals=" + (lineId + 1));
     }
 
     /**

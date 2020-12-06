@@ -124,6 +124,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LongFilter designationId;
 
+    private LongFilter lineId;
+
     public EmployeeCriteria() {
     }
 
@@ -149,6 +151,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
         this.gradeId = other.gradeId == null ? null : other.gradeId.copy();
         this.designationId = other.designationId == null ? null : other.designationId.copy();
+        this.lineId = other.lineId == null ? null : other.lineId.copy();
     }
 
     @Override
@@ -324,6 +327,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.designationId = designationId;
     }
 
+    public LongFilter getLineId() {
+        return lineId;
+    }
+
+    public void setLineId(LongFilter lineId) {
+        this.lineId = lineId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -355,7 +366,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(companyId, that.companyId) &&
             Objects.equals(departmentId, that.departmentId) &&
             Objects.equals(gradeId, that.gradeId) &&
-            Objects.equals(designationId, that.designationId);
+            Objects.equals(designationId, that.designationId) &&
+            Objects.equals(lineId, that.lineId);
     }
 
     @Override
@@ -381,7 +393,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
         companyId,
         departmentId,
         gradeId,
-        designationId
+        designationId,
+        lineId
         );
     }
 
@@ -410,6 +423,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
                 (gradeId != null ? "gradeId=" + gradeId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +
+                (lineId != null ? "lineId=" + lineId + ", " : "") +
             "}";
     }
 

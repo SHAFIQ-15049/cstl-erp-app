@@ -132,6 +132,13 @@
       "otherEntityRelationshipName": "employee",
       "relationshipName": "designation",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "line",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "line",
+      "otherEntityField": "name"
     }
   ],
   "changelogDate": "20201127213527",

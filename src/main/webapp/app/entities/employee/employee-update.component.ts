@@ -22,8 +22,10 @@ import { IGrade } from 'app/shared/model/grade.model';
 import { GradeService } from 'app/entities/grade/grade.service';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation/designation.service';
+import { ILine } from 'app/shared/model/line.model';
+import { LineService } from 'app/entities/line/line.service';
 
-type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGrade | IDesignation;
+type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGrade | IDesignation | ILine;
 
 @Component({
   selector: 'jhi-employee-update',
@@ -37,6 +39,7 @@ export class EmployeeUpdateComponent implements OnInit {
   departments: IDepartment[] = [];
   grades: IGrade[] = [];
   designations: IDesignation[] = [];
+  lines: ILine[] = [];
   joiningDateDp: any;
   terminationDateDp: any;
 
@@ -58,6 +61,7 @@ export class EmployeeUpdateComponent implements OnInit {
     department: [],
     grade: [],
     designation: [],
+    line: [],
   });
 
   constructor(
@@ -70,6 +74,7 @@ export class EmployeeUpdateComponent implements OnInit {
     protected departmentService: DepartmentService,
     protected gradeService: GradeService,
     protected designationService: DesignationService,
+    protected lineService: LineService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -129,6 +134,8 @@ export class EmployeeUpdateComponent implements OnInit {
       this.gradeService.query().subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
 
       this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+
+      this.lineService.query().subscribe((res: HttpResponse<ILine[]>) => (this.lines = res.body || []));
     });
   }
 
@@ -151,6 +158,7 @@ export class EmployeeUpdateComponent implements OnInit {
       department: employee.department,
       grade: employee.grade,
       designation: employee.designation,
+      line: employee.line,
     });
   }
 
@@ -204,6 +212,7 @@ export class EmployeeUpdateComponent implements OnInit {
       department: this.editForm.get(['department'])!.value,
       grade: this.editForm.get(['grade'])!.value,
       designation: this.editForm.get(['designation'])!.value,
+      line: this.editForm.get(['line'])!.value,
     };
   }
 

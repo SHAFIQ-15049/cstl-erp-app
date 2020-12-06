@@ -57,6 +57,7 @@ describe('Employee e2e test', () => {
       employeeUpdatePage.departmentSelectLastOption(),
       employeeUpdatePage.gradeSelectLastOption(),
       employeeUpdatePage.designationSelectLastOption(),
+      employeeUpdatePage.lineSelectLastOption(),
     ]);
 
     expect(await employeeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');

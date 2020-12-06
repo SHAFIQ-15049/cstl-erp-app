@@ -6,35 +6,31 @@
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_name">Name</label>
-                    <input type="text" class="form-control" name="name" id="field_name"
-                           formControlName="name"/>
-                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('name')?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_empId">Emp Id</label>
-                    <input type="text" class="form-control" name="empId" id="field_empId"
-                           formControlName="empId"/>
-                    <div *ngIf="editForm.get('empId')!.invalid && (editForm.get('empId')!.dirty || editForm.get('empId')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('empId')?.errors?.required">
-                        This field is required.
-                        </small>
-                    </div>
-                </div>
                 <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_name">Name</label>
+                        <input type="text" class="form-control" name="name" id="field_name"
+                               formControlName="name"/>
+                        <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('name')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_empId">Employee Id</label>
+                        <input type="text" class="form-control" name="empId" id="field_empId"
+                               formControlName="empId"/>
+                        <div *ngIf="editForm.get('empId')!.invalid && (editForm.get('empId')!.dirty || editForm.get('empId')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('empId')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_globalId">Global Id</label>
                         <input type="text" class="form-control" name="globalId" id="field_globalId"
@@ -58,9 +54,7 @@
                             </small>
                         </div>
                     </div>
-                </div>
 
-                <div class="row">
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_company">Company</label>
                         <select class="form-control" id="field_company" name="company" formControlName="company">
@@ -71,17 +65,14 @@
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_department">Department</label>
-                        <select class="form-control" id="field_department" name="department" formControlName="department">
+                        <select (ngModelChange)="departmentSelected()" class="form-control" id="field_department" name="department" formControlName="department">
                             <option [ngValue]="null"></option>
                             <option [ngValue]="departmentOption.id === editForm.get('department')!.value?.id ? editForm.get('department')!.value : departmentOption" *ngFor="let departmentOption of departments; trackBy: trackById">{{ departmentOption.name }}</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_category">Category</label>
-                        <select class="form-control" name="category" formControlName="category" id="field_category">
+                        <select (ngModelChange)="categorySelected()" class="form-control" name="category" formControlName="category" id="field_category">
                             <option value="TOP_LEVEL">TOP LEVEL</option>
                             <option value="MID_LEVEL">MID LEVEL</option>
                             <option value="STAFF">STAFF</option>
@@ -97,9 +88,6 @@
                             <option value="CONTRACTUAL">CONTRACTUAL</option>
                         </select>
                     </div>
-                </div>
-
-                <div class="row">
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_designation">Designation</label>
                         <select class="form-control" id="field_designation" name="designation" formControlName="designation">
@@ -116,9 +104,14 @@
                         </select>
                     </div>
 
-                </div>
+                    <div class="form-group col-md-12" *ngIf="editForm.controls['category'].value === 'WORKER'">
+                        <label class="form-control-label" for="field_line">Line</label>
+                        <select class="form-control" id="field_line" name="line" formControlName="line">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="lineOption.id === editForm.get('line')!.value?.id ? editForm.get('line')!.value : lineOption" *ngFor="let lineOption of lines; trackBy: trackById">{{ lineOption.name }}</option>
+                        </select>
+                    </div>
 
-                <div class="row">
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_joiningDate">Joining Date</label>
                         <div class="input-group">
@@ -136,10 +129,8 @@
                             <option value="TERMINATED">TERMINATED</option>
                         </select>
                     </div>
-                </div>
 
-                <div class="row">
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" *ngIf="editForm.get('status')!.value === 'TERMINATED'">
                         <label class="form-control-label" for="field_terminationDate">Termination Date</label>
                         <div class="input-group">
                             <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker #terminationDateDp="ngbDatepicker" formControlName="terminationDate"/>
@@ -149,7 +140,7 @@
                         </div>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" *ngIf="editForm.get('status')!.value === 'TERMINATED'">
                         <label class="form-control-label" for="field_terminationReason">Termination Reason</label>
                         <textarea class="form-control" name="terminationReason" id="field_terminationReason"
                                   formControlName="terminationReason"></textarea>
