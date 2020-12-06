@@ -125,15 +125,29 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
           }
         });
 
-      this.companyService.query().subscribe((res: HttpResponse<ICompany[]>) => (this.companies = res.body || []));
+      this.companyService.query({size:10000}).subscribe((res: HttpResponse<ICompany[]>) => (this.companies = res.body || []));
 
-      this.departmentService.query().subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
+      this.departmentService.query({size:10000}).subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
 
-      this.gradeService.query().subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
 
-      this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
     });
   }
 
+  categorySelected():void{
+    const category = this.editForm.get('category')?.value;
+    this.designationService.query({
+      size:10000,
+      'category.equals': category,
+    }).subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+
+    this.gradeService.query({
+      size:10000,
+      'category.equals': category,
+    }).subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
+  }
+
+  departmentSelected(): void{
+    const departmentId = this.editForm.get('department')?.value;
+  }
 
 }

@@ -43,7 +43,7 @@ export class LineExtComponent extends LineComponent implements OnInit, OnDestroy
           page: pageToLoad - 1,
           size: this.itemsPerPage,
           sort: this.sort(),
-          'departmentId.equals': this.lineService.getDepartmentId(),
+          'departmentId.equals': this.selectedDepartmentId,
         })
         .subscribe(
           (res: HttpResponse<ILine[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -116,14 +116,25 @@ export class LineExtComponent extends LineComponent implements OnInit, OnDestroy
     this.page = page;
 
     if (navigate) {
-      this.router.navigate(['/line'], {
-        queryParams: {
-          page: this.page,
-          size: this.itemsPerPage,
-          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
-          departmentId: this.selectedDepartmentId
-        },
-      });
+      if(this.selectedDepartmentId){
+        this.router.navigate(['/line'], {
+          queryParams: {
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+            departmentId: this.selectedDepartmentId
+          },
+        });
+      }else{
+        this.router.navigate(['/line'], {
+          queryParams: {
+            page: this.page,
+            size: this.itemsPerPage,
+            sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+          },
+        });
+      }
+
     }else if(this.selectedDepartmentId){
       this.router.navigate(['/line'], {
         queryParams: {
