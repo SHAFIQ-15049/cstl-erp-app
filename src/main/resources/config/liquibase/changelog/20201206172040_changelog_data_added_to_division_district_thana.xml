@@ -1,0 +1,39 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet id="10001" author="monjur">
+        <loadData
+            file="config/liquibase/data/division.csv"
+            separator=","
+            tableName="mst_division">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="bangla" type="string"/>
+            <column name="web" type="string"/>
+            <column name="created_by" type="string" defaultValue="system"/>
+        </loadData>
+
+        <loadData
+            file="config/liquibase/data/district.csv"
+            separator=","
+            tableName="mst_district">
+            <column name="id" type="numeric"/>
+            <column name="division_id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="bangla" type="string"/>
+            <column name="web" type="string"/>
+            <column name="created_by" type="string" defaultValue="system"/>
+        </loadData>
+
+        <loadData
+            file="config/liquibase/data/thana.csv"
+            separator=","
+            tableName="mst_thana">
+            <column name="id" type="numeric"/>
+            <column name="district_id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="bangla" type="string"/>
+            <column name="web" type="string"/>
+            <column name="created_by" type="string" defaultValue="system"/>
+        </loadData>
+    </changeSet>
+</databaseChangeLog>

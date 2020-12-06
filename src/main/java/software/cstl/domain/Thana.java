@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Entity
 @Table(name = "mst_thana")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Thana implements Serializable {
+public class Thana extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
