@@ -1,0 +1,164 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-personal-info-heading">Create or edit a Personal Info</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('name')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_banglaName">Bangla Name</label>
+                    <input type="text" class="form-control" name="banglaName" id="field_banglaName"
+                           formControlName="banglaName"/>
+                    <div *ngIf="editForm.get('banglaName')!.invalid && (editForm.get('banglaName')!.dirty || editForm.get('banglaName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('banglaName')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_photo">Photo</label>
+                    <div>
+                        <div *ngIf="editForm.get('photo')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('photoContentType')!.value, editForm.get('photo')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('photoContentType')!.value }}, {{ byteSize(editForm.get('photo')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({photo: null});editForm.patchValue({photoContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_photo" (change)="setFileData($event, 'photo', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="photo" id="field_photo"
+                           formControlName="photo"/>
+                    <input type="hidden" class="form-control" name="photoContentType" id="field_photoContentType"
+                           formControlName="photoContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fatherName">Father Name</label>
+                    <input type="text" class="form-control" name="fatherName" id="field_fatherName"
+                           formControlName="fatherName"/>
+                    <div *ngIf="editForm.get('fatherName')!.invalid && (editForm.get('fatherName')!.dirty || editForm.get('fatherName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fatherName')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_motherName">Mother Name</label>
+                    <input type="text" class="form-control" name="motherName" id="field_motherName"
+                           formControlName="motherName"/>
+                    <div *ngIf="editForm.get('motherName')!.invalid && (editForm.get('motherName')!.dirty || editForm.get('motherName')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('motherName')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
+                    <select class="form-control" name="maritalStatus" formControlName="maritalStatus" id="field_maritalStatus">
+                        <option value="SINGLE">SINGLE</option>
+                        <option value="MARRIED">MARRIED</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_spouseName">Spouse Name</label>
+                    <input type="text" class="form-control" name="spouseName" id="field_spouseName"
+                           formControlName="spouseName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
+                    <div class="input-group">
+                        <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker" formControlName="dateOfBirth"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nationalId">National Id</label>
+                    <input type="text" class="form-control" name="nationalId" id="field_nationalId"
+                           formControlName="nationalId"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_birthRegistration">Birth Registration</label>
+                    <input type="text" class="form-control" name="birthRegistration" id="field_birthRegistration"
+                           formControlName="birthRegistration"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_height">Height</label>
+                    <input type="number" class="form-control" name="height" id="field_height"
+                           formControlName="height"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_gender">Gender</label>
+                    <select class="form-control" name="gender" formControlName="gender" id="field_gender">
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
+                    <select class="form-control" name="bloodGroup" formControlName="bloodGroup" id="field_bloodGroup">
+                        <option value="A_POSITIVE">A_POSITIVE</option>
+                        <option value="A_NEGATIVE">A_NEGATIVE</option>
+                        <option value="B_POSITIVE">B_POSITIVE</option>
+                        <option value="B_NEGATIVE">B_NEGATIVE</option>
+                        <option value="O_POSITIVE">O_POSITIVE</option>
+                        <option value="O_NEGATIVE">O_NEGATIVE</option>
+                        <option value="AB_POSITIVE">AB_POSITIVE</option>
+                        <option value="AB_NEGATIVE">AB_NEGATIVE</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
+                    <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
+                           formControlName="emergencyContact"/>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

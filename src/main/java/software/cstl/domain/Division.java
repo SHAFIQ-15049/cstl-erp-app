@@ -26,6 +26,13 @@ public class Division extends AbstractAuditingEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @Column(name = "bangla", nullable = false)
+    private String bangla;
+
+    @Column(name = "web")
+    private String web;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -46,6 +53,32 @@ public class Division extends AbstractAuditingEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBangla() {
+        return bangla;
+    }
+
+    public Division bangla(String bangla) {
+        this.bangla = bangla;
+        return this;
+    }
+
+    public void setBangla(String bangla) {
+        this.bangla = bangla;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public Division web(String web) {
+        this.web = web;
+        return this;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -71,6 +104,8 @@ public class Division extends AbstractAuditingEntity implements Serializable {
         return "Division{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", bangla='" + getBangla() + "'" +
+            ", web='" + getWeb() + "'" +
             "}";
     }
 }

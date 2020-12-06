@@ -33,11 +33,13 @@
                     <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="terminationDate"><span>Termination Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="terminationReason"><span>Termination Reason</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="address.id"><span>Address</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="personalInfo.name"><span>Personal Info</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="company.name"><span>Company</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="grade.name"><span>Grade</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="line.name"><span>Line</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -54,6 +56,11 @@
                     <td>{{ employee.status }}</td>
                     <td>{{ employee.terminationDate | date:'mediumDate' }}</td>
                     <td>{{ employee.terminationReason }}</td>
+                    <td>
+                        <div *ngIf="employee.address">
+                            <a [routerLink]="['/address', employee.address?.id, 'view']" >{{ employee.address?.id }}</a>
+                        </div>
+                    </td>
                     <td>
                         <div *ngIf="employee.personalInfo">
                             <a [routerLink]="['/personal-info', employee.personalInfo?.id, 'view']" >{{ employee.personalInfo?.name }}</a>
@@ -77,6 +84,11 @@
                     <td>
                         <div *ngIf="employee.designation">
                             <a [routerLink]="['/designation', employee.designation?.id, 'view']" >{{ employee.designation?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="employee.line">
+                            <a [routerLink]="['/line', employee.line?.id, 'view']" >{{ employee.line?.name }}</a>
                         </div>
                     </td>
                     <td class="text-right">

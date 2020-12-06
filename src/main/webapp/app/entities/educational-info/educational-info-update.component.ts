@@ -38,7 +38,7 @@ export class EducationalInfoUpdateComponent implements OnInit {
     protected educationalInfoService: EducationalInfoService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

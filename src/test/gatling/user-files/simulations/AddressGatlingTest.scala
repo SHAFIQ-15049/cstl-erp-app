@@ -72,10 +72,21 @@ class AddressGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "street":"SAMPLE_TEXT"
-                , "area":"SAMPLE_TEXT"
-                , "postCode":"0"
-                , "addressType":"PRESENT"
+                , "presentThanaTxt":"SAMPLE_TEXT"
+                , "presentStreet":"SAMPLE_TEXT"
+                , "presentStreetBangla":"SAMPLE_TEXT"
+                , "presentArea":"SAMPLE_TEXT"
+                , "presentAreaBangla":"SAMPLE_TEXT"
+                , "presentPostCode":"0"
+                , "presentPostCodeBangla":"SAMPLE_TEXT"
+                , "permanentThanaTxt":"SAMPLE_TEXT"
+                , "permanentStreet":"SAMPLE_TEXT"
+                , "permanentStreetBangla":"SAMPLE_TEXT"
+                , "permanentArea":"SAMPLE_TEXT"
+                , "permanentAreaBangla":"SAMPLE_TEXT"
+                , "permanentPostCode":"0"
+                , "permenentPostCodeBangla":"SAMPLE_TEXT"
+                , "isSame":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_address_url"))).exitHereIfFailed

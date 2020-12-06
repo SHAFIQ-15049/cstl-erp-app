@@ -7,6 +7,17 @@
       "fieldValidateRules": [
         "required"
       ]
+    },
+    {
+      "fieldName": "bangla",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "web",
+      "fieldType": "String"
     }
   ],
   "relationships": [

@@ -13,6 +13,11 @@ entity Department (mst_department) {
     description TextBlob
 }
 
+entity Line (line){
+    name String required,
+    description TextBlob
+}
+
 entity Designation (mst_designation){
     category EmployeeCategory,
 	name String required,
@@ -29,14 +34,20 @@ entity Grade (mst_grade){
 
 entity Division (mst_division){
     name String required,
+    bangla String required,
+    web String,
 }
 
 entity District (mst_district){
     name String required,
+    bangla String required,
+    web String,
 }
 
 entity Thana (mst_thana){
     name String required,
+    bangla String required,
+    web String,
 }
 
 
@@ -62,7 +73,9 @@ entity PersonalInfo {
     banglaName String required,
     photo Blob,
     fatherName String required,
+    fatherNameBangla String,
     motherName String required,
+    motherNameBangla String,
     maritalStatus MaritalStatus,
     spouseName String,
     dateOfBirth LocalDate,
@@ -78,10 +91,21 @@ entity Address (address){
     //division
     //district
     //thana
-    street String required,
-    area String required,
-    postCode Integer,
-    addressType AddressType
+    presentThanaTxt String,
+    presentStreet String,
+    presentStreetBangla String,
+    presentArea String,
+    presentAreaBangla String,
+    presentPostCode Integer,
+    presentPostCodeBangla String,
+    permanentThanaTxt String,
+    permanentStreet String,
+    permanentStreetBangla String,
+    permanentArea String,
+    permanentAreaBangla String
+    permanentPostCode Integer,
+    permenentPostCodeBangla String,
+    isSame Boolean
 }
 
 entity EducationalInfo (educational_info){
@@ -139,7 +163,8 @@ enum EmployeeType{
 }
 
 enum EmployeeCategory{
-    MANAGERIAL,
+    TOP_LEVEL,
+    MID_LEVEL,
     STAFF,
     WORKER
 }
@@ -181,30 +206,35 @@ relationship ManyToOne{
     Employee{department(name)} to Department,
     Employee{grade(name)} to Grade,
     Employee{designation(name)} to Designation,
+    Employee{line(name)} to Line,
+    Line{department(name)} to Department,
     District{division(name)} to Division,
     Thana{district(name)} to District,
-    Address{division(name)} to Division,
-    Address{district(name)} to District,
-    Address{thana(name)} to Thana,
+    Address{presentDivision(name)} to Division,
+    Address{presentDistrict(name)} to District,
+    Address{presentThana(name)} to Thana,
+    Address{permanentDivision(name)} to Division,
+    Address{permanentDistrict(name)} to District,
+    Address{permanentThana(name)} to Thana,
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade
 }
 
 relationship OneToMany{
-    Employee{address} to Address,
-    Employee{educationalInfo} to EducationalInfo,
-    Employee{training} to Training,
-    Employee{employeeAccount} to EmployeeAccount,
-    Employee{jobHistory} to JobHistory,
-    Employee{serviceHistory} to ServiceHistory,
+    Employee{educationalInfo} to EducationalInfo{employee(name)},
+    Employee{training} to Training{employee(name)},
+    Employee{employeeAccount} to EmployeeAccount{employee(name)},
+    Employee{jobHistory} to JobHistory{employee(name)},
+    Employee{serviceHistory} to ServiceHistory{employee(name)},
 }
 
 
 relationship OneToOne{
-    Employee{personalInfo(name)} to PersonalInfo,
+    Employee{address} to Address{employee(name)},
+    Employee{personalInfo(name)} to PersonalInfo{employee(name)},
 }
 
-service Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
-filter Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
-paginate Company, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
+service Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination

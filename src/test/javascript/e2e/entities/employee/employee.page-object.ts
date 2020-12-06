@@ -40,11 +40,13 @@ export class EmployeeUpdatePage {
   terminationDateInput = element(by.id('field_terminationDate'));
   terminationReasonInput = element(by.id('field_terminationReason'));
 
+  addressSelect = element(by.id('field_address'));
   personalInfoSelect = element(by.id('field_personalInfo'));
   companySelect = element(by.id('field_company'));
   departmentSelect = element(by.id('field_department'));
   gradeSelect = element(by.id('field_grade'));
   designationSelect = element(by.id('field_designation'));
+  lineSelect = element(by.id('field_line'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -142,6 +144,22 @@ export class EmployeeUpdatePage {
     return await this.terminationReasonInput.getAttribute('value');
   }
 
+  async addressSelectLastOption(): Promise<void> {
+    await this.addressSelect.all(by.tagName('option')).last().click();
+  }
+
+  async addressSelectOption(option: string): Promise<void> {
+    await this.addressSelect.sendKeys(option);
+  }
+
+  getAddressSelect(): ElementFinder {
+    return this.addressSelect;
+  }
+
+  async getAddressSelectedOption(): Promise<string> {
+    return await this.addressSelect.element(by.css('option:checked')).getText();
+  }
+
   async personalInfoSelectLastOption(): Promise<void> {
     await this.personalInfoSelect.all(by.tagName('option')).last().click();
   }
@@ -220,6 +238,22 @@ export class EmployeeUpdatePage {
 
   async getDesignationSelectedOption(): Promise<string> {
     return await this.designationSelect.element(by.css('option:checked')).getText();
+  }
+
+  async lineSelectLastOption(): Promise<void> {
+    await this.lineSelect.all(by.tagName('option')).last().click();
+  }
+
+  async lineSelectOption(option: string): Promise<void> {
+    await this.lineSelect.sendKeys(option);
+  }
+
+  getLineSelect(): ElementFinder {
+    return this.lineSelect;
+  }
+
+  async getLineSelectedOption(): Promise<string> {
+    return await this.lineSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

@@ -73,6 +73,8 @@ class ThanaGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "name":"SAMPLE_TEXT"
+                , "bangla":"SAMPLE_TEXT"
+                , "web":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_thana_url"))).exitHereIfFailed

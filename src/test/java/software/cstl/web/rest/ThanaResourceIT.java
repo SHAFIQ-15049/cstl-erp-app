@@ -36,6 +36,12 @@ public class ThanaResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_BANGLA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_WEB = "AAAAAAAAAA";
+    private static final String UPDATED_WEB = "BBBBBBBBBB";
+
     @Autowired
     private ThanaRepository thanaRepository;
 
@@ -61,7 +67,9 @@ public class ThanaResourceIT {
      */
     public static Thana createEntity(EntityManager em) {
         Thana thana = new Thana()
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .bangla(DEFAULT_BANGLA)
+            .web(DEFAULT_WEB);
         return thana;
     }
     /**
@@ -72,7 +80,9 @@ public class ThanaResourceIT {
      */
     public static Thana createUpdatedEntity(EntityManager em) {
         Thana thana = new Thana()
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
         return thana;
     }
 
@@ -96,6 +106,8 @@ public class ThanaResourceIT {
         assertThat(thanaList).hasSize(databaseSizeBeforeCreate + 1);
         Thana testThana = thanaList.get(thanaList.size() - 1);
         assertThat(testThana.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testThana.getBangla()).isEqualTo(DEFAULT_BANGLA);
+        assertThat(testThana.getWeb()).isEqualTo(DEFAULT_WEB);
     }
 
     @Test
@@ -139,6 +151,25 @@ public class ThanaResourceIT {
 
     @Test
     @Transactional
+    public void checkBanglaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = thanaRepository.findAll().size();
+        // set the field null
+        thana.setBangla(null);
+
+        // Create the Thana, which fails.
+
+
+        restThanaMockMvc.perform(post("/api/thanas")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(thana)))
+            .andExpect(status().isBadRequest());
+
+        List<Thana> thanaList = thanaRepository.findAll();
+        assertThat(thanaList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllThanas() throws Exception {
         // Initialize the database
         thanaRepository.saveAndFlush(thana);
@@ -148,7 +179,9 @@ public class ThanaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(thana.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
     }
     
     @Test
@@ -162,7 +195,9 @@ public class ThanaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(thana.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA))
+            .andExpect(jsonPath("$.web").value(DEFAULT_WEB));
     }
 
 
@@ -265,6 +300,162 @@ public class ThanaResourceIT {
 
     @Test
     @Transactional
+    public void getAllThanasByBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla equals to DEFAULT_BANGLA
+        defaultThanaShouldBeFound("bangla.equals=" + DEFAULT_BANGLA);
+
+        // Get all the thanaList where bangla equals to UPDATED_BANGLA
+        defaultThanaShouldNotBeFound("bangla.equals=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla not equals to DEFAULT_BANGLA
+        defaultThanaShouldNotBeFound("bangla.notEquals=" + DEFAULT_BANGLA);
+
+        // Get all the thanaList where bangla not equals to UPDATED_BANGLA
+        defaultThanaShouldBeFound("bangla.notEquals=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla in DEFAULT_BANGLA or UPDATED_BANGLA
+        defaultThanaShouldBeFound("bangla.in=" + DEFAULT_BANGLA + "," + UPDATED_BANGLA);
+
+        // Get all the thanaList where bangla equals to UPDATED_BANGLA
+        defaultThanaShouldNotBeFound("bangla.in=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla is not null
+        defaultThanaShouldBeFound("bangla.specified=true");
+
+        // Get all the thanaList where bangla is null
+        defaultThanaShouldNotBeFound("bangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllThanasByBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla contains DEFAULT_BANGLA
+        defaultThanaShouldBeFound("bangla.contains=" + DEFAULT_BANGLA);
+
+        // Get all the thanaList where bangla contains UPDATED_BANGLA
+        defaultThanaShouldNotBeFound("bangla.contains=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where bangla does not contain DEFAULT_BANGLA
+        defaultThanaShouldNotBeFound("bangla.doesNotContain=" + DEFAULT_BANGLA);
+
+        // Get all the thanaList where bangla does not contain UPDATED_BANGLA
+        defaultThanaShouldBeFound("bangla.doesNotContain=" + UPDATED_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web equals to DEFAULT_WEB
+        defaultThanaShouldBeFound("web.equals=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web equals to UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.equals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web not equals to DEFAULT_WEB
+        defaultThanaShouldNotBeFound("web.notEquals=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web not equals to UPDATED_WEB
+        defaultThanaShouldBeFound("web.notEquals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsInShouldWork() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web in DEFAULT_WEB or UPDATED_WEB
+        defaultThanaShouldBeFound("web.in=" + DEFAULT_WEB + "," + UPDATED_WEB);
+
+        // Get all the thanaList where web equals to UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.in=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web is not null
+        defaultThanaShouldBeFound("web.specified=true");
+
+        // Get all the thanaList where web is null
+        defaultThanaShouldNotBeFound("web.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllThanasByWebContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web contains DEFAULT_WEB
+        defaultThanaShouldBeFound("web.contains=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web contains UPDATED_WEB
+        defaultThanaShouldNotBeFound("web.contains=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllThanasByWebNotContainsSomething() throws Exception {
+        // Initialize the database
+        thanaRepository.saveAndFlush(thana);
+
+        // Get all the thanaList where web does not contain DEFAULT_WEB
+        defaultThanaShouldNotBeFound("web.doesNotContain=" + DEFAULT_WEB);
+
+        // Get all the thanaList where web does not contain UPDATED_WEB
+        defaultThanaShouldBeFound("web.doesNotContain=" + UPDATED_WEB);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllThanasByDistrictIsEqualToSomething() throws Exception {
         // Initialize the database
         thanaRepository.saveAndFlush(thana);
@@ -290,7 +481,9 @@ public class ThanaResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(thana.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
 
         // Check, that the count call also returns 1
         restThanaMockMvc.perform(get("/api/thanas/count?sort=id,desc&" + filter))
@@ -337,7 +530,9 @@ public class ThanaResourceIT {
         // Disconnect from session so that the updates on updatedThana are not directly saved in db
         em.detach(updatedThana);
         updatedThana
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
 
         restThanaMockMvc.perform(put("/api/thanas")
             .contentType(MediaType.APPLICATION_JSON)
@@ -349,6 +544,8 @@ public class ThanaResourceIT {
         assertThat(thanaList).hasSize(databaseSizeBeforeUpdate);
         Thana testThana = thanaList.get(thanaList.size() - 1);
         assertThat(testThana.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testThana.getBangla()).isEqualTo(UPDATED_BANGLA);
+        assertThat(testThana.getWeb()).isEqualTo(UPDATED_WEB);
     }
 
     @Test

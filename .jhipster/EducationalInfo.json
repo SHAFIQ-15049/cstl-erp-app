@@ -45,7 +45,7 @@
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "educationalInfo",
       "relationshipName": "employee",
-      "otherEntityField": "id"
+      "otherEntityField": "name"
     }
   ],
   "changelogDate": "20201127213827",

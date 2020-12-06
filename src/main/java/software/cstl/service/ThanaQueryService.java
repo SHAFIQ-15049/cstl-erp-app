@@ -88,6 +88,12 @@ public class ThanaQueryService extends QueryService<Thana> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Thana_.name));
             }
+            if (criteria.getBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBangla(), Thana_.bangla));
+            }
+            if (criteria.getWeb() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getWeb(), Thana_.web));
+            }
             if (criteria.getDistrictId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDistrictId(),
                     root -> root.join(Thana_.district, JoinType.LEFT).get(District_.id)));

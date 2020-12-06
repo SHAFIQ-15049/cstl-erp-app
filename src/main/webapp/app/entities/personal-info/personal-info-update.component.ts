@@ -25,7 +25,9 @@ export class PersonalInfoUpdateComponent implements OnInit {
     photo: [],
     photoContentType: [],
     fatherName: [null, [Validators.required]],
+    fatherNameBangla: [],
     motherName: [null, [Validators.required]],
+    motherNameBangla: [],
     maritalStatus: [],
     spouseName: [],
     dateOfBirth: [],
@@ -42,7 +44,7 @@ export class PersonalInfoUpdateComponent implements OnInit {
     protected eventManager: JhiEventManager,
     protected personalInfoService: PersonalInfoService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -59,7 +61,9 @@ export class PersonalInfoUpdateComponent implements OnInit {
       photo: personalInfo.photo,
       photoContentType: personalInfo.photoContentType,
       fatherName: personalInfo.fatherName,
+      fatherNameBangla: personalInfo.fatherNameBangla,
       motherName: personalInfo.motherName,
+      motherNameBangla: personalInfo.motherNameBangla,
       maritalStatus: personalInfo.maritalStatus,
       spouseName: personalInfo.spouseName,
       dateOfBirth: personalInfo.dateOfBirth,
@@ -111,7 +115,9 @@ export class PersonalInfoUpdateComponent implements OnInit {
       photoContentType: this.editForm.get(['photoContentType'])!.value,
       photo: this.editForm.get(['photo'])!.value,
       fatherName: this.editForm.get(['fatherName'])!.value,
+      fatherNameBangla: this.editForm.get(['fatherNameBangla'])!.value,
       motherName: this.editForm.get(['motherName'])!.value,
+      motherNameBangla: this.editForm.get(['motherNameBangla'])!.value,
       maritalStatus: this.editForm.get(['maritalStatus'])!.value,
       spouseName: this.editForm.get(['spouseName'])!.value,
       dateOfBirth: this.editForm.get(['dateOfBirth'])!.value,

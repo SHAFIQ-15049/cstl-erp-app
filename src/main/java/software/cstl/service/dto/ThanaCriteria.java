@@ -28,6 +28,10 @@ public class ThanaCriteria implements Serializable, Criteria {
 
     private StringFilter name;
 
+    private StringFilter bangla;
+
+    private StringFilter web;
+
     private LongFilter districtId;
 
     public ThanaCriteria() {
@@ -36,6 +40,8 @@ public class ThanaCriteria implements Serializable, Criteria {
     public ThanaCriteria(ThanaCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
+        this.bangla = other.bangla == null ? null : other.bangla.copy();
+        this.web = other.web == null ? null : other.web.copy();
         this.districtId = other.districtId == null ? null : other.districtId.copy();
     }
 
@@ -60,6 +66,22 @@ public class ThanaCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
+    public StringFilter getBangla() {
+        return bangla;
+    }
+
+    public void setBangla(StringFilter bangla) {
+        this.bangla = bangla;
+    }
+
+    public StringFilter getWeb() {
+        return web;
+    }
+
+    public void setWeb(StringFilter web) {
+        this.web = web;
+    }
+
     public LongFilter getDistrictId() {
         return districtId;
     }
@@ -81,6 +103,8 @@ public class ThanaCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
+            Objects.equals(bangla, that.bangla) &&
+            Objects.equals(web, that.web) &&
             Objects.equals(districtId, that.districtId);
     }
 
@@ -89,6 +113,8 @@ public class ThanaCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         name,
+        bangla,
+        web,
         districtId
         );
     }
@@ -99,6 +125,8 @@ public class ThanaCriteria implements Serializable, Criteria {
         return "ThanaCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (bangla != null ? "bangla=" + bangla + ", " : "") +
+                (web != null ? "web=" + web + ", " : "") +
                 (districtId != null ? "districtId=" + districtId + ", " : "") +
             "}";
     }

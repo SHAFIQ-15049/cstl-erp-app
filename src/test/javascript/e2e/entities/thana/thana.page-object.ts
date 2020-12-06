@@ -30,6 +30,8 @@ export class ThanaUpdatePage {
   cancelButton = element(by.id('cancel-save'));
 
   nameInput = element(by.id('field_name'));
+  banglaInput = element(by.id('field_bangla'));
+  webInput = element(by.id('field_web'));
 
   districtSelect = element(by.id('field_district'));
 
@@ -43,6 +45,22 @@ export class ThanaUpdatePage {
 
   async getNameInput(): Promise<string> {
     return await this.nameInput.getAttribute('value');
+  }
+
+  async setBanglaInput(bangla: string): Promise<void> {
+    await this.banglaInput.sendKeys(bangla);
+  }
+
+  async getBanglaInput(): Promise<string> {
+    return await this.banglaInput.getAttribute('value');
+  }
+
+  async setWebInput(web: string): Promise<void> {
+    await this.webInput.sendKeys(web);
+  }
+
+  async getWebInput(): Promise<string> {
+    return await this.webInput.getAttribute('value');
   }
 
   async districtSelectLastOption(): Promise<void> {

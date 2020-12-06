@@ -32,7 +32,7 @@ export class TrainingUpdateComponent implements OnInit {
     protected trainingService: TrainingService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

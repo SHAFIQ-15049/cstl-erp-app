@@ -85,29 +85,74 @@ public class AddressQueryService extends QueryService<Address> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Address_.id));
             }
-            if (criteria.getStreet() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getStreet(), Address_.street));
+            if (criteria.getPresentThanaTxt() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentThanaTxt(), Address_.presentThanaTxt));
             }
-            if (criteria.getArea() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getArea(), Address_.area));
+            if (criteria.getPresentStreet() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentStreet(), Address_.presentStreet));
             }
-            if (criteria.getPostCode() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getPostCode(), Address_.postCode));
+            if (criteria.getPresentStreetBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentStreetBangla(), Address_.presentStreetBangla));
             }
-            if (criteria.getAddressType() != null) {
-                specification = specification.and(buildSpecification(criteria.getAddressType(), Address_.addressType));
+            if (criteria.getPresentArea() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentArea(), Address_.presentArea));
             }
-            if (criteria.getDivisionId() != null) {
-                specification = specification.and(buildSpecification(criteria.getDivisionId(),
-                    root -> root.join(Address_.division, JoinType.LEFT).get(Division_.id)));
+            if (criteria.getPresentAreaBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentAreaBangla(), Address_.presentAreaBangla));
             }
-            if (criteria.getDistrictId() != null) {
-                specification = specification.and(buildSpecification(criteria.getDistrictId(),
-                    root -> root.join(Address_.district, JoinType.LEFT).get(District_.id)));
+            if (criteria.getPresentPostCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPresentPostCode(), Address_.presentPostCode));
             }
-            if (criteria.getThanaId() != null) {
-                specification = specification.and(buildSpecification(criteria.getThanaId(),
-                    root -> root.join(Address_.thana, JoinType.LEFT).get(Thana_.id)));
+            if (criteria.getPresentPostCodeBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPresentPostCodeBangla(), Address_.presentPostCodeBangla));
+            }
+            if (criteria.getPermanentThanaTxt() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentThanaTxt(), Address_.permanentThanaTxt));
+            }
+            if (criteria.getPermanentStreet() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentStreet(), Address_.permanentStreet));
+            }
+            if (criteria.getPermanentStreetBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentStreetBangla(), Address_.permanentStreetBangla));
+            }
+            if (criteria.getPermanentArea() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentArea(), Address_.permanentArea));
+            }
+            if (criteria.getPermanentAreaBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermanentAreaBangla(), Address_.permanentAreaBangla));
+            }
+            if (criteria.getPermanentPostCode() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPermanentPostCode(), Address_.permanentPostCode));
+            }
+            if (criteria.getPermenentPostCodeBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPermenentPostCodeBangla(), Address_.permenentPostCodeBangla));
+            }
+            if (criteria.getIsSame() != null) {
+                specification = specification.and(buildSpecification(criteria.getIsSame(), Address_.isSame));
+            }
+            if (criteria.getPresentDivisionId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPresentDivisionId(),
+                    root -> root.join(Address_.presentDivision, JoinType.LEFT).get(Division_.id)));
+            }
+            if (criteria.getPresentDistrictId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPresentDistrictId(),
+                    root -> root.join(Address_.presentDistrict, JoinType.LEFT).get(District_.id)));
+            }
+            if (criteria.getPresentThanaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPresentThanaId(),
+                    root -> root.join(Address_.presentThana, JoinType.LEFT).get(Thana_.id)));
+            }
+            if (criteria.getPermanentDivisionId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPermanentDivisionId(),
+                    root -> root.join(Address_.permanentDivision, JoinType.LEFT).get(Division_.id)));
+            }
+            if (criteria.getPermanentDistrictId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPermanentDistrictId(),
+                    root -> root.join(Address_.permanentDistrict, JoinType.LEFT).get(District_.id)));
+            }
+            if (criteria.getPermanentThanaId() != null) {
+                specification = specification.and(buildSpecification(criteria.getPermanentThanaId(),
+                    root -> root.join(Address_.permanentThana, JoinType.LEFT).get(Thana_.id)));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

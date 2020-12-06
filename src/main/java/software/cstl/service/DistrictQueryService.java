@@ -88,6 +88,12 @@ public class DistrictQueryService extends QueryService<District> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), District_.name));
             }
+            if (criteria.getBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBangla(), District_.bangla));
+            }
+            if (criteria.getWeb() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getWeb(), District_.web));
+            }
             if (criteria.getDivisionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDivisionId(),
                     root -> root.join(District_.division, JoinType.LEFT).get(Division_.id)));

@@ -90,7 +90,11 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter fatherName;
 
+    private StringFilter fatherNameBangla;
+
     private StringFilter motherName;
+
+    private StringFilter motherNameBangla;
 
     private MaritalStatusFilter maritalStatus;
 
@@ -110,6 +114,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter emergencyContact;
 
+    private LongFilter employeeId;
+
     public PersonalInfoCriteria() {
     }
 
@@ -118,7 +124,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.banglaName = other.banglaName == null ? null : other.banglaName.copy();
         this.fatherName = other.fatherName == null ? null : other.fatherName.copy();
+        this.fatherNameBangla = other.fatherNameBangla == null ? null : other.fatherNameBangla.copy();
         this.motherName = other.motherName == null ? null : other.motherName.copy();
+        this.motherNameBangla = other.motherNameBangla == null ? null : other.motherNameBangla.copy();
         this.maritalStatus = other.maritalStatus == null ? null : other.maritalStatus.copy();
         this.spouseName = other.spouseName == null ? null : other.spouseName.copy();
         this.dateOfBirth = other.dateOfBirth == null ? null : other.dateOfBirth.copy();
@@ -128,6 +136,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.gender = other.gender == null ? null : other.gender.copy();
         this.bloodGroup = other.bloodGroup == null ? null : other.bloodGroup.copy();
         this.emergencyContact = other.emergencyContact == null ? null : other.emergencyContact.copy();
+        this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
     @Override
@@ -167,12 +176,28 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.fatherName = fatherName;
     }
 
+    public StringFilter getFatherNameBangla() {
+        return fatherNameBangla;
+    }
+
+    public void setFatherNameBangla(StringFilter fatherNameBangla) {
+        this.fatherNameBangla = fatherNameBangla;
+    }
+
     public StringFilter getMotherName() {
         return motherName;
     }
 
     public void setMotherName(StringFilter motherName) {
         this.motherName = motherName;
+    }
+
+    public StringFilter getMotherNameBangla() {
+        return motherNameBangla;
+    }
+
+    public void setMotherNameBangla(StringFilter motherNameBangla) {
+        this.motherNameBangla = motherNameBangla;
     }
 
     public MaritalStatusFilter getMaritalStatus() {
@@ -247,6 +272,14 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.emergencyContact = emergencyContact;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -262,7 +295,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(banglaName, that.banglaName) &&
             Objects.equals(fatherName, that.fatherName) &&
+            Objects.equals(fatherNameBangla, that.fatherNameBangla) &&
             Objects.equals(motherName, that.motherName) &&
+            Objects.equals(motherNameBangla, that.motherNameBangla) &&
             Objects.equals(maritalStatus, that.maritalStatus) &&
             Objects.equals(spouseName, that.spouseName) &&
             Objects.equals(dateOfBirth, that.dateOfBirth) &&
@@ -271,7 +306,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(height, that.height) &&
             Objects.equals(gender, that.gender) &&
             Objects.equals(bloodGroup, that.bloodGroup) &&
-            Objects.equals(emergencyContact, that.emergencyContact);
+            Objects.equals(emergencyContact, that.emergencyContact) &&
+            Objects.equals(employeeId, that.employeeId);
     }
 
     @Override
@@ -281,7 +317,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         name,
         banglaName,
         fatherName,
+        fatherNameBangla,
         motherName,
+        motherNameBangla,
         maritalStatus,
         spouseName,
         dateOfBirth,
@@ -290,7 +328,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         height,
         gender,
         bloodGroup,
-        emergencyContact
+        emergencyContact,
+        employeeId
         );
     }
 
@@ -302,7 +341,9 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (banglaName != null ? "banglaName=" + banglaName + ", " : "") +
                 (fatherName != null ? "fatherName=" + fatherName + ", " : "") +
+                (fatherNameBangla != null ? "fatherNameBangla=" + fatherNameBangla + ", " : "") +
                 (motherName != null ? "motherName=" + motherName + ", " : "") +
+                (motherNameBangla != null ? "motherNameBangla=" + motherNameBangla + ", " : "") +
                 (maritalStatus != null ? "maritalStatus=" + maritalStatus + ", " : "") +
                 (spouseName != null ? "spouseName=" + spouseName + ", " : "") +
                 (dateOfBirth != null ? "dateOfBirth=" + dateOfBirth + ", " : "") +
@@ -312,6 +353,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (gender != null ? "gender=" + gender + ", " : "") +
                 (bloodGroup != null ? "bloodGroup=" + bloodGroup + ", " : "") +
                 (emergencyContact != null ? "emergencyContact=" + emergencyContact + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

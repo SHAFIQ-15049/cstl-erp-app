@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { IPersonalInfo } from 'app/shared/model/personal-info.model';
 import { IAddress } from 'app/shared/model/address.model';
+import { IPersonalInfo } from 'app/shared/model/personal-info.model';
 import { IEducationalInfo } from 'app/shared/model/educational-info.model';
 import { ITraining } from 'app/shared/model/training.model';
 import { IEmployeeAccount } from 'app/shared/model/employee-account.model';
@@ -10,6 +10,7 @@ import { ICompany } from 'app/shared/model/company.model';
 import { IDepartment } from 'app/shared/model/department.model';
 import { IGrade } from 'app/shared/model/grade.model';
 import { IDesignation } from 'app/shared/model/designation.model';
+import { ILine } from 'app/shared/model/line.model';
 import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
 import { EmployeeStatus } from 'app/shared/model/enumerations/employee-status.model';
@@ -26,8 +27,8 @@ export interface IEmployee {
   status?: EmployeeStatus;
   terminationDate?: Moment;
   terminationReason?: any;
+  address?: IAddress;
   personalInfo?: IPersonalInfo;
-  addresses?: IAddress[];
   educationalInfos?: IEducationalInfo[];
   trainings?: ITraining[];
   employeeAccounts?: IEmployeeAccount[];
@@ -37,6 +38,7 @@ export interface IEmployee {
   department?: IDepartment;
   grade?: IGrade;
   designation?: IDesignation;
+  line?: ILine;
 }
 
 export class Employee implements IEmployee {
@@ -52,8 +54,8 @@ export class Employee implements IEmployee {
     public status?: EmployeeStatus,
     public terminationDate?: Moment,
     public terminationReason?: any,
+    public address?: IAddress,
     public personalInfo?: IPersonalInfo,
-    public addresses?: IAddress[],
     public educationalInfos?: IEducationalInfo[],
     public trainings?: ITraining[],
     public employeeAccounts?: IEmployeeAccount[],
@@ -62,6 +64,7 @@ export class Employee implements IEmployee {
     public company?: ICompany,
     public department?: IDepartment,
     public grade?: IGrade,
-    public designation?: IDesignation
+    public designation?: IDesignation,
+    public line?: ILine
   ) {}
 }

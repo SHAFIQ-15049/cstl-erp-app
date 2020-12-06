@@ -88,6 +88,12 @@ public class DivisionQueryService extends QueryService<Division> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Division_.name));
             }
+            if (criteria.getBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBangla(), Division_.bangla));
+            }
+            if (criteria.getWeb() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getWeb(), Division_.web));
+            }
         }
         return specification;
     }

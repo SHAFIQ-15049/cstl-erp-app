@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(ThanaService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Thana(0, 'AAAAAAA');
+      elemDefault = new Thana(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -55,6 +55,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            bangla: 'BBBBBB',
+            web: 'BBBBBB',
           },
           elemDefault
         );
@@ -72,6 +74,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             name: 'BBBBBB',
+            bangla: 'BBBBBB',
+            web: 'BBBBBB',
           },
           elemDefault
         );

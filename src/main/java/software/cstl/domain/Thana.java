@@ -27,6 +27,13 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
+    @NotNull
+    @Column(name = "bangla", nullable = false)
+    private String bangla;
+
+    @Column(name = "web")
+    private String web;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "thanas", allowSetters = true)
     private District district;
@@ -51,6 +58,32 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getBangla() {
+        return bangla;
+    }
+
+    public Thana bangla(String bangla) {
+        this.bangla = bangla;
+        return this;
+    }
+
+    public void setBangla(String bangla) {
+        this.bangla = bangla;
+    }
+
+    public String getWeb() {
+        return web;
+    }
+
+    public Thana web(String web) {
+        this.web = web;
+        return this;
+    }
+
+    public void setWeb(String web) {
+        this.web = web;
     }
 
     public District getDistrict() {
@@ -89,6 +122,8 @@ public class Thana extends AbstractAuditingEntity implements Serializable {
         return "Thana{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
+            ", bangla='" + getBangla() + "'" +
+            ", web='" + getWeb() + "'" +
             "}";
     }
 }

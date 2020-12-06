@@ -112,13 +112,13 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getTerminationDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTerminationDate(), Employee_.terminationDate));
             }
+            if (criteria.getAddressId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAddressId(),
+                    root -> root.join(Employee_.address, JoinType.LEFT).get(Address_.id)));
+            }
             if (criteria.getPersonalInfoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPersonalInfoId(),
                     root -> root.join(Employee_.personalInfo, JoinType.LEFT).get(PersonalInfo_.id)));
-            }
-            if (criteria.getAddressId() != null) {
-                specification = specification.and(buildSpecification(criteria.getAddressId(),
-                    root -> root.join(Employee_.addresses, JoinType.LEFT).get(Address_.id)));
             }
             if (criteria.getEducationalInfoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEducationalInfoId(),
@@ -155,6 +155,10 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getDesignationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDesignationId(),
                     root -> root.join(Employee_.designation, JoinType.LEFT).get(Designation_.id)));
+            }
+            if (criteria.getLineId() != null) {
+                specification = specification.and(buildSpecification(criteria.getLineId(),
+                    root -> root.join(Employee_.line, JoinType.LEFT).get(Line_.id)));
             }
         }
         return specification;

@@ -1,0 +1,123 @@
+<div>
+    <h2 id="page-heading">
+        <span>Addresses</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-address" [routerLink]="['/address/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Address
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="addresses?.length === 0">
+        <span>No addresses found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="addresses && addresses.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentThanaTxt"><span>Present Thana Txt</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentStreet"><span>Present Street</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentArea"><span>Present Area</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentPostCode"><span>Present Post Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentThanaTxt"><span>Permanent Thana Txt</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentStreet"><span>Permanent Street</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentArea"><span>Permanent Area</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentPostCode"><span>Permanent Post Code</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="isSame"><span>Is Same</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentDivision.name"><span>Present Division</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentDistrict.name"><span>Present District</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="presentThana.name"><span>Present Thana</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentDivision.name"><span>Permanent Division</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentDistrict.name"><span>Permanent District</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="permanentThana.name"><span>Permanent Thana</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let address of addresses ;trackBy: trackId">
+                    <td><a [routerLink]="['/address', address.id, 'view']">{{ address.id }}</a></td>
+                    <td>{{ address.presentThanaTxt }}</td>
+                    <td>{{ address.presentStreet }}</td>
+                    <td>{{ address.presentArea }}</td>
+                    <td>{{ address.presentPostCode }}</td>
+                    <td>{{ address.permanentThanaTxt }}</td>
+                    <td>{{ address.permanentStreet }}</td>
+                    <td>{{ address.permanentArea }}</td>
+                    <td>{{ address.permanentPostCode }}</td>
+                    <td>{{ address.isSame }}</td>
+                    <td>
+                        <div *ngIf="address.presentDivision">
+                            <a [routerLink]="['/division', address.presentDivision?.id, 'view']" >{{ address.presentDivision?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.presentDistrict">
+                            <a [routerLink]="['/district', address.presentDistrict?.id, 'view']" >{{ address.presentDistrict?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.presentThana">
+                            <a [routerLink]="['/thana', address.presentThana?.id, 'view']" >{{ address.presentThana?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.permanentDivision">
+                            <a [routerLink]="['/division', address.permanentDivision?.id, 'view']" >{{ address.permanentDivision?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.permanentDistrict">
+                            <a [routerLink]="['/district', address.permanentDistrict?.id, 'view']" >{{ address.permanentDistrict?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="address.permanentThana">
+                            <a [routerLink]="['/thana', address.permanentThana?.id, 'view']" >{{ address.permanentThana?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/address', address.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/address', address.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(address)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="addresses && addresses.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

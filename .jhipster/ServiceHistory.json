@@ -42,7 +42,7 @@
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "serviceHistory",
       "relationshipName": "employee",
-      "otherEntityField": "id"
+      "otherEntityField": "name"
     }
   ],
   "changelogDate": "20201127214227",

@@ -52,7 +52,9 @@ describe('PersonalInfo e2e test', () => {
       personalInfoUpdatePage.setBanglaNameInput('banglaName'),
       personalInfoUpdatePage.setPhotoInput(absolutePath),
       personalInfoUpdatePage.setFatherNameInput('fatherName'),
+      personalInfoUpdatePage.setFatherNameBanglaInput('fatherNameBangla'),
       personalInfoUpdatePage.setMotherNameInput('motherName'),
+      personalInfoUpdatePage.setMotherNameBanglaInput('motherNameBangla'),
       personalInfoUpdatePage.maritalStatusSelectLastOption(),
       personalInfoUpdatePage.setSpouseNameInput('spouseName'),
       personalInfoUpdatePage.setDateOfBirthInput('2000-12-31'),
@@ -71,7 +73,15 @@ describe('PersonalInfo e2e test', () => {
       'Expected Photo value to be end with ' + fileNameToUpload
     );
     expect(await personalInfoUpdatePage.getFatherNameInput()).to.eq('fatherName', 'Expected FatherName value to be equals to fatherName');
+    expect(await personalInfoUpdatePage.getFatherNameBanglaInput()).to.eq(
+      'fatherNameBangla',
+      'Expected FatherNameBangla value to be equals to fatherNameBangla'
+    );
     expect(await personalInfoUpdatePage.getMotherNameInput()).to.eq('motherName', 'Expected MotherName value to be equals to motherName');
+    expect(await personalInfoUpdatePage.getMotherNameBanglaInput()).to.eq(
+      'motherNameBangla',
+      'Expected MotherNameBangla value to be equals to motherNameBangla'
+    );
     expect(await personalInfoUpdatePage.getSpouseNameInput()).to.eq('spouseName', 'Expected SpouseName value to be equals to spouseName');
     expect(await personalInfoUpdatePage.getDateOfBirthInput()).to.eq('2000-12-31', 'Expected dateOfBirth value to be equals to 2000-12-31');
     expect(await personalInfoUpdatePage.getNationalIdInput()).to.eq('nationalId', 'Expected NationalId value to be equals to nationalId');

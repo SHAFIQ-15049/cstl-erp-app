@@ -33,7 +33,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         'AAAAAAA',
         'AAAAAAA',
-        EmployeeCategory.MANAGERIAL,
+        EmployeeCategory.TOP_LEVEL,
         EmployeeType.PERMANENT,
         currentDate,
         EmployeeStatus.ACTIVE,

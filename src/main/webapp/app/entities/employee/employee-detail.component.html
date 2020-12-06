@@ -48,6 +48,12 @@
                 <dd>
                     <span>{{ employee.terminationReason }}</span>
                 </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <div *ngIf="employee.address">
+                        <a [routerLink]="['/address', employee.address?.id, 'view']">{{ employee.address?.id }}</a>
+                    </div>
+                </dd>
                 <dt><span>Personal Info</span></dt>
                 <dd>
                     <div *ngIf="employee.personalInfo">
@@ -76,6 +82,12 @@
                 <dd>
                     <div *ngIf="employee.designation">
                         <a [routerLink]="['/designation', employee.designation?.id, 'view']">{{ employee.designation?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Line</span></dt>
+                <dd>
+                    <div *ngIf="employee.line">
+                        <a [routerLink]="['/line', employee.line?.id, 'view']">{{ employee.line?.name }}</a>
                     </div>
                 </dd>
             </dl>

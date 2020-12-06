@@ -1,0 +1,164 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-employee-heading">{{!editForm.get('id')!.value?'Create': 'Update'}} Employee</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="row">
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_name">Name</label>
+                        <input type="text" class="form-control" name="name" id="field_name"
+                               formControlName="name"/>
+                        <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('name')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_empId">Employee Id</label>
+                        <input type="text" class="form-control" name="empId" id="field_empId"
+                               formControlName="empId"/>
+                        <div *ngIf="editForm.get('empId')!.invalid && (editForm.get('empId')!.dirty || editForm.get('empId')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('empId')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_globalId">Global Id</label>
+                        <input type="text" class="form-control" name="globalId" id="field_globalId"
+                               formControlName="globalId"/>
+                        <div *ngIf="editForm.get('globalId')!.invalid && (editForm.get('globalId')!.dirty || editForm.get('globalId')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('globalId')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_localId">Local Id</label>
+                        <input type="text" class="form-control" name="localId" id="field_localId"
+                               formControlName="localId"/>
+                        <div *ngIf="editForm.get('localId')!.invalid && (editForm.get('localId')!.dirty || editForm.get('localId')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('localId')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_company">Company</label>
+                        <select class="form-control" id="field_company" name="company" formControlName="company">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="companyOption.id === editForm.get('company')!.value?.id ? editForm.get('company')!.value : companyOption" *ngFor="let companyOption of companies; trackBy: trackById">{{ companyOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_department">Department</label>
+                        <select (ngModelChange)="departmentSelected()" class="form-control" id="field_department" name="department" formControlName="department">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="departmentOption.id === editForm.get('department')!.value?.id ? editForm.get('department')!.value : departmentOption" *ngFor="let departmentOption of departments; trackBy: trackById">{{ departmentOption.name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_category">Category</label>
+                        <select (ngModelChange)="categorySelected()" class="form-control" name="category" formControlName="category" id="field_category">
+                            <option value="TOP_LEVEL">TOP LEVEL</option>
+                            <option value="MID_LEVEL">MID LEVEL</option>
+                            <option value="STAFF">STAFF</option>
+                            <option value="WORKER">WORKER</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_type">Type</label>
+                        <select class="form-control" name="type" formControlName="type" id="field_type">
+                            <option value="PERMANENT">PERMANENT</option>
+                            <option value="TEMPORARY">TEMPORARY</option>
+                            <option value="PART_TIME">PART_TIME</option>
+                            <option value="CONTRACTUAL">CONTRACTUAL</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_designation">Designation</label>
+                        <select class="form-control" id="field_designation" name="designation" formControlName="designation">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="designationOption.id === editForm.get('designation')!.value?.id ? editForm.get('designation')!.value : designationOption" *ngFor="let designationOption of designations ">{{ designationOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_grade">Grade</label>
+                        <select class="form-control" id="field_grade" name="grade" formControlName="grade">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="gradeOption.id === editForm.get('grade')!.value?.id ? editForm.get('grade')!.value : gradeOption" *ngFor="let gradeOption of grades; trackBy: trackById">{{ gradeOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-12" *ngIf="editForm.controls['category'].value === 'WORKER'">
+                        <label class="form-control-label" for="field_line">Line</label>
+                        <select class="form-control" id="field_line" name="line" formControlName="line">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="lineOption.id === editForm.get('line')!.value?.id ? editForm.get('line')!.value : lineOption" *ngFor="let lineOption of lines; trackBy: trackById">{{ lineOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_joiningDate">Joining Date</label>
+                        <div class="input-group">
+                            <input id="field_joiningDate" type="text" class="form-control" name="joiningDate" ngbDatepicker #joiningDateDp="ngbDatepicker" formControlName="joiningDate"/>
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="joiningDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_status">Status</label>
+                        <select class="form-control" name="status" formControlName="status" id="field_status">
+                            <option value="ACTIVE">ACTIVE</option>
+                            <option value="TERMINATED">TERMINATED</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6" *ngIf="editForm.get('status')!.value === 'TERMINATED'">
+                        <label class="form-control-label" for="field_terminationDate">Termination Date</label>
+                        <div class="input-group">
+                            <input id="field_terminationDate" type="text" class="form-control" name="terminationDate" ngbDatepicker #terminationDateDp="ngbDatepicker" formControlName="terminationDate"/>
+                            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="terminationDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6" *ngIf="editForm.get('status')!.value === 'TERMINATED'">
+                        <label class="form-control-label" for="field_terminationReason">Termination Reason</label>
+                        <textarea class="form-control" name="terminationReason" id="field_terminationReason"
+                                  formControlName="terminationReason"></textarea>
+                    </div>
+                </div>
+
+
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

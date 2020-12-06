@@ -34,6 +34,7 @@ export class TrackerService {
     }
     const socket: WebSocket = new SockJS(url);
     this.stompClient = Stomp.over(socket);
+    this.stompClient.debug = () => {};
     const headers: Stomp.ConnectionHeaders = {};
     this.stompClient.connect(headers, () => {
       this.connectionSubject.next();

@@ -9,13 +9,13 @@ import { EducationalInfoDeleteDialogComponent } from './educational-info-delete-
 import { educationalInfoRoute } from './educational-info.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(educationalInfoRoute)],
-  declarations: [
-    EducationalInfoComponent,
-    EducationalInfoDetailComponent,
-    EducationalInfoUpdateComponent,
-    EducationalInfoDeleteDialogComponent,
-  ],
-  entryComponents: [EducationalInfoDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(educationalInfoRoute)],
+  // declarations: [
+  //   EducationalInfoComponent,
+  //   EducationalInfoDetailComponent,
+  //   EducationalInfoUpdateComponent,
+  //   EducationalInfoDeleteDialogComponent,
+  // ],
+  // entryComponents: [EducationalInfoDeleteDialogComponent],
 })
 export class CodeNodeErpEducationalInfoModule {}

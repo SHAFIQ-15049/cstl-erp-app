@@ -30,7 +30,7 @@ export class EmployeeAccountUpdateComponent implements OnInit {
     protected employeeAccountService: EmployeeAccountService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

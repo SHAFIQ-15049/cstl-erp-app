@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(DesignationService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Designation(0, EmployeeCategory.MANAGERIAL, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Designation(0, EmployeeCategory.TOP_LEVEL, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {

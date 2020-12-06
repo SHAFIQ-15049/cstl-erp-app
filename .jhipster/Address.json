@@ -2,27 +2,64 @@
   "name": "Address",
   "fields": [
     {
-      "fieldName": "street",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldName": "presentThanaTxt",
+      "fieldType": "String"
     },
     {
-      "fieldName": "area",
-      "fieldType": "String",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldName": "presentStreet",
+      "fieldType": "String"
     },
     {
-      "fieldName": "postCode",
+      "fieldName": "presentStreetBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "presentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "presentAreaBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "presentPostCode",
       "fieldType": "Integer"
     },
     {
-      "fieldName": "addressType",
-      "fieldType": "AddressType",
-      "fieldValues": "PRESENT,PERMANENT"
+      "fieldName": "presentPostCodeBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentThanaTxt",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentStreet",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentStreetBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentArea",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentAreaBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "permanentPostCode",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "permenentPostCodeBangla",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "isSame",
+      "fieldType": "Boolean"
     }
   ],
   "relationships": [
@@ -30,29 +67,50 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "division",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "division",
+      "relationshipName": "presentDivision",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "district",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "district",
+      "relationshipName": "presentDistrict",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
       "otherEntityName": "thana",
       "otherEntityRelationshipName": "address",
-      "relationshipName": "thana",
+      "relationshipName": "presentThana",
       "otherEntityField": "name"
     },
     {
       "relationshipType": "many-to-one",
+      "otherEntityName": "division",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentDivision",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "district",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentDistrict",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "thana",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "permanentThana",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "one-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "address",
       "relationshipName": "employee",
-      "otherEntityField": "id"
+      "ownerSide": false
     }
   ],
   "changelogDate": "20201127213727",

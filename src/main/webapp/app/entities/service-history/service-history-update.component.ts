@@ -49,7 +49,7 @@ export class ServiceHistoryUpdateComponent implements OnInit {
     protected gradeService: GradeService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {

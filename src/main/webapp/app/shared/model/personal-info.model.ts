@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { MaritalStatus } from 'app/shared/model/enumerations/marital-status.model';
 import { GenderType } from 'app/shared/model/enumerations/gender-type.model';
 import { BloodGroupType } from 'app/shared/model/enumerations/blood-group-type.model';
@@ -10,7 +11,9 @@ export interface IPersonalInfo {
   photoContentType?: string;
   photo?: any;
   fatherName?: string;
+  fatherNameBangla?: string;
   motherName?: string;
+  motherNameBangla?: string;
   maritalStatus?: MaritalStatus;
   spouseName?: string;
   dateOfBirth?: Moment;
@@ -20,6 +23,7 @@ export interface IPersonalInfo {
   gender?: GenderType;
   bloodGroup?: BloodGroupType;
   emergencyContact?: string;
+  employee?: IEmployee;
 }
 
 export class PersonalInfo implements IPersonalInfo {
@@ -30,7 +34,9 @@ export class PersonalInfo implements IPersonalInfo {
     public photoContentType?: string,
     public photo?: any,
     public fatherName?: string,
+    public fatherNameBangla?: string,
     public motherName?: string,
+    public motherNameBangla?: string,
     public maritalStatus?: MaritalStatus,
     public spouseName?: string,
     public dateOfBirth?: Moment,
@@ -39,6 +45,7 @@ export class PersonalInfo implements IPersonalInfo {
     public height?: number,
     public gender?: GenderType,
     public bloodGroup?: BloodGroupType,
-    public emergencyContact?: string
+    public emergencyContact?: string,
+    public employee?: IEmployee
   ) {}
 }

@@ -35,6 +35,12 @@ public class DivisionResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_BANGLA = "BBBBBBBBBB";
+
+    private static final String DEFAULT_WEB = "AAAAAAAAAA";
+    private static final String UPDATED_WEB = "BBBBBBBBBB";
+
     @Autowired
     private DivisionRepository divisionRepository;
 
@@ -60,7 +66,9 @@ public class DivisionResourceIT {
      */
     public static Division createEntity(EntityManager em) {
         Division division = new Division()
-            .name(DEFAULT_NAME);
+            .name(DEFAULT_NAME)
+            .bangla(DEFAULT_BANGLA)
+            .web(DEFAULT_WEB);
         return division;
     }
     /**
@@ -71,7 +79,9 @@ public class DivisionResourceIT {
      */
     public static Division createUpdatedEntity(EntityManager em) {
         Division division = new Division()
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
         return division;
     }
 
@@ -95,6 +105,8 @@ public class DivisionResourceIT {
         assertThat(divisionList).hasSize(databaseSizeBeforeCreate + 1);
         Division testDivision = divisionList.get(divisionList.size() - 1);
         assertThat(testDivision.getName()).isEqualTo(DEFAULT_NAME);
+        assertThat(testDivision.getBangla()).isEqualTo(DEFAULT_BANGLA);
+        assertThat(testDivision.getWeb()).isEqualTo(DEFAULT_WEB);
     }
 
     @Test
@@ -138,6 +150,25 @@ public class DivisionResourceIT {
 
     @Test
     @Transactional
+    public void checkBanglaIsRequired() throws Exception {
+        int databaseSizeBeforeTest = divisionRepository.findAll().size();
+        // set the field null
+        division.setBangla(null);
+
+        // Create the Division, which fails.
+
+
+        restDivisionMockMvc.perform(post("/api/divisions")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(division)))
+            .andExpect(status().isBadRequest());
+
+        List<Division> divisionList = divisionRepository.findAll();
+        assertThat(divisionList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllDivisions() throws Exception {
         // Initialize the database
         divisionRepository.saveAndFlush(division);
@@ -147,7 +178,9 @@ public class DivisionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(division.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
     }
     
     @Test
@@ -161,7 +194,9 @@ public class DivisionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(division.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
+            .andExpect(jsonPath("$.bangla").value(DEFAULT_BANGLA))
+            .andExpect(jsonPath("$.web").value(DEFAULT_WEB));
     }
 
 
@@ -261,6 +296,162 @@ public class DivisionResourceIT {
         defaultDivisionShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla equals to DEFAULT_BANGLA
+        defaultDivisionShouldBeFound("bangla.equals=" + DEFAULT_BANGLA);
+
+        // Get all the divisionList where bangla equals to UPDATED_BANGLA
+        defaultDivisionShouldNotBeFound("bangla.equals=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla not equals to DEFAULT_BANGLA
+        defaultDivisionShouldNotBeFound("bangla.notEquals=" + DEFAULT_BANGLA);
+
+        // Get all the divisionList where bangla not equals to UPDATED_BANGLA
+        defaultDivisionShouldBeFound("bangla.notEquals=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla in DEFAULT_BANGLA or UPDATED_BANGLA
+        defaultDivisionShouldBeFound("bangla.in=" + DEFAULT_BANGLA + "," + UPDATED_BANGLA);
+
+        // Get all the divisionList where bangla equals to UPDATED_BANGLA
+        defaultDivisionShouldNotBeFound("bangla.in=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla is not null
+        defaultDivisionShouldBeFound("bangla.specified=true");
+
+        // Get all the divisionList where bangla is null
+        defaultDivisionShouldNotBeFound("bangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllDivisionsByBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla contains DEFAULT_BANGLA
+        defaultDivisionShouldBeFound("bangla.contains=" + DEFAULT_BANGLA);
+
+        // Get all the divisionList where bangla contains UPDATED_BANGLA
+        defaultDivisionShouldNotBeFound("bangla.contains=" + UPDATED_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where bangla does not contain DEFAULT_BANGLA
+        defaultDivisionShouldNotBeFound("bangla.doesNotContain=" + DEFAULT_BANGLA);
+
+        // Get all the divisionList where bangla does not contain UPDATED_BANGLA
+        defaultDivisionShouldBeFound("bangla.doesNotContain=" + UPDATED_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByWebIsEqualToSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web equals to DEFAULT_WEB
+        defaultDivisionShouldBeFound("web.equals=" + DEFAULT_WEB);
+
+        // Get all the divisionList where web equals to UPDATED_WEB
+        defaultDivisionShouldNotBeFound("web.equals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByWebIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web not equals to DEFAULT_WEB
+        defaultDivisionShouldNotBeFound("web.notEquals=" + DEFAULT_WEB);
+
+        // Get all the divisionList where web not equals to UPDATED_WEB
+        defaultDivisionShouldBeFound("web.notEquals=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByWebIsInShouldWork() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web in DEFAULT_WEB or UPDATED_WEB
+        defaultDivisionShouldBeFound("web.in=" + DEFAULT_WEB + "," + UPDATED_WEB);
+
+        // Get all the divisionList where web equals to UPDATED_WEB
+        defaultDivisionShouldNotBeFound("web.in=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByWebIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web is not null
+        defaultDivisionShouldBeFound("web.specified=true");
+
+        // Get all the divisionList where web is null
+        defaultDivisionShouldNotBeFound("web.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllDivisionsByWebContainsSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web contains DEFAULT_WEB
+        defaultDivisionShouldBeFound("web.contains=" + DEFAULT_WEB);
+
+        // Get all the divisionList where web contains UPDATED_WEB
+        defaultDivisionShouldNotBeFound("web.contains=" + UPDATED_WEB);
+    }
+
+    @Test
+    @Transactional
+    public void getAllDivisionsByWebNotContainsSomething() throws Exception {
+        // Initialize the database
+        divisionRepository.saveAndFlush(division);
+
+        // Get all the divisionList where web does not contain DEFAULT_WEB
+        defaultDivisionShouldNotBeFound("web.doesNotContain=" + DEFAULT_WEB);
+
+        // Get all the divisionList where web does not contain UPDATED_WEB
+        defaultDivisionShouldBeFound("web.doesNotContain=" + UPDATED_WEB);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -269,7 +460,9 @@ public class DivisionResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(division.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
+            .andExpect(jsonPath("$.[*].bangla").value(hasItem(DEFAULT_BANGLA)))
+            .andExpect(jsonPath("$.[*].web").value(hasItem(DEFAULT_WEB)));
 
         // Check, that the count call also returns 1
         restDivisionMockMvc.perform(get("/api/divisions/count?sort=id,desc&" + filter))
@@ -316,7 +509,9 @@ public class DivisionResourceIT {
         // Disconnect from session so that the updates on updatedDivision are not directly saved in db
         em.detach(updatedDivision);
         updatedDivision
-            .name(UPDATED_NAME);
+            .name(UPDATED_NAME)
+            .bangla(UPDATED_BANGLA)
+            .web(UPDATED_WEB);
 
         restDivisionMockMvc.perform(put("/api/divisions")
             .contentType(MediaType.APPLICATION_JSON)
@@ -328,6 +523,8 @@ public class DivisionResourceIT {
         assertThat(divisionList).hasSize(databaseSizeBeforeUpdate);
         Division testDivision = divisionList.get(divisionList.size() - 1);
         assertThat(testDivision.getName()).isEqualTo(UPDATED_NAME);
+        assertThat(testDivision.getBangla()).isEqualTo(UPDATED_BANGLA);
+        assertThat(testDivision.getWeb()).isEqualTo(UPDATED_WEB);
     }
 
     @Test

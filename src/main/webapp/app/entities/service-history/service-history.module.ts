@@ -9,13 +9,13 @@ import { ServiceHistoryDeleteDialogComponent } from './service-history-delete-di
 import { serviceHistoryRoute } from './service-history.route';
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule.forChild(serviceHistoryRoute)],
-  declarations: [
-    ServiceHistoryComponent,
-    ServiceHistoryDetailComponent,
-    ServiceHistoryUpdateComponent,
-    ServiceHistoryDeleteDialogComponent,
-  ],
-  entryComponents: [ServiceHistoryDeleteDialogComponent],
+  // imports: [CodeNodeErpSharedModule, RouterModule.forChild(serviceHistoryRoute)],
+  // declarations: [
+  //   ServiceHistoryComponent,
+  //   ServiceHistoryDetailComponent,
+  //   ServiceHistoryUpdateComponent,
+  //   ServiceHistoryDeleteDialogComponent,
+  // ],
+  // entryComponents: [ServiceHistoryDeleteDialogComponent],
 })
 export class CodeNodeErpServiceHistoryModule {}

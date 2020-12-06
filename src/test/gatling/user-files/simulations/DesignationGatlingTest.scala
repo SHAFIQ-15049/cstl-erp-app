@@ -72,7 +72,7 @@ class DesignationGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "category":"MANAGERIAL"
+                , "category":"TOP_LEVEL"
                 , "name":"SAMPLE_TEXT"
                 , "shortName":"SAMPLE_TEXT"
                 , "nameInBangla":"SAMPLE_TEXT"

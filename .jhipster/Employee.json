@@ -32,7 +32,7 @@
     {
       "fieldName": "category",
       "fieldType": "EmployeeCategory",
-      "fieldValues": "MANAGERIAL,STAFF,WORKER"
+      "fieldValues": "TOP_LEVEL,MID_LEVEL,STAFF,WORKER"
     },
     {
       "fieldName": "type",
@@ -61,17 +61,19 @@
   "relationships": [
     {
       "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "address",
+      "otherEntityField": "id",
+      "ownerSide": true
+    },
+    {
+      "relationshipType": "one-to-one",
       "otherEntityName": "personalInfo",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "personalInfo",
       "otherEntityField": "name",
       "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-many",
-      "otherEntityName": "address",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "address"
     },
     {
       "relationshipType": "one-to-many",
@@ -129,6 +131,13 @@
       "otherEntityName": "designation",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "designation",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "line",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "line",
       "otherEntityField": "name"
     }
   ],

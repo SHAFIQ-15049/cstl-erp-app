@@ -33,7 +33,9 @@ export class PersonalInfoUpdatePage {
   banglaNameInput = element(by.id('field_banglaName'));
   photoInput = element(by.id('file_photo'));
   fatherNameInput = element(by.id('field_fatherName'));
+  fatherNameBanglaInput = element(by.id('field_fatherNameBangla'));
   motherNameInput = element(by.id('field_motherName'));
+  motherNameBanglaInput = element(by.id('field_motherNameBangla'));
   maritalStatusSelect = element(by.id('field_maritalStatus'));
   spouseNameInput = element(by.id('field_spouseName'));
   dateOfBirthInput = element(by.id('field_dateOfBirth'));
@@ -80,12 +82,28 @@ export class PersonalInfoUpdatePage {
     return await this.fatherNameInput.getAttribute('value');
   }
 
+  async setFatherNameBanglaInput(fatherNameBangla: string): Promise<void> {
+    await this.fatherNameBanglaInput.sendKeys(fatherNameBangla);
+  }
+
+  async getFatherNameBanglaInput(): Promise<string> {
+    return await this.fatherNameBanglaInput.getAttribute('value');
+  }
+
   async setMotherNameInput(motherName: string): Promise<void> {
     await this.motherNameInput.sendKeys(motherName);
   }
 
   async getMotherNameInput(): Promise<string> {
     return await this.motherNameInput.getAttribute('value');
+  }
+
+  async setMotherNameBanglaInput(motherNameBangla: string): Promise<void> {
+    await this.motherNameBanglaInput.sendKeys(motherNameBangla);
+  }
+
+  async getMotherNameBanglaInput(): Promise<string> {
+    return await this.motherNameBanglaInput.getAttribute('value');
   }
 
   async setMaritalStatusSelect(maritalStatus: string): Promise<void> {

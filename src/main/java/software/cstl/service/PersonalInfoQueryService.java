@@ -94,8 +94,14 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getFatherName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFatherName(), PersonalInfo_.fatherName));
             }
+            if (criteria.getFatherNameBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getFatherNameBangla(), PersonalInfo_.fatherNameBangla));
+            }
             if (criteria.getMotherName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMotherName(), PersonalInfo_.motherName));
+            }
+            if (criteria.getMotherNameBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getMotherNameBangla(), PersonalInfo_.motherNameBangla));
             }
             if (criteria.getMaritalStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getMaritalStatus(), PersonalInfo_.maritalStatus));
@@ -123,6 +129,10 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             }
             if (criteria.getEmergencyContact() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getEmergencyContact(), PersonalInfo_.emergencyContact));
+            }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(PersonalInfo_.employee, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

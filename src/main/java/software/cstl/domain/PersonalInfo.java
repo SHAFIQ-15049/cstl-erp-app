@@ -1,5 +1,6 @@
 package software.cstl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -48,9 +49,15 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Column(name = "father_name", nullable = false)
     private String fatherName;
 
+    @Column(name = "father_name_bangla")
+    private String fatherNameBangla;
+
     @NotNull
     @Column(name = "mother_name", nullable = false)
     private String motherName;
+
+    @Column(name = "mother_name_bangla")
+    private String motherNameBangla;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "marital_status")
@@ -81,6 +88,10 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     @Column(name = "emergency_contact")
     private String emergencyContact;
+
+    @OneToOne(mappedBy = "personalInfo")
+    @JsonIgnore
+    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -156,6 +167,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
         this.fatherName = fatherName;
     }
 
+    public String getFatherNameBangla() {
+        return fatherNameBangla;
+    }
+
+    public PersonalInfo fatherNameBangla(String fatherNameBangla) {
+        this.fatherNameBangla = fatherNameBangla;
+        return this;
+    }
+
+    public void setFatherNameBangla(String fatherNameBangla) {
+        this.fatherNameBangla = fatherNameBangla;
+    }
+
     public String getMotherName() {
         return motherName;
     }
@@ -167,6 +191,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     public void setMotherName(String motherName) {
         this.motherName = motherName;
+    }
+
+    public String getMotherNameBangla() {
+        return motherNameBangla;
+    }
+
+    public PersonalInfo motherNameBangla(String motherNameBangla) {
+        this.motherNameBangla = motherNameBangla;
+        return this;
+    }
+
+    public void setMotherNameBangla(String motherNameBangla) {
+        this.motherNameBangla = motherNameBangla;
     }
 
     public MaritalStatus getMaritalStatus() {
@@ -285,6 +322,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     public void setEmergencyContact(String emergencyContact) {
         this.emergencyContact = emergencyContact;
     }
+
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public PersonalInfo employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -313,7 +363,9 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
             ", photo='" + getPhoto() + "'" +
             ", photoContentType='" + getPhotoContentType() + "'" +
             ", fatherName='" + getFatherName() + "'" +
+            ", fatherNameBangla='" + getFatherNameBangla() + "'" +
             ", motherName='" + getMotherName() + "'" +
+            ", motherNameBangla='" + getMotherNameBangla() + "'" +
             ", maritalStatus='" + getMaritalStatus() + "'" +
             ", spouseName='" + getSpouseName() + "'" +
             ", dateOfBirth='" + getDateOfBirth() + "'" +
