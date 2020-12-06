@@ -40,7 +40,7 @@ export const employeeExtRoute: Routes = [
     component: EmployeeExtComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'id,desc',
       pageTitle: 'Employees',
     },
     canActivate: [UserRouteAccessService],
