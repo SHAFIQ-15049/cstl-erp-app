@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
-import { flatMap } from 'rxjs/operators';
+import {Observable, of, EMPTY, forkJoin} from 'rxjs';
+import {flatMap, map} from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
@@ -35,7 +35,23 @@ export class PersonalInfoExtResolve implements Resolve<IPersonalInfo> {
         })
       );
     }else if(employeeId){
-      return this.employeeService.find(employeeId).pipe(
+      return forkJoin(
+        this.employeeService.find(employeeId),
+        this.service.query({'employeeId.equals': employeeId})
+      ).pipe(
+        flatMap(res=>{
+          const employee = res[0].body!;
+          let personalInfo = res[1].body? res[1].body[0]: new PersonalInfo();
+          if(personalInfo?.id)
+            return of(personalInfo);
+          else{
+            personalInfo = new PersonalInfo();
+            personalInfo.employee = employee;
+            return of(personalInfo);
+          }
+        })
+      )
+ /*     return this.employeeService.find(employeeId).pipe(
         flatMap((employee: HttpResponse<Employee>)=>{
           if(employee.body){
             const personalInfo = new PersonalInfo();
@@ -46,7 +62,7 @@ export class PersonalInfoExtResolve implements Resolve<IPersonalInfo> {
             return EMPTY;
           }
         })
-      );
+      );*/
     }
     return of(new PersonalInfo());
   }
@@ -65,6 +81,18 @@ export const personalInfoExtRoute: Routes = [
   },
   {
     path: ':id/view',
+    component: PersonalInfoExtDetailComponent,
+    resolve: {
+      personalInfo: PersonalInfoExtResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'PersonalInfos',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/employee-view',
     component: PersonalInfoExtDetailComponent,
     resolve: {
       personalInfo: PersonalInfoExtResolve,

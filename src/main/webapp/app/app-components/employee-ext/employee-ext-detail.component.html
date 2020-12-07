@@ -12,12 +12,12 @@
     </div>
 
     <div class="col-md-10">
-        <router-outlet name="emp"></router-outlet>
+        <router-outlet ></router-outlet>
     </div>
 
     <div class="col-md-2 " style="height: 100%; display:flex; justify-items: center;">
         <div class="row">
-            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoPersonalInfo()">Personal Info</button></div>
+            <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" [routerLink]="employee?.personalInfo ? ['personal-info',employee!.personalInfo!.id,'view' ]: ['personal-info',employeeId,'employee-view']">Personal Info</button></div>
             <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoAddress()">Address</button></div>
             <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoEducationalInfo()">Education</button></div>
             <div style="padding:10px;" class="col-md-12"><button routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}" style="width: 100%;" class="btn  btn-outline-info" (click)="gotoJobHistory()">Job History</button></div>

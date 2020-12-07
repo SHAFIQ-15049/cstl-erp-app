@@ -9,7 +9,7 @@ import { IPersonalInfo } from 'app/shared/model/personal-info.model';
   templateUrl: './personal-info-detail.component.html',
 })
 export class PersonalInfoDetailComponent implements OnInit {
-  personalInfo: IPersonalInfo | null = null;
+  personalInfo?: IPersonalInfo | null = null;
 
   constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {}
 
