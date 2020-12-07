@@ -28,4 +28,10 @@ export class PersonalInfoExtUpdateComponent extends PersonalInfoUpdateComponent 
     super(dataUtils, eventManager, personalInfoService, activatedRoute, fb);
   }
 
+  ngOnInit(): void {
+    this.activatedRoute.data.subscribe(({ personalInfo }) => {
+      personalInfo.name = personalInfo.name?personalInfo.name: personalInfo.employee.name;
+      this.updateForm(personalInfo);
+    });
+  }
 }
