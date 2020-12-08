@@ -114,7 +114,8 @@
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "personalInfo",
       "relationshipName": "employee",
-      "ownerSide": false
+      "otherEntityField": "name",
+      "ownerSide": true
     }
   ],
   "changelogDate": "20201127213627",

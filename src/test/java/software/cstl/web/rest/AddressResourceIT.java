@@ -2,10 +2,10 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Address;
+import software.cstl.domain.Employee;
 import software.cstl.domain.Division;
 import software.cstl.domain.District;
 import software.cstl.domain.Thana;
-import software.cstl.domain.Employee;
 import software.cstl.repository.AddressRepository;
 import software.cstl.service.AddressService;
 import software.cstl.service.dto.AddressCriteria;
@@ -1483,6 +1483,26 @@ public class AddressResourceIT {
 
     @Test
     @Transactional
+    public void getAllAddressesByEmployeeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        addressRepository.saveAndFlush(address);
+        Employee employee = EmployeeResourceIT.createEntity(em);
+        em.persist(employee);
+        em.flush();
+        address.setEmployee(employee);
+        addressRepository.saveAndFlush(address);
+        Long employeeId = employee.getId();
+
+        // Get all the addressList where employee equals to employeeId
+        defaultAddressShouldBeFound("employeeId.equals=" + employeeId);
+
+        // Get all the addressList where employee equals to employeeId + 1
+        defaultAddressShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAddressesByPresentDivisionIsEqualToSomething() throws Exception {
         // Initialize the database
         addressRepository.saveAndFlush(address);
@@ -1598,27 +1618,6 @@ public class AddressResourceIT {
 
         // Get all the addressList where permanentThana equals to permanentThanaId + 1
         defaultAddressShouldNotBeFound("permanentThanaId.equals=" + (permanentThanaId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllAddressesByEmployeeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        addressRepository.saveAndFlush(address);
-        Employee employee = EmployeeResourceIT.createEntity(em);
-        em.persist(employee);
-        em.flush();
-        address.setEmployee(employee);
-        employee.setAddress(address);
-        addressRepository.saveAndFlush(address);
-        Long employeeId = employee.getId();
-
-        // Get all the addressList where employee equals to employeeId
-        defaultAddressShouldBeFound("employeeId.equals=" + employeeId);
-
-        // Get all the addressList where employee equals to employeeId + 1
-        defaultAddressShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
     }
 
     /**

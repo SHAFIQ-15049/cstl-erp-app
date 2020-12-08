@@ -56,6 +56,8 @@ public class AddressCriteria implements Serializable, Criteria {
 
     private BooleanFilter isSame;
 
+    private LongFilter employeeId;
+
     private LongFilter presentDivisionId;
 
     private LongFilter presentDistrictId;
@@ -67,8 +69,6 @@ public class AddressCriteria implements Serializable, Criteria {
     private LongFilter permanentDistrictId;
 
     private LongFilter permanentThanaId;
-
-    private LongFilter employeeId;
 
     public AddressCriteria() {
     }
@@ -90,13 +90,13 @@ public class AddressCriteria implements Serializable, Criteria {
         this.permanentPostCode = other.permanentPostCode == null ? null : other.permanentPostCode.copy();
         this.permenentPostCodeBangla = other.permenentPostCodeBangla == null ? null : other.permenentPostCodeBangla.copy();
         this.isSame = other.isSame == null ? null : other.isSame.copy();
+        this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
         this.presentDivisionId = other.presentDivisionId == null ? null : other.presentDivisionId.copy();
         this.presentDistrictId = other.presentDistrictId == null ? null : other.presentDistrictId.copy();
         this.presentThanaId = other.presentThanaId == null ? null : other.presentThanaId.copy();
         this.permanentDivisionId = other.permanentDivisionId == null ? null : other.permanentDivisionId.copy();
         this.permanentDistrictId = other.permanentDistrictId == null ? null : other.permanentDistrictId.copy();
         this.permanentThanaId = other.permanentThanaId == null ? null : other.permanentThanaId.copy();
-        this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
     @Override
@@ -232,6 +232,14 @@ public class AddressCriteria implements Serializable, Criteria {
         this.isSame = isSame;
     }
 
+    public LongFilter getEmployeeId() {
+        return employeeId;
+    }
+
+    public void setEmployeeId(LongFilter employeeId) {
+        this.employeeId = employeeId;
+    }
+
     public LongFilter getPresentDivisionId() {
         return presentDivisionId;
     }
@@ -280,14 +288,6 @@ public class AddressCriteria implements Serializable, Criteria {
         this.permanentThanaId = permanentThanaId;
     }
 
-    public LongFilter getEmployeeId() {
-        return employeeId;
-    }
-
-    public void setEmployeeId(LongFilter employeeId) {
-        this.employeeId = employeeId;
-    }
-
 
     @Override
     public boolean equals(Object o) {
@@ -315,13 +315,13 @@ public class AddressCriteria implements Serializable, Criteria {
             Objects.equals(permanentPostCode, that.permanentPostCode) &&
             Objects.equals(permenentPostCodeBangla, that.permenentPostCodeBangla) &&
             Objects.equals(isSame, that.isSame) &&
+            Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(presentDivisionId, that.presentDivisionId) &&
             Objects.equals(presentDistrictId, that.presentDistrictId) &&
             Objects.equals(presentThanaId, that.presentThanaId) &&
             Objects.equals(permanentDivisionId, that.permanentDivisionId) &&
             Objects.equals(permanentDistrictId, that.permanentDistrictId) &&
-            Objects.equals(permanentThanaId, that.permanentThanaId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(permanentThanaId, that.permanentThanaId);
     }
 
     @Override
@@ -343,13 +343,13 @@ public class AddressCriteria implements Serializable, Criteria {
         permanentPostCode,
         permenentPostCodeBangla,
         isSame,
+        employeeId,
         presentDivisionId,
         presentDistrictId,
         presentThanaId,
         permanentDivisionId,
         permanentDistrictId,
-        permanentThanaId,
-        employeeId
+        permanentThanaId
         );
     }
 
@@ -373,13 +373,13 @@ public class AddressCriteria implements Serializable, Criteria {
                 (permanentPostCode != null ? "permanentPostCode=" + permanentPostCode + ", " : "") +
                 (permenentPostCodeBangla != null ? "permenentPostCodeBangla=" + permenentPostCodeBangla + ", " : "") +
                 (isSame != null ? "isSame=" + isSame + ", " : "") +
+                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (presentDivisionId != null ? "presentDivisionId=" + presentDivisionId + ", " : "") +
                 (presentDistrictId != null ? "presentDistrictId=" + presentDistrictId + ", " : "") +
                 (presentThanaId != null ? "presentThanaId=" + presentThanaId + ", " : "") +
                 (permanentDivisionId != null ? "permanentDivisionId=" + permanentDivisionId + ", " : "") +
                 (permanentDistrictId != null ? "permanentDistrictId=" + permanentDistrictId + ", " : "") +
                 (permanentThanaId != null ? "permanentThanaId=" + permanentThanaId + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
 

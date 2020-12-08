@@ -59,6 +59,7 @@
     <include file="config/liquibase/changelog/20201206172040_changelog_data_added_to_division_district_thana.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201206193533_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201208061244_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201208182500_changelog.xml" relativeToChangelogFile="false"/>
 
 
 

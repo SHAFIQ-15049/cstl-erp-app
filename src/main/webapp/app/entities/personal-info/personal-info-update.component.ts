@@ -4,11 +4,14 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IPersonalInfo, PersonalInfo } from 'app/shared/model/personal-info.model';
 import { PersonalInfoService } from './personal-info.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Component({
   selector: 'jhi-personal-info-update',
@@ -16,6 +19,7 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 })
 export class PersonalInfoUpdateComponent implements OnInit {
   isSaving = false;
+  employees: IEmployee[] = [];
   dateOfBirthDp: any;
 
   editForm = this.fb.group({
@@ -45,12 +49,14 @@ export class PersonalInfoUpdateComponent implements OnInit {
     gender: [],
     bloodGroup: [],
     emergencyContact: [],
+    employee: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected personalInfoService: PersonalInfoService,
+    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {}
@@ -58,6 +64,28 @@ export class PersonalInfoUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ personalInfo }) => {
       this.updateForm(personalInfo);
+
+      this.employeeService
+        .query({ 'personalInfoId.specified': 'false' })
+        .pipe(
+          map((res: HttpResponse<IEmployee[]>) => {
+            return res.body || [];
+          })
+        )
+        .subscribe((resBody: IEmployee[]) => {
+          if (!personalInfo.employee || !personalInfo.employee.id) {
+            this.employees = resBody;
+          } else {
+            this.employeeService
+              .find(personalInfo.employee.id)
+              .pipe(
+                map((subRes: HttpResponse<IEmployee>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IEmployee[]) => (this.employees = concatRes));
+          }
+        });
     });
   }
 
@@ -89,6 +117,7 @@ export class PersonalInfoUpdateComponent implements OnInit {
       gender: personalInfo.gender,
       bloodGroup: personalInfo.bloodGroup,
       emergencyContact: personalInfo.emergencyContact,
+      employee: personalInfo.employee,
     });
   }
 
@@ -151,6 +180,7 @@ export class PersonalInfoUpdateComponent implements OnInit {
       gender: this.editForm.get(['gender'])!.value,
       bloodGroup: this.editForm.get(['bloodGroup'])!.value,
       emergencyContact: this.editForm.get(['emergencyContact'])!.value,
+      employee: this.editForm.get(['employee'])!.value,
     };
   }
 
@@ -168,5 +198,9 @@ export class PersonalInfoUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IEmployee): any {
+    return item.id;
   }
 }

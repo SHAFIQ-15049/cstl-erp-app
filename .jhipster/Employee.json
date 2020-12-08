@@ -60,22 +60,6 @@
   ],
   "relationships": [
     {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "address",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "address",
-      "otherEntityField": "id",
-      "ownerSide": true
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "personalInfo",
-      "otherEntityRelationshipName": "employee",
-      "relationshipName": "personalInfo",
-      "otherEntityField": "name",
-      "ownerSide": true
-    },
-    {
       "relationshipType": "one-to-many",
       "otherEntityName": "educationalInfo",
       "otherEntityRelationshipName": "employee",
@@ -139,6 +123,20 @@
       "otherEntityRelationshipName": "employee",
       "relationshipName": "line",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "address",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "address",
+      "ownerSide": false
+    },
+    {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "personalInfo",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "personalInfo",
+      "ownerSide": false
     }
   ],
   "changelogDate": "20201127213527",

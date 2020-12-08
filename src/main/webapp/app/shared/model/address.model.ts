@@ -1,7 +1,7 @@
+import { IEmployee } from 'app/shared/model/employee.model';
 import { IDivision } from 'app/shared/model/division.model';
 import { IDistrict } from 'app/shared/model/district.model';
 import { IThana } from 'app/shared/model/thana.model';
-import { IEmployee } from 'app/shared/model/employee.model';
 
 export interface IAddress {
   id?: number;
@@ -20,13 +20,13 @@ export interface IAddress {
   permanentPostCode?: number;
   permenentPostCodeBangla?: string;
   isSame?: boolean;
+  employee?: IEmployee;
   presentDivision?: IDivision;
   presentDistrict?: IDistrict;
   presentThana?: IThana;
   permanentDivision?: IDivision;
   permanentDistrict?: IDistrict;
   permanentThana?: IThana;
-  employee?: IEmployee;
 }
 
 export class Address implements IAddress {
@@ -47,13 +47,13 @@ export class Address implements IAddress {
     public permanentPostCode?: number,
     public permenentPostCodeBangla?: string,
     public isSame?: boolean,
+    public employee?: IEmployee,
     public presentDivision?: IDivision,
     public presentDistrict?: IDistrict,
     public presentThana?: IThana,
     public permanentDivision?: IDivision,
     public permanentDistrict?: IDistrict,
-    public permanentThana?: IThana,
-    public employee?: IEmployee
+    public permanentThana?: IThana
   ) {
     this.isSame = this.isSame || false;
   }

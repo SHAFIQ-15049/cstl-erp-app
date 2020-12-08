@@ -10,6 +10,8 @@ import { IPersonalInfo, PersonalInfo } from 'app/shared/model/personal-info.mode
 import { PersonalInfoExtService } from './personal-info-ext.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import {PersonalInfoUpdateComponent} from "app/entities/personal-info/personal-info-update.component";
+import {PersonalInfoService} from "app/entities/personal-info/personal-info.service";
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 @Component({
   selector: 'jhi-personal-info-update',
@@ -22,10 +24,11 @@ export class PersonalInfoExtUpdateComponent extends PersonalInfoUpdateComponent 
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected personalInfoService: PersonalInfoExtService,
+    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(dataUtils, eventManager, personalInfoService, activatedRoute, fb);
+    super(dataUtils, eventManager, personalInfoService, employeeService, activatedRoute, fb);
   }
 
   ngOnInit(): void {

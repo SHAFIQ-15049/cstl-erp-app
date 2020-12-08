@@ -10,7 +10,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Employee}.
@@ -50,6 +53,34 @@ public class EmployeeService {
         return employeeRepository.findAll(pageable);
     }
 
+
+
+    /**
+     *  Get all the employees where Address is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true) 
+    public List<Employee> findAllWhereAddressIsNull() {
+        log.debug("Request to get all employees where Address is null");
+        return StreamSupport
+            .stream(employeeRepository.findAll().spliterator(), false)
+            .filter(employee -> employee.getAddress() == null)
+            .collect(Collectors.toList());
+    }
+
+
+    /**
+     *  Get all the employees where PersonalInfo is {@code null}.
+     *  @return the list of entities.
+     */
+    @Transactional(readOnly = true) 
+    public List<Employee> findAllWherePersonalInfoIsNull() {
+        log.debug("Request to get all employees where PersonalInfo is null");
+        return StreamSupport
+            .stream(employeeRepository.findAll().spliterator(), false)
+            .filter(employee -> employee.getPersonalInfo() == null)
+            .collect(Collectors.toList());
+    }
 
     /**
      * Get one employee by id.

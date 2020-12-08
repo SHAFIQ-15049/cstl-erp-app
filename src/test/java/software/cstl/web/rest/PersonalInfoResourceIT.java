@@ -1906,7 +1906,6 @@ public class PersonalInfoResourceIT {
         em.persist(employee);
         em.flush();
         personalInfo.setEmployee(employee);
-        employee.setPersonalInfo(personalInfo);
         personalInfoRepository.saveAndFlush(personalInfo);
         Long employeeId = employee.getId();
 

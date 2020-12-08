@@ -75,6 +75,7 @@ public class PersonalInfoExtResource extends PersonalInfoResource {
     public ResponseEntity<List<PersonalInfo>> getAllPersonalInfos(PersonalInfoCriteria criteria, Pageable pageable) {
         log.debug("REST request to get PersonalInfos by criteria: {}", criteria);
         Page<PersonalInfo> page = personalInfoQueryService.findByCriteria(criteria, pageable);
+        page = personalInfoService.attachAttachmentsToPageables(page);
         HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
         return ResponseEntity.ok().headers(headers).body(page.getContent());
     }

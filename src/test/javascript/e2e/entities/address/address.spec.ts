@@ -55,6 +55,7 @@ describe('Address e2e test', () => {
       addressUpdatePage.setPermanentAreaBanglaInput('permanentAreaBangla'),
       addressUpdatePage.setPermanentPostCodeInput('5'),
       addressUpdatePage.setPermenentPostCodeBanglaInput('permenentPostCodeBangla'),
+      addressUpdatePage.employeeSelectLastOption(),
       addressUpdatePage.presentDivisionSelectLastOption(),
       addressUpdatePage.presentDistrictSelectLastOption(),
       addressUpdatePage.presentThanaSelectLastOption(),

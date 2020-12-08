@@ -1,6 +1,5 @@
 package software.cstl.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -115,8 +114,8 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Column(name = "emergency_contact")
     private String emergencyContact;
 
-    @OneToOne(mappedBy = "personalInfo")
-    @JsonIgnore
+    @OneToOne
+    @JoinColumn(unique = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

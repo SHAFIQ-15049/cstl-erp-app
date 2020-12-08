@@ -70,6 +70,7 @@ describe('PersonalInfo e2e test', () => {
       personalInfoUpdatePage.genderSelectLastOption(),
       personalInfoUpdatePage.bloodGroupSelectLastOption(),
       personalInfoUpdatePage.setEmergencyContactInput('emergencyContact'),
+      personalInfoUpdatePage.employeeSelectLastOption(),
     ]);
 
     expect(await personalInfoUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');

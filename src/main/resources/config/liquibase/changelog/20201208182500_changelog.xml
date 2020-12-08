@@ -1,0 +1,43 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1607451910509-1">
+        <addColumn tableName="address">
+            <column name="employee_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-2">
+        <addColumn tableName="personal_info">
+            <column name="employee_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-3">
+        <addUniqueConstraint columnNames="employee_id" constraintName="UC_ADDRESSEMPLOYEE_ID_COL" tableName="address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-4">
+        <addUniqueConstraint columnNames="employee_id" constraintName="UC_PERSONAL_INFOEMPLOYEE_ID_COL" tableName="personal_info"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-5">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="address" constraintName="fk_address_employee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-6">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="personal_info" constraintName="fk_personal_info_employee" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-7">
+        <dropForeignKeyConstraint baseTableName="mst_employee" constraintName="fk_employee_address"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-8">
+        <dropForeignKeyConstraint baseTableName="mst_employee" constraintName="fk_employee_personal_info"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-9">
+        <dropUniqueConstraint constraintName="UC_MST_EMPLOYEEADDRESS_ID_COL" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-10">
+        <dropUniqueConstraint constraintName="ux_mst_employee_personal_info_id" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-11">
+        <dropColumn columnName="address_id" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1607451910509-12">
+        <dropColumn columnName="personal_info_id" tableName="mst_employee"/>
+    </changeSet>
+</databaseChangeLog>

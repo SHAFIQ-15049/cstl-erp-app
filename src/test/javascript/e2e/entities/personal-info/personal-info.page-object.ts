@@ -52,6 +52,8 @@ export class PersonalInfoUpdatePage {
   bloodGroupSelect = element(by.id('field_bloodGroup'));
   emergencyContactInput = element(by.id('field_emergencyContact'));
 
+  employeeSelect = element(by.id('field_employee'));
+
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
@@ -242,6 +244,22 @@ export class PersonalInfoUpdatePage {
 
   async getEmergencyContactInput(): Promise<string> {
     return await this.emergencyContactInput.getAttribute('value');
+  }
+
+  async employeeSelectLastOption(): Promise<void> {
+    await this.employeeSelect.all(by.tagName('option')).last().click();
+  }
+
+  async employeeSelectOption(option: string): Promise<void> {
+    await this.employeeSelect.sendKeys(option);
+  }
+
+  getEmployeeSelect(): ElementFinder {
+    return this.employeeSelect;
+  }
+
+  async getEmployeeSelectedOption(): Promise<string> {
+    return await this.employeeSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

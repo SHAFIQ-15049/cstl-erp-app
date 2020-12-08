@@ -14,6 +14,8 @@ import { DistrictService } from 'app/entities/district/district.service';
 import { IThana } from 'app/shared/model/thana.model';
 import { ThanaService } from 'app/entities/thana/thana.service';
 import {AddressUpdateComponent} from "app/entities/address/address-update.component";
+import {AddressService} from "app/entities/address/address.service";
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 type SelectableEntity = IDivision | IDistrict | IThana;
 
@@ -24,14 +26,15 @@ type SelectableEntity = IDivision | IDistrict | IThana;
 export class AddressExtUpdateComponent extends AddressUpdateComponent implements OnInit {
 
   constructor(
-    protected addressService: AddressExtService,
+    protected addressService: AddressService,
+    protected employeeService: EmployeeService,
     protected divisionService: DivisionService,
     protected districtService: DistrictService,
     protected thanaService: ThanaService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(addressService, divisionService, districtService, thanaService, activatedRoute, fb);
+    super(addressService, employeeService, divisionService, districtService, thanaService, activatedRoute, fb);
   }
 
 }
