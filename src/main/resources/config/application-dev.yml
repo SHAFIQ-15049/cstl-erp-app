@@ -122,5 +122,5 @@ jhipster:
 # https://www.jhipster.tech/common-application-properties/
 # ===================================================================
 
-application:
+cstl:
   file-path: ${file-path} #D:/app-files/

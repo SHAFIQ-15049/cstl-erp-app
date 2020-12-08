@@ -21,6 +21,10 @@
       "fieldTypeBlobContent": "any"
     },
     {
+      "fieldName": "photoId",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "fatherName",
       "fieldType": "String",
       "fieldValidateRules": [
@@ -52,6 +56,10 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "spouseNameBangla",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "dateOfBirth",
       "fieldType": "LocalDate"
     },
@@ -60,7 +68,25 @@
       "fieldType": "String"
     },
     {
+      "fieldName": "nationalIdAttachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "nationalIdAttachmentId",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "birthRegistration",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "birthRegistrationAttachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "birthRegistrationAttachmentId",
       "fieldType": "String"
     },
     {

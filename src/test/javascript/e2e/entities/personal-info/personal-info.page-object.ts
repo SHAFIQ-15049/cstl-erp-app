@@ -32,15 +32,21 @@ export class PersonalInfoUpdatePage {
   nameInput = element(by.id('field_name'));
   banglaNameInput = element(by.id('field_banglaName'));
   photoInput = element(by.id('file_photo'));
+  photoIdInput = element(by.id('field_photoId'));
   fatherNameInput = element(by.id('field_fatherName'));
   fatherNameBanglaInput = element(by.id('field_fatherNameBangla'));
   motherNameInput = element(by.id('field_motherName'));
   motherNameBanglaInput = element(by.id('field_motherNameBangla'));
   maritalStatusSelect = element(by.id('field_maritalStatus'));
   spouseNameInput = element(by.id('field_spouseName'));
+  spouseNameBanglaInput = element(by.id('field_spouseNameBangla'));
   dateOfBirthInput = element(by.id('field_dateOfBirth'));
   nationalIdInput = element(by.id('field_nationalId'));
+  nationalIdAttachmentInput = element(by.id('file_nationalIdAttachment'));
+  nationalIdAttachmentIdInput = element(by.id('field_nationalIdAttachmentId'));
   birthRegistrationInput = element(by.id('field_birthRegistration'));
+  birthRegistrationAttachmentInput = element(by.id('file_birthRegistrationAttachment'));
+  birthRegistrationAttachmentIdInput = element(by.id('field_birthRegistrationAttachmentId'));
   heightInput = element(by.id('field_height'));
   genderSelect = element(by.id('field_gender'));
   bloodGroupSelect = element(by.id('field_bloodGroup'));
@@ -72,6 +78,14 @@ export class PersonalInfoUpdatePage {
 
   async getPhotoInput(): Promise<string> {
     return await this.photoInput.getAttribute('value');
+  }
+
+  async setPhotoIdInput(photoId: string): Promise<void> {
+    await this.photoIdInput.sendKeys(photoId);
+  }
+
+  async getPhotoIdInput(): Promise<string> {
+    return await this.photoIdInput.getAttribute('value');
   }
 
   async setFatherNameInput(fatherName: string): Promise<void> {
@@ -126,6 +140,14 @@ export class PersonalInfoUpdatePage {
     return await this.spouseNameInput.getAttribute('value');
   }
 
+  async setSpouseNameBanglaInput(spouseNameBangla: string): Promise<void> {
+    await this.spouseNameBanglaInput.sendKeys(spouseNameBangla);
+  }
+
+  async getSpouseNameBanglaInput(): Promise<string> {
+    return await this.spouseNameBanglaInput.getAttribute('value');
+  }
+
   async setDateOfBirthInput(dateOfBirth: string): Promise<void> {
     await this.dateOfBirthInput.sendKeys(dateOfBirth);
   }
@@ -142,12 +164,44 @@ export class PersonalInfoUpdatePage {
     return await this.nationalIdInput.getAttribute('value');
   }
 
+  async setNationalIdAttachmentInput(nationalIdAttachment: string): Promise<void> {
+    await this.nationalIdAttachmentInput.sendKeys(nationalIdAttachment);
+  }
+
+  async getNationalIdAttachmentInput(): Promise<string> {
+    return await this.nationalIdAttachmentInput.getAttribute('value');
+  }
+
+  async setNationalIdAttachmentIdInput(nationalIdAttachmentId: string): Promise<void> {
+    await this.nationalIdAttachmentIdInput.sendKeys(nationalIdAttachmentId);
+  }
+
+  async getNationalIdAttachmentIdInput(): Promise<string> {
+    return await this.nationalIdAttachmentIdInput.getAttribute('value');
+  }
+
   async setBirthRegistrationInput(birthRegistration: string): Promise<void> {
     await this.birthRegistrationInput.sendKeys(birthRegistration);
   }
 
   async getBirthRegistrationInput(): Promise<string> {
     return await this.birthRegistrationInput.getAttribute('value');
+  }
+
+  async setBirthRegistrationAttachmentInput(birthRegistrationAttachment: string): Promise<void> {
+    await this.birthRegistrationAttachmentInput.sendKeys(birthRegistrationAttachment);
+  }
+
+  async getBirthRegistrationAttachmentInput(): Promise<string> {
+    return await this.birthRegistrationAttachmentInput.getAttribute('value');
+  }
+
+  async setBirthRegistrationAttachmentIdInput(birthRegistrationAttachmentId: string): Promise<void> {
+    await this.birthRegistrationAttachmentIdInput.sendKeys(birthRegistrationAttachmentId);
+  }
+
+  async getBirthRegistrationAttachmentIdInput(): Promise<string> {
+    return await this.birthRegistrationAttachmentIdInput.getAttribute('value');
   }
 
   async setHeightInput(height: string): Promise<void> {

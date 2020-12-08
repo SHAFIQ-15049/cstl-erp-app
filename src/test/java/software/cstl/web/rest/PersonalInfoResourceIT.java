@@ -50,6 +50,9 @@ public class PersonalInfoResourceIT {
     private static final String DEFAULT_PHOTO_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_PHOTO_CONTENT_TYPE = "image/png";
 
+    private static final String DEFAULT_PHOTO_ID = "AAAAAAAAAA";
+    private static final String UPDATED_PHOTO_ID = "BBBBBBBBBB";
+
     private static final String DEFAULT_FATHER_NAME = "AAAAAAAAAA";
     private static final String UPDATED_FATHER_NAME = "BBBBBBBBBB";
 
@@ -68,6 +71,9 @@ public class PersonalInfoResourceIT {
     private static final String DEFAULT_SPOUSE_NAME = "AAAAAAAAAA";
     private static final String UPDATED_SPOUSE_NAME = "BBBBBBBBBB";
 
+    private static final String DEFAULT_SPOUSE_NAME_BANGLA = "AAAAAAAAAA";
+    private static final String UPDATED_SPOUSE_NAME_BANGLA = "BBBBBBBBBB";
+
     private static final LocalDate DEFAULT_DATE_OF_BIRTH = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_DATE_OF_BIRTH = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DATE_OF_BIRTH = LocalDate.ofEpochDay(-1L);
@@ -75,8 +81,24 @@ public class PersonalInfoResourceIT {
     private static final String DEFAULT_NATIONAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_NATIONAL_ID = "BBBBBBBBBB";
 
+    private static final byte[] DEFAULT_NATIONAL_ID_ATTACHMENT = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_NATIONAL_ID_ATTACHMENT = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_NATIONAL_ID_ATTACHMENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_NATIONAL_ID_ATTACHMENT_ID = "BBBBBBBBBB";
+
     private static final String DEFAULT_BIRTH_REGISTRATION = "AAAAAAAAAA";
     private static final String UPDATED_BIRTH_REGISTRATION = "BBBBBBBBBB";
+
+    private static final byte[] DEFAULT_BIRTH_REGISTRATION_ATTACHMENT = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_BIRTH_REGISTRATION_ATTACHMENT = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE = "image/png";
+
+    private static final String DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID = "AAAAAAAAAA";
+    private static final String UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID = "BBBBBBBBBB";
 
     private static final Double DEFAULT_HEIGHT = 1D;
     private static final Double UPDATED_HEIGHT = 2D;
@@ -120,15 +142,23 @@ public class PersonalInfoResourceIT {
             .banglaName(DEFAULT_BANGLA_NAME)
             .photo(DEFAULT_PHOTO)
             .photoContentType(DEFAULT_PHOTO_CONTENT_TYPE)
+            .photoId(DEFAULT_PHOTO_ID)
             .fatherName(DEFAULT_FATHER_NAME)
             .fatherNameBangla(DEFAULT_FATHER_NAME_BANGLA)
             .motherName(DEFAULT_MOTHER_NAME)
             .motherNameBangla(DEFAULT_MOTHER_NAME_BANGLA)
             .maritalStatus(DEFAULT_MARITAL_STATUS)
             .spouseName(DEFAULT_SPOUSE_NAME)
+            .spouseNameBangla(DEFAULT_SPOUSE_NAME_BANGLA)
             .dateOfBirth(DEFAULT_DATE_OF_BIRTH)
             .nationalId(DEFAULT_NATIONAL_ID)
+            .nationalIdAttachment(DEFAULT_NATIONAL_ID_ATTACHMENT)
+            .nationalIdAttachmentContentType(DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE)
+            .nationalIdAttachmentId(DEFAULT_NATIONAL_ID_ATTACHMENT_ID)
             .birthRegistration(DEFAULT_BIRTH_REGISTRATION)
+            .birthRegistrationAttachment(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT)
+            .birthRegistrationAttachmentContentType(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE)
+            .birthRegistrationAttachmentId(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(DEFAULT_HEIGHT)
             .gender(DEFAULT_GENDER)
             .bloodGroup(DEFAULT_BLOOD_GROUP)
@@ -147,15 +177,23 @@ public class PersonalInfoResourceIT {
             .banglaName(UPDATED_BANGLA_NAME)
             .photo(UPDATED_PHOTO)
             .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
+            .photoId(UPDATED_PHOTO_ID)
             .fatherName(UPDATED_FATHER_NAME)
             .fatherNameBangla(UPDATED_FATHER_NAME_BANGLA)
             .motherName(UPDATED_MOTHER_NAME)
             .motherNameBangla(UPDATED_MOTHER_NAME_BANGLA)
             .maritalStatus(UPDATED_MARITAL_STATUS)
             .spouseName(UPDATED_SPOUSE_NAME)
+            .spouseNameBangla(UPDATED_SPOUSE_NAME_BANGLA)
             .dateOfBirth(UPDATED_DATE_OF_BIRTH)
             .nationalId(UPDATED_NATIONAL_ID)
+            .nationalIdAttachment(UPDATED_NATIONAL_ID_ATTACHMENT)
+            .nationalIdAttachmentContentType(UPDATED_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE)
+            .nationalIdAttachmentId(UPDATED_NATIONAL_ID_ATTACHMENT_ID)
             .birthRegistration(UPDATED_BIRTH_REGISTRATION)
+            .birthRegistrationAttachment(UPDATED_BIRTH_REGISTRATION_ATTACHMENT)
+            .birthRegistrationAttachmentContentType(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE)
+            .birthRegistrationAttachmentId(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(UPDATED_HEIGHT)
             .gender(UPDATED_GENDER)
             .bloodGroup(UPDATED_BLOOD_GROUP)
@@ -186,15 +224,23 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getBanglaName()).isEqualTo(DEFAULT_BANGLA_NAME);
         assertThat(testPersonalInfo.getPhoto()).isEqualTo(DEFAULT_PHOTO);
         assertThat(testPersonalInfo.getPhotoContentType()).isEqualTo(DEFAULT_PHOTO_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getPhotoId()).isEqualTo(DEFAULT_PHOTO_ID);
         assertThat(testPersonalInfo.getFatherName()).isEqualTo(DEFAULT_FATHER_NAME);
         assertThat(testPersonalInfo.getFatherNameBangla()).isEqualTo(DEFAULT_FATHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMotherName()).isEqualTo(DEFAULT_MOTHER_NAME);
         assertThat(testPersonalInfo.getMotherNameBangla()).isEqualTo(DEFAULT_MOTHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMaritalStatus()).isEqualTo(DEFAULT_MARITAL_STATUS);
         assertThat(testPersonalInfo.getSpouseName()).isEqualTo(DEFAULT_SPOUSE_NAME);
+        assertThat(testPersonalInfo.getSpouseNameBangla()).isEqualTo(DEFAULT_SPOUSE_NAME_BANGLA);
         assertThat(testPersonalInfo.getDateOfBirth()).isEqualTo(DEFAULT_DATE_OF_BIRTH);
         assertThat(testPersonalInfo.getNationalId()).isEqualTo(DEFAULT_NATIONAL_ID);
+        assertThat(testPersonalInfo.getNationalIdAttachment()).isEqualTo(DEFAULT_NATIONAL_ID_ATTACHMENT);
+        assertThat(testPersonalInfo.getNationalIdAttachmentContentType()).isEqualTo(DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getNationalIdAttachmentId()).isEqualTo(DEFAULT_NATIONAL_ID_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getBirthRegistration()).isEqualTo(DEFAULT_BIRTH_REGISTRATION);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachment()).isEqualTo(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachmentContentType()).isEqualTo(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachmentId()).isEqualTo(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getHeight()).isEqualTo(DEFAULT_HEIGHT);
         assertThat(testPersonalInfo.getGender()).isEqualTo(DEFAULT_GENDER);
         assertThat(testPersonalInfo.getBloodGroup()).isEqualTo(DEFAULT_BLOOD_GROUP);
@@ -312,15 +358,23 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].banglaName").value(hasItem(DEFAULT_BANGLA_NAME)))
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
+            .andExpect(jsonPath("$.[*].photoId").value(hasItem(DEFAULT_PHOTO_ID)))
             .andExpect(jsonPath("$.[*].fatherName").value(hasItem(DEFAULT_FATHER_NAME)))
             .andExpect(jsonPath("$.[*].fatherNameBangla").value(hasItem(DEFAULT_FATHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].motherName").value(hasItem(DEFAULT_MOTHER_NAME)))
             .andExpect(jsonPath("$.[*].motherNameBangla").value(hasItem(DEFAULT_MOTHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS.toString())))
             .andExpect(jsonPath("$.[*].spouseName").value(hasItem(DEFAULT_SPOUSE_NAME)))
+            .andExpect(jsonPath("$.[*].spouseNameBangla").value(hasItem(DEFAULT_SPOUSE_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
             .andExpect(jsonPath("$.[*].nationalId").value(hasItem(DEFAULT_NATIONAL_ID)))
+            .andExpect(jsonPath("$.[*].nationalIdAttachmentContentType").value(hasItem(DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].nationalIdAttachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_NATIONAL_ID_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].nationalIdAttachmentId").value(hasItem(DEFAULT_NATIONAL_ID_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].birthRegistration").value(hasItem(DEFAULT_BIRTH_REGISTRATION)))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachmentContentType").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachmentId").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
@@ -342,15 +396,23 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.banglaName").value(DEFAULT_BANGLA_NAME))
             .andExpect(jsonPath("$.photoContentType").value(DEFAULT_PHOTO_CONTENT_TYPE))
             .andExpect(jsonPath("$.photo").value(Base64Utils.encodeToString(DEFAULT_PHOTO)))
+            .andExpect(jsonPath("$.photoId").value(DEFAULT_PHOTO_ID))
             .andExpect(jsonPath("$.fatherName").value(DEFAULT_FATHER_NAME))
             .andExpect(jsonPath("$.fatherNameBangla").value(DEFAULT_FATHER_NAME_BANGLA))
             .andExpect(jsonPath("$.motherName").value(DEFAULT_MOTHER_NAME))
             .andExpect(jsonPath("$.motherNameBangla").value(DEFAULT_MOTHER_NAME_BANGLA))
             .andExpect(jsonPath("$.maritalStatus").value(DEFAULT_MARITAL_STATUS.toString()))
             .andExpect(jsonPath("$.spouseName").value(DEFAULT_SPOUSE_NAME))
+            .andExpect(jsonPath("$.spouseNameBangla").value(DEFAULT_SPOUSE_NAME_BANGLA))
             .andExpect(jsonPath("$.dateOfBirth").value(DEFAULT_DATE_OF_BIRTH.toString()))
             .andExpect(jsonPath("$.nationalId").value(DEFAULT_NATIONAL_ID))
+            .andExpect(jsonPath("$.nationalIdAttachmentContentType").value(DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE))
+            .andExpect(jsonPath("$.nationalIdAttachment").value(Base64Utils.encodeToString(DEFAULT_NATIONAL_ID_ATTACHMENT)))
+            .andExpect(jsonPath("$.nationalIdAttachmentId").value(DEFAULT_NATIONAL_ID_ATTACHMENT_ID))
             .andExpect(jsonPath("$.birthRegistration").value(DEFAULT_BIRTH_REGISTRATION))
+            .andExpect(jsonPath("$.birthRegistrationAttachmentContentType").value(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE))
+            .andExpect(jsonPath("$.birthRegistrationAttachment").value(Base64Utils.encodeToString(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT)))
+            .andExpect(jsonPath("$.birthRegistrationAttachmentId").value(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID))
             .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT.doubleValue()))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
             .andExpect(jsonPath("$.bloodGroup").value(DEFAULT_BLOOD_GROUP.toString()))
@@ -530,6 +592,84 @@ public class PersonalInfoResourceIT {
 
         // Get all the personalInfoList where banglaName does not contain UPDATED_BANGLA_NAME
         defaultPersonalInfoShouldBeFound("banglaName.doesNotContain=" + UPDATED_BANGLA_NAME);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId equals to DEFAULT_PHOTO_ID
+        defaultPersonalInfoShouldBeFound("photoId.equals=" + DEFAULT_PHOTO_ID);
+
+        // Get all the personalInfoList where photoId equals to UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldNotBeFound("photoId.equals=" + UPDATED_PHOTO_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId not equals to DEFAULT_PHOTO_ID
+        defaultPersonalInfoShouldNotBeFound("photoId.notEquals=" + DEFAULT_PHOTO_ID);
+
+        // Get all the personalInfoList where photoId not equals to UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldBeFound("photoId.notEquals=" + UPDATED_PHOTO_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId in DEFAULT_PHOTO_ID or UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldBeFound("photoId.in=" + DEFAULT_PHOTO_ID + "," + UPDATED_PHOTO_ID);
+
+        // Get all the personalInfoList where photoId equals to UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldNotBeFound("photoId.in=" + UPDATED_PHOTO_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId is not null
+        defaultPersonalInfoShouldBeFound("photoId.specified=true");
+
+        // Get all the personalInfoList where photoId is null
+        defaultPersonalInfoShouldNotBeFound("photoId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId contains DEFAULT_PHOTO_ID
+        defaultPersonalInfoShouldBeFound("photoId.contains=" + DEFAULT_PHOTO_ID);
+
+        // Get all the personalInfoList where photoId contains UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldNotBeFound("photoId.contains=" + UPDATED_PHOTO_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByPhotoIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where photoId does not contain DEFAULT_PHOTO_ID
+        defaultPersonalInfoShouldNotBeFound("photoId.doesNotContain=" + DEFAULT_PHOTO_ID);
+
+        // Get all the personalInfoList where photoId does not contain UPDATED_PHOTO_ID
+        defaultPersonalInfoShouldBeFound("photoId.doesNotContain=" + UPDATED_PHOTO_ID);
     }
 
 
@@ -977,6 +1117,84 @@ public class PersonalInfoResourceIT {
 
     @Test
     @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla equals to DEFAULT_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.equals=" + DEFAULT_SPOUSE_NAME_BANGLA);
+
+        // Get all the personalInfoList where spouseNameBangla equals to UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.equals=" + UPDATED_SPOUSE_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla not equals to DEFAULT_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.notEquals=" + DEFAULT_SPOUSE_NAME_BANGLA);
+
+        // Get all the personalInfoList where spouseNameBangla not equals to UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.notEquals=" + UPDATED_SPOUSE_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla in DEFAULT_SPOUSE_NAME_BANGLA or UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.in=" + DEFAULT_SPOUSE_NAME_BANGLA + "," + UPDATED_SPOUSE_NAME_BANGLA);
+
+        // Get all the personalInfoList where spouseNameBangla equals to UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.in=" + UPDATED_SPOUSE_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla is not null
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.specified=true");
+
+        // Get all the personalInfoList where spouseNameBangla is null
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla contains DEFAULT_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.contains=" + DEFAULT_SPOUSE_NAME_BANGLA);
+
+        // Get all the personalInfoList where spouseNameBangla contains UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.contains=" + UPDATED_SPOUSE_NAME_BANGLA);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosBySpouseNameBanglaNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where spouseNameBangla does not contain DEFAULT_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldNotBeFound("spouseNameBangla.doesNotContain=" + DEFAULT_SPOUSE_NAME_BANGLA);
+
+        // Get all the personalInfoList where spouseNameBangla does not contain UPDATED_SPOUSE_NAME_BANGLA
+        defaultPersonalInfoShouldBeFound("spouseNameBangla.doesNotContain=" + UPDATED_SPOUSE_NAME_BANGLA);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPersonalInfosByDateOfBirthIsEqualToSomething() throws Exception {
         // Initialize the database
         personalInfoRepository.saveAndFlush(personalInfo);
@@ -1160,6 +1378,84 @@ public class PersonalInfoResourceIT {
 
     @Test
     @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId equals to DEFAULT_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.equals=" + DEFAULT_NATIONAL_ID_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where nationalIdAttachmentId equals to UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.equals=" + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId not equals to DEFAULT_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.notEquals=" + DEFAULT_NATIONAL_ID_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where nationalIdAttachmentId not equals to UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.notEquals=" + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId in DEFAULT_NATIONAL_ID_ATTACHMENT_ID or UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.in=" + DEFAULT_NATIONAL_ID_ATTACHMENT_ID + "," + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where nationalIdAttachmentId equals to UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.in=" + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId is not null
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.specified=true");
+
+        // Get all the personalInfoList where nationalIdAttachmentId is null
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId contains DEFAULT_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.contains=" + DEFAULT_NATIONAL_ID_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where nationalIdAttachmentId contains UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.contains=" + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByNationalIdAttachmentIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where nationalIdAttachmentId does not contain DEFAULT_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("nationalIdAttachmentId.doesNotContain=" + DEFAULT_NATIONAL_ID_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where nationalIdAttachmentId does not contain UPDATED_NATIONAL_ID_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("nationalIdAttachmentId.doesNotContain=" + UPDATED_NATIONAL_ID_ATTACHMENT_ID);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllPersonalInfosByBirthRegistrationIsEqualToSomething() throws Exception {
         // Initialize the database
         personalInfoRepository.saveAndFlush(personalInfo);
@@ -1233,6 +1529,84 @@ public class PersonalInfoResourceIT {
 
         // Get all the personalInfoList where birthRegistration does not contain UPDATED_BIRTH_REGISTRATION
         defaultPersonalInfoShouldBeFound("birthRegistration.doesNotContain=" + UPDATED_BIRTH_REGISTRATION);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId equals to DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.equals=" + DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId equals to UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.equals=" + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId not equals to DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.notEquals=" + DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId not equals to UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.notEquals=" + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId in DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID or UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.in=" + DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID + "," + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId equals to UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.in=" + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId is not null
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.specified=true");
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId is null
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId contains DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.contains=" + DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId contains UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.contains=" + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByBirthRegistrationAttachmentIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId does not contain DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldNotBeFound("birthRegistrationAttachmentId.doesNotContain=" + DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
+
+        // Get all the personalInfoList where birthRegistrationAttachmentId does not contain UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID
+        defaultPersonalInfoShouldBeFound("birthRegistrationAttachmentId.doesNotContain=" + UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
     }
 
 
@@ -1555,15 +1929,23 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].banglaName").value(hasItem(DEFAULT_BANGLA_NAME)))
             .andExpect(jsonPath("$.[*].photoContentType").value(hasItem(DEFAULT_PHOTO_CONTENT_TYPE)))
             .andExpect(jsonPath("$.[*].photo").value(hasItem(Base64Utils.encodeToString(DEFAULT_PHOTO))))
+            .andExpect(jsonPath("$.[*].photoId").value(hasItem(DEFAULT_PHOTO_ID)))
             .andExpect(jsonPath("$.[*].fatherName").value(hasItem(DEFAULT_FATHER_NAME)))
             .andExpect(jsonPath("$.[*].fatherNameBangla").value(hasItem(DEFAULT_FATHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].motherName").value(hasItem(DEFAULT_MOTHER_NAME)))
             .andExpect(jsonPath("$.[*].motherNameBangla").value(hasItem(DEFAULT_MOTHER_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].maritalStatus").value(hasItem(DEFAULT_MARITAL_STATUS.toString())))
             .andExpect(jsonPath("$.[*].spouseName").value(hasItem(DEFAULT_SPOUSE_NAME)))
+            .andExpect(jsonPath("$.[*].spouseNameBangla").value(hasItem(DEFAULT_SPOUSE_NAME_BANGLA)))
             .andExpect(jsonPath("$.[*].dateOfBirth").value(hasItem(DEFAULT_DATE_OF_BIRTH.toString())))
             .andExpect(jsonPath("$.[*].nationalId").value(hasItem(DEFAULT_NATIONAL_ID)))
+            .andExpect(jsonPath("$.[*].nationalIdAttachmentContentType").value(hasItem(DEFAULT_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].nationalIdAttachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_NATIONAL_ID_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].nationalIdAttachmentId").value(hasItem(DEFAULT_NATIONAL_ID_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].birthRegistration").value(hasItem(DEFAULT_BIRTH_REGISTRATION)))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachmentContentType").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].birthRegistrationAttachmentId").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
@@ -1618,15 +2000,23 @@ public class PersonalInfoResourceIT {
             .banglaName(UPDATED_BANGLA_NAME)
             .photo(UPDATED_PHOTO)
             .photoContentType(UPDATED_PHOTO_CONTENT_TYPE)
+            .photoId(UPDATED_PHOTO_ID)
             .fatherName(UPDATED_FATHER_NAME)
             .fatherNameBangla(UPDATED_FATHER_NAME_BANGLA)
             .motherName(UPDATED_MOTHER_NAME)
             .motherNameBangla(UPDATED_MOTHER_NAME_BANGLA)
             .maritalStatus(UPDATED_MARITAL_STATUS)
             .spouseName(UPDATED_SPOUSE_NAME)
+            .spouseNameBangla(UPDATED_SPOUSE_NAME_BANGLA)
             .dateOfBirth(UPDATED_DATE_OF_BIRTH)
             .nationalId(UPDATED_NATIONAL_ID)
+            .nationalIdAttachment(UPDATED_NATIONAL_ID_ATTACHMENT)
+            .nationalIdAttachmentContentType(UPDATED_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE)
+            .nationalIdAttachmentId(UPDATED_NATIONAL_ID_ATTACHMENT_ID)
             .birthRegistration(UPDATED_BIRTH_REGISTRATION)
+            .birthRegistrationAttachment(UPDATED_BIRTH_REGISTRATION_ATTACHMENT)
+            .birthRegistrationAttachmentContentType(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE)
+            .birthRegistrationAttachmentId(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(UPDATED_HEIGHT)
             .gender(UPDATED_GENDER)
             .bloodGroup(UPDATED_BLOOD_GROUP)
@@ -1645,15 +2035,23 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getBanglaName()).isEqualTo(UPDATED_BANGLA_NAME);
         assertThat(testPersonalInfo.getPhoto()).isEqualTo(UPDATED_PHOTO);
         assertThat(testPersonalInfo.getPhotoContentType()).isEqualTo(UPDATED_PHOTO_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getPhotoId()).isEqualTo(UPDATED_PHOTO_ID);
         assertThat(testPersonalInfo.getFatherName()).isEqualTo(UPDATED_FATHER_NAME);
         assertThat(testPersonalInfo.getFatherNameBangla()).isEqualTo(UPDATED_FATHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMotherName()).isEqualTo(UPDATED_MOTHER_NAME);
         assertThat(testPersonalInfo.getMotherNameBangla()).isEqualTo(UPDATED_MOTHER_NAME_BANGLA);
         assertThat(testPersonalInfo.getMaritalStatus()).isEqualTo(UPDATED_MARITAL_STATUS);
         assertThat(testPersonalInfo.getSpouseName()).isEqualTo(UPDATED_SPOUSE_NAME);
+        assertThat(testPersonalInfo.getSpouseNameBangla()).isEqualTo(UPDATED_SPOUSE_NAME_BANGLA);
         assertThat(testPersonalInfo.getDateOfBirth()).isEqualTo(UPDATED_DATE_OF_BIRTH);
         assertThat(testPersonalInfo.getNationalId()).isEqualTo(UPDATED_NATIONAL_ID);
+        assertThat(testPersonalInfo.getNationalIdAttachment()).isEqualTo(UPDATED_NATIONAL_ID_ATTACHMENT);
+        assertThat(testPersonalInfo.getNationalIdAttachmentContentType()).isEqualTo(UPDATED_NATIONAL_ID_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getNationalIdAttachmentId()).isEqualTo(UPDATED_NATIONAL_ID_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getBirthRegistration()).isEqualTo(UPDATED_BIRTH_REGISTRATION);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachment()).isEqualTo(UPDATED_BIRTH_REGISTRATION_ATTACHMENT);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachmentContentType()).isEqualTo(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testPersonalInfo.getBirthRegistrationAttachmentId()).isEqualTo(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getHeight()).isEqualTo(UPDATED_HEIGHT);
         assertThat(testPersonalInfo.getGender()).isEqualTo(UPDATED_GENDER);
         assertThat(testPersonalInfo.getBloodGroup()).isEqualTo(UPDATED_BLOOD_GROUP);

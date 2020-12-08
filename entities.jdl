@@ -238,7 +238,7 @@ relationship OneToMany{
 
 relationship OneToOne{
     Employee{address} to Address{employee(name)},
-    Employee{personalInfo(name)} to PersonalInfo{employee(name)},
+    Employee{personalInfo} to PersonalInfo{employee},
 }
 
 service Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass

@@ -35,23 +35,7 @@ export class PersonalInfoExtResolve implements Resolve<IPersonalInfo> {
         })
       );
     }else if(employeeId){
-      return forkJoin(
-        this.employeeService.find(employeeId),
-        this.service.query({'employeeId.equals': employeeId})
-      ).pipe(
-        flatMap(res=>{
-          const employee = res[0].body!;
-          let personalInfo = res[1].body? res[1].body[0]: new PersonalInfo();
-          if(personalInfo?.id)
-            return of(personalInfo);
-          else{
-            personalInfo = new PersonalInfo();
-            personalInfo.employee = employee;
-            return of(personalInfo);
-          }
-        })
-      )
- /*     return this.employeeService.find(employeeId).pipe(
+      return this.employeeService.find(employeeId).pipe(
         flatMap((employee: HttpResponse<Employee>)=>{
           if(employee.body){
             const personalInfo = new PersonalInfo();
@@ -62,7 +46,7 @@ export class PersonalInfoExtResolve implements Resolve<IPersonalInfo> {
             return EMPTY;
           }
         })
-      );*/
+      );
     }
     return of(new PersonalInfo());
   }

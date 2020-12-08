@@ -91,6 +91,9 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getBanglaName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBanglaName(), PersonalInfo_.banglaName));
             }
+            if (criteria.getPhotoId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPhotoId(), PersonalInfo_.photoId));
+            }
             if (criteria.getFatherName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getFatherName(), PersonalInfo_.fatherName));
             }
@@ -109,14 +112,23 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getSpouseName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getSpouseName(), PersonalInfo_.spouseName));
             }
+            if (criteria.getSpouseNameBangla() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSpouseNameBangla(), PersonalInfo_.spouseNameBangla));
+            }
             if (criteria.getDateOfBirth() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getDateOfBirth(), PersonalInfo_.dateOfBirth));
             }
             if (criteria.getNationalId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNationalId(), PersonalInfo_.nationalId));
             }
+            if (criteria.getNationalIdAttachmentId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getNationalIdAttachmentId(), PersonalInfo_.nationalIdAttachmentId));
+            }
             if (criteria.getBirthRegistration() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getBirthRegistration(), PersonalInfo_.birthRegistration));
+            }
+            if (criteria.getBirthRegistrationAttachmentId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getBirthRegistrationAttachmentId(), PersonalInfo_.birthRegistrationAttachmentId));
             }
             if (criteria.getHeight() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getHeight(), PersonalInfo_.height));

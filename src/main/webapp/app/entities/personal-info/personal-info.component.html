@@ -26,15 +26,21 @@
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="banglaName"><span>Bangla Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="photo"><span>Photo</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="photoId"><span>Photo Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="fatherName"><span>Father Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="fatherNameBangla"><span>Father Name Bangla</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="motherName"><span>Mother Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="motherNameBangla"><span>Mother Name Bangla</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="maritalStatus"><span>Marital Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="spouseName"><span>Spouse Name</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="spouseNameBangla"><span>Spouse Name Bangla</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="dateOfBirth"><span>Date Of Birth</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="nationalId"><span>National Id</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="nationalIdAttachment"><span>National Id Attachment</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="nationalIdAttachmentId"><span>National Id Attachment Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="birthRegistration"><span>Birth Registration</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="birthRegistrationAttachment"><span>Birth Registration Attachment</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="birthRegistrationAttachmentId"><span>Birth Registration Attachment Id</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="height"><span>Height</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="gender"><span>Gender</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="bloodGroup"><span>Blood Group</span> <fa-icon icon="sort"></fa-icon></th>
@@ -51,15 +57,27 @@
                         <a *ngIf="personalInfo.photo" (click)="openFile(personalInfo.photoContentType, personalInfo.photo)">open</a>
                         <span *ngIf="personalInfo.photo">{{ personalInfo.photoContentType }}, {{ byteSize(personalInfo.photo) }}</span>
                     </td>
+                    <td>{{ personalInfo.photoId }}</td>
                     <td>{{ personalInfo.fatherName }}</td>
                     <td>{{ personalInfo.fatherNameBangla }}</td>
                     <td>{{ personalInfo.motherName }}</td>
                     <td>{{ personalInfo.motherNameBangla }}</td>
                     <td>{{ personalInfo.maritalStatus }}</td>
                     <td>{{ personalInfo.spouseName }}</td>
+                    <td>{{ personalInfo.spouseNameBangla }}</td>
                     <td>{{ personalInfo.dateOfBirth | date:'mediumDate' }}</td>
                     <td>{{ personalInfo.nationalId }}</td>
+                    <td>
+                        <a *ngIf="personalInfo.nationalIdAttachment" (click)="openFile(personalInfo.nationalIdAttachmentContentType, personalInfo.nationalIdAttachment)">open</a>
+                        <span *ngIf="personalInfo.nationalIdAttachment">{{ personalInfo.nationalIdAttachmentContentType }}, {{ byteSize(personalInfo.nationalIdAttachment) }}</span>
+                    </td>
+                    <td>{{ personalInfo.nationalIdAttachmentId }}</td>
                     <td>{{ personalInfo.birthRegistration }}</td>
+                    <td>
+                        <a *ngIf="personalInfo.birthRegistrationAttachment" (click)="openFile(personalInfo.birthRegistrationAttachmentContentType, personalInfo.birthRegistrationAttachment)">open</a>
+                        <span *ngIf="personalInfo.birthRegistrationAttachment">{{ personalInfo.birthRegistrationAttachmentContentType }}, {{ byteSize(personalInfo.birthRegistrationAttachment) }}</span>
+                    </td>
+                    <td>{{ personalInfo.birthRegistrationAttachmentId }}</td>
                     <td>{{ personalInfo.height }}</td>
                     <td>{{ personalInfo.gender }}</td>
                     <td>{{ personalInfo.bloodGroup }}</td>

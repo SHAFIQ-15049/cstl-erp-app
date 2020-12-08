@@ -88,6 +88,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter banglaName;
 
+    private StringFilter photoId;
+
     private StringFilter fatherName;
 
     private StringFilter fatherNameBangla;
@@ -100,11 +102,17 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private StringFilter spouseName;
 
+    private StringFilter spouseNameBangla;
+
     private LocalDateFilter dateOfBirth;
 
     private StringFilter nationalId;
 
+    private StringFilter nationalIdAttachmentId;
+
     private StringFilter birthRegistration;
+
+    private StringFilter birthRegistrationAttachmentId;
 
     private DoubleFilter height;
 
@@ -123,15 +131,19 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
         this.banglaName = other.banglaName == null ? null : other.banglaName.copy();
+        this.photoId = other.photoId == null ? null : other.photoId.copy();
         this.fatherName = other.fatherName == null ? null : other.fatherName.copy();
         this.fatherNameBangla = other.fatherNameBangla == null ? null : other.fatherNameBangla.copy();
         this.motherName = other.motherName == null ? null : other.motherName.copy();
         this.motherNameBangla = other.motherNameBangla == null ? null : other.motherNameBangla.copy();
         this.maritalStatus = other.maritalStatus == null ? null : other.maritalStatus.copy();
         this.spouseName = other.spouseName == null ? null : other.spouseName.copy();
+        this.spouseNameBangla = other.spouseNameBangla == null ? null : other.spouseNameBangla.copy();
         this.dateOfBirth = other.dateOfBirth == null ? null : other.dateOfBirth.copy();
         this.nationalId = other.nationalId == null ? null : other.nationalId.copy();
+        this.nationalIdAttachmentId = other.nationalIdAttachmentId == null ? null : other.nationalIdAttachmentId.copy();
         this.birthRegistration = other.birthRegistration == null ? null : other.birthRegistration.copy();
+        this.birthRegistrationAttachmentId = other.birthRegistrationAttachmentId == null ? null : other.birthRegistrationAttachmentId.copy();
         this.height = other.height == null ? null : other.height.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
         this.bloodGroup = other.bloodGroup == null ? null : other.bloodGroup.copy();
@@ -166,6 +178,14 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     public void setBanglaName(StringFilter banglaName) {
         this.banglaName = banglaName;
+    }
+
+    public StringFilter getPhotoId() {
+        return photoId;
+    }
+
+    public void setPhotoId(StringFilter photoId) {
+        this.photoId = photoId;
     }
 
     public StringFilter getFatherName() {
@@ -216,6 +236,14 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.spouseName = spouseName;
     }
 
+    public StringFilter getSpouseNameBangla() {
+        return spouseNameBangla;
+    }
+
+    public void setSpouseNameBangla(StringFilter spouseNameBangla) {
+        this.spouseNameBangla = spouseNameBangla;
+    }
+
     public LocalDateFilter getDateOfBirth() {
         return dateOfBirth;
     }
@@ -232,12 +260,28 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.nationalId = nationalId;
     }
 
+    public StringFilter getNationalIdAttachmentId() {
+        return nationalIdAttachmentId;
+    }
+
+    public void setNationalIdAttachmentId(StringFilter nationalIdAttachmentId) {
+        this.nationalIdAttachmentId = nationalIdAttachmentId;
+    }
+
     public StringFilter getBirthRegistration() {
         return birthRegistration;
     }
 
     public void setBirthRegistration(StringFilter birthRegistration) {
         this.birthRegistration = birthRegistration;
+    }
+
+    public StringFilter getBirthRegistrationAttachmentId() {
+        return birthRegistrationAttachmentId;
+    }
+
+    public void setBirthRegistrationAttachmentId(StringFilter birthRegistrationAttachmentId) {
+        this.birthRegistrationAttachmentId = birthRegistrationAttachmentId;
     }
 
     public DoubleFilter getHeight() {
@@ -294,15 +338,19 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(banglaName, that.banglaName) &&
+            Objects.equals(photoId, that.photoId) &&
             Objects.equals(fatherName, that.fatherName) &&
             Objects.equals(fatherNameBangla, that.fatherNameBangla) &&
             Objects.equals(motherName, that.motherName) &&
             Objects.equals(motherNameBangla, that.motherNameBangla) &&
             Objects.equals(maritalStatus, that.maritalStatus) &&
             Objects.equals(spouseName, that.spouseName) &&
+            Objects.equals(spouseNameBangla, that.spouseNameBangla) &&
             Objects.equals(dateOfBirth, that.dateOfBirth) &&
             Objects.equals(nationalId, that.nationalId) &&
+            Objects.equals(nationalIdAttachmentId, that.nationalIdAttachmentId) &&
             Objects.equals(birthRegistration, that.birthRegistration) &&
+            Objects.equals(birthRegistrationAttachmentId, that.birthRegistrationAttachmentId) &&
             Objects.equals(height, that.height) &&
             Objects.equals(gender, that.gender) &&
             Objects.equals(bloodGroup, that.bloodGroup) &&
@@ -316,15 +364,19 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         id,
         name,
         banglaName,
+        photoId,
         fatherName,
         fatherNameBangla,
         motherName,
         motherNameBangla,
         maritalStatus,
         spouseName,
+        spouseNameBangla,
         dateOfBirth,
         nationalId,
+        nationalIdAttachmentId,
         birthRegistration,
+        birthRegistrationAttachmentId,
         height,
         gender,
         bloodGroup,
@@ -340,15 +392,19 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (banglaName != null ? "banglaName=" + banglaName + ", " : "") +
+                (photoId != null ? "photoId=" + photoId + ", " : "") +
                 (fatherName != null ? "fatherName=" + fatherName + ", " : "") +
                 (fatherNameBangla != null ? "fatherNameBangla=" + fatherNameBangla + ", " : "") +
                 (motherName != null ? "motherName=" + motherName + ", " : "") +
                 (motherNameBangla != null ? "motherNameBangla=" + motherNameBangla + ", " : "") +
                 (maritalStatus != null ? "maritalStatus=" + maritalStatus + ", " : "") +
                 (spouseName != null ? "spouseName=" + spouseName + ", " : "") +
+                (spouseNameBangla != null ? "spouseNameBangla=" + spouseNameBangla + ", " : "") +
                 (dateOfBirth != null ? "dateOfBirth=" + dateOfBirth + ", " : "") +
                 (nationalId != null ? "nationalId=" + nationalId + ", " : "") +
+                (nationalIdAttachmentId != null ? "nationalIdAttachmentId=" + nationalIdAttachmentId + ", " : "") +
                 (birthRegistration != null ? "birthRegistration=" + birthRegistration + ", " : "") +
+                (birthRegistrationAttachmentId != null ? "birthRegistrationAttachmentId=" + birthRegistrationAttachmentId + ", " : "") +
                 (height != null ? "height=" + height + ", " : "") +
                 (gender != null ? "gender=" + gender + ", " : "") +
                 (bloodGroup != null ? "bloodGroup=" + bloodGroup + ", " : "") +

@@ -88,83 +88,124 @@
                         <input type="text" class="form-control" name="motherNameBangla" id="field_motherNameBangla"
                                formControlName="motherNameBangla"/>
                     </div>
-                </div>
 
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_gender">Gender</label>
+                        <select class="form-control" name="gender" formControlName="gender" id="field_gender">
+                            <option value="MALE">MALE</option>
+                            <option value="FEMALE">FEMALE</option>
+                            <option value="OTHERS">OTHERS</option>
+                        </select>
+                    </div>
 
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
+                        <select class="form-control" name="maritalStatus" formControlName="maritalStatus" id="field_maritalStatus">
+                            <option value="SINGLE">SINGLE</option>
+                            <option value="MARRIED">MARRIED</option>
+                        </select>
+                    </div>
 
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_spouseName">Spouse Name</label>
+                        <input type="text" class="form-control" name="spouseName" id="field_spouseName"
+                               formControlName="spouseName"/>
+                    </div>
 
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_spouseNameBangla">স্বামী/স্ত্রীর নাম</label>
+                        <input type="text" class="form-control" name="spouseNameBangla" id="field_spouseNameBangla"
+                               formControlName="spouseNameBangla"/>
+                    </div>
 
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_maritalStatus">Marital Status</label>
-                    <select class="form-control" name="maritalStatus" formControlName="maritalStatus" id="field_maritalStatus">
-                        <option value="SINGLE">SINGLE</option>
-                        <option value="MARRIED">MARRIED</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_spouseName">Spouse Name</label>
-                    <input type="text" class="form-control" name="spouseName" id="field_spouseName"
-                           formControlName="spouseName"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
-                    <div class="input-group">
-                        <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker" formControlName="dateOfBirth"/>
-                        <span class="input-group-append">
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
+                        <div class="input-group">
+                            <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker" formControlName="dateOfBirth"/>
+                            <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
+                        <select class="form-control" name="bloodGroup" formControlName="bloodGroup" id="field_bloodGroup">
+                            <option value="A_POSITIVE">A_POSITIVE</option>
+                            <option value="A_NEGATIVE">A_NEGATIVE</option>
+                            <option value="B_POSITIVE">B_POSITIVE</option>
+                            <option value="B_NEGATIVE">B_NEGATIVE</option>
+                            <option value="O_POSITIVE">O_POSITIVE</option>
+                            <option value="O_NEGATIVE">O_NEGATIVE</option>
+                            <option value="AB_POSITIVE">AB_POSITIVE</option>
+                            <option value="AB_NEGATIVE">AB_NEGATIVE</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_nationalId">National Id</label>
+                        <input type="text" class="form-control" name="nationalId" id="field_nationalId"
+                               formControlName="nationalId"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_nationalIdAttachment">National Id Attachment</label>
+                        <div>
+                            <div *ngIf="editForm.get('nationalIdAttachment')!.value" class="form-text text-danger clearfix">
+                                <a class="pull-left" (click)="openFile(editForm.get('nationalIdAttachmentContentType')!.value, editForm.get('nationalIdAttachment')!.value)">open</a><br>
+                                <span class="pull-left">{{ editForm.get('nationalIdAttachmentContentType')!.value }}, {{ byteSize(editForm.get('nationalIdAttachment')!.value) }}</span>
+                                <button type="button" (click)="editForm.patchValue({nationalIdAttachment: null});editForm.patchValue({nationalIdAttachmentContentType: null});"
+                                        class="btn btn-secondary btn-xs pull-right">
+                                    <fa-icon icon="times"></fa-icon>
+                                </button>
+                            </div>
+                            <input type="file" id="file_nationalIdAttachment" (change)="setFileData($event, 'nationalIdAttachment', false)"/>
+                        </div>
+                        <input type="hidden" class="form-control" name="nationalIdAttachment" id="field_nationalIdAttachment"
+                               formControlName="nationalIdAttachment"/>
+                        <input type="hidden" class="form-control" name="nationalIdAttachmentContentType" id="field_nationalIdAttachmentContentType"
+                               formControlName="nationalIdAttachmentContentType" />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_birthRegistration">Birth Registration</label>
+                        <input type="text" class="form-control" name="birthRegistration" id="field_birthRegistration"
+                               formControlName="birthRegistration"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_birthRegistrationAttachment">Birth Registration Attachment</label>
+                        <div>
+                            <div *ngIf="editForm.get('birthRegistrationAttachment')!.value" class="form-text text-danger clearfix">
+                                <a class="pull-left" (click)="openFile(editForm.get('birthRegistrationAttachmentContentType')!.value, editForm.get('birthRegistrationAttachment')!.value)">open</a><br>
+                                <span class="pull-left">{{ editForm.get('birthRegistrationAttachmentContentType')!.value }}, {{ byteSize(editForm.get('birthRegistrationAttachment')!.value) }}</span>
+                                <button type="button" (click)="editForm.patchValue({birthRegistrationAttachment: null});editForm.patchValue({birthRegistrationAttachmentContentType: null});"
+                                        class="btn btn-secondary btn-xs pull-right">
+                                    <fa-icon icon="times"></fa-icon>
+                                </button>
+                            </div>
+                            <input type="file" id="file_birthRegistrationAttachment" (change)="setFileData($event, 'birthRegistrationAttachment', false)"/>
+                        </div>
+                        <input type="hidden" class="form-control" name="birthRegistrationAttachment" id="field_birthRegistrationAttachment"
+                               formControlName="birthRegistrationAttachment"/>
+                        <input type="hidden" class="form-control" name="birthRegistrationAttachmentContentType" id="field_birthRegistrationAttachmentContentType"
+                               formControlName="birthRegistrationAttachmentContentType" />
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_height">Height</label>
+                        <input type="number" class="form-control" name="height" id="field_height"
+                               formControlName="height"/>
+                    </div>
+
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
+                        <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
+                               formControlName="emergencyContact"/>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_nationalId">National Id</label>
-                    <input type="text" class="form-control" name="nationalId" id="field_nationalId"
-                           formControlName="nationalId"/>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_birthRegistration">Birth Registration</label>
-                    <input type="text" class="form-control" name="birthRegistration" id="field_birthRegistration"
-                           formControlName="birthRegistration"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_height">Height</label>
-                    <input type="number" class="form-control" name="height" id="field_height"
-                           formControlName="height"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_gender">Gender</label>
-                    <select class="form-control" name="gender" formControlName="gender" id="field_gender">
-                        <option value="MALE">MALE</option>
-                        <option value="FEMALE">FEMALE</option>
-                        <option value="OTHERS">OTHERS</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_bloodGroup">Blood Group</label>
-                    <select class="form-control" name="bloodGroup" formControlName="bloodGroup" id="field_bloodGroup">
-                        <option value="A_POSITIVE">A_POSITIVE</option>
-                        <option value="A_NEGATIVE">A_NEGATIVE</option>
-                        <option value="B_POSITIVE">B_POSITIVE</option>
-                        <option value="B_NEGATIVE">B_NEGATIVE</option>
-                        <option value="O_POSITIVE">O_POSITIVE</option>
-                        <option value="O_NEGATIVE">O_NEGATIVE</option>
-                        <option value="AB_POSITIVE">AB_POSITIVE</option>
-                        <option value="AB_NEGATIVE">AB_NEGATIVE</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_emergencyContact">Emergency Contact</label>
-                    <input type="text" class="form-control" name="emergencyContact" id="field_emergencyContact"
-                           formControlName="emergencyContact"/>
-                </div>
             </div>
 
             <div>
