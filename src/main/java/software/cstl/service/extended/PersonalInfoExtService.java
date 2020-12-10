@@ -27,7 +27,7 @@ import java.util.Optional;
 @Transactional
 public class PersonalInfoExtService extends PersonalInfoService {
 
-    @Value("${cstl.file-path}")
+    //@Value("${cstl.file-path}")
     String filePath;
 
     public PersonalInfoExtService(PersonalInfoRepository personalInfoRepository) {
@@ -35,12 +35,28 @@ public class PersonalInfoExtService extends PersonalInfoService {
     }
 
     public PersonalInfo save(PersonalInfo personalInfo) {
-        try{
+/*        try{
+            removeFiles(personalInfo);
             storeFiles(personalInfo);
         }catch (IOException e){
             e.printStackTrace();
-        }
+        }*/
         return super.save(personalInfo);
+    }
+
+    private void removeFiles(PersonalInfo personalInfo) throws IOException{
+        if(personalInfo.getPhoto()==null && personalInfo.getPhotoId()!=null){
+            File photo = new File(filePath+personalInfo.getPhotoId());
+            photo.delete();
+        }
+        if(personalInfo.getNationalIdAttachment()==null && personalInfo.getNationalIdAttachmentId()!=null){
+            File attachment = new File(filePath+personalInfo.getNationalIdAttachmentId());
+            attachment.delete();
+        }
+        if(personalInfo.getBirthRegistrationAttachment()==null && personalInfo.getBirthRegistrationAttachmentId()!=null){
+            File attachment = new File(filePath+personalInfo.getBirthRegistrationAttachmentId());
+            attachment.delete();
+        }
     }
 
     private void storeFiles(PersonalInfo personalInfo) throws IOException {

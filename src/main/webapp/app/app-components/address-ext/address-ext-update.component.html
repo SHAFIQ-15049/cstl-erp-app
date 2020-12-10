@@ -1,21 +1,40 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-address-heading">Create or edit a Address</h2>
+            <h2 style="font-weight: bolder" id="jhi-address-heading">{{!editForm.get('id')!.value? 'Add': 'Edit'}} Address</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
+                <h3>Present Address</h3>
+                <div class="row" id="present-address">
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_presentDivision">Present Division</label>
+                        <select class="form-control" id="field_presentDivision" name="presentDivision" formControlName="presentDivision">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="divisionOption.id === editForm.get('presentDivision')!.value?.id ? editForm.get('presentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_presentDistrict">Present District</label>
+                        <select class="form-control" id="field_presentDistrict" name="presentDistrict" formControlName="presentDistrict">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="districtOption.id === editForm.get('presentDistrict')!.value?.id ? editForm.get('presentDistrict')!.value : districtOption" *ngFor="let districtOption of districts | divisionFilter: editForm.get('presentDivision')!.value?.id; trackBy: trackById" >{{ districtOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_presentThana">Present Thana</label>
+                        <select class="form-control" id="field_presentThana" name="presentThana" formControlName="presentThana">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="thanaOption.id === editForm.get('presentThana')!.value?.id ? editForm.get('presentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas | districtFilter: editForm.get('presentDistrict')!.value?.id; trackBy: trackById">{{ thanaOption.name }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" id="permanent-address">
+
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_presentThanaTxt">Present Thana Txt</label>
-                    <input type="text" class="form-control" name="presentThanaTxt" id="field_presentThanaTxt"
-                           formControlName="presentThanaTxt"/>
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_presentStreet">Present Street</label>
@@ -35,11 +54,34 @@
                            formControlName="presentPostCode"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_permanentThanaTxt">Permanent Thana Txt</label>
-                    <input type="text" class="form-control" name="permanentThanaTxt" id="field_permanentThanaTxt"
-                           formControlName="permanentThanaTxt"/>
+                <h3>Permanent Address ( <input type="checkbox" name="isSame" id="field_isSame"
+                                               formControlName="isSame"/> same as present )</h3>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_permanentDivision">Permanent Division</label>
+                        <select class="form-control" id="field_permanentDivision" name="permanentDivision" formControlName="permanentDivision">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="divisionOption.id === editForm.get('permanentDivision')!.value?.id ? editForm.get('permanentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_permanentDistrict">Permanent District</label>
+                        <select class="form-control" id="field_permanentDistrict" name="permanentDistrict" formControlName="permanentDistrict">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="districtOption.id === editForm.get('permanentDistrict')!.value?.id ? editForm.get('permanentDistrict')!.value : districtOption" *ngFor="let districtOption of districts | divisionFilter: editForm.get('permanentDivision')!.value?.id; trackBy: trackById">{{ districtOption.name }}</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_permanentThana">Permanent Thana</label>
+                        <select class="form-control" id="field_permanentThana" name="permanentThana" formControlName="permanentThana">
+                            <option [ngValue]="null"></option>
+                            <option [ngValue]="thanaOption.id === editForm.get('permanentThana')!.value?.id ? editForm.get('permanentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas | districtFilter: editForm.get('permanentDistrict')!.value?.id; trackBy: trackById">{{ thanaOption.name }}</option>
+                        </select>
+                    </div>
                 </div>
+
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_permanentStreet">Permanent Street</label>
@@ -59,59 +101,13 @@
                            formControlName="permanentPostCode"/>
                 </div>
 
-                <div class="form-group">
+                <!--<div class="form-group">
                     <label class="form-control-label" for="field_isSame">Is Same</label>
                     <input type="checkbox" class="form-control" name="isSame" id="field_isSame"
                            formControlName="isSame"/>
-                </div>
+                </div>-->
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_presentDivision">Present Division</label>
-                    <select class="form-control" id="field_presentDivision" name="presentDivision" formControlName="presentDivision">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="divisionOption.id === editForm.get('presentDivision')!.value?.id ? editForm.get('presentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
-                    </select>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_presentDistrict">Present District</label>
-                    <select class="form-control" id="field_presentDistrict" name="presentDistrict" formControlName="presentDistrict">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="districtOption.id === editForm.get('presentDistrict')!.value?.id ? editForm.get('presentDistrict')!.value : districtOption" *ngFor="let districtOption of districts; trackBy: trackById">{{ districtOption.name }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_presentThana">Present Thana</label>
-                    <select class="form-control" id="field_presentThana" name="presentThana" formControlName="presentThana">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="thanaOption.id === editForm.get('presentThana')!.value?.id ? editForm.get('presentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas; trackBy: trackById">{{ thanaOption.name }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_permanentDivision">Permanent Division</label>
-                    <select class="form-control" id="field_permanentDivision" name="permanentDivision" formControlName="permanentDivision">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="divisionOption.id === editForm.get('permanentDivision')!.value?.id ? editForm.get('permanentDivision')!.value : divisionOption" *ngFor="let divisionOption of divisions; trackBy: trackById">{{ divisionOption.name }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_permanentDistrict">Permanent District</label>
-                    <select class="form-control" id="field_permanentDistrict" name="permanentDistrict" formControlName="permanentDistrict">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="districtOption.id === editForm.get('permanentDistrict')!.value?.id ? editForm.get('permanentDistrict')!.value : districtOption" *ngFor="let districtOption of districts; trackBy: trackById">{{ districtOption.name }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_permanentThana">Permanent Thana</label>
-                    <select class="form-control" id="field_permanentThana" name="permanentThana" formControlName="permanentThana">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="thanaOption.id === editForm.get('permanentThana')!.value?.id ? editForm.get('permanentThana')!.value : thanaOption" *ngFor="let thanaOption of thanas; trackBy: trackById">{{ thanaOption.name }}</option>
-                    </select>
-                </div>
             </div>
 
             <div>

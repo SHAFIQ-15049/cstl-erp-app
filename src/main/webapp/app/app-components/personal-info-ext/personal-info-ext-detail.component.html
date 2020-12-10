@@ -1,70 +1,113 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-12 " *ngIf="showLoader" align="center">
+        <span style="align-content: center;"> <fa-icon align="center" icon="spinner" [pulse]="true" size="7x"></fa-icon></span>
+    </div>
+    <div class="col-md-12" *ngIf="!showLoader">
         <div *ngIf="personalInfo">
-            <h2><span>Personal Info</span> {{ personalInfo.id }}</h2>
+            <h2><span>Personal Information</span></h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Name</span></dt>
-                <dd>
-                    <span>{{ personalInfo.name }}</span>
-                </dd>
-                <dt><span>Bangla Name</span></dt>
-                <dd>
-                    <span>{{ personalInfo.banglaName }}</span>
-                </dd>
-                <dt><span>Photo</span></dt>
-                <dd>
-                    <div *ngIf="personalInfo.photo">
-                        <a (click)="openFile(personalInfo.photoContentType, personalInfo.photo)">open</a>
-                        {{ personalInfo.photoContentType }}, {{ byteSize(personalInfo.photo) }}
+            <dl class="row">
+                <div class="col-md-6">
+                    <div class="row">
+                        <dt class="col-md-4"><span>Name</span></dt>
+                        <dd class="col-md-8">
+                            <span>{{ personalInfo.name }}</span>
+                        </dd>
+                        <dt class="col-md-4"><span>Bangla Name</span></dt>
+                        <dd class="col-md-8">
+                            <span>{{ personalInfo.banglaName }}</span>
+                        </dd>
                     </div>
-                </dd>
-                <dt><span>Father Name</span></dt>
-                <dd>
+                </div>
+                <div class="col-md-6">
+                    <dt><span>Photo</span></dt>
+                    <dd>
+                        <div *ngIf="personalInfo.photo">
+                            <img [src]="'data:'+personalInfo.photoContentType +';base64,'+ personalInfo.photo"  class="img-fluid rounded" width="170" height="165" alt="Photo"/>
+                            {{ personalInfo.photoContentType }}, {{ byteSize(personalInfo.photo) }}
+                        </div>
+                    </dd>
+                </div>
+
+
+                <dt class="col-md-2"><span>Father Name</span></dt>
+                <dd class="col-md-4">
                     <span>{{ personalInfo.fatherName }}</span>
                 </dd>
-                <dt><span>Mother Name</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>পিতার নাম</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.fatherNameBangla }}</span>
+                </dd>
+                <dt class="col-md-2"><span>Mother Name</span></dt>
+                <dd class="col-md-4">
                     <span>{{ personalInfo.motherName }}</span>
                 </dd>
-                <dt><span>Marital Status</span></dt>
-                <dd>
-                    <span>{{ personalInfo.maritalStatus }}</span>
+                <dt class="col-md-2"><span>মাতার নাম</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.motherNameBangla }}</span>
                 </dd>
-                <dt><span>Spouse Name</span></dt>
-                <dd>
-                    <span>{{ personalInfo.spouseName }}</span>
-                </dd>
-                <dt><span>Date Of Birth</span></dt>
-                <dd>
-                    <span>{{ personalInfo.dateOfBirth }}</span>
-                </dd>
-                <dt><span>National Id</span></dt>
-                <dd>
-                    <span>{{ personalInfo.nationalId }}</span>
-                </dd>
-                <dt><span>Birth Registration</span></dt>
-                <dd>
-                    <span>{{ personalInfo.birthRegistration }}</span>
-                </dd>
-                <dt><span>Height</span></dt>
-                <dd>
-                    <span>{{ personalInfo.height }}</span>
-                </dd>
-                <dt><span>Gender</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>Gender</span></dt>
+                <dd class="col-md-4">
                     <span>{{ personalInfo.gender }}</span>
                 </dd>
-                <dt><span>Blood Group</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>Marital Status</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.maritalStatus }}</span>
+                </dd>
+                <dt class="col-md-2" *ngIf="personalInfo.maritalStatus==='MARRIED'"><span>Spouse Name</span></dt>
+                <dd class="col-md-4" *ngIf="personalInfo.maritalStatus==='MARRIED'">
+                    <span>{{ personalInfo.spouseName }}</span>
+                </dd>
+                <dt class="col-md-2" *ngIf="personalInfo.maritalStatus==='MARRIED'"><span>Spouse Name Bangla</span></dt>
+                <dd class="col-md-4" *ngIf="personalInfo.maritalStatus==='MARRIED'">
+                    <span>{{ personalInfo.spouseNameBangla }}</span>
+                </dd>
+                <dt class="col-md-2"><span>Date Of Birth</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.dateOfBirth }}</span>
+                </dd>
+                <dt class="col-md-2"><span>Blood Group</span></dt>
+                <dd class="col-md-4">
                     <span>{{ personalInfo.bloodGroup }}</span>
                 </dd>
-                <dt><span>Emergency Contact</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>National Id</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.nationalId }}</span>
+                </dd>
+                <dt class="col-md-2"><span>National Id Attachment</span></dt>
+                <dd class="col-md-4">
+                    <div *ngIf="personalInfo.nationalIdAttachment">
+                        <a (click)="openFile(personalInfo.nationalIdAttachmentContentType, personalInfo.nationalIdAttachment)">open</a>
+                        {{ personalInfo.nationalIdAttachmentContentType }}, {{ byteSize(personalInfo.nationalIdAttachment) }}
+                    </div>
+                </dd>
+                <dt class="col-md-2"><span>Birth Registration</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.birthRegistration }}</span>
+                </dd>
+                <dt class="col-md-2"><span>Birth Registration Attachment</span></dt>
+                <dd class="col-md-4">
+                    <div *ngIf="personalInfo.birthRegistrationAttachment">
+                        <a (click)="openFile(personalInfo.birthRegistrationAttachmentContentType, personalInfo.birthRegistrationAttachment)">open</a>
+                        {{ personalInfo.birthRegistrationAttachmentContentType }}, {{ byteSize(personalInfo.birthRegistrationAttachment) }}
+                    </div>
+                </dd>
+                <dt class="col-md-2"><span>Height</span></dt>
+                <dd class="col-md-4">
+                    <span>{{ personalInfo.height }}</span>
+                </dd>
+
+                <dt class="col-md-2"><span></span></dt>
+                <dd class="col-md-4">
+
+                </dd>
+
+                <dt class="col-md-2"><span>Emergency Contact</span></dt>
+                <dd class="col-md-10">
                     <span>{{ personalInfo.emergencyContact }}</span>
                 </dd>
             </dl>

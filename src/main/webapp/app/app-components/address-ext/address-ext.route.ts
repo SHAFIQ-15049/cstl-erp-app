@@ -36,10 +36,12 @@ export class AddressExtResolve implements Resolve<IAddress> {
     else if(employeeId){
       return this.employeeService.find(employeeId).pipe(
         flatMap((employee: HttpResponse<Employee>)=>{
-          if(employee.body){
+          if(employee.body && !employee.body.address){
             const address = new Address();
             address.employee = employee.body;
             return of(address);
+          }else if(employee.body && employee.body.address){
+            return of(employee.body.address);
           }else{
             this.router.navigate(['404']);
             return EMPTY;
@@ -64,6 +66,18 @@ export const addressExtRoute: Routes = [
   },
   {
     path: ':id/view',
+    component: AddressExtDetailComponent,
+    resolve: {
+      address: AddressExtResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Addresses',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/employee-view',
     component: AddressExtDetailComponent,
     resolve: {
       address: AddressExtResolve,

@@ -62,7 +62,7 @@ export const employeeExtRoute: Routes = [
         loadChildren: () => import('../personal-info-ext/personal-info-ext.module').then(m => m.CodeNodeErpPersonalInfoModule),
       },
       {
-        path: 'address-employee',
+        path: 'address',
         loadChildren: () => import('../address-ext/address-ext.module').then(m => m.CodeNodeErpAddressModule),
       },
       {

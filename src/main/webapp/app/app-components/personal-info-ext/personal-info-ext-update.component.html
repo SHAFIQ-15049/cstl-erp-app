@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-md-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-personal-info-heading">{{!editForm.get('id')!.value?'Add ': 'Update'}} Personal Information</h2>
+            <h2 id="jhi-personal-info-heading">{{!editForm.get('id')!.value?'Add ': 'Edit'}} Personal Information</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
@@ -106,13 +106,13 @@
                         </select>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" *ngIf="editForm.get('maritalStatus')!.value === 'MARRIED'">
                         <label class="form-control-label" for="field_spouseName">Spouse Name</label>
                         <input type="text" class="form-control" name="spouseName" id="field_spouseName"
                                formControlName="spouseName"/>
                     </div>
 
-                    <div class="form-group col-md-6">
+                    <div class="form-group col-md-6" *ngIf="editForm.get('maritalStatus')!.value === 'MARRIED'">
                         <label class="form-control-label" for="field_spouseNameBangla">স্বামী/স্ত্রীর নাম</label>
                         <input type="text" class="form-control" name="spouseNameBangla" id="field_spouseNameBangla"
                                formControlName="spouseNameBangla"/>
