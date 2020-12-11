@@ -14,15 +14,15 @@
                 <div class="col-md-12"><h3>Present Address</h3></div>
                 <dt class="col-md-2"><span>Division</span></dt>
                 <dd class="col-md-4">
-                    <span><b>{{address.presentDivision?.name}}</b></span>
+                    <span *ngIf="address.presentDivision"><b>{{address.presentDivision?.name}}</b></span>
                 </dd>
                 <dt class="col-md-2"><span>District</span></dt>
                 <dd class="col-md-4">
-                    <span><b>{{address.presentDistrict.name}}</b></span>
+                    <span><b>{{address.presentDistrict?.name}}</b></span>
                 </dd>
                 <dt class="col-md-2"><span>Thana</span></dt>
                 <dd class="col-md-4">
-                    <span><b>{{address.presentThana.name}}</b></span>
+                    <span><b>{{address.presentThana?.name}}</b></span>
                 </dd>
                 <div class="col-md-6"></div>
 
