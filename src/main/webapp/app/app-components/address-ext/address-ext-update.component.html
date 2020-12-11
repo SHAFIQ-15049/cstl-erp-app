@@ -54,7 +54,7 @@
                            formControlName="presentPostCode"/>
                 </div>
 
-                <h3>Permanent Address ( <input type="checkbox" name="isSame" id="field_isSame"
+                <h3>Permanent Address ( <input (ngModelChange)="makePresentAndPermanentAddressSame()" type="checkbox" name="isSame" id="field_isSame"
                                                formControlName="isSame"/> same as present )</h3>
                 <div class="row">
                     <div class="form-group col-md-6">

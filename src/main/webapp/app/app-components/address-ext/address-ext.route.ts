@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import {Observable, of, EMPTY, forkJoin} from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
@@ -34,17 +34,18 @@ export class AddressExtResolve implements Resolve<IAddress> {
       );
     }
     else if(employeeId){
-      return this.employeeService.find(employeeId).pipe(
-        flatMap((employee: HttpResponse<Employee>)=>{
-          if(employee.body && !employee.body.address){
-            const address = new Address();
-            address.employee = employee.body;
+     return   forkJoin(
+        this.employeeService.find(employeeId),
+        this.service.query({'employeeId.equals': employeeId})
+      ).pipe(
+        flatMap((res)=>{
+          const employee = res[0].body;
+          const address = res[1].body && res[1].body?.length>0? res[1].body[0]: new Address();
+          if(address?.id){
             return of(address);
-          }else if(employee.body && employee.body.address){
-            return of(employee.body.address);
           }else{
-            this.router.navigate(['404']);
-            return EMPTY;
+            address.employee = employee!;
+            return of(address);
           }
         })
       );

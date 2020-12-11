@@ -73,7 +73,7 @@ export class AddressExtUpdateComponent extends AddressUpdateComponent implements
     });
   }
 
-  duplicatePresentAndPermanentAddress():void{
+  makePresentAndPermanentAddressSame():void{
     if(this.editForm.get('isSame')!.value === true){
       this.editForm.get('permanentDivision')?.setValue(this.editForm.get('presentDivision')?.value);
       this.editForm.get('permanentDistrict')?.setValue(this.editForm.get('presentDistrict')?.value);
