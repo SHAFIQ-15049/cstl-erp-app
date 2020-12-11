@@ -51,8 +51,6 @@ describe('Employee e2e test', () => {
       employeeUpdatePage.statusSelectLastOption(),
       employeeUpdatePage.setTerminationDateInput('2000-12-31'),
       employeeUpdatePage.setTerminationReasonInput('terminationReason'),
-      employeeUpdatePage.addressSelectLastOption(),
-      employeeUpdatePage.personalInfoSelectLastOption(),
       employeeUpdatePage.companySelectLastOption(),
       employeeUpdatePage.departmentSelectLastOption(),
       employeeUpdatePage.gradeSelectLastOption(),

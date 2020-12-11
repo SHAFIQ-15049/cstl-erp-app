@@ -10,10 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 /**
  * Service Implementation for managing {@link Address}.
@@ -53,20 +50,6 @@ public class AddressService {
         return addressRepository.findAll(pageable);
     }
 
-
-
-    /**
-     *  Get all the addresses where Employee is {@code null}.
-     *  @return the list of entities.
-     */
-    @Transactional(readOnly = true) 
-    public List<Address> findAllWhereEmployeeIsNull() {
-        log.debug("Request to get all addresses where Employee is null");
-        return StreamSupport
-            .stream(addressRepository.findAll().spliterator(), false)
-            .filter(address -> address.getEmployee() == null)
-            .collect(Collectors.toList());
-    }
 
     /**
      * Get one address by id.

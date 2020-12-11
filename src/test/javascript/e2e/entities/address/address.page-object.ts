@@ -45,6 +45,7 @@ export class AddressUpdatePage {
   permenentPostCodeBanglaInput = element(by.id('field_permenentPostCodeBangla'));
   isSameInput = element(by.id('field_isSame'));
 
+  employeeSelect = element(by.id('field_employee'));
   presentDivisionSelect = element(by.id('field_presentDivision'));
   presentDistrictSelect = element(by.id('field_presentDistrict'));
   presentThanaSelect = element(by.id('field_presentThana'));
@@ -170,6 +171,22 @@ export class AddressUpdatePage {
 
   getIsSameInput(): ElementFinder {
     return this.isSameInput;
+  }
+
+  async employeeSelectLastOption(): Promise<void> {
+    await this.employeeSelect.all(by.tagName('option')).last().click();
+  }
+
+  async employeeSelectOption(option: string): Promise<void> {
+    await this.employeeSelect.sendKeys(option);
+  }
+
+  getEmployeeSelect(): ElementFinder {
+    return this.employeeSelect;
+  }
+
+  async getEmployeeSelectedOption(): Promise<string> {
+    return await this.employeeSelect.element(by.css('option:checked')).getText();
   }
 
   async presentDivisionSelectLastOption(): Promise<void> {

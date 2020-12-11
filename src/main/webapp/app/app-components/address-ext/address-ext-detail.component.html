@@ -1,84 +1,80 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-12 " *ngIf="showLoader" align="center">
+        <span style="align-content: center;"> <fa-icon align="center" icon="spinner" [pulse]="true" size="7x"></fa-icon></span>
+    </div>
+    <div class="col-md-12" *ngIf="!showLoader">
         <div *ngIf="address">
-            <h2><span>Address</span> {{ address.id }}</h2>
+            <h2><span>Address</span></h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Present Thana Txt</span></dt>
-                <dd>
-                    <span>{{ address.presentThanaTxt }}</span>
+            <dl class="row ">
+                <div class="col-md-12"><h3>Present Address</h3></div>
+                <dt class="col-md-2"><span>Division</span></dt>
+                <dd class="col-md-4">
+                    <span *ngIf="address.presentDivision"><b>{{address.presentDivision?.name}}</b></span>
                 </dd>
-                <dt><span>Present Street</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>District</span></dt>
+                <dd class="col-md-4">
+                    <span><b>{{address.presentDistrict?.name}}</b></span>
+                </dd>
+                <dt class="col-md-2"><span>Thana</span></dt>
+                <dd class="col-md-4">
+                    <span><b>{{address.presentThana?.name}}</b></span>
+                </dd>
+                <div class="col-md-6"></div>
+
+                <dt class="col-md-2"><span>Street</span></dt>
+                <dd class="col-md-10">
                     <span>{{ address.presentStreet }}</span>
                 </dd>
-                <dt><span>Present Area</span></dt>
-                <dd>
+                <dt  class="col-md-2"><span>Area</span></dt>
+                <dd  class="col-md-10">
                     <span>{{ address.presentArea }}</span>
                 </dd>
-                <dt><span>Present Post Code</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>Post Code</span></dt>
+                <dd class="col-md-10">
                     <span>{{ address.presentPostCode }}</span>
                 </dd>
-                <dt><span>Permanent Thana Txt</span></dt>
-                <dd>
-                    <span>{{ address.permanentThanaTxt }}</span>
+
+
+            </dl>
+
+            <dl class="row " id="permanentAddress">
+                <div class="col-md-12"><h3>Permanent Address</h3></div>
+                <dt class="col-md-2"><span>Division</span></dt>
+                <dd class="col-md-4">
+                    <div *ngIf="address.permanentDivision">
+                        <span><b>{{address.permanentDivision.name}}</b></span>
+                    </div>
                 </dd>
-                <dt><span>Permanent Street</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>District</span></dt>
+                <dd class="col-md-4">
+                    <div *ngIf="address.permanentDistrict">
+                        <span><b>{{address.permanentDistrict.name}}</b></span>
+                    </div>
+                </dd>
+                <dt class="col-md-2"><span>Thana</span></dt>
+                <dd class="col-md-4">
+                    <div *ngIf="address.permanentThana">
+                        <span><b>{{address.permanentThana.name}}</b></span>
+                    </div>
+                </dd>
+                <div class="col-md-6"></div>
+
+                <dt class="col-md-2"><span>Street</span></dt>
+                <dd class="col-md-10">
                     <span>{{ address.permanentStreet }}</span>
                 </dd>
-                <dt><span>Permanent Area</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>Area</span></dt>
+                <dd class="col-md-10">
                     <span>{{ address.permanentArea }}</span>
                 </dd>
-                <dt><span>Permanent Post Code</span></dt>
-                <dd>
+                <dt class="col-md-2"><span>Post Code</span></dt>
+                <dd class="col-md-10">
                     <span>{{ address.permanentPostCode }}</span>
-                </dd>
-                <dt><span>Is Same</span></dt>
-                <dd>
-                    <span>{{ address.isSame }}</span>
-                </dd>
-                <dt><span>Present Division</span></dt>
-                <dd>
-                    <div *ngIf="address.presentDivision">
-                        <a [routerLink]="['/division', address.presentDivision?.id, 'view']">{{ address.presentDivision?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Present District</span></dt>
-                <dd>
-                    <div *ngIf="address.presentDistrict">
-                        <a [routerLink]="['/district', address.presentDistrict?.id, 'view']">{{ address.presentDistrict?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Present Thana</span></dt>
-                <dd>
-                    <div *ngIf="address.presentThana">
-                        <a [routerLink]="['/thana', address.presentThana?.id, 'view']">{{ address.presentThana?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Permanent Division</span></dt>
-                <dd>
-                    <div *ngIf="address.permanentDivision">
-                        <a [routerLink]="['/division', address.permanentDivision?.id, 'view']">{{ address.permanentDivision?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Permanent District</span></dt>
-                <dd>
-                    <div *ngIf="address.permanentDistrict">
-                        <a [routerLink]="['/district', address.permanentDistrict?.id, 'view']">{{ address.permanentDistrict?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Permanent Thana</span></dt>
-                <dd>
-                    <div *ngIf="address.permanentThana">
-                        <a [routerLink]="['/thana', address.permanentThana?.id, 'view']">{{ address.permanentThana?.name }}</a>
-                    </div>
                 </dd>
             </dl>
 
@@ -89,7 +85,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/address', address.id, 'edit']"
+                    [routerLink]="['../../../address', address.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

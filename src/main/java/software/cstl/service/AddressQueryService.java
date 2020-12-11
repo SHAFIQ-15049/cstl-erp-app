@@ -130,6 +130,10 @@ public class AddressQueryService extends QueryService<Address> {
             if (criteria.getIsSame() != null) {
                 specification = specification.and(buildSpecification(criteria.getIsSame(), Address_.isSame));
             }
+            if (criteria.getEmployeeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
+                    root -> root.join(Address_.employee, JoinType.LEFT).get(Employee_.id)));
+            }
             if (criteria.getPresentDivisionId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPresentDivisionId(),
                     root -> root.join(Address_.presentDivision, JoinType.LEFT).get(Division_.id)));
@@ -153,10 +157,6 @@ public class AddressQueryService extends QueryService<Address> {
             if (criteria.getPermanentThanaId() != null) {
                 specification = specification.and(buildSpecification(criteria.getPermanentThanaId(),
                     root -> root.join(Address_.permanentThana, JoinType.LEFT).get(Thana_.id)));
-            }
-            if (criteria.getEmployeeId() != null) {
-                specification = specification.and(buildSpecification(criteria.getEmployeeId(),
-                    root -> root.join(Address_.employee, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

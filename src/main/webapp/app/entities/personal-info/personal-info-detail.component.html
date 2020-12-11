@@ -23,6 +23,10 @@
                         {{ personalInfo.photoContentType }}, {{ byteSize(personalInfo.photo) }}
                     </div>
                 </dd>
+                <dt><span>Photo Id</span></dt>
+                <dd>
+                    <span>{{ personalInfo.photoId }}</span>
+                </dd>
                 <dt><span>Father Name</span></dt>
                 <dd>
                     <span>{{ personalInfo.fatherName }}</span>
@@ -47,6 +51,10 @@
                 <dd>
                     <span>{{ personalInfo.spouseName }}</span>
                 </dd>
+                <dt><span>Spouse Name Bangla</span></dt>
+                <dd>
+                    <span>{{ personalInfo.spouseNameBangla }}</span>
+                </dd>
                 <dt><span>Date Of Birth</span></dt>
                 <dd>
                     <span>{{ personalInfo.dateOfBirth }}</span>
@@ -55,9 +63,31 @@
                 <dd>
                     <span>{{ personalInfo.nationalId }}</span>
                 </dd>
+                <dt><span>National Id Attachment</span></dt>
+                <dd>
+                    <div *ngIf="personalInfo.nationalIdAttachment">
+                        <a (click)="openFile(personalInfo.nationalIdAttachmentContentType, personalInfo.nationalIdAttachment)">open</a>
+                        {{ personalInfo.nationalIdAttachmentContentType }}, {{ byteSize(personalInfo.nationalIdAttachment) }}
+                    </div>
+                </dd>
+                <dt><span>National Id Attachment Id</span></dt>
+                <dd>
+                    <span>{{ personalInfo.nationalIdAttachmentId }}</span>
+                </dd>
                 <dt><span>Birth Registration</span></dt>
                 <dd>
                     <span>{{ personalInfo.birthRegistration }}</span>
+                </dd>
+                <dt><span>Birth Registration Attachment</span></dt>
+                <dd>
+                    <div *ngIf="personalInfo.birthRegistrationAttachment">
+                        <a (click)="openFile(personalInfo.birthRegistrationAttachmentContentType, personalInfo.birthRegistrationAttachment)">open</a>
+                        {{ personalInfo.birthRegistrationAttachmentContentType }}, {{ byteSize(personalInfo.birthRegistrationAttachment) }}
+                    </div>
+                </dd>
+                <dt><span>Birth Registration Attachment Id</span></dt>
+                <dd>
+                    <span>{{ personalInfo.birthRegistrationAttachmentId }}</span>
                 </dd>
                 <dt><span>Height</span></dt>
                 <dd>
@@ -74,6 +104,12 @@
                 <dt><span>Emergency Contact</span></dt>
                 <dd>
                     <span>{{ personalInfo.emergencyContact }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="personalInfo.employee">
+                        <a [routerLink]="['/employee', personalInfo.employee?.id, 'view']">{{ personalInfo.employee?.name }}</a>
+                    </div>
                 </dd>
             </dl>
 

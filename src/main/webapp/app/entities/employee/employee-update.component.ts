@@ -4,16 +4,11 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IEmployee, Employee } from 'app/shared/model/employee.model';
 import { EmployeeService } from './employee.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IAddress } from 'app/shared/model/address.model';
-import { AddressService } from 'app/entities/address/address.service';
-import { IPersonalInfo } from 'app/shared/model/personal-info.model';
-import { PersonalInfoService } from 'app/entities/personal-info/personal-info.service';
 import { ICompany } from 'app/shared/model/company.model';
 import { CompanyService } from 'app/entities/company/company.service';
 import { IDepartment } from 'app/shared/model/department.model';
@@ -25,7 +20,7 @@ import { DesignationService } from 'app/entities/designation/designation.service
 import { ILine } from 'app/shared/model/line.model';
 import { LineService } from 'app/entities/line/line.service';
 
-type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGrade | IDesignation | ILine;
+type SelectableEntity = ICompany | IDepartment | IGrade | IDesignation | ILine;
 
 @Component({
   selector: 'jhi-employee-update',
@@ -33,8 +28,6 @@ type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGra
 })
 export class EmployeeUpdateComponent implements OnInit {
   isSaving = false;
-  addresses: IAddress[] = [];
-  personalinfos: IPersonalInfo[] = [];
   companies: ICompany[] = [];
   departments: IDepartment[] = [];
   grades: IGrade[] = [];
@@ -55,8 +48,6 @@ export class EmployeeUpdateComponent implements OnInit {
     status: [],
     terminationDate: [],
     terminationReason: [],
-    address: [],
-    personalInfo: [],
     company: [],
     department: [],
     grade: [],
@@ -68,8 +59,6 @@ export class EmployeeUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected employeeService: EmployeeService,
-    protected addressService: AddressService,
-    protected personalInfoService: PersonalInfoService,
     protected companyService: CompanyService,
     protected departmentService: DepartmentService,
     protected gradeService: GradeService,
@@ -82,50 +71,6 @@ export class EmployeeUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ employee }) => {
       this.updateForm(employee);
-
-      this.addressService
-        .query({ 'employeeId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAddress[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IAddress[]) => {
-          if (!employee.address || !employee.address.id) {
-            this.addresses = resBody;
-          } else {
-            this.addressService
-              .find(employee.address.id)
-              .pipe(
-                map((subRes: HttpResponse<IAddress>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAddress[]) => (this.addresses = concatRes));
-          }
-        });
-
-      this.personalInfoService
-        .query({ 'employeeId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IPersonalInfo[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IPersonalInfo[]) => {
-          if (!employee.personalInfo || !employee.personalInfo.id) {
-            this.personalinfos = resBody;
-          } else {
-            this.personalInfoService
-              .find(employee.personalInfo.id)
-              .pipe(
-                map((subRes: HttpResponse<IPersonalInfo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IPersonalInfo[]) => (this.personalinfos = concatRes));
-          }
-        });
 
       this.companyService.query().subscribe((res: HttpResponse<ICompany[]>) => (this.companies = res.body || []));
 
@@ -152,8 +97,6 @@ export class EmployeeUpdateComponent implements OnInit {
       status: employee.status,
       terminationDate: employee.terminationDate,
       terminationReason: employee.terminationReason,
-      address: employee.address,
-      personalInfo: employee.personalInfo,
       company: employee.company,
       department: employee.department,
       grade: employee.grade,
@@ -206,8 +149,6 @@ export class EmployeeUpdateComponent implements OnInit {
       status: this.editForm.get(['status'])!.value,
       terminationDate: this.editForm.get(['terminationDate'])!.value,
       terminationReason: this.editForm.get(['terminationReason'])!.value,
-      address: this.editForm.get(['address'])!.value,
-      personalInfo: this.editForm.get(['personalInfo'])!.value,
       company: this.editForm.get(['company'])!.value,
       department: this.editForm.get(['department'])!.value,
       grade: this.editForm.get(['grade'])!.value,

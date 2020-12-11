@@ -11,36 +11,19 @@ import { AddressService } from './address.service';
 import { AddressComponent } from './address.component';
 import { AddressDetailComponent } from './address-detail.component';
 import { AddressUpdateComponent } from './address-update.component';
-import {EmployeeService} from "app/entities/employee/employee.service";
-import {Employee} from "app/shared/model/employee.model";
 
 @Injectable({ providedIn: 'root' })
 export class AddressResolve implements Resolve<IAddress> {
-  constructor(private service: AddressService, private employeeService: EmployeeService, private router: Router) {}
+  constructor(private service: AddressService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IAddress> | Observable<never> {
     const id = route.params['id'];
-    const employeeId = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((address: HttpResponse<Address>) => {
           if (address.body) {
             return of(address.body);
           } else {
-            this.router.navigate(['404']);
-            return EMPTY;
-          }
-        })
-      );
-    }
-    else if(employeeId){
-      return this.employeeService.find(employeeId).pipe(
-        flatMap((employee: HttpResponse<Employee>)=>{
-          if(employee.body){
-            const address = new Address();
-            address.employee = employee.body;
-            return of(address);
-          }else{
             this.router.navigate(['404']);
             return EMPTY;
           }
@@ -76,18 +59,6 @@ export const addressRoute: Routes = [
   },
   {
     path: 'new',
-    component: AddressUpdateComponent,
-    resolve: {
-      address: AddressResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'Addresses',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':employeeId/new',
     component: AddressUpdateComponent,
     resolve: {
       address: AddressResolve,

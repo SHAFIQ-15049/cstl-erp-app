@@ -10,15 +10,23 @@ export interface IPersonalInfo {
   banglaName?: string;
   photoContentType?: string;
   photo?: any;
+  photoId?: string;
   fatherName?: string;
   fatherNameBangla?: string;
   motherName?: string;
   motherNameBangla?: string;
   maritalStatus?: MaritalStatus;
   spouseName?: string;
+  spouseNameBangla?: string;
   dateOfBirth?: Moment;
   nationalId?: string;
+  nationalIdAttachmentContentType?: string;
+  nationalIdAttachment?: any;
+  nationalIdAttachmentId?: string;
   birthRegistration?: string;
+  birthRegistrationAttachmentContentType?: string;
+  birthRegistrationAttachment?: any;
+  birthRegistrationAttachmentId?: string;
   height?: number;
   gender?: GenderType;
   bloodGroup?: BloodGroupType;
@@ -33,15 +41,23 @@ export class PersonalInfo implements IPersonalInfo {
     public banglaName?: string,
     public photoContentType?: string,
     public photo?: any,
+    public photoId?: string,
     public fatherName?: string,
     public fatherNameBangla?: string,
     public motherName?: string,
     public motherNameBangla?: string,
     public maritalStatus?: MaritalStatus,
     public spouseName?: string,
+    public spouseNameBangla?: string,
     public dateOfBirth?: Moment,
     public nationalId?: string,
+    public nationalIdAttachmentContentType?: string,
+    public nationalIdAttachment?: any,
+    public nationalIdAttachmentId?: string,
     public birthRegistration?: string,
+    public birthRegistrationAttachmentContentType?: string,
+    public birthRegistrationAttachment?: any,
+    public birthRegistrationAttachmentId?: string,
     public height?: number,
     public gender?: GenderType,
     public bloodGroup?: BloodGroupType,

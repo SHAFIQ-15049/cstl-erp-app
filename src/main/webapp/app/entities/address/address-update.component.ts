@@ -4,9 +4,12 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IAddress, Address } from 'app/shared/model/address.model';
 import { AddressService } from './address.service';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 import { IDivision } from 'app/shared/model/division.model';
 import { DivisionService } from 'app/entities/division/division.service';
 import { IDistrict } from 'app/shared/model/district.model';
@@ -14,7 +17,7 @@ import { DistrictService } from 'app/entities/district/district.service';
 import { IThana } from 'app/shared/model/thana.model';
 import { ThanaService } from 'app/entities/thana/thana.service';
 
-type SelectableEntity = IDivision | IDistrict | IThana;
+type SelectableEntity = IEmployee | IDivision | IDistrict | IThana;
 
 @Component({
   selector: 'jhi-address-update',
@@ -22,6 +25,7 @@ type SelectableEntity = IDivision | IDistrict | IThana;
 })
 export class AddressUpdateComponent implements OnInit {
   isSaving = false;
+  employees: IEmployee[] = [];
   divisions: IDivision[] = [];
   districts: IDistrict[] = [];
   thanas: IThana[] = [];
@@ -43,6 +47,7 @@ export class AddressUpdateComponent implements OnInit {
     permanentPostCode: [],
     permenentPostCodeBangla: [],
     isSame: [],
+    employee: [],
     presentDivision: [],
     presentDistrict: [],
     presentThana: [],
@@ -53,6 +58,7 @@ export class AddressUpdateComponent implements OnInit {
 
   constructor(
     protected addressService: AddressService,
+    protected employeeService: EmployeeService,
     protected divisionService: DivisionService,
     protected districtService: DistrictService,
     protected thanaService: ThanaService,
@@ -63,6 +69,28 @@ export class AddressUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ address }) => {
       this.updateForm(address);
+
+      this.employeeService
+        .query({ 'addressId.specified': 'false' })
+        .pipe(
+          map((res: HttpResponse<IEmployee[]>) => {
+            return res.body || [];
+          })
+        )
+        .subscribe((resBody: IEmployee[]) => {
+          if (!address.employee || !address.employee.id) {
+            this.employees = resBody;
+          } else {
+            this.employeeService
+              .find(address.employee.id)
+              .pipe(
+                map((subRes: HttpResponse<IEmployee>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IEmployee[]) => (this.employees = concatRes));
+          }
+        });
 
       this.divisionService.query().subscribe((res: HttpResponse<IDivision[]>) => (this.divisions = res.body || []));
 
@@ -90,6 +118,7 @@ export class AddressUpdateComponent implements OnInit {
       permanentPostCode: address.permanentPostCode,
       permenentPostCodeBangla: address.permenentPostCodeBangla,
       isSame: address.isSame,
+      employee: address.employee,
       presentDivision: address.presentDivision,
       presentDistrict: address.presentDistrict,
       presentThana: address.presentThana,
@@ -132,6 +161,7 @@ export class AddressUpdateComponent implements OnInit {
       permanentPostCode: this.editForm.get(['permanentPostCode'])!.value,
       permenentPostCodeBangla: this.editForm.get(['permenentPostCodeBangla'])!.value,
       isSame: this.editForm.get(['isSame'])!.value,
+      employee: this.editForm.get(['employee'])!.value,
       presentDivision: this.editForm.get(['presentDivision'])!.value,
       presentDistrict: this.editForm.get(['presentDistrict'])!.value,
       presentThana: this.editForm.get(['presentThana'])!.value,

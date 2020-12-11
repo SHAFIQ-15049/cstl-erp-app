@@ -102,10 +102,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LocalDateFilter terminationDate;
 
-    private LongFilter addressId;
-
-    private LongFilter personalInfoId;
-
     private LongFilter educationalInfoId;
 
     private LongFilter trainingId;
@@ -126,6 +122,10 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LongFilter lineId;
 
+    private LongFilter addressId;
+
+    private LongFilter personalInfoId;
+
     public EmployeeCriteria() {
     }
 
@@ -140,8 +140,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.joiningDate = other.joiningDate == null ? null : other.joiningDate.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.terminationDate = other.terminationDate == null ? null : other.terminationDate.copy();
-        this.addressId = other.addressId == null ? null : other.addressId.copy();
-        this.personalInfoId = other.personalInfoId == null ? null : other.personalInfoId.copy();
         this.educationalInfoId = other.educationalInfoId == null ? null : other.educationalInfoId.copy();
         this.trainingId = other.trainingId == null ? null : other.trainingId.copy();
         this.employeeAccountId = other.employeeAccountId == null ? null : other.employeeAccountId.copy();
@@ -152,6 +150,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.gradeId = other.gradeId == null ? null : other.gradeId.copy();
         this.designationId = other.designationId == null ? null : other.designationId.copy();
         this.lineId = other.lineId == null ? null : other.lineId.copy();
+        this.addressId = other.addressId == null ? null : other.addressId.copy();
+        this.personalInfoId = other.personalInfoId == null ? null : other.personalInfoId.copy();
     }
 
     @Override
@@ -239,22 +239,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.terminationDate = terminationDate;
     }
 
-    public LongFilter getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(LongFilter addressId) {
-        this.addressId = addressId;
-    }
-
-    public LongFilter getPersonalInfoId() {
-        return personalInfoId;
-    }
-
-    public void setPersonalInfoId(LongFilter personalInfoId) {
-        this.personalInfoId = personalInfoId;
-    }
-
     public LongFilter getEducationalInfoId() {
         return educationalInfoId;
     }
@@ -335,6 +319,22 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.lineId = lineId;
     }
 
+    public LongFilter getAddressId() {
+        return addressId;
+    }
+
+    public void setAddressId(LongFilter addressId) {
+        this.addressId = addressId;
+    }
+
+    public LongFilter getPersonalInfoId() {
+        return personalInfoId;
+    }
+
+    public void setPersonalInfoId(LongFilter personalInfoId) {
+        this.personalInfoId = personalInfoId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -356,8 +356,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(joiningDate, that.joiningDate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(terminationDate, that.terminationDate) &&
-            Objects.equals(addressId, that.addressId) &&
-            Objects.equals(personalInfoId, that.personalInfoId) &&
             Objects.equals(educationalInfoId, that.educationalInfoId) &&
             Objects.equals(trainingId, that.trainingId) &&
             Objects.equals(employeeAccountId, that.employeeAccountId) &&
@@ -367,7 +365,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(departmentId, that.departmentId) &&
             Objects.equals(gradeId, that.gradeId) &&
             Objects.equals(designationId, that.designationId) &&
-            Objects.equals(lineId, that.lineId);
+            Objects.equals(lineId, that.lineId) &&
+            Objects.equals(addressId, that.addressId) &&
+            Objects.equals(personalInfoId, that.personalInfoId);
     }
 
     @Override
@@ -383,8 +383,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
         joiningDate,
         status,
         terminationDate,
-        addressId,
-        personalInfoId,
         educationalInfoId,
         trainingId,
         employeeAccountId,
@@ -394,7 +392,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
         departmentId,
         gradeId,
         designationId,
-        lineId
+        lineId,
+        addressId,
+        personalInfoId
         );
     }
 
@@ -412,8 +412,6 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +
-                (addressId != null ? "addressId=" + addressId + ", " : "") +
-                (personalInfoId != null ? "personalInfoId=" + personalInfoId + ", " : "") +
                 (educationalInfoId != null ? "educationalInfoId=" + educationalInfoId + ", " : "") +
                 (trainingId != null ? "trainingId=" + trainingId + ", " : "") +
                 (employeeAccountId != null ? "employeeAccountId=" + employeeAccountId + ", " : "") +
@@ -424,6 +422,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (gradeId != null ? "gradeId=" + gradeId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +
                 (lineId != null ? "lineId=" + lineId + ", " : "") +
+                (addressId != null ? "addressId=" + addressId + ", " : "") +
+                (personalInfoId != null ? "personalInfoId=" + personalInfoId + ", " : "") +
             "}";
     }
 

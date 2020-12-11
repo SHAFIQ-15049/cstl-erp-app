@@ -68,6 +68,12 @@
                 <dd>
                     <span>{{ address.isSame }}</span>
                 </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="address.employee">
+                        <a [routerLink]="['/employee', address.employee?.id, 'view']">{{ address.employee?.name }}</a>
+                    </div>
+                </dd>
                 <dt><span>Present Division</span></dt>
                 <dd>
                     <div *ngIf="address.presentDivision">

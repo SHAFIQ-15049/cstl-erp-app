@@ -15,10 +15,12 @@ type EntityArrayResponseType = HttpResponse<IPersonalInfo[]>;
 
 @Injectable({ providedIn: 'root' })
 export class PersonalInfoExtService extends PersonalInfoService{
-  public resourceUrl = SERVER_API_URL + 'api/personal-infos';
+  public resourceUrl = SERVER_API_URL + 'api/ext/personal-infos';
 
   constructor(protected http: HttpClient) {
     super(http);
   }
+
+
 
 }

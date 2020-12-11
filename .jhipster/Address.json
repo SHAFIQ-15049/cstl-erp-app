@@ -64,6 +64,14 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "address",
+      "relationshipName": "employee",
+      "otherEntityField": "name",
+      "ownerSide": true
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "division",
       "otherEntityRelationshipName": "address",
@@ -104,13 +112,6 @@
       "otherEntityRelationshipName": "address",
       "relationshipName": "permanentThana",
       "otherEntityField": "name"
-    },
-    {
-      "relationshipType": "one-to-one",
-      "otherEntityName": "employee",
-      "otherEntityRelationshipName": "address",
-      "relationshipName": "employee",
-      "ownerSide": false
     }
   ],
   "changelogDate": "20201127213727",

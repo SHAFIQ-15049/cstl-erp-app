@@ -1,6 +1,5 @@
 package software.cstl.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -45,6 +44,9 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Column(name = "photo_content_type")
     private String photoContentType;
 
+    @Column(name = "photo_id")
+    private String photoId;
+
     @NotNull
     @Column(name = "father_name", nullable = false)
     private String fatherName;
@@ -66,14 +68,37 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Column(name = "spouse_name")
     private String spouseName;
 
+    @Column(name = "spouse_name_bangla")
+    private String spouseNameBangla;
+
     @Column(name = "date_of_birth")
     private LocalDate dateOfBirth;
 
     @Column(name = "national_id")
     private String nationalId;
 
+    @Lob
+    @Column(name = "national_id_attachment")
+    private byte[] nationalIdAttachment;
+
+    @Column(name = "national_id_attachment_content_type")
+    private String nationalIdAttachmentContentType;
+
+    @Column(name = "national_id_attachment_id")
+    private String nationalIdAttachmentId;
+
     @Column(name = "birth_registration")
     private String birthRegistration;
+
+    @Lob
+    @Column(name = "birth_registration_attachment")
+    private byte[] birthRegistrationAttachment;
+
+    @Column(name = "birth_registration_attachment_content_type")
+    private String birthRegistrationAttachmentContentType;
+
+    @Column(name = "birth_registration_attachment_id")
+    private String birthRegistrationAttachmentId;
 
     @Column(name = "height")
     private Double height;
@@ -89,8 +114,8 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Column(name = "emergency_contact")
     private String emergencyContact;
 
-    @OneToOne(mappedBy = "personalInfo")
-    @JsonIgnore
+    @OneToOne
+    @JoinColumn(unique = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -152,6 +177,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     public void setPhotoContentType(String photoContentType) {
         this.photoContentType = photoContentType;
+    }
+
+    public String getPhotoId() {
+        return photoId;
+    }
+
+    public PersonalInfo photoId(String photoId) {
+        this.photoId = photoId;
+        return this;
+    }
+
+    public void setPhotoId(String photoId) {
+        this.photoId = photoId;
     }
 
     public String getFatherName() {
@@ -232,6 +270,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
         this.spouseName = spouseName;
     }
 
+    public String getSpouseNameBangla() {
+        return spouseNameBangla;
+    }
+
+    public PersonalInfo spouseNameBangla(String spouseNameBangla) {
+        this.spouseNameBangla = spouseNameBangla;
+        return this;
+    }
+
+    public void setSpouseNameBangla(String spouseNameBangla) {
+        this.spouseNameBangla = spouseNameBangla;
+    }
+
     public LocalDate getDateOfBirth() {
         return dateOfBirth;
     }
@@ -258,6 +309,45 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
         this.nationalId = nationalId;
     }
 
+    public byte[] getNationalIdAttachment() {
+        return nationalIdAttachment;
+    }
+
+    public PersonalInfo nationalIdAttachment(byte[] nationalIdAttachment) {
+        this.nationalIdAttachment = nationalIdAttachment;
+        return this;
+    }
+
+    public void setNationalIdAttachment(byte[] nationalIdAttachment) {
+        this.nationalIdAttachment = nationalIdAttachment;
+    }
+
+    public String getNationalIdAttachmentContentType() {
+        return nationalIdAttachmentContentType;
+    }
+
+    public PersonalInfo nationalIdAttachmentContentType(String nationalIdAttachmentContentType) {
+        this.nationalIdAttachmentContentType = nationalIdAttachmentContentType;
+        return this;
+    }
+
+    public void setNationalIdAttachmentContentType(String nationalIdAttachmentContentType) {
+        this.nationalIdAttachmentContentType = nationalIdAttachmentContentType;
+    }
+
+    public String getNationalIdAttachmentId() {
+        return nationalIdAttachmentId;
+    }
+
+    public PersonalInfo nationalIdAttachmentId(String nationalIdAttachmentId) {
+        this.nationalIdAttachmentId = nationalIdAttachmentId;
+        return this;
+    }
+
+    public void setNationalIdAttachmentId(String nationalIdAttachmentId) {
+        this.nationalIdAttachmentId = nationalIdAttachmentId;
+    }
+
     public String getBirthRegistration() {
         return birthRegistration;
     }
@@ -269,6 +359,45 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
 
     public void setBirthRegistration(String birthRegistration) {
         this.birthRegistration = birthRegistration;
+    }
+
+    public byte[] getBirthRegistrationAttachment() {
+        return birthRegistrationAttachment;
+    }
+
+    public PersonalInfo birthRegistrationAttachment(byte[] birthRegistrationAttachment) {
+        this.birthRegistrationAttachment = birthRegistrationAttachment;
+        return this;
+    }
+
+    public void setBirthRegistrationAttachment(byte[] birthRegistrationAttachment) {
+        this.birthRegistrationAttachment = birthRegistrationAttachment;
+    }
+
+    public String getBirthRegistrationAttachmentContentType() {
+        return birthRegistrationAttachmentContentType;
+    }
+
+    public PersonalInfo birthRegistrationAttachmentContentType(String birthRegistrationAttachmentContentType) {
+        this.birthRegistrationAttachmentContentType = birthRegistrationAttachmentContentType;
+        return this;
+    }
+
+    public void setBirthRegistrationAttachmentContentType(String birthRegistrationAttachmentContentType) {
+        this.birthRegistrationAttachmentContentType = birthRegistrationAttachmentContentType;
+    }
+
+    public String getBirthRegistrationAttachmentId() {
+        return birthRegistrationAttachmentId;
+    }
+
+    public PersonalInfo birthRegistrationAttachmentId(String birthRegistrationAttachmentId) {
+        this.birthRegistrationAttachmentId = birthRegistrationAttachmentId;
+        return this;
+    }
+
+    public void setBirthRegistrationAttachmentId(String birthRegistrationAttachmentId) {
+        this.birthRegistrationAttachmentId = birthRegistrationAttachmentId;
     }
 
     public Double getHeight() {
@@ -362,15 +491,23 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
             ", banglaName='" + getBanglaName() + "'" +
             ", photo='" + getPhoto() + "'" +
             ", photoContentType='" + getPhotoContentType() + "'" +
+            ", photoId='" + getPhotoId() + "'" +
             ", fatherName='" + getFatherName() + "'" +
             ", fatherNameBangla='" + getFatherNameBangla() + "'" +
             ", motherName='" + getMotherName() + "'" +
             ", motherNameBangla='" + getMotherNameBangla() + "'" +
             ", maritalStatus='" + getMaritalStatus() + "'" +
             ", spouseName='" + getSpouseName() + "'" +
+            ", spouseNameBangla='" + getSpouseNameBangla() + "'" +
             ", dateOfBirth='" + getDateOfBirth() + "'" +
             ", nationalId='" + getNationalId() + "'" +
+            ", nationalIdAttachment='" + getNationalIdAttachment() + "'" +
+            ", nationalIdAttachmentContentType='" + getNationalIdAttachmentContentType() + "'" +
+            ", nationalIdAttachmentId='" + getNationalIdAttachmentId() + "'" +
             ", birthRegistration='" + getBirthRegistration() + "'" +
+            ", birthRegistrationAttachment='" + getBirthRegistrationAttachment() + "'" +
+            ", birthRegistrationAttachmentContentType='" + getBirthRegistrationAttachmentContentType() + "'" +
+            ", birthRegistrationAttachmentId='" + getBirthRegistrationAttachmentId() + "'" +
             ", height=" + getHeight() +
             ", gender='" + getGender() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +

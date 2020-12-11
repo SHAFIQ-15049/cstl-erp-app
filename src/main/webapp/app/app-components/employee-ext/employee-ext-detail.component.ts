@@ -43,11 +43,13 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
 
   gotoPersonalInfo():void{
     const employeeId = this.employeeId;
-    if(this.employee?.personalInfo){
-      this.router.navigate([{outlets:{emp: ['personal-info-employee', this.employee.personalInfo.id,'view']}}], {relativeTo: this.activatedRoute});
+    this.router.navigate([{outlets:{emp: ['personal-info', this.employeeId,'employee-view']}}], {relativeTo: this.activatedRoute});
+
+   /* if(this.employee?.personalInfo){
+      this.router.navigate([{outlets:{emp: ['personal-info', this.employee.personalInfo.id,'view']}}], {relativeTo: this.activatedRoute});
     }else{
-      this.router.navigate([{outlets:{emp: ['personal-info-employee', this.employeeId,'new']}}], {relativeTo: this.activatedRoute});
-    }
+      this.router.navigate([{outlets:{emp: ['personal-info', this.employeeId,'new']}}], {relativeTo: this.activatedRoute});
+    }*/
   }
 
   gotoEducationalInfo(): void{

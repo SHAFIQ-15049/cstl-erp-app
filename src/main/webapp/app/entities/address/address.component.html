@@ -38,6 +38,7 @@
                     <th scope="col"  jhiSortBy="permanentPostCode"><span>Permanent Post Code</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="permenentPostCodeBangla"><span>Permenent Post Code Bangla</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="isSame"><span>Is Same</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="presentDivision.name"><span>Present Division</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="presentDistrict.name"><span>Present District</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="presentThana.name"><span>Present Thana</span> <fa-icon icon="sort"></fa-icon></th>
@@ -65,6 +66,11 @@
                     <td>{{ address.permanentPostCode }}</td>
                     <td>{{ address.permenentPostCodeBangla }}</td>
                     <td>{{ address.isSame }}</td>
+                    <td>
+                        <div *ngIf="address.employee">
+                            <a [routerLink]="['/employee', address.employee?.id, 'view']" >{{ address.employee?.name }}</a>
+                        </div>
+                    </td>
                     <td>
                         <div *ngIf="address.presentDivision">
                             <a [routerLink]="['/division', address.presentDivision?.id, 'view']" >{{ address.presentDivision?.name }}</a>

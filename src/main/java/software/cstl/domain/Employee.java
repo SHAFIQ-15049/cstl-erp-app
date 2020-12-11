@@ -1,5 +1,6 @@
 package software.cstl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -70,15 +71,7 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @Column(name = "termination_reason")
     private String terminationReason;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
-    private Address address;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(unique = true)
-    private PersonalInfo personalInfo;
-
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EducationalInfo> educationalInfos = new HashSet<>();
 
@@ -117,6 +110,14 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "employees", allowSetters = true)
     private Line line;
+
+    @OneToOne(mappedBy = "employee")
+    @JsonIgnore
+    private Address address;
+
+    @OneToOne(mappedBy = "employee")
+    @JsonIgnore
+    private PersonalInfo personalInfo;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -255,32 +256,6 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setTerminationReason(String terminationReason) {
         this.terminationReason = terminationReason;
-    }
-
-    public Address getAddress() {
-        return address;
-    }
-
-    public Employee address(Address address) {
-        this.address = address;
-        return this;
-    }
-
-    public void setAddress(Address address) {
-        this.address = address;
-    }
-
-    public PersonalInfo getPersonalInfo() {
-        return personalInfo;
-    }
-
-    public Employee personalInfo(PersonalInfo personalInfo) {
-        this.personalInfo = personalInfo;
-        return this;
-    }
-
-    public void setPersonalInfo(PersonalInfo personalInfo) {
-        this.personalInfo = personalInfo;
     }
 
     public Set<EducationalInfo> getEducationalInfos() {
@@ -471,6 +446,32 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setLine(Line line) {
         this.line = line;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public Employee address(Address address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
+    }
+
+    public PersonalInfo getPersonalInfo() {
+        return personalInfo;
+    }
+
+    public Employee personalInfo(PersonalInfo personalInfo) {
+        this.personalInfo = personalInfo;
+        return this;
+    }
+
+    public void setPersonalInfo(PersonalInfo personalInfo) {
+        this.personalInfo = personalInfo;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

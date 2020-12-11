@@ -72,15 +72,21 @@ entity PersonalInfo {
     name String required,
     banglaName String required,
     photo Blob,
+    photoId String,
     fatherName String required,
     fatherNameBangla String,
     motherName String required,
     motherNameBangla String,
     maritalStatus MaritalStatus,
     spouseName String,
+    spouseNameBangla String ,
     dateOfBirth LocalDate,
     nationalId String,
+    nationalIdAttachment Blob,
+    nationalIdAttachmentId String,
     birthRegistration String,
+    birthRegistrationAttachment Blob,
+    birthRegistrationAttachmentId String,
     height Double,
     gender GenderType,
     bloodGroup BloodGroupType,
@@ -231,8 +237,8 @@ relationship OneToMany{
 
 
 relationship OneToOne{
-    Employee{address} to Address{employee(name)},
-    Employee{personalInfo(name)} to PersonalInfo{employee(name)},
+    Address{employee(name)} to Employee{address},
+    PersonalInfo{employee(name)} to Employee{personalInfo},
 }
 
 service Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass

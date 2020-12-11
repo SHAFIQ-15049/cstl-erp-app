@@ -25,6 +25,7 @@ import { DesignationService } from 'app/entities/designation/designation.service
 import {EmployeeUpdateComponent} from "app/entities/employee/employee-update.component";
 import {LineService} from "app/entities/line/line.service";
 import {ILine} from "app/shared/model/line.model";
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 type SelectableEntity = IAddress | IPersonalInfo | ICompany | IDepartment | IGrade | IDesignation;
 
@@ -38,9 +39,7 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
-    protected employeeService: EmployeeExtService,
-    protected addressService: AddressService,
-    protected personalInfoService: PersonalInfoService,
+    protected employeeService: EmployeeService,
     protected companyService: CompanyService,
     protected departmentService: DepartmentService,
     protected gradeService: GradeService,
@@ -49,7 +48,7 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(dataUtils, eventManager, employeeService, addressService, personalInfoService, companyService, departmentService, gradeService, designationService, lineService, activatedRoute, fb);
+    super(dataUtils, eventManager, employeeService,  companyService, departmentService, gradeService, designationService, lineService, activatedRoute, fb);
   }
 
   ngOnInit(): void {
@@ -57,49 +56,6 @@ export class EmployeeExtUpdateComponent extends EmployeeUpdateComponent implemen
       this.updateForm(employee);
       this.categorySelected();
       this.departmentSelected();
-      this.addressService
-        .query({ 'employeeId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IAddress[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IAddress[]) => {
-          if (!employee.address || !employee.address.id) {
-            this.addresses = resBody;
-          } else {
-            this.addressService
-              .find(employee.address.id)
-              .pipe(
-                map((subRes: HttpResponse<IAddress>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IAddress[]) => (this.addresses = concatRes));
-          }
-        });
-
-      this.personalInfoService
-        .query({ 'employeeId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<IPersonalInfo[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: IPersonalInfo[]) => {
-          if (!employee.personalInfo || !employee.personalInfo.id) {
-            this.personalinfos = resBody;
-          } else {
-            this.personalInfoService
-              .find(employee.personalInfo.id)
-              .pipe(
-                map((subRes: HttpResponse<IPersonalInfo>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: IPersonalInfo[]) => (this.personalinfos = concatRes));
-          }
-        });
 
       this.companyService.query({size:10000}).subscribe((res: HttpResponse<ICompany[]>) => (this.companies = res.body || []));
 

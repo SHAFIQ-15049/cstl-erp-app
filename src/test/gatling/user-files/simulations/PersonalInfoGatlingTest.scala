@@ -75,15 +75,21 @@ class PersonalInfoGatlingTest extends Simulation {
                 , "name":"SAMPLE_TEXT"
                 , "banglaName":"SAMPLE_TEXT"
                 , "photo":null
+                , "photoId":"SAMPLE_TEXT"
                 , "fatherName":"SAMPLE_TEXT"
                 , "fatherNameBangla":"SAMPLE_TEXT"
                 , "motherName":"SAMPLE_TEXT"
                 , "motherNameBangla":"SAMPLE_TEXT"
                 , "maritalStatus":"SINGLE"
                 , "spouseName":"SAMPLE_TEXT"
+                , "spouseNameBangla":"SAMPLE_TEXT"
                 , "dateOfBirth":"2020-01-01T00:00:00.000Z"
                 , "nationalId":"SAMPLE_TEXT"
+                , "nationalIdAttachment":null
+                , "nationalIdAttachmentId":"SAMPLE_TEXT"
                 , "birthRegistration":"SAMPLE_TEXT"
+                , "birthRegistrationAttachment":null
+                , "birthRegistrationAttachmentId":"SAMPLE_TEXT"
                 , "height":null
                 , "gender":"MALE"
                 , "bloodGroup":"A_POSITIVE"

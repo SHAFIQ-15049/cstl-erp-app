@@ -2,8 +2,6 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Employee;
-import software.cstl.domain.Address;
-import software.cstl.domain.PersonalInfo;
 import software.cstl.domain.EducationalInfo;
 import software.cstl.domain.Training;
 import software.cstl.domain.EmployeeAccount;
@@ -14,6 +12,8 @@ import software.cstl.domain.Department;
 import software.cstl.domain.Grade;
 import software.cstl.domain.Designation;
 import software.cstl.domain.Line;
+import software.cstl.domain.Address;
+import software.cstl.domain.PersonalInfo;
 import software.cstl.repository.EmployeeRepository;
 import software.cstl.service.EmployeeService;
 import software.cstl.service.dto.EmployeeCriteria;
@@ -1013,46 +1013,6 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeesByAddressIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-        Address address = AddressResourceIT.createEntity(em);
-        em.persist(address);
-        em.flush();
-        employee.setAddress(address);
-        employeeRepository.saveAndFlush(employee);
-        Long addressId = address.getId();
-
-        // Get all the employeeList where address equals to addressId
-        defaultEmployeeShouldBeFound("addressId.equals=" + addressId);
-
-        // Get all the employeeList where address equals to addressId + 1
-        defaultEmployeeShouldNotBeFound("addressId.equals=" + (addressId + 1));
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllEmployeesByPersonalInfoIsEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeRepository.saveAndFlush(employee);
-        PersonalInfo personalInfo = PersonalInfoResourceIT.createEntity(em);
-        em.persist(personalInfo);
-        em.flush();
-        employee.setPersonalInfo(personalInfo);
-        employeeRepository.saveAndFlush(employee);
-        Long personalInfoId = personalInfo.getId();
-
-        // Get all the employeeList where personalInfo equals to personalInfoId
-        defaultEmployeeShouldBeFound("personalInfoId.equals=" + personalInfoId);
-
-        // Get all the employeeList where personalInfo equals to personalInfoId + 1
-        defaultEmployeeShouldNotBeFound("personalInfoId.equals=" + (personalInfoId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllEmployeesByEducationalInfoIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
@@ -1248,6 +1208,48 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where line equals to lineId + 1
         defaultEmployeeShouldNotBeFound("lineId.equals=" + (lineId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAddressIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Address address = AddressResourceIT.createEntity(em);
+        em.persist(address);
+        em.flush();
+        employee.setAddress(address);
+        address.setEmployee(employee);
+        employeeRepository.saveAndFlush(employee);
+        Long addressId = address.getId();
+
+        // Get all the employeeList where address equals to addressId
+        defaultEmployeeShouldBeFound("addressId.equals=" + addressId);
+
+        // Get all the employeeList where address equals to addressId + 1
+        defaultEmployeeShouldNotBeFound("addressId.equals=" + (addressId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByPersonalInfoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        PersonalInfo personalInfo = PersonalInfoResourceIT.createEntity(em);
+        em.persist(personalInfo);
+        em.flush();
+        employee.setPersonalInfo(personalInfo);
+        personalInfo.setEmployee(employee);
+        employeeRepository.saveAndFlush(employee);
+        Long personalInfoId = personalInfo.getId();
+
+        // Get all the employeeList where personalInfo equals to personalInfoId
+        defaultEmployeeShouldBeFound("personalInfoId.equals=" + personalInfoId);
+
+        // Get all the employeeList where personalInfo equals to personalInfoId + 1
+        defaultEmployeeShouldNotBeFound("personalInfoId.equals=" + (personalInfoId + 1));
     }
 
     /**

@@ -58,39 +58,32 @@ export const employeeExtRoute: Routes = [
     canActivate: [UserRouteAccessService],
     children: [
       {
-        path: 'personal-info-employee',
+        path: 'personal-info',
         loadChildren: () => import('../personal-info-ext/personal-info-ext.module').then(m => m.CodeNodeErpPersonalInfoModule),
-        outlet: 'emp'
       },
       {
-        path: 'address-employee',
+        path: 'address',
         loadChildren: () => import('../address-ext/address-ext.module').then(m => m.CodeNodeErpAddressModule),
-        outlet: 'emp'
       },
       {
         path: 'educational-info',
         loadChildren: () => import('../educational-info-ext/educational-info-ext.module').then(m => m.CodeNodeErpEducationalInfoModule),
-        outlet: 'emp'
       },
       {
         path: 'training',
         loadChildren: () => import('../training-ext/training-ext.module').then(m => m.CodeNodeErpTrainingModule),
-        outlet: 'emp'
       },
       {
         path: 'employee-account',
         loadChildren: () => import('../employee-account-ext/employee-account-ext.module').then(m => m.CodeNodeErpEmployeeAccountModule),
-        outlet: 'emp'
       },
       {
         path: 'job-history',
         loadChildren: () => import('../job-history-ext/job-history-ext.module').then(m => m.CodeNodeErpJobHistoryModule),
-        outlet: 'emp'
       },
       {
         path: 'service-history',
         loadChildren: () => import('../service-history-ext/service-history-ext.module').then(m => m.CodeNodeErpServiceHistoryModule),
-        outlet: 'emp'
       },
     ],
   },

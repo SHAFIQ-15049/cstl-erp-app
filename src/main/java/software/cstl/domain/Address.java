@@ -1,6 +1,5 @@
 package software.cstl.domain;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -68,6 +67,10 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @Column(name = "is_same")
     private Boolean isSame;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Employee employee;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
     private Division presentDivision;
@@ -91,10 +94,6 @@ public class Address extends AbstractAuditingEntity implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "addresses", allowSetters = true)
     private Thana permanentThana;
-
-    @OneToOne(mappedBy = "address")
-    @JsonIgnore
-    private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -300,6 +299,19 @@ public class Address extends AbstractAuditingEntity implements Serializable {
         this.isSame = isSame;
     }
 
+    public Employee getEmployee() {
+        return employee;
+    }
+
+    public Address employee(Employee employee) {
+        this.employee = employee;
+        return this;
+    }
+
+    public void setEmployee(Employee employee) {
+        this.employee = employee;
+    }
+
     public Division getPresentDivision() {
         return presentDivision;
     }
@@ -376,19 +388,6 @@ public class Address extends AbstractAuditingEntity implements Serializable {
 
     public void setPermanentThana(Thana thana) {
         this.permanentThana = thana;
-    }
-
-    public Employee getEmployee() {
-        return employee;
-    }
-
-    public Address employee(Employee employee) {
-        this.employee = employee;
-        return this;
-    }
-
-    public void setEmployee(Employee employee) {
-        this.employee = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
