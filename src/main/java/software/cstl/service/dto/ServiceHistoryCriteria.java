@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.EmployeeType;
+import software.cstl.domain.enumeration.EmployeeCategory;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -41,12 +42,32 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering EmployeeCategory
+     */
+    public static class EmployeeCategoryFilter extends Filter<EmployeeCategory> {
+
+        public EmployeeCategoryFilter() {
+        }
+
+        public EmployeeCategoryFilter(EmployeeCategoryFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeCategoryFilter copy() {
+            return new EmployeeCategoryFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
     private EmployeeTypeFilter employeeType;
+
+    private EmployeeCategoryFilter category;
 
     private LocalDateFilter from;
 
@@ -66,6 +87,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
     public ServiceHistoryCriteria(ServiceHistoryCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.employeeType = other.employeeType == null ? null : other.employeeType.copy();
+        this.category = other.category == null ? null : other.category.copy();
         this.from = other.from == null ? null : other.from.copy();
         this.to = other.to == null ? null : other.to.copy();
         this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
@@ -93,6 +115,14 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
 
     public void setEmployeeType(EmployeeTypeFilter employeeType) {
         this.employeeType = employeeType;
+    }
+
+    public EmployeeCategoryFilter getCategory() {
+        return category;
+    }
+
+    public void setCategory(EmployeeCategoryFilter category) {
+        this.category = category;
     }
 
     public LocalDateFilter getFrom() {
@@ -156,6 +186,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(employeeType, that.employeeType) &&
+            Objects.equals(category, that.category) &&
             Objects.equals(from, that.from) &&
             Objects.equals(to, that.to) &&
             Objects.equals(departmentId, that.departmentId) &&
@@ -169,6 +200,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         employeeType,
+        category,
         from,
         to,
         departmentId,
@@ -184,6 +216,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         return "ServiceHistoryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (employeeType != null ? "employeeType=" + employeeType + ", " : "") +
+                (category != null ? "category=" + category + ", " : "") +
                 (from != null ? "from=" + from + ", " : "") +
                 (to != null ? "to=" + to + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +

@@ -152,6 +152,7 @@ entity ServiceHistory (service_history){
     //designation
     //grade
     employeeType EmployeeType,
+    category EmployeeCategory,
     from LocalDate,
     to LocalDate,
     attachment Blob,

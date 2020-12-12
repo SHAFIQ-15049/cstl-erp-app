@@ -11,6 +11,8 @@ import java.time.LocalDate;
 
 import software.cstl.domain.enumeration.EmployeeType;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
+
 /**
  * A ServiceHistory.
  */
@@ -28,6 +30,10 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
     @Enumerated(EnumType.STRING)
     @Column(name = "employee_type")
     private EmployeeType employeeType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private EmployeeCategory category;
 
     @Column(name = "jhi_from")
     private LocalDate from;
@@ -78,6 +84,19 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
 
     public void setEmployeeType(EmployeeType employeeType) {
         this.employeeType = employeeType;
+    }
+
+    public EmployeeCategory getCategory() {
+        return category;
+    }
+
+    public ServiceHistory category(EmployeeCategory category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(EmployeeCategory category) {
+        this.category = category;
     }
 
     public LocalDate getFrom() {
@@ -207,6 +226,7 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
         return "ServiceHistory{" +
             "id=" + getId() +
             ", employeeType='" + getEmployeeType() + "'" +
+            ", category='" + getCategory() + "'" +
             ", from='" + getFrom() + "'" +
             ", to='" + getTo() + "'" +
             ", attachment='" + getAttachment() + "'" +

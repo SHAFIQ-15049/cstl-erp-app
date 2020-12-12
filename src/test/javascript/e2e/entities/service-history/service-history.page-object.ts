@@ -30,6 +30,7 @@ export class ServiceHistoryUpdatePage {
   cancelButton = element(by.id('cancel-save'));
 
   employeeTypeSelect = element(by.id('field_employeeType'));
+  categorySelect = element(by.id('field_category'));
   fromInput = element(by.id('field_from'));
   toInput = element(by.id('field_to'));
   attachmentInput = element(by.id('file_attachment'));
@@ -53,6 +54,18 @@ export class ServiceHistoryUpdatePage {
 
   async employeeTypeSelectLastOption(): Promise<void> {
     await this.employeeTypeSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setCategorySelect(category: string): Promise<void> {
+    await this.categorySelect.sendKeys(category);
+  }
+
+  async getCategorySelect(): Promise<string> {
+    return await this.categorySelect.element(by.css('option:checked')).getText();
+  }
+
+  async categorySelectLastOption(): Promise<void> {
+    await this.categorySelect.all(by.tagName('option')).last().click();
   }
 
   async setFromInput(from: string): Promise<void> {

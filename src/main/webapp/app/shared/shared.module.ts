@@ -7,11 +7,12 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 import {NgbToastModule} from "@ng-bootstrap/ng-bootstrap";
 import { DivisionFilterPipe } from './pipes/division-filter.pipe';
 import { DistrictFilterPipe } from './pipes/district-filter.pipe';
+import { GradeFilterPipe } from './pipes/grade-filter.pipe';
 
 @NgModule({
   imports: [CodeNodeErpSharedLibsModule],
-  declarations: [AlertComponent, AlertErrorComponent, LoginModalComponent, HasAnyAuthorityDirective, DivisionFilterPipe, DistrictFilterPipe],
+  declarations: [AlertComponent, AlertErrorComponent, LoginModalComponent, HasAnyAuthorityDirective, DivisionFilterPipe, DistrictFilterPipe, GradeFilterPipe],
   entryComponents: [LoginModalComponent],
-  exports: [CodeNodeErpSharedLibsModule, AlertComponent, AlertErrorComponent, LoginModalComponent, HasAnyAuthorityDirective, DivisionFilterPipe, DistrictFilterPipe],
+    exports: [CodeNodeErpSharedLibsModule, AlertComponent, AlertErrorComponent, LoginModalComponent, HasAnyAuthorityDirective, DivisionFilterPipe, DistrictFilterPipe, GradeFilterPipe],
 })
 export class CodeNodeErpSharedModule {}

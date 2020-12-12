@@ -5,6 +5,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { ServiceHistoryService } from 'app/entities/service-history/service-history.service';
 import { IServiceHistory, ServiceHistory } from 'app/shared/model/service-history.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 describe('Service Tests', () => {
   describe('ServiceHistory Service', () => {
@@ -25,7 +26,15 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ServiceHistory(0, EmployeeType.PERMANENT, currentDate, currentDate, 'image/png', 'AAAAAAA');
+      elemDefault = new ServiceHistory(
+        0,
+        EmployeeType.PERMANENT,
+        EmployeeCategory.TOP_LEVEL,
+        currentDate,
+        currentDate,
+        'image/png',
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
@@ -74,6 +83,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             employeeType: 'BBBBBB',
+            category: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
             attachment: 'BBBBBB',
@@ -100,6 +110,7 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             employeeType: 'BBBBBB',
+            category: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
             attachment: 'BBBBBB',

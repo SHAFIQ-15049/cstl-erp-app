@@ -49,6 +49,7 @@ describe('ServiceHistory e2e test', () => {
 
     await promise.all([
       serviceHistoryUpdatePage.employeeTypeSelectLastOption(),
+      serviceHistoryUpdatePage.categorySelectLastOption(),
       serviceHistoryUpdatePage.setFromInput('2000-12-31'),
       serviceHistoryUpdatePage.setToInput('2000-12-31'),
       serviceHistoryUpdatePage.setAttachmentInput(absolutePath),

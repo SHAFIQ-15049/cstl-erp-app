@@ -32,6 +32,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import software.cstl.domain.enumeration.EmployeeType;
+import software.cstl.domain.enumeration.EmployeeCategory;
 /**
  * Integration tests for the {@link ServiceHistoryResource} REST controller.
  */
@@ -42,6 +43,9 @@ public class ServiceHistoryResourceIT {
 
     private static final EmployeeType DEFAULT_EMPLOYEE_TYPE = EmployeeType.PERMANENT;
     private static final EmployeeType UPDATED_EMPLOYEE_TYPE = EmployeeType.TEMPORARY;
+
+    private static final EmployeeCategory DEFAULT_CATEGORY = EmployeeCategory.TOP_LEVEL;
+    private static final EmployeeCategory UPDATED_CATEGORY = EmployeeCategory.MID_LEVEL;
 
     private static final LocalDate DEFAULT_FROM = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FROM = LocalDate.now(ZoneId.systemDefault());
@@ -82,6 +86,7 @@ public class ServiceHistoryResourceIT {
     public static ServiceHistory createEntity(EntityManager em) {
         ServiceHistory serviceHistory = new ServiceHistory()
             .employeeType(DEFAULT_EMPLOYEE_TYPE)
+            .category(DEFAULT_CATEGORY)
             .from(DEFAULT_FROM)
             .to(DEFAULT_TO)
             .attachment(DEFAULT_ATTACHMENT)
@@ -97,6 +102,7 @@ public class ServiceHistoryResourceIT {
     public static ServiceHistory createUpdatedEntity(EntityManager em) {
         ServiceHistory serviceHistory = new ServiceHistory()
             .employeeType(UPDATED_EMPLOYEE_TYPE)
+            .category(UPDATED_CATEGORY)
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
             .attachment(UPDATED_ATTACHMENT)
@@ -124,6 +130,7 @@ public class ServiceHistoryResourceIT {
         assertThat(serviceHistoryList).hasSize(databaseSizeBeforeCreate + 1);
         ServiceHistory testServiceHistory = serviceHistoryList.get(serviceHistoryList.size() - 1);
         assertThat(testServiceHistory.getEmployeeType()).isEqualTo(DEFAULT_EMPLOYEE_TYPE);
+        assertThat(testServiceHistory.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testServiceHistory.getFrom()).isEqualTo(DEFAULT_FROM);
         assertThat(testServiceHistory.getTo()).isEqualTo(DEFAULT_TO);
         assertThat(testServiceHistory.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
@@ -162,6 +169,7 @@ public class ServiceHistoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeType").value(hasItem(DEFAULT_EMPLOYEE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
@@ -180,6 +188,7 @@ public class ServiceHistoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(serviceHistory.getId().intValue()))
             .andExpect(jsonPath("$.employeeType").value(DEFAULT_EMPLOYEE_TYPE.toString()))
+            .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.from").value(DEFAULT_FROM.toString()))
             .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()))
             .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
@@ -256,6 +265,58 @@ public class ServiceHistoryResourceIT {
 
         // Get all the serviceHistoryList where employeeType is null
         defaultServiceHistoryShouldNotBeFound("employeeType.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByCategoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where category equals to DEFAULT_CATEGORY
+        defaultServiceHistoryShouldBeFound("category.equals=" + DEFAULT_CATEGORY);
+
+        // Get all the serviceHistoryList where category equals to UPDATED_CATEGORY
+        defaultServiceHistoryShouldNotBeFound("category.equals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByCategoryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where category not equals to DEFAULT_CATEGORY
+        defaultServiceHistoryShouldNotBeFound("category.notEquals=" + DEFAULT_CATEGORY);
+
+        // Get all the serviceHistoryList where category not equals to UPDATED_CATEGORY
+        defaultServiceHistoryShouldBeFound("category.notEquals=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByCategoryIsInShouldWork() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where category in DEFAULT_CATEGORY or UPDATED_CATEGORY
+        defaultServiceHistoryShouldBeFound("category.in=" + DEFAULT_CATEGORY + "," + UPDATED_CATEGORY);
+
+        // Get all the serviceHistoryList where category equals to UPDATED_CATEGORY
+        defaultServiceHistoryShouldNotBeFound("category.in=" + UPDATED_CATEGORY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByCategoryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where category is not null
+        defaultServiceHistoryShouldBeFound("category.specified=true");
+
+        // Get all the serviceHistoryList where category is null
+        defaultServiceHistoryShouldNotBeFound("category.specified=false");
     }
 
     @Test
@@ -556,6 +617,7 @@ public class ServiceHistoryResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeType").value(hasItem(DEFAULT_EMPLOYEE_TYPE.toString())))
+            .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
@@ -607,6 +669,7 @@ public class ServiceHistoryResourceIT {
         em.detach(updatedServiceHistory);
         updatedServiceHistory
             .employeeType(UPDATED_EMPLOYEE_TYPE)
+            .category(UPDATED_CATEGORY)
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
             .attachment(UPDATED_ATTACHMENT)
@@ -622,6 +685,7 @@ public class ServiceHistoryResourceIT {
         assertThat(serviceHistoryList).hasSize(databaseSizeBeforeUpdate);
         ServiceHistory testServiceHistory = serviceHistoryList.get(serviceHistoryList.size() - 1);
         assertThat(testServiceHistory.getEmployeeType()).isEqualTo(UPDATED_EMPLOYEE_TYPE);
+        assertThat(testServiceHistory.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testServiceHistory.getFrom()).isEqualTo(UPDATED_FROM);
         assertThat(testServiceHistory.getTo()).isEqualTo(UPDATED_TO);
         assertThat(testServiceHistory.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);

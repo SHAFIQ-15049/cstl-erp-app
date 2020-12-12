@@ -22,6 +22,16 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_category">Category</label>
+                    <select class="form-control" name="category" formControlName="category" id="field_category">
+                        <option value="TOP_LEVEL">TOP_LEVEL</option>
+                        <option value="MID_LEVEL">MID_LEVEL</option>
+                        <option value="STAFF">STAFF</option>
+                        <option value="WORKER">WORKER</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_from">From</label>
                     <div class="input-group">
                         <input id="field_from" type="text" class="form-control" name="from" ngbDatepicker #fromDp="ngbDatepicker" formControlName="from"/>

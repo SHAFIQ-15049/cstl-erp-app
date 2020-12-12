@@ -88,6 +88,9 @@ public class ServiceHistoryQueryService extends QueryService<ServiceHistory> {
             if (criteria.getEmployeeType() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeType(), ServiceHistory_.employeeType));
             }
+            if (criteria.getCategory() != null) {
+                specification = specification.and(buildSpecification(criteria.getCategory(), ServiceHistory_.category));
+            }
             if (criteria.getFrom() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFrom(), ServiceHistory_.from));
             }

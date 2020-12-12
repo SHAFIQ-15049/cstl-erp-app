@@ -7,6 +7,11 @@
       "fieldValues": "PERMANENT,TEMPORARY,PART_TIME,CONTRACTUAL"
     },
     {
+      "fieldName": "category",
+      "fieldType": "EmployeeCategory",
+      "fieldValues": "TOP_LEVEL,MID_LEVEL,STAFF,WORKER"
+    },
+    {
       "fieldName": "from",
       "fieldType": "LocalDate"
     },

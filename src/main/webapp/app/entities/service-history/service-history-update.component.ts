@@ -36,6 +36,7 @@ export class ServiceHistoryUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     employeeType: [],
+    category: [],
     from: [],
     to: [],
     attachment: [],
@@ -76,6 +77,7 @@ export class ServiceHistoryUpdateComponent implements OnInit {
     this.editForm.patchValue({
       id: serviceHistory.id,
       employeeType: serviceHistory.employeeType,
+      category: serviceHistory.category,
       from: serviceHistory.from,
       to: serviceHistory.to,
       attachment: serviceHistory.attachment,
@@ -122,6 +124,7 @@ export class ServiceHistoryUpdateComponent implements OnInit {
       ...new ServiceHistory(),
       id: this.editForm.get(['id'])!.value,
       employeeType: this.editForm.get(['employeeType'])!.value,
+      category: this.editForm.get(['category'])!.value,
       from: this.editForm.get(['from'])!.value,
       to: this.editForm.get(['to'])!.value,
       attachmentContentType: this.editForm.get(['attachmentContentType'])!.value,
