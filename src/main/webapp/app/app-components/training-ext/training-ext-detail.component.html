@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="training">
-            <h2><span>Training</span> {{ training.id }}</h2>
+            <h2><span>Training</span> </h2>
 
             <hr>
 
@@ -24,12 +24,14 @@
                 <dd>
                     <span>{{ training.receivedOn }}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
+                <dt><span>Attachment</span></dt>
                 <dd>
-                    <div *ngIf="training.employee">
-                        <a [routerLink]="['/employee', training.employee?.id, 'view']">{{ training.employee?.name }}</a>
+                    <div *ngIf="training.attachment">
+                        <a (click)="openFile(training.attachmentContentType, training.attachment)">open</a>
+                        {{ training.attachmentContentType }}, {{ byteSize(training.attachment) }}
                     </div>
                 </dd>
+
             </dl>
 
             <button type="submit"
@@ -39,7 +41,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/training', training.id, 'edit']"
+                    [routerLink]="['../../../training', training.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

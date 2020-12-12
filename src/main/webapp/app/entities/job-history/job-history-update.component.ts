@@ -24,9 +24,11 @@ export class JobHistoryUpdateComponent implements OnInit {
     id: [],
     serial: [null, [Validators.required]],
     organization: [null, [Validators.required]],
+    designation: [null, [Validators.required]],
     from: [],
     to: [],
-    total: [],
+    payScale: [],
+    totalExperience: [],
     employee: [],
   });
 
@@ -50,9 +52,11 @@ export class JobHistoryUpdateComponent implements OnInit {
       id: jobHistory.id,
       serial: jobHistory.serial,
       organization: jobHistory.organization,
+      designation: jobHistory.designation,
       from: jobHistory.from,
       to: jobHistory.to,
-      total: jobHistory.total,
+      payScale: jobHistory.payScale,
+      totalExperience: jobHistory.totalExperience,
       employee: jobHistory.employee,
     });
   }
@@ -77,9 +81,11 @@ export class JobHistoryUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       serial: this.editForm.get(['serial'])!.value,
       organization: this.editForm.get(['organization'])!.value,
+      designation: this.editForm.get(['designation'])!.value,
       from: this.editForm.get(['from'])!.value,
       to: this.editForm.get(['to'])!.value,
-      total: this.editForm.get(['total'])!.value,
+      payScale: this.editForm.get(['payScale'])!.value,
+      totalExperience: this.editForm.get(['totalExperience'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };
   }

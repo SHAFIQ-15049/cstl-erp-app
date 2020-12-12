@@ -2,10 +2,10 @@
     <h2 id="page-heading">
         <span>Service Histories</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-service-history" [routerLink]="['/service-history/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-service-history" [routerLink]="[employeeId,'new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Service History
+            Add Service History
             </span>
         </button>
     </h2>
@@ -23,53 +23,42 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employeeType"><span>Employee Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="grade.name"><span>Grade</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let serviceHistory of serviceHistories ;trackBy: trackId">
-                    <td><a [routerLink]="['/service-history', serviceHistory.id, 'view']">{{ serviceHistory.id }}</a></td>
-                    <td>{{ serviceHistory.employeeType }}</td>
-                    <td>{{ serviceHistory.from | date:'mediumDate' }}</td>
-                    <td>{{ serviceHistory.to | date:'mediumDate' }}</td>
+                <tr *ngFor="let serviceHistory of serviceHistories ;trackBy: trackId; index as i">
+                    <td><a [routerLink]="['/service-history', serviceHistory.id, 'view']">{{ (page -1) * itemsPerPage + (i+1)}}</a></td>
                     <td>
                         <div *ngIf="serviceHistory.department">
-                            <a [routerLink]="['/department', serviceHistory.department?.id, 'view']" >{{ serviceHistory.department?.name }}</a>
+                            {{ serviceHistory.department?.name }}
                         </div>
                     </td>
                     <td>
                         <div *ngIf="serviceHistory.designation">
-                            <a [routerLink]="['/designation', serviceHistory.designation?.id, 'view']" >{{ serviceHistory.designation?.name }}</a>
+                            {{ serviceHistory.designation?.name }}
                         </div>
                     </td>
-                    <td>
-                        <div *ngIf="serviceHistory.grade">
-                            <a [routerLink]="['/grade', serviceHistory.grade?.id, 'view']" >{{ serviceHistory.grade?.name }}</a>
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="serviceHistory.employee">
-                            <a [routerLink]="['/employee', serviceHistory.employee?.id, 'view']" >{{ serviceHistory.employee?.name }}</a>
-                        </div>
-                    </td>
+                    <td>{{ serviceHistory.employeeType }}</td>
+                    <td>{{ serviceHistory.from | date:'mediumDate' }}</td>
+                    <td>{{ serviceHistory.to | date:'mediumDate' }}</td>
+
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
-                                    [routerLink]="['/service-history', serviceHistory.id, 'view']"
+                                    [routerLink]="[ serviceHistory.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
 
                             <button type="submit"
-                                    [routerLink]="['/service-history', serviceHistory.id, 'edit']"
+                                    [routerLink]="[serviceHistory.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon icon="pencil-alt"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>

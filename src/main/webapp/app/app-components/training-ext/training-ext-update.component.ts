@@ -10,6 +10,8 @@ import { TrainingExtService } from './training-ext.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import {TrainingUpdateComponent} from "app/entities/training/training-update.component";
+import {JhiDataUtils, JhiEventManager} from "ng-jhipster";
+import {TrainingService} from "app/entities/training/training.service";
 
 @Component({
   selector: 'jhi-training-update',
@@ -18,12 +20,14 @@ import {TrainingUpdateComponent} from "app/entities/training/training-update.com
 export class TrainingExtUpdateComponent extends TrainingUpdateComponent implements OnInit {
 
   constructor(
-    protected trainingService: TrainingExtService,
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
+    protected trainingService: TrainingService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(trainingService, employeeService, activatedRoute, fb);
+    super(dataUtils, eventManager, trainingService, employeeService, activatedRoute, fb);
   }
 
 }

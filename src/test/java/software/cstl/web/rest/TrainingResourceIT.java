@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -49,6 +50,11 @@ public class TrainingResourceIT {
     private static final LocalDate UPDATED_RECEIVED_ON = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_RECEIVED_ON = LocalDate.ofEpochDay(-1L);
 
+    private static final byte[] DEFAULT_ATTACHMENT = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_ATTACHMENT = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_ATTACHMENT_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_ATTACHMENT_CONTENT_TYPE = "image/png";
+
     @Autowired
     private TrainingRepository trainingRepository;
 
@@ -77,7 +83,9 @@ public class TrainingResourceIT {
             .serial(DEFAULT_SERIAL)
             .name(DEFAULT_NAME)
             .trainingInstitute(DEFAULT_TRAINING_INSTITUTE)
-            .receivedOn(DEFAULT_RECEIVED_ON);
+            .receivedOn(DEFAULT_RECEIVED_ON)
+            .attachment(DEFAULT_ATTACHMENT)
+            .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE);
         return training;
     }
     /**
@@ -91,7 +99,9 @@ public class TrainingResourceIT {
             .serial(UPDATED_SERIAL)
             .name(UPDATED_NAME)
             .trainingInstitute(UPDATED_TRAINING_INSTITUTE)
-            .receivedOn(UPDATED_RECEIVED_ON);
+            .receivedOn(UPDATED_RECEIVED_ON)
+            .attachment(UPDATED_ATTACHMENT)
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
         return training;
     }
 
@@ -118,6 +128,8 @@ public class TrainingResourceIT {
         assertThat(testTraining.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testTraining.getTrainingInstitute()).isEqualTo(DEFAULT_TRAINING_INSTITUTE);
         assertThat(testTraining.getReceivedOn()).isEqualTo(DEFAULT_RECEIVED_ON);
+        assertThat(testTraining.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
+        assertThat(testTraining.getAttachmentContentType()).isEqualTo(DEFAULT_ATTACHMENT_CONTENT_TYPE);
     }
 
     @Test
@@ -211,7 +223,9 @@ public class TrainingResourceIT {
             .andExpect(jsonPath("$.[*].serial").value(hasItem(DEFAULT_SERIAL)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].trainingInstitute").value(hasItem(DEFAULT_TRAINING_INSTITUTE)))
-            .andExpect(jsonPath("$.[*].receivedOn").value(hasItem(DEFAULT_RECEIVED_ON.toString())));
+            .andExpect(jsonPath("$.[*].receivedOn").value(hasItem(DEFAULT_RECEIVED_ON.toString())))
+            .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
     }
     
     @Test
@@ -228,7 +242,9 @@ public class TrainingResourceIT {
             .andExpect(jsonPath("$.serial").value(DEFAULT_SERIAL))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.trainingInstitute").value(DEFAULT_TRAINING_INSTITUTE))
-            .andExpect(jsonPath("$.receivedOn").value(DEFAULT_RECEIVED_ON.toString()));
+            .andExpect(jsonPath("$.receivedOn").value(DEFAULT_RECEIVED_ON.toString()))
+            .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
+            .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)));
     }
 
 
@@ -647,7 +663,9 @@ public class TrainingResourceIT {
             .andExpect(jsonPath("$.[*].serial").value(hasItem(DEFAULT_SERIAL)))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].trainingInstitute").value(hasItem(DEFAULT_TRAINING_INSTITUTE)))
-            .andExpect(jsonPath("$.[*].receivedOn").value(hasItem(DEFAULT_RECEIVED_ON.toString())));
+            .andExpect(jsonPath("$.[*].receivedOn").value(hasItem(DEFAULT_RECEIVED_ON.toString())))
+            .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
 
         // Check, that the count call also returns 1
         restTrainingMockMvc.perform(get("/api/trainings/count?sort=id,desc&" + filter))
@@ -697,7 +715,9 @@ public class TrainingResourceIT {
             .serial(UPDATED_SERIAL)
             .name(UPDATED_NAME)
             .trainingInstitute(UPDATED_TRAINING_INSTITUTE)
-            .receivedOn(UPDATED_RECEIVED_ON);
+            .receivedOn(UPDATED_RECEIVED_ON)
+            .attachment(UPDATED_ATTACHMENT)
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
 
         restTrainingMockMvc.perform(put("/api/trainings")
             .contentType(MediaType.APPLICATION_JSON)
@@ -712,6 +732,8 @@ public class TrainingResourceIT {
         assertThat(testTraining.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testTraining.getTrainingInstitute()).isEqualTo(UPDATED_TRAINING_INSTITUTE);
         assertThat(testTraining.getReceivedOn()).isEqualTo(UPDATED_RECEIVED_ON);
+        assertThat(testTraining.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);
+        assertThat(testTraining.getAttachmentContentType()).isEqualTo(UPDATED_ATTACHMENT_CONTENT_TYPE);
     }
 
     @Test

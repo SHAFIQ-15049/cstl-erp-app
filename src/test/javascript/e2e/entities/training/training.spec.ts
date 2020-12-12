@@ -2,6 +2,7 @@ import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { TrainingComponentsPage, TrainingDeleteDialog, TrainingUpdatePage } from './training.page-object';
+import * as path from 'path';
 
 const expect = chai.expect;
 
@@ -11,6 +12,9 @@ describe('Training e2e test', () => {
   let trainingComponentsPage: TrainingComponentsPage;
   let trainingUpdatePage: TrainingUpdatePage;
   let trainingDeleteDialog: TrainingDeleteDialog;
+  const fileNameToUpload = 'logo-jhipster.png';
+  const fileToUpload = '../../../../../../src/main/webapp/content/images/' + fileNameToUpload;
+  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(async () => {
     await browser.get('/');
@@ -45,6 +49,7 @@ describe('Training e2e test', () => {
       trainingUpdatePage.setNameInput('name'),
       trainingUpdatePage.setTrainingInstituteInput('trainingInstitute'),
       trainingUpdatePage.setReceivedOnInput('2000-12-31'),
+      trainingUpdatePage.setAttachmentInput(absolutePath),
       trainingUpdatePage.employeeSelectLastOption(),
     ]);
 
@@ -55,6 +60,10 @@ describe('Training e2e test', () => {
       'Expected TrainingInstitute value to be equals to trainingInstitute'
     );
     expect(await trainingUpdatePage.getReceivedOnInput()).to.eq('2000-12-31', 'Expected receivedOn value to be equals to 2000-12-31');
+    expect(await trainingUpdatePage.getAttachmentInput()).to.endsWith(
+      fileNameToUpload,
+      'Expected Attachment value to be end with ' + fileNameToUpload
+    );
 
     await trainingUpdatePage.save();
     expect(await trainingUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

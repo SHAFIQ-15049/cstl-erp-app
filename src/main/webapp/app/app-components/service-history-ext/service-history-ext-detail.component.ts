@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { IServiceHistory } from 'app/shared/model/service-history.model';
 import {ServiceHistoryDetailComponent} from "app/entities/service-history/service-history-detail.component";
+import {JhiDataUtils} from "ng-jhipster";
 
 @Component({
   selector: 'jhi-service-history-detail',
@@ -10,7 +11,7 @@ import {ServiceHistoryDetailComponent} from "app/entities/service-history/servic
 })
 export class ServiceHistoryExtDetailComponent extends ServiceHistoryDetailComponent implements OnInit {
 
-  constructor(protected activatedRoute: ActivatedRoute) {
-    super(activatedRoute);
+  constructor(protected dataUtils: JhiDataUtils, protected activatedRoute: ActivatedRoute) {
+    super(dataUtils, activatedRoute);
   }
 }

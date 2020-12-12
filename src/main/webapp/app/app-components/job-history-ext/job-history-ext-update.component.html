@@ -1,15 +1,11 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-job-history-heading">Create or edit a Job History</h2>
+            <h2 id="jhi-job-history-heading">{{!editForm.get('id')!.value?"Add": "Edit"}} Job History</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_serial">Serial</label>
@@ -18,10 +14,10 @@
                     <div *ngIf="editForm.get('serial')!.invalid && (editForm.get('serial')!.dirty || editForm.get('serial')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('serial')?.errors?.required">
-                        This field is required.
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.get('serial')?.errors?.number">
+                               [hidden]="!editForm.get('serial')?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -34,44 +30,59 @@
                     <div *ngIf="editForm.get('organization')!.invalid && (editForm.get('organization')!.dirty || editForm.get('organization')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('organization')?.errors?.required">
-                        This field is required.
+                            This field is required.
                         </small>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_from">From</label>
-                    <div class="input-group">
-                        <input id="field_from" type="text" class="form-control" name="from" ngbDatepicker #fromDp="ngbDatepicker" formControlName="from"/>
-                        <span class="input-group-append">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <input type="text" class="form-control" name="designation" id="field_designation"
+                           formControlName="designation"/>
+                    <div *ngIf="editForm.get('designation')!.invalid && (editForm.get('designation')!.dirty || editForm.get('designation')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('designation')?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_from">From</label>
+                        <div class="input-group">
+                            <input (ngModelChange)="calculateTotalExperience()" id="field_from" type="text" class="form-control" name="from" ngbDatepicker #fromDp="ngbDatepicker" formControlName="from"/>
+                            <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="fromDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_to">To</label>
-                    <div class="input-group">
-                        <input id="field_to" type="text" class="form-control" name="to" ngbDatepicker #toDp="ngbDatepicker" formControlName="to"/>
-                        <span class="input-group-append">
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_to">To</label>
+                        <div class="input-group">
+                            <input (ngModelChange)="calculateTotalExperience()" id="field_to" type="text" class="form-control" name="to" ngbDatepicker #toDp="ngbDatepicker" formControlName="to"/>
+                            <span class="input-group-append">
                             <button type="button" class="btn btn-secondary" (click)="toDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
+                        </div>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_total">Total</label>
-                    <input type="number" class="form-control" name="total" id="field_total"
-                           formControlName="total"/>
+                    <label class="form-control-label" for="field_totalExperience">Total Experience (In years)</label>
+                    <input type="number" class="form-control" name="totalExperience" id="field_totalExperience"
+                           formControlName="totalExperience"/>
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
-                    </select>
+                    <label class="form-control-label" for="field_payScale">Pay Scale</label>
+                    <input type="number" class="form-control" name="payScale" id="field_payScale"
+                           formControlName="payScale"/>
                 </div>
+
+
+
+
             </div>
 
             <div>

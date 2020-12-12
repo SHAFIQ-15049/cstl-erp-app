@@ -16,6 +16,13 @@
       ]
     },
     {
+      "fieldName": "designation",
+      "fieldType": "String",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "from",
       "fieldType": "LocalDate"
     },
@@ -24,8 +31,12 @@
       "fieldType": "LocalDate"
     },
     {
-      "fieldName": "total",
-      "fieldType": "Integer"
+      "fieldName": "payScale",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "totalExperience",
+      "fieldType": "Double"
     }
   ],
   "relationships": [

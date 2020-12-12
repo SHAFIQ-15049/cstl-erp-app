@@ -18,6 +18,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -42,6 +43,9 @@ public class JobHistoryResourceIT {
     private static final String DEFAULT_ORGANIZATION = "AAAAAAAAAA";
     private static final String UPDATED_ORGANIZATION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_DESIGNATION = "AAAAAAAAAA";
+    private static final String UPDATED_DESIGNATION = "BBBBBBBBBB";
+
     private static final LocalDate DEFAULT_FROM = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FROM = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_FROM = LocalDate.ofEpochDay(-1L);
@@ -50,9 +54,13 @@ public class JobHistoryResourceIT {
     private static final LocalDate UPDATED_TO = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_TO = LocalDate.ofEpochDay(-1L);
 
-    private static final Integer DEFAULT_TOTAL = 1;
-    private static final Integer UPDATED_TOTAL = 2;
-    private static final Integer SMALLER_TOTAL = 1 - 1;
+    private static final BigDecimal DEFAULT_PAY_SCALE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_PAY_SCALE = new BigDecimal(2);
+    private static final BigDecimal SMALLER_PAY_SCALE = new BigDecimal(1 - 1);
+
+    private static final Double DEFAULT_TOTAL_EXPERIENCE = 1D;
+    private static final Double UPDATED_TOTAL_EXPERIENCE = 2D;
+    private static final Double SMALLER_TOTAL_EXPERIENCE = 1D - 1D;
 
     @Autowired
     private JobHistoryRepository jobHistoryRepository;
@@ -81,9 +89,11 @@ public class JobHistoryResourceIT {
         JobHistory jobHistory = new JobHistory()
             .serial(DEFAULT_SERIAL)
             .organization(DEFAULT_ORGANIZATION)
+            .designation(DEFAULT_DESIGNATION)
             .from(DEFAULT_FROM)
             .to(DEFAULT_TO)
-            .total(DEFAULT_TOTAL);
+            .payScale(DEFAULT_PAY_SCALE)
+            .totalExperience(DEFAULT_TOTAL_EXPERIENCE);
         return jobHistory;
     }
     /**
@@ -96,9 +106,11 @@ public class JobHistoryResourceIT {
         JobHistory jobHistory = new JobHistory()
             .serial(UPDATED_SERIAL)
             .organization(UPDATED_ORGANIZATION)
+            .designation(UPDATED_DESIGNATION)
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
-            .total(UPDATED_TOTAL);
+            .payScale(UPDATED_PAY_SCALE)
+            .totalExperience(UPDATED_TOTAL_EXPERIENCE);
         return jobHistory;
     }
 
@@ -123,9 +135,11 @@ public class JobHistoryResourceIT {
         JobHistory testJobHistory = jobHistoryList.get(jobHistoryList.size() - 1);
         assertThat(testJobHistory.getSerial()).isEqualTo(DEFAULT_SERIAL);
         assertThat(testJobHistory.getOrganization()).isEqualTo(DEFAULT_ORGANIZATION);
+        assertThat(testJobHistory.getDesignation()).isEqualTo(DEFAULT_DESIGNATION);
         assertThat(testJobHistory.getFrom()).isEqualTo(DEFAULT_FROM);
         assertThat(testJobHistory.getTo()).isEqualTo(DEFAULT_TO);
-        assertThat(testJobHistory.getTotal()).isEqualTo(DEFAULT_TOTAL);
+        assertThat(testJobHistory.getPayScale()).isEqualTo(DEFAULT_PAY_SCALE);
+        assertThat(testJobHistory.getTotalExperience()).isEqualTo(DEFAULT_TOTAL_EXPERIENCE);
     }
 
     @Test
@@ -188,6 +202,25 @@ public class JobHistoryResourceIT {
 
     @Test
     @Transactional
+    public void checkDesignationIsRequired() throws Exception {
+        int databaseSizeBeforeTest = jobHistoryRepository.findAll().size();
+        // set the field null
+        jobHistory.setDesignation(null);
+
+        // Create the JobHistory, which fails.
+
+
+        restJobHistoryMockMvc.perform(post("/api/job-histories")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(jobHistory)))
+            .andExpect(status().isBadRequest());
+
+        List<JobHistory> jobHistoryList = jobHistoryRepository.findAll();
+        assertThat(jobHistoryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllJobHistories() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
@@ -199,9 +232,11 @@ public class JobHistoryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(jobHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].serial").value(hasItem(DEFAULT_SERIAL)))
             .andExpect(jsonPath("$.[*].organization").value(hasItem(DEFAULT_ORGANIZATION)))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
-            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL)));
+            .andExpect(jsonPath("$.[*].payScale").value(hasItem(DEFAULT_PAY_SCALE.intValue())))
+            .andExpect(jsonPath("$.[*].totalExperience").value(hasItem(DEFAULT_TOTAL_EXPERIENCE.doubleValue())));
     }
     
     @Test
@@ -217,9 +252,11 @@ public class JobHistoryResourceIT {
             .andExpect(jsonPath("$.id").value(jobHistory.getId().intValue()))
             .andExpect(jsonPath("$.serial").value(DEFAULT_SERIAL))
             .andExpect(jsonPath("$.organization").value(DEFAULT_ORGANIZATION))
+            .andExpect(jsonPath("$.designation").value(DEFAULT_DESIGNATION))
             .andExpect(jsonPath("$.from").value(DEFAULT_FROM.toString()))
             .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()))
-            .andExpect(jsonPath("$.total").value(DEFAULT_TOTAL));
+            .andExpect(jsonPath("$.payScale").value(DEFAULT_PAY_SCALE.intValue()))
+            .andExpect(jsonPath("$.totalExperience").value(DEFAULT_TOTAL_EXPERIENCE.doubleValue()));
     }
 
 
@@ -422,6 +459,84 @@ public class JobHistoryResourceIT {
 
         // Get all the jobHistoryList where organization does not contain UPDATED_ORGANIZATION
         defaultJobHistoryShouldBeFound("organization.doesNotContain=" + UPDATED_ORGANIZATION);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation equals to DEFAULT_DESIGNATION
+        defaultJobHistoryShouldBeFound("designation.equals=" + DEFAULT_DESIGNATION);
+
+        // Get all the jobHistoryList where designation equals to UPDATED_DESIGNATION
+        defaultJobHistoryShouldNotBeFound("designation.equals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation not equals to DEFAULT_DESIGNATION
+        defaultJobHistoryShouldNotBeFound("designation.notEquals=" + DEFAULT_DESIGNATION);
+
+        // Get all the jobHistoryList where designation not equals to UPDATED_DESIGNATION
+        defaultJobHistoryShouldBeFound("designation.notEquals=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation in DEFAULT_DESIGNATION or UPDATED_DESIGNATION
+        defaultJobHistoryShouldBeFound("designation.in=" + DEFAULT_DESIGNATION + "," + UPDATED_DESIGNATION);
+
+        // Get all the jobHistoryList where designation equals to UPDATED_DESIGNATION
+        defaultJobHistoryShouldNotBeFound("designation.in=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation is not null
+        defaultJobHistoryShouldBeFound("designation.specified=true");
+
+        // Get all the jobHistoryList where designation is null
+        defaultJobHistoryShouldNotBeFound("designation.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationContainsSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation contains DEFAULT_DESIGNATION
+        defaultJobHistoryShouldBeFound("designation.contains=" + DEFAULT_DESIGNATION);
+
+        // Get all the jobHistoryList where designation contains UPDATED_DESIGNATION
+        defaultJobHistoryShouldNotBeFound("designation.contains=" + UPDATED_DESIGNATION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByDesignationNotContainsSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where designation does not contain DEFAULT_DESIGNATION
+        defaultJobHistoryShouldNotBeFound("designation.doesNotContain=" + DEFAULT_DESIGNATION);
+
+        // Get all the jobHistoryList where designation does not contain UPDATED_DESIGNATION
+        defaultJobHistoryShouldBeFound("designation.doesNotContain=" + UPDATED_DESIGNATION);
     }
 
 
@@ -637,106 +752,211 @@ public class JobHistoryResourceIT {
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsEqualToSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsEqualToSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total equals to DEFAULT_TOTAL
-        defaultJobHistoryShouldBeFound("total.equals=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale equals to DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.equals=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total equals to UPDATED_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.equals=" + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale equals to UPDATED_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.equals=" + UPDATED_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsNotEqualToSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsNotEqualToSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total not equals to DEFAULT_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.notEquals=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale not equals to DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.notEquals=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total not equals to UPDATED_TOTAL
-        defaultJobHistoryShouldBeFound("total.notEquals=" + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale not equals to UPDATED_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.notEquals=" + UPDATED_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsInShouldWork() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsInShouldWork() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total in DEFAULT_TOTAL or UPDATED_TOTAL
-        defaultJobHistoryShouldBeFound("total.in=" + DEFAULT_TOTAL + "," + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale in DEFAULT_PAY_SCALE or UPDATED_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.in=" + DEFAULT_PAY_SCALE + "," + UPDATED_PAY_SCALE);
 
-        // Get all the jobHistoryList where total equals to UPDATED_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.in=" + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale equals to UPDATED_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.in=" + UPDATED_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsNullOrNotNull() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsNullOrNotNull() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total is not null
-        defaultJobHistoryShouldBeFound("total.specified=true");
+        // Get all the jobHistoryList where payScale is not null
+        defaultJobHistoryShouldBeFound("payScale.specified=true");
 
-        // Get all the jobHistoryList where total is null
-        defaultJobHistoryShouldNotBeFound("total.specified=false");
+        // Get all the jobHistoryList where payScale is null
+        defaultJobHistoryShouldNotBeFound("payScale.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total is greater than or equal to DEFAULT_TOTAL
-        defaultJobHistoryShouldBeFound("total.greaterThanOrEqual=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale is greater than or equal to DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.greaterThanOrEqual=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total is greater than or equal to UPDATED_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.greaterThanOrEqual=" + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale is greater than or equal to UPDATED_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.greaterThanOrEqual=" + UPDATED_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total is less than or equal to DEFAULT_TOTAL
-        defaultJobHistoryShouldBeFound("total.lessThanOrEqual=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale is less than or equal to DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.lessThanOrEqual=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total is less than or equal to SMALLER_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.lessThanOrEqual=" + SMALLER_TOTAL);
+        // Get all the jobHistoryList where payScale is less than or equal to SMALLER_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.lessThanOrEqual=" + SMALLER_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsLessThanSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsLessThanSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total is less than DEFAULT_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.lessThan=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale is less than DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.lessThan=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total is less than UPDATED_TOTAL
-        defaultJobHistoryShouldBeFound("total.lessThan=" + UPDATED_TOTAL);
+        // Get all the jobHistoryList where payScale is less than UPDATED_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.lessThan=" + UPDATED_PAY_SCALE);
     }
 
     @Test
     @Transactional
-    public void getAllJobHistoriesByTotalIsGreaterThanSomething() throws Exception {
+    public void getAllJobHistoriesByPayScaleIsGreaterThanSomething() throws Exception {
         // Initialize the database
         jobHistoryRepository.saveAndFlush(jobHistory);
 
-        // Get all the jobHistoryList where total is greater than DEFAULT_TOTAL
-        defaultJobHistoryShouldNotBeFound("total.greaterThan=" + DEFAULT_TOTAL);
+        // Get all the jobHistoryList where payScale is greater than DEFAULT_PAY_SCALE
+        defaultJobHistoryShouldNotBeFound("payScale.greaterThan=" + DEFAULT_PAY_SCALE);
 
-        // Get all the jobHistoryList where total is greater than SMALLER_TOTAL
-        defaultJobHistoryShouldBeFound("total.greaterThan=" + SMALLER_TOTAL);
+        // Get all the jobHistoryList where payScale is greater than SMALLER_PAY_SCALE
+        defaultJobHistoryShouldBeFound("payScale.greaterThan=" + SMALLER_PAY_SCALE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience equals to DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.equals=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience equals to UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.equals=" + UPDATED_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience not equals to DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.notEquals=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience not equals to UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.notEquals=" + UPDATED_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsInShouldWork() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience in DEFAULT_TOTAL_EXPERIENCE or UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.in=" + DEFAULT_TOTAL_EXPERIENCE + "," + UPDATED_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience equals to UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.in=" + UPDATED_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience is not null
+        defaultJobHistoryShouldBeFound("totalExperience.specified=true");
+
+        // Get all the jobHistoryList where totalExperience is null
+        defaultJobHistoryShouldNotBeFound("totalExperience.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience is greater than or equal to DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.greaterThanOrEqual=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience is greater than or equal to UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.greaterThanOrEqual=" + UPDATED_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience is less than or equal to DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.lessThanOrEqual=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience is less than or equal to SMALLER_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.lessThanOrEqual=" + SMALLER_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsLessThanSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience is less than DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.lessThan=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience is less than UPDATED_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.lessThan=" + UPDATED_TOTAL_EXPERIENCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllJobHistoriesByTotalExperienceIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        jobHistoryRepository.saveAndFlush(jobHistory);
+
+        // Get all the jobHistoryList where totalExperience is greater than DEFAULT_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldNotBeFound("totalExperience.greaterThan=" + DEFAULT_TOTAL_EXPERIENCE);
+
+        // Get all the jobHistoryList where totalExperience is greater than SMALLER_TOTAL_EXPERIENCE
+        defaultJobHistoryShouldBeFound("totalExperience.greaterThan=" + SMALLER_TOTAL_EXPERIENCE);
     }
 
 
@@ -769,9 +989,11 @@ public class JobHistoryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(jobHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].serial").value(hasItem(DEFAULT_SERIAL)))
             .andExpect(jsonPath("$.[*].organization").value(hasItem(DEFAULT_ORGANIZATION)))
+            .andExpect(jsonPath("$.[*].designation").value(hasItem(DEFAULT_DESIGNATION)))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
-            .andExpect(jsonPath("$.[*].total").value(hasItem(DEFAULT_TOTAL)));
+            .andExpect(jsonPath("$.[*].payScale").value(hasItem(DEFAULT_PAY_SCALE.intValue())))
+            .andExpect(jsonPath("$.[*].totalExperience").value(hasItem(DEFAULT_TOTAL_EXPERIENCE.doubleValue())));
 
         // Check, that the count call also returns 1
         restJobHistoryMockMvc.perform(get("/api/job-histories/count?sort=id,desc&" + filter))
@@ -820,9 +1042,11 @@ public class JobHistoryResourceIT {
         updatedJobHistory
             .serial(UPDATED_SERIAL)
             .organization(UPDATED_ORGANIZATION)
+            .designation(UPDATED_DESIGNATION)
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
-            .total(UPDATED_TOTAL);
+            .payScale(UPDATED_PAY_SCALE)
+            .totalExperience(UPDATED_TOTAL_EXPERIENCE);
 
         restJobHistoryMockMvc.perform(put("/api/job-histories")
             .contentType(MediaType.APPLICATION_JSON)
@@ -835,9 +1059,11 @@ public class JobHistoryResourceIT {
         JobHistory testJobHistory = jobHistoryList.get(jobHistoryList.size() - 1);
         assertThat(testJobHistory.getSerial()).isEqualTo(UPDATED_SERIAL);
         assertThat(testJobHistory.getOrganization()).isEqualTo(UPDATED_ORGANIZATION);
+        assertThat(testJobHistory.getDesignation()).isEqualTo(UPDATED_DESIGNATION);
         assertThat(testJobHistory.getFrom()).isEqualTo(UPDATED_FROM);
         assertThat(testJobHistory.getTo()).isEqualTo(UPDATED_TO);
-        assertThat(testJobHistory.getTotal()).isEqualTo(UPDATED_TOTAL);
+        assertThat(testJobHistory.getPayScale()).isEqualTo(UPDATED_PAY_SCALE);
+        assertThat(testJobHistory.getTotalExperience()).isEqualTo(UPDATED_TOTAL_EXPERIENCE);
     }
 
     @Test

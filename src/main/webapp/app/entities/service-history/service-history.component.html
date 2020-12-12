@@ -24,8 +24,10 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employeeType"><span>Employee Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attachment"><span>Attachment</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="grade.name"><span>Grade</span> <fa-icon icon="sort"></fa-icon></th>
@@ -37,8 +39,13 @@
                 <tr *ngFor="let serviceHistory of serviceHistories ;trackBy: trackId">
                     <td><a [routerLink]="['/service-history', serviceHistory.id, 'view']">{{ serviceHistory.id }}</a></td>
                     <td>{{ serviceHistory.employeeType }}</td>
+                    <td>{{ serviceHistory.category }}</td>
                     <td>{{ serviceHistory.from | date:'mediumDate' }}</td>
                     <td>{{ serviceHistory.to | date:'mediumDate' }}</td>
+                    <td>
+                        <a *ngIf="serviceHistory.attachment" (click)="openFile(serviceHistory.attachmentContentType, serviceHistory.attachment)">open</a>
+                        <span *ngIf="serviceHistory.attachment">{{ serviceHistory.attachmentContentType }}, {{ byteSize(serviceHistory.attachment) }}</span>
+                    </td>
                     <td>
                         <div *ngIf="serviceHistory.department">
                             <a [routerLink]="['/department', serviceHistory.department?.id, 'view']" >{{ serviceHistory.department?.name }}</a>

@@ -31,9 +31,11 @@ export class JobHistoryUpdatePage {
 
   serialInput = element(by.id('field_serial'));
   organizationInput = element(by.id('field_organization'));
+  designationInput = element(by.id('field_designation'));
   fromInput = element(by.id('field_from'));
   toInput = element(by.id('field_to'));
-  totalInput = element(by.id('field_total'));
+  payScaleInput = element(by.id('field_payScale'));
+  totalExperienceInput = element(by.id('field_totalExperience'));
 
   employeeSelect = element(by.id('field_employee'));
 
@@ -57,6 +59,14 @@ export class JobHistoryUpdatePage {
     return await this.organizationInput.getAttribute('value');
   }
 
+  async setDesignationInput(designation: string): Promise<void> {
+    await this.designationInput.sendKeys(designation);
+  }
+
+  async getDesignationInput(): Promise<string> {
+    return await this.designationInput.getAttribute('value');
+  }
+
   async setFromInput(from: string): Promise<void> {
     await this.fromInput.sendKeys(from);
   }
@@ -73,12 +83,20 @@ export class JobHistoryUpdatePage {
     return await this.toInput.getAttribute('value');
   }
 
-  async setTotalInput(total: string): Promise<void> {
-    await this.totalInput.sendKeys(total);
+  async setPayScaleInput(payScale: string): Promise<void> {
+    await this.payScaleInput.sendKeys(payScale);
   }
 
-  async getTotalInput(): Promise<string> {
-    return await this.totalInput.getAttribute('value');
+  async getPayScaleInput(): Promise<string> {
+    return await this.payScaleInput.getAttribute('value');
+  }
+
+  async setTotalExperienceInput(totalExperience: string): Promise<void> {
+    await this.totalExperienceInput.sendKeys(totalExperience);
+  }
+
+  async getTotalExperienceInput(): Promise<string> {
+    return await this.totalExperienceInput.getAttribute('value');
   }
 
   async employeeSelectLastOption(): Promise<void> {

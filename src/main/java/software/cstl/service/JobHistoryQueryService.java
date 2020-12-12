@@ -91,14 +91,20 @@ public class JobHistoryQueryService extends QueryService<JobHistory> {
             if (criteria.getOrganization() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getOrganization(), JobHistory_.organization));
             }
+            if (criteria.getDesignation() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getDesignation(), JobHistory_.designation));
+            }
             if (criteria.getFrom() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFrom(), JobHistory_.from));
             }
             if (criteria.getTo() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTo(), JobHistory_.to));
             }
-            if (criteria.getTotal() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getTotal(), JobHistory_.total));
+            if (criteria.getPayScale() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPayScale(), JobHistory_.payScale));
+            }
+            if (criteria.getTotalExperience() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalExperience(), JobHistory_.totalExperience));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

@@ -27,6 +27,7 @@
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="trainingInstitute"><span>Training Institute</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="receivedOn"><span>Received On</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attachment"><span>Attachment</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -38,6 +39,10 @@
                     <td>{{ training.name }}</td>
                     <td>{{ training.trainingInstitute }}</td>
                     <td>{{ training.receivedOn | date:'mediumDate' }}</td>
+                    <td>
+                        <a *ngIf="training.attachment" (click)="openFile(training.attachmentContentType, training.attachment)">open</a>
+                        <span *ngIf="training.attachment">{{ training.attachmentContentType }}, {{ byteSize(training.attachment) }}</span>
+                    </td>
                     <td>
                         <div *ngIf="training.employee">
                             <a [routerLink]="['/employee', training.employee?.id, 'view']" >{{ training.employee?.name }}</a>

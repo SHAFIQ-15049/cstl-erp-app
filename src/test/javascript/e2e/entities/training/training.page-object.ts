@@ -33,6 +33,7 @@ export class TrainingUpdatePage {
   nameInput = element(by.id('field_name'));
   trainingInstituteInput = element(by.id('field_trainingInstitute'));
   receivedOnInput = element(by.id('field_receivedOn'));
+  attachmentInput = element(by.id('file_attachment'));
 
   employeeSelect = element(by.id('field_employee'));
 
@@ -70,6 +71,14 @@ export class TrainingUpdatePage {
 
   async getReceivedOnInput(): Promise<string> {
     return await this.receivedOnInput.getAttribute('value');
+  }
+
+  async setAttachmentInput(attachment: string): Promise<void> {
+    await this.attachmentInput.sendKeys(attachment);
+  }
+
+  async getAttachmentInput(): Promise<string> {
+    return await this.attachmentInput.getAttribute('value');
   }
 
   async employeeSelectLastOption(): Promise<void> {
