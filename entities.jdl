@@ -127,7 +127,8 @@ entity Training (training){
     serial Integer required,
     name String required,
     trainingInstitute String required,
-    receivedOn LocalDate
+    receivedOn LocalDate,
+    attachment Blob,
 }
 
 entity EmployeeAccount (emp_account){
@@ -152,7 +153,8 @@ entity ServiceHistory (service_history){
     //grade
     employeeType EmployeeType,
     from LocalDate,
-    to LocalDate
+    to LocalDate,
+    attachment Blob,
 }
 
 enum AccountType{
