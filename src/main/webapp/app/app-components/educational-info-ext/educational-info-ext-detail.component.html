@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="educationalInfo">
-            <h2><span>Educational Info</span> {{ educationalInfo.id }}</h2>
+            <h2><span>Educational Info</span> </h2>
 
             <hr>
 
@@ -35,12 +35,7 @@
                         {{ educationalInfo.attachmentContentType }}, {{ byteSize(educationalInfo.attachment) }}
                     </div>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="educationalInfo.employee">
-                        <a [routerLink]="['/employee', educationalInfo.employee?.id, 'view']">{{ educationalInfo.employee?.name }}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -50,7 +45,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/educational-info', educationalInfo.id, 'edit']"
+                    [routerLink]="['../../../educational-info', educationalInfo.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

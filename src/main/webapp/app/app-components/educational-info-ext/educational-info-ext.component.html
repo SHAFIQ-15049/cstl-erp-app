@@ -2,10 +2,10 @@
     <h2 id="page-heading">
         <span>Educational Infos</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-educational-info" [routerLink]="['new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-educational-info" [routerLink]="[this.employeeId,'new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Educational Info
+            Add Educational Info
             </span>
         </button>
     </h2>
@@ -15,41 +15,27 @@
     <jhi-alert></jhi-alert>
 
     <div class="alert alert-warning" id="no-result" *ngIf="educationalInfos?.length === 0">
-        <span>No educationalInfos found</span>
+        <span>No educational information found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="educationalInfos && educationalInfos.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serial"><span>Serial</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="degree"><span>Degree</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="institution"><span>Institution</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="passingYear"><span>Passing Year</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="courseDuration"><span>Course Duration</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="attachment"><span>Attachment</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let educationalInfo of educationalInfos ;trackBy: trackId">
-                    <td><a [routerLink]="['/educational-info', educationalInfo.id, 'view']">{{ educationalInfo.id }}</a></td>
                     <td>{{ educationalInfo.serial }}</td>
                     <td>{{ educationalInfo.degree }}</td>
                     <td>{{ educationalInfo.institution }}</td>
                     <td>{{ educationalInfo.passingYear }}</td>
-                    <td>{{ educationalInfo.courseDuration }}</td>
-                    <td>
-                        <a *ngIf="educationalInfo.attachment" (click)="openFile(educationalInfo.attachmentContentType, educationalInfo.attachment)">open</a>
-                        <span *ngIf="educationalInfo.attachment">{{ educationalInfo.attachmentContentType }}, {{ byteSize(educationalInfo.attachment) }}</span>
-                    </td>
-                    <td>
-                        <div *ngIf="educationalInfo.employee">
-                            <a [routerLink]="['/employee', educationalInfo.employee?.id, 'view']" >{{ educationalInfo.employee?.name }}</a>
-                        </div>
-                    </td>
+
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

@@ -35,7 +35,6 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
   }
 
   ngOnInit(): void {
-    this.employeeId = this.employeeService.getEmployeeId();
     this.activatedRoute.parent?.url.subscribe((res)=>{
       this.parentRoute = res[res.length -1].path;
     })
@@ -50,7 +49,7 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
         .query({
           page: pageToLoad - 1,
           size: this.itemsPerPage,
-          sort: this.sort(),
+          sort: ['serial,asc'],
           'employeeId.equals': this.employeeService.getEmployeeId()
         })
         .subscribe(
@@ -62,7 +61,7 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
         .query({
           page: pageToLoad - 1,
           size: this.itemsPerPage,
-          sort: this.sort(),
+          sort: ['serial,asc'],
         })
         .subscribe(
           (res: HttpResponse<IEducationalInfo[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -79,6 +78,7 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
+      this.employeeId = +params.get('employeeId')!;
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
@@ -90,11 +90,9 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
   protected onSuccess(data: IEducationalInfo[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
+
     this.educationalInfos = data || [];
     this.ngbPaginationPage = this.page;
   }
 
-  addNew():void{
-    this.router.navigate([{ outlets: { emp: ['educational-info/new'] } }], {relativeTo: this.activatedRoute});
-  }
 }
