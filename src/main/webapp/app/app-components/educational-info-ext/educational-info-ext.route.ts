@@ -64,6 +64,16 @@ export const educationalInfoExtRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':employeeId/employee-view',
+    component: EducationalInfoExtComponent,
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,asc',
+      pageTitle: 'EducationalInfos',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/view',
     component: EducationalInfoExtDetailComponent,
     resolve: {
@@ -77,6 +87,18 @@ export const educationalInfoExtRoute: Routes = [
   },
   {
     path: 'new',
+    component: EducationalInfoExtUpdateComponent,
+    resolve: {
+      educationalInfo: EducationalInfoExtResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'EducationalInfos',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/new',
     component: EducationalInfoExtUpdateComponent,
     resolve: {
       educationalInfo: EducationalInfoExtResolve,
