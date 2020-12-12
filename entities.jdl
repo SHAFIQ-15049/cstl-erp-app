@@ -139,9 +139,11 @@ entity EmployeeAccount (emp_account){
 entity JobHistory (job_history){
     serial Integer required,
     organization String required,
+    designation String required,
     from LocalDate,
     to LocalDate,
-    total Integer
+    payScale BigDecimal,
+    totalExperience Double
 }
 
 entity ServiceHistory (service_history){
