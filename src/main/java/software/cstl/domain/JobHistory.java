@@ -8,6 +8,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 /**
@@ -32,14 +33,21 @@ public class JobHistory extends AbstractAuditingEntity implements Serializable {
     @Column(name = "organization", nullable = false)
     private String organization;
 
+    @NotNull
+    @Column(name = "designation", nullable = false)
+    private String designation;
+
     @Column(name = "jhi_from")
     private LocalDate from;
 
     @Column(name = "jhi_to")
     private LocalDate to;
 
-    @Column(name = "total")
-    private Integer total;
+    @Column(name = "pay_scale", precision = 21, scale = 2)
+    private BigDecimal payScale;
+
+    @Column(name = "total_experience")
+    private Double totalExperience;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "jobHistories", allowSetters = true)
@@ -80,6 +88,19 @@ public class JobHistory extends AbstractAuditingEntity implements Serializable {
         this.organization = organization;
     }
 
+    public String getDesignation() {
+        return designation;
+    }
+
+    public JobHistory designation(String designation) {
+        this.designation = designation;
+        return this;
+    }
+
+    public void setDesignation(String designation) {
+        this.designation = designation;
+    }
+
     public LocalDate getFrom() {
         return from;
     }
@@ -106,17 +127,30 @@ public class JobHistory extends AbstractAuditingEntity implements Serializable {
         this.to = to;
     }
 
-    public Integer getTotal() {
-        return total;
+    public BigDecimal getPayScale() {
+        return payScale;
     }
 
-    public JobHistory total(Integer total) {
-        this.total = total;
+    public JobHistory payScale(BigDecimal payScale) {
+        this.payScale = payScale;
         return this;
     }
 
-    public void setTotal(Integer total) {
-        this.total = total;
+    public void setPayScale(BigDecimal payScale) {
+        this.payScale = payScale;
+    }
+
+    public Double getTotalExperience() {
+        return totalExperience;
+    }
+
+    public JobHistory totalExperience(Double totalExperience) {
+        this.totalExperience = totalExperience;
+        return this;
+    }
+
+    public void setTotalExperience(Double totalExperience) {
+        this.totalExperience = totalExperience;
     }
 
     public Employee getEmployee() {
@@ -156,9 +190,11 @@ public class JobHistory extends AbstractAuditingEntity implements Serializable {
             "id=" + getId() +
             ", serial=" + getSerial() +
             ", organization='" + getOrganization() + "'" +
+            ", designation='" + getDesignation() + "'" +
             ", from='" + getFrom() + "'" +
             ", to='" + getTo() + "'" +
-            ", total=" + getTotal() +
+            ", payScale=" + getPayScale() +
+            ", totalExperience=" + getTotalExperience() +
             "}";
     }
 }

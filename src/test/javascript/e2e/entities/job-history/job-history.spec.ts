@@ -43,9 +43,11 @@ describe('JobHistory e2e test', () => {
     await promise.all([
       jobHistoryUpdatePage.setSerialInput('5'),
       jobHistoryUpdatePage.setOrganizationInput('organization'),
+      jobHistoryUpdatePage.setDesignationInput('designation'),
       jobHistoryUpdatePage.setFromInput('2000-12-31'),
       jobHistoryUpdatePage.setToInput('2000-12-31'),
-      jobHistoryUpdatePage.setTotalInput('5'),
+      jobHistoryUpdatePage.setPayScaleInput('5'),
+      jobHistoryUpdatePage.setTotalExperienceInput('5'),
       jobHistoryUpdatePage.employeeSelectLastOption(),
     ]);
 
@@ -54,9 +56,11 @@ describe('JobHistory e2e test', () => {
       'organization',
       'Expected Organization value to be equals to organization'
     );
+    expect(await jobHistoryUpdatePage.getDesignationInput()).to.eq('designation', 'Expected Designation value to be equals to designation');
     expect(await jobHistoryUpdatePage.getFromInput()).to.eq('2000-12-31', 'Expected from value to be equals to 2000-12-31');
     expect(await jobHistoryUpdatePage.getToInput()).to.eq('2000-12-31', 'Expected to value to be equals to 2000-12-31');
-    expect(await jobHistoryUpdatePage.getTotalInput()).to.eq('5', 'Expected total value to be equals to 5');
+    expect(await jobHistoryUpdatePage.getPayScaleInput()).to.eq('5', 'Expected payScale value to be equals to 5');
+    expect(await jobHistoryUpdatePage.getTotalExperienceInput()).to.eq('5', 'Expected totalExperience value to be equals to 5');
 
     await jobHistoryUpdatePage.save();
     expect(await jobHistoryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

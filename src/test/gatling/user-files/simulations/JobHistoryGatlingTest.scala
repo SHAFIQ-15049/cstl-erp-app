@@ -74,9 +74,11 @@ class JobHistoryGatlingTest extends Simulation {
                 "id":null
                 , "serial":"0"
                 , "organization":"SAMPLE_TEXT"
+                , "designation":"SAMPLE_TEXT"
                 , "from":"2020-01-01T00:00:00.000Z"
                 , "to":"2020-01-01T00:00:00.000Z"
-                , "total":"0"
+                , "payScale":"0"
+                , "totalExperience":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_jobHistory_url"))).exitHereIfFailed

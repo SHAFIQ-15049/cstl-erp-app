@@ -25,9 +25,11 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serial"><span>Serial</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="organization"><span>Organization</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="designation"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="total"><span>Total</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="payScale"><span>Pay Scale</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalExperience"><span>Total Experience</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -37,9 +39,11 @@
                     <td><a [routerLink]="['/job-history', jobHistory.id, 'view']">{{ jobHistory.id }}</a></td>
                     <td>{{ jobHistory.serial }}</td>
                     <td>{{ jobHistory.organization }}</td>
+                    <td>{{ jobHistory.designation }}</td>
                     <td>{{ jobHistory.from | date:'mediumDate' }}</td>
                     <td>{{ jobHistory.to | date:'mediumDate' }}</td>
-                    <td>{{ jobHistory.total }}</td>
+                    <td>{{ jobHistory.payScale }}</td>
+                    <td>{{ jobHistory.totalExperience }}</td>
                     <td>
                         <div *ngIf="jobHistory.employee">
                             <a [routerLink]="['/employee', jobHistory.employee?.id, 'view']" >{{ jobHistory.employee?.name }}</a>

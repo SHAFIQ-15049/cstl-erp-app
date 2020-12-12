@@ -10,6 +10,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
@@ -31,11 +32,15 @@ public class JobHistoryCriteria implements Serializable, Criteria {
 
     private StringFilter organization;
 
+    private StringFilter designation;
+
     private LocalDateFilter from;
 
     private LocalDateFilter to;
 
-    private IntegerFilter total;
+    private BigDecimalFilter payScale;
+
+    private DoubleFilter totalExperience;
 
     private LongFilter employeeId;
 
@@ -46,9 +51,11 @@ public class JobHistoryCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.serial = other.serial == null ? null : other.serial.copy();
         this.organization = other.organization == null ? null : other.organization.copy();
+        this.designation = other.designation == null ? null : other.designation.copy();
         this.from = other.from == null ? null : other.from.copy();
         this.to = other.to == null ? null : other.to.copy();
-        this.total = other.total == null ? null : other.total.copy();
+        this.payScale = other.payScale == null ? null : other.payScale.copy();
+        this.totalExperience = other.totalExperience == null ? null : other.totalExperience.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
@@ -81,6 +88,14 @@ public class JobHistoryCriteria implements Serializable, Criteria {
         this.organization = organization;
     }
 
+    public StringFilter getDesignation() {
+        return designation;
+    }
+
+    public void setDesignation(StringFilter designation) {
+        this.designation = designation;
+    }
+
     public LocalDateFilter getFrom() {
         return from;
     }
@@ -97,12 +112,20 @@ public class JobHistoryCriteria implements Serializable, Criteria {
         this.to = to;
     }
 
-    public IntegerFilter getTotal() {
-        return total;
+    public BigDecimalFilter getPayScale() {
+        return payScale;
     }
 
-    public void setTotal(IntegerFilter total) {
-        this.total = total;
+    public void setPayScale(BigDecimalFilter payScale) {
+        this.payScale = payScale;
+    }
+
+    public DoubleFilter getTotalExperience() {
+        return totalExperience;
+    }
+
+    public void setTotalExperience(DoubleFilter totalExperience) {
+        this.totalExperience = totalExperience;
     }
 
     public LongFilter getEmployeeId() {
@@ -127,9 +150,11 @@ public class JobHistoryCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(serial, that.serial) &&
             Objects.equals(organization, that.organization) &&
+            Objects.equals(designation, that.designation) &&
             Objects.equals(from, that.from) &&
             Objects.equals(to, that.to) &&
-            Objects.equals(total, that.total) &&
+            Objects.equals(payScale, that.payScale) &&
+            Objects.equals(totalExperience, that.totalExperience) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -139,9 +164,11 @@ public class JobHistoryCriteria implements Serializable, Criteria {
         id,
         serial,
         organization,
+        designation,
         from,
         to,
-        total,
+        payScale,
+        totalExperience,
         employeeId
         );
     }
@@ -153,9 +180,11 @@ public class JobHistoryCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (serial != null ? "serial=" + serial + ", " : "") +
                 (organization != null ? "organization=" + organization + ", " : "") +
+                (designation != null ? "designation=" + designation + ", " : "") +
                 (from != null ? "from=" + from + ", " : "") +
                 (to != null ? "to=" + to + ", " : "") +
-                (total != null ? "total=" + total + ", " : "") +
+                (payScale != null ? "payScale=" + payScale + ", " : "") +
+                (totalExperience != null ? "totalExperience=" + totalExperience + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

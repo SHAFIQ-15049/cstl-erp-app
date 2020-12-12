@@ -5,9 +5,11 @@ export interface IJobHistory {
   id?: number;
   serial?: number;
   organization?: string;
+  designation?: string;
   from?: Moment;
   to?: Moment;
-  total?: number;
+  payScale?: number;
+  totalExperience?: number;
   employee?: IEmployee;
 }
 
@@ -16,9 +18,11 @@ export class JobHistory implements IJobHistory {
     public id?: number,
     public serial?: number,
     public organization?: string,
+    public designation?: string,
     public from?: Moment,
     public to?: Moment,
-    public total?: number,
+    public payScale?: number,
+    public totalExperience?: number,
     public employee?: IEmployee
   ) {}
 }
