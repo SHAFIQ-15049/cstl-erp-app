@@ -34,4 +34,12 @@ export class JobHistoryExtUpdateComponent extends JobHistoryUpdateComponent impl
     });
   }
 
+  calculateTotalExperience(): void{
+    if(this.editForm.get('from')?.value && this.editForm.get('to')?.value){
+      const fromDate = this.editForm.get('from')?.value;
+      const toDate = this.editForm.get('to')?.value;
+      this.editForm.get('totalExperience')?.setValue(toDate.diff(fromDate,'years',true).toFixed(2));
+    }
+  }
+
 }

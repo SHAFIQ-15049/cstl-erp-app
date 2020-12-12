@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="jobHistory">
-            <h2><span>Job History</span> {{ jobHistory.id }}</h2>
+            <h2><span>Job History</span> </h2>
 
             <hr>
 
@@ -16,6 +16,10 @@
                 <dd>
                     <span>{{ jobHistory.organization }}</span>
                 </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <span>{{ jobHistory.designation }}</span>
+                </dd>
                 <dt><span>From</span></dt>
                 <dd>
                     <span>{{ jobHistory.from }}</span>
@@ -26,13 +30,7 @@
                 </dd>
                 <dt><span>Total</span></dt>
                 <dd>
-                    <span>{{ jobHistory.total }}</span>
-                </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="jobHistory.employee">
-                        <a [routerLink]="['/employee', jobHistory.employee?.id, 'view']">{{ jobHistory.employee?.name }}</a>
-                    </div>
+                    <span>{{ jobHistory.totalExperience }}</span>
                 </dd>
             </dl>
 
@@ -43,7 +41,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/job-history', jobHistory.id, 'edit']"
+                    [routerLink]="['../../../job-history', jobHistory.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

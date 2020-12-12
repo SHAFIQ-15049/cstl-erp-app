@@ -5,7 +5,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-job-history" [routerLink]="[employeeId,'new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Job History
+            Add Job History
             </span>
         </button>
     </h2>
@@ -22,29 +22,21 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serial"><span>Serial</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="organization"><span>Organization</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="total"><span>Total</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="total"><span>Total Exp (years)</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let jobHistory of jobHistories ;trackBy: trackId">
-                    <td><a [routerLink]="['/job-history', jobHistory.id, 'view']">{{ jobHistory.id }}</a></td>
                     <td>{{ jobHistory.serial }}</td>
                     <td>{{ jobHistory.organization }}</td>
                     <td>{{ jobHistory.from | date:'mediumDate' }}</td>
                     <td>{{ jobHistory.to | date:'mediumDate' }}</td>
-                    <td>{{ jobHistory.total }}</td>
-                    <td>
-                        <div *ngIf="jobHistory.employee">
-                            <a [routerLink]="['/employee', jobHistory.employee?.id, 'view']" >{{ jobHistory.employee?.name }}</a>
-                        </div>
-                    </td>
+                    <td>{{ jobHistory.totalExperience }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
