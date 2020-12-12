@@ -76,6 +76,7 @@ class TrainingGatlingTest extends Simulation {
                 , "name":"SAMPLE_TEXT"
                 , "trainingInstitute":"SAMPLE_TEXT"
                 , "receivedOn":"2020-01-01T00:00:00.000Z"
+                , "attachment":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_training_url"))).exitHereIfFailed

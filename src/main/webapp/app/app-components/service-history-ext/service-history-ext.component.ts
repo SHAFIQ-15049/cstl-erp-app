@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import {JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IServiceHistory } from 'app/shared/model/service-history.model';
@@ -11,6 +11,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { ServiceHistoryExtService } from './service-history-ext.service';
 import { ServiceHistoryExtDeleteDialogComponent } from './service-history-ext-delete-dialog.component';
 import {ServiceHistoryComponent} from "app/entities/service-history/service-history.component";
+import {ServiceHistoryService} from "app/entities/service-history/service-history.service";
 
 @Component({
   selector: 'jhi-service-history',
@@ -20,13 +21,14 @@ export class ServiceHistoryExtComponent extends ServiceHistoryComponent implemen
 
 
   constructor(
-    protected serviceHistoryService: ServiceHistoryExtService,
+    protected serviceHistoryService: ServiceHistoryService,
     protected activatedRoute: ActivatedRoute,
+    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
   ) {
-    super(serviceHistoryService, activatedRoute, router, eventManager, modalService);
+    super(serviceHistoryService, activatedRoute, dataUtils, router, eventManager, modalService);
   }
 
 }

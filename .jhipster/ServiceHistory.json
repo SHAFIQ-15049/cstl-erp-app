@@ -13,6 +13,11 @@
     {
       "fieldName": "to",
       "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "attachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
     }
   ],
   "relationships": [

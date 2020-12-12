@@ -2,6 +2,7 @@ import { browser, ExpectedConditions as ec, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { ServiceHistoryComponentsPage, ServiceHistoryDeleteDialog, ServiceHistoryUpdatePage } from './service-history.page-object';
+import * as path from 'path';
 
 const expect = chai.expect;
 
@@ -11,6 +12,9 @@ describe('ServiceHistory e2e test', () => {
   let serviceHistoryComponentsPage: ServiceHistoryComponentsPage;
   let serviceHistoryUpdatePage: ServiceHistoryUpdatePage;
   let serviceHistoryDeleteDialog: ServiceHistoryDeleteDialog;
+  const fileNameToUpload = 'logo-jhipster.png';
+  const fileToUpload = '../../../../../../src/main/webapp/content/images/' + fileNameToUpload;
+  const absolutePath = path.resolve(__dirname, fileToUpload);
 
   before(async () => {
     await browser.get('/');
@@ -47,6 +51,7 @@ describe('ServiceHistory e2e test', () => {
       serviceHistoryUpdatePage.employeeTypeSelectLastOption(),
       serviceHistoryUpdatePage.setFromInput('2000-12-31'),
       serviceHistoryUpdatePage.setToInput('2000-12-31'),
+      serviceHistoryUpdatePage.setAttachmentInput(absolutePath),
       serviceHistoryUpdatePage.departmentSelectLastOption(),
       serviceHistoryUpdatePage.designationSelectLastOption(),
       serviceHistoryUpdatePage.gradeSelectLastOption(),
@@ -55,6 +60,10 @@ describe('ServiceHistory e2e test', () => {
 
     expect(await serviceHistoryUpdatePage.getFromInput()).to.eq('2000-12-31', 'Expected from value to be equals to 2000-12-31');
     expect(await serviceHistoryUpdatePage.getToInput()).to.eq('2000-12-31', 'Expected to value to be equals to 2000-12-31');
+    expect(await serviceHistoryUpdatePage.getAttachmentInput()).to.endsWith(
+      fileNameToUpload,
+      'Expected Attachment value to be end with ' + fileNameToUpload
+    );
 
     await serviceHistoryUpdatePage.save();
     expect(await serviceHistoryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

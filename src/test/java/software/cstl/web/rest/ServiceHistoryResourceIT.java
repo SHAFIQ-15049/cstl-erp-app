@@ -20,6 +20,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -50,6 +51,11 @@ public class ServiceHistoryResourceIT {
     private static final LocalDate UPDATED_TO = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_TO = LocalDate.ofEpochDay(-1L);
 
+    private static final byte[] DEFAULT_ATTACHMENT = TestUtil.createByteArray(1, "0");
+    private static final byte[] UPDATED_ATTACHMENT = TestUtil.createByteArray(1, "1");
+    private static final String DEFAULT_ATTACHMENT_CONTENT_TYPE = "image/jpg";
+    private static final String UPDATED_ATTACHMENT_CONTENT_TYPE = "image/png";
+
     @Autowired
     private ServiceHistoryRepository serviceHistoryRepository;
 
@@ -77,7 +83,9 @@ public class ServiceHistoryResourceIT {
         ServiceHistory serviceHistory = new ServiceHistory()
             .employeeType(DEFAULT_EMPLOYEE_TYPE)
             .from(DEFAULT_FROM)
-            .to(DEFAULT_TO);
+            .to(DEFAULT_TO)
+            .attachment(DEFAULT_ATTACHMENT)
+            .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE);
         return serviceHistory;
     }
     /**
@@ -90,7 +98,9 @@ public class ServiceHistoryResourceIT {
         ServiceHistory serviceHistory = new ServiceHistory()
             .employeeType(UPDATED_EMPLOYEE_TYPE)
             .from(UPDATED_FROM)
-            .to(UPDATED_TO);
+            .to(UPDATED_TO)
+            .attachment(UPDATED_ATTACHMENT)
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
         return serviceHistory;
     }
 
@@ -116,6 +126,8 @@ public class ServiceHistoryResourceIT {
         assertThat(testServiceHistory.getEmployeeType()).isEqualTo(DEFAULT_EMPLOYEE_TYPE);
         assertThat(testServiceHistory.getFrom()).isEqualTo(DEFAULT_FROM);
         assertThat(testServiceHistory.getTo()).isEqualTo(DEFAULT_TO);
+        assertThat(testServiceHistory.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
+        assertThat(testServiceHistory.getAttachmentContentType()).isEqualTo(DEFAULT_ATTACHMENT_CONTENT_TYPE);
     }
 
     @Test
@@ -151,7 +163,9 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeType").value(hasItem(DEFAULT_EMPLOYEE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
-            .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())));
+            .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
+            .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
     }
     
     @Test
@@ -167,7 +181,9 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.id").value(serviceHistory.getId().intValue()))
             .andExpect(jsonPath("$.employeeType").value(DEFAULT_EMPLOYEE_TYPE.toString()))
             .andExpect(jsonPath("$.from").value(DEFAULT_FROM.toString()))
-            .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()));
+            .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()))
+            .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
+            .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)));
     }
 
 
@@ -541,7 +557,9 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(serviceHistory.getId().intValue())))
             .andExpect(jsonPath("$.[*].employeeType").value(hasItem(DEFAULT_EMPLOYEE_TYPE.toString())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
-            .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())));
+            .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
+            .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
 
         // Check, that the count call also returns 1
         restServiceHistoryMockMvc.perform(get("/api/service-histories/count?sort=id,desc&" + filter))
@@ -590,7 +608,9 @@ public class ServiceHistoryResourceIT {
         updatedServiceHistory
             .employeeType(UPDATED_EMPLOYEE_TYPE)
             .from(UPDATED_FROM)
-            .to(UPDATED_TO);
+            .to(UPDATED_TO)
+            .attachment(UPDATED_ATTACHMENT)
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
 
         restServiceHistoryMockMvc.perform(put("/api/service-histories")
             .contentType(MediaType.APPLICATION_JSON)
@@ -604,6 +624,8 @@ public class ServiceHistoryResourceIT {
         assertThat(testServiceHistory.getEmployeeType()).isEqualTo(UPDATED_EMPLOYEE_TYPE);
         assertThat(testServiceHistory.getFrom()).isEqualTo(UPDATED_FROM);
         assertThat(testServiceHistory.getTo()).isEqualTo(UPDATED_TO);
+        assertThat(testServiceHistory.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);
+        assertThat(testServiceHistory.getAttachmentContentType()).isEqualTo(UPDATED_ATTACHMENT_CONTENT_TYPE);
     }
 
     @Test

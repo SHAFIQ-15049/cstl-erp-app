@@ -22,27 +22,19 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="serial"><span>Serial</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="trainingInstitute"><span>Training Institute</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="receivedOn"><span>Received On</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let training of trainings ;trackBy: trackId">
-                    <td><a [routerLink]="['/training', training.id, 'view']">{{ training.id }}</a></td>
                     <td>{{ training.serial }}</td>
                     <td>{{ training.name }}</td>
                     <td>{{ training.trainingInstitute }}</td>
                     <td>{{ training.receivedOn | date:'mediumDate' }}</td>
-                    <td>
-                        <div *ngIf="training.employee">
-                            <a [routerLink]="['/employee', training.employee?.id, 'view']" >{{ training.employee?.name }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

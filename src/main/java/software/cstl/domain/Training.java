@@ -39,6 +39,13 @@ public class Training extends AbstractAuditingEntity implements Serializable {
     @Column(name = "received_on")
     private LocalDate receivedOn;
 
+    @Lob
+    @Column(name = "attachment")
+    private byte[] attachment;
+
+    @Column(name = "attachment_content_type")
+    private String attachmentContentType;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "trainings", allowSetters = true)
     private Employee employee;
@@ -104,6 +111,32 @@ public class Training extends AbstractAuditingEntity implements Serializable {
         this.receivedOn = receivedOn;
     }
 
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public Training attachment(byte[] attachment) {
+        this.attachment = attachment;
+        return this;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getAttachmentContentType() {
+        return attachmentContentType;
+    }
+
+    public Training attachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
+        return this;
+    }
+
+    public void setAttachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -143,6 +176,8 @@ public class Training extends AbstractAuditingEntity implements Serializable {
             ", name='" + getName() + "'" +
             ", trainingInstitute='" + getTrainingInstitute() + "'" +
             ", receivedOn='" + getReceivedOn() + "'" +
+            ", attachment='" + getAttachment() + "'" +
+            ", attachmentContentType='" + getAttachmentContentType() + "'" +
             "}";
     }
 }

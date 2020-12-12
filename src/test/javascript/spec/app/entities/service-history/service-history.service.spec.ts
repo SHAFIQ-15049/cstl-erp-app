@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new ServiceHistory(0, EmployeeType.PERMANENT, currentDate, currentDate);
+      elemDefault = new ServiceHistory(0, EmployeeType.PERMANENT, currentDate, currentDate, 'image/png', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -76,6 +76,7 @@ describe('Service Tests', () => {
             employeeType: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
+            attachment: 'BBBBBB',
           },
           elemDefault
         );
@@ -101,6 +102,7 @@ describe('Service Tests', () => {
             employeeType: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
+            attachment: 'BBBBBB',
           },
           elemDefault
         );

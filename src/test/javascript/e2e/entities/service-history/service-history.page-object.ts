@@ -32,6 +32,7 @@ export class ServiceHistoryUpdatePage {
   employeeTypeSelect = element(by.id('field_employeeType'));
   fromInput = element(by.id('field_from'));
   toInput = element(by.id('field_to'));
+  attachmentInput = element(by.id('file_attachment'));
 
   departmentSelect = element(by.id('field_department'));
   designationSelect = element(by.id('field_designation'));
@@ -68,6 +69,14 @@ export class ServiceHistoryUpdatePage {
 
   async getToInput(): Promise<string> {
     return await this.toInput.getAttribute('value');
+  }
+
+  async setAttachmentInput(attachment: string): Promise<void> {
+    await this.attachmentInput.sendKeys(attachment);
+  }
+
+  async getAttachmentInput(): Promise<string> {
+    return await this.attachmentInput.getAttribute('value');
   }
 
   async departmentSelectLastOption(): Promise<void> {

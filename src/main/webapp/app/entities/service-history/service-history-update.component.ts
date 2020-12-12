@@ -4,9 +4,11 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IServiceHistory, ServiceHistory } from 'app/shared/model/service-history.model';
 import { ServiceHistoryService } from './service-history.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IDepartment } from 'app/shared/model/department.model';
 import { DepartmentService } from 'app/entities/department/department.service';
 import { IDesignation } from 'app/shared/model/designation.model';
@@ -36,6 +38,8 @@ export class ServiceHistoryUpdateComponent implements OnInit {
     employeeType: [],
     from: [],
     to: [],
+    attachment: [],
+    attachmentContentType: [],
     department: [],
     designation: [],
     grade: [],
@@ -43,6 +47,8 @@ export class ServiceHistoryUpdateComponent implements OnInit {
   });
 
   constructor(
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
     protected serviceHistoryService: ServiceHistoryService,
     protected departmentService: DepartmentService,
     protected designationService: DesignationService,
@@ -72,10 +78,28 @@ export class ServiceHistoryUpdateComponent implements OnInit {
       employeeType: serviceHistory.employeeType,
       from: serviceHistory.from,
       to: serviceHistory.to,
+      attachment: serviceHistory.attachment,
+      attachmentContentType: serviceHistory.attachmentContentType,
       department: serviceHistory.department,
       designation: serviceHistory.designation,
       grade: serviceHistory.grade,
       employee: serviceHistory.employee,
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
+  }
+
+  setFileData(event: any, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('codeNodeErpApp.error', { message: err.message })
+      );
     });
   }
 
@@ -100,6 +124,8 @@ export class ServiceHistoryUpdateComponent implements OnInit {
       employeeType: this.editForm.get(['employeeType'])!.value,
       from: this.editForm.get(['from'])!.value,
       to: this.editForm.get(['to'])!.value,
+      attachmentContentType: this.editForm.get(['attachmentContentType'])!.value,
+      attachment: this.editForm.get(['attachment'])!.value,
       department: this.editForm.get(['department'])!.value,
       designation: this.editForm.get(['designation'])!.value,
       grade: this.editForm.get(['grade'])!.value,

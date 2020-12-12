@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ITraining } from 'app/shared/model/training.model';
@@ -28,6 +28,7 @@ export class TrainingComponent implements OnInit, OnDestroy {
   constructor(
     protected trainingService: TrainingService,
     protected activatedRoute: ActivatedRoute,
+    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
@@ -77,6 +78,14 @@ export class TrainingComponent implements OnInit, OnDestroy {
   trackId(index: number, item: ITraining): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType = '', base64String: string): void {
+    return this.dataUtils.openFile(contentType, base64String);
   }
 
   registerChangeInTrainings(): void {

@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import {JhiDataUtils, JhiEventManager} from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { ITraining } from 'app/shared/model/training.model';
@@ -11,6 +11,7 @@ import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { TrainingExtService } from './training-ext.service';
 import { TrainingExtDeleteDialogComponent } from './training-ext-delete-dialog.component';
 import {TrainingComponent} from "app/entities/training/training.component";
+import {TrainingService} from "app/entities/training/training.service";
 
 @Component({
   selector: 'jhi-training',
@@ -21,13 +22,14 @@ export class TrainingExtComponent extends TrainingComponent implements OnInit, O
   employeeId?: number | null;
 
   constructor(
-    protected trainingService: TrainingExtService,
+    protected trainingService: TrainingService,
     protected activatedRoute: ActivatedRoute,
+    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
   ) {
-    super(trainingService, activatedRoute, router, eventManager, modalService);
+    super(trainingService, activatedRoute, dataUtils, router, eventManager, modalService);
   }
 
   loadPage(page?: number, dontNavigate?: boolean): void {

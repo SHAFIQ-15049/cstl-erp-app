@@ -20,6 +20,13 @@
                 <dd>
                     <span>{{ serviceHistory.to }}</span>
                 </dd>
+                <dt><span>Attachment</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.attachment">
+                        <a (click)="openFile(serviceHistory.attachmentContentType, serviceHistory.attachment)">open</a>
+                        {{ serviceHistory.attachmentContentType }}, {{ byteSize(serviceHistory.attachment) }}
+                    </div>
+                </dd>
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="serviceHistory.department">

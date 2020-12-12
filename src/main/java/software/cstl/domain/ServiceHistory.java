@@ -35,6 +35,13 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
     @Column(name = "jhi_to")
     private LocalDate to;
 
+    @Lob
+    @Column(name = "attachment")
+    private byte[] attachment;
+
+    @Column(name = "attachment_content_type")
+    private String attachmentContentType;
+
     @ManyToOne
     @JsonIgnoreProperties(value = "serviceHistories", allowSetters = true)
     private Department department;
@@ -97,6 +104,32 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
 
     public void setTo(LocalDate to) {
         this.to = to;
+    }
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public ServiceHistory attachment(byte[] attachment) {
+        this.attachment = attachment;
+        return this;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getAttachmentContentType() {
+        return attachmentContentType;
+    }
+
+    public ServiceHistory attachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
+        return this;
+    }
+
+    public void setAttachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
     }
 
     public Department getDepartment() {
@@ -176,6 +209,8 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
             ", employeeType='" + getEmployeeType() + "'" +
             ", from='" + getFrom() + "'" +
             ", to='" + getTo() + "'" +
+            ", attachment='" + getAttachment() + "'" +
+            ", attachmentContentType='" + getAttachmentContentType() + "'" +
             "}";
     }
 }

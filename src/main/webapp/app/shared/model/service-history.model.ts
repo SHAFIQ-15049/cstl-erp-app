@@ -10,6 +10,8 @@ export interface IServiceHistory {
   employeeType?: EmployeeType;
   from?: Moment;
   to?: Moment;
+  attachmentContentType?: string;
+  attachment?: any;
   department?: IDepartment;
   designation?: IDesignation;
   grade?: IGrade;
@@ -22,6 +24,8 @@ export class ServiceHistory implements IServiceHistory {
     public employeeType?: EmployeeType,
     public from?: Moment,
     public to?: Moment,
+    public attachmentContentType?: string,
+    public attachment?: any,
     public department?: IDepartment,
     public designation?: IDesignation,
     public grade?: IGrade,
