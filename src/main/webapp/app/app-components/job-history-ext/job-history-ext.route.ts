@@ -11,19 +11,36 @@ import { JobHistoryExtService } from './job-history-ext.service';
 import { JobHistoryExtComponent } from './job-history-ext.component';
 import { JobHistoryExtDetailComponent } from './job-history-ext-detail.component';
 import { JobHistoryExtUpdateComponent } from './job-history-ext-update.component';
+import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
+import {Employee} from "app/shared/model/employee.model";
+import {EducationalInfo} from "app/shared/model/educational-info.model";
 
 @Injectable({ providedIn: 'root' })
 export class JobHistoryExtResolve implements Resolve<IJobHistory> {
-  constructor(private service: JobHistoryExtService, private router: Router) {}
+  constructor(private service: JobHistoryExtService, private router: Router, private employeeService: EmployeeExtService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IJobHistory> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((jobHistory: HttpResponse<JobHistory>) => {
           if (jobHistory.body) {
             return of(jobHistory.body);
           } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }   else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employee: HttpResponse<Employee>)=>{
+          if(employee.body){
+            const jobHistory = new JobHistory();
+            jobHistory.employee = employee.body;
+            return of(jobHistory);
+          }else{
             this.router.navigate(['404']);
             return EMPTY;
           }
@@ -59,6 +76,18 @@ export const jobHistoryExtRoute: Routes = [
   },
   {
     path: 'new',
+    component: JobHistoryExtUpdateComponent,
+    resolve: {
+      jobHistory: JobHistoryExtResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'JobHistories',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/new',
     component: JobHistoryExtUpdateComponent,
     resolve: {
       jobHistory: JobHistoryExtResolve,

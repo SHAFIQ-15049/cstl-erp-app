@@ -24,6 +24,13 @@
                 <dd>
                     <span>{{ training.receivedOn }}</span>
                 </dd>
+                <dt><span>Attachment</span></dt>
+                <dd>
+                    <div *ngIf="training.attachment">
+                        <a (click)="openFile(training.attachmentContentType, training.attachment)">open</a>
+                        {{ training.attachmentContentType }}, {{ byteSize(training.attachment) }}
+                    </div>
+                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="training.employee">

@@ -7,6 +7,8 @@ export interface ITraining {
   name?: string;
   trainingInstitute?: string;
   receivedOn?: Moment;
+  attachmentContentType?: string;
+  attachment?: any;
   employee?: IEmployee;
 }
 
@@ -17,6 +19,8 @@ export class Training implements ITraining {
     public name?: string,
     public trainingInstitute?: string,
     public receivedOn?: Moment,
+    public attachmentContentType?: string,
+    public attachment?: any,
     public employee?: IEmployee
   ) {}
 }

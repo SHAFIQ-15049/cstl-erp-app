@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Training(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate);
+      elemDefault = new Training(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, 'image/png', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -73,6 +73,7 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             trainingInstitute: 'BBBBBB',
             receivedOn: currentDate.format(DATE_FORMAT),
+            attachment: 'BBBBBB',
           },
           elemDefault
         );
@@ -98,6 +99,7 @@ describe('Service Tests', () => {
             name: 'BBBBBB',
             trainingInstitute: 'BBBBBB',
             receivedOn: currentDate.format(DATE_FORMAT),
+            attachment: 'BBBBBB',
           },
           elemDefault
         );

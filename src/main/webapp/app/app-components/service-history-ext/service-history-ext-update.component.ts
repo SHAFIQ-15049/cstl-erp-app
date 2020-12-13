@@ -16,6 +16,8 @@ import { GradeService } from 'app/entities/grade/grade.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import {ServiceHistoryUpdateComponent} from "app/entities/service-history/service-history-update.component";
+import {JhiDataUtils, JhiEventManager} from "ng-jhipster";
+import {ServiceHistoryService} from "app/entities/service-history/service-history.service";
 
 type SelectableEntity = IDepartment | IDesignation | IGrade | IEmployee;
 
@@ -27,7 +29,9 @@ export class ServiceHistoryExtUpdateComponent extends ServiceHistoryUpdateCompon
 
 
   constructor(
-    protected serviceHistoryService: ServiceHistoryExtService,
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
+    protected serviceHistoryService: ServiceHistoryService,
     protected departmentService: DepartmentService,
     protected designationService: DesignationService,
     protected gradeService: GradeService,
@@ -35,7 +39,7 @@ export class ServiceHistoryExtUpdateComponent extends ServiceHistoryUpdateCompon
     protected activatedRoute: ActivatedRoute,
     protected fb: FormBuilder
   ) {
-    super(serviceHistoryService, departmentService, designationService, gradeService, employeeService, activatedRoute, fb);
+    super(dataUtils, eventManager, serviceHistoryService, departmentService, designationService, gradeService, employeeService, activatedRoute, fb);
   }
 
 

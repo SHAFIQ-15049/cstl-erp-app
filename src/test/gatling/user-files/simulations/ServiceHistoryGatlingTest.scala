@@ -73,8 +73,10 @@ class ServiceHistoryGatlingTest extends Simulation {
             .body(StringBody("""{
                 "id":null
                 , "employeeType":"PERMANENT"
+                , "category":"TOP_LEVEL"
                 , "from":"2020-01-01T00:00:00.000Z"
                 , "to":"2020-01-01T00:00:00.000Z"
+                , "attachment":null
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_serviceHistory_url"))).exitHereIfFailed

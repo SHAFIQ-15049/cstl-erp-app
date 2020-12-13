@@ -11,6 +11,8 @@ import java.time.LocalDate;
 
 import software.cstl.domain.enumeration.EmployeeType;
 
+import software.cstl.domain.enumeration.EmployeeCategory;
+
 /**
  * A ServiceHistory.
  */
@@ -29,11 +31,22 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
     @Column(name = "employee_type")
     private EmployeeType employeeType;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "category")
+    private EmployeeCategory category;
+
     @Column(name = "jhi_from")
     private LocalDate from;
 
     @Column(name = "jhi_to")
     private LocalDate to;
+
+    @Lob
+    @Column(name = "attachment")
+    private byte[] attachment;
+
+    @Column(name = "attachment_content_type")
+    private String attachmentContentType;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "serviceHistories", allowSetters = true)
@@ -73,6 +86,19 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
         this.employeeType = employeeType;
     }
 
+    public EmployeeCategory getCategory() {
+        return category;
+    }
+
+    public ServiceHistory category(EmployeeCategory category) {
+        this.category = category;
+        return this;
+    }
+
+    public void setCategory(EmployeeCategory category) {
+        this.category = category;
+    }
+
     public LocalDate getFrom() {
         return from;
     }
@@ -97,6 +123,32 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
 
     public void setTo(LocalDate to) {
         this.to = to;
+    }
+
+    public byte[] getAttachment() {
+        return attachment;
+    }
+
+    public ServiceHistory attachment(byte[] attachment) {
+        this.attachment = attachment;
+        return this;
+    }
+
+    public void setAttachment(byte[] attachment) {
+        this.attachment = attachment;
+    }
+
+    public String getAttachmentContentType() {
+        return attachmentContentType;
+    }
+
+    public ServiceHistory attachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
+        return this;
+    }
+
+    public void setAttachmentContentType(String attachmentContentType) {
+        this.attachmentContentType = attachmentContentType;
     }
 
     public Department getDepartment() {
@@ -174,8 +226,11 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
         return "ServiceHistory{" +
             "id=" + getId() +
             ", employeeType='" + getEmployeeType() + "'" +
+            ", category='" + getCategory() + "'" +
             ", from='" + getFrom() + "'" +
             ", to='" + getTo() + "'" +
+            ", attachment='" + getAttachment() + "'" +
+            ", attachmentContentType='" + getAttachmentContentType() + "'" +
             "}";
     }
 }

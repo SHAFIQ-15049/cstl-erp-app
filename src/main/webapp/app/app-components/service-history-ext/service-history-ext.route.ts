@@ -11,19 +11,34 @@ import { ServiceHistoryExtService } from './service-history-ext.service';
 import { ServiceHistoryExtComponent } from './service-history-ext.component';
 import { ServiceHistoryExtDetailComponent } from './service-history-ext-detail.component';
 import { ServiceHistoryExtUpdateComponent } from './service-history-ext-update.component';
+import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
 
 @Injectable({ providedIn: 'root' })
 export class ServiceHistoryExtResolve implements Resolve<IServiceHistory> {
-  constructor(private service: ServiceHistoryExtService, private router: Router) {}
+  constructor(private service: ServiceHistoryExtService, private router: Router, private employeeService: EmployeeExtService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IServiceHistory> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((serviceHistory: HttpResponse<ServiceHistory>) => {
           if (serviceHistory.body) {
             return of(serviceHistory.body);
           } else {
+            this.router.navigate(['404']);
+            return EMPTY;
+          }
+        })
+      );
+    }else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employee)=>{
+          if(employee.body){
+            const serviceHistory = new ServiceHistory();
+            serviceHistory.employee = employee.body;
+            return of(serviceHistory);
+          }else{
             this.router.navigate(['404']);
             return EMPTY;
           }
@@ -59,6 +74,18 @@ export const serviceHistoryExtRoute: Routes = [
   },
   {
     path: 'new',
+    component: ServiceHistoryExtUpdateComponent,
+    resolve: {
+      serviceHistory: ServiceHistoryExtResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'ServiceHistories',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':employeeId/new',
     component: ServiceHistoryExtUpdateComponent,
     resolve: {
       serviceHistory: ServiceHistoryExtResolve,

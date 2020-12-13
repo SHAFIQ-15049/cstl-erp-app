@@ -4,12 +4,16 @@ import { IDesignation } from 'app/shared/model/designation.model';
 import { IGrade } from 'app/shared/model/grade.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
+import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
 
 export interface IServiceHistory {
   id?: number;
   employeeType?: EmployeeType;
+  category?: EmployeeCategory;
   from?: Moment;
   to?: Moment;
+  attachmentContentType?: string;
+  attachment?: any;
   department?: IDepartment;
   designation?: IDesignation;
   grade?: IGrade;
@@ -20,8 +24,11 @@ export class ServiceHistory implements IServiceHistory {
   constructor(
     public id?: number,
     public employeeType?: EmployeeType,
+    public category?: EmployeeCategory,
     public from?: Moment,
     public to?: Moment,
+    public attachmentContentType?: string,
+    public attachment?: any,
     public department?: IDepartment,
     public designation?: IDesignation,
     public grade?: IGrade,

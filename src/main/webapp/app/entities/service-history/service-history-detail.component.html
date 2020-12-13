@@ -12,6 +12,10 @@
                 <dd>
                     <span>{{ serviceHistory.employeeType }}</span>
                 </dd>
+                <dt><span>Category</span></dt>
+                <dd>
+                    <span>{{ serviceHistory.category }}</span>
+                </dd>
                 <dt><span>From</span></dt>
                 <dd>
                     <span>{{ serviceHistory.from }}</span>
@@ -19,6 +23,13 @@
                 <dt><span>To</span></dt>
                 <dd>
                     <span>{{ serviceHistory.to }}</span>
+                </dd>
+                <dt><span>Attachment</span></dt>
+                <dd>
+                    <div *ngIf="serviceHistory.attachment">
+                        <a (click)="openFile(serviceHistory.attachmentContentType, serviceHistory.attachment)">open</a>
+                        {{ serviceHistory.attachmentContentType }}, {{ byteSize(serviceHistory.attachment) }}
+                    </div>
                 </dd>
                 <dt><span>Department</span></dt>
                 <dd>

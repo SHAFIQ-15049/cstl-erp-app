@@ -24,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new JobHistory(0, 0, 'AAAAAAA', currentDate, currentDate, 0);
+      elemDefault = new JobHistory(0, 0, 'AAAAAAA', 'AAAAAAA', currentDate, currentDate, 0, 0);
     });
 
     describe('Service methods', () => {
@@ -74,9 +74,11 @@ describe('Service Tests', () => {
           {
             serial: 1,
             organization: 'BBBBBB',
+            designation: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
-            total: 1,
+            payScale: 1,
+            totalExperience: 1,
           },
           elemDefault
         );
@@ -101,9 +103,11 @@ describe('Service Tests', () => {
           {
             serial: 1,
             organization: 'BBBBBB',
+            designation: 'BBBBBB',
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
-            total: 1,
+            payScale: 1,
+            totalExperience: 1,
           },
           elemDefault
         );
