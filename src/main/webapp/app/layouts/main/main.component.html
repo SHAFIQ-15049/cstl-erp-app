@@ -6,7 +6,9 @@
 
 <div class="main-wrapper">
     <span  *ngIf="isAuthenticated()">
-        <jhi-left-side-menu></jhi-left-side-menu>
+
+        <!--changed-->
+        <jhi-left-side-menu *ngIf="leftSideMenuHide === true && width > 768"></jhi-left-side-menu>
     </span>
     <div class="container-fluid">
         <span>

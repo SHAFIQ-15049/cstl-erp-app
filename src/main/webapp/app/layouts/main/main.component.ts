@@ -1,15 +1,38 @@
+import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
 
 import { AccountService } from 'app/core/auth/account.service';
+import { SideHideService } from './../../shared/side-hide.service';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
 })
 export class MainComponent implements OnInit {
-  constructor(private accountService: AccountService, private titleService: Title, private router: Router) {}
+  //modified
+  leftSideMenuHide = true;
+  clickEventSubscription: Subscription;
+
+  constructor(
+    private accountService: AccountService,
+    private titleService: Title,
+    private router: Router,
+    private sideHideService: SideHideService
+  ) {
+    this.clickEventSubscription = this.sideHideService.getClickEvent().subscribe(() => {
+      this.doLeftSideMenuHide();
+    });
+  }
+  //modified
+  doLeftSideMenuHide(): void {
+    this.leftSideMenuHide = !this.leftSideMenuHide;
+  }
+
+  public get width(): any {
+    return window.innerWidth;
+  }
 
   ngOnInit(): void {
     // try to log in automatically
