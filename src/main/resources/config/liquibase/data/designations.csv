@@ -1,0 +1,126 @@
+id,name,category,created_by
+1,Officer,STAFF,system
+2,Sr. Officer,STAFF,system
+3,Assistant Manager,STAFF,system
+4,Manager,STAFF,system
+5,Store Keeper,STAFF,system
+6,Accountant,STAFF,system
+7,Store Keeper,STAFF,system
+8,Cashier,STAFF,system
+9,Import Assistant,STAFF,system
+10,Computer Operator,STAFF,system
+11,Nurse (Medical Assistant),STAFF,system
+12,Typist,STAFF,system
+13,Office Assistant,STAFF,system
+14,Telephone Operator,STAFF,system
+15,Time Keeper,STAFF,system
+16,Caretaker,STAFF,system
+17,Security Guard,STAFF,system
+18,Driver,STAFF,system
+19,Cash Assistant,STAFF,system
+20,Governance,STAFF,system
+21,Boiler Operator,STAFF,system
+22,Production Reporter,STAFF,system
+23,Peon,STAFF,system
+24,Checker,STAFF,system
+25,Cook,STAFF,system
+26,Swiper,STAFF,system
+27,Pattern Master,WORKER,system
+28,Chief Quality Controller,WORKER,system
+29,Chief Cutting Master,WORKER,system
+30,Cutting Chief,WORKER,system
+31,Chief Mechanic,WORKER,system
+32,Mechanic,WORKER,system
+33,Electrician,WORKER,system
+34,Cutting Master,WORKER,system
+35,Senior Operator,WORKER,system
+36,Senior Cutter,WORKER,system
+37,Senior Marker,WORKER,system
+38,Senior Ironman,WORKER,system
+39,Senior Mechanic,WORKER,system
+40,Junior Mechanic,WORKER,system
+41,Junior Electrician,WORKER,system
+42,Senior Line Leader,WORKER,system
+43,Operator,WORKER,system
+44,Cutter Man,WORKER,system
+45,Niddle Man,WORKER,system
+46,Scissor Man,WORKER,system
+47,Quality Inspector,WORKER,system
+48,Marker Man,WORKER,system
+49,Input Man,WORKER,system
+50,Buldle Man,WORKER,system
+51,Numbering Man,WORKER,system
+52,Lay Man,WORKER,system
+53,Poly Man,WORKER,system
+54,Tag Man,WORKER,system
+55,Spot Man,WORKER,system
+56,Receive Man,WORKER,system
+57,Printer Man,WORKER,system
+58,Painter Man,WORKER,system
+59,Sample Man,WORKER,system
+60,General Mechanic,WORKER,system
+61,General Electrician,WORKER,system
+62,Line Leader,WORKER,system
+63,Junior Operator,WORKER,system
+64,Junior Cutter Man,WORKER,system
+65,Junior Niddle Man,WORKER,system
+66,Junior Scissor Man,WORKER,system
+67,Junior Quality Inspector,WORKER,system
+68,Junior Marker Man,WORKER,system
+69,Junior Drawing Man,WORKER,system
+70,Junior Input Man,WORKER,system
+71,Junior Numbering Man,WORKER,system
+72,Junior Lay Man,WORKER,system
+73,Junior Poly Man,WORKER,system
+74,Junior Packing Man,WORKER,system
+75,Junior Folding Man,WORKER,system
+76,Junior Tag Man,WORKER,system
+77,Junior Spot Man,WORKER,system
+78,Junior Receive Man,WORKER,system
+79,Junior Painter,WORKER,system
+80,Junior Printer,WORKER,system
+81,Junior Sample Man,WORKER,system
+82,Assistant Mechanic,WORKER,system
+83,General Operator,WORKER,system
+84,General Cutter Man,WORKER,system
+85,General Niddle Man,WORKER,system
+86,General Scissor Man,WORKER,system
+87,General Quality Inspector,WORKER,system
+88,General Marker Man,WORKER,system
+89,General Issue Man,WORKER,system
+90,General Input Man,WORKER,system
+91,General Bundling,WORKER,system
+92,General Numbering Man,WORKER,system
+93,General lay Man,WORKER,system
+94,General Poly Man,WORKER,system
+95,General Packing Man,WORKER,system
+96,General Folding Man,WORKER,system
+97,General Tag Man,WORKER,system
+98,General Spot Man,WORKER,system
+99,General Receive Man,WORKER,system
+100,General Painter,WORKER,system
+101,General Printer,WORKER,system
+102,General Iron Man,WORKER,system
+103,General Pressing Man,WORKER,system
+104,General Sample Man,WORKER,system
+105,Assistant Operator,WORKER,system
+106,Assistant Cutter Man,WORKER,system
+107,Assistant Niddle Man,WORKER,system
+108,Assistant Scissor Man,WORKER,system
+109,Assistant Quality Inspector,WORKER,system
+110,Assistant Marker Man,WORKER,system
+111,Assistant Issue Man,WORKER,system
+112,Assistant Input Man,WORKER,system
+113,Assistant Numbering Man,WORKER,system
+114,Assistant Lay Man,WORKER,system
+115,Assistant Poly Man,WORKER,system
+116,Assistant Packing Man,WORKER,system
+117,Assistant Folding Man,WORKER,system
+118,Assistant Tag Man,WORKER,system
+119,Assistant Spot Man,WORKER,system
+120,Assistant Painter,WORKER,system
+121,Assistant Printer,WORKER,system
+122,Assistant Sample Man,WORKER,system
+123,Assistant Mechanic,WORKER,system
+124,Assistant Thread Shuker,WORKER,system
+125,Assistant Iron Man,WORKER,system

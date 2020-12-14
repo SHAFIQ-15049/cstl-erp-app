@@ -1,0 +1,11 @@
+id,name,created_by
+1,Administration,system
+2,Cutting,system
+3,Sewing,system
+4,Finishing,system
+5,Store,system
+6,Sample,system
+7,Cleaning,system
+8,Security,system
+9,Maintenance,system
+11,Production,system

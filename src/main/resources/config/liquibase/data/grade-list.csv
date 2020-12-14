@@ -1,0 +1,12 @@
+id,name,category,created_by
+1,GRADE-1,STAFF,system
+2,GRADE-2,STAFF,system
+3,GRADE-3,STAFF,system
+4,GRADE-4,STAFF,system
+5,GRADE-1,WORKER,system
+6,GRADE-2,WORKER,system
+7,GRADE-3,WORKER,system
+8,GRADE-4,WORKER,system
+9,GRADE-5,WORKER,system
+10,GRADE-6,WORKER,system
+11,GRADE-7,WORKER,system

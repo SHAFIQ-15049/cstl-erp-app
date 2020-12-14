@@ -71,7 +71,7 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @Column(name = "termination_reason")
     private String terminationReason;
 
-    @OneToMany(mappedBy = "employee")
+    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EducationalInfo> educationalInfos = new HashSet<>();
 
@@ -111,11 +111,11 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @JsonIgnoreProperties(value = "employees", allowSetters = true)
     private Line line;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
     private Address address;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @JsonIgnore
     private PersonalInfo personalInfo;
 
