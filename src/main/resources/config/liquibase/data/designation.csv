@@ -1,0 +1,126 @@
+id,name,category
+1,Officer,STAFF
+2,Sr. Officer,STAFF
+3,Assistant Manager,STAFF
+4,Manager,STAFF
+5,Store Keeper,STAFF
+6,Accountant,STAFF
+7,Store Keeper,STAFF
+8,Cashier,STAFF
+9,Import Assistant,STAFF
+10,Computer Operator,STAFF
+11,Nurse (Medical Assistant),STAFF
+12,Typist,STAFF
+13,Office Assistant,STAFF
+14,Telephone Operator,STAFF
+15,Time Keeper,STAFF
+16,Caretaker,STAFF
+17,Security Guard,STAFF
+18,Driver,STAFF
+19,Cash Assistant,STAFF
+20,Governance,STAFF
+21,Boiler Operator,STAFF
+22,Production Reporter,STAFF
+23,Peon,STAFF
+24,Checker,STAFF
+25,Cook,STAFF
+26,Swiper,STAFF
+27,Pattern Master,WORKER
+28,Chief Quality Controller,WORKER
+29,Chief Cutting Master,WORKER
+30,Cutting Chief,WORKER
+31,Chief Mechanic,WORKER
+32,Mechanic,WORKER
+33,Electrician,WORKER
+34,Cutting Master,WORKER
+35,Senior Operator,WORKER
+36,Senior Cutter,WORKER
+37,Senior Marker,WORKER
+38,Senior Ironman,WORKER
+39,Senior Mechanic,WORKER
+40,Junior Mechanic,WORKER
+41,Junior Electrician,WORKER
+42,Senior Line Leader,WORKER
+43,Operator,WORKER
+44,Cutter Man,WORKER
+45,Niddle Man,WORKER
+46,Scissor Man,WORKER
+47,Quality Inspector,WORKER
+48,Marker Man,WORKER
+49,Input Man,WORKER
+50,Buldle Man,WORKER
+51,Numbering Man,WORKER
+52,Lay Man,WORKER
+53,Poly Man,WORKER
+54,Tag Man,WORKER
+55,Spot Man,WORKER
+56,Receive Man,WORKER
+57,Printer Man,WORKER
+58,Painter Man,WORKER
+59,Sample Man,WORKER
+60,General Mechanic,WORKER
+61,General Electrician,WORKER
+62,Line Leader,WORKER
+63,Junior Operator,WORKER
+64,Junior Cutter Man,WORKER
+65,Junior Niddle Man,WORKER
+66,Junior Scissor Man,WORKER
+67,Junior Quality Inspector,WORKER
+68,Junior Marker Man,WORKER
+69,Junior Drawing Man,WORKER
+70,Junior Input Man,WORKER
+71,Junior Numbering Man,WORKER
+72,Junior Lay Man,WORKER
+73,Junior Poly Man,WORKER
+74,Junior Packing Man,WORKER
+75,Junior Folding Man,WORKER
+76,Junior Tag Man,WORKER
+77,Junior Spot Man,WORKER
+78,Junior Receive Man,WORKER
+79,Junior Painter,WORKER
+80,Junior Printer,WORKER
+81,Junior Sample Man,WORKER
+82,Assistant Mechanic,WORKER
+83,General Operator,WORKER
+84,General Cutter Man,WORKER
+85,General Niddle Man,WORKER
+86,General Scissor Man,WORKER
+87,General Quality Inspector,WORKER
+88,General Marker Man,WORKER
+89,General Issue Man,WORKER
+90,General Input Man,WORKER
+91,General Bundling,WORKER
+92,General Numbering Man,WORKER
+93,General lay Man,WORKER
+94,General Poly Man,WORKER
+95,General Packing Man,WORKER
+96,General Folding Man,WORKER
+97,General Tag Man,WORKER
+98,General Spot Man,WORKER
+99,General Receive Man,WORKER
+100,General Painter,WORKER
+101,General Printer,WORKER
+102,General Iron Man,WORKER
+103,General Pressing Man,WORKER
+104,General Sample Man,WORKER
+105,Assistant Operator,WORKER
+106,Assistant Cutter Man,WORKER
+107,Assistant Niddle Man,WORKER
+108,Assistant Scissor Man,WORKER
+109,Assistant Quality Inspector,WORKER
+110,Assistant Marker Man,WORKER
+111,Assistant Issue Man,WORKER
+112,Assistant Input Man,WORKER
+113,Assistant Numbering Man,WORKER
+114,Assistant Lay Man,WORKER
+115,Assistant Poly Man,WORKER
+116,Assistant Packing Man,WORKER
+117,Assistant Folding Man,WORKER
+118,Assistant Tag Man,WORKER
+119,Assistant Spot Man,WORKER
+120,Assistant Painter,WORKER
+121,Assistant Printer,WORKER
+122,Assistant Sample Man,WORKER
+123,Assistant Mechanic,WORKER
+124,Assistant Thread Shuker,WORKER
+125,Assistant Iron Man,WORKER

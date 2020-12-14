@@ -63,6 +63,7 @@
     <include file="config/liquibase/changelog/20201212125327_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201212175612_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201212192227_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201214092407_changelog_department_designation_grade_data_uploaded.xml" relativeToChangelogFile="false"/>
 
 
 
