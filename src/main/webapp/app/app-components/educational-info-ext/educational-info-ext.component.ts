@@ -90,7 +90,6 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
   protected onSuccess(data: IEducationalInfo[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
-
     this.educationalInfos = data || [];
     this.ngbPaginationPage = this.page;
   }
