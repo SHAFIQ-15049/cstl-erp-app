@@ -11,6 +11,7 @@ import { EmployeeExtService } from './employee-ext.service';
 import { EmployeeExtComponent } from './employee-ext.component';
 import { EmployeeExtDetailComponent } from './employee-ext-detail.component';
 import { EmployeeExtUpdateComponent } from './employee-ext-update.component';
+import {IdCardComponent} from "app/app-components/employee-ext/id-card/id-card.component";
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeExtResolve implements Resolve<IEmployee> {
@@ -85,6 +86,15 @@ export const employeeExtRoute: Routes = [
         path: 'service-history',
         loadChildren: () => import('../service-history-ext/service-history-ext.module').then(m => m.CodeNodeErpServiceHistoryModule),
       },
+      {
+        path: 'id-card',
+        component: IdCardComponent,
+        data: {
+          authorities: [Authority.USER],
+          pageTitle: 'ID Card',
+        },
+        canActivate: [UserRouteAccessService],
+      }
     ],
   },
   {
