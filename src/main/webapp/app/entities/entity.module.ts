@@ -84,6 +84,14 @@ import { RouterModule } from '@angular/router';
         path: 'holiday',
         loadChildren: () => import('./holiday/holiday.module').then(m => m.CodeNodeErpHolidayModule),
       },
+      {
+        path: 'leave-type',
+        loadChildren: () => import('./leave-type/leave-type.module').then(m => m.CodeNodeErpLeaveTypeModule),
+      },
+      {
+        path: 'leave-application',
+        loadChildren: () => import('./leave-application/leave-application.module').then(m => m.CodeNodeErpLeaveApplicationModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

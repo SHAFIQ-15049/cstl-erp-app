@@ -13,6 +13,7 @@ export class LeftSideMenuComponent implements OnInit {
   employeeManagement = false;
   weekendManagement = false;
   holidayManagement = false;
+  leaveManagement = false;
 
   @Input() leftMenuHidden = false;
   constructor(private accountService: AccountService) {}
