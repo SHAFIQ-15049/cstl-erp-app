@@ -20,6 +20,15 @@
       "fieldName": "description",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
     }
   ],
   "relationships": [],

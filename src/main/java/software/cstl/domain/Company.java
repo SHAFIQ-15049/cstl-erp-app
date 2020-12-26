@@ -36,6 +36,13 @@ public class Company extends AbstractAuditingEntity implements Serializable {
     @Column(name = "description")
     private String description;
 
+    @Lob
+    @Column(name = "address")
+    private String address;
+
+    @Column(name = "phone")
+    private String phone;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -96,6 +103,32 @@ public class Company extends AbstractAuditingEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public Company address(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public Company phone(String phone) {
+        this.phone = phone;
+        return this;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -123,6 +156,8 @@ public class Company extends AbstractAuditingEntity implements Serializable {
             ", shortName='" + getShortName() + "'" +
             ", nameInBangla='" + getNameInBangla() + "'" +
             ", description='" + getDescription() + "'" +
+            ", address='" + getAddress() + "'" +
+            ", phone='" + getPhone() + "'" +
             "}";
     }
 }

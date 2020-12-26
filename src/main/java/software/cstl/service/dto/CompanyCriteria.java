@@ -32,6 +32,8 @@ public class CompanyCriteria implements Serializable, Criteria {
 
     private StringFilter nameInBangla;
 
+    private StringFilter phone;
+
     public CompanyCriteria() {
     }
 
@@ -40,6 +42,7 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.shortName = other.shortName == null ? null : other.shortName.copy();
         this.nameInBangla = other.nameInBangla == null ? null : other.nameInBangla.copy();
+        this.phone = other.phone == null ? null : other.phone.copy();
     }
 
     @Override
@@ -79,6 +82,14 @@ public class CompanyCriteria implements Serializable, Criteria {
         this.nameInBangla = nameInBangla;
     }
 
+    public StringFilter getPhone() {
+        return phone;
+    }
+
+    public void setPhone(StringFilter phone) {
+        this.phone = phone;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -93,7 +104,8 @@ public class CompanyCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
             Objects.equals(shortName, that.shortName) &&
-            Objects.equals(nameInBangla, that.nameInBangla);
+            Objects.equals(nameInBangla, that.nameInBangla) &&
+            Objects.equals(phone, that.phone);
     }
 
     @Override
@@ -102,7 +114,8 @@ public class CompanyCriteria implements Serializable, Criteria {
         id,
         name,
         shortName,
-        nameInBangla
+        nameInBangla,
+        phone
         );
     }
 
@@ -114,6 +127,7 @@ public class CompanyCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (shortName != null ? "shortName=" + shortName + ", " : "") +
                 (nameInBangla != null ? "nameInBangla=" + nameInBangla + ", " : "") +
+                (phone != null ? "phone=" + phone + ", " : "") +
             "}";
     }
 
