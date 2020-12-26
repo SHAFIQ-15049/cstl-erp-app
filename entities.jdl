@@ -3,7 +3,9 @@ entity Company (mst_company){
    name String required,
    shortName String,
    nameInBangla String,
-   description TextBlob
+   description TextBlob,
+   address TextBlob,
+   phone String
 }
 
 entity Department (mst_department) {
