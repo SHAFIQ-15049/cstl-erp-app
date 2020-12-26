@@ -119,5 +119,54 @@
             </ul>
         </li>
 
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="weekendManagement=!weekendManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Weekend Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!weekendManagement" class="list-unstyled navbar-internal" id="weekend">
+                <li>
+                    <a class="dropdown-item" routerLink="weekend" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Weekend</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Holiday Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!holidayManagement" class="list-unstyled navbar-internal" id="holiday">
+                <li>
+                    <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Holiday Type</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Holiday</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
     </ul>
 </nav>

@@ -29,6 +29,9 @@
     <include file="config/liquibase/changelog/20201127214027_added_entity_EmployeeAccount.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201127214127_added_entity_JobHistory.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201127214227_added_entity_ServiceHistory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201226031345_added_entity_Weekend.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201226033211_added_entity_HolidayType.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201226033631_added_entity_Holiday.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
    <!-- <include file="config/liquibase/changelog/20201127213527_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201123192735_added_entity_constraints_Company.xml" relativeToChangelogFile="false"/>
@@ -67,6 +70,7 @@
 
 
 
+    <include file="config/liquibase/changelog/20201226033631_added_entity_constraints_Holiday.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

@@ -72,6 +72,18 @@ import { RouterModule } from '@angular/router';
         path: 'line',
         loadChildren: () => import('../app-components/line-ext/line-ext.module').then(m => m.CodeNodeErpLineModule),
       },
+      {
+        path: 'weekend',
+        loadChildren: () => import('./weekend/weekend.module').then(m => m.CodeNodeErpWeekendModule),
+      },
+      {
+        path: 'holiday-type',
+        loadChildren: () => import('./holiday-type/holiday-type.module').then(m => m.CodeNodeErpHolidayTypeModule),
+      },
+      {
+        path: 'holiday',
+        loadChildren: () => import('./holiday/holiday.module').then(m => m.CodeNodeErpHolidayModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
