@@ -30,6 +30,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import software.cstl.domain.enumeration.MaritalStatus;
 import software.cstl.domain.enumeration.GenderType;
+import software.cstl.domain.enumeration.ReligionType;
 import software.cstl.domain.enumeration.BloodGroupType;
 /**
  * Integration tests for the {@link PersonalInfoResource} REST controller.
@@ -107,6 +108,9 @@ public class PersonalInfoResourceIT {
     private static final GenderType DEFAULT_GENDER = GenderType.MALE;
     private static final GenderType UPDATED_GENDER = GenderType.FEMALE;
 
+    private static final ReligionType DEFAULT_RELIGION = ReligionType.ISLAM;
+    private static final ReligionType UPDATED_RELIGION = ReligionType.HINDU;
+
     private static final BloodGroupType DEFAULT_BLOOD_GROUP = BloodGroupType.A_POSITIVE;
     private static final BloodGroupType UPDATED_BLOOD_GROUP = BloodGroupType.A_NEGATIVE;
 
@@ -161,6 +165,7 @@ public class PersonalInfoResourceIT {
             .birthRegistrationAttachmentId(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(DEFAULT_HEIGHT)
             .gender(DEFAULT_GENDER)
+            .religion(DEFAULT_RELIGION)
             .bloodGroup(DEFAULT_BLOOD_GROUP)
             .emergencyContact(DEFAULT_EMERGENCY_CONTACT);
         return personalInfo;
@@ -196,6 +201,7 @@ public class PersonalInfoResourceIT {
             .birthRegistrationAttachmentId(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(UPDATED_HEIGHT)
             .gender(UPDATED_GENDER)
+            .religion(UPDATED_RELIGION)
             .bloodGroup(UPDATED_BLOOD_GROUP)
             .emergencyContact(UPDATED_EMERGENCY_CONTACT);
         return personalInfo;
@@ -243,6 +249,7 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getBirthRegistrationAttachmentId()).isEqualTo(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getHeight()).isEqualTo(DEFAULT_HEIGHT);
         assertThat(testPersonalInfo.getGender()).isEqualTo(DEFAULT_GENDER);
+        assertThat(testPersonalInfo.getReligion()).isEqualTo(DEFAULT_RELIGION);
         assertThat(testPersonalInfo.getBloodGroup()).isEqualTo(DEFAULT_BLOOD_GROUP);
         assertThat(testPersonalInfo.getEmergencyContact()).isEqualTo(DEFAULT_EMERGENCY_CONTACT);
     }
@@ -377,6 +384,7 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].birthRegistrationAttachmentId").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].religion").value(hasItem(DEFAULT_RELIGION.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
             .andExpect(jsonPath("$.[*].emergencyContact").value(hasItem(DEFAULT_EMERGENCY_CONTACT)));
     }
@@ -415,6 +423,7 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.birthRegistrationAttachmentId").value(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID))
             .andExpect(jsonPath("$.height").value(DEFAULT_HEIGHT.doubleValue()))
             .andExpect(jsonPath("$.gender").value(DEFAULT_GENDER.toString()))
+            .andExpect(jsonPath("$.religion").value(DEFAULT_RELIGION.toString()))
             .andExpect(jsonPath("$.bloodGroup").value(DEFAULT_BLOOD_GROUP.toString()))
             .andExpect(jsonPath("$.emergencyContact").value(DEFAULT_EMERGENCY_CONTACT));
     }
@@ -1769,6 +1778,58 @@ public class PersonalInfoResourceIT {
 
     @Test
     @Transactional
+    public void getAllPersonalInfosByReligionIsEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where religion equals to DEFAULT_RELIGION
+        defaultPersonalInfoShouldBeFound("religion.equals=" + DEFAULT_RELIGION);
+
+        // Get all the personalInfoList where religion equals to UPDATED_RELIGION
+        defaultPersonalInfoShouldNotBeFound("religion.equals=" + UPDATED_RELIGION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByReligionIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where religion not equals to DEFAULT_RELIGION
+        defaultPersonalInfoShouldNotBeFound("religion.notEquals=" + DEFAULT_RELIGION);
+
+        // Get all the personalInfoList where religion not equals to UPDATED_RELIGION
+        defaultPersonalInfoShouldBeFound("religion.notEquals=" + UPDATED_RELIGION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByReligionIsInShouldWork() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where religion in DEFAULT_RELIGION or UPDATED_RELIGION
+        defaultPersonalInfoShouldBeFound("religion.in=" + DEFAULT_RELIGION + "," + UPDATED_RELIGION);
+
+        // Get all the personalInfoList where religion equals to UPDATED_RELIGION
+        defaultPersonalInfoShouldNotBeFound("religion.in=" + UPDATED_RELIGION);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPersonalInfosByReligionIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        personalInfoRepository.saveAndFlush(personalInfo);
+
+        // Get all the personalInfoList where religion is not null
+        defaultPersonalInfoShouldBeFound("religion.specified=true");
+
+        // Get all the personalInfoList where religion is null
+        defaultPersonalInfoShouldNotBeFound("religion.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllPersonalInfosByBloodGroupIsEqualToSomething() throws Exception {
         // Initialize the database
         personalInfoRepository.saveAndFlush(personalInfo);
@@ -1947,6 +2008,7 @@ public class PersonalInfoResourceIT {
             .andExpect(jsonPath("$.[*].birthRegistrationAttachmentId").value(hasItem(DEFAULT_BIRTH_REGISTRATION_ATTACHMENT_ID)))
             .andExpect(jsonPath("$.[*].height").value(hasItem(DEFAULT_HEIGHT.doubleValue())))
             .andExpect(jsonPath("$.[*].gender").value(hasItem(DEFAULT_GENDER.toString())))
+            .andExpect(jsonPath("$.[*].religion").value(hasItem(DEFAULT_RELIGION.toString())))
             .andExpect(jsonPath("$.[*].bloodGroup").value(hasItem(DEFAULT_BLOOD_GROUP.toString())))
             .andExpect(jsonPath("$.[*].emergencyContact").value(hasItem(DEFAULT_EMERGENCY_CONTACT)));
 
@@ -2018,6 +2080,7 @@ public class PersonalInfoResourceIT {
             .birthRegistrationAttachmentId(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID)
             .height(UPDATED_HEIGHT)
             .gender(UPDATED_GENDER)
+            .religion(UPDATED_RELIGION)
             .bloodGroup(UPDATED_BLOOD_GROUP)
             .emergencyContact(UPDATED_EMERGENCY_CONTACT);
 
@@ -2053,6 +2116,7 @@ public class PersonalInfoResourceIT {
         assertThat(testPersonalInfo.getBirthRegistrationAttachmentId()).isEqualTo(UPDATED_BIRTH_REGISTRATION_ATTACHMENT_ID);
         assertThat(testPersonalInfo.getHeight()).isEqualTo(UPDATED_HEIGHT);
         assertThat(testPersonalInfo.getGender()).isEqualTo(UPDATED_GENDER);
+        assertThat(testPersonalInfo.getReligion()).isEqualTo(UPDATED_RELIGION);
         assertThat(testPersonalInfo.getBloodGroup()).isEqualTo(UPDATED_BLOOD_GROUP);
         assertThat(testPersonalInfo.getEmergencyContact()).isEqualTo(UPDATED_EMERGENCY_CONTACT);
     }
