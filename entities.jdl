@@ -89,6 +89,7 @@ entity PersonalInfo {
     birthRegistrationAttachmentId String,
     height Double,
     gender GenderType,
+    religion ReligionType,
     bloodGroup BloodGroupType,
     emergencyContact String,
 }
@@ -183,6 +184,14 @@ enum EmployeeCategory{
 enum MaritalStatus{
     SINGLE,
     MARRIED
+}
+
+enum ReligionType{
+ ISLAM,
+ HINDU,
+ BUDDHIST,
+ CHRISTIAN,
+ OTHERS
 }
 
 enum GenderType{
