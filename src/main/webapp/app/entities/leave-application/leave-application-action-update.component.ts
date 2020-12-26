@@ -18,10 +18,10 @@ import { Account } from 'app/core/user/account.model';
 type SelectableEntity = IUser | ILeaveType;
 
 @Component({
-  selector: 'jhi-leave-application-update',
-  templateUrl: './leave-application-update.component.html',
+  selector: 'jhi-leave-application-action-update',
+  templateUrl: './leave-application-action-update.component.html',
 })
-export class LeaveApplicationUpdateComponent implements OnInit {
+export class LeaveApplicationActionUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
   leavetypes: ILeaveType[] = [];
@@ -62,7 +62,6 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
       this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
     });
-    this.onChanges();
   }
 
   updateForm(leaveApplication: ILeaveApplication): void {
@@ -71,10 +70,10 @@ export class LeaveApplicationUpdateComponent implements OnInit {
       from: leaveApplication.from,
       to: leaveApplication.to,
       totalDays: leaveApplication.totalDays,
-      status: LeaveApplicationStatus.APPLIED,
+      status: leaveApplication.status,
       reason: leaveApplication.reason,
-      appliedBy: this.currentUser,
-      actionTakenBy: leaveApplication.actionTakenBy,
+      appliedBy: leaveApplication.appliedBy,
+      actionTakenBy: this.currentUser,
       leaveType: leaveApplication.leaveType,
     });
   }
@@ -126,25 +125,5 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
-  }
-
-  onChanges(): void {
-    this.editForm.get('from')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
-    });
-
-    this.editForm.get('to')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
-    });
   }
 }

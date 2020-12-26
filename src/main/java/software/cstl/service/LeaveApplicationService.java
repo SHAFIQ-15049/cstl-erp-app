@@ -1,6 +1,7 @@
 package software.cstl.service;
 
 import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.LeaveType;
 import software.cstl.repository.LeaveApplicationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,7 +10,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.repository.LeaveTypeRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -23,8 +26,11 @@ public class LeaveApplicationService {
 
     private final LeaveApplicationRepository leaveApplicationRepository;
 
-    public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository) {
+    private final LeaveTypeRepository leaveTypeRepository;
+
+    public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository, LeaveTypeRepository leaveTypeRepository) {
         this.leaveApplicationRepository = leaveApplicationRepository;
+        this.leaveTypeRepository = leaveTypeRepository;
     }
 
     /**
@@ -71,5 +77,20 @@ public class LeaveApplicationService {
     public void delete(Long id) {
         log.debug("Request to delete LeaveApplication : {}", id);
         leaveApplicationRepository.deleteById(id);
+    }
+
+    public boolean isValid(LeaveApplication leaveApplication) {
+        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
+        List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByAppliedByIsCurrentUser();
+        int totalDays = 0;
+        for(int i = 0; i < leaveApplications.size(); i++) {
+            totalDays += leaveApplications.get(i).getTotalDays();
+        }
+        totalDays = totalDays + leaveApplication.getTotalDays();
+
+        if(totalDays > leaveType.getTotalDays()) {
+            return false;
+        }
+        return true;
     }
 }

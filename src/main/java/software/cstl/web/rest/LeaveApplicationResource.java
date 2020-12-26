@@ -62,6 +62,9 @@ public class LeaveApplicationResource {
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(!leaveApplicationService.isValid(leaveApplication)) {
+            throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
+        }
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))

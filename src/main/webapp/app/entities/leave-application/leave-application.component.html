@@ -56,13 +56,14 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
+                                    [hidden]="leaveApplication.actionTakenBy"
                                     [routerLink]="['/leave-application', leaveApplication.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
 
-                            <button type="submit"
+                            <button type="submit"  [hidden]="leaveApplication.actionTakenBy"
                                     [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon icon="pencil-alt"></fa-icon>
@@ -70,6 +71,7 @@
                             </button>
 
                             <button type="submit" (click)="delete(leaveApplication)"
+                                    [hidden]="leaveApplication.actionTakenBy"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon icon="times"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>

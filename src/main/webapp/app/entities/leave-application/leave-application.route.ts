@@ -11,6 +11,8 @@ import { LeaveApplicationService } from './leave-application.service';
 import { LeaveApplicationComponent } from './leave-application.component';
 import { LeaveApplicationDetailComponent } from './leave-application-detail.component';
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
+import { LeaveApplicationReviewComponent } from 'app/entities/leave-application/leave-application-review.component';
+import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -34,6 +36,7 @@ export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
   }
 }
 
+let LeaveApplicationActionComponent;
 export const leaveApplicationRoute: Routes = [
   {
     path: '',
@@ -71,6 +74,27 @@ export const leaveApplicationRoute: Routes = [
   {
     path: ':id/edit',
     component: LeaveApplicationUpdateComponent,
+    resolve: {
+      leaveApplication: LeaveApplicationResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'review',
+    component: LeaveApplicationReviewComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/action',
+    component: LeaveApplicationActionUpdateComponent,
     resolve: {
       leaveApplication: LeaveApplicationResolve,
     },
