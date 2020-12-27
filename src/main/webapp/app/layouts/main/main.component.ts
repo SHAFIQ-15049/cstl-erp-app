@@ -1,33 +1,44 @@
+import { SidebarService } from './../../shared/sidebar.service';
 import { Subscription } from 'rxjs';
 import { Component, OnInit } from '@angular/core';
 import { Title } from '@angular/platform-browser';
 import { Router, ActivatedRouteSnapshot, NavigationEnd, NavigationError } from '@angular/router';
 
 import { AccountService } from 'app/core/auth/account.service';
-import { SideHideService } from './../../shared/side-hide.service';
 
 @Component({
   selector: 'jhi-main',
   templateUrl: './main.component.html',
+  styles: [
+    `
+      @media only screen and (max-width: 600px) {
+        div.main-wrapper span jhi-left-side-menu {
+          position: absolute;
+          margin-left: -20rem;
+          visibility: hidden;
+        }
+      }
+    `,
+  ],
 })
 export class MainComponent implements OnInit {
-  //modified
-  leftSideMenuHide = true;
-  clickEventSubscription: Subscription;
+  clickEventsubscription: Subscription;
+  isToggle = true;
 
   constructor(
     private accountService: AccountService,
     private titleService: Title,
     private router: Router,
-    private sideHideService: SideHideService
+    private sidebarService: SidebarService
   ) {
-    this.clickEventSubscription = this.sideHideService.getClickEvent().subscribe(() => {
+    this.clickEventsubscription = this.sidebarService.getClickEvent().subscribe(() => {
       this.doLeftSideMenuHide();
     });
   }
-  //modified
+
+  //method for toggling the isToggle state
   doLeftSideMenuHide(): void {
-    this.leftSideMenuHide = !this.leftSideMenuHide;
+    this.isToggle = !this.isToggle;
   }
 
   public get width(): any {

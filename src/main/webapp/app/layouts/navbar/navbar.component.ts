@@ -1,4 +1,4 @@
-import { SideHideService } from './../../shared/side-hide.service';
+import { SidebarService } from './../../shared/sidebar.service';
 import { MainComponent } from './../main/main.component';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
@@ -26,7 +26,7 @@ export class NavbarComponent implements OnInit {
     private loginModalService: LoginModalService,
     private profileService: ProfileService,
     private router: Router,
-    private sideHideService: SideHideService
+    private sidebarService: SidebarService
   ) {
     this.version = VERSION ? (VERSION.toLowerCase().startsWith('v') ? VERSION : 'v' + VERSION) : '';
   }
@@ -64,9 +64,7 @@ export class NavbarComponent implements OnInit {
     return this.isAuthenticated() ? this.accountService.getImageUrl() : '';
   }
 
-  //main component  class object created and method access
-  hideLeftSidebar(): void {
-    this.sideHideService.sendClickEvent();
-    this.collapseNavbar();
+  sidebarHide(): void {
+    this.sidebarService.sendClickEvent();
   }
 }
