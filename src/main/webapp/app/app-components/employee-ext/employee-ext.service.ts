@@ -13,10 +13,13 @@ import {SessionStorageService} from "ngx-webstorage";
 
 type EntityResponseType = HttpResponse<IEmployee>;
 type EntityArrayResponseType = HttpResponse<IEmployee[]>;
+type EntityPDFResponseType = HttpResponse<any>;
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeExtService extends EmployeeService{
   public resourceUrl = SERVER_API_URL + 'api/employees';
+  public resourceUrlExt = SERVER_API_URL + 'api/ext/employees';
+
   private employeeId = 'employeeExtEmployeeId';
 
   constructor(protected http: HttpClient, private $sessionStorage: SessionStorageService) {
@@ -33,5 +36,9 @@ export class EmployeeExtService extends EmployeeService{
 
   clearEmployeeId(): void{
     this.$sessionStorage.clear(this.employeeId);
+  }
+
+  downloadIdCard(employeeId: number): Observable<any>{
+    return this.http.get(this.resourceUrlExt+'/id-card/'+employeeId, {responseType: 'blob'})
   }
 }

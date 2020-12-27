@@ -12,9 +12,10 @@ import {EmployeeDetailComponent} from "app/entities/employee/employee-detail.com
 import {EmployeeUpdateComponent} from "app/entities/employee/employee-update.component";
 import {EmployeeDeleteDialogComponent} from "app/entities/employee/employee-delete-dialog.component";
 import { IdCardComponent } from './id-card/id-card.component';
+import {PdfViewerModule} from "ng2-pdf-viewer";
 
 @NgModule({
-  imports: [CodeNodeErpSharedModule, RouterModule, RouterModule.forChild(employeeExtRoute)],
+  imports: [CodeNodeErpSharedModule, RouterModule, PdfViewerModule, RouterModule.forChild(employeeExtRoute)],
   declarations: [EmployeeComponent, EmployeeDetailComponent, EmployeeUpdateComponent, EmployeeDeleteDialogComponent, EmployeeExtComponent, EmployeeExtDetailComponent, EmployeeExtUpdateComponent, EmployeeExtDeleteDialogComponent, IdCardComponent],
   entryComponents: [EmployeeExtDeleteDialogComponent],
 })
