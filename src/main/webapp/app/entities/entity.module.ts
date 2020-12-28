@@ -76,6 +76,19 @@ import { RouterModule } from '@angular/router';
         path: 'fine',
         loadChildren: () => import('./fine/fine.module').then(m => m.CodeNodeErpFineModule),
       },
+      {
+        path: 'fine-payment-history',
+        loadChildren: () => import('./fine-payment-history/fine-payment-history.module').then(m => m.CodeNodeErpFinePaymentHistoryModule),
+      },
+      {
+        path: 'advance',
+        loadChildren: () => import('./advance/advance.module').then(m => m.CodeNodeErpAdvanceModule),
+      },
+      {
+        path: 'advance-payment-history',
+        loadChildren: () =>
+          import('./advance-payment-history/advance-payment-history.module').then(m => m.CodeNodeErpAdvancePaymentHistoryModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -129,6 +129,24 @@
                             <span>Fine</span>
                         </a>
                     </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="fine-payment-history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Fine Payment History</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="advance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Advance</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="dropdown-item" routerLink="advance-payment-history" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Advance Payment History</span>
+                        </a>
+                    </li>
                     <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->
                 </ul>
             </li>

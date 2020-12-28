@@ -1,0 +1,71 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-advance-heading">Create or edit a Advance</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paidOn">Paid On</label>
+                    <div class="input-group">
+                        <input id="field_paidOn" type="text" class="form-control" name="paidOn" ngbDatepicker #paidOnDp="ngbDatepicker" formControlName="paidOn"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="paidOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reason">Reason</label>
+                    <textarea class="form-control" name="reason" id="field_reason"
+                              formControlName="reason"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                           formControlName="amount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentPercentage">Payment Percentage</label>
+                    <input type="number" class="form-control" name="paymentPercentage" id="field_paymentPercentage"
+                           formControlName="paymentPercentage"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentStatus">Payment Status</label>
+                    <select class="form-control" name="paymentStatus" formControlName="paymentStatus" id="field_paymentStatus">
+                        <option value="NOT_PAID">NOT_PAID</option>
+                        <option value="IN_PROGRESS">IN_PROGRESS</option>
+                        <option value="PAID">PAID</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

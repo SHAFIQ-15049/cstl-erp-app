@@ -1,0 +1,67 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1609183977282-1">
+        <createTable tableName="advance">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="advancePK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="amount" type="DECIMAL(21, 2)"/>
+            <column name="paid_on" type="date"/>
+            <column name="payment_percentage" type="DECIMAL(21, 2)"/>
+            <column name="payment_status" type="VARCHAR(255)"/>
+            <column name="reason" type="LONGTEXT"/>
+            <column name="employee_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609183977282-2">
+        <createTable tableName="advance_payment_history">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="advance_payment_historyPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="after" type="DECIMAL(21, 2)"/>
+            <column name="amount" type="DECIMAL(21, 2)"/>
+            <column name="jhi_before" type="DECIMAL(21, 2)"/>
+            <column name="month_type" type="VARCHAR(255)"/>
+            <column name="advance_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609183977282-3">
+        <createTable tableName="fine_payment_history">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="fine_payment_historyPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="after_fine" type="DECIMAL(21, 2)"/>
+            <column name="amount" type="DECIMAL(21, 2)"/>
+            <column name="before_fine" type="DECIMAL(21, 2)"/>
+            <column name="month_type" type="VARCHAR(255)"/>
+            <column name="fine_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609183977282-4">
+        <addForeignKeyConstraint baseColumnNames="advance_id" baseTableName="advance_payment_history" constraintName="FK4oe4g449n7a1ipn5iirs4e5du" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="advance" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609183977282-5">
+        <addForeignKeyConstraint baseColumnNames="fine_id" baseTableName="fine_payment_history" constraintName="FK9adwx0gqr935hcgmw0ef3gb45" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="fine" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609183977282-6">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="advance" constraintName="FKnrrwk0jwl0ufkmdmh49p85ylh" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

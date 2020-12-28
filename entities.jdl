@@ -171,6 +171,31 @@ entity Fine (fine){
   paymentStatus PaymentStatus,
 }
 
+entity FinePaymentHistory (fine_payment_history){
+  //fine
+  monthType MonthType,
+  amount BigDecimal,
+  beforeFine BigDecimal,
+  afterFine BigDecimal
+}
+
+entity Advance (advance){
+  //employee
+  paidOn LocalDate,
+  reason TextBlob,
+  amount BigDecimal,
+  paymentPercentage BigDecimal
+  paymentStatus PaymentStatus,
+}
+
+entity AdvancePaymentHistory (advance_payment_history){
+  //fine
+  monthType MonthType,
+  amount BigDecimal,
+  before BigDecimal,
+  after BigDecimal
+}
+
 enum PaymentStatus{
   NOT_PAID,
   IN_PROGRESS,
@@ -272,7 +297,10 @@ relationship ManyToOne{
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade,
-    Fine{employee(name)} to Employee
+    Fine{employee(name)} to Employee,
+    FinePaymentHistory{fine} to Fine,
+    Advance{employee(name)} to Employee,
+    AdvancePaymentHistory{advance} to Advance,
 }
 
 relationship OneToMany{
@@ -289,6 +317,6 @@ relationship OneToOne{
     PersonalInfo{employee(name)} to Employee{personalInfo},
 }
 
-service Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
-filter Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
-paginate Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
+service Company, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
