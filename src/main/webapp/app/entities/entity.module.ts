@@ -72,6 +72,10 @@ import { RouterModule } from '@angular/router';
         path: 'line',
         loadChildren: () => import('../app-components/line-ext/line-ext.module').then(m => m.CodeNodeErpLineModule),
       },
+      {
+        path: 'fine',
+        loadChildren: () => import('./fine/fine.module').then(m => m.CodeNodeErpFineModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

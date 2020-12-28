@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="fine">
+            <h2><span>Fine</span> {{ fine.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Fined On</span></dt>
+                <dd>
+                    <span>{{ fine.finedOn }}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{ fine.reason }}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{ fine.amount }}</span>
+                </dd>
+                <dt><span>Fine Percentage</span></dt>
+                <dd>
+                    <span>{{ fine.finePercentage }}</span>
+                </dd>
+                <dt><span>Payment Status</span></dt>
+                <dd>
+                    <span>{{ fine.paymentStatus }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="fine.employee">
+                        <a [routerLink]="['/employee', fine.employee?.id, 'view']">{{ fine.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/fine', fine.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

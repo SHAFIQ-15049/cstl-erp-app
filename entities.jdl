@@ -162,6 +162,21 @@ entity ServiceHistory (service_history){
     attachment Blob,
 }
 
+entity Fine (fine){
+  //employee
+  finedOn LocalDate,
+  reason TextBlob,
+  amount BigDecimal,
+  finePercentage BigDecimal
+  paymentStatus PaymentStatus,
+}
+
+enum PaymentStatus{
+  NOT_PAID,
+  IN_PROGRESS,
+  PAID
+}
+
 enum AccountType{
     BANK,
     BKASH,
@@ -224,6 +239,21 @@ enum BloodGroupType{
    AB_NEGATIVE
 }
 
+enum MonthType{
+ JANUARY,
+ FEBRUARY,
+ MARCH,
+ APRIL,
+ MAY,
+ JUNE,
+ JULY,
+ AUGUST,
+ SEPTEMBER,
+ OCTOBER,
+ NOVEMBER,
+ DECEMBER
+}
+
 relationship ManyToOne{
     Employee{company(name)} to Company,
     Employee{department(name)} to Department,
@@ -241,7 +271,8 @@ relationship ManyToOne{
     Address{permanentThana(name)} to Thana,
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
-    ServiceHistory{grade(name)} to Grade
+    ServiceHistory{grade(name)} to Grade,
+    Fine{employee(name)} to Employee
 }
 
 relationship OneToMany{
@@ -258,6 +289,6 @@ relationship OneToOne{
     PersonalInfo{employee(name)} to Employee{personalInfo},
 }
 
-service Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
-filter Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
-paginate Company, Line, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
+service Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, Line, Fine, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination

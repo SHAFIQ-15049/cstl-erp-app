@@ -1,0 +1,47 @@
+{
+  "name": "Fine",
+  "fields": [
+    {
+      "fieldName": "finedOn",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "reason",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "finePercentage",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "paymentStatus",
+      "fieldType": "PaymentStatus",
+      "fieldValues": "NOT_PAID,IN_PROGRESS,PAID"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "fine",
+      "relationshipName": "employee",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20201228192921",
+  "entityTableName": "fine",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}
