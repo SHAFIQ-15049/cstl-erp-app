@@ -31,7 +31,8 @@ entity Designation (mst_designation){
 entity Grade (mst_grade){
     category EmployeeCategory,
 	name String required,
-    description TextBlob
+    description TextBlob,
+    initialSalary BigDecimal
 }
 
 entity Division (mst_division){

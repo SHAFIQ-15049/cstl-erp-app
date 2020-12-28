@@ -66,6 +66,7 @@
     <include file="config/liquibase/changelog/20201214092407_changelog_department_designation_grade_data_uploaded.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201226155404_changelog_religion_type_added_to_PersonalInfo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201226164718_changelog_phone_address_added_Company.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20201228185806_initial_salary_added_to_Grade.xml" relativeToChangelogFile="false"/>
 
 
 

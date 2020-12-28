@@ -44,10 +44,12 @@ describe('Grade e2e test', () => {
       gradeUpdatePage.categorySelectLastOption(),
       gradeUpdatePage.setNameInput('name'),
       gradeUpdatePage.setDescriptionInput('description'),
+      gradeUpdatePage.setInitialSalaryInput('5'),
     ]);
 
     expect(await gradeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await gradeUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');
+    expect(await gradeUpdatePage.getInitialSalaryInput()).to.eq('5', 'Expected initialSalary value to be equals to 5');
 
     await gradeUpdatePage.save();
     expect(await gradeUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

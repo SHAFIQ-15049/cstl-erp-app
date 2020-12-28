@@ -44,7 +44,7 @@
                     <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="category"><span>Category</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="description"><span>Description</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="initialSalary"><span>Initial Salary</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -53,6 +53,7 @@
                     <td><a [routerLink]="['/grade', grade.id, 'view']">{{ i+1 }}</a></td>
                     <td>{{ grade.category }}</td>
                     <td>{{ grade.name }}</td>
+                    <td>{{ grade.initialSalary }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

@@ -18,6 +18,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -42,6 +43,10 @@ public class GradeResourceIT {
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final BigDecimal DEFAULT_INITIAL_SALARY = new BigDecimal(1);
+    private static final BigDecimal UPDATED_INITIAL_SALARY = new BigDecimal(2);
+    private static final BigDecimal SMALLER_INITIAL_SALARY = new BigDecimal(1 - 1);
 
     @Autowired
     private GradeRepository gradeRepository;
@@ -70,7 +75,8 @@ public class GradeResourceIT {
         Grade grade = new Grade()
             .category(DEFAULT_CATEGORY)
             .name(DEFAULT_NAME)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .initialSalary(DEFAULT_INITIAL_SALARY);
         return grade;
     }
     /**
@@ -83,7 +89,8 @@ public class GradeResourceIT {
         Grade grade = new Grade()
             .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .initialSalary(UPDATED_INITIAL_SALARY);
         return grade;
     }
 
@@ -109,6 +116,7 @@ public class GradeResourceIT {
         assertThat(testGrade.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testGrade.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testGrade.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testGrade.getInitialSalary()).isEqualTo(DEFAULT_INITIAL_SALARY);
     }
 
     @Test
@@ -163,7 +171,8 @@ public class GradeResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(grade.getId().intValue())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].initialSalary").value(hasItem(DEFAULT_INITIAL_SALARY.intValue())));
     }
     
     @Test
@@ -179,7 +188,8 @@ public class GradeResourceIT {
             .andExpect(jsonPath("$.id").value(grade.getId().intValue()))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.initialSalary").value(DEFAULT_INITIAL_SALARY.intValue()));
     }
 
 
@@ -331,6 +341,111 @@ public class GradeResourceIT {
         defaultGradeShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary equals to DEFAULT_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.equals=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary equals to UPDATED_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.equals=" + UPDATED_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary not equals to DEFAULT_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.notEquals=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary not equals to UPDATED_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.notEquals=" + UPDATED_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsInShouldWork() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary in DEFAULT_INITIAL_SALARY or UPDATED_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.in=" + DEFAULT_INITIAL_SALARY + "," + UPDATED_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary equals to UPDATED_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.in=" + UPDATED_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary is not null
+        defaultGradeShouldBeFound("initialSalary.specified=true");
+
+        // Get all the gradeList where initialSalary is null
+        defaultGradeShouldNotBeFound("initialSalary.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary is greater than or equal to DEFAULT_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.greaterThanOrEqual=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary is greater than or equal to UPDATED_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.greaterThanOrEqual=" + UPDATED_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary is less than or equal to DEFAULT_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.lessThanOrEqual=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary is less than or equal to SMALLER_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.lessThanOrEqual=" + SMALLER_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsLessThanSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary is less than DEFAULT_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.lessThan=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary is less than UPDATED_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.lessThan=" + UPDATED_INITIAL_SALARY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllGradesByInitialSalaryIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        gradeRepository.saveAndFlush(grade);
+
+        // Get all the gradeList where initialSalary is greater than DEFAULT_INITIAL_SALARY
+        defaultGradeShouldNotBeFound("initialSalary.greaterThan=" + DEFAULT_INITIAL_SALARY);
+
+        // Get all the gradeList where initialSalary is greater than SMALLER_INITIAL_SALARY
+        defaultGradeShouldBeFound("initialSalary.greaterThan=" + SMALLER_INITIAL_SALARY);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -341,7 +456,8 @@ public class GradeResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(grade.getId().intValue())))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].initialSalary").value(hasItem(DEFAULT_INITIAL_SALARY.intValue())));
 
         // Check, that the count call also returns 1
         restGradeMockMvc.perform(get("/api/grades/count?sort=id,desc&" + filter))
@@ -390,7 +506,8 @@ public class GradeResourceIT {
         updatedGrade
             .category(UPDATED_CATEGORY)
             .name(UPDATED_NAME)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .initialSalary(UPDATED_INITIAL_SALARY);
 
         restGradeMockMvc.perform(put("/api/grades")
             .contentType(MediaType.APPLICATION_JSON)
@@ -404,6 +521,7 @@ public class GradeResourceIT {
         assertThat(testGrade.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testGrade.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testGrade.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testGrade.getInitialSalary()).isEqualTo(UPDATED_INITIAL_SALARY);
     }
 
     @Test

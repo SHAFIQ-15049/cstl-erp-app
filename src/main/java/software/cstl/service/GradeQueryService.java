@@ -91,6 +91,9 @@ public class GradeQueryService extends QueryService<Grade> {
             if (criteria.getName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getName(), Grade_.name));
             }
+            if (criteria.getInitialSalary() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInitialSalary(), Grade_.initialSalary));
+            }
         }
         return specification;
     }

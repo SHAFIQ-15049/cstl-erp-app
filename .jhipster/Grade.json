@@ -17,6 +17,10 @@
       "fieldName": "description",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "initialSalary",
+      "fieldType": "BigDecimal"
     }
   ],
   "relationships": [],

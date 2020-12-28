@@ -32,6 +32,7 @@ export class GradeUpdatePage {
   categorySelect = element(by.id('field_category'));
   nameInput = element(by.id('field_name'));
   descriptionInput = element(by.id('field_description'));
+  initialSalaryInput = element(by.id('field_initialSalary'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -63,6 +64,14 @@ export class GradeUpdatePage {
 
   async getDescriptionInput(): Promise<string> {
     return await this.descriptionInput.getAttribute('value');
+  }
+
+  async setInitialSalaryInput(initialSalary: string): Promise<void> {
+    await this.initialSalaryInput.sendKeys(initialSalary);
+  }
+
+  async getInitialSalaryInput(): Promise<string> {
+    return await this.initialSalaryInput.getAttribute('value');
   }
 
   async save(): Promise<void> {
