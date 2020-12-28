@@ -31,6 +31,10 @@ export class IdCardComponent implements OnInit {
     this.employeeExtService.downloadIdCard(this.employeeId!).subscribe((data=>{
       const file  = new Blob([data], { type: 'application/pdf' });
       this.pdfData = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = this.pdfData;
+      link.download = 'id-card.pdf';
+      link.click();
     }))
   }
 

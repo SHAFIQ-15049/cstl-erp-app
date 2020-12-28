@@ -3,6 +3,7 @@ package software.cstl.web.rest.extended;
 import com.itextpdf.text.DocumentException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -19,6 +20,7 @@ import software.cstl.service.mediators.IdCardGeneratorService;
 import software.cstl.web.rest.EmployeeResource;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 
 import static org.springframework.http.MediaType.APPLICATION_PDF_VALUE;
 
@@ -38,7 +40,7 @@ public class EmployeeExtResource extends EmployeeResource {
 
     private final IdCardGeneratorService idCardGeneratorService;
 
-    public EmployeeExtResource(EmployeeService employeeService, EmployeeQueryService employeeQueryService, EmployeeExtService employeeService1, EmployeeQueryService employeeQueryService1, IdCardGeneratorService idCardGeneratorService) {
+    public EmployeeExtResource(EmployeeService employeeService, EmployeeQueryService employeeQueryService, EmployeeExtService employeeService1, EmployeeQueryService employeeQueryService1, @Autowired IdCardGeneratorService idCardGeneratorService) {
         super(employeeService, employeeQueryService);
         this.employeeService = employeeService1;
         this.employeeQueryService = employeeQueryService1;
@@ -46,7 +48,7 @@ public class EmployeeExtResource extends EmployeeResource {
     }
 
     @GetMapping(value = "/employees/id-card/{employeeId}", produces = APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> generateIdCard(@PathVariable Long employeeId) throws DocumentException {
+    public ResponseEntity<InputStreamResource> generateIdCard(@PathVariable Long employeeId) throws DocumentException, IOException {
         ByteArrayInputStream bis = idCardGeneratorService.generateIdCard(employeeId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=id-card.pdf");
