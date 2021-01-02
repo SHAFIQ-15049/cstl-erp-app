@@ -33,14 +33,14 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
     basicPercent: [],
     houseRent: [],
     houseRentPercent: [],
-    totalAllowance: [null, [Validators.required]],
+    totalAllowance: [],
     medicalAllowance: [],
     medicalAllowancePercent: [],
     convinceAllowance: [],
     convinceAllowancePercent: [],
     foodAllowance: [],
     foodAllowancePercent: [],
-    status: [null, [Validators.required]],
+    status: [],
     employee: [],
   });
 

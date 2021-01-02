@@ -243,44 +243,6 @@ public class EmployeeSalaryResourceIT {
 
     @Test
     @Transactional
-    public void checkTotalAllowanceIsRequired() throws Exception {
-        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
-        // set the field null
-        employeeSalary.setTotalAllowance(null);
-
-        // Create the EmployeeSalary, which fails.
-
-
-        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
-            .andExpect(status().isBadRequest());
-
-        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
-        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkStatusIsRequired() throws Exception {
-        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
-        // set the field null
-        employeeSalary.setStatus(null);
-
-        // Create the EmployeeSalary, which fails.
-
-
-        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
-            .andExpect(status().isBadRequest());
-
-        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
-        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllEmployeeSalaries() throws Exception {
         // Initialize the database
         employeeSalaryRepository.saveAndFlush(employeeSalary);

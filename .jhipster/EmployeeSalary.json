@@ -43,10 +43,7 @@
     },
     {
       "fieldName": "totalAllowance",
-      "fieldType": "BigDecimal",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldType": "BigDecimal"
     },
     {
       "fieldName": "medicalAllowance",
@@ -75,10 +72,7 @@
     {
       "fieldName": "status",
       "fieldType": "ActiveStatus",
-      "fieldValues": "ACTIVE,NOT_ACTIVE",
-      "fieldValidateRules": [
-        "required"
-      ]
+      "fieldValues": "ACTIVE,NOT_ACTIVE"
     }
   ],
   "relationships": [

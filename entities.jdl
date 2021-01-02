@@ -231,14 +231,14 @@ entity EmployeeSalary (employee_salary){
   basicPercent BigDecimal,
   houseRent BigDecimal,
   houseRentPercent BigDecimal,
-  totalAllowance BigDecimal required,
+  totalAllowance BigDecimal,
   medicalAllowance BigDecimal,
   medicalAllowancePercent BigDecimal,
   convinceAllowance BigDecimal,
   convinceAllowancePercent BigDecimal,
   foodAllowance BigDecimal,
   foodAllowancePercent BigDecimal,
-  status ActiveStatus required
+  status ActiveStatus
 }
 
 entity MonthlySalary (monthly_salary){

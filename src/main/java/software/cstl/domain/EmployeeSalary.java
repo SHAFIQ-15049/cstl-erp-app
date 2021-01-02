@@ -5,7 +5,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -57,8 +56,7 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
     @Column(name = "house_rent_percent", precision = 21, scale = 2)
     private BigDecimal houseRentPercent;
 
-    @NotNull
-    @Column(name = "total_allowance", precision = 21, scale = 2, nullable = false)
+    @Column(name = "total_allowance", precision = 21, scale = 2)
     private BigDecimal totalAllowance;
 
     @Column(name = "medical_allowance", precision = 21, scale = 2)
@@ -79,9 +77,8 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
     @Column(name = "food_allowance_percent", precision = 21, scale = 2)
     private BigDecimal foodAllowancePercent;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status", nullable = false)
+    @Column(name = "status")
     private ActiveStatus status;
 
     @ManyToOne

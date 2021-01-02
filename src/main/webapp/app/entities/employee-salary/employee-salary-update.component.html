@@ -84,16 +84,6 @@
                         <label class="form-control-label" for="field_totalAllowance">Total Allowance</label>
                         <input type="number" class="form-control" name="totalAllowance" id="field_totalAllowance"
                                formControlName="totalAllowance"/>
-                        <div *ngIf="editForm.get('totalAllowance')!.invalid && (editForm.get('totalAllowance')!.dirty || editForm.get('totalAllowance')!.touched)">
-                            <small class="form-text text-danger"
-                                   *ngIf="editForm.get('totalAllowance')?.errors?.required">
-                                This field is required.
-                            </small>
-                            <small class="form-text text-danger"
-                                   [hidden]="!editForm.get('totalAllowance')?.errors?.number">
-                                This field should be a number.
-                            </small>
-                        </div>
                     </div>
 
                     <div class="form-group col-md-6">
@@ -132,20 +122,12 @@
                                formControlName="foodAllowancePercent"/>
                     </div>
 
-                    <div class="form-group col-md-12">
-                        <label class="form-control-label" for="field_status">Status</label>
-                        <select class="form-control" name="status" formControlName="status" id="field_status">
-                            <option value="ACTIVE">ACTIVE</option>
-                            <option value="NOT_ACTIVE">NOT_ACTIVE</option>
-                        </select>
-                        <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
-                            <small class="form-text text-danger"
-                                   *ngIf="editForm.get('status')?.errors?.required">
-                                This field is required.
-                            </small>
-                        </div>
-                    </div>
-
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
                 </div>
 
 
