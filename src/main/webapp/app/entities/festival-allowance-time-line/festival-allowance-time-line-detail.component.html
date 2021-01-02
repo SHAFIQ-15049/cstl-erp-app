@@ -1,0 +1,34 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="festivalAllowanceTimeLine">
+            <h2><span>Festival Allowance Time Line</span> {{ festivalAllowanceTimeLine.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Year</span></dt>
+                <dd>
+                    <span>{{ festivalAllowanceTimeLine.year }}</span>
+                </dd>
+                <dt><span>Month</span></dt>
+                <dd>
+                    <span>{{ festivalAllowanceTimeLine.month }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/festival-allowance-time-line', festivalAllowanceTimeLine.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

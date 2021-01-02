@@ -28,6 +28,7 @@
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="attachment"><span>Attachment</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="department.name"><span>Department</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="designation.name"><span>Designation</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="grade.name"><span>Grade</span> <fa-icon icon="sort"></fa-icon></th>
@@ -46,6 +47,7 @@
                         <a *ngIf="serviceHistory.attachment" (click)="openFile(serviceHistory.attachmentContentType, serviceHistory.attachment)">open</a>
                         <span *ngIf="serviceHistory.attachment">{{ serviceHistory.attachmentContentType }}, {{ byteSize(serviceHistory.attachment) }}</span>
                     </td>
+                    <td>{{ serviceHistory.status }}</td>
                     <td>
                         <div *ngIf="serviceHistory.department">
                             <a [routerLink]="['/department', serviceHistory.department?.id, 'view']" >{{ serviceHistory.department?.name }}</a>

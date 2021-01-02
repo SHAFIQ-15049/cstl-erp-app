@@ -1,0 +1,54 @@
+{
+  "name": "FestivalAllowancePaymentDtl",
+  "fields": [
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SalaryExecutionStatus",
+      "fieldValues": "DONE,NOT_DONE"
+    },
+    {
+      "fieldName": "executedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "executedBy",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "festivalAllowancePayment",
+      "otherEntityRelationshipName": "festivalAllowancePaymentDtl",
+      "relationshipName": "festivalAllowancePayment",
+      "otherEntityField": "id"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "festivalAllowancePaymentDtl",
+      "relationshipName": "employee",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20210102143649",
+  "entityTableName": "festival_allowance_payment_dtl",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

@@ -1,0 +1,172 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-employee-salary-heading">Create or edit a Employee Salary</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_gross">Gross</label>
+                    <input type="number" class="form-control" name="gross" id="field_gross"
+                           formControlName="gross"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_incrementAmount">Increment Amount</label>
+                    <input type="number" class="form-control" name="incrementAmount" id="field_incrementAmount"
+                           formControlName="incrementAmount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_incrementPercentage">Increment Percentage</label>
+                    <input type="number" class="form-control" name="incrementPercentage" id="field_incrementPercentage"
+                           formControlName="incrementPercentage"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_salaryStartDate">Salary Start Date</label>
+                    <div class="input-group">
+                        <input id="field_salaryStartDate" type="text" class="form-control" name="salaryStartDate" ngbDatepicker #salaryStartDateDp="ngbDatepicker" formControlName="salaryStartDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="salaryStartDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_salaryEndDate">Salary End Date</label>
+                    <div class="input-group">
+                        <input id="field_salaryEndDate" type="text" class="form-control" name="salaryEndDate" ngbDatepicker #salaryEndDateDp="ngbDatepicker" formControlName="salaryEndDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="salaryEndDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nextIncrementDate">Next Increment Date</label>
+                    <div class="input-group">
+                        <input id="field_nextIncrementDate" type="text" class="form-control" name="nextIncrementDate" ngbDatepicker #nextIncrementDateDp="ngbDatepicker" formControlName="nextIncrementDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="nextIncrementDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_basic">Basic</label>
+                    <input type="number" class="form-control" name="basic" id="field_basic"
+                           formControlName="basic"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
+                    <input type="number" class="form-control" name="basicPercent" id="field_basicPercent"
+                           formControlName="basicPercent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_houseRent">House Rent</label>
+                    <input type="number" class="form-control" name="houseRent" id="field_houseRent"
+                           formControlName="houseRent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_houseRentPercent">House Rent Percent</label>
+                    <input type="number" class="form-control" name="houseRentPercent" id="field_houseRentPercent"
+                           formControlName="houseRentPercent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalAllowance">Total Allowance</label>
+                    <input type="number" class="form-control" name="totalAllowance" id="field_totalAllowance"
+                           formControlName="totalAllowance"/>
+                    <div *ngIf="editForm.get('totalAllowance')!.invalid && (editForm.get('totalAllowance')!.dirty || editForm.get('totalAllowance')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('totalAllowance')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('totalAllowance')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
+                    <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
+                           formControlName="medicalAllowance"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
+                    <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
+                           formControlName="medicalAllowancePercent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
+                    <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
+                           formControlName="convinceAllowance"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_convinceAllowancePercent">Convince Allowance Percent</label>
+                    <input type="number" class="form-control" name="convinceAllowancePercent" id="field_convinceAllowancePercent"
+                           formControlName="convinceAllowancePercent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
+                    <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
+                           formControlName="foodAllowance"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_foodAllowancePercent">Food Allowance Percent</label>
+                    <input type="number" class="form-control" name="foodAllowancePercent" id="field_foodAllowancePercent"
+                           formControlName="foodAllowancePercent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,104 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="employeeSalary">
+            <h2><span>Employee Salary</span> {{ employeeSalary.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Gross</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.gross }}</span>
+                </dd>
+                <dt><span>Increment Amount</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.incrementAmount }}</span>
+                </dd>
+                <dt><span>Increment Percentage</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.incrementPercentage }}</span>
+                </dd>
+                <dt><span>Salary Start Date</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.salaryStartDate }}</span>
+                </dd>
+                <dt><span>Salary End Date</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.salaryEndDate }}</span>
+                </dd>
+                <dt><span>Next Increment Date</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.nextIncrementDate }}</span>
+                </dd>
+                <dt><span>Basic</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.basic }}</span>
+                </dd>
+                <dt><span>Basic Percent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.basicPercent }}</span>
+                </dd>
+                <dt><span>House Rent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.houseRent }}</span>
+                </dd>
+                <dt><span>House Rent Percent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.houseRentPercent }}</span>
+                </dd>
+                <dt><span>Total Allowance</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.totalAllowance }}</span>
+                </dd>
+                <dt><span>Medical Allowance</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.medicalAllowance }}</span>
+                </dd>
+                <dt><span>Medical Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.medicalAllowancePercent }}</span>
+                </dd>
+                <dt><span>Convince Allowance</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.convinceAllowance }}</span>
+                </dd>
+                <dt><span>Convince Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.convinceAllowancePercent }}</span>
+                </dd>
+                <dt><span>Food Allowance</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.foodAllowance }}</span>
+                </dd>
+                <dt><span>Food Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.foodAllowancePercent }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ employeeSalary.status }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="employeeSalary.employee">
+                        <a [routerLink]="['/employee', employeeSalary.employee?.id, 'view']">{{ employeeSalary.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/employee-salary', employeeSalary.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

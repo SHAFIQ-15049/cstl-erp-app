@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span>Default Allowances</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-default-allowance" [routerLink]="['/default-allowance/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Default Allowance
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="defaultAllowances?.length === 0">
+        <span>No defaultAllowances found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="defaultAllowances && defaultAllowances.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="basic"><span>Basic</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalAllowance"><span>Total Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="medicalAllowancePercent"><span>Medical Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="convinceAllowancePercent"><span>Convince Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="foodAllowance"><span>Food Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="foodAllowancePercent"><span>Food Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="festivalAllowance"><span>Festival Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="festivalAllowancePercent"><span>Festival Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let defaultAllowance of defaultAllowances ;trackBy: trackId">
+                    <td><a [routerLink]="['/default-allowance', defaultAllowance.id, 'view']">{{ defaultAllowance.id }}</a></td>
+                    <td>{{ defaultAllowance.basic }}</td>
+                    <td>{{ defaultAllowance.basicPercent }}</td>
+                    <td>{{ defaultAllowance.totalAllowance }}</td>
+                    <td>{{ defaultAllowance.medicalAllowance }}</td>
+                    <td>{{ defaultAllowance.medicalAllowancePercent }}</td>
+                    <td>{{ defaultAllowance.convinceAllowance }}</td>
+                    <td>{{ defaultAllowance.convinceAllowancePercent }}</td>
+                    <td>{{ defaultAllowance.foodAllowance }}</td>
+                    <td>{{ defaultAllowance.foodAllowancePercent }}</td>
+                    <td>{{ defaultAllowance.festivalAllowance }}</td>
+                    <td>{{ defaultAllowance.festivalAllowancePercent }}</td>
+                    <td>{{ defaultAllowance.status }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/default-allowance', defaultAllowance.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/default-allowance', defaultAllowance.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(defaultAllowance)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="defaultAllowances && defaultAllowances.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

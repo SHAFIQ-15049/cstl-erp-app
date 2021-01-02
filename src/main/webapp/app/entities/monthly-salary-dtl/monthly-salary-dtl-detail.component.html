@@ -1,0 +1,106 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="monthlySalaryDtl">
+            <h2><span>Monthly Salary Dtl</span> {{ monthlySalaryDtl.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Gross</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.gross }}</span>
+                </dd>
+                <dt><span>Basic</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.basic }}</span>
+                </dd>
+                <dt><span>Basic Percent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.basicPercent }}</span>
+                </dd>
+                <dt><span>House Rent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.houseRent }}</span>
+                </dd>
+                <dt><span>House Rent Percent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.houseRentPercent }}</span>
+                </dd>
+                <dt><span>Medical Allowance</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.medicalAllowance }}</span>
+                </dd>
+                <dt><span>Medical Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.medicalAllowancePercent }}</span>
+                </dd>
+                <dt><span>Convince Allowance</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.convinceAllowance }}</span>
+                </dd>
+                <dt><span>Convince Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.convinceAllowancePercent }}</span>
+                </dd>
+                <dt><span>Food Allowance</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.foodAllowance }}</span>
+                </dd>
+                <dt><span>Food Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.foodAllowancePercent }}</span>
+                </dd>
+                <dt><span>Fine</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.fine }}</span>
+                </dd>
+                <dt><span>Advance</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.advance }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.status }}</span>
+                </dd>
+                <dt><span>Executed On</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.executedOn }}</span>
+                </dd>
+                <dt><span>Executed By</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.executedBy }}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{ monthlySalaryDtl.note }}</span>
+                </dd>
+                <dt><span>Monthly Salary</span></dt>
+                <dd>
+                    <div *ngIf="monthlySalaryDtl.monthlySalary">
+                        <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']">{{ monthlySalaryDtl.monthlySalary?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="monthlySalaryDtl.employee">
+                        <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']">{{ monthlySalaryDtl.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>
