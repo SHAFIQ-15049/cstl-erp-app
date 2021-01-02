@@ -18,7 +18,7 @@ import software.cstl.domain.enumeration.PaymentStatus;
 @Entity
 @Table(name = "fine")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class Fine extends AbstractAuditingEntity implements Serializable {
+public class Fine extends AbstractAuditingEntity  implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

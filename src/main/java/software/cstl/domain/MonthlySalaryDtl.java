@@ -18,7 +18,7 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
 @Entity
 @Table(name = "monthly_salary_dtl")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class MonthlySalaryDtl implements Serializable {
+public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

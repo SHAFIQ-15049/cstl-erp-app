@@ -17,7 +17,7 @@ import software.cstl.domain.enumeration.ActiveStatus;
 @Entity
 @Table(name = "default_allowance")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class DefaultAllowance implements Serializable {
+public class DefaultAllowance extends AbstractAuditingEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
