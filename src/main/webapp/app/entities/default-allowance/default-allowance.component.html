@@ -22,36 +22,24 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="basic"><span>Basic</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalAllowance"><span>Total Allowance</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="medicalAllowancePercent"><span>Medical Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="convinceAllowancePercent"><span>Convince Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="foodAllowance"><span>Food Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="foodAllowancePercent"><span>Food Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="festivalAllowance"><span>Festival Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="festivalAllowancePercent"><span>Festival Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let defaultAllowance of defaultAllowances ;trackBy: trackId">
-                    <td><a [routerLink]="['/default-allowance', defaultAllowance.id, 'view']">{{ defaultAllowance.id }}</a></td>
-                    <td>{{ defaultAllowance.basic }}</td>
+                <tr *ngFor="let defaultAllowance of defaultAllowances; let i=index ;trackBy: trackId">
+                    <td><a [routerLink]="['/default-allowance', defaultAllowance.id, 'view']">{{(page -1) * itemsPerPage + (i+1)}}</a></td>
                     <td>{{ defaultAllowance.basicPercent }}</td>
                     <td>{{ defaultAllowance.totalAllowance }}</td>
                     <td>{{ defaultAllowance.medicalAllowance }}</td>
-                    <td>{{ defaultAllowance.medicalAllowancePercent }}</td>
                     <td>{{ defaultAllowance.convinceAllowance }}</td>
-                    <td>{{ defaultAllowance.convinceAllowancePercent }}</td>
                     <td>{{ defaultAllowance.foodAllowance }}</td>
-                    <td>{{ defaultAllowance.foodAllowancePercent }}</td>
-                    <td>{{ defaultAllowance.festivalAllowance }}</td>
-                    <td>{{ defaultAllowance.festivalAllowancePercent }}</td>
                     <td>{{ defaultAllowance.status }}</td>
                     <td class="text-right">
                         <div class="btn-group">

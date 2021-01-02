@@ -1,17 +1,14 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="defaultAllowance">
-            <h2><span>Default Allowance</span> {{ defaultAllowance.id }}</h2>
+            <h2><span>Default Allowance</span> </h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
             <dl class="row-md jh-entity-details">
-                <dt><span>Basic</span></dt>
-                <dd>
-                    <span>{{ defaultAllowance.basic }}</span>
-                </dd>
+
                 <dt><span>Basic Percent</span></dt>
                 <dd>
                     <span>{{ defaultAllowance.basicPercent }}</span>
@@ -43,14 +40,6 @@
                 <dt><span>Food Allowance Percent</span></dt>
                 <dd>
                     <span>{{ defaultAllowance.foodAllowancePercent }}</span>
-                </dd>
-                <dt><span>Festival Allowance</span></dt>
-                <dd>
-                    <span>{{ defaultAllowance.festivalAllowance }}</span>
-                </dd>
-                <dt><span>Festival Allowance Percent</span></dt>
-                <dd>
-                    <span>{{ defaultAllowance.festivalAllowancePercent }}</span>
                 </dd>
                 <dt><span>Status</span></dt>
                 <dd>

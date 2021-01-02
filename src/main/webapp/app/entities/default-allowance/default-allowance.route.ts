@@ -40,7 +40,7 @@ export const defaultAllowanceRoute: Routes = [
     component: DefaultAllowanceComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'id,desc',
       pageTitle: 'DefaultAllowances',
     },
     canActivate: [UserRouteAccessService],

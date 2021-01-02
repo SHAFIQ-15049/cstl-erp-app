@@ -94,7 +94,11 @@ export const employeeExtRoute: Routes = [
           pageTitle: 'ID Card',
         },
         canActivate: [UserRouteAccessService],
-      }
+      },
+      {
+        path: 'employee-salary',
+        loadChildren: () => import('../../entities/employee-salary/employee-salary.module').then(m => m.CodeNodeErpEmployeeSalaryModule),
+      },
     ],
   },
   {

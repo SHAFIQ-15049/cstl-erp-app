@@ -1,91 +1,72 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-default-allowance-heading">Create or edit a Default Allowance</h2>
+            <h2 id="jhi-default-allowance-heading"> {{!editForm.get('id')!.value?'Create': 'Updated'}}  Default Allowance</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_basic">Basic</label>
-                    <input type="number" class="form-control" name="basic" id="field_basic"
-                           formControlName="basic"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
-                    <input type="number" class="form-control" name="basicPercent" id="field_basicPercent"
-                           formControlName="basicPercent"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_totalAllowance">Total Allowance</label>
-                    <input type="number" class="form-control" name="totalAllowance" id="field_totalAllowance"
-                           formControlName="totalAllowance"/>
-                    <div *ngIf="editForm.get('totalAllowance')!.invalid && (editForm.get('totalAllowance')!.dirty || editForm.get('totalAllowance')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('totalAllowance')?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('totalAllowance')?.errors?.number">
-                            This field should be a number.
-                        </small>
+                <div class="row justify-content-center">
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
+                        <input type="number" class="form-control" name="basicPercent" id="field_basicPercent"
+                               formControlName="basicPercent"/>
                     </div>
+                    <div class="form-group col-md-12">
+                        <label class="form-control-label" for="field_totalAllowance">Total Allowance</label>
+                        <input type="number" class="form-control" name="totalAllowance" id="field_totalAllowance"
+                               formControlName="totalAllowance"/>
+                        <div *ngIf="editForm.get('totalAllowance')!.invalid && (editForm.get('totalAllowance')!.dirty || editForm.get('totalAllowance')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('totalAllowance')?.errors?.required">
+                                This field is required.
+                            </small>
+                            <small class="form-text text-danger"
+                                   [hidden]="!editForm.get('totalAllowance')?.errors?.number">
+                                This field should be a number.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
+                        <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
+                               formControlName="medicalAllowance"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
+                        <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
+                               formControlName="medicalAllowancePercent"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
+                        <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
+                               formControlName="convinceAllowance"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_convinceAllowancePercent">Convince Allowance Percent</label>
+                        <input type="number" class="form-control" name="convinceAllowancePercent" id="field_convinceAllowancePercent"
+                               formControlName="convinceAllowancePercent"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
+                        <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
+                               formControlName="foodAllowance"/>
+                    </div>
+
+                    <div class="form-group col-md-6">
+                        <label class="form-control-label" for="field_foodAllowancePercent">Food Allowance Percent</label>
+                        <input type="number" class="form-control" name="foodAllowancePercent" id="field_foodAllowancePercent"
+                               formControlName="foodAllowancePercent"/>
+                    </div>
+
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
-                    <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
-                           formControlName="medicalAllowance"/>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
-                    <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
-                           formControlName="medicalAllowancePercent"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
-                    <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
-                           formControlName="convinceAllowance"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_convinceAllowancePercent">Convince Allowance Percent</label>
-                    <input type="number" class="form-control" name="convinceAllowancePercent" id="field_convinceAllowancePercent"
-                           formControlName="convinceAllowancePercent"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
-                    <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
-                           formControlName="foodAllowance"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_foodAllowancePercent">Food Allowance Percent</label>
-                    <input type="number" class="form-control" name="foodAllowancePercent" id="field_foodAllowancePercent"
-                           formControlName="foodAllowancePercent"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_festivalAllowance">Festival Allowance</label>
-                    <input type="number" class="form-control" name="festivalAllowance" id="field_festivalAllowance"
-                           formControlName="festivalAllowance"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_festivalAllowancePercent">Festival Allowance Percent</label>
-                    <input type="number" class="form-control" name="festivalAllowancePercent" id="field_festivalAllowancePercent"
-                           formControlName="festivalAllowancePercent"/>
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
