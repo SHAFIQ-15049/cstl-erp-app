@@ -17,7 +17,7 @@ import software.cstl.domain.enumeration.ActiveStatus;
  * A EmployeeSalary.
  */
 @Entity
-@Table(name = "employee_allowance")
+@Table(name = "employee_salary")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class EmployeeSalary extends AbstractAuditingEntity implements Serializable {
 

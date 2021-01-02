@@ -220,7 +220,7 @@ entity DefaultAllowance (default_allowance){
 }
 
 
-entity EmployeeSalary (employee_allowance){
+entity EmployeeSalary (employee_salary){
   gross BigDecimal,
   incrementAmount BigDecimal,
   incrementPercentage BigDecimal,

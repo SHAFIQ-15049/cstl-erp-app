@@ -69,6 +69,7 @@
     <include file="config/liquibase/changelog/20201228185806_initial_salary_added_to_Grade.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201228191511_added_entity_Fine.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201228193250_added_FinePaymentHistory_Advance_AdvancePaymentHistory.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210102142307_payment_Entities_Added.xml" relativeToChangelogFile="false"/>
 
 
 

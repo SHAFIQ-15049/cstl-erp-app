@@ -1,0 +1,196 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1609597399728-1">
+        <createTable tableName="default_allowance">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="default_allowancePK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="basic" type="DECIMAL(21, 2)"/>
+            <column name="basic_percent" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="festival_allowance" type="DECIMAL(21, 2)"/>
+            <column name="festival_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_allowance" type="DECIMAL(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-2">
+        <createTable tableName="employee_salary">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="employee_salaryPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="basic" type="DECIMAL(21, 2)"/>
+            <column name="basic_percent" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="gross" type="DECIMAL(21, 2)"/>
+            <column name="house_rent" type="DECIMAL(21, 2)"/>
+            <column name="house_rent_percent" type="DECIMAL(21, 2)"/>
+            <column name="increment_amount" type="DECIMAL(21, 2)"/>
+            <column name="increment_percentage" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="next_increment_date" type="date"/>
+            <column name="salary_end_date" type="date"/>
+            <column name="salary_start_date" type="date"/>
+            <column name="status" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="total_allowance" type="DECIMAL(21, 2)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="employee_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-3">
+        <createTable tableName="festival_allowance_payment">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="festival_allowance_paymentPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="executed_by" type="datetime(6)"/>
+            <column name="executed_on" type="datetime(6)"/>
+            <column name="month" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="year" type="INT"/>
+            <column name="designation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-4">
+        <createTable tableName="festival_allowance_payment_dtl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="festival_allowance_payment_dtlPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="amount" type="DECIMAL(21, 2)"/>
+            <column name="executed_by" type="datetime(6)"/>
+            <column name="executed_on" type="datetime(6)"/>
+            <column name="note" type="LONGTEXT"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="employee_id" type="BIGINT"/>
+            <column name="festival_allowance_payment_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-5">
+        <createTable tableName="festival_allowance_time_line">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="festival_allowance_time_linePK"/>
+            </column>
+            <column name="month" type="VARCHAR(255)"/>
+            <column name="year" type="INT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-6">
+        <createTable tableName="monthly_salary">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="monthly_salaryPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="executed_by" type="datetime(6)"/>
+            <column name="executed_on" type="datetime(6)"/>
+            <column name="month" type="VARCHAR(255)"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="year" type="INT"/>
+            <column name="designation_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-7">
+        <createTable tableName="monthly_salary_dtl">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="monthly_salary_dtlPK"/>
+            </column>
+            <column name="created_by" type="VARCHAR(50)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_date" type="datetime(6)"/>
+            <column name="last_modified_by" type="VARCHAR(50)"/>
+            <column name="last_modified_date" type="datetime(6)"/>
+            <column name="advance" type="DECIMAL(21, 2)"/>
+            <column name="basic" type="DECIMAL(21, 2)"/>
+            <column name="basic_percent" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance" type="DECIMAL(21, 2)"/>
+            <column name="convince_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="executed_by" type="datetime(6)"/>
+            <column name="executed_on" type="datetime(6)"/>
+            <column name="fine" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance" type="DECIMAL(21, 2)"/>
+            <column name="food_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="gross" type="DECIMAL(21, 2)"/>
+            <column name="house_rent" type="DECIMAL(21, 2)"/>
+            <column name="house_rent_percent" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance" type="DECIMAL(21, 2)"/>
+            <column name="medical_allowance_percent" type="DECIMAL(21, 2)"/>
+            <column name="note" type="LONGTEXT"/>
+            <column name="status" type="VARCHAR(255)"/>
+            <column name="employee_id" type="BIGINT"/>
+            <column name="monthly_salary_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-8">
+        <addColumn tableName="service_history">
+            <column name="status" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-9">
+        <addUniqueConstraint columnNames="status" constraintName="UC_DEFAULT_ALLOWANCESTATUS_COL" tableName="default_allowance"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-10">
+        <addForeignKeyConstraint baseColumnNames="festival_allowance_payment_id" baseTableName="festival_allowance_payment_dtl" constraintName="FK219q2x3l82tc52w9eolywbdtu" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="festival_allowance_payment" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-11">
+        <addForeignKeyConstraint baseColumnNames="designation_id" baseTableName="festival_allowance_payment" constraintName="FK5550425fijedmky6hyvl0j350" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_designation" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-12">
+        <addForeignKeyConstraint baseColumnNames="designation_id" baseTableName="monthly_salary" constraintName="FK8b7w21uot9mc0kstva0p9drrr" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_designation" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-13">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="festival_allowance_payment_dtl" constraintName="FKcwvshug8xjno0hgxn6qwwhid7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-14">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="employee_salary" constraintName="FKggeifm26u3eqmvoxoddpukrxw" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-15">
+        <addForeignKeyConstraint baseColumnNames="monthly_salary_id" baseTableName="monthly_salary_dtl" constraintName="FKpsi019ycul9dqgav44e44pfgq" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="monthly_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1609597399728-16">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="monthly_salary_dtl" constraintName="FKrbtsjlvcjcr30sjnyvub0cgu6" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

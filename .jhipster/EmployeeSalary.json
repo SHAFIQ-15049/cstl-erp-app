@@ -91,7 +91,7 @@
     }
   ],
   "changelogDate": "20210102143249",
-  "entityTableName": "employee_allowance",
+  "entityTableName": "employee_salary",
   "dto": "no",
   "pagination": "pagination",
   "service": "serviceClass",
