@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,7 +57,7 @@ public class AdvanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/advances")
-    public ResponseEntity<Advance> createAdvance(@RequestBody Advance advance) throws URISyntaxException {
+    public ResponseEntity<Advance> createAdvance(@Valid @RequestBody Advance advance) throws URISyntaxException {
         log.debug("REST request to save Advance : {}", advance);
         if (advance.getId() != null) {
             throw new BadRequestAlertException("A new advance cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +78,7 @@ public class AdvanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/advances")
-    public ResponseEntity<Advance> updateAdvance(@RequestBody Advance advance) throws URISyntaxException {
+    public ResponseEntity<Advance> updateAdvance(@Valid @RequestBody Advance advance) throws URISyntaxException {
         log.debug("REST request to update Advance : {}", advance);
         if (advance.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

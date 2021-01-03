@@ -10,6 +10,7 @@ import { IAdvancePaymentHistory } from 'app/shared/model/advance-payment-history
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AdvancePaymentHistoryService } from './advance-payment-history.service';
 import { AdvancePaymentHistoryDeleteDialogComponent } from './advance-payment-history-delete-dialog.component';
+import {AdvanceService} from "app/entities/advance/advance.service";
 
 @Component({
   selector: 'jhi-advance-payment-history',
@@ -24,13 +25,15 @@ export class AdvancePaymentHistoryComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  advanceId?: number;
 
   constructor(
     protected advancePaymentHistoryService: AdvancePaymentHistoryService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private advanceService: AdvanceService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -38,6 +41,7 @@ export class AdvancePaymentHistoryComponent implements OnInit, OnDestroy {
 
     this.advancePaymentHistoryService
       .query({
+        'advanceId.equals': this.advanceService.getAdvanceId(),
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),

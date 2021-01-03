@@ -152,6 +152,63 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void checkProvidedOnIsRequired() throws Exception {
+        int databaseSizeBeforeTest = advanceRepository.findAll().size();
+        // set the field null
+        advance.setProvidedOn(null);
+
+        // Create the Advance, which fails.
+
+
+        restAdvanceMockMvc.perform(post("/api/advances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(advance)))
+            .andExpect(status().isBadRequest());
+
+        List<Advance> advanceList = advanceRepository.findAll();
+        assertThat(advanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = advanceRepository.findAll().size();
+        // set the field null
+        advance.setAmount(null);
+
+        // Create the Advance, which fails.
+
+
+        restAdvanceMockMvc.perform(post("/api/advances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(advance)))
+            .andExpect(status().isBadRequest());
+
+        List<Advance> advanceList = advanceRepository.findAll();
+        assertThat(advanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkPaymentPercentageIsRequired() throws Exception {
+        int databaseSizeBeforeTest = advanceRepository.findAll().size();
+        // set the field null
+        advance.setPaymentPercentage(null);
+
+        // Create the Advance, which fails.
+
+
+        restAdvanceMockMvc.perform(post("/api/advances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(advance)))
+            .andExpect(status().isBadRequest());
+
+        List<Advance> advanceList = advanceRepository.findAll();
+        assertThat(advanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAdvances() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);

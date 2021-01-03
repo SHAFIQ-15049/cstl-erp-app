@@ -24,6 +24,7 @@ export class AdvanceResolve implements Resolve<IAdvance> {
       return this.service.find(id).pipe(
         flatMap((advance: HttpResponse<Advance>) => {
           if (advance.body) {
+            this.service.storeAdvanceId(advance.body?.id!);
             return of(advance.body);
           } else {
             this.router.navigate(['404']);
@@ -55,7 +56,7 @@ export const advanceRoute: Routes = [
     component: AdvanceComponent,
     data: {
       authorities: [Authority.USER],
-      defaultSort: 'id,asc',
+      defaultSort: 'id,desc',
       pageTitle: 'Advances',
     },
     canActivate: [UserRouteAccessService],
@@ -71,6 +72,12 @@ export const advanceRoute: Routes = [
       pageTitle: 'Advances',
     },
     canActivate: [UserRouteAccessService],
+    children:[
+      {
+        path:'',
+        loadChildren: ()=> import('../advance-payment-history/advance-payment-history.module').then(m=> m.CodeNodeErpAdvancePaymentHistoryModule)
+      }
+    ]
   },
   {
     path: 'new',

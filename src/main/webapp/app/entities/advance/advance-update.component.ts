@@ -23,10 +23,10 @@ export class AdvanceUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    providedOn: [],
+    providedOn: [null, [Validators.required]],
     reason: [],
-    amount: [],
-    paymentPercentage: [],
+    amount: [null, [Validators.required]],
+    paymentPercentage: [null, [Validators.required]],
     paymentStatus: [],
     employee: [],
   });

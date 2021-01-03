@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,17 +27,20 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "provided_on")
+    @NotNull
+    @Column(name = "provided_on", nullable = false)
     private LocalDate providedOn;
 
     @Lob
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "amount", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "payment_percentage", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "payment_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal paymentPercentage;
 
     @Enumerated(EnumType.STRING)

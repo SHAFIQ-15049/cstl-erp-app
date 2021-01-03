@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-8">
         <div *ngIf="advance">
-            <h2><span>Advance</span> {{ advance.id }}</h2>
+            <h2><span>Advance</span></h2>
 
             <hr>
 
@@ -10,7 +10,7 @@
             <dl class="row-md jh-entity-details">
                 <dt><span>Provided On</span></dt>
                 <dd>
-                    <span>{{ advance.providedOn }}</span>
+                    <span>{{ advance.providedOn | date: 'dd-MM-yyyy'}}</span>
                 </dd>
                 <dt><span>Reason</span></dt>
                 <dd>
@@ -28,12 +28,7 @@
                 <dd>
                     <span>{{ advance.paymentStatus }}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="advance.employee">
-                        <a [routerLink]="['/employee', advance.employee?.id, 'view']">{{ advance.employee?.name }}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -48,5 +43,8 @@
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
         </div>
+    </div>
+    <div class="col-md-8" style="padding-top: 2em;">
+        <router-outlet></router-outlet>
     </div>
 </div>

@@ -10,6 +10,7 @@ import { IDefaultAllowance } from 'app/shared/model/default-allowance.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { DefaultAllowanceService } from './default-allowance.service';
 import { DefaultAllowanceDeleteDialogComponent } from './default-allowance-delete-dialog.component';
+import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
 
 @Component({
   selector: 'jhi-default-allowance',
@@ -24,13 +25,15 @@ export class DefaultAllowanceComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  employeeId?: number;
 
   constructor(
     protected defaultAllowanceService: DefaultAllowanceService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected employeeService: EmployeeExtService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -49,6 +52,7 @@ export class DefaultAllowanceComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.employeeId = this.employeeService.getEmployeeId()!;
     this.handleNavigation();
     this.registerChangeInDefaultAllowances();
   }

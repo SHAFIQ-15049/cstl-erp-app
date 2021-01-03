@@ -15,6 +15,12 @@
                             <button type="button" class="btn btn-secondary" (click)="providedOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
                     </div>
+                    <div *ngIf="editForm.get('providedOn')!.invalid && (editForm.get('providedOn')!.dirty || editForm.get('providedOn')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('providedOn')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
@@ -27,12 +33,32 @@
                     <label class="form-control-label" for="field_amount">Amount</label>
                     <input type="number" class="form-control" name="amount" id="field_amount"
                            formControlName="amount"/>
+                    <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amount')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('amount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_paymentPercentage">Payment Percentage</label>
                     <input type="number" class="form-control" name="paymentPercentage" id="field_paymentPercentage"
                            formControlName="paymentPercentage"/>
+                    <div *ngIf="editForm.get('paymentPercentage')!.invalid && (editForm.get('paymentPercentage')!.dirty || editForm.get('paymentPercentage')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('paymentPercentage')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('paymentPercentage')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
                 </div>
 
                 <div class="form-group">
