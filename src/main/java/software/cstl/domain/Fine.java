@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -26,17 +27,20 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "fined_on")
+    @NotNull
+    @Column(name = "fined_on", nullable = false)
     private LocalDate finedOn;
 
     @Lob
     @Column(name = "reason")
     private String reason;
 
-    @Column(name = "amount", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal amount;
 
-    @Column(name = "fine_percentage", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "fine_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal finePercentage;
 
     @Enumerated(EnumType.STRING)

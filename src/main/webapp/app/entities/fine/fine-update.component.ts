@@ -23,10 +23,10 @@ export class FineUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    finedOn: [],
+    finedOn: [null, [Validators.required]],
     reason: [],
-    amount: [],
-    finePercentage: [],
+    amount: [null, [Validators.required]],
+    finePercentage: [null, [Validators.required]],
     paymentStatus: [],
     employee: [],
   });

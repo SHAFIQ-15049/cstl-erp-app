@@ -165,10 +165,10 @@ entity ServiceHistory (service_history){
 
 entity Fine (fine){
   //employee
-  finedOn LocalDate,
+  finedOn LocalDate required,
   reason TextBlob,
-  amount BigDecimal,
-  finePercentage BigDecimal
+  amount BigDecimal required,
+  finePercentage BigDecimal required,
   paymentStatus PaymentStatus,
 }
 

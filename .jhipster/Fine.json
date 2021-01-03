@@ -3,7 +3,10 @@
   "fields": [
     {
       "fieldName": "finedOn",
-      "fieldType": "LocalDate"
+      "fieldType": "LocalDate",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "reason",
@@ -12,11 +15,17 @@
     },
     {
       "fieldName": "amount",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "finePercentage",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "paymentStatus",

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,7 +57,7 @@ public class FineResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/fines")
-    public ResponseEntity<Fine> createFine(@RequestBody Fine fine) throws URISyntaxException {
+    public ResponseEntity<Fine> createFine(@Valid @RequestBody Fine fine) throws URISyntaxException {
         log.debug("REST request to save Fine : {}", fine);
         if (fine.getId() != null) {
             throw new BadRequestAlertException("A new fine cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +78,7 @@ public class FineResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/fines")
-    public ResponseEntity<Fine> updateFine(@RequestBody Fine fine) throws URISyntaxException {
+    public ResponseEntity<Fine> updateFine(@Valid @RequestBody Fine fine) throws URISyntaxException {
         log.debug("REST request to update Fine : {}", fine);
         if (fine.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

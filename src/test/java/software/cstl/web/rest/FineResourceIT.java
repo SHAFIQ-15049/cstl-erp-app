@@ -152,6 +152,63 @@ public class FineResourceIT {
 
     @Test
     @Transactional
+    public void checkFinedOnIsRequired() throws Exception {
+        int databaseSizeBeforeTest = fineRepository.findAll().size();
+        // set the field null
+        fine.setFinedOn(null);
+
+        // Create the Fine, which fails.
+
+
+        restFineMockMvc.perform(post("/api/fines")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(fine)))
+            .andExpect(status().isBadRequest());
+
+        List<Fine> fineList = fineRepository.findAll();
+        assertThat(fineList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = fineRepository.findAll().size();
+        // set the field null
+        fine.setAmount(null);
+
+        // Create the Fine, which fails.
+
+
+        restFineMockMvc.perform(post("/api/fines")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(fine)))
+            .andExpect(status().isBadRequest());
+
+        List<Fine> fineList = fineRepository.findAll();
+        assertThat(fineList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkFinePercentageIsRequired() throws Exception {
+        int databaseSizeBeforeTest = fineRepository.findAll().size();
+        // set the field null
+        fine.setFinePercentage(null);
+
+        // Create the Fine, which fails.
+
+
+        restFineMockMvc.perform(post("/api/fines")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(fine)))
+            .andExpect(status().isBadRequest());
+
+        List<Fine> fineList = fineRepository.findAll();
+        assertThat(fineList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllFines() throws Exception {
         // Initialize the database
         fineRepository.saveAndFlush(fine);
