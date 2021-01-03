@@ -99,6 +99,14 @@ export const employeeExtRoute: Routes = [
         path: 'employee-salary',
         loadChildren: () => import('../../entities/employee-salary/employee-salary.module').then(m => m.CodeNodeErpEmployeeSalaryModule),
       },
+      {
+        path: 'advance',
+        loadChildren: () => import('../../entities/advance/advance.module').then(m => m.CodeNodeErpAdvanceModule),
+      },
+      {
+        path: 'fine',
+        loadChildren: () => import('../../entities/fine/fine.module').then(m => m.CodeNodeErpFineModule),
+      },
     ],
   },
   {
