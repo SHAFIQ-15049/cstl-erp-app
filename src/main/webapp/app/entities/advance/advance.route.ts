@@ -11,13 +11,15 @@ import { AdvanceService } from './advance.service';
 import { AdvanceComponent } from './advance.component';
 import { AdvanceDetailComponent } from './advance-detail.component';
 import { AdvanceUpdateComponent } from './advance-update.component';
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 @Injectable({ providedIn: 'root' })
 export class AdvanceResolve implements Resolve<IAdvance> {
-  constructor(private service: AdvanceService, private router: Router) {}
+  constructor(private service: AdvanceService, private employeeService: EmployeeService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IAdvance> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((advance: HttpResponse<Advance>) => {
@@ -26,6 +28,19 @@ export class AdvanceResolve implements Resolve<IAdvance> {
           } else {
             this.router.navigate(['404']);
             return EMPTY;
+          }
+        })
+      );
+    }
+    else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employee)=>{
+          if(employee.body){
+            const advance = new Advance();
+            advance.employee = employee.body;
+            return of(advance);
+          }else{
+            return of(new Advance());
           }
         })
       );
@@ -59,6 +74,19 @@ export const advanceRoute: Routes = [
   },
   {
     path: 'new',
+    component: AdvanceUpdateComponent,
+    resolve: {
+      advance: AdvanceResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Advances',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+
+  {
+    path: 'new/:employeeId',
     component: AdvanceUpdateComponent,
     resolve: {
       advance: AdvanceResolve,
