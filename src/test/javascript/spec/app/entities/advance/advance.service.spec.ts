@@ -32,7 +32,7 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            paidOn: currentDate.format(DATE_FORMAT),
+            providedOn: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
@@ -48,14 +48,14 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            paidOn: currentDate.format(DATE_FORMAT),
+            providedOn: currentDate.format(DATE_FORMAT),
           },
           elemDefault
         );
 
         const expected = Object.assign(
           {
-            paidOn: currentDate,
+            providedOn: currentDate,
           },
           returnedFromService
         );
@@ -70,7 +70,7 @@ describe('Service Tests', () => {
       it('should update a Advance', () => {
         const returnedFromService = Object.assign(
           {
-            paidOn: currentDate.format(DATE_FORMAT),
+            providedOn: currentDate.format(DATE_FORMAT),
             reason: 'BBBBBB',
             amount: 1,
             paymentPercentage: 1,
@@ -81,7 +81,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            paidOn: currentDate,
+            providedOn: currentDate,
           },
           returnedFromService
         );
@@ -96,7 +96,7 @@ describe('Service Tests', () => {
       it('should return a list of Advance', () => {
         const returnedFromService = Object.assign(
           {
-            paidOn: currentDate.format(DATE_FORMAT),
+            providedOn: currentDate.format(DATE_FORMAT),
             reason: 'BBBBBB',
             amount: 1,
             paymentPercentage: 1,
@@ -107,7 +107,7 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            paidOn: currentDate,
+            providedOn: currentDate,
           },
           returnedFromService
         );

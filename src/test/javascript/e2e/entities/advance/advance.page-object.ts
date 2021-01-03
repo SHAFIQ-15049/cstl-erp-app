@@ -29,7 +29,7 @@ export class AdvanceUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
-  paidOnInput = element(by.id('field_paidOn'));
+  providedOnInput = element(by.id('field_providedOn'));
   reasonInput = element(by.id('field_reason'));
   amountInput = element(by.id('field_amount'));
   paymentPercentageInput = element(by.id('field_paymentPercentage'));
@@ -41,12 +41,12 @@ export class AdvanceUpdatePage {
     return this.pageTitle.getText();
   }
 
-  async setPaidOnInput(paidOn: string): Promise<void> {
-    await this.paidOnInput.sendKeys(paidOn);
+  async setProvidedOnInput(providedOn: string): Promise<void> {
+    await this.providedOnInput.sendKeys(providedOn);
   }
 
-  async getPaidOnInput(): Promise<string> {
-    return await this.paidOnInput.getAttribute('value');
+  async getProvidedOnInput(): Promise<string> {
+    return await this.providedOnInput.getAttribute('value');
   }
 
   async setReasonInput(reason: string): Promise<void> {

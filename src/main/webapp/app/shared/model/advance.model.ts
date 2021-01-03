@@ -4,7 +4,7 @@ import { PaymentStatus } from 'app/shared/model/enumerations/payment-status.mode
 
 export interface IAdvance {
   id?: number;
-  paidOn?: Moment;
+  providedOn?: Moment;
   reason?: any;
   amount?: number;
   paymentPercentage?: number;
@@ -15,7 +15,7 @@ export interface IAdvance {
 export class Advance implements IAdvance {
   constructor(
     public id?: number,
-    public paidOn?: Moment,
+    public providedOn?: Moment,
     public reason?: any,
     public amount?: number,
     public paymentPercentage?: number,

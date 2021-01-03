@@ -41,7 +41,7 @@ describe('Advance e2e test', () => {
     await advanceComponentsPage.clickOnCreateButton();
 
     await promise.all([
-      advanceUpdatePage.setPaidOnInput('2000-12-31'),
+      advanceUpdatePage.setProvidedOnInput('2000-12-31'),
       advanceUpdatePage.setReasonInput('reason'),
       advanceUpdatePage.setAmountInput('5'),
       advanceUpdatePage.setPaymentPercentageInput('5'),
@@ -49,7 +49,7 @@ describe('Advance e2e test', () => {
       advanceUpdatePage.employeeSelectLastOption(),
     ]);
 
-    expect(await advanceUpdatePage.getPaidOnInput()).to.eq('2000-12-31', 'Expected paidOn value to be equals to 2000-12-31');
+    expect(await advanceUpdatePage.getProvidedOnInput()).to.eq('2000-12-31', 'Expected providedOn value to be equals to 2000-12-31');
     expect(await advanceUpdatePage.getReasonInput()).to.eq('reason', 'Expected Reason value to be equals to reason');
     expect(await advanceUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
     expect(await advanceUpdatePage.getPaymentPercentageInput()).to.eq('5', 'Expected paymentPercentage value to be equals to 5');

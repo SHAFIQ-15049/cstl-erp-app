@@ -6,17 +6,13 @@
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_paidOn">Paid On</label>
+                    <label class="form-control-label" for="field_providedOn">Provided On</label>
                     <div class="input-group">
-                        <input id="field_paidOn" type="text" class="form-control" name="paidOn" ngbDatepicker #paidOnDp="ngbDatepicker" formControlName="paidOn"/>
+                        <input id="field_providedOn" type="text" class="form-control" name="providedOn" ngbDatepicker #providedOnDp="ngbDatepicker" formControlName="providedOn"/>
                         <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="paidOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                            <button type="button" class="btn btn-secondary" (click)="providedOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
                         </span>
                     </div>
                 </div>
@@ -48,13 +44,6 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
-                    </select>
-                </div>
             </div>
 
             <div>

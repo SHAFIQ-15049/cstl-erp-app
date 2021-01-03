@@ -38,9 +38,9 @@ import software.cstl.domain.enumeration.PaymentStatus;
 @WithMockUser
 public class AdvanceResourceIT {
 
-    private static final LocalDate DEFAULT_PAID_ON = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_PAID_ON = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_PAID_ON = LocalDate.ofEpochDay(-1L);
+    private static final LocalDate DEFAULT_PROVIDED_ON = LocalDate.ofEpochDay(0L);
+    private static final LocalDate UPDATED_PROVIDED_ON = LocalDate.now(ZoneId.systemDefault());
+    private static final LocalDate SMALLER_PROVIDED_ON = LocalDate.ofEpochDay(-1L);
 
     private static final String DEFAULT_REASON = "AAAAAAAAAA";
     private static final String UPDATED_REASON = "BBBBBBBBBB";
@@ -81,7 +81,7 @@ public class AdvanceResourceIT {
      */
     public static Advance createEntity(EntityManager em) {
         Advance advance = new Advance()
-            .paidOn(DEFAULT_PAID_ON)
+            .providedOn(DEFAULT_PROVIDED_ON)
             .reason(DEFAULT_REASON)
             .amount(DEFAULT_AMOUNT)
             .paymentPercentage(DEFAULT_PAYMENT_PERCENTAGE)
@@ -96,7 +96,7 @@ public class AdvanceResourceIT {
      */
     public static Advance createUpdatedEntity(EntityManager em) {
         Advance advance = new Advance()
-            .paidOn(UPDATED_PAID_ON)
+            .providedOn(UPDATED_PROVIDED_ON)
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
@@ -123,7 +123,7 @@ public class AdvanceResourceIT {
         List<Advance> advanceList = advanceRepository.findAll();
         assertThat(advanceList).hasSize(databaseSizeBeforeCreate + 1);
         Advance testAdvance = advanceList.get(advanceList.size() - 1);
-        assertThat(testAdvance.getPaidOn()).isEqualTo(DEFAULT_PAID_ON);
+        assertThat(testAdvance.getProvidedOn()).isEqualTo(DEFAULT_PROVIDED_ON);
         assertThat(testAdvance.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(DEFAULT_PAYMENT_PERCENTAGE);
@@ -161,7 +161,7 @@ public class AdvanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].paidOn").value(hasItem(DEFAULT_PAID_ON.toString())))
+            .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
@@ -179,7 +179,7 @@ public class AdvanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(advance.getId().intValue()))
-            .andExpect(jsonPath("$.paidOn").value(DEFAULT_PAID_ON.toString()))
+            .andExpect(jsonPath("$.providedOn").value(DEFAULT_PROVIDED_ON.toString()))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.paymentPercentage").value(DEFAULT_PAYMENT_PERCENTAGE.intValue()))
@@ -208,106 +208,106 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsEqualToSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn equals to DEFAULT_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.equals=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn equals to DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.equals=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn equals to UPDATED_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.equals=" + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn equals to UPDATED_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.equals=" + UPDATED_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsNotEqualToSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsNotEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn not equals to DEFAULT_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.notEquals=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn not equals to DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.notEquals=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn not equals to UPDATED_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.notEquals=" + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn not equals to UPDATED_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.notEquals=" + UPDATED_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsInShouldWork() throws Exception {
+    public void getAllAdvancesByProvidedOnIsInShouldWork() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn in DEFAULT_PAID_ON or UPDATED_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.in=" + DEFAULT_PAID_ON + "," + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn in DEFAULT_PROVIDED_ON or UPDATED_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.in=" + DEFAULT_PROVIDED_ON + "," + UPDATED_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn equals to UPDATED_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.in=" + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn equals to UPDATED_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.in=" + UPDATED_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsNullOrNotNull() throws Exception {
+    public void getAllAdvancesByProvidedOnIsNullOrNotNull() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn is not null
-        defaultAdvanceShouldBeFound("paidOn.specified=true");
+        // Get all the advanceList where providedOn is not null
+        defaultAdvanceShouldBeFound("providedOn.specified=true");
 
-        // Get all the advanceList where paidOn is null
-        defaultAdvanceShouldNotBeFound("paidOn.specified=false");
+        // Get all the advanceList where providedOn is null
+        defaultAdvanceShouldNotBeFound("providedOn.specified=false");
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsGreaterThanOrEqualToSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsGreaterThanOrEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn is greater than or equal to DEFAULT_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.greaterThanOrEqual=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn is greater than or equal to DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.greaterThanOrEqual=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn is greater than or equal to UPDATED_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.greaterThanOrEqual=" + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn is greater than or equal to UPDATED_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.greaterThanOrEqual=" + UPDATED_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsLessThanOrEqualToSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsLessThanOrEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn is less than or equal to DEFAULT_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.lessThanOrEqual=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn is less than or equal to DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.lessThanOrEqual=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn is less than or equal to SMALLER_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.lessThanOrEqual=" + SMALLER_PAID_ON);
+        // Get all the advanceList where providedOn is less than or equal to SMALLER_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.lessThanOrEqual=" + SMALLER_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsLessThanSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsLessThanSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn is less than DEFAULT_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.lessThan=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn is less than DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.lessThan=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn is less than UPDATED_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.lessThan=" + UPDATED_PAID_ON);
+        // Get all the advanceList where providedOn is less than UPDATED_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.lessThan=" + UPDATED_PROVIDED_ON);
     }
 
     @Test
     @Transactional
-    public void getAllAdvancesByPaidOnIsGreaterThanSomething() throws Exception {
+    public void getAllAdvancesByProvidedOnIsGreaterThanSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
 
-        // Get all the advanceList where paidOn is greater than DEFAULT_PAID_ON
-        defaultAdvanceShouldNotBeFound("paidOn.greaterThan=" + DEFAULT_PAID_ON);
+        // Get all the advanceList where providedOn is greater than DEFAULT_PROVIDED_ON
+        defaultAdvanceShouldNotBeFound("providedOn.greaterThan=" + DEFAULT_PROVIDED_ON);
 
-        // Get all the advanceList where paidOn is greater than SMALLER_PAID_ON
-        defaultAdvanceShouldBeFound("paidOn.greaterThan=" + SMALLER_PAID_ON);
+        // Get all the advanceList where providedOn is greater than SMALLER_PROVIDED_ON
+        defaultAdvanceShouldBeFound("providedOn.greaterThan=" + SMALLER_PROVIDED_ON);
     }
 
 
@@ -600,7 +600,7 @@ public class AdvanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].paidOn").value(hasItem(DEFAULT_PAID_ON.toString())))
+            .andExpect(jsonPath("$.[*].providedOn").value(hasItem(DEFAULT_PROVIDED_ON.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
@@ -651,7 +651,7 @@ public class AdvanceResourceIT {
         // Disconnect from session so that the updates on updatedAdvance are not directly saved in db
         em.detach(updatedAdvance);
         updatedAdvance
-            .paidOn(UPDATED_PAID_ON)
+            .providedOn(UPDATED_PROVIDED_ON)
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
@@ -666,7 +666,7 @@ public class AdvanceResourceIT {
         List<Advance> advanceList = advanceRepository.findAll();
         assertThat(advanceList).hasSize(databaseSizeBeforeUpdate);
         Advance testAdvance = advanceList.get(advanceList.size() - 1);
-        assertThat(testAdvance.getPaidOn()).isEqualTo(UPDATED_PAID_ON);
+        assertThat(testAdvance.getProvidedOn()).isEqualTo(UPDATED_PROVIDED_ON);
         assertThat(testAdvance.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(UPDATED_PAYMENT_PERCENTAGE);

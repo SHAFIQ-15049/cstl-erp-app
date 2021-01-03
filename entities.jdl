@@ -182,7 +182,7 @@ entity FinePaymentHistory (fine_payment_history){
 
 entity Advance (advance){
   //employee
-  paidOn LocalDate,
+  providedOn LocalDate,
   reason TextBlob,
   amount BigDecimal,
   paymentPercentage BigDecimal

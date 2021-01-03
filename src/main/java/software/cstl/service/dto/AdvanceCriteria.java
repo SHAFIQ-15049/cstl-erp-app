@@ -47,7 +47,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LocalDateFilter paidOn;
+    private LocalDateFilter providedOn;
 
     private BigDecimalFilter amount;
 
@@ -62,7 +62,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
 
     public AdvanceCriteria(AdvanceCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.paidOn = other.paidOn == null ? null : other.paidOn.copy();
+        this.providedOn = other.providedOn == null ? null : other.providedOn.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.paymentPercentage = other.paymentPercentage == null ? null : other.paymentPercentage.copy();
         this.paymentStatus = other.paymentStatus == null ? null : other.paymentStatus.copy();
@@ -82,12 +82,12 @@ public class AdvanceCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LocalDateFilter getPaidOn() {
-        return paidOn;
+    public LocalDateFilter getProvidedOn() {
+        return providedOn;
     }
 
-    public void setPaidOn(LocalDateFilter paidOn) {
-        this.paidOn = paidOn;
+    public void setProvidedOn(LocalDateFilter providedOn) {
+        this.providedOn = providedOn;
     }
 
     public BigDecimalFilter getAmount() {
@@ -134,7 +134,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
         final AdvanceCriteria that = (AdvanceCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(paidOn, that.paidOn) &&
+            Objects.equals(providedOn, that.providedOn) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(paymentPercentage, that.paymentPercentage) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
@@ -145,7 +145,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        paidOn,
+        providedOn,
         amount,
         paymentPercentage,
         paymentStatus,
@@ -158,7 +158,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
     public String toString() {
         return "AdvanceCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (paidOn != null ? "paidOn=" + paidOn + ", " : "") +
+                (providedOn != null ? "providedOn=" + providedOn + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (paymentPercentage != null ? "paymentPercentage=" + paymentPercentage + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +

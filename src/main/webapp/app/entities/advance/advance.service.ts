@@ -51,14 +51,14 @@ export class AdvanceService {
 
   protected convertDateFromClient(advance: IAdvance): IAdvance {
     const copy: IAdvance = Object.assign({}, advance, {
-      paidOn: advance.paidOn && advance.paidOn.isValid() ? advance.paidOn.format(DATE_FORMAT) : undefined,
+      providedOn: advance.providedOn && advance.providedOn.isValid() ? advance.providedOn.format(DATE_FORMAT) : undefined,
     });
     return copy;
   }
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.paidOn = res.body.paidOn ? moment(res.body.paidOn) : undefined;
+      res.body.providedOn = res.body.providedOn ? moment(res.body.providedOn) : undefined;
     }
     return res;
   }
@@ -66,7 +66,7 @@ export class AdvanceService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((advance: IAdvance) => {
-        advance.paidOn = advance.paidOn ? moment(advance.paidOn) : undefined;
+        advance.providedOn = advance.providedOn ? moment(advance.providedOn) : undefined;
       });
     }
     return res;

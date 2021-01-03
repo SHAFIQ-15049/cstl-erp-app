@@ -72,7 +72,7 @@ class AdvanceGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "paidOn":"2020-01-01T00:00:00.000Z"
+                , "providedOn":"2020-01-01T00:00:00.000Z"
                 , "reason":null
                 , "amount":"0"
                 , "paymentPercentage":"0"

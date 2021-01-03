@@ -19,11 +19,11 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 export class AdvanceUpdateComponent implements OnInit {
   isSaving = false;
   employees: IEmployee[] = [];
-  paidOnDp: any;
+  providedOnDp: any;
 
   editForm = this.fb.group({
     id: [],
-    paidOn: [],
+    providedOn: [],
     reason: [],
     amount: [],
     paymentPercentage: [],
@@ -51,7 +51,7 @@ export class AdvanceUpdateComponent implements OnInit {
   updateForm(advance: IAdvance): void {
     this.editForm.patchValue({
       id: advance.id,
-      paidOn: advance.paidOn,
+      providedOn: advance.providedOn,
       reason: advance.reason,
       amount: advance.amount,
       paymentPercentage: advance.paymentPercentage,
@@ -94,7 +94,7 @@ export class AdvanceUpdateComponent implements OnInit {
     return {
       ...new Advance(),
       id: this.editForm.get(['id'])!.value,
-      paidOn: this.editForm.get(['paidOn'])!.value,
+      providedOn: this.editForm.get(['providedOn'])!.value,
       reason: this.editForm.get(['reason'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       paymentPercentage: this.editForm.get(['paymentPercentage'])!.value,

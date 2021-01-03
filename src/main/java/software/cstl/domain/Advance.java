@@ -26,8 +26,8 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "paid_on")
-    private LocalDate paidOn;
+    @Column(name = "provided_on")
+    private LocalDate providedOn;
 
     @Lob
     @Column(name = "reason")
@@ -56,17 +56,17 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getPaidOn() {
-        return paidOn;
+    public LocalDate getProvidedOn() {
+        return providedOn;
     }
 
-    public Advance paidOn(LocalDate paidOn) {
-        this.paidOn = paidOn;
+    public Advance providedOn(LocalDate providedOn) {
+        this.providedOn = providedOn;
         return this;
     }
 
-    public void setPaidOn(LocalDate paidOn) {
-        this.paidOn = paidOn;
+    public void setProvidedOn(LocalDate providedOn) {
+        this.providedOn = providedOn;
     }
 
     public String getReason() {
@@ -156,7 +156,7 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     public String toString() {
         return "Advance{" +
             "id=" + getId() +
-            ", paidOn='" + getPaidOn() + "'" +
+            ", providedOn='" + getProvidedOn() + "'" +
             ", reason='" + getReason() + "'" +
             ", amount=" + getAmount() +
             ", paymentPercentage=" + getPaymentPercentage() +
