@@ -24,6 +24,7 @@ export class FineComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  employeeId?: number;
 
   constructor(
     protected fineService: FineService,
@@ -39,6 +40,7 @@ export class FineComponent implements OnInit, OnDestroy {
 
     this.fineService
       .query({
+        'employeeId.equals': this.employeeId,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -56,6 +58,7 @@ export class FineComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
+      this.employeeId = +params.get('employeeId')!;
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');

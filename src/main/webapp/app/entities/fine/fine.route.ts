@@ -11,13 +11,16 @@ import { FineService } from './fine.service';
 import { FineComponent } from './fine.component';
 import { FineDetailComponent } from './fine-detail.component';
 import { FineUpdateComponent } from './fine-update.component';
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 @Injectable({ providedIn: 'root' })
 export class FineResolve implements Resolve<IFine> {
-  constructor(private service: FineService, private router: Router) {}
+  constructor(private service: FineService, private employeeService: EmployeeService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IFine> | Observable<never> {
     const id = route.params['id'];
+    const employeeId = route.params['employeeId'];
+
     if (id) {
       return this.service.find(id).pipe(
         flatMap((fine: HttpResponse<Fine>) => {
@@ -26,6 +29,19 @@ export class FineResolve implements Resolve<IFine> {
           } else {
             this.router.navigate(['404']);
             return EMPTY;
+          }
+        })
+      );
+    }
+    else if(employeeId){
+      return this.employeeService.find(employeeId).pipe(
+        flatMap((employe)=>{
+          if(employe.body){
+            const fine = new Fine();
+            fine.employee = employe.body;
+            return of(fine);
+          }else{
+            return of(new Fine());
           }
         })
       );
@@ -59,6 +75,18 @@ export const fineRoute: Routes = [
   },
   {
     path: 'new',
+    component: FineUpdateComponent,
+    resolve: {
+      fine: FineResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Fines',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/:employeeId',
     component: FineUpdateComponent,
     resolve: {
       fine: FineResolve,
