@@ -22,29 +22,21 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="finedOn"><span>Fined On</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="reason"><span>Reason</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="finePercentage"><span>Fine Percentage</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let fine of fines ;trackBy: trackId">
-                    <td><a [routerLink]="['/fine', fine.id, 'view']">{{ fine.id }}</a></td>
+                <tr *ngFor="let fine of fines; let i= index ;trackBy: trackId">
+                    <td><a [routerLink]="['/fine', fine.id, 'view']">{{(page -1) * itemsPerPage + (i+1)}}</a></td>
                     <td>{{ fine.finedOn | date:'mediumDate' }}</td>
-                    <td>{{ fine.reason }}</td>
                     <td>{{ fine.amount }}</td>
                     <td>{{ fine.finePercentage }}</td>
                     <td>{{ fine.paymentStatus }}</td>
-                    <td>
-                        <div *ngIf="fine.employee">
-                            <a [routerLink]="['/employee', fine.employee?.id, 'view']" >{{ fine.employee?.name }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
