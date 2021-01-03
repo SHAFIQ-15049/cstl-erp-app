@@ -11,13 +11,15 @@ import { EmployeeSalaryService } from './employee-salary.service';
 import { EmployeeSalaryComponent } from './employee-salary.component';
 import { EmployeeSalaryDetailComponent } from './employee-salary-detail.component';
 import { EmployeeSalaryUpdateComponent } from './employee-salary-update.component';
+import {EmployeeService} from "app/entities/employee/employee.service";
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeSalaryResolve implements Resolve<IEmployeeSalary> {
-  constructor(private service: EmployeeSalaryService, private router: Router) {}
+  constructor(private service: EmployeeSalaryService, private employeeService: EmployeeService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IEmployeeSalary> | Observable<never> {
     const id = route.params['id'];
+    const employeeID = route.params['employeeId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((employeeSalary: HttpResponse<EmployeeSalary>) => {
@@ -26,6 +28,19 @@ export class EmployeeSalaryResolve implements Resolve<IEmployeeSalary> {
           } else {
             this.router.navigate(['404']);
             return EMPTY;
+          }
+        })
+      );
+    }
+    else if(employeeID){
+      return this.employeeService.find(employeeID).pipe(
+        flatMap((employee)=>{
+          if(employee.body){
+            const employeeSalary = new EmployeeSalary();
+            employeeSalary.employee = employee.body;
+            return of(employeeSalary);
+          }else{
+            return of(new EmployeeSalary());
           }
         })
       );
@@ -59,6 +74,18 @@ export const employeeSalaryRoute: Routes = [
   },
   {
     path: 'new',
+    component: EmployeeSalaryUpdateComponent,
+    resolve: {
+      employeeSalary: EmployeeSalaryResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'EmployeeSalaries',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/:employeeId',
     component: EmployeeSalaryUpdateComponent,
     resolve: {
       employeeSalary: EmployeeSalaryResolve,

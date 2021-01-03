@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="employeeSalary">
-            <h2><span>Employee Salary</span> {{ employeeSalary.id }}</h2>
+            <h2><span>Salary structure of </span> {{ employeeSalary?.employee?.name!   }}</h2>
 
             <hr>
 
@@ -50,42 +50,37 @@
                 </dd>
                 <dt><span>Total Allowance</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.totalAllowance }}</span>
+                    <span>{{ employeeSalary.totalAllowance || defaultAllowance?.totalAllowance! }}</span>
                 </dd>
                 <dt><span>Medical Allowance</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.medicalAllowance }}</span>
+                    <span>{{ employeeSalary.medicalAllowance || defaultAllowance?.medicalAllowance! }}</span>
                 </dd>
                 <dt><span>Medical Allowance Percent</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.medicalAllowancePercent }}</span>
+                    <span>{{ employeeSalary.medicalAllowancePercent || defaultAllowance?.medicalAllowancePercent! }}</span>
                 </dd>
                 <dt><span>Convince Allowance</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.convinceAllowance }}</span>
+                    <span>{{ employeeSalary.convinceAllowance || defaultAllowance?.convinceAllowance!}}</span>
                 </dd>
                 <dt><span>Convince Allowance Percent</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.convinceAllowancePercent }}</span>
+                    <span>{{ employeeSalary.convinceAllowancePercent || defaultAllowance?.convinceAllowancePercent!}}</span>
                 </dd>
                 <dt><span>Food Allowance</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.foodAllowance }}</span>
+                    <span>{{ employeeSalary.foodAllowance || defaultAllowance?.foodAllowance!}}</span>
                 </dd>
                 <dt><span>Food Allowance Percent</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.foodAllowancePercent }}</span>
+                    <span>{{ employeeSalary.foodAllowancePercent || defaultAllowance?.foodAllowancePercent! }}</span>
                 </dd>
                 <dt><span>Status</span></dt>
                 <dd>
                     <span>{{ employeeSalary.status }}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="employeeSalary.employee">
-                        <a [routerLink]="['/employee', employeeSalary.employee?.id, 'view']">{{ employeeSalary.employee?.name }}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -95,7 +90,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/employee-salary', employeeSalary.id, 'edit']"
+                    [routerLink]="['../../../employee-salary', employeeSalary.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

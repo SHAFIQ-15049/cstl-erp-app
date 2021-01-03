@@ -1,5 +1,11 @@
 <div class="row justify-content-center">
-    <div class="col-12">
+    <div class="col-md-12">
+        <div class="alert alert-warning" role="alert">
+            If medical allowance, convince and food allowance is not provided, then <b>default allowance</b> will be considered in salary generation.
+        </div>
+
+    </div>
+    <div class="col-md-12">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-employee-salary-heading">{{!editForm.get('id')!.value? "Add New": "Update"}} Salary Structure</h2>
 
@@ -9,7 +15,7 @@
                 <div class="row justify-content-center">
                     <div class="form-group col-md-12">
                         <label class="form-control-label" for="field_gross">Gross</label>
-                        <input type="number" class="form-control" name="gross" id="field_gross"
+                        <input type="number" class="form-control" name="gross" (ngModelChange)="extractGross()" id="field_gross"
                                formControlName="gross"/>
                     </div>
 
@@ -88,19 +94,19 @@
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
-                        <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
+                        <input type="number" class="form-control" (ngModelChange)="extractGross()" name="medicalAllowance" id="field_medicalAllowance"
                                formControlName="medicalAllowance"/>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
-                        <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
+                        <input type="number" class="form-control"  name="medicalAllowancePercent" id="field_medicalAllowancePercent"
                                formControlName="medicalAllowancePercent"/>
                     </div>
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
-                        <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
+                        <input type="number" class="form-control" (ngModelChange)="extractGross()" name="convinceAllowance" id="field_convinceAllowance"
                                formControlName="convinceAllowance"/>
                     </div>
 
@@ -112,7 +118,7 @@
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
-                        <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
+                        <input type="number" class="form-control" (ngModelChange)="extractGross()" name="foodAllowance" id="field_foodAllowance"
                                formControlName="foodAllowance"/>
                     </div>
 
@@ -129,17 +135,6 @@
                         <option value="NOT_ACTIVE">NOT_ACTIVE</option>
                     </select>
                 </div>
-
-
-
-
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
-                    </select>
                 </div>
             </div>
 

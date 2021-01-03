@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span>Employee Salary Configuration</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-salary" [routerLink]="['new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-employee-salary" [routerLink]="['new',this.employeeId]" >
             <fa-icon icon="plus"></fa-icon>
             <span>
             Create a new Salary
@@ -22,66 +22,38 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="gross"><span>Gross</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="incrementAmount"><span>Increment Amount</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="incrementPercentage"><span>Increment Percentage</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="salaryStartDate"><span>Salary Start Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="salaryEndDate"><span>Salary End Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="nextIncrementDate"><span>Next Increment Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="basic"><span>Basic</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="houseRent"><span>House Rent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="houseRentPercent"><span>House Rent Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="totalAllowance"><span>Total Allowance</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="medicalAllowancePercent"><span>Medical Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="convinceAllowancePercent"><span>Convince Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="foodAllowance"><span>Food Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="foodAllowancePercent"><span>Food Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let employeeSalary of employeeSalaries ;trackBy: trackId">
-                    <td><a [routerLink]="['/employee-salary', employeeSalary.id, 'view']">{{ employeeSalary.id }}</a></td>
+                <tr *ngFor="let employeeSalary of employeeSalaries;  let i=index  ;trackBy: trackId">
+                    <td><a [routerLink]="['/employee-salary', employeeSalary.id, 'view']">{{(page -1) * itemsPerPage + (i+1)}}</a></td>
                     <td>{{ employeeSalary.gross }}</td>
-                    <td>{{ employeeSalary.incrementAmount }}</td>
-                    <td>{{ employeeSalary.incrementPercentage }}</td>
-                    <td>{{ employeeSalary.salaryStartDate | date:'mediumDate' }}</td>
-                    <td>{{ employeeSalary.salaryEndDate | date:'mediumDate' }}</td>
-                    <td>{{ employeeSalary.nextIncrementDate | date:'mediumDate' }}</td>
                     <td>{{ employeeSalary.basic }}</td>
-                    <td>{{ employeeSalary.basicPercent }}</td>
                     <td>{{ employeeSalary.houseRent }}</td>
-                    <td>{{ employeeSalary.houseRentPercent }}</td>
-                    <td>{{ employeeSalary.totalAllowance }}</td>
                     <td>{{ employeeSalary.medicalAllowance }}</td>
-                    <td>{{ employeeSalary.medicalAllowancePercent }}</td>
                     <td>{{ employeeSalary.convinceAllowance }}</td>
-                    <td>{{ employeeSalary.convinceAllowancePercent }}</td>
                     <td>{{ employeeSalary.foodAllowance }}</td>
-                    <td>{{ employeeSalary.foodAllowancePercent }}</td>
                     <td>{{ employeeSalary.status }}</td>
-                    <td>
-                        <div *ngIf="employeeSalary.employee">
-                            <a [routerLink]="['/employee', employeeSalary.employee?.id, 'view']" >{{ employeeSalary.employee?.name }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
-                                    [routerLink]="['/employee-salary', employeeSalary.id, 'view']"
+                                    [routerLink]="[ employeeSalary.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
 
                             <button type="submit"
-                                    [routerLink]="['/employee-salary', employeeSalary.id, 'edit']"
+                                    [routerLink]="[ employeeSalary.id, 'edit']"
                                     class="btn btn-primary btn-sm">
                                 <fa-icon icon="pencil-alt"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
