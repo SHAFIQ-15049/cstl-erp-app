@@ -25,6 +25,7 @@ export class FineResolve implements Resolve<IFine> {
       return this.service.find(id).pipe(
         flatMap((fine: HttpResponse<Fine>) => {
           if (fine.body) {
+            this.service.storeFineId(fine.body.id!);
             return of(fine.body);
           } else {
             this.router.navigate(['404']);
@@ -72,6 +73,12 @@ export const fineRoute: Routes = [
       pageTitle: 'Fines',
     },
     canActivate: [UserRouteAccessService],
+    children:[
+      {
+        path: '',
+        loadChildren: ()=> import('../fine-payment-history/fine-payment-history.module').then(m=> m.CodeNodeErpFinePaymentHistoryModule)
+      }
+    ]
   },
   {
     path: 'new',

@@ -10,6 +10,7 @@ import { IFinePaymentHistory } from 'app/shared/model/fine-payment-history.model
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { FinePaymentHistoryService } from './fine-payment-history.service';
 import { FinePaymentHistoryDeleteDialogComponent } from './fine-payment-history-delete-dialog.component';
+import {FineService} from "app/entities/fine/fine.service";
 
 @Component({
   selector: 'jhi-fine-payment-history',
@@ -30,7 +31,8 @@ export class FinePaymentHistoryComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private fineService: FineService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -38,6 +40,7 @@ export class FinePaymentHistoryComponent implements OnInit, OnDestroy {
 
     this.finePaymentHistoryService
       .query({
+        'fineId.equals': this.fineService.getFineId(),
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),

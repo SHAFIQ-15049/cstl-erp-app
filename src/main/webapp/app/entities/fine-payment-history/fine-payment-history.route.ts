@@ -11,10 +11,11 @@ import { FinePaymentHistoryService } from './fine-payment-history.service';
 import { FinePaymentHistoryComponent } from './fine-payment-history.component';
 import { FinePaymentHistoryDetailComponent } from './fine-payment-history-detail.component';
 import { FinePaymentHistoryUpdateComponent } from './fine-payment-history-update.component';
+import {FineService} from "app/entities/fine/fine.service";
 
 @Injectable({ providedIn: 'root' })
 export class FinePaymentHistoryResolve implements Resolve<IFinePaymentHistory> {
-  constructor(private service: FinePaymentHistoryService, private router: Router) {}
+  constructor(private service: FinePaymentHistoryService, private fineService: FineService, private router: Router) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IFinePaymentHistory> | Observable<never> {
     const id = route.params['id'];

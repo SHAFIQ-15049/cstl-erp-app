@@ -8,6 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IFine } from 'app/shared/model/fine.model';
+import {SessionStorageService} from "ngx-webstorage";
 
 type EntityResponseType = HttpResponse<IFine>;
 type EntityArrayResponseType = HttpResponse<IFine[]>;
@@ -16,8 +17,18 @@ type EntityArrayResponseType = HttpResponse<IFine[]>;
 export class FineService {
   public resourceUrl = SERVER_API_URL + 'api/fines';
 
-  constructor(protected http: HttpClient) {}
+  private fineId = 'fineId';
 
+  constructor(protected http: HttpClient,
+              private $sessionStorage: SessionStorageService) {}
+
+  storeFineId(fineId: number):void{
+    this.$sessionStorage.store(this.fineId, fineId);
+  }
+
+  getFineId(): number | null | undefined{
+    return this.$sessionStorage.retrieve(this.fineId);
+  }
   create(fine: IFine): Observable<EntityResponseType> {
     const copy = this.convertDateFromClient(fine);
     return this.http

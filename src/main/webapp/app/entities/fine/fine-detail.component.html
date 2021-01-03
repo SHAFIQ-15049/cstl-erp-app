@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+    <div class="col-md-8">
         <div *ngIf="fine">
-            <h2><span>Fine</span> {{ fine.id }}</h2>
+            <h2><span>Fine</span> </h2>
 
             <hr>
 
@@ -10,7 +10,7 @@
             <dl class="row-md jh-entity-details">
                 <dt><span>Fined On</span></dt>
                 <dd>
-                    <span>{{ fine.finedOn }}</span>
+                    <span>{{ fine.finedOn | date: 'dd-MM-yyyy'}}</span>
                 </dd>
                 <dt><span>Reason</span></dt>
                 <dd>
@@ -28,12 +28,7 @@
                 <dd>
                     <span>{{ fine.paymentStatus }}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="fine.employee">
-                        <a [routerLink]="['/employee', fine.employee?.id, 'view']">{{ fine.employee?.name }}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"
@@ -48,5 +43,8 @@
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
         </div>
+    </div>
+    <div class="col-md-8" style="padding-top: 4em;">
+        <router-outlet></router-outlet>
     </div>
 </div>
