@@ -113,6 +113,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./monthly-salary-dtl/monthly-salary-dtl.module').then(m => m.CodeNodeErpMonthlySalaryDtlModule),
       },
       {
+        path: 'payroll-management',
+        loadChildren: ()=> import('../app-components/payroll-management/payroll-management.module').then(m=> m.PayrollManagementModule),
+      },
+      {
         path: 'festival-allowance-payment',
         loadChildren: () =>
           import('./festival-allowance-payment/festival-allowance-payment.module').then(m => m.CodeNodeErpFestivalAllowancePaymentModule),
