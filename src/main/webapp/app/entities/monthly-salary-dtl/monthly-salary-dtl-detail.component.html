@@ -76,16 +76,16 @@
                 <dd>
                     <span>{{ monthlySalaryDtl.note }}</span>
                 </dd>
-                <dt><span>Monthly Salary</span></dt>
-                <dd>
-                    <div *ngIf="monthlySalaryDtl.monthlySalary">
-                        <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']">{{ monthlySalaryDtl.monthlySalary?.id }}</a>
-                    </div>
-                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="monthlySalaryDtl.employee">
                         <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']">{{ monthlySalaryDtl.employee?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Monthly Salary</span></dt>
+                <dd>
+                    <div *ngIf="monthlySalaryDtl.monthlySalary">
+                        <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']">{{ monthlySalaryDtl.monthlySalary?.id }}</a>
                     </div>
                 </dd>
             </dl>

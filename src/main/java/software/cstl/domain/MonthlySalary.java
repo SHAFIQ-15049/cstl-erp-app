@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.MonthType;
 
@@ -46,6 +48,10 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
 
     @Column(name = "executed_by")
     private Instant executedBy;
+
+    @OneToMany(mappedBy = "monthlySalary")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<MonthlySalaryDtl> monthlySalaryDtls = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "monthlySalaries", allowSetters = true)
@@ -123,6 +129,31 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
 
     public void setExecutedBy(Instant executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public Set<MonthlySalaryDtl> getMonthlySalaryDtls() {
+        return monthlySalaryDtls;
+    }
+
+    public MonthlySalary monthlySalaryDtls(Set<MonthlySalaryDtl> monthlySalaryDtls) {
+        this.monthlySalaryDtls = monthlySalaryDtls;
+        return this;
+    }
+
+    public MonthlySalary addMonthlySalaryDtl(MonthlySalaryDtl monthlySalaryDtl) {
+        this.monthlySalaryDtls.add(monthlySalaryDtl);
+        monthlySalaryDtl.setMonthlySalary(this);
+        return this;
+    }
+
+    public MonthlySalary removeMonthlySalaryDtl(MonthlySalaryDtl monthlySalaryDtl) {
+        this.monthlySalaryDtls.remove(monthlySalaryDtl);
+        monthlySalaryDtl.setMonthlySalary(null);
+        return this;
+    }
+
+    public void setMonthlySalaryDtls(Set<MonthlySalaryDtl> monthlySalaryDtls) {
+        this.monthlySalaryDtls = monthlySalaryDtls;
     }
 
     public Designation getDesignation() {

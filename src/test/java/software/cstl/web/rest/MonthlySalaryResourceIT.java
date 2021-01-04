@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.MonthlySalary;
+import software.cstl.domain.MonthlySalaryDtl;
 import software.cstl.domain.Designation;
 import software.cstl.repository.MonthlySalaryRepository;
 import software.cstl.service.MonthlySalaryService;
@@ -515,6 +516,26 @@ public class MonthlySalaryResourceIT {
         // Get all the monthlySalaryList where executedBy is null
         defaultMonthlySalaryShouldNotBeFound("executedBy.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByMonthlySalaryDtlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+        MonthlySalaryDtl monthlySalaryDtl = MonthlySalaryDtlResourceIT.createEntity(em);
+        em.persist(monthlySalaryDtl);
+        em.flush();
+        monthlySalary.addMonthlySalaryDtl(monthlySalaryDtl);
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+        Long monthlySalaryDtlId = monthlySalaryDtl.getId();
+
+        // Get all the monthlySalaryList where monthlySalaryDtl equals to monthlySalaryDtlId
+        defaultMonthlySalaryShouldBeFound("monthlySalaryDtlId.equals=" + monthlySalaryDtlId);
+
+        // Get all the monthlySalaryList where monthlySalaryDtl equals to monthlySalaryDtlId + 1
+        defaultMonthlySalaryShouldNotBeFound("monthlySalaryDtlId.equals=" + (monthlySalaryDtlId + 1));
+    }
+
 
     @Test
     @Transactional

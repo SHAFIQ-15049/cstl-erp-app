@@ -26,6 +26,12 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "monthlySalaryDtl",
+      "otherEntityRelationshipName": "monthlySalary",
+      "relationshipName": "monthlySalaryDtl"
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "designation",
       "otherEntityRelationshipName": "monthlySalary",

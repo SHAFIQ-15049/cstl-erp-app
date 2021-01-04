@@ -2,8 +2,8 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.MonthlySalaryDtl;
-import software.cstl.domain.MonthlySalary;
 import software.cstl.domain.Employee;
+import software.cstl.domain.MonthlySalary;
 import software.cstl.repository.MonthlySalaryDtlRepository;
 import software.cstl.service.MonthlySalaryDtlService;
 import software.cstl.service.dto.MonthlySalaryDtlCriteria;
@@ -1836,26 +1836,6 @@ public class MonthlySalaryDtlResourceIT {
 
     @Test
     @Transactional
-    public void getAllMonthlySalaryDtlsByMonthlySalaryIsEqualToSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
-        MonthlySalary monthlySalary = MonthlySalaryResourceIT.createEntity(em);
-        em.persist(monthlySalary);
-        em.flush();
-        monthlySalaryDtl.setMonthlySalary(monthlySalary);
-        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
-        Long monthlySalaryId = monthlySalary.getId();
-
-        // Get all the monthlySalaryDtlList where monthlySalary equals to monthlySalaryId
-        defaultMonthlySalaryDtlShouldBeFound("monthlySalaryId.equals=" + monthlySalaryId);
-
-        // Get all the monthlySalaryDtlList where monthlySalary equals to monthlySalaryId + 1
-        defaultMonthlySalaryDtlShouldNotBeFound("monthlySalaryId.equals=" + (monthlySalaryId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllMonthlySalaryDtlsByEmployeeIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
@@ -1871,6 +1851,26 @@ public class MonthlySalaryDtlResourceIT {
 
         // Get all the monthlySalaryDtlList where employee equals to employeeId + 1
         defaultMonthlySalaryDtlShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalaryDtlsByMonthlySalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+        MonthlySalary monthlySalary = MonthlySalaryResourceIT.createEntity(em);
+        em.persist(monthlySalary);
+        em.flush();
+        monthlySalaryDtl.setMonthlySalary(monthlySalary);
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+        Long monthlySalaryId = monthlySalary.getId();
+
+        // Get all the monthlySalaryDtlList where monthlySalary equals to monthlySalaryId
+        defaultMonthlySalaryDtlShouldBeFound("monthlySalaryId.equals=" + monthlySalaryId);
+
+        // Get all the monthlySalaryDtlList where monthlySalary equals to monthlySalaryId + 1
+        defaultMonthlySalaryDtlShouldNotBeFound("monthlySalaryId.equals=" + (monthlySalaryId + 1));
     }
 
     /**

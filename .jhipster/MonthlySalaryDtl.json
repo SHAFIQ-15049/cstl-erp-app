@@ -75,17 +75,17 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "monthlySalary",
-      "otherEntityRelationshipName": "monthlySalaryDtl",
-      "relationshipName": "monthlySalary",
-      "otherEntityField": "id"
-    },
-    {
-      "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "monthlySalaryDtl",
       "relationshipName": "employee",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "monthlySalary",
+      "otherEntityRelationshipName": "monthlySalaryDtl",
+      "relationshipName": "monthlySalary",
+      "otherEntityField": "id"
     }
   ],
   "changelogDate": "20210102143449",

@@ -100,6 +100,10 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getExecutedBy() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedBy(), MonthlySalary_.executedBy));
             }
+            if (criteria.getMonthlySalaryDtlId() != null) {
+                specification = specification.and(buildSpecification(criteria.getMonthlySalaryDtlId(),
+                    root -> root.join(MonthlySalary_.monthlySalaryDtls, JoinType.LEFT).get(MonthlySalaryDtl_.id)));
+            }
             if (criteria.getDesignationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDesignationId(),
                     root -> root.join(MonthlySalary_.designation, JoinType.LEFT).get(Designation_.id)));
