@@ -51,8 +51,8 @@ public class MonthlySalaryResourceIT {
     private static final Instant DEFAULT_EXECUTED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_EXECUTED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Instant DEFAULT_EXECUTED_BY = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_EXECUTED_BY = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_EXECUTED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_EXECUTED_BY = "BBBBBBBBBB";
 
     @Autowired
     private MonthlySalaryRepository monthlySalaryRepository;
@@ -163,7 +163,7 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())));
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
     }
     
     @Test
@@ -181,7 +181,7 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.executedOn").value(DEFAULT_EXECUTED_ON.toString()))
-            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY.toString()));
+            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY));
     }
 
 
@@ -516,6 +516,32 @@ public class MonthlySalaryResourceIT {
         // Get all the monthlySalaryList where executedBy is null
         defaultMonthlySalaryShouldNotBeFound("executedBy.specified=false");
     }
+                @Test
+    @Transactional
+    public void getAllMonthlySalariesByExecutedByContainsSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where executedBy contains DEFAULT_EXECUTED_BY
+        defaultMonthlySalaryShouldBeFound("executedBy.contains=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the monthlySalaryList where executedBy contains UPDATED_EXECUTED_BY
+        defaultMonthlySalaryShouldNotBeFound("executedBy.contains=" + UPDATED_EXECUTED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByExecutedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where executedBy does not contain DEFAULT_EXECUTED_BY
+        defaultMonthlySalaryShouldNotBeFound("executedBy.doesNotContain=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the monthlySalaryList where executedBy does not contain UPDATED_EXECUTED_BY
+        defaultMonthlySalaryShouldBeFound("executedBy.doesNotContain=" + UPDATED_EXECUTED_BY);
+    }
+
 
     @Test
     @Transactional
@@ -568,7 +594,7 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())));
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
 
         // Check, that the count call also returns 1
         restMonthlySalaryMockMvc.perform(get("/api/monthly-salaries/count?sort=id,desc&" + filter))

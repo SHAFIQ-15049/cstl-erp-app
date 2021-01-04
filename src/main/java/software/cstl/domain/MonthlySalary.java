@@ -47,9 +47,9 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
 
-    @OneToMany(mappedBy = "monthlySalary")
+    @OneToMany(mappedBy = "monthlySalary", cascade = CascadeType.PERSIST)
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<MonthlySalaryDtl> monthlySalaryDtls = new HashSet<>();
 
@@ -118,16 +118,16 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public MonthlySalary executedBy(Instant executedBy) {
+    public MonthlySalary executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
     }
 

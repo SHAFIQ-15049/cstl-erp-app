@@ -10,7 +10,7 @@ export interface IMonthlySalary {
   month?: MonthType;
   status?: SalaryExecutionStatus;
   executedOn?: Moment;
-  executedBy?: Moment;
+  executedBy?: string;
   monthlySalaryDtls?: IMonthlySalaryDtl[];
   designation?: IDesignation;
 }
@@ -22,7 +22,7 @@ export class MonthlySalary implements IMonthlySalary {
     public month?: MonthType,
     public status?: SalaryExecutionStatus,
     public executedOn?: Moment,
-    public executedBy?: Moment,
+    public executedBy?: string,
     public monthlySalaryDtls?: IMonthlySalaryDtl[],
     public designation?: IDesignation
   ) {}

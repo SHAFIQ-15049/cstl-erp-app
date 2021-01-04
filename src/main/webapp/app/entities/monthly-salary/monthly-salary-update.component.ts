@@ -42,7 +42,6 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       if (!monthlySalary.id) {
         const today = moment().startOf('day');
         monthlySalary.executedOn = today;
-        monthlySalary.executedBy = today;
       }
 
       this.updateForm(monthlySalary);
@@ -58,7 +57,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       month: monthlySalary.month,
       status: monthlySalary.status,
       executedOn: monthlySalary.executedOn ? monthlySalary.executedOn.format(DATE_TIME_FORMAT) : null,
-      executedBy: monthlySalary.executedBy ? monthlySalary.executedBy.format(DATE_TIME_FORMAT) : null,
+      executedBy: monthlySalary.executedBy,
       designation: monthlySalary.designation,
     });
   }
@@ -85,7 +84,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       month: this.editForm.get(['month'])!.value,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
-      executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
+      executedBy: this.editForm.get(['executedBy'])!.value,
       designation: this.editForm.get(['designation'])!.value,
     };
   }

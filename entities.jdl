@@ -247,7 +247,7 @@ entity MonthlySalary (monthly_salary){
   month MonthType,
   status SalaryExecutionStatus,
   executedOn Instant,
-  executedBy Instant
+  executedBy String
 }
 
 entity MonthlySalaryDtl (monthly_salary_dtl){

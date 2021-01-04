@@ -75,6 +75,8 @@
     <include file="config/liquibase/changelog/20210103181120_Advance_Constraints_Added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210103190534_Fine_constraintsAdded.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210104191812_unique_constraints_added_Monthly_Salary_and_Dtl.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210104194224_MonthlySalary_executed_by_dropped.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210104194442_MonthlySalary_executed_by_added.xml" relativeToChangelogFile="false"/>
 
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
