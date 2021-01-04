@@ -12,10 +12,14 @@ import { AccountService } from 'app/core/auth/account.service';
   styles: [
     `
       @media only screen and (max-width: 600px) {
+        .main-wrapper {
+          display: inline block;
+        }
         div.main-wrapper span jhi-left-side-menu {
-          position: absolute;
-          margin-left: -20rem;
-          visibility: hidden;
+          width: 200px;
+        }
+        .card {
+          width: 300px;
         }
       }
     `,
