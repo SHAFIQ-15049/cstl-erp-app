@@ -1,1 +1,39 @@
-<p>payroll-management works!</p>
+
+<div class="form-row align-items-end" >
+    <div class="col-md-12">
+        <jhi-alert></jhi-alert>
+    </div>
+    <div class="form-group col-md-2">
+        <label class="form-control-label" for="field_year">Year</label>
+        <select class="form-control" id="field_year" name="year" [(ngModel)]="selectedYear">
+            <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="form-control-label" for="field_month">Month</label>
+        <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
+            <option value="JANUARY">JANUARY</option>
+            <option value="FEBRUARY">FEBRUARY</option>
+            <option value="MARCH">MARCH</option>
+            <option value="APRIL">APRIL</option>
+            <option value="MAY">MAY</option>
+            <option value="JUNE">JUNE</option>
+            <option value="JULY">JULY</option>
+            <option value="AUGUST">AUGUST</option>
+            <option value="SEPTEMBER">SEPTEMBER</option>
+            <option value="OCTOBER">OCTOBER</option>
+            <option value="NOVEMBER">NOVEMBER</option>
+            <option value="DECEMBER">DECEMBER</option>
+        </select>
+    </div>
+    <div class="form-group col-md-4">
+        <label class="form-control-label" for="field_designation">Designation</label>
+        <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignation">
+            <option></option>
+            <option [value]="designationOption" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+        </select>
+    </div>
+    <div class="form-group col-md-2" style="align-items: end;">
+        <button class="btn btn-secondary" (click)="fetch()">Fetch</button>
+    </div>
+</div>

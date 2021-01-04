@@ -16,7 +16,10 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
  * A MonthlySalaryDtl.
  */
 @Entity
-@Table(name = "monthly_salary_dtl")
+@Table(
+    name = "monthly_salary_dtl",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id","monthly_salary_id","status"})
+)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializable {
 
