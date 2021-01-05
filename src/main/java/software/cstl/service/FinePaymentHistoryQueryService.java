@@ -85,6 +85,9 @@ public class FinePaymentHistoryQueryService extends QueryService<FinePaymentHist
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), FinePaymentHistory_.id));
             }
+            if (criteria.getYear() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getYear(), FinePaymentHistory_.year));
+            }
             if (criteria.getMonthType() != null) {
                 specification = specification.and(buildSpecification(criteria.getMonthType(), FinePaymentHistory_.monthType));
             }

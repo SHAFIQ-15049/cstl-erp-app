@@ -85,6 +85,9 @@ public class AdvancePaymentHistoryQueryService extends QueryService<AdvancePayme
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), AdvancePaymentHistory_.id));
             }
+            if (criteria.getYear() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getYear(), AdvancePaymentHistory_.year));
+            }
             if (criteria.getMonthType() != null) {
                 specification = specification.and(buildSpecification(criteria.getMonthType(), AdvancePaymentHistory_.monthType));
             }

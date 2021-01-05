@@ -46,6 +46,8 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
+    private IntegerFilter year;
+
     private MonthTypeFilter monthType;
 
     private BigDecimalFilter amount;
@@ -61,6 +63,7 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
 
     public AdvancePaymentHistoryCriteria(AdvancePaymentHistoryCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
+        this.year = other.year == null ? null : other.year.copy();
         this.monthType = other.monthType == null ? null : other.monthType.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.before = other.before == null ? null : other.before.copy();
@@ -79,6 +82,14 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
+    }
+
+    public IntegerFilter getYear() {
+        return year;
+    }
+
+    public void setYear(IntegerFilter year) {
+        this.year = year;
     }
 
     public MonthTypeFilter getMonthType() {
@@ -133,6 +144,7 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
         final AdvancePaymentHistoryCriteria that = (AdvancePaymentHistoryCriteria) o;
         return
             Objects.equals(id, that.id) &&
+            Objects.equals(year, that.year) &&
             Objects.equals(monthType, that.monthType) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(before, that.before) &&
@@ -144,6 +156,7 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
+        year,
         monthType,
         amount,
         before,
@@ -157,6 +170,7 @@ public class AdvancePaymentHistoryCriteria implements Serializable, Criteria {
     public String toString() {
         return "AdvancePaymentHistoryCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
+                (year != null ? "year=" + year + ", " : "") +
                 (monthType != null ? "monthType=" + monthType + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (before != null ? "before=" + before + ", " : "") +

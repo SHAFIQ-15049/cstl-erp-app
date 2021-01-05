@@ -72,6 +72,7 @@ class AdvancePaymentHistoryGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
+                , "year":"0"
                 , "monthType":"JANUARY"
                 , "amount":"0"
                 , "before":"0"

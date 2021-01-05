@@ -20,6 +20,7 @@ export class AdvancePaymentHistoryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    year: [],
     monthType: [],
     amount: [],
     before: [],
@@ -45,6 +46,7 @@ export class AdvancePaymentHistoryUpdateComponent implements OnInit {
   updateForm(advancePaymentHistory: IAdvancePaymentHistory): void {
     this.editForm.patchValue({
       id: advancePaymentHistory.id,
+      year: advancePaymentHistory.year,
       monthType: advancePaymentHistory.monthType,
       amount: advancePaymentHistory.amount,
       before: advancePaymentHistory.before,
@@ -71,6 +73,7 @@ export class AdvancePaymentHistoryUpdateComponent implements OnInit {
     return {
       ...new AdvancePaymentHistory(),
       id: this.editForm.get(['id'])!.value,
+      year: this.editForm.get(['year'])!.value,
       monthType: this.editForm.get(['monthType'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       before: this.editForm.get(['before'])!.value,

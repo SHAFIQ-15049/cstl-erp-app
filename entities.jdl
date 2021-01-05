@@ -174,6 +174,7 @@ entity Fine (fine){
 
 entity FinePaymentHistory (fine_payment_history){
   //fine
+  year Integer,
   monthType MonthType,
   amount BigDecimal,
   beforeFine BigDecimal,
@@ -191,6 +192,7 @@ entity Advance (advance){
 
 entity AdvancePaymentHistory (advance_payment_history){
   //fine
+  year Integer,
   monthType MonthType,
   amount BigDecimal,
   before BigDecimal,

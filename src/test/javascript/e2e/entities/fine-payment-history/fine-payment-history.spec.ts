@@ -48,6 +48,7 @@ describe('FinePaymentHistory e2e test', () => {
     await finePaymentHistoryComponentsPage.clickOnCreateButton();
 
     await promise.all([
+      finePaymentHistoryUpdatePage.setYearInput('5'),
       finePaymentHistoryUpdatePage.monthTypeSelectLastOption(),
       finePaymentHistoryUpdatePage.setAmountInput('5'),
       finePaymentHistoryUpdatePage.setBeforeFineInput('5'),
@@ -55,6 +56,7 @@ describe('FinePaymentHistory e2e test', () => {
       finePaymentHistoryUpdatePage.fineSelectLastOption(),
     ]);
 
+    expect(await finePaymentHistoryUpdatePage.getYearInput()).to.eq('5', 'Expected year value to be equals to 5');
     expect(await finePaymentHistoryUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
     expect(await finePaymentHistoryUpdatePage.getBeforeFineInput()).to.eq('5', 'Expected beforeFine value to be equals to 5');
     expect(await finePaymentHistoryUpdatePage.getAfterFineInput()).to.eq('5', 'Expected afterFine value to be equals to 5');
