@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Fine;
+import software.cstl.domain.FinePaymentHistory;
 import software.cstl.domain.Employee;
 import software.cstl.repository.FineRepository;
 import software.cstl.service.FineService;
@@ -629,6 +630,26 @@ public class FineResourceIT {
         // Get all the fineList where paymentStatus is null
         defaultFineShouldNotBeFound("paymentStatus.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllFinesByFinePaymentHistoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+        FinePaymentHistory finePaymentHistory = FinePaymentHistoryResourceIT.createEntity(em);
+        em.persist(finePaymentHistory);
+        em.flush();
+        fine.addFinePaymentHistory(finePaymentHistory);
+        fineRepository.saveAndFlush(fine);
+        Long finePaymentHistoryId = finePaymentHistory.getId();
+
+        // Get all the fineList where finePaymentHistory equals to finePaymentHistoryId
+        defaultFineShouldBeFound("finePaymentHistoryId.equals=" + finePaymentHistoryId);
+
+        // Get all the fineList where finePaymentHistory equals to finePaymentHistoryId + 1
+        defaultFineShouldNotBeFound("finePaymentHistoryId.equals=" + (finePaymentHistoryId + 1));
+    }
+
 
     @Test
     @Transactional

@@ -10,6 +10,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.PaymentStatus;
 
@@ -46,6 +48,10 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
+
+    @OneToMany(mappedBy = "fine")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<FinePaymentHistory> finePaymentHistories = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "fines", allowSetters = true)
@@ -123,6 +129,31 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
 
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public Set<FinePaymentHistory> getFinePaymentHistories() {
+        return finePaymentHistories;
+    }
+
+    public Fine finePaymentHistories(Set<FinePaymentHistory> finePaymentHistories) {
+        this.finePaymentHistories = finePaymentHistories;
+        return this;
+    }
+
+    public Fine addFinePaymentHistory(FinePaymentHistory finePaymentHistory) {
+        this.finePaymentHistories.add(finePaymentHistory);
+        finePaymentHistory.setFine(this);
+        return this;
+    }
+
+    public Fine removeFinePaymentHistory(FinePaymentHistory finePaymentHistory) {
+        this.finePaymentHistories.remove(finePaymentHistory);
+        finePaymentHistory.setFine(null);
+        return this;
+    }
+
+    public void setFinePaymentHistories(Set<FinePaymentHistory> finePaymentHistories) {
+        this.finePaymentHistories = finePaymentHistories;
     }
 
     public Employee getEmployee() {

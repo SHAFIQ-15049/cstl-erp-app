@@ -97,6 +97,10 @@ public class FineQueryService extends QueryService<Fine> {
             if (criteria.getPaymentStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPaymentStatus(), Fine_.paymentStatus));
             }
+            if (criteria.getFinePaymentHistoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getFinePaymentHistoryId(),
+                    root -> root.join(Fine_.finePaymentHistories, JoinType.LEFT).get(FinePaymentHistory_.id)));
+            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(Fine_.employee, JoinType.LEFT).get(Employee_.id)));

@@ -35,6 +35,12 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "finePaymentHistory",
+      "otherEntityRelationshipName": "fine",
+      "relationshipName": "finePaymentHistory"
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "fine",
