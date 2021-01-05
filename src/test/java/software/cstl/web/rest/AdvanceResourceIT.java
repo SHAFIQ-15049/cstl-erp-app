@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Advance;
+import software.cstl.domain.AdvancePaymentHistory;
 import software.cstl.domain.Employee;
 import software.cstl.repository.AdvanceRepository;
 import software.cstl.service.AdvanceService;
@@ -629,6 +630,26 @@ public class AdvanceResourceIT {
         // Get all the advanceList where paymentStatus is null
         defaultAdvanceShouldNotBeFound("paymentStatus.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAdvancePaymentHistoryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+        AdvancePaymentHistory advancePaymentHistory = AdvancePaymentHistoryResourceIT.createEntity(em);
+        em.persist(advancePaymentHistory);
+        em.flush();
+        advance.addAdvancePaymentHistory(advancePaymentHistory);
+        advanceRepository.saveAndFlush(advance);
+        Long advancePaymentHistoryId = advancePaymentHistory.getId();
+
+        // Get all the advanceList where advancePaymentHistory equals to advancePaymentHistoryId
+        defaultAdvanceShouldBeFound("advancePaymentHistoryId.equals=" + advancePaymentHistoryId);
+
+        // Get all the advanceList where advancePaymentHistory equals to advancePaymentHistoryId + 1
+        defaultAdvanceShouldNotBeFound("advancePaymentHistoryId.equals=" + (advancePaymentHistoryId + 1));
+    }
+
 
     @Test
     @Transactional

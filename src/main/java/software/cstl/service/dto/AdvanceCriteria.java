@@ -55,6 +55,8 @@ public class AdvanceCriteria implements Serializable, Criteria {
 
     private PaymentStatusFilter paymentStatus;
 
+    private LongFilter advancePaymentHistoryId;
+
     private LongFilter employeeId;
 
     public AdvanceCriteria() {
@@ -66,6 +68,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
         this.amount = other.amount == null ? null : other.amount.copy();
         this.paymentPercentage = other.paymentPercentage == null ? null : other.paymentPercentage.copy();
         this.paymentStatus = other.paymentStatus == null ? null : other.paymentStatus.copy();
+        this.advancePaymentHistoryId = other.advancePaymentHistoryId == null ? null : other.advancePaymentHistoryId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
@@ -114,6 +117,14 @@ public class AdvanceCriteria implements Serializable, Criteria {
         this.paymentStatus = paymentStatus;
     }
 
+    public LongFilter getAdvancePaymentHistoryId() {
+        return advancePaymentHistoryId;
+    }
+
+    public void setAdvancePaymentHistoryId(LongFilter advancePaymentHistoryId) {
+        this.advancePaymentHistoryId = advancePaymentHistoryId;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -138,6 +149,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
             Objects.equals(amount, that.amount) &&
             Objects.equals(paymentPercentage, that.paymentPercentage) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
+            Objects.equals(advancePaymentHistoryId, that.advancePaymentHistoryId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -149,6 +161,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
         amount,
         paymentPercentage,
         paymentStatus,
+        advancePaymentHistoryId,
         employeeId
         );
     }
@@ -162,6 +175,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (paymentPercentage != null ? "paymentPercentage=" + paymentPercentage + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +
+                (advancePaymentHistoryId != null ? "advancePaymentHistoryId=" + advancePaymentHistoryId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

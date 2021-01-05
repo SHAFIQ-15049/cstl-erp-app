@@ -35,6 +35,12 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "advancePaymentHistory",
+      "otherEntityRelationshipName": "advance",
+      "relationshipName": "advancePaymentHistory"
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "advance",

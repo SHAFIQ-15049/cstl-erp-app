@@ -10,6 +10,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.PaymentStatus;
 
@@ -46,6 +48,10 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
+
+    @OneToMany(mappedBy = "advance")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<AdvancePaymentHistory> advancePaymentHistories = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "advances", allowSetters = true)
@@ -123,6 +129,31 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
 
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public Set<AdvancePaymentHistory> getAdvancePaymentHistories() {
+        return advancePaymentHistories;
+    }
+
+    public Advance advancePaymentHistories(Set<AdvancePaymentHistory> advancePaymentHistories) {
+        this.advancePaymentHistories = advancePaymentHistories;
+        return this;
+    }
+
+    public Advance addAdvancePaymentHistory(AdvancePaymentHistory advancePaymentHistory) {
+        this.advancePaymentHistories.add(advancePaymentHistory);
+        advancePaymentHistory.setAdvance(this);
+        return this;
+    }
+
+    public Advance removeAdvancePaymentHistory(AdvancePaymentHistory advancePaymentHistory) {
+        this.advancePaymentHistories.remove(advancePaymentHistory);
+        advancePaymentHistory.setAdvance(null);
+        return this;
+    }
+
+    public void setAdvancePaymentHistories(Set<AdvancePaymentHistory> advancePaymentHistories) {
+        this.advancePaymentHistories = advancePaymentHistories;
     }
 
     public Employee getEmployee() {

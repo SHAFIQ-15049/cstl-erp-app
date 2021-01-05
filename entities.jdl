@@ -420,7 +420,6 @@ relationship ManyToOne{
     Fine{employee(name)} to Employee,
     FinePaymentHistory{fine} to Fine,
     Advance{employee(name)} to Employee,
-    AdvancePaymentHistory{advance} to Advance,
     EmployeeSalary{employee(name)} to Employee,
     MonthlySalary {designation(name)} to Designation,
     MonthlySalaryDtl {employee(name)} to Employee,
@@ -430,6 +429,7 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
+    Advance{advancePaymentHistory} to AdvancePaymentHistory{advance},
     MonthlySalary{monthlySalaryDtl} to MonthlySalaryDtl{monthlySalary},
     Employee{educationalInfo} to EducationalInfo{employee(name)},
     Employee{training} to Training{employee(name)},
