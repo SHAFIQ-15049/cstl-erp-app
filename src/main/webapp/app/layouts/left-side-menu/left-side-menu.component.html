@@ -1,18 +1,23 @@
 <style>
-    .navbar-width{
+    .navbar-width {
         width: 230px;
     }
 
-    li{
+
+    li {
         border-bottom: 1px solid #b3d4fc;
     }
 
-    .navbar-component{
+    .navbar-component {
         background-color: whitesmoke;
     }
 
-    .navbar-internal{
+    .navbar-internal {
         background-color: ghostwhite;
+    }
+
+    .dropdown-toggle {
+        font-size: 15px;
     }
 
     .dropdown-toggle::after {
@@ -28,69 +33,115 @@
         float: right;
         margin-top: 8px;
     }
-</style>
-<nav style="height: 100%;background-color: whitesmoke;" id="sidebar" class="navbar-width" [class.active]="leftMenuHidden">
-    <ul class="list-unstyled components navbar-component" >
 
-<!--        <li>
+    @media only screen and (max-width: 640px) {
+
+        
+        
+
+        span {
+            font-size: 10px;
+        }
+
+
+        li {
+            border-bottom: 1px solid #b3d4fc;
+        }
+
+        .navbar-component {
+            background-color: whitesmoke;
+        }
+
+        .navbar-internal {
+            background-color: ghostwhite;
+        }
+
+        .dropdown-toggle::after {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            margin-left: .1em;
+            vertical-align: middle;
+            content: "";
+            border-top: .3em solid;
+            border-right: .3em solid transparent;
+            border-left: .3em solid transparent;
+            float: right;
+            margin-top: 8px;
+        }
+    }
+</style>
+<nav style="height: 100%;background-color: whitesmoke;" id="sidebar" class="navbar-width"
+    [class.active]="leftMenuHidden">
+    <ul class="list-unstyled components navbar-component">
+
+        <!--        <li>
             <img src="../../../content/images/admin.jpg"  class="img-circle" height="200" width="200"/>
         </li>-->
 
         <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
             <a (click)="entities=!entities" data-toggle="collapse" class=" nav-link dropdown-toggle "
-               [attr.aria-expanded]="false">
+                [attr.aria-expanded]="false">
 
                 <fa-icon icon="cog"></fa-icon>
                 <span *ngIf="!leftMenuHidden">
-                            Configuration
-                        </span>
+                    Configuration
+                </span>
 
             </a>
             <ul [ngbCollapse]="!entities" class="list-unstyled navbar-internal" id="homeSubmenu">
                 <li class="list-custom">
-                    <a class="dropdown-item" routerLink="company" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="company" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Company</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="department" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="department" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Department</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="designation" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="designation" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Designation</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="grade" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="grade" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Grade</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="line" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="line" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Line</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="division" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="division" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Division</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="district" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="district" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>District</span>
                     </a>
                 </li>
                 <li>
-                    <a class="dropdown-item" routerLink="thana" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="thana" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Thana</span>
                     </a>
@@ -99,18 +150,19 @@
         </li>
 
         <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
-            <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
-               [attr.aria-expanded]="false">
+            <a (click)="employeeManagement=!employeeManagement" data-toggle="collapse"
+                class=" nav-link dropdown-toggle " [attr.aria-expanded]="false">
 
                 <fa-icon icon="cog"></fa-icon>
                 <span *ngIf="!leftMenuHidden">
-                            Employee Management
-                        </span>
+                    Employee Management
+                </span>
 
             </a>
             <ul [ngbCollapse]="!employeeManagement" class="list-unstyled navbar-internal" id="empploye">
                 <li>
-                    <a class="dropdown-item" routerLink="employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="employee" routerLinkActive="active"
+                        [routerLinkActiveOptions]="{ exact: true }">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Employee</span>
                     </a>

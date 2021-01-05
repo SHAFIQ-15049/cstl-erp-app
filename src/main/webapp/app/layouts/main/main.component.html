@@ -6,7 +6,7 @@
 
 <div class="main-wrapper">
     <span *ngIf="isAuthenticated()">
-        <jhi-left-side-menu [style.display]="isToggle ? 'inline':'none'"></jhi-left-side-menu>
+        <jhi-left-side-menu [style.display]="isToggle?'inline':'none'"[style.width.px]="sideWidth"  ></jhi-left-side-menu>
     </span>
     <div class="container-fluid">
         <span>

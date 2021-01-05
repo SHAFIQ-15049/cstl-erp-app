@@ -11,15 +11,18 @@ import { AccountService } from 'app/core/auth/account.service';
   templateUrl: './main.component.html',
   styles: [
     `
-      @media only screen and (max-width: 600px) {
-        .main-wrapper {
-          display: inline block;
-        }
-        div.main-wrapper span jhi-left-side-menu {
-          width: 200px;
-        }
-        .card {
-          width: 300px;
+      @media only screen and (max-width: 640px) {
+        .main-wrapper span jhi-left-side-menu {
+          height: 100%;
+          margin-top: 50px;
+          position: fixed;
+          top: 0;
+          left: 0;
+          z-index: 10;
+          overflow-x: hidden;
+          padding-left: 10px;
+          padding-top: 20px;
+          transition: 0.1s;
         }
       }
     `,
@@ -28,6 +31,9 @@ import { AccountService } from 'app/core/auth/account.service';
 export class MainComponent implements OnInit {
   clickEventsubscription: Subscription;
   isToggle = true;
+  isOpen = 'open';
+  sideWidth = 0;
+  num = 0;
 
   constructor(
     private accountService: AccountService,
@@ -43,6 +49,16 @@ export class MainComponent implements OnInit {
   //method for toggling the isToggle state
   doLeftSideMenuHide(): void {
     this.isToggle = !this.isToggle;
+
+    if (window.innerWidth <= 640) {
+      if (this.num === 0) {
+        this.isToggle = true;
+        this.num++;
+      }
+      this.sideWidth = 230;
+    } else {
+      this.sideWidth = 0;
+    }
   }
 
   public get width(): any {

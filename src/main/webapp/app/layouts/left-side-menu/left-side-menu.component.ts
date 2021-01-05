@@ -12,6 +12,9 @@ export class LeftSideMenuComponent implements OnInit {
   entities = false;
   employeeManagement = false;
 
+  sidebarWidth = 0;
+  sideMarginLeft = 0;
+
   @Input() leftMenuHidden = false;
   constructor(private accountService: AccountService) {}
 
