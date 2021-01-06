@@ -42,13 +42,26 @@ export class MainComponent implements OnInit {
     private sidebarService: SidebarService
   ) {
     this.clickEventsubscription = this.sidebarService.getClickEvent().subscribe(() => {
-      this.doLeftSideMenuHide();
+      if (window.innerWidth > 640) this.doLeftSideMenuHide();
+      else this.mobileSidebarHide();
     });
   }
 
   //method for toggling the isToggle state
   doLeftSideMenuHide(): void {
-    this.isToggle = !this.isToggle;
+    if (window.innerWidth > 640) {
+      this.isToggle = !this.isToggle;
+    }
+  }
+
+  public get width(): any {
+    return window.innerWidth;
+  }
+
+  mobileSidebarHide(): void {
+    if (window.innerWidth <= 640 && this.num !== 0) {
+      this.isToggle = !this.isToggle;
+    }
 
     if (window.innerWidth <= 640) {
       if (this.num === 0) {
@@ -59,10 +72,6 @@ export class MainComponent implements OnInit {
     } else {
       this.sideWidth = 0;
     }
-  }
-
-  public get width(): any {
-    return window.innerWidth;
   }
 
   ngOnInit(): void {

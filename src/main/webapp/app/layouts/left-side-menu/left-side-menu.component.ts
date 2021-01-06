@@ -1,3 +1,4 @@
+import { SidebarService } from './../../shared/sidebar.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -16,12 +17,20 @@ export class LeftSideMenuComponent implements OnInit {
   sideMarginLeft = 0;
 
   @Input() leftMenuHidden = false;
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private mobileSidebarHideService: SidebarService) {}
 
   ngOnInit(): void {
     this.accountService.getAuthenticationState().subscribe(res => {
       this.employeeName = res?.firstName! + ' ' + res?.lastName!;
       this.username = res?.login!;
     });
+  }
+
+  mobileSidebarHide(): void {
+    this.mobileSidebarHideService.sendClickEvent();
+  }
+
+  getSidebarWidth(): number {
+    return (this.sidebarWidth = window.innerWidth);
   }
 }
