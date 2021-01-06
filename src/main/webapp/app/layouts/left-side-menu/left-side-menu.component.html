@@ -141,6 +141,26 @@
         </li>
 
         <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="attendanceManagement=!attendanceManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Attendance Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled navbar-internal" id="holiday">
+                <li>
+                    <a class="dropdown-item" routerLink="attendance-data-upload/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Data Upload</span>
+                    </a>
+                </li>
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
             <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
                [attr.aria-expanded]="false">
 

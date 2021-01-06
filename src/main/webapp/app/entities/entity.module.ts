@@ -92,6 +92,11 @@ import { RouterModule } from '@angular/router';
         path: 'leave-application',
         loadChildren: () => import('./leave-application/leave-application.module').then(m => m.CodeNodeErpLeaveApplicationModule),
       },
+      {
+        path: 'attendance-data-upload',
+        loadChildren: () =>
+          import('./attendance-data-upload/attendance-data-upload.module').then(m => m.CodeNodeErpAttendanceDataUploadModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
