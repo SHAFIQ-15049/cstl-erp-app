@@ -72,7 +72,8 @@ public class PayrollService {
 
     public void createMonthlySalaries(Integer year, MonthType monthType, Long designationId){
         Designation designation = designationRepository.getOne(designationId);
-        MonthlySalary monthlySalary;
+        MonthlySalary monthlySalary = monthlySalaryRepository.findMonthlySalaryByYearAndMonthAndDesignation(year, monthType, designation);
+
     }
 
 }
