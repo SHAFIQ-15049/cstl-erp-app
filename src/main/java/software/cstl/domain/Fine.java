@@ -45,6 +45,10 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
     @Column(name = "fine_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal finePercentage;
 
+    @NotNull
+    @Column(name = "monthly_fine_amount", precision = 21, scale = 2, nullable = false)
+    private BigDecimal monthlyFineAmount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
@@ -116,6 +120,19 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
 
     public void setFinePercentage(BigDecimal finePercentage) {
         this.finePercentage = finePercentage;
+    }
+
+    public BigDecimal getMonthlyFineAmount() {
+        return monthlyFineAmount;
+    }
+
+    public Fine monthlyFineAmount(BigDecimal monthlyFineAmount) {
+        this.monthlyFineAmount = monthlyFineAmount;
+        return this;
+    }
+
+    public void setMonthlyFineAmount(BigDecimal monthlyFineAmount) {
+        this.monthlyFineAmount = monthlyFineAmount;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -195,6 +212,7 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
             ", reason='" + getReason() + "'" +
             ", amount=" + getAmount() +
             ", finePercentage=" + getFinePercentage() +
+            ", monthlyFineAmount=" + getMonthlyFineAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             "}";
     }

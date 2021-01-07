@@ -45,6 +45,7 @@ describe('Advance e2e test', () => {
       advanceUpdatePage.setReasonInput('reason'),
       advanceUpdatePage.setAmountInput('5'),
       advanceUpdatePage.setPaymentPercentageInput('5'),
+      advanceUpdatePage.setMonthlyPaymentAmountInput('5'),
       advanceUpdatePage.paymentStatusSelectLastOption(),
       advanceUpdatePage.employeeSelectLastOption(),
     ]);
@@ -53,6 +54,7 @@ describe('Advance e2e test', () => {
     expect(await advanceUpdatePage.getReasonInput()).to.eq('reason', 'Expected Reason value to be equals to reason');
     expect(await advanceUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
     expect(await advanceUpdatePage.getPaymentPercentageInput()).to.eq('5', 'Expected paymentPercentage value to be equals to 5');
+    expect(await advanceUpdatePage.getMonthlyPaymentAmountInput()).to.eq('5', 'Expected monthlyPaymentAmount value to be equals to 5');
 
     await advanceUpdatePage.save();
     expect(await advanceUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

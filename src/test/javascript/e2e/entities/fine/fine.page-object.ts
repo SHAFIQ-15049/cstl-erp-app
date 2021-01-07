@@ -33,6 +33,7 @@ export class FineUpdatePage {
   reasonInput = element(by.id('field_reason'));
   amountInput = element(by.id('field_amount'));
   finePercentageInput = element(by.id('field_finePercentage'));
+  monthlyFineAmountInput = element(by.id('field_monthlyFineAmount'));
   paymentStatusSelect = element(by.id('field_paymentStatus'));
 
   employeeSelect = element(by.id('field_employee'));
@@ -71,6 +72,14 @@ export class FineUpdatePage {
 
   async getFinePercentageInput(): Promise<string> {
     return await this.finePercentageInput.getAttribute('value');
+  }
+
+  async setMonthlyFineAmountInput(monthlyFineAmount: string): Promise<void> {
+    await this.monthlyFineAmountInput.sendKeys(monthlyFineAmount);
+  }
+
+  async getMonthlyFineAmountInput(): Promise<string> {
+    return await this.monthlyFineAmountInput.getAttribute('value');
   }
 
   async setPaymentStatusSelect(paymentStatus: string): Promise<void> {

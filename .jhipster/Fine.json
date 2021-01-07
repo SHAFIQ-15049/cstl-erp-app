@@ -28,6 +28,13 @@
       ]
     },
     {
+      "fieldName": "monthlyFineAmount",
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
       "fieldName": "paymentStatus",
       "fieldType": "PaymentStatus",
       "fieldValues": "NOT_PAID,IN_PROGRESS,PAID"

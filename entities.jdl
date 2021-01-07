@@ -169,6 +169,7 @@ entity Fine (fine){
   reason TextBlob,
   amount BigDecimal required,
   finePercentage BigDecimal required,
+  monthlyFineAmount BigDecimal required,
   paymentStatus PaymentStatus,
 }
 
@@ -187,6 +188,7 @@ entity Advance (advance){
   reason TextBlob,
   amount BigDecimal required,
   paymentPercentage BigDecimal required,
+  monthlyPaymentAmount BigDecimal required,
   paymentStatus PaymentStatus,
 }
 

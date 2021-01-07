@@ -94,6 +94,9 @@ public class FineQueryService extends QueryService<Fine> {
             if (criteria.getFinePercentage() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFinePercentage(), Fine_.finePercentage));
             }
+            if (criteria.getMonthlyFineAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMonthlyFineAmount(), Fine_.monthlyFineAmount));
+            }
             if (criteria.getPaymentStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPaymentStatus(), Fine_.paymentStatus));
             }

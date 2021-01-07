@@ -26,6 +26,7 @@
                     <th scope="col"  jhiSortBy="finedOn"><span>Fined On</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="finePercentage"><span>Fine Percentage</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="monthlyFineAmount"><span>Monthly Fine Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
@@ -36,6 +37,7 @@
                     <td>{{ fine.finedOn | date:'mediumDate' }}</td>
                     <td>{{ fine.amount }}</td>
                     <td>{{ fine.finePercentage }}</td>
+                    <td>{{ fine.monthlyFineAmount }}</td>
                     <td>{{ fine.paymentStatus }}</td>
                     <td class="text-right">
                         <div class="btn-group">

@@ -76,6 +76,7 @@ class AdvanceGatlingTest extends Simulation {
                 , "reason":null
                 , "amount":"0"
                 , "paymentPercentage":"0"
+                , "monthlyPaymentAmount":"0"
                 , "paymentStatus":"NOT_PAID"
                 }""")).asJson
             .check(status.is(201))

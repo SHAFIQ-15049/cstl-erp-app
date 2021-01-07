@@ -9,6 +9,7 @@ export interface IFine {
   reason?: any;
   amount?: number;
   finePercentage?: number;
+  monthlyFineAmount?: number;
   paymentStatus?: PaymentStatus;
   finePaymentHistories?: IFinePaymentHistory[];
   employee?: IEmployee;
@@ -21,6 +22,7 @@ export class Fine implements IFine {
     public reason?: any,
     public amount?: number,
     public finePercentage?: number,
+    public monthlyFineAmount?: number,
     public paymentStatus?: PaymentStatus,
     public finePaymentHistories?: IFinePaymentHistory[],
     public employee?: IEmployee

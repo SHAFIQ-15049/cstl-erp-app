@@ -66,6 +66,22 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_monthlyFineAmount">Monthly Fine Amount</label>
+                    <input type="number" class="form-control" name="monthlyFineAmount" id="field_monthlyFineAmount"
+                           formControlName="monthlyFineAmount"/>
+                    <div *ngIf="editForm.get('monthlyFineAmount')!.invalid && (editForm.get('monthlyFineAmount')!.dirty || editForm.get('monthlyFineAmount')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('monthlyFineAmount')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('monthlyFineAmount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_paymentStatus">Payment Status</label>
                     <select class="form-control" name="paymentStatus" formControlName="paymentStatus" id="field_paymentStatus">
                         <option value="NOT_PAID">NOT_PAID</option>

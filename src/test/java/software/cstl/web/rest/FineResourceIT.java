@@ -54,6 +54,10 @@ public class FineResourceIT {
     private static final BigDecimal UPDATED_FINE_PERCENTAGE = new BigDecimal(2);
     private static final BigDecimal SMALLER_FINE_PERCENTAGE = new BigDecimal(1 - 1);
 
+    private static final BigDecimal DEFAULT_MONTHLY_FINE_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MONTHLY_FINE_AMOUNT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_MONTHLY_FINE_AMOUNT = new BigDecimal(1 - 1);
+
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.IN_PROGRESS;
 
@@ -86,6 +90,7 @@ public class FineResourceIT {
             .reason(DEFAULT_REASON)
             .amount(DEFAULT_AMOUNT)
             .finePercentage(DEFAULT_FINE_PERCENTAGE)
+            .monthlyFineAmount(DEFAULT_MONTHLY_FINE_AMOUNT)
             .paymentStatus(DEFAULT_PAYMENT_STATUS);
         return fine;
     }
@@ -101,6 +106,7 @@ public class FineResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .finePercentage(UPDATED_FINE_PERCENTAGE)
+            .monthlyFineAmount(UPDATED_MONTHLY_FINE_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS);
         return fine;
     }
@@ -128,6 +134,7 @@ public class FineResourceIT {
         assertThat(testFine.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testFine.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testFine.getFinePercentage()).isEqualTo(DEFAULT_FINE_PERCENTAGE);
+        assertThat(testFine.getMonthlyFineAmount()).isEqualTo(DEFAULT_MONTHLY_FINE_AMOUNT);
         assertThat(testFine.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
     }
 
@@ -210,6 +217,25 @@ public class FineResourceIT {
 
     @Test
     @Transactional
+    public void checkMonthlyFineAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = fineRepository.findAll().size();
+        // set the field null
+        fine.setMonthlyFineAmount(null);
+
+        // Create the Fine, which fails.
+
+
+        restFineMockMvc.perform(post("/api/fines")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(fine)))
+            .andExpect(status().isBadRequest());
+
+        List<Fine> fineList = fineRepository.findAll();
+        assertThat(fineList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllFines() throws Exception {
         // Initialize the database
         fineRepository.saveAndFlush(fine);
@@ -223,6 +249,7 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].finePercentage").value(hasItem(DEFAULT_FINE_PERCENTAGE.intValue())))
+            .andExpect(jsonPath("$.[*].monthlyFineAmount").value(hasItem(DEFAULT_MONTHLY_FINE_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
     }
     
@@ -241,6 +268,7 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.finePercentage").value(DEFAULT_FINE_PERCENTAGE.intValue()))
+            .andExpect(jsonPath("$.monthlyFineAmount").value(DEFAULT_MONTHLY_FINE_AMOUNT.intValue()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()));
     }
 
@@ -581,6 +609,111 @@ public class FineResourceIT {
 
     @Test
     @Transactional
+    public void getAllFinesByMonthlyFineAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount equals to DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.equals=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount equals to UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.equals=" + UPDATED_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount not equals to DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.notEquals=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount not equals to UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.notEquals=" + UPDATED_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount in DEFAULT_MONTHLY_FINE_AMOUNT or UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.in=" + DEFAULT_MONTHLY_FINE_AMOUNT + "," + UPDATED_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount equals to UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.in=" + UPDATED_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount is not null
+        defaultFineShouldBeFound("monthlyFineAmount.specified=true");
+
+        // Get all the fineList where monthlyFineAmount is null
+        defaultFineShouldNotBeFound("monthlyFineAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount is greater than or equal to DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.greaterThanOrEqual=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount is greater than or equal to UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.greaterThanOrEqual=" + UPDATED_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount is less than or equal to DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.lessThanOrEqual=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount is less than or equal to SMALLER_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.lessThanOrEqual=" + SMALLER_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount is less than DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.lessThan=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount is less than UPDATED_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.lessThan=" + UPDATED_MONTHLY_FINE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByMonthlyFineAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where monthlyFineAmount is greater than DEFAULT_MONTHLY_FINE_AMOUNT
+        defaultFineShouldNotBeFound("monthlyFineAmount.greaterThan=" + DEFAULT_MONTHLY_FINE_AMOUNT);
+
+        // Get all the fineList where monthlyFineAmount is greater than SMALLER_MONTHLY_FINE_AMOUNT
+        defaultFineShouldBeFound("monthlyFineAmount.greaterThan=" + SMALLER_MONTHLY_FINE_AMOUNT);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllFinesByPaymentStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         fineRepository.saveAndFlush(fine);
@@ -682,6 +815,7 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].finePercentage").value(hasItem(DEFAULT_FINE_PERCENTAGE.intValue())))
+            .andExpect(jsonPath("$.[*].monthlyFineAmount").value(hasItem(DEFAULT_MONTHLY_FINE_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -733,6 +867,7 @@ public class FineResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .finePercentage(UPDATED_FINE_PERCENTAGE)
+            .monthlyFineAmount(UPDATED_MONTHLY_FINE_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS);
 
         restFineMockMvc.perform(put("/api/fines")
@@ -748,6 +883,7 @@ public class FineResourceIT {
         assertThat(testFine.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testFine.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testFine.getFinePercentage()).isEqualTo(UPDATED_FINE_PERCENTAGE);
+        assertThat(testFine.getMonthlyFineAmount()).isEqualTo(UPDATED_MONTHLY_FINE_AMOUNT);
         assertThat(testFine.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
     }
 

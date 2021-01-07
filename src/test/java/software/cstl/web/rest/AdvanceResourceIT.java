@@ -54,6 +54,10 @@ public class AdvanceResourceIT {
     private static final BigDecimal UPDATED_PAYMENT_PERCENTAGE = new BigDecimal(2);
     private static final BigDecimal SMALLER_PAYMENT_PERCENTAGE = new BigDecimal(1 - 1);
 
+    private static final BigDecimal DEFAULT_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(1 - 1);
+
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.IN_PROGRESS;
 
@@ -86,6 +90,7 @@ public class AdvanceResourceIT {
             .reason(DEFAULT_REASON)
             .amount(DEFAULT_AMOUNT)
             .paymentPercentage(DEFAULT_PAYMENT_PERCENTAGE)
+            .monthlyPaymentAmount(DEFAULT_MONTHLY_PAYMENT_AMOUNT)
             .paymentStatus(DEFAULT_PAYMENT_STATUS);
         return advance;
     }
@@ -101,6 +106,7 @@ public class AdvanceResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
+            .monthlyPaymentAmount(UPDATED_MONTHLY_PAYMENT_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS);
         return advance;
     }
@@ -128,6 +134,7 @@ public class AdvanceResourceIT {
         assertThat(testAdvance.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(DEFAULT_PAYMENT_PERCENTAGE);
+        assertThat(testAdvance.getMonthlyPaymentAmount()).isEqualTo(DEFAULT_MONTHLY_PAYMENT_AMOUNT);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
     }
 
@@ -210,6 +217,25 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void checkMonthlyPaymentAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = advanceRepository.findAll().size();
+        // set the field null
+        advance.setMonthlyPaymentAmount(null);
+
+        // Create the Advance, which fails.
+
+
+        restAdvanceMockMvc.perform(post("/api/advances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(advance)))
+            .andExpect(status().isBadRequest());
+
+        List<Advance> advanceList = advanceRepository.findAll();
+        assertThat(advanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAdvances() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -223,6 +249,7 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
+            .andExpect(jsonPath("$.[*].monthlyPaymentAmount").value(hasItem(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
     }
     
@@ -241,6 +268,7 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.paymentPercentage").value(DEFAULT_PAYMENT_PERCENTAGE.intValue()))
+            .andExpect(jsonPath("$.monthlyPaymentAmount").value(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()));
     }
 
@@ -581,6 +609,111 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.equals=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.equals=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount not equals to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.notEquals=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount not equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.notEquals=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount in DEFAULT_MONTHLY_PAYMENT_AMOUNT or UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.in=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT + "," + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.in=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is not null
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.specified=true");
+
+        // Get all the advanceList where monthlyPaymentAmount is null
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than or equal to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.greaterThanOrEqual=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than or equal to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.greaterThanOrEqual=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than or equal to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.lessThanOrEqual=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than or equal to SMALLER_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.lessThanOrEqual=" + SMALLER_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.lessThan=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.lessThan=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.greaterThan=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than SMALLER_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.greaterThan=" + SMALLER_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAdvancesByPaymentStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -682,6 +815,7 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
+            .andExpect(jsonPath("$.[*].monthlyPaymentAmount").value(hasItem(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -733,6 +867,7 @@ public class AdvanceResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
+            .monthlyPaymentAmount(UPDATED_MONTHLY_PAYMENT_AMOUNT)
             .paymentStatus(UPDATED_PAYMENT_STATUS);
 
         restAdvanceMockMvc.perform(put("/api/advances")
@@ -748,6 +883,7 @@ public class AdvanceResourceIT {
         assertThat(testAdvance.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(UPDATED_PAYMENT_PERCENTAGE);
+        assertThat(testAdvance.getMonthlyPaymentAmount()).isEqualTo(UPDATED_MONTHLY_PAYMENT_AMOUNT);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
     }
 

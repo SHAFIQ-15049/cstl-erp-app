@@ -53,6 +53,8 @@ public class AdvanceCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter paymentPercentage;
 
+    private BigDecimalFilter monthlyPaymentAmount;
+
     private PaymentStatusFilter paymentStatus;
 
     private LongFilter advancePaymentHistoryId;
@@ -67,6 +69,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
         this.providedOn = other.providedOn == null ? null : other.providedOn.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.paymentPercentage = other.paymentPercentage == null ? null : other.paymentPercentage.copy();
+        this.monthlyPaymentAmount = other.monthlyPaymentAmount == null ? null : other.monthlyPaymentAmount.copy();
         this.paymentStatus = other.paymentStatus == null ? null : other.paymentStatus.copy();
         this.advancePaymentHistoryId = other.advancePaymentHistoryId == null ? null : other.advancePaymentHistoryId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
@@ -109,6 +112,14 @@ public class AdvanceCriteria implements Serializable, Criteria {
         this.paymentPercentage = paymentPercentage;
     }
 
+    public BigDecimalFilter getMonthlyPaymentAmount() {
+        return monthlyPaymentAmount;
+    }
+
+    public void setMonthlyPaymentAmount(BigDecimalFilter monthlyPaymentAmount) {
+        this.monthlyPaymentAmount = monthlyPaymentAmount;
+    }
+
     public PaymentStatusFilter getPaymentStatus() {
         return paymentStatus;
     }
@@ -148,6 +159,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
             Objects.equals(providedOn, that.providedOn) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(paymentPercentage, that.paymentPercentage) &&
+            Objects.equals(monthlyPaymentAmount, that.monthlyPaymentAmount) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
             Objects.equals(advancePaymentHistoryId, that.advancePaymentHistoryId) &&
             Objects.equals(employeeId, that.employeeId);
@@ -160,6 +172,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
         providedOn,
         amount,
         paymentPercentage,
+        monthlyPaymentAmount,
         paymentStatus,
         advancePaymentHistoryId,
         employeeId
@@ -174,6 +187,7 @@ public class AdvanceCriteria implements Serializable, Criteria {
                 (providedOn != null ? "providedOn=" + providedOn + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (paymentPercentage != null ? "paymentPercentage=" + paymentPercentage + ", " : "") +
+                (monthlyPaymentAmount != null ? "monthlyPaymentAmount=" + monthlyPaymentAmount + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +
                 (advancePaymentHistoryId != null ? "advancePaymentHistoryId=" + advancePaymentHistoryId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

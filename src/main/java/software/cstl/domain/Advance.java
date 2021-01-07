@@ -45,6 +45,10 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     @Column(name = "payment_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal paymentPercentage;
 
+    @NotNull
+    @Column(name = "monthly_payment_amount", precision = 21, scale = 2, nullable = false)
+    private BigDecimal monthlyPaymentAmount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
@@ -116,6 +120,19 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
 
     public void setPaymentPercentage(BigDecimal paymentPercentage) {
         this.paymentPercentage = paymentPercentage;
+    }
+
+    public BigDecimal getMonthlyPaymentAmount() {
+        return monthlyPaymentAmount;
+    }
+
+    public Advance monthlyPaymentAmount(BigDecimal monthlyPaymentAmount) {
+        this.monthlyPaymentAmount = monthlyPaymentAmount;
+        return this;
+    }
+
+    public void setMonthlyPaymentAmount(BigDecimal monthlyPaymentAmount) {
+        this.monthlyPaymentAmount = monthlyPaymentAmount;
     }
 
     public PaymentStatus getPaymentStatus() {
@@ -195,6 +212,7 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
             ", reason='" + getReason() + "'" +
             ", amount=" + getAmount() +
             ", paymentPercentage=" + getPaymentPercentage() +
+            ", monthlyPaymentAmount=" + getMonthlyPaymentAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
             "}";
     }

@@ -76,6 +76,7 @@ class FineGatlingTest extends Simulation {
                 , "reason":null
                 , "amount":"0"
                 , "finePercentage":"0"
+                , "monthlyFineAmount":"0"
                 , "paymentStatus":"NOT_PAID"
                 }""")).asJson
             .check(status.is(201))

@@ -27,6 +27,7 @@ export class FineUpdateComponent implements OnInit {
     reason: [],
     amount: [null, [Validators.required]],
     finePercentage: [null, [Validators.required]],
+    monthlyFineAmount: [null, [Validators.required]],
     paymentStatus: [],
     employee: [],
   });
@@ -55,6 +56,7 @@ export class FineUpdateComponent implements OnInit {
       reason: fine.reason,
       amount: fine.amount,
       finePercentage: fine.finePercentage,
+      monthlyFineAmount: fine.monthlyFineAmount,
       paymentStatus: fine.paymentStatus,
       employee: fine.employee,
     });
@@ -98,6 +100,7 @@ export class FineUpdateComponent implements OnInit {
       reason: this.editForm.get(['reason'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       finePercentage: this.editForm.get(['finePercentage'])!.value,
+      monthlyFineAmount: this.editForm.get(['monthlyFineAmount'])!.value,
       paymentStatus: this.editForm.get(['paymentStatus'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };
