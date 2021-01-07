@@ -421,9 +421,6 @@ relationship ManyToOne{
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade,
-    Fine{employee(name)} to Employee,
-    Advance{employee(name)} to Employee,
-    EmployeeSalary{employee(name)} to Employee,
     MonthlySalary {designation(name)} to Designation,
     MonthlySalaryDtl {employee(name)} to Employee,
     FestivalAllowancePayment{designation(name)} to Designation,
@@ -432,6 +429,9 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
+    Employee{fine} to Fine{employee(name)},
+    Employee{advance} to Advance{employee(name)},
+    Employee{employeeSalary} to EmployeeSalary{employee(name)},
     Fine{finePaymentHistory}  to FinePaymentHistory{fine},
     Advance{advancePaymentHistory} to AdvancePaymentHistory{advance},
     MonthlySalary{monthlySalaryDtl} to MonthlySalaryDtl{monthlySalary},

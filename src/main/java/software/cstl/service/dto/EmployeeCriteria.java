@@ -102,6 +102,12 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LocalDateFilter terminationDate;
 
+    private LongFilter fineId;
+
+    private LongFilter advanceId;
+
+    private LongFilter employeeSalaryId;
+
     private LongFilter educationalInfoId;
 
     private LongFilter trainingId;
@@ -140,6 +146,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.joiningDate = other.joiningDate == null ? null : other.joiningDate.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.terminationDate = other.terminationDate == null ? null : other.terminationDate.copy();
+        this.fineId = other.fineId == null ? null : other.fineId.copy();
+        this.advanceId = other.advanceId == null ? null : other.advanceId.copy();
+        this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
         this.educationalInfoId = other.educationalInfoId == null ? null : other.educationalInfoId.copy();
         this.trainingId = other.trainingId == null ? null : other.trainingId.copy();
         this.employeeAccountId = other.employeeAccountId == null ? null : other.employeeAccountId.copy();
@@ -237,6 +246,30 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setTerminationDate(LocalDateFilter terminationDate) {
         this.terminationDate = terminationDate;
+    }
+
+    public LongFilter getFineId() {
+        return fineId;
+    }
+
+    public void setFineId(LongFilter fineId) {
+        this.fineId = fineId;
+    }
+
+    public LongFilter getAdvanceId() {
+        return advanceId;
+    }
+
+    public void setAdvanceId(LongFilter advanceId) {
+        this.advanceId = advanceId;
+    }
+
+    public LongFilter getEmployeeSalaryId() {
+        return employeeSalaryId;
+    }
+
+    public void setEmployeeSalaryId(LongFilter employeeSalaryId) {
+        this.employeeSalaryId = employeeSalaryId;
     }
 
     public LongFilter getEducationalInfoId() {
@@ -356,6 +389,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(joiningDate, that.joiningDate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(terminationDate, that.terminationDate) &&
+            Objects.equals(fineId, that.fineId) &&
+            Objects.equals(advanceId, that.advanceId) &&
+            Objects.equals(employeeSalaryId, that.employeeSalaryId) &&
             Objects.equals(educationalInfoId, that.educationalInfoId) &&
             Objects.equals(trainingId, that.trainingId) &&
             Objects.equals(employeeAccountId, that.employeeAccountId) &&
@@ -383,6 +419,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
         joiningDate,
         status,
         terminationDate,
+        fineId,
+        advanceId,
+        employeeSalaryId,
         educationalInfoId,
         trainingId,
         employeeAccountId,
@@ -412,6 +451,9 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +
+                (fineId != null ? "fineId=" + fineId + ", " : "") +
+                (advanceId != null ? "advanceId=" + advanceId + ", " : "") +
+                (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +
                 (educationalInfoId != null ? "educationalInfoId=" + educationalInfoId + ", " : "") +
                 (trainingId != null ? "trainingId=" + trainingId + ", " : "") +
                 (employeeAccountId != null ? "employeeAccountId=" + employeeAccountId + ", " : "") +

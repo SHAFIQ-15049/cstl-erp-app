@@ -112,6 +112,18 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getTerminationDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTerminationDate(), Employee_.terminationDate));
             }
+            if (criteria.getFineId() != null) {
+                specification = specification.and(buildSpecification(criteria.getFineId(),
+                    root -> root.join(Employee_.fines, JoinType.LEFT).get(Fine_.id)));
+            }
+            if (criteria.getAdvanceId() != null) {
+                specification = specification.and(buildSpecification(criteria.getAdvanceId(),
+                    root -> root.join(Employee_.advances, JoinType.LEFT).get(Advance_.id)));
+            }
+            if (criteria.getEmployeeSalaryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeSalaryId(),
+                    root -> root.join(Employee_.employeeSalaries, JoinType.LEFT).get(EmployeeSalary_.id)));
+            }
             if (criteria.getEducationalInfoId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEducationalInfoId(),
                     root -> root.join(Employee_.educationalInfos, JoinType.LEFT).get(EducationalInfo_.id)));

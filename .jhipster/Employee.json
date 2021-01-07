@@ -61,6 +61,24 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
+      "otherEntityName": "fine",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "fine"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "advance",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "advance"
+    },
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "employeeSalary",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "employeeSalary"
+    },
+    {
+      "relationshipType": "one-to-many",
       "otherEntityName": "educationalInfo",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "educationalInfo"

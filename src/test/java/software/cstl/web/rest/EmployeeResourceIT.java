@@ -2,6 +2,9 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Employee;
+import software.cstl.domain.Fine;
+import software.cstl.domain.Advance;
+import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.EducationalInfo;
 import software.cstl.domain.Training;
 import software.cstl.domain.EmployeeAccount;
@@ -1008,6 +1011,66 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where terminationDate is greater than SMALLER_TERMINATION_DATE
         defaultEmployeeShouldBeFound("terminationDate.greaterThan=" + SMALLER_TERMINATION_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByFineIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Fine fine = FineResourceIT.createEntity(em);
+        em.persist(fine);
+        em.flush();
+        employee.addFine(fine);
+        employeeRepository.saveAndFlush(employee);
+        Long fineId = fine.getId();
+
+        // Get all the employeeList where fine equals to fineId
+        defaultEmployeeShouldBeFound("fineId.equals=" + fineId);
+
+        // Get all the employeeList where fine equals to fineId + 1
+        defaultEmployeeShouldNotBeFound("fineId.equals=" + (fineId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAdvanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Advance advance = AdvanceResourceIT.createEntity(em);
+        em.persist(advance);
+        em.flush();
+        employee.addAdvance(advance);
+        employeeRepository.saveAndFlush(employee);
+        Long advanceId = advance.getId();
+
+        // Get all the employeeList where advance equals to advanceId
+        defaultEmployeeShouldBeFound("advanceId.equals=" + advanceId);
+
+        // Get all the employeeList where advance equals to advanceId + 1
+        defaultEmployeeShouldNotBeFound("advanceId.equals=" + (advanceId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByEmployeeSalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        EmployeeSalary employeeSalary = EmployeeSalaryResourceIT.createEntity(em);
+        em.persist(employeeSalary);
+        em.flush();
+        employee.addEmployeeSalary(employeeSalary);
+        employeeRepository.saveAndFlush(employee);
+        Long employeeSalaryId = employeeSalary.getId();
+
+        // Get all the employeeList where employeeSalary equals to employeeSalaryId
+        defaultEmployeeShouldBeFound("employeeSalaryId.equals=" + employeeSalaryId);
+
+        // Get all the employeeList where employeeSalary equals to employeeSalaryId + 1
+        defaultEmployeeShouldNotBeFound("employeeSalaryId.equals=" + (employeeSalaryId + 1));
     }
 
 

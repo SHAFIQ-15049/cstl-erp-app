@@ -71,23 +71,35 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @Column(name = "termination_reason")
     private String terminationReason;
 
-    @OneToMany(mappedBy = "employee",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Fine> fines = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<Advance> advances = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<EmployeeSalary> employeeSalaries = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EducationalInfo> educationalInfos = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Training> trainings = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<EmployeeAccount> employeeAccounts = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<JobHistory> jobHistories = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<ServiceHistory> serviceHistories = new HashSet<>();
 
@@ -111,11 +123,11 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @JsonIgnoreProperties(value = "employees", allowSetters = true)
     private Line line;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee")
     @JsonIgnore
     private Address address;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "employee")
     @JsonIgnore
     private PersonalInfo personalInfo;
 
@@ -256,6 +268,81 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setTerminationReason(String terminationReason) {
         this.terminationReason = terminationReason;
+    }
+
+    public Set<Fine> getFines() {
+        return fines;
+    }
+
+    public Employee fines(Set<Fine> fines) {
+        this.fines = fines;
+        return this;
+    }
+
+    public Employee addFine(Fine fine) {
+        this.fines.add(fine);
+        fine.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeFine(Fine fine) {
+        this.fines.remove(fine);
+        fine.setEmployee(null);
+        return this;
+    }
+
+    public void setFines(Set<Fine> fines) {
+        this.fines = fines;
+    }
+
+    public Set<Advance> getAdvances() {
+        return advances;
+    }
+
+    public Employee advances(Set<Advance> advances) {
+        this.advances = advances;
+        return this;
+    }
+
+    public Employee addAdvance(Advance advance) {
+        this.advances.add(advance);
+        advance.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeAdvance(Advance advance) {
+        this.advances.remove(advance);
+        advance.setEmployee(null);
+        return this;
+    }
+
+    public void setAdvances(Set<Advance> advances) {
+        this.advances = advances;
+    }
+
+    public Set<EmployeeSalary> getEmployeeSalaries() {
+        return employeeSalaries;
+    }
+
+    public Employee employeeSalaries(Set<EmployeeSalary> employeeSalaries) {
+        this.employeeSalaries = employeeSalaries;
+        return this;
+    }
+
+    public Employee addEmployeeSalary(EmployeeSalary employeeSalary) {
+        this.employeeSalaries.add(employeeSalary);
+        employeeSalary.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeEmployeeSalary(EmployeeSalary employeeSalary) {
+        this.employeeSalaries.remove(employeeSalary);
+        employeeSalary.setEmployee(null);
+        return this;
+    }
+
+    public void setEmployeeSalaries(Set<EmployeeSalary> employeeSalaries) {
+        this.employeeSalaries = employeeSalaries;
     }
 
     public Set<EducationalInfo> getEducationalInfos() {

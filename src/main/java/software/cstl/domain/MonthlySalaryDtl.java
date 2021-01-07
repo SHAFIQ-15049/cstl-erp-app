@@ -82,7 +82,7 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     @Column(name = "note")
     private String note;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties(value = "monthlySalaryDtls", allowSetters = true)
     private Employee employee;
 

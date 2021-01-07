@@ -1,4 +1,7 @@
 import { Moment } from 'moment';
+import { IFine } from 'app/shared/model/fine.model';
+import { IAdvance } from 'app/shared/model/advance.model';
+import { IEmployeeSalary } from 'app/shared/model/employee-salary.model';
 import { IEducationalInfo } from 'app/shared/model/educational-info.model';
 import { ITraining } from 'app/shared/model/training.model';
 import { IEmployeeAccount } from 'app/shared/model/employee-account.model';
@@ -27,6 +30,9 @@ export interface IEmployee {
   status?: EmployeeStatus;
   terminationDate?: Moment;
   terminationReason?: any;
+  fines?: IFine[];
+  advances?: IAdvance[];
+  employeeSalaries?: IEmployeeSalary[];
   educationalInfos?: IEducationalInfo[];
   trainings?: ITraining[];
   employeeAccounts?: IEmployeeAccount[];
@@ -54,6 +60,9 @@ export class Employee implements IEmployee {
     public status?: EmployeeStatus,
     public terminationDate?: Moment,
     public terminationReason?: any,
+    public fines?: IFine[],
+    public advances?: IAdvance[],
+    public employeeSalaries?: IEmployeeSalary[],
     public educationalInfos?: IEducationalInfo[],
     public trainings?: ITraining[],
     public employeeAccounts?: IEmployeeAccount[],
