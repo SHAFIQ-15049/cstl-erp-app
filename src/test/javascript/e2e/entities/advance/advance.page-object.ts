@@ -33,7 +33,10 @@ export class AdvanceUpdatePage {
   reasonInput = element(by.id('field_reason'));
   amountInput = element(by.id('field_amount'));
   paymentPercentageInput = element(by.id('field_paymentPercentage'));
+  monthlyPaymentAmountInput = element(by.id('field_monthlyPaymentAmount'));
   paymentStatusSelect = element(by.id('field_paymentStatus'));
+  amountPaidInput = element(by.id('field_amountPaid'));
+  amountLeftInput = element(by.id('field_amountLeft'));
 
   employeeSelect = element(by.id('field_employee'));
 
@@ -73,6 +76,14 @@ export class AdvanceUpdatePage {
     return await this.paymentPercentageInput.getAttribute('value');
   }
 
+  async setMonthlyPaymentAmountInput(monthlyPaymentAmount: string): Promise<void> {
+    await this.monthlyPaymentAmountInput.sendKeys(monthlyPaymentAmount);
+  }
+
+  async getMonthlyPaymentAmountInput(): Promise<string> {
+    return await this.monthlyPaymentAmountInput.getAttribute('value');
+  }
+
   async setPaymentStatusSelect(paymentStatus: string): Promise<void> {
     await this.paymentStatusSelect.sendKeys(paymentStatus);
   }
@@ -83,6 +94,22 @@ export class AdvanceUpdatePage {
 
   async paymentStatusSelectLastOption(): Promise<void> {
     await this.paymentStatusSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setAmountPaidInput(amountPaid: string): Promise<void> {
+    await this.amountPaidInput.sendKeys(amountPaid);
+  }
+
+  async getAmountPaidInput(): Promise<string> {
+    return await this.amountPaidInput.getAttribute('value');
+  }
+
+  async setAmountLeftInput(amountLeft: string): Promise<void> {
+    await this.amountLeftInput.sendKeys(amountLeft);
+  }
+
+  async getAmountLeftInput(): Promise<string> {
+    return await this.amountLeftInput.getAttribute('value');
   }
 
   async employeeSelectLastOption(): Promise<void> {

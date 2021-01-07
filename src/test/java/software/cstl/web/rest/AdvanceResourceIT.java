@@ -54,8 +54,20 @@ public class AdvanceResourceIT {
     private static final BigDecimal UPDATED_PAYMENT_PERCENTAGE = new BigDecimal(2);
     private static final BigDecimal SMALLER_PAYMENT_PERCENTAGE = new BigDecimal(1 - 1);
 
+    private static final BigDecimal DEFAULT_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_MONTHLY_PAYMENT_AMOUNT = new BigDecimal(1 - 1);
+
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.IN_PROGRESS;
+
+    private static final BigDecimal DEFAULT_AMOUNT_PAID = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT_PAID = new BigDecimal(2);
+    private static final BigDecimal SMALLER_AMOUNT_PAID = new BigDecimal(1 - 1);
+
+    private static final BigDecimal DEFAULT_AMOUNT_LEFT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT_LEFT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_AMOUNT_LEFT = new BigDecimal(1 - 1);
 
     @Autowired
     private AdvanceRepository advanceRepository;
@@ -86,7 +98,10 @@ public class AdvanceResourceIT {
             .reason(DEFAULT_REASON)
             .amount(DEFAULT_AMOUNT)
             .paymentPercentage(DEFAULT_PAYMENT_PERCENTAGE)
-            .paymentStatus(DEFAULT_PAYMENT_STATUS);
+            .monthlyPaymentAmount(DEFAULT_MONTHLY_PAYMENT_AMOUNT)
+            .paymentStatus(DEFAULT_PAYMENT_STATUS)
+            .amountPaid(DEFAULT_AMOUNT_PAID)
+            .amountLeft(DEFAULT_AMOUNT_LEFT);
         return advance;
     }
     /**
@@ -101,7 +116,10 @@ public class AdvanceResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
-            .paymentStatus(UPDATED_PAYMENT_STATUS);
+            .monthlyPaymentAmount(UPDATED_MONTHLY_PAYMENT_AMOUNT)
+            .paymentStatus(UPDATED_PAYMENT_STATUS)
+            .amountPaid(UPDATED_AMOUNT_PAID)
+            .amountLeft(UPDATED_AMOUNT_LEFT);
         return advance;
     }
 
@@ -128,7 +146,10 @@ public class AdvanceResourceIT {
         assertThat(testAdvance.getReason()).isEqualTo(DEFAULT_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(DEFAULT_PAYMENT_PERCENTAGE);
+        assertThat(testAdvance.getMonthlyPaymentAmount()).isEqualTo(DEFAULT_MONTHLY_PAYMENT_AMOUNT);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
+        assertThat(testAdvance.getAmountPaid()).isEqualTo(DEFAULT_AMOUNT_PAID);
+        assertThat(testAdvance.getAmountLeft()).isEqualTo(DEFAULT_AMOUNT_LEFT);
     }
 
     @Test
@@ -210,6 +231,25 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void checkMonthlyPaymentAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = advanceRepository.findAll().size();
+        // set the field null
+        advance.setMonthlyPaymentAmount(null);
+
+        // Create the Advance, which fails.
+
+
+        restAdvanceMockMvc.perform(post("/api/advances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(advance)))
+            .andExpect(status().isBadRequest());
+
+        List<Advance> advanceList = advanceRepository.findAll();
+        assertThat(advanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAdvances() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -223,7 +263,10 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
-            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].monthlyPaymentAmount").value(hasItem(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].amountPaid").value(hasItem(DEFAULT_AMOUNT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].amountLeft").value(hasItem(DEFAULT_AMOUNT_LEFT.intValue())));
     }
     
     @Test
@@ -241,7 +284,10 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.paymentPercentage").value(DEFAULT_PAYMENT_PERCENTAGE.intValue()))
-            .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()));
+            .andExpect(jsonPath("$.monthlyPaymentAmount").value(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
+            .andExpect(jsonPath("$.amountPaid").value(DEFAULT_AMOUNT_PAID.intValue()))
+            .andExpect(jsonPath("$.amountLeft").value(DEFAULT_AMOUNT_LEFT.intValue()));
     }
 
 
@@ -581,6 +627,111 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.equals=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.equals=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount not equals to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.notEquals=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount not equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.notEquals=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount in DEFAULT_MONTHLY_PAYMENT_AMOUNT or UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.in=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT + "," + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount equals to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.in=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is not null
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.specified=true");
+
+        // Get all the advanceList where monthlyPaymentAmount is null
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than or equal to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.greaterThanOrEqual=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than or equal to UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.greaterThanOrEqual=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than or equal to DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.lessThanOrEqual=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than or equal to SMALLER_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.lessThanOrEqual=" + SMALLER_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.lessThan=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is less than UPDATED_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.lessThan=" + UPDATED_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByMonthlyPaymentAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than DEFAULT_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldNotBeFound("monthlyPaymentAmount.greaterThan=" + DEFAULT_MONTHLY_PAYMENT_AMOUNT);
+
+        // Get all the advanceList where monthlyPaymentAmount is greater than SMALLER_MONTHLY_PAYMENT_AMOUNT
+        defaultAdvanceShouldBeFound("monthlyPaymentAmount.greaterThan=" + SMALLER_MONTHLY_PAYMENT_AMOUNT);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAdvancesByPaymentStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -633,6 +784,216 @@ public class AdvanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAdvancesByAmountPaidIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid equals to DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.equals=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid equals to UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.equals=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid not equals to DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.notEquals=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid not equals to UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.notEquals=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsInShouldWork() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid in DEFAULT_AMOUNT_PAID or UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.in=" + DEFAULT_AMOUNT_PAID + "," + UPDATED_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid equals to UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.in=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid is not null
+        defaultAdvanceShouldBeFound("amountPaid.specified=true");
+
+        // Get all the advanceList where amountPaid is null
+        defaultAdvanceShouldNotBeFound("amountPaid.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid is greater than or equal to DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.greaterThanOrEqual=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid is greater than or equal to UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.greaterThanOrEqual=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid is less than or equal to DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.lessThanOrEqual=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid is less than or equal to SMALLER_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.lessThanOrEqual=" + SMALLER_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsLessThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid is less than DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.lessThan=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid is less than UPDATED_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.lessThan=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountPaidIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountPaid is greater than DEFAULT_AMOUNT_PAID
+        defaultAdvanceShouldNotBeFound("amountPaid.greaterThan=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the advanceList where amountPaid is greater than SMALLER_AMOUNT_PAID
+        defaultAdvanceShouldBeFound("amountPaid.greaterThan=" + SMALLER_AMOUNT_PAID);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft equals to DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.equals=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft equals to UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.equals=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft not equals to DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.notEquals=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft not equals to UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.notEquals=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsInShouldWork() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft in DEFAULT_AMOUNT_LEFT or UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.in=" + DEFAULT_AMOUNT_LEFT + "," + UPDATED_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft equals to UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.in=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft is not null
+        defaultAdvanceShouldBeFound("amountLeft.specified=true");
+
+        // Get all the advanceList where amountLeft is null
+        defaultAdvanceShouldNotBeFound("amountLeft.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft is greater than or equal to DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.greaterThanOrEqual=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft is greater than or equal to UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.greaterThanOrEqual=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft is less than or equal to DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.lessThanOrEqual=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft is less than or equal to SMALLER_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.lessThanOrEqual=" + SMALLER_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsLessThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft is less than DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.lessThan=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft is less than UPDATED_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.lessThan=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancesByAmountLeftIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        advanceRepository.saveAndFlush(advance);
+
+        // Get all the advanceList where amountLeft is greater than DEFAULT_AMOUNT_LEFT
+        defaultAdvanceShouldNotBeFound("amountLeft.greaterThan=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the advanceList where amountLeft is greater than SMALLER_AMOUNT_LEFT
+        defaultAdvanceShouldBeFound("amountLeft.greaterThan=" + SMALLER_AMOUNT_LEFT);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAdvancesByAdvancePaymentHistoryIsEqualToSomething() throws Exception {
         // Initialize the database
         advanceRepository.saveAndFlush(advance);
@@ -682,7 +1043,10 @@ public class AdvanceResourceIT {
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].paymentPercentage").value(hasItem(DEFAULT_PAYMENT_PERCENTAGE.intValue())))
-            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].monthlyPaymentAmount").value(hasItem(DEFAULT_MONTHLY_PAYMENT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].amountPaid").value(hasItem(DEFAULT_AMOUNT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].amountLeft").value(hasItem(DEFAULT_AMOUNT_LEFT.intValue())));
 
         // Check, that the count call also returns 1
         restAdvanceMockMvc.perform(get("/api/advances/count?sort=id,desc&" + filter))
@@ -733,7 +1097,10 @@ public class AdvanceResourceIT {
             .reason(UPDATED_REASON)
             .amount(UPDATED_AMOUNT)
             .paymentPercentage(UPDATED_PAYMENT_PERCENTAGE)
-            .paymentStatus(UPDATED_PAYMENT_STATUS);
+            .monthlyPaymentAmount(UPDATED_MONTHLY_PAYMENT_AMOUNT)
+            .paymentStatus(UPDATED_PAYMENT_STATUS)
+            .amountPaid(UPDATED_AMOUNT_PAID)
+            .amountLeft(UPDATED_AMOUNT_LEFT);
 
         restAdvanceMockMvc.perform(put("/api/advances")
             .contentType(MediaType.APPLICATION_JSON)
@@ -748,7 +1115,10 @@ public class AdvanceResourceIT {
         assertThat(testAdvance.getReason()).isEqualTo(UPDATED_REASON);
         assertThat(testAdvance.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvance.getPaymentPercentage()).isEqualTo(UPDATED_PAYMENT_PERCENTAGE);
+        assertThat(testAdvance.getMonthlyPaymentAmount()).isEqualTo(UPDATED_MONTHLY_PAYMENT_AMOUNT);
         assertThat(testAdvance.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
+        assertThat(testAdvance.getAmountPaid()).isEqualTo(UPDATED_AMOUNT_PAID);
+        assertThat(testAdvance.getAmountLeft()).isEqualTo(UPDATED_AMOUNT_LEFT);
     }
 
     @Test

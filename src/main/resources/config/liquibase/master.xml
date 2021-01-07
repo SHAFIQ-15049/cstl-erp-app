@@ -78,6 +78,10 @@
     <include file="config/liquibase/changelog/20210104194224_MonthlySalary_executed_by_dropped.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210104194442_MonthlySalary_executed_by_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210105191510_year_added_in_FineAndAdvance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210107053708_paymentAmountAddedToFineAndAdvance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210107183326_AdvanceAndFineRefactored.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210107184353_attendanceMachineIdAddedToEmployee.xml" relativeToChangelogFile="false"/>
+
 
 
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->

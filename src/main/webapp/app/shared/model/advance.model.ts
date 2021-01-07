@@ -9,7 +9,10 @@ export interface IAdvance {
   reason?: any;
   amount?: number;
   paymentPercentage?: number;
+  monthlyPaymentAmount?: number;
   paymentStatus?: PaymentStatus;
+  amountPaid?: number;
+  amountLeft?: number;
   advancePaymentHistories?: IAdvancePaymentHistory[];
   employee?: IEmployee;
 }
@@ -21,7 +24,10 @@ export class Advance implements IAdvance {
     public reason?: any,
     public amount?: number,
     public paymentPercentage?: number,
+    public monthlyPaymentAmount?: number,
     public paymentStatus?: PaymentStatus,
+    public amountPaid?: number,
+    public amountLeft?: number,
     public advancePaymentHistories?: IAdvancePaymentHistory[],
     public employee?: IEmployee
   ) {}

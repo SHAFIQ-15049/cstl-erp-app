@@ -45,9 +45,19 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
     @Column(name = "fine_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal finePercentage;
 
+    @NotNull
+    @Column(name = "monthly_fine_amount", precision = 21, scale = 2, nullable = false)
+    private BigDecimal monthlyFineAmount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
+
+    @Column(name = "amount_paid", precision = 21, scale = 2)
+    private BigDecimal amountPaid;
+
+    @Column(name = "amount_left", precision = 21, scale = 2)
+    private BigDecimal amountLeft;
 
     @OneToMany(mappedBy = "fine")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -118,6 +128,19 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
         this.finePercentage = finePercentage;
     }
 
+    public BigDecimal getMonthlyFineAmount() {
+        return monthlyFineAmount;
+    }
+
+    public Fine monthlyFineAmount(BigDecimal monthlyFineAmount) {
+        this.monthlyFineAmount = monthlyFineAmount;
+        return this;
+    }
+
+    public void setMonthlyFineAmount(BigDecimal monthlyFineAmount) {
+        this.monthlyFineAmount = monthlyFineAmount;
+    }
+
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -129,6 +152,32 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
 
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
+    }
+
+    public Fine amountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+        return this;
+    }
+
+    public void setAmountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public BigDecimal getAmountLeft() {
+        return amountLeft;
+    }
+
+    public Fine amountLeft(BigDecimal amountLeft) {
+        this.amountLeft = amountLeft;
+        return this;
+    }
+
+    public void setAmountLeft(BigDecimal amountLeft) {
+        this.amountLeft = amountLeft;
     }
 
     public Set<FinePaymentHistory> getFinePaymentHistories() {
@@ -195,7 +244,10 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
             ", reason='" + getReason() + "'" +
             ", amount=" + getAmount() +
             ", finePercentage=" + getFinePercentage() +
+            ", monthlyFineAmount=" + getMonthlyFineAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
+            ", amountPaid=" + getAmountPaid() +
+            ", amountLeft=" + getAmountLeft() +
             "}";
     }
 }

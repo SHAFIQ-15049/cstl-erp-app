@@ -58,6 +58,7 @@ entity Employee (mst_employee){
     name String required,
     empId String required,
     globalId String required,
+    attendanceMachineId String,
     // company
     localId String required,
     //department
@@ -169,7 +170,10 @@ entity Fine (fine){
   reason TextBlob,
   amount BigDecimal required,
   finePercentage BigDecimal required,
+  monthlyFineAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity FinePaymentHistory (fine_payment_history){
@@ -187,7 +191,10 @@ entity Advance (advance){
   reason TextBlob,
   amount BigDecimal required,
   paymentPercentage BigDecimal required,
+  monthlyPaymentAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity AdvancePaymentHistory (advance_payment_history){
@@ -419,9 +426,6 @@ relationship ManyToOne{
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade,
-    Fine{employee(name)} to Employee,
-    Advance{employee(name)} to Employee,
-    EmployeeSalary{employee(name)} to Employee,
     MonthlySalary {designation(name)} to Designation,
     MonthlySalaryDtl {employee(name)} to Employee,
     FestivalAllowancePayment{designation(name)} to Designation,
@@ -430,6 +434,9 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
+    Employee{fine} to Fine{employee(name)},
+    Employee{advance} to Advance{employee(name)},
+    Employee{employeeSalary} to EmployeeSalary{employee(name)},
     Fine{finePaymentHistory}  to FinePaymentHistory{fine},
     Advance{advancePaymentHistory} to AdvancePaymentHistory{advance},
     MonthlySalary{monthlySalaryDtl} to MonthlySalaryDtl{monthlySalary},

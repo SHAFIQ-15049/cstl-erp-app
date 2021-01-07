@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Advance(0, currentDate, 'AAAAAAA', 0, 0, PaymentStatus.NOT_PAID);
+      elemDefault = new Advance(0, currentDate, 'AAAAAAA', 0, 0, 0, PaymentStatus.NOT_PAID, 0, 0);
     });
 
     describe('Service methods', () => {
@@ -74,7 +74,10 @@ describe('Service Tests', () => {
             reason: 'BBBBBB',
             amount: 1,
             paymentPercentage: 1,
+            monthlyPaymentAmount: 1,
             paymentStatus: 'BBBBBB',
+            amountPaid: 1,
+            amountLeft: 1,
           },
           elemDefault
         );
@@ -100,7 +103,10 @@ describe('Service Tests', () => {
             reason: 'BBBBBB',
             amount: 1,
             paymentPercentage: 1,
+            monthlyPaymentAmount: 1,
             paymentStatus: 'BBBBBB',
+            amountPaid: 1,
+            amountLeft: 1,
           },
           elemDefault
         );
