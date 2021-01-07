@@ -38,6 +38,14 @@
       "fieldName": "paymentStatus",
       "fieldType": "PaymentStatus",
       "fieldValues": "NOT_PAID,IN_PROGRESS,PAID"
+    },
+    {
+      "fieldName": "amountPaid",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "amountLeft",
+      "fieldType": "BigDecimal"
     }
   ],
   "relationships": [

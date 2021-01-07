@@ -28,6 +28,8 @@
                     <th scope="col"  jhiSortBy="paymentPercentage"><span>Payment Percentage</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="monthlyPaymentAmount"><span>Monthly Payment Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="paymentStatus"><span>Payment Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amountPaid"><span>Amount Paid</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amountLeft"><span>Amount Left</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -39,6 +41,8 @@
                     <td>{{ advance.paymentPercentage }}</td>
                     <td>{{ advance.monthlyPaymentAmount }}</td>
                     <td>{{ advance.paymentStatus }}</td>
+                    <td>{{ advance.amountPaid }}</td>
+                    <td>{{ advance.amountLeft }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

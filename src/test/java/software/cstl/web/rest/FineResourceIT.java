@@ -61,6 +61,14 @@ public class FineResourceIT {
     private static final PaymentStatus DEFAULT_PAYMENT_STATUS = PaymentStatus.NOT_PAID;
     private static final PaymentStatus UPDATED_PAYMENT_STATUS = PaymentStatus.IN_PROGRESS;
 
+    private static final BigDecimal DEFAULT_AMOUNT_PAID = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT_PAID = new BigDecimal(2);
+    private static final BigDecimal SMALLER_AMOUNT_PAID = new BigDecimal(1 - 1);
+
+    private static final BigDecimal DEFAULT_AMOUNT_LEFT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_AMOUNT_LEFT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_AMOUNT_LEFT = new BigDecimal(1 - 1);
+
     @Autowired
     private FineRepository fineRepository;
 
@@ -91,7 +99,9 @@ public class FineResourceIT {
             .amount(DEFAULT_AMOUNT)
             .finePercentage(DEFAULT_FINE_PERCENTAGE)
             .monthlyFineAmount(DEFAULT_MONTHLY_FINE_AMOUNT)
-            .paymentStatus(DEFAULT_PAYMENT_STATUS);
+            .paymentStatus(DEFAULT_PAYMENT_STATUS)
+            .amountPaid(DEFAULT_AMOUNT_PAID)
+            .amountLeft(DEFAULT_AMOUNT_LEFT);
         return fine;
     }
     /**
@@ -107,7 +117,9 @@ public class FineResourceIT {
             .amount(UPDATED_AMOUNT)
             .finePercentage(UPDATED_FINE_PERCENTAGE)
             .monthlyFineAmount(UPDATED_MONTHLY_FINE_AMOUNT)
-            .paymentStatus(UPDATED_PAYMENT_STATUS);
+            .paymentStatus(UPDATED_PAYMENT_STATUS)
+            .amountPaid(UPDATED_AMOUNT_PAID)
+            .amountLeft(UPDATED_AMOUNT_LEFT);
         return fine;
     }
 
@@ -136,6 +148,8 @@ public class FineResourceIT {
         assertThat(testFine.getFinePercentage()).isEqualTo(DEFAULT_FINE_PERCENTAGE);
         assertThat(testFine.getMonthlyFineAmount()).isEqualTo(DEFAULT_MONTHLY_FINE_AMOUNT);
         assertThat(testFine.getPaymentStatus()).isEqualTo(DEFAULT_PAYMENT_STATUS);
+        assertThat(testFine.getAmountPaid()).isEqualTo(DEFAULT_AMOUNT_PAID);
+        assertThat(testFine.getAmountLeft()).isEqualTo(DEFAULT_AMOUNT_LEFT);
     }
 
     @Test
@@ -250,7 +264,9 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].finePercentage").value(hasItem(DEFAULT_FINE_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].monthlyFineAmount").value(hasItem(DEFAULT_MONTHLY_FINE_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].amountPaid").value(hasItem(DEFAULT_AMOUNT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].amountLeft").value(hasItem(DEFAULT_AMOUNT_LEFT.intValue())));
     }
     
     @Test
@@ -269,7 +285,9 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.finePercentage").value(DEFAULT_FINE_PERCENTAGE.intValue()))
             .andExpect(jsonPath("$.monthlyFineAmount").value(DEFAULT_MONTHLY_FINE_AMOUNT.intValue()))
-            .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()));
+            .andExpect(jsonPath("$.paymentStatus").value(DEFAULT_PAYMENT_STATUS.toString()))
+            .andExpect(jsonPath("$.amountPaid").value(DEFAULT_AMOUNT_PAID.intValue()))
+            .andExpect(jsonPath("$.amountLeft").value(DEFAULT_AMOUNT_LEFT.intValue()));
     }
 
 
@@ -766,6 +784,216 @@ public class FineResourceIT {
 
     @Test
     @Transactional
+    public void getAllFinesByAmountPaidIsEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid equals to DEFAULT_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.equals=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid equals to UPDATED_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.equals=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid not equals to DEFAULT_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.notEquals=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid not equals to UPDATED_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.notEquals=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsInShouldWork() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid in DEFAULT_AMOUNT_PAID or UPDATED_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.in=" + DEFAULT_AMOUNT_PAID + "," + UPDATED_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid equals to UPDATED_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.in=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid is not null
+        defaultFineShouldBeFound("amountPaid.specified=true");
+
+        // Get all the fineList where amountPaid is null
+        defaultFineShouldNotBeFound("amountPaid.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid is greater than or equal to DEFAULT_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.greaterThanOrEqual=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid is greater than or equal to UPDATED_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.greaterThanOrEqual=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid is less than or equal to DEFAULT_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.lessThanOrEqual=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid is less than or equal to SMALLER_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.lessThanOrEqual=" + SMALLER_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsLessThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid is less than DEFAULT_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.lessThan=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid is less than UPDATED_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.lessThan=" + UPDATED_AMOUNT_PAID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountPaidIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountPaid is greater than DEFAULT_AMOUNT_PAID
+        defaultFineShouldNotBeFound("amountPaid.greaterThan=" + DEFAULT_AMOUNT_PAID);
+
+        // Get all the fineList where amountPaid is greater than SMALLER_AMOUNT_PAID
+        defaultFineShouldBeFound("amountPaid.greaterThan=" + SMALLER_AMOUNT_PAID);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft equals to DEFAULT_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.equals=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft equals to UPDATED_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.equals=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft not equals to DEFAULT_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.notEquals=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft not equals to UPDATED_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.notEquals=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsInShouldWork() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft in DEFAULT_AMOUNT_LEFT or UPDATED_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.in=" + DEFAULT_AMOUNT_LEFT + "," + UPDATED_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft equals to UPDATED_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.in=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft is not null
+        defaultFineShouldBeFound("amountLeft.specified=true");
+
+        // Get all the fineList where amountLeft is null
+        defaultFineShouldNotBeFound("amountLeft.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft is greater than or equal to DEFAULT_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.greaterThanOrEqual=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft is greater than or equal to UPDATED_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.greaterThanOrEqual=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft is less than or equal to DEFAULT_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.lessThanOrEqual=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft is less than or equal to SMALLER_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.lessThanOrEqual=" + SMALLER_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsLessThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft is less than DEFAULT_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.lessThan=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft is less than UPDATED_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.lessThan=" + UPDATED_AMOUNT_LEFT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinesByAmountLeftIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        fineRepository.saveAndFlush(fine);
+
+        // Get all the fineList where amountLeft is greater than DEFAULT_AMOUNT_LEFT
+        defaultFineShouldNotBeFound("amountLeft.greaterThan=" + DEFAULT_AMOUNT_LEFT);
+
+        // Get all the fineList where amountLeft is greater than SMALLER_AMOUNT_LEFT
+        defaultFineShouldBeFound("amountLeft.greaterThan=" + SMALLER_AMOUNT_LEFT);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllFinesByFinePaymentHistoryIsEqualToSomething() throws Exception {
         // Initialize the database
         fineRepository.saveAndFlush(fine);
@@ -816,7 +1044,9 @@ public class FineResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].finePercentage").value(hasItem(DEFAULT_FINE_PERCENTAGE.intValue())))
             .andExpect(jsonPath("$.[*].monthlyFineAmount").value(hasItem(DEFAULT_MONTHLY_FINE_AMOUNT.intValue())))
-            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())));
+            .andExpect(jsonPath("$.[*].paymentStatus").value(hasItem(DEFAULT_PAYMENT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].amountPaid").value(hasItem(DEFAULT_AMOUNT_PAID.intValue())))
+            .andExpect(jsonPath("$.[*].amountLeft").value(hasItem(DEFAULT_AMOUNT_LEFT.intValue())));
 
         // Check, that the count call also returns 1
         restFineMockMvc.perform(get("/api/fines/count?sort=id,desc&" + filter))
@@ -868,7 +1098,9 @@ public class FineResourceIT {
             .amount(UPDATED_AMOUNT)
             .finePercentage(UPDATED_FINE_PERCENTAGE)
             .monthlyFineAmount(UPDATED_MONTHLY_FINE_AMOUNT)
-            .paymentStatus(UPDATED_PAYMENT_STATUS);
+            .paymentStatus(UPDATED_PAYMENT_STATUS)
+            .amountPaid(UPDATED_AMOUNT_PAID)
+            .amountLeft(UPDATED_AMOUNT_LEFT);
 
         restFineMockMvc.perform(put("/api/fines")
             .contentType(MediaType.APPLICATION_JSON)
@@ -885,6 +1117,8 @@ public class FineResourceIT {
         assertThat(testFine.getFinePercentage()).isEqualTo(UPDATED_FINE_PERCENTAGE);
         assertThat(testFine.getMonthlyFineAmount()).isEqualTo(UPDATED_MONTHLY_FINE_AMOUNT);
         assertThat(testFine.getPaymentStatus()).isEqualTo(UPDATED_PAYMENT_STATUS);
+        assertThat(testFine.getAmountPaid()).isEqualTo(UPDATED_AMOUNT_PAID);
+        assertThat(testFine.getAmountLeft()).isEqualTo(UPDATED_AMOUNT_LEFT);
     }
 
     @Test

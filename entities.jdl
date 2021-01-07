@@ -58,6 +58,7 @@ entity Employee (mst_employee){
     name String required,
     empId String required,
     globalId String required,
+    attendanceMachineId String,
     // company
     localId String required,
     //department
@@ -171,6 +172,8 @@ entity Fine (fine){
   finePercentage BigDecimal required,
   monthlyFineAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity FinePaymentHistory (fine_payment_history){
@@ -190,6 +193,8 @@ entity Advance (advance){
   paymentPercentage BigDecimal required,
   monthlyPaymentAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity AdvancePaymentHistory (advance_payment_history){

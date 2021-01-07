@@ -78,6 +78,8 @@ class AdvanceGatlingTest extends Simulation {
                 , "paymentPercentage":"0"
                 , "monthlyPaymentAmount":"0"
                 , "paymentStatus":"NOT_PAID"
+                , "amountPaid":"0"
+                , "amountLeft":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_advance_url"))).exitHereIfFailed

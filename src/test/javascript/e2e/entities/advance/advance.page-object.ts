@@ -35,6 +35,8 @@ export class AdvanceUpdatePage {
   paymentPercentageInput = element(by.id('field_paymentPercentage'));
   monthlyPaymentAmountInput = element(by.id('field_monthlyPaymentAmount'));
   paymentStatusSelect = element(by.id('field_paymentStatus'));
+  amountPaidInput = element(by.id('field_amountPaid'));
+  amountLeftInput = element(by.id('field_amountLeft'));
 
   employeeSelect = element(by.id('field_employee'));
 
@@ -92,6 +94,22 @@ export class AdvanceUpdatePage {
 
   async paymentStatusSelectLastOption(): Promise<void> {
     await this.paymentStatusSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setAmountPaidInput(amountPaid: string): Promise<void> {
+    await this.amountPaidInput.sendKeys(amountPaid);
+  }
+
+  async getAmountPaidInput(): Promise<string> {
+    return await this.amountPaidInput.getAttribute('value');
+  }
+
+  async setAmountLeftInput(amountLeft: string): Promise<void> {
+    await this.amountLeftInput.sendKeys(amountLeft);
+  }
+
+  async getAmountLeftInput(): Promise<string> {
+    return await this.amountLeftInput.getAttribute('value');
   }
 
   async employeeSelectLastOption(): Promise<void> {
