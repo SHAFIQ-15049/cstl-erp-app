@@ -75,6 +75,7 @@ class EmployeeGatlingTest extends Simulation {
                 , "name":"SAMPLE_TEXT"
                 , "empId":"SAMPLE_TEXT"
                 , "globalId":"SAMPLE_TEXT"
+                , "attendanceMachineId":"SAMPLE_TEXT"
                 , "localId":"SAMPLE_TEXT"
                 , "category":"TOP_LEVEL"
                 , "type":"PERMANENT"

@@ -94,6 +94,9 @@ public class EmployeeQueryService extends QueryService<Employee> {
             if (criteria.getGlobalId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getGlobalId(), Employee_.globalId));
             }
+            if (criteria.getAttendanceMachineId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getAttendanceMachineId(), Employee_.attendanceMachineId));
+            }
             if (criteria.getLocalId() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getLocalId(), Employee_.localId));
             }

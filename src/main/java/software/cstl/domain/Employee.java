@@ -45,6 +45,9 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @Column(name = "global_id", nullable = false)
     private String globalId;
 
+    @Column(name = "attendance_machine_id")
+    private String attendanceMachineId;
+
     @NotNull
     @Column(name = "local_id", nullable = false)
     private String localId;
@@ -71,11 +74,11 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
     @Column(name = "termination_reason")
     private String terminationReason;
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Fine> fines = new HashSet<>();
 
-    @OneToMany(mappedBy = "employee", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Advance> advances = new HashSet<>();
 
@@ -177,6 +180,19 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setGlobalId(String globalId) {
         this.globalId = globalId;
+    }
+
+    public String getAttendanceMachineId() {
+        return attendanceMachineId;
+    }
+
+    public Employee attendanceMachineId(String attendanceMachineId) {
+        this.attendanceMachineId = attendanceMachineId;
+        return this;
+    }
+
+    public void setAttendanceMachineId(String attendanceMachineId) {
+        this.attendanceMachineId = attendanceMachineId;
     }
 
     public String getLocalId() {
@@ -586,6 +602,7 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
             ", name='" + getName() + "'" +
             ", empId='" + getEmpId() + "'" +
             ", globalId='" + getGlobalId() + "'" +
+            ", attendanceMachineId='" + getAttendanceMachineId() + "'" +
             ", localId='" + getLocalId() + "'" +
             ", category='" + getCategory() + "'" +
             ", type='" + getType() + "'" +

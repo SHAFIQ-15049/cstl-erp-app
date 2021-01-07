@@ -90,6 +90,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private StringFilter globalId;
 
+    private StringFilter attendanceMachineId;
+
     private StringFilter localId;
 
     private EmployeeCategoryFilter category;
@@ -140,6 +142,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.empId = other.empId == null ? null : other.empId.copy();
         this.globalId = other.globalId == null ? null : other.globalId.copy();
+        this.attendanceMachineId = other.attendanceMachineId == null ? null : other.attendanceMachineId.copy();
         this.localId = other.localId == null ? null : other.localId.copy();
         this.category = other.category == null ? null : other.category.copy();
         this.type = other.type == null ? null : other.type.copy();
@@ -198,6 +201,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setGlobalId(StringFilter globalId) {
         this.globalId = globalId;
+    }
+
+    public StringFilter getAttendanceMachineId() {
+        return attendanceMachineId;
+    }
+
+    public void setAttendanceMachineId(StringFilter attendanceMachineId) {
+        this.attendanceMachineId = attendanceMachineId;
     }
 
     public StringFilter getLocalId() {
@@ -383,6 +394,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(name, that.name) &&
             Objects.equals(empId, that.empId) &&
             Objects.equals(globalId, that.globalId) &&
+            Objects.equals(attendanceMachineId, that.attendanceMachineId) &&
             Objects.equals(localId, that.localId) &&
             Objects.equals(category, that.category) &&
             Objects.equals(type, that.type) &&
@@ -413,6 +425,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         name,
         empId,
         globalId,
+        attendanceMachineId,
         localId,
         category,
         type,
@@ -445,6 +458,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (name != null ? "name=" + name + ", " : "") +
                 (empId != null ? "empId=" + empId + ", " : "") +
                 (globalId != null ? "globalId=" + globalId + ", " : "") +
+                (attendanceMachineId != null ? "attendanceMachineId=" + attendanceMachineId + ", " : "") +
                 (localId != null ? "localId=" + localId + ", " : "") +
                 (category != null ? "category=" + category + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +

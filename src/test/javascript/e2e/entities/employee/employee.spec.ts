@@ -44,6 +44,7 @@ describe('Employee e2e test', () => {
       employeeUpdatePage.setNameInput('name'),
       employeeUpdatePage.setEmpIdInput('empId'),
       employeeUpdatePage.setGlobalIdInput('globalId'),
+      employeeUpdatePage.setAttendanceMachineIdInput('attendanceMachineId'),
       employeeUpdatePage.setLocalIdInput('localId'),
       employeeUpdatePage.categorySelectLastOption(),
       employeeUpdatePage.typeSelectLastOption(),
@@ -61,6 +62,10 @@ describe('Employee e2e test', () => {
     expect(await employeeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await employeeUpdatePage.getEmpIdInput()).to.eq('empId', 'Expected EmpId value to be equals to empId');
     expect(await employeeUpdatePage.getGlobalIdInput()).to.eq('globalId', 'Expected GlobalId value to be equals to globalId');
+    expect(await employeeUpdatePage.getAttendanceMachineIdInput()).to.eq(
+      'attendanceMachineId',
+      'Expected AttendanceMachineId value to be equals to attendanceMachineId'
+    );
     expect(await employeeUpdatePage.getLocalIdInput()).to.eq('localId', 'Expected LocalId value to be equals to localId');
     expect(await employeeUpdatePage.getJoiningDateInput()).to.eq('2000-12-31', 'Expected joiningDate value to be equals to 2000-12-31');
     expect(await employeeUpdatePage.getTerminationDateInput()).to.eq(

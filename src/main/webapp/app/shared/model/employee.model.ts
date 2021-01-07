@@ -23,6 +23,7 @@ export interface IEmployee {
   name?: string;
   empId?: string;
   globalId?: string;
+  attendanceMachineId?: string;
   localId?: string;
   category?: EmployeeCategory;
   type?: EmployeeType;
@@ -53,6 +54,7 @@ export class Employee implements IEmployee {
     public name?: string,
     public empId?: string,
     public globalId?: string,
+    public attendanceMachineId?: string,
     public localId?: string,
     public category?: EmployeeCategory,
     public type?: EmployeeType,

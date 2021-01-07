@@ -23,6 +23,10 @@
       ]
     },
     {
+      "fieldName": "attendanceMachineId",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "localId",
       "fieldType": "String",
       "fieldValidateRules": [
