@@ -22,6 +22,7 @@ export class GradeUpdateComponent implements OnInit {
     category: [],
     name: [null, [Validators.required]],
     description: [],
+    initialSalary: [],
   });
 
   constructor(
@@ -44,6 +45,7 @@ export class GradeUpdateComponent implements OnInit {
       category: grade.category,
       name: grade.name,
       description: grade.description,
+      initialSalary: grade.initialSalary,
     });
   }
 
@@ -84,6 +86,7 @@ export class GradeUpdateComponent implements OnInit {
       category: this.editForm.get(['category'])!.value,
       name: this.editForm.get(['name'])!.value,
       description: this.editForm.get(['description'])!.value,
+      initialSalary: this.editForm.get(['initialSalary'])!.value,
     };
   }
 

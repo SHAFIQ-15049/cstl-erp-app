@@ -33,6 +33,8 @@ export class CompanyUpdatePage {
   shortNameInput = element(by.id('field_shortName'));
   nameInBanglaInput = element(by.id('field_nameInBangla'));
   descriptionInput = element(by.id('field_description'));
+  addressInput = element(by.id('field_address'));
+  phoneInput = element(by.id('field_phone'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -68,6 +70,22 @@ export class CompanyUpdatePage {
 
   async getDescriptionInput(): Promise<string> {
     return await this.descriptionInput.getAttribute('value');
+  }
+
+  async setAddressInput(address: string): Promise<void> {
+    await this.addressInput.sendKeys(address);
+  }
+
+  async getAddressInput(): Promise<string> {
+    return await this.addressInput.getAttribute('value');
+  }
+
+  async setPhoneInput(phone: string): Promise<void> {
+    await this.phoneInput.sendKeys(phone);
+  }
+
+  async getPhoneInput(): Promise<string> {
+    return await this.phoneInput.getAttribute('value');
   }
 
   async save(): Promise<void> {

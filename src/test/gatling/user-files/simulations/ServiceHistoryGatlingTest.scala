@@ -77,6 +77,7 @@ class ServiceHistoryGatlingTest extends Simulation {
                 , "from":"2020-01-01T00:00:00.000Z"
                 , "to":"2020-01-01T00:00:00.000Z"
                 , "attachment":null
+                , "status":"ACTIVE"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_serviceHistory_url"))).exitHereIfFailed

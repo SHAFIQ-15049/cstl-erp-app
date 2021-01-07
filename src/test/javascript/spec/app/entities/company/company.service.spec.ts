@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(CompanyService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Company(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Company(0, 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA', 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,8 @@ describe('Service Tests', () => {
             shortName: 'BBBBBB',
             nameInBangla: 'BBBBBB',
             description: 'BBBBBB',
+            address: 'BBBBBB',
+            phone: 'BBBBBB',
           },
           elemDefault
         );
@@ -78,6 +80,8 @@ describe('Service Tests', () => {
             shortName: 'BBBBBB',
             nameInBangla: 'BBBBBB',
             description: 'BBBBBB',
+            address: 'BBBBBB',
+            phone: 'BBBBBB',
           },
           elemDefault
         );

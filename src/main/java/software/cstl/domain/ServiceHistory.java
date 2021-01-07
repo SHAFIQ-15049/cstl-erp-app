@@ -13,6 +13,8 @@ import software.cstl.domain.enumeration.EmployeeType;
 
 import software.cstl.domain.enumeration.EmployeeCategory;
 
+import software.cstl.domain.enumeration.ServiceStatus;
+
 /**
  * A ServiceHistory.
  */
@@ -47,6 +49,10 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
 
     @Column(name = "attachment_content_type")
     private String attachmentContentType;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
+    private ServiceStatus status;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "serviceHistories", allowSetters = true)
@@ -151,6 +157,19 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
         this.attachmentContentType = attachmentContentType;
     }
 
+    public ServiceStatus getStatus() {
+        return status;
+    }
+
+    public ServiceHistory status(ServiceStatus status) {
+        this.status = status;
+        return this;
+    }
+
+    public void setStatus(ServiceStatus status) {
+        this.status = status;
+    }
+
     public Department getDepartment() {
         return department;
     }
@@ -231,6 +250,7 @@ public class ServiceHistory extends AbstractAuditingEntity implements Serializab
             ", to='" + getTo() + "'" +
             ", attachment='" + getAttachment() + "'" +
             ", attachmentContentType='" + getAttachmentContentType() + "'" +
+            ", status='" + getStatus() + "'" +
             "}";
     }
 }

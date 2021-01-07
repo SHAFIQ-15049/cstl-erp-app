@@ -126,6 +126,14 @@
                     </a>
                 </li>
                 <li>
+
+                    <a class="dropdown-item" routerLink="default-allowance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()">
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Default Allowance</span>
+                    </a>
+                </li>
+                <li>
+
                     <a class="dropdown-item" routerLink="division" routerLinkActive="active"
                         [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
@@ -165,6 +173,28 @@
                         [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()">
                         <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                         <span>Employee</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="payrollManagement=!payrollManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Payroll Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!payrollManagement" class="list-unstyled navbar-internal" id="payroll">
+                <li>
+                    <a class="dropdown-item" routerLink="payroll-management" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()" >
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Payroll</span>
                     </a>
                 </li>
 

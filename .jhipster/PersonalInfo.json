@@ -99,6 +99,11 @@
       "fieldValues": "MALE,FEMALE,OTHERS"
     },
     {
+      "fieldName": "religion",
+      "fieldType": "ReligionType",
+      "fieldValues": "ISLAM,HINDU,BUDDHIST,CHRISTIAN,OTHERS"
+    },
+    {
       "fieldName": "bloodGroup",
       "fieldType": "BloodGroupType",
       "fieldValues": "A_POSITIVE,A_NEGATIVE,B_POSITIVE,B_NEGATIVE,O_POSITIVE,O_NEGATIVE,AB_POSITIVE,AB_NEGATIVE"

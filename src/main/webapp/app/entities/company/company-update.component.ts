@@ -23,6 +23,8 @@ export class CompanyUpdateComponent implements OnInit {
     shortName: [],
     nameInBangla: [],
     description: [],
+    address: [],
+    phone: [],
   });
 
   constructor(
@@ -46,6 +48,8 @@ export class CompanyUpdateComponent implements OnInit {
       shortName: company.shortName,
       nameInBangla: company.nameInBangla,
       description: company.description,
+      address: company.address,
+      phone: company.phone,
     });
   }
 
@@ -87,6 +91,8 @@ export class CompanyUpdateComponent implements OnInit {
       shortName: this.editForm.get(['shortName'])!.value,
       nameInBangla: this.editForm.get(['nameInBangla'])!.value,
       description: this.editForm.get(['description'])!.value,
+      address: this.editForm.get(['address'])!.value,
+      phone: this.editForm.get(['phone'])!.value,
     };
   }
 

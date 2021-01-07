@@ -1,0 +1,91 @@
+<div>
+    <h2 id="page-heading">
+        <span>Festival Allowance Payment Dtls</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-festival-allowance-payment-dtl" [routerLink]="['/festival-allowance-payment-dtl/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Festival Allowance Payment Dtl
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="festivalAllowancePaymentDtls?.length === 0">
+        <span>No festivalAllowancePaymentDtls found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="festivalAllowancePaymentDtls && festivalAllowancePaymentDtls.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="festivalAllowancePayment.id"><span>Festival Allowance Payment</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let festivalAllowancePaymentDtl of festivalAllowancePaymentDtls ;trackBy: trackId">
+                    <td><a [routerLink]="['/festival-allowance-payment-dtl', festivalAllowancePaymentDtl.id, 'view']">{{ festivalAllowancePaymentDtl.id }}</a></td>
+                    <td>{{ festivalAllowancePaymentDtl.amount }}</td>
+                    <td>{{ festivalAllowancePaymentDtl.status }}</td>
+                    <td>{{ festivalAllowancePaymentDtl.executedOn | date:'medium' }}</td>
+                    <td>{{ festivalAllowancePaymentDtl.executedBy | date:'medium' }}</td>
+                    <td>{{ festivalAllowancePaymentDtl.note }}</td>
+                    <td>
+                        <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
+                            <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']" >{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="festivalAllowancePaymentDtl.employee">
+                            <a [routerLink]="['/employee', festivalAllowancePaymentDtl.employee?.id, 'view']" >{{ festivalAllowancePaymentDtl.employee?.name }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/festival-allowance-payment-dtl', festivalAllowancePaymentDtl.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/festival-allowance-payment-dtl', festivalAllowancePaymentDtl.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(festivalAllowancePaymentDtl)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="festivalAllowancePaymentDtls && festivalAllowancePaymentDtls.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

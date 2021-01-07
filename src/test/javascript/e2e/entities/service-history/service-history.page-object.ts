@@ -34,6 +34,7 @@ export class ServiceHistoryUpdatePage {
   fromInput = element(by.id('field_from'));
   toInput = element(by.id('field_to'));
   attachmentInput = element(by.id('file_attachment'));
+  statusSelect = element(by.id('field_status'));
 
   departmentSelect = element(by.id('field_department'));
   designationSelect = element(by.id('field_designation'));
@@ -90,6 +91,18 @@ export class ServiceHistoryUpdatePage {
 
   async getAttachmentInput(): Promise<string> {
     return await this.attachmentInput.getAttribute('value');
+  }
+
+  async setStatusSelect(status: string): Promise<void> {
+    await this.statusSelect.sendKeys(status);
+  }
+
+  async getStatusSelect(): Promise<string> {
+    return await this.statusSelect.element(by.css('option:checked')).getText();
+  }
+
+  async statusSelectLastOption(): Promise<void> {
+    await this.statusSelect.all(by.tagName('option')).last().click();
   }
 
   async departmentSelectLastOption(): Promise<void> {

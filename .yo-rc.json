@@ -29,7 +29,11 @@
     "clientTheme": "none",
     "clientThemeVariant": "",
     "creationTimestamp": 1606151629758,
-    "testFrameworks": ["gatling", "cucumber", "protractor"],
+    "testFrameworks": [
+      "gatling",
+      "cucumber",
+      "protractor"
+    ],
     "jhiPrefix": "jhi",
     "entitySuffix": "",
     "dtoSuffix": "DTO",

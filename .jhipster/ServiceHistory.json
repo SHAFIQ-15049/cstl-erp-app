@@ -23,6 +23,11 @@
       "fieldName": "attachment",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "ServiceStatus",
+      "fieldValues": "ACTIVE,NOT_ACTIVE"
     }
   ],
   "relationships": [

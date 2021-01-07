@@ -45,6 +45,8 @@ describe('Company e2e test', () => {
       companyUpdatePage.setShortNameInput('shortName'),
       companyUpdatePage.setNameInBanglaInput('nameInBangla'),
       companyUpdatePage.setDescriptionInput('description'),
+      companyUpdatePage.setAddressInput('address'),
+      companyUpdatePage.setPhoneInput('phone'),
     ]);
 
     expect(await companyUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
@@ -54,6 +56,8 @@ describe('Company e2e test', () => {
       'Expected NameInBangla value to be equals to nameInBangla'
     );
     expect(await companyUpdatePage.getDescriptionInput()).to.eq('description', 'Expected Description value to be equals to description');
+    expect(await companyUpdatePage.getAddressInput()).to.eq('address', 'Expected Address value to be equals to address');
+    expect(await companyUpdatePage.getPhoneInput()).to.eq('phone', 'Expected Phone value to be equals to phone');
 
     await companyUpdatePage.save();
     expect(await companyUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

@@ -1,0 +1,50 @@
+<div>
+    <h2 id="page-heading">
+        <span>Advance Payment Histories</span>
+
+
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="advancePaymentHistories?.length === 0">
+        <span>No advancePaymentHistories found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="advancePaymentHistories && advancePaymentHistories.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="monthType"><span>Month Type</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="before"><span>Before</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="after"><span>After</span> <fa-icon icon="sort"></fa-icon></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let advancePaymentHistory of advancePaymentHistories ;trackBy: trackId">
+                    <td><a [routerLink]="['/advance-payment-history', advancePaymentHistory.id, 'view']">{{ advancePaymentHistory.id }}</a></td>
+                    <td>{{ advancePaymentHistory.year }}</td>
+                    <td>{{ advancePaymentHistory.monthType }}</td>
+                    <td>{{ advancePaymentHistory.amount }}</td>
+                    <td>{{ advancePaymentHistory.before }}</td>
+                    <td>{{ advancePaymentHistory.after }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="advancePaymentHistories && advancePaymentHistories.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

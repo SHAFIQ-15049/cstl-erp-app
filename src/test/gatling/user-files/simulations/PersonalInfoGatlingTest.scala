@@ -92,6 +92,7 @@ class PersonalInfoGatlingTest extends Simulation {
                 , "birthRegistrationAttachmentId":"SAMPLE_TEXT"
                 , "height":null
                 , "gender":"MALE"
+                , "religion":"ISLAM"
                 , "bloodGroup":"A_POSITIVE"
                 , "emergencyContact":"SAMPLE_TEXT"
                 }""")).asJson

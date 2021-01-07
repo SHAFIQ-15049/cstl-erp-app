@@ -1,0 +1,76 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-advance-payment-history-heading">Create or edit a Advance Payment History</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                           formControlName="year"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_monthType">Month Type</label>
+                    <select class="form-control" name="monthType" formControlName="monthType" id="field_monthType">
+                        <option value="JANUARY">JANUARY</option>
+                        <option value="FEBRUARY">FEBRUARY</option>
+                        <option value="MARCH">MARCH</option>
+                        <option value="APRIL">APRIL</option>
+                        <option value="MAY">MAY</option>
+                        <option value="JUNE">JUNE</option>
+                        <option value="JULY">JULY</option>
+                        <option value="AUGUST">AUGUST</option>
+                        <option value="SEPTEMBER">SEPTEMBER</option>
+                        <option value="OCTOBER">OCTOBER</option>
+                        <option value="NOVEMBER">NOVEMBER</option>
+                        <option value="DECEMBER">DECEMBER</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                           formControlName="amount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_before">Before</label>
+                    <input type="number" class="form-control" name="before" id="field_before"
+                           formControlName="before"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_after">After</label>
+                    <input type="number" class="form-control" name="after" id="field_after"
+                           formControlName="after"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_advance">Advance</label>
+                    <select class="form-control" id="field_advance" name="advance" formControlName="advance">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="advanceOption.id === editForm.get('advance')!.value?.id ? editForm.get('advance')!.value : advanceOption" *ngFor="let advanceOption of advances; trackBy: trackById">{{ advanceOption.id }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

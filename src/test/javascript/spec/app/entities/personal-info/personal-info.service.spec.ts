@@ -6,6 +6,7 @@ import { PersonalInfoService } from 'app/entities/personal-info/personal-info.se
 import { IPersonalInfo, PersonalInfo } from 'app/shared/model/personal-info.model';
 import { MaritalStatus } from 'app/shared/model/enumerations/marital-status.model';
 import { GenderType } from 'app/shared/model/enumerations/gender-type.model';
+import { ReligionType } from 'app/shared/model/enumerations/religion-type.model';
 import { BloodGroupType } from 'app/shared/model/enumerations/blood-group-type.model';
 
 describe('Service Tests', () => {
@@ -52,6 +53,7 @@ describe('Service Tests', () => {
         'AAAAAAA',
         0,
         GenderType.MALE,
+        ReligionType.ISLAM,
         BloodGroupType.A_POSITIVE,
         'AAAAAAA'
       );
@@ -119,6 +121,7 @@ describe('Service Tests', () => {
             birthRegistrationAttachmentId: 'BBBBBB',
             height: 1,
             gender: 'BBBBBB',
+            religion: 'BBBBBB',
             bloodGroup: 'BBBBBB',
             emergencyContact: 'BBBBBB',
           },
@@ -162,6 +165,7 @@ describe('Service Tests', () => {
             birthRegistrationAttachmentId: 'BBBBBB',
             height: 1,
             gender: 'BBBBBB',
+            religion: 'BBBBBB',
             bloodGroup: 'BBBBBB',
             emergencyContact: 'BBBBBB',
           },

@@ -4,6 +4,8 @@ export interface ICompany {
   shortName?: string;
   nameInBangla?: string;
   description?: any;
+  address?: any;
+  phone?: string;
 }
 
 export class Company implements ICompany {
@@ -12,6 +14,8 @@ export class Company implements ICompany {
     public name?: string,
     public shortName?: string,
     public nameInBangla?: string,
-    public description?: any
+    public description?: any,
+    public address?: any,
+    public phone?: string
   ) {}
 }

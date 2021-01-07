@@ -7,6 +7,7 @@ import javax.persistence.*;
 import javax.validation.constraints.*;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 import software.cstl.domain.enumeration.EmployeeCategory;
 
@@ -35,6 +36,9 @@ public class Grade extends AbstractAuditingEntity implements Serializable {
     @Lob
     @Column(name = "description")
     private String description;
+
+    @Column(name = "initial_salary", precision = 21, scale = 2)
+    private BigDecimal initialSalary;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -83,6 +87,19 @@ public class Grade extends AbstractAuditingEntity implements Serializable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public BigDecimal getInitialSalary() {
+        return initialSalary;
+    }
+
+    public Grade initialSalary(BigDecimal initialSalary) {
+        this.initialSalary = initialSalary;
+        return this;
+    }
+
+    public void setInitialSalary(BigDecimal initialSalary) {
+        this.initialSalary = initialSalary;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -109,6 +126,7 @@ public class Grade extends AbstractAuditingEntity implements Serializable {
             ", category='" + getCategory() + "'" +
             ", name='" + getName() + "'" +
             ", description='" + getDescription() + "'" +
+            ", initialSalary=" + getInitialSalary() +
             "}";
     }
 }

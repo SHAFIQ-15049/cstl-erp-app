@@ -45,6 +45,12 @@ public class CompanyResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ADDRESS = "AAAAAAAAAA";
+    private static final String UPDATED_ADDRESS = "BBBBBBBBBB";
+
+    private static final String DEFAULT_PHONE = "AAAAAAAAAA";
+    private static final String UPDATED_PHONE = "BBBBBBBBBB";
+
     @Autowired
     private CompanyRepository companyRepository;
 
@@ -73,7 +79,9 @@ public class CompanyResourceIT {
             .name(DEFAULT_NAME)
             .shortName(DEFAULT_SHORT_NAME)
             .nameInBangla(DEFAULT_NAME_IN_BANGLA)
-            .description(DEFAULT_DESCRIPTION);
+            .description(DEFAULT_DESCRIPTION)
+            .address(DEFAULT_ADDRESS)
+            .phone(DEFAULT_PHONE);
         return company;
     }
     /**
@@ -87,7 +95,9 @@ public class CompanyResourceIT {
             .name(UPDATED_NAME)
             .shortName(UPDATED_SHORT_NAME)
             .nameInBangla(UPDATED_NAME_IN_BANGLA)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .address(UPDATED_ADDRESS)
+            .phone(UPDATED_PHONE);
         return company;
     }
 
@@ -114,6 +124,8 @@ public class CompanyResourceIT {
         assertThat(testCompany.getShortName()).isEqualTo(DEFAULT_SHORT_NAME);
         assertThat(testCompany.getNameInBangla()).isEqualTo(DEFAULT_NAME_IN_BANGLA);
         assertThat(testCompany.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
+        assertThat(testCompany.getAddress()).isEqualTo(DEFAULT_ADDRESS);
+        assertThat(testCompany.getPhone()).isEqualTo(DEFAULT_PHONE);
     }
 
     @Test
@@ -169,7 +181,9 @@ public class CompanyResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
             .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
     }
     
     @Test
@@ -186,7 +200,9 @@ public class CompanyResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.shortName").value(DEFAULT_SHORT_NAME))
             .andExpect(jsonPath("$.nameInBangla").value(DEFAULT_NAME_IN_BANGLA))
-            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()));
+            .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS.toString()))
+            .andExpect(jsonPath("$.phone").value(DEFAULT_PHONE));
     }
 
 
@@ -442,6 +458,84 @@ public class CompanyResourceIT {
         defaultCompanyShouldBeFound("nameInBangla.doesNotContain=" + UPDATED_NAME_IN_BANGLA);
     }
 
+
+    @Test
+    @Transactional
+    public void getAllCompaniesByPhoneIsEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone equals to DEFAULT_PHONE
+        defaultCompanyShouldBeFound("phone.equals=" + DEFAULT_PHONE);
+
+        // Get all the companyList where phone equals to UPDATED_PHONE
+        defaultCompanyShouldNotBeFound("phone.equals=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCompaniesByPhoneIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone not equals to DEFAULT_PHONE
+        defaultCompanyShouldNotBeFound("phone.notEquals=" + DEFAULT_PHONE);
+
+        // Get all the companyList where phone not equals to UPDATED_PHONE
+        defaultCompanyShouldBeFound("phone.notEquals=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCompaniesByPhoneIsInShouldWork() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone in DEFAULT_PHONE or UPDATED_PHONE
+        defaultCompanyShouldBeFound("phone.in=" + DEFAULT_PHONE + "," + UPDATED_PHONE);
+
+        // Get all the companyList where phone equals to UPDATED_PHONE
+        defaultCompanyShouldNotBeFound("phone.in=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCompaniesByPhoneIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone is not null
+        defaultCompanyShouldBeFound("phone.specified=true");
+
+        // Get all the companyList where phone is null
+        defaultCompanyShouldNotBeFound("phone.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllCompaniesByPhoneContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone contains DEFAULT_PHONE
+        defaultCompanyShouldBeFound("phone.contains=" + DEFAULT_PHONE);
+
+        // Get all the companyList where phone contains UPDATED_PHONE
+        defaultCompanyShouldNotBeFound("phone.contains=" + UPDATED_PHONE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllCompaniesByPhoneNotContainsSomething() throws Exception {
+        // Initialize the database
+        companyRepository.saveAndFlush(company);
+
+        // Get all the companyList where phone does not contain DEFAULT_PHONE
+        defaultCompanyShouldNotBeFound("phone.doesNotContain=" + DEFAULT_PHONE);
+
+        // Get all the companyList where phone does not contain UPDATED_PHONE
+        defaultCompanyShouldBeFound("phone.doesNotContain=" + UPDATED_PHONE);
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -453,7 +547,9 @@ public class CompanyResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].shortName").value(hasItem(DEFAULT_SHORT_NAME)))
             .andExpect(jsonPath("$.[*].nameInBangla").value(hasItem(DEFAULT_NAME_IN_BANGLA)))
-            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())));
+            .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS.toString())))
+            .andExpect(jsonPath("$.[*].phone").value(hasItem(DEFAULT_PHONE)));
 
         // Check, that the count call also returns 1
         restCompanyMockMvc.perform(get("/api/companies/count?sort=id,desc&" + filter))
@@ -503,7 +599,9 @@ public class CompanyResourceIT {
             .name(UPDATED_NAME)
             .shortName(UPDATED_SHORT_NAME)
             .nameInBangla(UPDATED_NAME_IN_BANGLA)
-            .description(UPDATED_DESCRIPTION);
+            .description(UPDATED_DESCRIPTION)
+            .address(UPDATED_ADDRESS)
+            .phone(UPDATED_PHONE);
 
         restCompanyMockMvc.perform(put("/api/companies")
             .contentType(MediaType.APPLICATION_JSON)
@@ -518,6 +616,8 @@ public class CompanyResourceIT {
         assertThat(testCompany.getShortName()).isEqualTo(UPDATED_SHORT_NAME);
         assertThat(testCompany.getNameInBangla()).isEqualTo(UPDATED_NAME_IN_BANGLA);
         assertThat(testCompany.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
+        assertThat(testCompany.getAddress()).isEqualTo(UPDATED_ADDRESS);
+        assertThat(testCompany.getPhone()).isEqualTo(UPDATED_PHONE);
     }
 
     @Test

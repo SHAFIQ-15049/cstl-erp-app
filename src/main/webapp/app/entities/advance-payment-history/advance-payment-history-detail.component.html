@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="advancePaymentHistory">
+            <h2><span>Advance Payment History</span> {{ advancePaymentHistory.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Year</span></dt>
+                <dd>
+                    <span>{{ advancePaymentHistory.year }}</span>
+                </dd>
+                <dt><span>Month Type</span></dt>
+                <dd>
+                    <span>{{ advancePaymentHistory.monthType }}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{ advancePaymentHistory.amount }}</span>
+                </dd>
+                <dt><span>Before</span></dt>
+                <dd>
+                    <span>{{ advancePaymentHistory.before }}</span>
+                </dd>
+                <dt><span>After</span></dt>
+                <dd>
+                    <span>{{ advancePaymentHistory.after }}</span>
+                </dd>
+                <dt><span>Advance</span></dt>
+                <dd>
+                    <div *ngIf="advancePaymentHistory.advance">
+                        <a [routerLink]="['/advance', advancePaymentHistory.advance?.id, 'view']">{{ advancePaymentHistory.advance?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/advance-payment-history', advancePaymentHistory.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

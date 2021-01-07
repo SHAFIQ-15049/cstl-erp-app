@@ -12,6 +12,7 @@ export class LeftSideMenuComponent implements OnInit {
   username = '';
   entities = false;
   employeeManagement = false;
+  payrollManagement = false;
 
   sidebarWidth = 0;
   sideMarginLeft = 0;

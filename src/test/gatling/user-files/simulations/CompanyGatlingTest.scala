@@ -76,6 +76,8 @@ class CompanyGatlingTest extends Simulation {
                 , "shortName":"SAMPLE_TEXT"
                 , "nameInBangla":"SAMPLE_TEXT"
                 , "description":null
+                , "address":null
+                , "phone":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_company_url"))).exitHereIfFailed
