@@ -25,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Attendance(0, currentDate, currentDate, ConsiderAsType.REGULAR);
+      elemDefault = new Attendance(0, currentDate, currentDate, ConsiderAsType.REGULAR, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -76,6 +76,7 @@ describe('Service Tests', () => {
             attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
             considerAs: 'BBBBBB',
+            machineNo: 'BBBBBB',
           },
           elemDefault
         );
@@ -101,6 +102,7 @@ describe('Service Tests', () => {
             attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
             considerAs: 'BBBBBB',
+            machineNo: 'BBBBBB',
           },
           elemDefault
         );

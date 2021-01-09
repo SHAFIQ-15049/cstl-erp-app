@@ -38,6 +38,10 @@ public class Attendance implements Serializable {
     @Column(name = "consider_as", nullable = false)
     private ConsiderAsType considerAs;
 
+    @NotNull
+    @Column(name = "machine_no", nullable = false)
+    private String machineNo;
+
     @ManyToOne(optional = false)
     @NotNull
     @JsonIgnoreProperties(value = "attendances", allowSetters = true)
@@ -97,6 +101,19 @@ public class Attendance implements Serializable {
 
     public void setConsiderAs(ConsiderAsType considerAs) {
         this.considerAs = considerAs;
+    }
+
+    public String getMachineNo() {
+        return machineNo;
+    }
+
+    public Attendance machineNo(String machineNo) {
+        this.machineNo = machineNo;
+        return this;
+    }
+
+    public void setMachineNo(String machineNo) {
+        this.machineNo = machineNo;
     }
 
     public Employee getEmployee() {
@@ -163,6 +180,7 @@ public class Attendance implements Serializable {
             ", attendanceDate='" + getAttendanceDate() + "'" +
             ", attendanceTime='" + getAttendanceTime() + "'" +
             ", considerAs='" + getConsiderAs() + "'" +
+            ", machineNo='" + getMachineNo() + "'" +
             "}";
     }
 }

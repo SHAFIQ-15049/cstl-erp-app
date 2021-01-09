@@ -23,24 +23,24 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="holidayType.name"><span>Holiday Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalDays"><span>Total Days</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="holidayType.name"><span>Holiday Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let holiday of holidays ;trackBy: trackId">
                     <td><a [routerLink]="['/holiday', holiday.id, 'view']">{{ holiday.id }}</a></td>
-                    <td>{{ holiday.from | date:'mediumDate' }}</td>
-                    <td>{{ holiday.to | date:'mediumDate' }}</td>
-                    <td>{{ holiday.totalDays }}</td>
                     <td>
                         <div *ngIf="holiday.holidayType">
                             <a [routerLink]="['/holiday-type', holiday.holidayType?.id, 'view']" >{{ holiday.holidayType?.name }}</a>
                         </div>
                     </td>
+                    <td>{{ holiday.from | date:'mediumDate' }}</td>
+                    <td>{{ holiday.to | date:'mediumDate' }}</td>
+                    <td>{{ holiday.totalDays }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

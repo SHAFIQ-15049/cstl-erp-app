@@ -9,6 +9,7 @@ export interface IAttendance {
   attendanceDate?: Moment;
   attendanceTime?: Moment;
   considerAs?: ConsiderAsType;
+  machineNo?: string;
   employee?: IEmployee;
   attendanceDataUpload?: IAttendanceDataUpload;
   employeeSalary?: IEmployeeSalary;
@@ -20,6 +21,7 @@ export class Attendance implements IAttendance {
     public attendanceDate?: Moment,
     public attendanceTime?: Moment,
     public considerAs?: ConsiderAsType,
+    public machineNo?: string,
     public employee?: IEmployee,
     public attendanceDataUpload?: IAttendanceDataUpload,
     public employeeSalary?: IEmployeeSalary

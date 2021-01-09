@@ -42,6 +42,11 @@
       "fieldType": "ConsiderAsType",
       "fieldValues": "REGULAR,WEEKENDWITHOVERTIME",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "machineNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
     }
   ],
   "changelogDate": "20210108055117",

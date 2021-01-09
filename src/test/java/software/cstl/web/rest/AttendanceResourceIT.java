@@ -48,6 +48,9 @@ public class AttendanceResourceIT {
     private static final ConsiderAsType DEFAULT_CONSIDER_AS = ConsiderAsType.REGULAR;
     private static final ConsiderAsType UPDATED_CONSIDER_AS = ConsiderAsType.WEEKENDWITHOVERTIME;
 
+    private static final String DEFAULT_MACHINE_NO = "AAAAAAAAAA";
+    private static final String UPDATED_MACHINE_NO = "BBBBBBBBBB";
+
     @Autowired
     private AttendanceRepository attendanceRepository;
 
@@ -75,7 +78,8 @@ public class AttendanceResourceIT {
         Attendance attendance = new Attendance()
             .attendanceDate(DEFAULT_ATTENDANCE_DATE)
             .attendanceTime(DEFAULT_ATTENDANCE_TIME)
-            .considerAs(DEFAULT_CONSIDER_AS);
+            .considerAs(DEFAULT_CONSIDER_AS)
+            .machineNo(DEFAULT_MACHINE_NO);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -98,7 +102,8 @@ public class AttendanceResourceIT {
         Attendance attendance = new Attendance()
             .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
-            .considerAs(UPDATED_CONSIDER_AS);
+            .considerAs(UPDATED_CONSIDER_AS)
+            .machineNo(UPDATED_MACHINE_NO);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -134,6 +139,7 @@ public class AttendanceResourceIT {
         assertThat(testAttendance.getAttendanceDate()).isEqualTo(DEFAULT_ATTENDANCE_DATE);
         assertThat(testAttendance.getAttendanceTime()).isEqualTo(DEFAULT_ATTENDANCE_TIME);
         assertThat(testAttendance.getConsiderAs()).isEqualTo(DEFAULT_CONSIDER_AS);
+        assertThat(testAttendance.getMachineNo()).isEqualTo(DEFAULT_MACHINE_NO);
     }
 
     @Test
@@ -215,6 +221,25 @@ public class AttendanceResourceIT {
 
     @Test
     @Transactional
+    public void checkMachineNoIsRequired() throws Exception {
+        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
+        // set the field null
+        attendance.setMachineNo(null);
+
+        // Create the Attendance, which fails.
+
+
+        restAttendanceMockMvc.perform(post("/api/attendances")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(attendance)))
+            .andExpect(status().isBadRequest());
+
+        List<Attendance> attendanceList = attendanceRepository.findAll();
+        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendances() throws Exception {
         // Initialize the database
         attendanceRepository.saveAndFlush(attendance);
@@ -226,7 +251,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())));
+            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
+            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
     }
 
     @Test
@@ -242,7 +268,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
             .andExpect(jsonPath("$.attendanceDate").value(DEFAULT_ATTENDANCE_DATE.toString()))
             .andExpect(jsonPath("$.attendanceTime").value(DEFAULT_ATTENDANCE_TIME.toString()))
-            .andExpect(jsonPath("$.considerAs").value(DEFAULT_CONSIDER_AS.toString()));
+            .andExpect(jsonPath("$.considerAs").value(DEFAULT_CONSIDER_AS.toString()))
+            .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO));
     }
 
 
@@ -476,6 +503,84 @@ public class AttendanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAttendancesByMachineNoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo equals to DEFAULT_MACHINE_NO
+        defaultAttendanceShouldBeFound("machineNo.equals=" + DEFAULT_MACHINE_NO);
+
+        // Get all the attendanceList where machineNo equals to UPDATED_MACHINE_NO
+        defaultAttendanceShouldNotBeFound("machineNo.equals=" + UPDATED_MACHINE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMachineNoIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo not equals to DEFAULT_MACHINE_NO
+        defaultAttendanceShouldNotBeFound("machineNo.notEquals=" + DEFAULT_MACHINE_NO);
+
+        // Get all the attendanceList where machineNo not equals to UPDATED_MACHINE_NO
+        defaultAttendanceShouldBeFound("machineNo.notEquals=" + UPDATED_MACHINE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMachineNoIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo in DEFAULT_MACHINE_NO or UPDATED_MACHINE_NO
+        defaultAttendanceShouldBeFound("machineNo.in=" + DEFAULT_MACHINE_NO + "," + UPDATED_MACHINE_NO);
+
+        // Get all the attendanceList where machineNo equals to UPDATED_MACHINE_NO
+        defaultAttendanceShouldNotBeFound("machineNo.in=" + UPDATED_MACHINE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMachineNoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo is not null
+        defaultAttendanceShouldBeFound("machineNo.specified=true");
+
+        // Get all the attendanceList where machineNo is null
+        defaultAttendanceShouldNotBeFound("machineNo.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllAttendancesByMachineNoContainsSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo contains DEFAULT_MACHINE_NO
+        defaultAttendanceShouldBeFound("machineNo.contains=" + DEFAULT_MACHINE_NO);
+
+        // Get all the attendanceList where machineNo contains UPDATED_MACHINE_NO
+        defaultAttendanceShouldNotBeFound("machineNo.contains=" + UPDATED_MACHINE_NO);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMachineNoNotContainsSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where machineNo does not contain DEFAULT_MACHINE_NO
+        defaultAttendanceShouldNotBeFound("machineNo.doesNotContain=" + DEFAULT_MACHINE_NO);
+
+        // Get all the attendanceList where machineNo does not contain UPDATED_MACHINE_NO
+        defaultAttendanceShouldBeFound("machineNo.doesNotContain=" + UPDATED_MACHINE_NO);
+    }
+
+
+    @Test
+    @Transactional
     public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
         // Get already existing entity
         Employee employee = attendance.getEmployee();
@@ -539,7 +644,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())));
+            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
+            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
 
         // Check, that the count call also returns 1
         restAttendanceMockMvc.perform(get("/api/attendances/count?sort=id,desc&" + filter))
@@ -588,7 +694,8 @@ public class AttendanceResourceIT {
         updatedAttendance
             .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
-            .considerAs(UPDATED_CONSIDER_AS);
+            .considerAs(UPDATED_CONSIDER_AS)
+            .machineNo(UPDATED_MACHINE_NO);
 
         restAttendanceMockMvc.perform(put("/api/attendances")
             .contentType(MediaType.APPLICATION_JSON)
@@ -602,6 +709,7 @@ public class AttendanceResourceIT {
         assertThat(testAttendance.getAttendanceDate()).isEqualTo(UPDATED_ATTENDANCE_DATE);
         assertThat(testAttendance.getAttendanceTime()).isEqualTo(UPDATED_ATTENDANCE_TIME);
         assertThat(testAttendance.getConsiderAs()).isEqualTo(UPDATED_CONSIDER_AS);
+        assertThat(testAttendance.getMachineNo()).isEqualTo(UPDATED_MACHINE_NO);
     }
 
     @Test

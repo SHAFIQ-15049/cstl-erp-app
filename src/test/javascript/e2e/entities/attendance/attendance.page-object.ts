@@ -32,6 +32,7 @@ export class AttendanceUpdatePage {
   attendanceDateInput = element(by.id('field_attendanceDate'));
   attendanceTimeInput = element(by.id('field_attendanceTime'));
   considerAsSelect = element(by.id('field_considerAs'));
+  machineNoInput = element(by.id('field_machineNo'));
 
   employeeSelect = element(by.id('field_employee'));
   attendanceDataUploadSelect = element(by.id('field_attendanceDataUpload'));
@@ -67,6 +68,14 @@ export class AttendanceUpdatePage {
 
   async considerAsSelectLastOption(): Promise<void> {
     await this.considerAsSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setMachineNoInput(machineNo: string): Promise<void> {
+    await this.machineNoInput.sendKeys(machineNo);
+  }
+
+  async getMachineNoInput(): Promise<string> {
+    return await this.machineNoInput.getAttribute('value');
   }
 
   async employeeSelectLastOption(): Promise<void> {

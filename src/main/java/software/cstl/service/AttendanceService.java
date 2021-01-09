@@ -149,7 +149,7 @@ public class AttendanceService {
                 String charText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
                 Instant instant = Instant.parse(charText);
-
+                attendance.setMachineNo(machineCode);
                 attendance.setAttendanceTime(instant);
                 attendance.setAttendanceDate(instant.atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1));
                 attendance.setAttendanceDataUpload(attendanceDataUpload);

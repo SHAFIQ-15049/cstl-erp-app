@@ -1,10 +1,7 @@
 package software.cstl.service.dto;
 
 import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
-import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.*;
 import software.cstl.domain.enumeration.ConsiderAsType;
 
 import java.io.Serializable;
@@ -49,6 +46,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     private ConsiderAsTypeFilter considerAs;
 
+    private StringFilter machineNo;
+
     private LongFilter employeeId;
 
     private LongFilter attendanceDataUploadId;
@@ -63,6 +62,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.attendanceDate = other.attendanceDate == null ? null : other.attendanceDate.copy();
         this.attendanceTime = other.attendanceTime == null ? null : other.attendanceTime.copy();
         this.considerAs = other.considerAs == null ? null : other.considerAs.copy();
+        this.machineNo = other.machineNo == null ? null : other.machineNo.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
         this.attendanceDataUploadId = other.attendanceDataUploadId == null ? null : other.attendanceDataUploadId.copy();
         this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
@@ -105,6 +105,14 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.considerAs = considerAs;
     }
 
+    public StringFilter getMachineNo() {
+        return machineNo;
+    }
+
+    public void setMachineNo(StringFilter machineNo) {
+        this.machineNo = machineNo;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -144,6 +152,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
             Objects.equals(attendanceDate, that.attendanceDate) &&
             Objects.equals(attendanceTime, that.attendanceTime) &&
             Objects.equals(considerAs, that.considerAs) &&
+            Objects.equals(machineNo, that.machineNo) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(attendanceDataUploadId, that.attendanceDataUploadId) &&
             Objects.equals(employeeSalaryId, that.employeeSalaryId);
@@ -156,6 +165,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         attendanceDate,
         attendanceTime,
         considerAs,
+        machineNo,
         employeeId,
         attendanceDataUploadId,
         employeeSalaryId
@@ -170,6 +180,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
                 (attendanceDate != null ? "attendanceDate=" + attendanceDate + ", " : "") +
                 (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
                 (considerAs != null ? "considerAs=" + considerAs + ", " : "") +
+                (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (attendanceDataUploadId != null ? "attendanceDataUploadId=" + attendanceDataUploadId + ", " : "") +
                 (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +

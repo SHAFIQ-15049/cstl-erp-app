@@ -214,8 +214,36 @@
             <ul [ngbCollapse]="!weekendManagement" class="list-unstyled navbar-internal" id="weekend">
                 <li>
                     <a class="dropdown-item" routerLink="weekend" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <fa-icon icon="calendar-week" [fixedWidth]="true"></fa-icon>
                         <span>Weekend</span>
+                    </a>
+                </li>
+
+            </ul>
+        </li>
+
+        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
+            <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
+               [attr.aria-expanded]="false">
+
+                <fa-icon icon="cog"></fa-icon>
+                <span *ngIf="!leftMenuHidden">
+                            Holiday Management
+                        </span>
+
+            </a>
+            <ul [ngbCollapse]="!holidayManagement" class="list-unstyled navbar-internal" id="holiday">
+                <li>
+                    <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="list-alt" [fixedWidth]="true"></fa-icon>
+                        <span>Holiday Type</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="star" [fixedWidth]="true"></fa-icon>
+                        <span>Holiday</span>
                     </a>
                 </li>
 
@@ -234,46 +262,11 @@
             </a>
             <ul [ngbCollapse]="!attendanceManagement" class="list-unstyled navbar-internal" id="holiday">
                 <li>
-                    <a class="dropdown-item" routerLink="attendance-data-upload/new" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                        <span>Data Upload</span>
-                    </a>
-                </li>
-
-                <li>
                     <a class="dropdown-item" routerLink="attendance" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <fa-icon icon="user-clock" [fixedWidth]="true"></fa-icon>
                         <span>Attendance</span>
                     </a>
                 </li>
-            </ul>
-        </li>
-
-        <li routerLinkActive="active" class="list-custom" [routerLinkActiveOptions]="{exact: true}">
-            <a (click)="holidayManagement=!holidayManagement" data-toggle="collapse" class=" nav-link dropdown-toggle "
-               [attr.aria-expanded]="false">
-
-                <fa-icon icon="cog"></fa-icon>
-                <span *ngIf="!leftMenuHidden">
-                            Holiday Management
-                        </span>
-
-            </a>
-            <ul [ngbCollapse]="!holidayManagement" class="list-unstyled navbar-internal" id="holiday">
-                <li>
-                    <a class="dropdown-item" routerLink="holiday-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                        <span>Holiday Type</span>
-                    </a>
-                </li>
-
-                <li>
-                    <a class="dropdown-item" routerLink="holiday" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                        <span>Holiday</span>
-                    </a>
-                </li>
-
             </ul>
         </li>
 
@@ -290,21 +283,21 @@
             <ul [ngbCollapse]="!leaveManagement" class="list-unstyled navbar-internal" id="leave">
                 <li>
                     <a class="dropdown-item" routerLink="leave-type" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <fa-icon icon="list-alt" [fixedWidth]="true"></fa-icon>
                         <span>Leave Type</span>
                     </a>
                 </li>
 
                 <li>
                     <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
                         <span>Leave Application</span>
                     </a>
                 </li>
 
                 <li>
                     <a class="dropdown-item" routerLink="leave-application/review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <fa-icon icon="superscript" [fixedWidth]="true"></fa-icon>
                         <span>Review Application</span>
                     </a>
                 </li>

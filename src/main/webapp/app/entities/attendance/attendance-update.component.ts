@@ -34,6 +34,7 @@ export class AttendanceUpdateComponent implements OnInit {
     attendanceDate: [null, [Validators.required]],
     attendanceTime: [null, [Validators.required]],
     considerAs: [null, [Validators.required]],
+    machineNo: [null, [Validators.required]],
     employee: [null, Validators.required],
     attendanceDataUpload: [],
     employeeSalary: [],
@@ -73,6 +74,7 @@ export class AttendanceUpdateComponent implements OnInit {
       attendanceDate: attendance.attendanceDate,
       attendanceTime: attendance.attendanceTime ? attendance.attendanceTime.format(DATE_TIME_FORMAT) : null,
       considerAs: attendance.considerAs,
+      machineNo: attendance.machineNo,
       employee: attendance.employee,
       attendanceDataUpload: attendance.attendanceDataUpload,
       employeeSalary: attendance.employeeSalary,
@@ -102,6 +104,7 @@ export class AttendanceUpdateComponent implements OnInit {
         ? moment(this.editForm.get(['attendanceTime'])!.value, DATE_TIME_FORMAT)
         : undefined,
       considerAs: this.editForm.get(['considerAs'])!.value,
+      machineNo: this.editForm.get(['machineNo'])!.value,
       employee: this.editForm.get(['employee'])!.value,
       attendanceDataUpload: this.editForm.get(['attendanceDataUpload'])!.value,
       employeeSalary: this.editForm.get(['employeeSalary'])!.value,
