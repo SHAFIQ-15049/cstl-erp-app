@@ -1,6 +1,5 @@
 package software.cstl.repository;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
 import software.cstl.domain.Advance;
 import software.cstl.domain.AdvancePaymentHistory;
 

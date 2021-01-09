@@ -89,6 +89,15 @@ class EmployeeSalaryGatlingTest extends Simulation {
                 , "convinceAllowancePercent":"0"
                 , "foodAllowance":"0"
                 , "foodAllowancePercent":"0"
+                , "specialAllowanceActiveStatus":"ACTIVE"
+                , "specialAllowance":"0"
+                , "specialAllowancePercent":"0"
+                , "specialAllowanceDescription":null
+                , "insuranceActiveStatus":"ACTIVE"
+                , "insuranceAmount":"0"
+                , "insurancePercent":"0"
+                , "insuranceDescription":null
+                , "insuranceProcessType":"PROCESS_WITH_SALARY"
                 , "status":"ACTIVE"
                 }""")).asJson
             .check(status.is(201))

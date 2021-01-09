@@ -1,0 +1,5 @@
+export const enum InsuranceProcessType {
+  PROCESS_WITH_SALARY = 'PROCESS_WITH_SALARY',
+
+  PROCESS_SEPARATELY = 'PROCESS_SEPARATELY',
+}

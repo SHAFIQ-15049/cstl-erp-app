@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -28,6 +29,9 @@ import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.InsuranceProcessType;
 import software.cstl.domain.enumeration.ActiveStatus;
 /**
  * Integration tests for the {@link EmployeeSalaryResource} REST controller.
@@ -105,6 +109,37 @@ public class EmployeeSalaryResourceIT {
     private static final BigDecimal UPDATED_FOOD_ALLOWANCE_PERCENT = new BigDecimal(2);
     private static final BigDecimal SMALLER_FOOD_ALLOWANCE_PERCENT = new BigDecimal(1 - 1);
 
+    private static final ActiveStatus DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS = ActiveStatus.ACTIVE;
+    private static final ActiveStatus UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS = ActiveStatus.NOT_ACTIVE;
+
+    private static final BigDecimal DEFAULT_SPECIAL_ALLOWANCE = new BigDecimal(1);
+    private static final BigDecimal UPDATED_SPECIAL_ALLOWANCE = new BigDecimal(2);
+    private static final BigDecimal SMALLER_SPECIAL_ALLOWANCE = new BigDecimal(1 - 1);
+
+    private static final BigDecimal DEFAULT_SPECIAL_ALLOWANCE_PERCENT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_SPECIAL_ALLOWANCE_PERCENT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_SPECIAL_ALLOWANCE_PERCENT = new BigDecimal(1 - 1);
+
+    private static final String DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_SPECIAL_ALLOWANCE_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final ActiveStatus DEFAULT_INSURANCE_ACTIVE_STATUS = ActiveStatus.ACTIVE;
+    private static final ActiveStatus UPDATED_INSURANCE_ACTIVE_STATUS = ActiveStatus.NOT_ACTIVE;
+
+    private static final BigDecimal DEFAULT_INSURANCE_AMOUNT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_INSURANCE_AMOUNT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_INSURANCE_AMOUNT = new BigDecimal(1 - 1);
+
+    private static final BigDecimal DEFAULT_INSURANCE_PERCENT = new BigDecimal(1);
+    private static final BigDecimal UPDATED_INSURANCE_PERCENT = new BigDecimal(2);
+    private static final BigDecimal SMALLER_INSURANCE_PERCENT = new BigDecimal(1 - 1);
+
+    private static final String DEFAULT_INSURANCE_DESCRIPTION = "AAAAAAAAAA";
+    private static final String UPDATED_INSURANCE_DESCRIPTION = "BBBBBBBBBB";
+
+    private static final InsuranceProcessType DEFAULT_INSURANCE_PROCESS_TYPE = InsuranceProcessType.PROCESS_WITH_SALARY;
+    private static final InsuranceProcessType UPDATED_INSURANCE_PROCESS_TYPE = InsuranceProcessType.PROCESS_SEPARATELY;
+
     private static final ActiveStatus DEFAULT_STATUS = ActiveStatus.ACTIVE;
     private static final ActiveStatus UPDATED_STATUS = ActiveStatus.NOT_ACTIVE;
 
@@ -150,6 +185,15 @@ public class EmployeeSalaryResourceIT {
             .convinceAllowancePercent(DEFAULT_CONVINCE_ALLOWANCE_PERCENT)
             .foodAllowance(DEFAULT_FOOD_ALLOWANCE)
             .foodAllowancePercent(DEFAULT_FOOD_ALLOWANCE_PERCENT)
+            .specialAllowanceActiveStatus(DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS)
+            .specialAllowance(DEFAULT_SPECIAL_ALLOWANCE)
+            .specialAllowancePercent(DEFAULT_SPECIAL_ALLOWANCE_PERCENT)
+            .specialAllowanceDescription(DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION)
+            .insuranceActiveStatus(DEFAULT_INSURANCE_ACTIVE_STATUS)
+            .insuranceAmount(DEFAULT_INSURANCE_AMOUNT)
+            .insurancePercent(DEFAULT_INSURANCE_PERCENT)
+            .insuranceDescription(DEFAULT_INSURANCE_DESCRIPTION)
+            .insuranceProcessType(DEFAULT_INSURANCE_PROCESS_TYPE)
             .status(DEFAULT_STATUS);
         return employeeSalary;
     }
@@ -178,6 +222,15 @@ public class EmployeeSalaryResourceIT {
             .convinceAllowancePercent(UPDATED_CONVINCE_ALLOWANCE_PERCENT)
             .foodAllowance(UPDATED_FOOD_ALLOWANCE)
             .foodAllowancePercent(UPDATED_FOOD_ALLOWANCE_PERCENT)
+            .specialAllowanceActiveStatus(UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS)
+            .specialAllowance(UPDATED_SPECIAL_ALLOWANCE)
+            .specialAllowancePercent(UPDATED_SPECIAL_ALLOWANCE_PERCENT)
+            .specialAllowanceDescription(UPDATED_SPECIAL_ALLOWANCE_DESCRIPTION)
+            .insuranceActiveStatus(UPDATED_INSURANCE_ACTIVE_STATUS)
+            .insuranceAmount(UPDATED_INSURANCE_AMOUNT)
+            .insurancePercent(UPDATED_INSURANCE_PERCENT)
+            .insuranceDescription(UPDATED_INSURANCE_DESCRIPTION)
+            .insuranceProcessType(UPDATED_INSURANCE_PROCESS_TYPE)
             .status(UPDATED_STATUS);
         return employeeSalary;
     }
@@ -218,6 +271,15 @@ public class EmployeeSalaryResourceIT {
         assertThat(testEmployeeSalary.getConvinceAllowancePercent()).isEqualTo(DEFAULT_CONVINCE_ALLOWANCE_PERCENT);
         assertThat(testEmployeeSalary.getFoodAllowance()).isEqualTo(DEFAULT_FOOD_ALLOWANCE);
         assertThat(testEmployeeSalary.getFoodAllowancePercent()).isEqualTo(DEFAULT_FOOD_ALLOWANCE_PERCENT);
+        assertThat(testEmployeeSalary.getSpecialAllowanceActiveStatus()).isEqualTo(DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+        assertThat(testEmployeeSalary.getSpecialAllowance()).isEqualTo(DEFAULT_SPECIAL_ALLOWANCE);
+        assertThat(testEmployeeSalary.getSpecialAllowancePercent()).isEqualTo(DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+        assertThat(testEmployeeSalary.getSpecialAllowanceDescription()).isEqualTo(DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION);
+        assertThat(testEmployeeSalary.getInsuranceActiveStatus()).isEqualTo(DEFAULT_INSURANCE_ACTIVE_STATUS);
+        assertThat(testEmployeeSalary.getInsuranceAmount()).isEqualTo(DEFAULT_INSURANCE_AMOUNT);
+        assertThat(testEmployeeSalary.getInsurancePercent()).isEqualTo(DEFAULT_INSURANCE_PERCENT);
+        assertThat(testEmployeeSalary.getInsuranceDescription()).isEqualTo(DEFAULT_INSURANCE_DESCRIPTION);
+        assertThat(testEmployeeSalary.getInsuranceProcessType()).isEqualTo(DEFAULT_INSURANCE_PROCESS_TYPE);
         assertThat(testEmployeeSalary.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
@@ -269,6 +331,15 @@ public class EmployeeSalaryResourceIT {
             .andExpect(jsonPath("$.[*].convinceAllowancePercent").value(hasItem(DEFAULT_CONVINCE_ALLOWANCE_PERCENT.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowance").value(hasItem(DEFAULT_FOOD_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowancePercent").value(hasItem(DEFAULT_FOOD_ALLOWANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowanceActiveStatus").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].specialAllowance").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowancePercent").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowanceDescription").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].insuranceActiveStatus").value(hasItem(DEFAULT_INSURANCE_ACTIVE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].insuranceAmount").value(hasItem(DEFAULT_INSURANCE_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].insurancePercent").value(hasItem(DEFAULT_INSURANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].insuranceDescription").value(hasItem(DEFAULT_INSURANCE_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].insuranceProcessType").value(hasItem(DEFAULT_INSURANCE_PROCESS_TYPE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
@@ -300,6 +371,15 @@ public class EmployeeSalaryResourceIT {
             .andExpect(jsonPath("$.convinceAllowancePercent").value(DEFAULT_CONVINCE_ALLOWANCE_PERCENT.intValue()))
             .andExpect(jsonPath("$.foodAllowance").value(DEFAULT_FOOD_ALLOWANCE.intValue()))
             .andExpect(jsonPath("$.foodAllowancePercent").value(DEFAULT_FOOD_ALLOWANCE_PERCENT.intValue()))
+            .andExpect(jsonPath("$.specialAllowanceActiveStatus").value(DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS.toString()))
+            .andExpect(jsonPath("$.specialAllowance").value(DEFAULT_SPECIAL_ALLOWANCE.intValue()))
+            .andExpect(jsonPath("$.specialAllowancePercent").value(DEFAULT_SPECIAL_ALLOWANCE_PERCENT.intValue()))
+            .andExpect(jsonPath("$.specialAllowanceDescription").value(DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.insuranceActiveStatus").value(DEFAULT_INSURANCE_ACTIVE_STATUS.toString()))
+            .andExpect(jsonPath("$.insuranceAmount").value(DEFAULT_INSURANCE_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.insurancePercent").value(DEFAULT_INSURANCE_PERCENT.intValue()))
+            .andExpect(jsonPath("$.insuranceDescription").value(DEFAULT_INSURANCE_DESCRIPTION.toString()))
+            .andExpect(jsonPath("$.insuranceProcessType").value(DEFAULT_INSURANCE_PROCESS_TYPE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
@@ -2110,6 +2190,582 @@ public class EmployeeSalaryResourceIT {
 
     @Test
     @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceActiveStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus equals to DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("specialAllowanceActiveStatus.equals=" + DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus equals to UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowanceActiveStatus.equals=" + UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceActiveStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus not equals to DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowanceActiveStatus.notEquals=" + DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus not equals to UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("specialAllowanceActiveStatus.notEquals=" + UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceActiveStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus in DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS or UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("specialAllowanceActiveStatus.in=" + DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS + "," + UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus equals to UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowanceActiveStatus.in=" + UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceActiveStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus is not null
+        defaultEmployeeSalaryShouldBeFound("specialAllowanceActiveStatus.specified=true");
+
+        // Get all the employeeSalaryList where specialAllowanceActiveStatus is null
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowanceActiveStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance equals to DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.equals=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance equals to UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.equals=" + UPDATED_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance not equals to DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.notEquals=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance not equals to UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.notEquals=" + UPDATED_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance in DEFAULT_SPECIAL_ALLOWANCE or UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.in=" + DEFAULT_SPECIAL_ALLOWANCE + "," + UPDATED_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance equals to UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.in=" + UPDATED_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance is not null
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.specified=true");
+
+        // Get all the employeeSalaryList where specialAllowance is null
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance is greater than or equal to DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.greaterThanOrEqual=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance is greater than or equal to UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.greaterThanOrEqual=" + UPDATED_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance is less than or equal to DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.lessThanOrEqual=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance is less than or equal to SMALLER_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.lessThanOrEqual=" + SMALLER_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance is less than DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.lessThan=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance is less than UPDATED_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.lessThan=" + UPDATED_SPECIAL_ALLOWANCE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowanceIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowance is greater than DEFAULT_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowance.greaterThan=" + DEFAULT_SPECIAL_ALLOWANCE);
+
+        // Get all the employeeSalaryList where specialAllowance is greater than SMALLER_SPECIAL_ALLOWANCE
+        defaultEmployeeSalaryShouldBeFound("specialAllowance.greaterThan=" + SMALLER_SPECIAL_ALLOWANCE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent equals to DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.equals=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent equals to UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.equals=" + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent not equals to DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.notEquals=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent not equals to UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.notEquals=" + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent in DEFAULT_SPECIAL_ALLOWANCE_PERCENT or UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.in=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT + "," + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent equals to UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.in=" + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is not null
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.specified=true");
+
+        // Get all the employeeSalaryList where specialAllowancePercent is null
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is greater than or equal to DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.greaterThanOrEqual=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is greater than or equal to UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.greaterThanOrEqual=" + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is less than or equal to DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.lessThanOrEqual=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is less than or equal to SMALLER_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.lessThanOrEqual=" + SMALLER_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is less than DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.lessThan=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is less than UPDATED_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.lessThan=" + UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesBySpecialAllowancePercentIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is greater than DEFAULT_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("specialAllowancePercent.greaterThan=" + DEFAULT_SPECIAL_ALLOWANCE_PERCENT);
+
+        // Get all the employeeSalaryList where specialAllowancePercent is greater than SMALLER_SPECIAL_ALLOWANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("specialAllowancePercent.greaterThan=" + SMALLER_SPECIAL_ALLOWANCE_PERCENT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceActiveStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus equals to DEFAULT_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("insuranceActiveStatus.equals=" + DEFAULT_INSURANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus equals to UPDATED_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("insuranceActiveStatus.equals=" + UPDATED_INSURANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceActiveStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus not equals to DEFAULT_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("insuranceActiveStatus.notEquals=" + DEFAULT_INSURANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus not equals to UPDATED_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("insuranceActiveStatus.notEquals=" + UPDATED_INSURANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceActiveStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus in DEFAULT_INSURANCE_ACTIVE_STATUS or UPDATED_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldBeFound("insuranceActiveStatus.in=" + DEFAULT_INSURANCE_ACTIVE_STATUS + "," + UPDATED_INSURANCE_ACTIVE_STATUS);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus equals to UPDATED_INSURANCE_ACTIVE_STATUS
+        defaultEmployeeSalaryShouldNotBeFound("insuranceActiveStatus.in=" + UPDATED_INSURANCE_ACTIVE_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceActiveStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceActiveStatus is not null
+        defaultEmployeeSalaryShouldBeFound("insuranceActiveStatus.specified=true");
+
+        // Get all the employeeSalaryList where insuranceActiveStatus is null
+        defaultEmployeeSalaryShouldNotBeFound("insuranceActiveStatus.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount equals to DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.equals=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount equals to UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.equals=" + UPDATED_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount not equals to DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.notEquals=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount not equals to UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.notEquals=" + UPDATED_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount in DEFAULT_INSURANCE_AMOUNT or UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.in=" + DEFAULT_INSURANCE_AMOUNT + "," + UPDATED_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount equals to UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.in=" + UPDATED_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount is not null
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.specified=true");
+
+        // Get all the employeeSalaryList where insuranceAmount is null
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount is greater than or equal to DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.greaterThanOrEqual=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount is greater than or equal to UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.greaterThanOrEqual=" + UPDATED_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount is less than or equal to DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.lessThanOrEqual=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount is less than or equal to SMALLER_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.lessThanOrEqual=" + SMALLER_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount is less than DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.lessThan=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount is less than UPDATED_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.lessThan=" + UPDATED_INSURANCE_AMOUNT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceAmountIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceAmount is greater than DEFAULT_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldNotBeFound("insuranceAmount.greaterThan=" + DEFAULT_INSURANCE_AMOUNT);
+
+        // Get all the employeeSalaryList where insuranceAmount is greater than SMALLER_INSURANCE_AMOUNT
+        defaultEmployeeSalaryShouldBeFound("insuranceAmount.greaterThan=" + SMALLER_INSURANCE_AMOUNT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent equals to DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.equals=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent equals to UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.equals=" + UPDATED_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent not equals to DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.notEquals=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent not equals to UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.notEquals=" + UPDATED_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent in DEFAULT_INSURANCE_PERCENT or UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.in=" + DEFAULT_INSURANCE_PERCENT + "," + UPDATED_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent equals to UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.in=" + UPDATED_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent is not null
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.specified=true");
+
+        // Get all the employeeSalaryList where insurancePercent is null
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent is greater than or equal to DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.greaterThanOrEqual=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent is greater than or equal to UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.greaterThanOrEqual=" + UPDATED_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent is less than or equal to DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.lessThanOrEqual=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent is less than or equal to SMALLER_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.lessThanOrEqual=" + SMALLER_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsLessThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent is less than DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.lessThan=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent is less than UPDATED_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.lessThan=" + UPDATED_INSURANCE_PERCENT);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsurancePercentIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insurancePercent is greater than DEFAULT_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldNotBeFound("insurancePercent.greaterThan=" + DEFAULT_INSURANCE_PERCENT);
+
+        // Get all the employeeSalaryList where insurancePercent is greater than SMALLER_INSURANCE_PERCENT
+        defaultEmployeeSalaryShouldBeFound("insurancePercent.greaterThan=" + SMALLER_INSURANCE_PERCENT);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceProcessTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceProcessType equals to DEFAULT_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldBeFound("insuranceProcessType.equals=" + DEFAULT_INSURANCE_PROCESS_TYPE);
+
+        // Get all the employeeSalaryList where insuranceProcessType equals to UPDATED_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldNotBeFound("insuranceProcessType.equals=" + UPDATED_INSURANCE_PROCESS_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceProcessTypeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceProcessType not equals to DEFAULT_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldNotBeFound("insuranceProcessType.notEquals=" + DEFAULT_INSURANCE_PROCESS_TYPE);
+
+        // Get all the employeeSalaryList where insuranceProcessType not equals to UPDATED_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldBeFound("insuranceProcessType.notEquals=" + UPDATED_INSURANCE_PROCESS_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceProcessTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceProcessType in DEFAULT_INSURANCE_PROCESS_TYPE or UPDATED_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldBeFound("insuranceProcessType.in=" + DEFAULT_INSURANCE_PROCESS_TYPE + "," + UPDATED_INSURANCE_PROCESS_TYPE);
+
+        // Get all the employeeSalaryList where insuranceProcessType equals to UPDATED_INSURANCE_PROCESS_TYPE
+        defaultEmployeeSalaryShouldNotBeFound("insuranceProcessType.in=" + UPDATED_INSURANCE_PROCESS_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeeSalariesByInsuranceProcessTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeSalaryRepository.saveAndFlush(employeeSalary);
+
+        // Get all the employeeSalaryList where insuranceProcessType is not null
+        defaultEmployeeSalaryShouldBeFound("insuranceProcessType.specified=true");
+
+        // Get all the employeeSalaryList where insuranceProcessType is null
+        defaultEmployeeSalaryShouldNotBeFound("insuranceProcessType.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllEmployeeSalariesByStatusIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeSalaryRepository.saveAndFlush(employeeSalary);
@@ -2204,6 +2860,15 @@ public class EmployeeSalaryResourceIT {
             .andExpect(jsonPath("$.[*].convinceAllowancePercent").value(hasItem(DEFAULT_CONVINCE_ALLOWANCE_PERCENT.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowance").value(hasItem(DEFAULT_FOOD_ALLOWANCE.intValue())))
             .andExpect(jsonPath("$.[*].foodAllowancePercent").value(hasItem(DEFAULT_FOOD_ALLOWANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowanceActiveStatus").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_ACTIVE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].specialAllowance").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowancePercent").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].specialAllowanceDescription").value(hasItem(DEFAULT_SPECIAL_ALLOWANCE_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].insuranceActiveStatus").value(hasItem(DEFAULT_INSURANCE_ACTIVE_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].insuranceAmount").value(hasItem(DEFAULT_INSURANCE_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].insurancePercent").value(hasItem(DEFAULT_INSURANCE_PERCENT.intValue())))
+            .andExpect(jsonPath("$.[*].insuranceDescription").value(hasItem(DEFAULT_INSURANCE_DESCRIPTION.toString())))
+            .andExpect(jsonPath("$.[*].insuranceProcessType").value(hasItem(DEFAULT_INSURANCE_PROCESS_TYPE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
@@ -2268,6 +2933,15 @@ public class EmployeeSalaryResourceIT {
             .convinceAllowancePercent(UPDATED_CONVINCE_ALLOWANCE_PERCENT)
             .foodAllowance(UPDATED_FOOD_ALLOWANCE)
             .foodAllowancePercent(UPDATED_FOOD_ALLOWANCE_PERCENT)
+            .specialAllowanceActiveStatus(UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS)
+            .specialAllowance(UPDATED_SPECIAL_ALLOWANCE)
+            .specialAllowancePercent(UPDATED_SPECIAL_ALLOWANCE_PERCENT)
+            .specialAllowanceDescription(UPDATED_SPECIAL_ALLOWANCE_DESCRIPTION)
+            .insuranceActiveStatus(UPDATED_INSURANCE_ACTIVE_STATUS)
+            .insuranceAmount(UPDATED_INSURANCE_AMOUNT)
+            .insurancePercent(UPDATED_INSURANCE_PERCENT)
+            .insuranceDescription(UPDATED_INSURANCE_DESCRIPTION)
+            .insuranceProcessType(UPDATED_INSURANCE_PROCESS_TYPE)
             .status(UPDATED_STATUS);
 
         restEmployeeSalaryMockMvc.perform(put("/api/employee-salaries")
@@ -2296,6 +2970,15 @@ public class EmployeeSalaryResourceIT {
         assertThat(testEmployeeSalary.getConvinceAllowancePercent()).isEqualTo(UPDATED_CONVINCE_ALLOWANCE_PERCENT);
         assertThat(testEmployeeSalary.getFoodAllowance()).isEqualTo(UPDATED_FOOD_ALLOWANCE);
         assertThat(testEmployeeSalary.getFoodAllowancePercent()).isEqualTo(UPDATED_FOOD_ALLOWANCE_PERCENT);
+        assertThat(testEmployeeSalary.getSpecialAllowanceActiveStatus()).isEqualTo(UPDATED_SPECIAL_ALLOWANCE_ACTIVE_STATUS);
+        assertThat(testEmployeeSalary.getSpecialAllowance()).isEqualTo(UPDATED_SPECIAL_ALLOWANCE);
+        assertThat(testEmployeeSalary.getSpecialAllowancePercent()).isEqualTo(UPDATED_SPECIAL_ALLOWANCE_PERCENT);
+        assertThat(testEmployeeSalary.getSpecialAllowanceDescription()).isEqualTo(UPDATED_SPECIAL_ALLOWANCE_DESCRIPTION);
+        assertThat(testEmployeeSalary.getInsuranceActiveStatus()).isEqualTo(UPDATED_INSURANCE_ACTIVE_STATUS);
+        assertThat(testEmployeeSalary.getInsuranceAmount()).isEqualTo(UPDATED_INSURANCE_AMOUNT);
+        assertThat(testEmployeeSalary.getInsurancePercent()).isEqualTo(UPDATED_INSURANCE_PERCENT);
+        assertThat(testEmployeeSalary.getInsuranceDescription()).isEqualTo(UPDATED_INSURANCE_DESCRIPTION);
+        assertThat(testEmployeeSalary.getInsuranceProcessType()).isEqualTo(UPDATED_INSURANCE_PROCESS_TYPE);
         assertThat(testEmployeeSalary.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 

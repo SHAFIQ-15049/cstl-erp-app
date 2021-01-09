@@ -136,6 +136,27 @@ public class EmployeeSalaryQueryService extends QueryService<EmployeeSalary> {
             if (criteria.getFoodAllowancePercent() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFoodAllowancePercent(), EmployeeSalary_.foodAllowancePercent));
             }
+            if (criteria.getSpecialAllowanceActiveStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getSpecialAllowanceActiveStatus(), EmployeeSalary_.specialAllowanceActiveStatus));
+            }
+            if (criteria.getSpecialAllowance() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSpecialAllowance(), EmployeeSalary_.specialAllowance));
+            }
+            if (criteria.getSpecialAllowancePercent() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSpecialAllowancePercent(), EmployeeSalary_.specialAllowancePercent));
+            }
+            if (criteria.getInsuranceActiveStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getInsuranceActiveStatus(), EmployeeSalary_.insuranceActiveStatus));
+            }
+            if (criteria.getInsuranceAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInsuranceAmount(), EmployeeSalary_.insuranceAmount));
+            }
+            if (criteria.getInsurancePercent() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getInsurancePercent(), EmployeeSalary_.insurancePercent));
+            }
+            if (criteria.getInsuranceProcessType() != null) {
+                specification = specification.and(buildSpecification(criteria.getInsuranceProcessType(), EmployeeSalary_.insuranceProcessType));
+            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), EmployeeSalary_.status));
             }

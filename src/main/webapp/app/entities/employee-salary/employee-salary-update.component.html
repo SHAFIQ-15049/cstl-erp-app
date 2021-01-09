@@ -1,3 +1,8 @@
+<style>
+    .specialAllowance{
+        background-color: ;
+    }
+</style>
 <div class="row justify-content-center">
     <div class="col-md-12">
         <div class="alert alert-warning" role="alert">
@@ -129,13 +134,73 @@
                     </div>
 
                 <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_specialAllowanceActiveStatus">Special Allowance Active Status</label>
+                    <select class="form-control" name="specialAllowanceActiveStatus" formControlName="specialAllowanceActiveStatus" id="field_specialAllowanceActiveStatus">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="editForm.controls['specialAllowanceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_specialAllowance">Special Allowance</label>
+                    <input type="number" class="form-control" name="specialAllowance" id="field_specialAllowance"
+                           formControlName="specialAllowance"/>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="editForm.controls['specialAllowanceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_specialAllowancePercent">Special Allowance Percent</label>
+                    <input type="number" class="form-control" name="specialAllowancePercent" id="field_specialAllowancePercent"
+                           formControlName="specialAllowancePercent"/>
+                </div>
+
+                <div class="form-group col-md-12" *ngIf="editForm.controls['specialAllowanceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_specialAllowanceDescription">Special Allowance Description</label>
+                    <textarea class="form-control" name="specialAllowanceDescription" id="field_specialAllowanceDescription"
+                              formControlName="specialAllowanceDescription"></textarea>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_insuranceActiveStatus">Insurance Active Status</label>
+                    <select class="form-control" name="insuranceActiveStatus" formControlName="insuranceActiveStatus" id="field_insuranceActiveStatus">
+                        <option value="ACTIVE">ACTIVE</option>
+                        <option value="NOT_ACTIVE">NOT_ACTIVE</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="editForm.controls['insuranceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_insuranceAmount">Insurance Amount</label>
+                    <input type="number" class="form-control" name="insuranceAmount" id="field_insuranceAmount"
+                           formControlName="insuranceAmount"/>
+                </div>
+
+                <div class="form-group col-md-6" *ngIf="editForm.controls['insuranceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_insurancePercent">Insurance Percent</label>
+                    <input type="number" class="form-control" name="insurancePercent" id="field_insurancePercent"
+                           formControlName="insurancePercent"/>
+                </div>
+
+                <div class="form-group col-md-12" *ngIf="editForm.controls['insuranceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_insuranceDescription">Insurance Description</label>
+                    <textarea class="form-control" name="insuranceDescription" id="field_insuranceDescription"
+                              formControlName="insuranceDescription"></textarea>
+                </div>
+
+                <div class="form-group col-md-12" *ngIf="editForm.controls['insuranceActiveStatus'].value === 'ACTIVE'">
+                    <label class="form-control-label" for="field_insuranceProcessType">Insurance Process Type</label>
+                    <select class="form-control" name="insuranceProcessType" formControlName="insuranceProcessType" id="field_insuranceProcessType">
+                        <option value="PROCESS_WITH_SALARY">PROCESS_WITH_SALARY</option>
+                        <option value="PROCESS_SEPARATELY">PROCESS_SEPARATELY</option>
+                    </select>
+                </div>
+
+                <div class="form-group col-md-12">
                     <label class="form-control-label" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="ACTIVE">ACTIVE</option>
                         <option value="NOT_ACTIVE">NOT_ACTIVE</option>
                     </select>
                 </div>
-                </div>
+
             </div>
 
             <div>

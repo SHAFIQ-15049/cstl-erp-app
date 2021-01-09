@@ -70,6 +70,47 @@
       "fieldType": "BigDecimal"
     },
     {
+      "fieldName": "specialAllowanceActiveStatus",
+      "fieldType": "ActiveStatus",
+      "fieldValues": "ACTIVE,NOT_ACTIVE"
+    },
+    {
+      "fieldName": "specialAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "specialAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "specialAllowanceDescription",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "insuranceActiveStatus",
+      "fieldType": "ActiveStatus",
+      "fieldValues": "ACTIVE,NOT_ACTIVE"
+    },
+    {
+      "fieldName": "insuranceAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "insurancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "insuranceDescription",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "insuranceProcessType",
+      "fieldType": "InsuranceProcessType",
+      "fieldValues": "PROCESS_WITH_SALARY,PROCESS_SEPARATELY"
+    },
+    {
       "fieldName": "status",
       "fieldType": "ActiveStatus",
       "fieldValues": "ACTIVE,NOT_ACTIVE"
