@@ -1,0 +1,93 @@
+<div>
+    <h2 id="page-heading">
+        <span>Attendances</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance" [routerLink]="['/attendance/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Attendance
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="attendances?.length === 0">
+        <span>No attendances found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="attendances && attendances.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attendanceDate"><span>Attendance Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attendanceTime"><span>Attendance Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="considerAs"><span>Consider As</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attendanceDataUpload.id"><span>Attendance Data Upload</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employeeSalary.id"><span>Employee Salary</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let attendance of attendances ;trackBy: trackId">
+                    <td><a [routerLink]="['/attendance', attendance.id, 'view']">{{ attendance.id }}</a></td>
+                    <td>{{ attendance.attendanceDate | date:'mediumDate' }}</td>
+                    <td>{{ attendance.attendanceTime | date:'medium' }}</td>
+                    <td>{{ attendance.considerAs }}</td>
+                    <td>
+                        <div *ngIf="attendance.employee">
+                            <a [routerLink]="['/employee', attendance.employee?.id, 'view']" >{{ attendance.employee?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="attendance.attendanceDataUpload">
+                            <a [routerLink]="['/attendance-data-upload', attendance.attendanceDataUpload?.id, 'view']" >{{ attendance.attendanceDataUpload?.id }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="attendance.employeeSalary">
+                            <a [routerLink]="['/employee-salary', attendance.employeeSalary?.id, 'view']" >{{ attendance.employeeSalary?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/attendance', attendance.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/attendance', attendance.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(attendance)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="attendances && attendances.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

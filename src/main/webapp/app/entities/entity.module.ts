@@ -153,6 +153,10 @@ import { RouterModule } from '@angular/router';
             m => m.CodeNodeErpFestivalAllowancePaymentDtlModule
           ),
       },
+      {
+        path: 'attendance',
+        loadChildren: () => import('./attendance/attendance.module').then(m => m.CodeNodeErpAttendanceModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -1,0 +1,33 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="attendanceDataUpload">
+            <h2><span>Attendance Data Upload</span> {{ attendanceDataUpload.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>File Upload</span></dt>
+                <dd>
+                    <div *ngIf="attendanceDataUpload.fileUpload">
+                        <a (click)="openFile(attendanceDataUpload.fileUploadContentType, attendanceDataUpload.fileUpload)">open</a>
+                        {{ attendanceDataUpload.fileUploadContentType }}, {{ byteSize(attendanceDataUpload.fileUpload) }}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/attendance-data-upload', attendanceDataUpload.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

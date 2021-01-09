@@ -19,7 +19,8 @@ export class AttendanceDataUploadUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    attendanceData: [null, [Validators.required]],
+    fileUpload: [null, [Validators.required]],
+    fileUploadContentType: [],
   });
 
   constructor(
@@ -39,7 +40,8 @@ export class AttendanceDataUploadUpdateComponent implements OnInit {
   updateForm(attendanceDataUpload: IAttendanceDataUpload): void {
     this.editForm.patchValue({
       id: attendanceDataUpload.id,
-      attendanceData: attendanceDataUpload.attendanceData,
+      fileUpload: attendanceDataUpload.fileUpload,
+      fileUploadContentType: attendanceDataUpload.fileUploadContentType,
     });
   }
 
@@ -66,14 +68,19 @@ export class AttendanceDataUploadUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const attendanceDataUpload = this.createFromForm();
-    this.subscribeToSaveResponse(this.attendanceDataUploadService.create(attendanceDataUpload));
+    if (attendanceDataUpload.id !== undefined) {
+      this.subscribeToSaveResponse(this.attendanceDataUploadService.update(attendanceDataUpload));
+    } else {
+      this.subscribeToSaveResponse(this.attendanceDataUploadService.create(attendanceDataUpload));
+    }
   }
 
   private createFromForm(): IAttendanceDataUpload {
     return {
       ...new AttendanceDataUpload(),
       id: this.editForm.get(['id'])!.value,
-      attendanceData: this.editForm.get(['attendanceData'])!.value,
+      fileUploadContentType: this.editForm.get(['fileUploadContentType'])!.value,
+      fileUpload: this.editForm.get(['fileUpload'])!.value,
     };
   }
 

@@ -23,7 +23,7 @@ export class LeftSideMenuComponent implements OnInit {
   attendanceManagement = false;
 
   @Input() leftMenuHidden = false;
-  constructor(private accountService: AccountService) {}
+  constructor(private accountService: AccountService, private mobileSidebarHideService: SidebarService) {}
 
   ngOnInit(): void {
     this.accountService.getAuthenticationState().subscribe(res => {
