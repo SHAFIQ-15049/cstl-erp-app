@@ -81,6 +81,7 @@
     <include file="config/liquibase/changelog/20210107053708_paymentAmountAddedToFineAndAdvance.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210107183326_AdvanceAndFineRefactored.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210107184353_attendanceMachineIdAddedToEmployee.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210108165649_specialAllowance_and_Insurance_Added_to_EmployeeSalary.xml" relativeToChangelogFile="false"/>
 
 
 

@@ -46,6 +46,15 @@ export class EmployeeSalaryUpdatePage {
   convinceAllowancePercentInput = element(by.id('field_convinceAllowancePercent'));
   foodAllowanceInput = element(by.id('field_foodAllowance'));
   foodAllowancePercentInput = element(by.id('field_foodAllowancePercent'));
+  specialAllowanceActiveStatusSelect = element(by.id('field_specialAllowanceActiveStatus'));
+  specialAllowanceInput = element(by.id('field_specialAllowance'));
+  specialAllowancePercentInput = element(by.id('field_specialAllowancePercent'));
+  specialAllowanceDescriptionInput = element(by.id('field_specialAllowanceDescription'));
+  insuranceActiveStatusSelect = element(by.id('field_insuranceActiveStatus'));
+  insuranceAmountInput = element(by.id('field_insuranceAmount'));
+  insurancePercentInput = element(by.id('field_insurancePercent'));
+  insuranceDescriptionInput = element(by.id('field_insuranceDescription'));
+  insuranceProcessTypeSelect = element(by.id('field_insuranceProcessType'));
   statusSelect = element(by.id('field_status'));
 
   employeeSelect = element(by.id('field_employee'));
@@ -188,6 +197,90 @@ export class EmployeeSalaryUpdatePage {
 
   async getFoodAllowancePercentInput(): Promise<string> {
     return await this.foodAllowancePercentInput.getAttribute('value');
+  }
+
+  async setSpecialAllowanceActiveStatusSelect(specialAllowanceActiveStatus: string): Promise<void> {
+    await this.specialAllowanceActiveStatusSelect.sendKeys(specialAllowanceActiveStatus);
+  }
+
+  async getSpecialAllowanceActiveStatusSelect(): Promise<string> {
+    return await this.specialAllowanceActiveStatusSelect.element(by.css('option:checked')).getText();
+  }
+
+  async specialAllowanceActiveStatusSelectLastOption(): Promise<void> {
+    await this.specialAllowanceActiveStatusSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setSpecialAllowanceInput(specialAllowance: string): Promise<void> {
+    await this.specialAllowanceInput.sendKeys(specialAllowance);
+  }
+
+  async getSpecialAllowanceInput(): Promise<string> {
+    return await this.specialAllowanceInput.getAttribute('value');
+  }
+
+  async setSpecialAllowancePercentInput(specialAllowancePercent: string): Promise<void> {
+    await this.specialAllowancePercentInput.sendKeys(specialAllowancePercent);
+  }
+
+  async getSpecialAllowancePercentInput(): Promise<string> {
+    return await this.specialAllowancePercentInput.getAttribute('value');
+  }
+
+  async setSpecialAllowanceDescriptionInput(specialAllowanceDescription: string): Promise<void> {
+    await this.specialAllowanceDescriptionInput.sendKeys(specialAllowanceDescription);
+  }
+
+  async getSpecialAllowanceDescriptionInput(): Promise<string> {
+    return await this.specialAllowanceDescriptionInput.getAttribute('value');
+  }
+
+  async setInsuranceActiveStatusSelect(insuranceActiveStatus: string): Promise<void> {
+    await this.insuranceActiveStatusSelect.sendKeys(insuranceActiveStatus);
+  }
+
+  async getInsuranceActiveStatusSelect(): Promise<string> {
+    return await this.insuranceActiveStatusSelect.element(by.css('option:checked')).getText();
+  }
+
+  async insuranceActiveStatusSelectLastOption(): Promise<void> {
+    await this.insuranceActiveStatusSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setInsuranceAmountInput(insuranceAmount: string): Promise<void> {
+    await this.insuranceAmountInput.sendKeys(insuranceAmount);
+  }
+
+  async getInsuranceAmountInput(): Promise<string> {
+    return await this.insuranceAmountInput.getAttribute('value');
+  }
+
+  async setInsurancePercentInput(insurancePercent: string): Promise<void> {
+    await this.insurancePercentInput.sendKeys(insurancePercent);
+  }
+
+  async getInsurancePercentInput(): Promise<string> {
+    return await this.insurancePercentInput.getAttribute('value');
+  }
+
+  async setInsuranceDescriptionInput(insuranceDescription: string): Promise<void> {
+    await this.insuranceDescriptionInput.sendKeys(insuranceDescription);
+  }
+
+  async getInsuranceDescriptionInput(): Promise<string> {
+    return await this.insuranceDescriptionInput.getAttribute('value');
+  }
+
+  async setInsuranceProcessTypeSelect(insuranceProcessType: string): Promise<void> {
+    await this.insuranceProcessTypeSelect.sendKeys(insuranceProcessType);
+  }
+
+  async getInsuranceProcessTypeSelect(): Promise<string> {
+    return await this.insuranceProcessTypeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async insuranceProcessTypeSelectLastOption(): Promise<void> {
+    await this.insuranceProcessTypeSelect.all(by.tagName('option')).last().click();
   }
 
   async setStatusSelect(status: string): Promise<void> {

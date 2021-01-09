@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.InsuranceProcessType;
+import software.cstl.domain.enumeration.ActiveStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -39,6 +42,24 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
         @Override
         public ActiveStatusFilter copy() {
             return new ActiveStatusFilter(this);
+        }
+
+    }
+    /**
+     * Class for filtering InsuranceProcessType
+     */
+    public static class InsuranceProcessTypeFilter extends Filter<InsuranceProcessType> {
+
+        public InsuranceProcessTypeFilter() {
+        }
+
+        public InsuranceProcessTypeFilter(InsuranceProcessTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public InsuranceProcessTypeFilter copy() {
+            return new InsuranceProcessTypeFilter(this);
         }
 
     }
@@ -81,6 +102,20 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter foodAllowancePercent;
 
+    private ActiveStatusFilter specialAllowanceActiveStatus;
+
+    private BigDecimalFilter specialAllowance;
+
+    private BigDecimalFilter specialAllowancePercent;
+
+    private ActiveStatusFilter insuranceActiveStatus;
+
+    private BigDecimalFilter insuranceAmount;
+
+    private BigDecimalFilter insurancePercent;
+
+    private InsuranceProcessTypeFilter insuranceProcessType;
+
     private ActiveStatusFilter status;
 
     private LongFilter employeeId;
@@ -107,6 +142,13 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
         this.convinceAllowancePercent = other.convinceAllowancePercent == null ? null : other.convinceAllowancePercent.copy();
         this.foodAllowance = other.foodAllowance == null ? null : other.foodAllowance.copy();
         this.foodAllowancePercent = other.foodAllowancePercent == null ? null : other.foodAllowancePercent.copy();
+        this.specialAllowanceActiveStatus = other.specialAllowanceActiveStatus == null ? null : other.specialAllowanceActiveStatus.copy();
+        this.specialAllowance = other.specialAllowance == null ? null : other.specialAllowance.copy();
+        this.specialAllowancePercent = other.specialAllowancePercent == null ? null : other.specialAllowancePercent.copy();
+        this.insuranceActiveStatus = other.insuranceActiveStatus == null ? null : other.insuranceActiveStatus.copy();
+        this.insuranceAmount = other.insuranceAmount == null ? null : other.insuranceAmount.copy();
+        this.insurancePercent = other.insurancePercent == null ? null : other.insurancePercent.copy();
+        this.insuranceProcessType = other.insuranceProcessType == null ? null : other.insuranceProcessType.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
@@ -260,6 +302,62 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
         this.foodAllowancePercent = foodAllowancePercent;
     }
 
+    public ActiveStatusFilter getSpecialAllowanceActiveStatus() {
+        return specialAllowanceActiveStatus;
+    }
+
+    public void setSpecialAllowanceActiveStatus(ActiveStatusFilter specialAllowanceActiveStatus) {
+        this.specialAllowanceActiveStatus = specialAllowanceActiveStatus;
+    }
+
+    public BigDecimalFilter getSpecialAllowance() {
+        return specialAllowance;
+    }
+
+    public void setSpecialAllowance(BigDecimalFilter specialAllowance) {
+        this.specialAllowance = specialAllowance;
+    }
+
+    public BigDecimalFilter getSpecialAllowancePercent() {
+        return specialAllowancePercent;
+    }
+
+    public void setSpecialAllowancePercent(BigDecimalFilter specialAllowancePercent) {
+        this.specialAllowancePercent = specialAllowancePercent;
+    }
+
+    public ActiveStatusFilter getInsuranceActiveStatus() {
+        return insuranceActiveStatus;
+    }
+
+    public void setInsuranceActiveStatus(ActiveStatusFilter insuranceActiveStatus) {
+        this.insuranceActiveStatus = insuranceActiveStatus;
+    }
+
+    public BigDecimalFilter getInsuranceAmount() {
+        return insuranceAmount;
+    }
+
+    public void setInsuranceAmount(BigDecimalFilter insuranceAmount) {
+        this.insuranceAmount = insuranceAmount;
+    }
+
+    public BigDecimalFilter getInsurancePercent() {
+        return insurancePercent;
+    }
+
+    public void setInsurancePercent(BigDecimalFilter insurancePercent) {
+        this.insurancePercent = insurancePercent;
+    }
+
+    public InsuranceProcessTypeFilter getInsuranceProcessType() {
+        return insuranceProcessType;
+    }
+
+    public void setInsuranceProcessType(InsuranceProcessTypeFilter insuranceProcessType) {
+        this.insuranceProcessType = insuranceProcessType;
+    }
+
     public ActiveStatusFilter getStatus() {
         return status;
     }
@@ -305,6 +403,13 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
             Objects.equals(convinceAllowancePercent, that.convinceAllowancePercent) &&
             Objects.equals(foodAllowance, that.foodAllowance) &&
             Objects.equals(foodAllowancePercent, that.foodAllowancePercent) &&
+            Objects.equals(specialAllowanceActiveStatus, that.specialAllowanceActiveStatus) &&
+            Objects.equals(specialAllowance, that.specialAllowance) &&
+            Objects.equals(specialAllowancePercent, that.specialAllowancePercent) &&
+            Objects.equals(insuranceActiveStatus, that.insuranceActiveStatus) &&
+            Objects.equals(insuranceAmount, that.insuranceAmount) &&
+            Objects.equals(insurancePercent, that.insurancePercent) &&
+            Objects.equals(insuranceProcessType, that.insuranceProcessType) &&
             Objects.equals(status, that.status) &&
             Objects.equals(employeeId, that.employeeId);
     }
@@ -330,6 +435,13 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
         convinceAllowancePercent,
         foodAllowance,
         foodAllowancePercent,
+        specialAllowanceActiveStatus,
+        specialAllowance,
+        specialAllowancePercent,
+        insuranceActiveStatus,
+        insuranceAmount,
+        insurancePercent,
+        insuranceProcessType,
         status,
         employeeId
         );
@@ -357,6 +469,13 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
                 (convinceAllowancePercent != null ? "convinceAllowancePercent=" + convinceAllowancePercent + ", " : "") +
                 (foodAllowance != null ? "foodAllowance=" + foodAllowance + ", " : "") +
                 (foodAllowancePercent != null ? "foodAllowancePercent=" + foodAllowancePercent + ", " : "") +
+                (specialAllowanceActiveStatus != null ? "specialAllowanceActiveStatus=" + specialAllowanceActiveStatus + ", " : "") +
+                (specialAllowance != null ? "specialAllowance=" + specialAllowance + ", " : "") +
+                (specialAllowancePercent != null ? "specialAllowancePercent=" + specialAllowancePercent + ", " : "") +
+                (insuranceActiveStatus != null ? "insuranceActiveStatus=" + insuranceActiveStatus + ", " : "") +
+                (insuranceAmount != null ? "insuranceAmount=" + insuranceAmount + ", " : "") +
+                (insurancePercent != null ? "insurancePercent=" + insurancePercent + ", " : "") +
+                (insuranceProcessType != null ? "insuranceProcessType=" + insuranceProcessType + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";

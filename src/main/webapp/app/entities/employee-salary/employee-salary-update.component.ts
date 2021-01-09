@@ -4,9 +4,11 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IEmployeeSalary, EmployeeSalary } from 'app/shared/model/employee-salary.model';
 import { EmployeeSalaryService } from './employee-salary.service';
+import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import {DefaultAllowanceService} from "app/entities/default-allowance/default-allowance.service";
@@ -44,11 +46,22 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
     convinceAllowancePercent: [],
     foodAllowance: [],
     foodAllowancePercent: [],
+    specialAllowanceActiveStatus: [],
+    specialAllowance: [],
+    specialAllowancePercent: [],
+    specialAllowanceDescription: [],
+    insuranceActiveStatus: [],
+    insuranceAmount: [],
+    insurancePercent: [],
+    insuranceDescription: [],
+    insuranceProcessType: [],
     status: [],
     employee: [],
   });
 
   constructor(
+    protected dataUtils: JhiDataUtils,
+    protected eventManager: JhiEventManager,
     protected employeeSalaryService: EmployeeSalaryService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
@@ -88,8 +101,33 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
       convinceAllowancePercent: employeeSalary.convinceAllowancePercent,
       foodAllowance: employeeSalary.foodAllowance,
       foodAllowancePercent: employeeSalary.foodAllowancePercent,
+      specialAllowanceActiveStatus: employeeSalary.specialAllowanceActiveStatus,
+      specialAllowance: employeeSalary.specialAllowance,
+      specialAllowancePercent: employeeSalary.specialAllowancePercent,
+      specialAllowanceDescription: employeeSalary.specialAllowanceDescription,
+      insuranceActiveStatus: employeeSalary.insuranceActiveStatus,
+      insuranceAmount: employeeSalary.insuranceAmount,
+      insurancePercent: employeeSalary.insurancePercent,
+      insuranceDescription: employeeSalary.insuranceDescription,
+      insuranceProcessType: employeeSalary.insuranceProcessType,
       status: employeeSalary.status,
       employee: employeeSalary.employee,
+    });
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType: string, base64String: string): void {
+    this.dataUtils.openFile(contentType, base64String);
+  }
+
+  setFileData(event: any, field: string, isImage: boolean): void {
+    this.dataUtils.loadFileToForm(event, this.editForm, field, isImage).subscribe(null, (err: JhiFileLoadError) => {
+      this.eventManager.broadcast(
+        new JhiEventWithContent<AlertError>('codeNodeErpApp.error', { message: err.message })
+      );
     });
   }
 
@@ -128,6 +166,15 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
       convinceAllowancePercent: this.editForm.get(['convinceAllowancePercent'])!.value,
       foodAllowance: this.editForm.get(['foodAllowance'])!.value,
       foodAllowancePercent: this.editForm.get(['foodAllowancePercent'])!.value,
+      specialAllowanceActiveStatus: this.editForm.get(['specialAllowanceActiveStatus'])!.value,
+      specialAllowance: this.editForm.get(['specialAllowance'])!.value,
+      specialAllowancePercent: this.editForm.get(['specialAllowancePercent'])!.value,
+      specialAllowanceDescription: this.editForm.get(['specialAllowanceDescription'])!.value,
+      insuranceActiveStatus: this.editForm.get(['insuranceActiveStatus'])!.value,
+      insuranceAmount: this.editForm.get(['insuranceAmount'])!.value,
+      insurancePercent: this.editForm.get(['insurancePercent'])!.value,
+      insuranceDescription: this.editForm.get(['insuranceDescription'])!.value,
+      insuranceProcessType: this.editForm.get(['insuranceProcessType'])!.value,
       status: this.editForm.get(['status'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };

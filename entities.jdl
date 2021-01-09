@@ -247,8 +247,19 @@ entity EmployeeSalary (employee_salary){
   convinceAllowancePercent BigDecimal,
   foodAllowance BigDecimal,
   foodAllowancePercent BigDecimal,
+  specialAllowanceActiveStatus ActiveStatus,
+  specialAllowance BigDecimal,
+  specialAllowancePercent BigDecimal,
+  specialAllowanceDescription TextBlob,
+  insuranceActiveStatus ActiveStatus,
+  insuranceAmount BigDecimal,
+  insurancePercent BigDecimal,
+  insuranceDescription TextBlob,
+  insuranceProcessType InsuranceProcessType,
   status ActiveStatus
 }
+
+
 
 entity MonthlySalary (monthly_salary){
   //designation
@@ -298,6 +309,11 @@ entity FestivalAllowancePaymentDtl{
     executedOn Instant,
     executedBy Instant,
     note TextBlob
+}
+
+enum InsuranceProcessType{
+  PROCESS_WITH_SALARY,
+  PROCESS_SEPARATELY
 }
 
 enum SalaryExecutionStatus{
