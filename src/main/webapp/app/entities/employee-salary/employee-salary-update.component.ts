@@ -9,9 +9,9 @@ import { IEmployeeSalary, EmployeeSalary } from 'app/shared/model/employee-salar
 import { EmployeeSalaryService } from './employee-salary.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
-import {DefaultAllowanceService} from "app/entities/default-allowance/default-allowance.service";
-import {DefaultAllowance, IDefaultAllowance} from "app/shared/model/default-allowance.model";
-import {ActiveStatus} from "app/shared/model/enumerations/active-status.model";
+import { DefaultAllowanceService } from 'app/entities/default-allowance/default-allowance.service';
+import { DefaultAllowance, IDefaultAllowance } from 'app/shared/model/default-allowance.model';
+import { ActiveStatus } from 'app/shared/model/enumerations/active-status.model';
 
 @Component({
   selector: 'jhi-employee-salary-update',
@@ -59,11 +59,13 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ employeeSalary }) => {
       this.updateForm(employeeSalary);
-      this.defaultAllowanceService.query({
-        'status.equals  ': ActiveStatus.ACTIVE
-      }).subscribe((res)=>{
-        this.defaultAllowance = res.body && res.body?.length>0 ?res.body[0]: new DefaultAllowance();
-      });
+      this.defaultAllowanceService
+        .query({
+          'status.equals  ': ActiveStatus.ACTIVE,
+        })
+        .subscribe(res => {
+          this.defaultAllowance = res.body && res.body?.length > 0 ? res.body[0] : new DefaultAllowance();
+        });
       this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
   }
@@ -153,22 +155,20 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
     return item.id;
   }
 
-  extractGross(): void{
+  extractGross(): void {
     const gross = this.editForm.get('gross')?.value;
     const medicalAllowance = this.editForm.get('medicalAllowance')?.value || this.defaultAllowance?.medicalAllowance;
     const convinceAllowance = this.editForm.get('convinceAllowance')?.value || this.defaultAllowance?.convinceAllowance;
     const foodAllowance = this.editForm.get('foodAllowance')?.value || this.defaultAllowance?.foodAllowance;
 
-
-    const basic = ((gross - (medicalAllowance+convinceAllowance+foodAllowance))/1.5).toFixed(3);
-    const basicPercent = ((+basic/gross)*100).toFixed(3);
-    const houseRent = (+basic/2).toFixed(3);
-    const houseRentPercent = ((+houseRent/gross)*100).toFixed(3);
+    const basic = ((gross - (medicalAllowance + convinceAllowance + foodAllowance)) / 1.5).toFixed(3);
+    const basicPercent = ((+basic / gross) * 100).toFixed(3);
+    const houseRent = (+basic / 2).toFixed(3);
+    const houseRentPercent = ((+houseRent / gross) * 100).toFixed(3);
 
     this.editForm.get('basic')?.setValue(basic);
     this.editForm.get('basicPercent')?.setValue(basicPercent);
     this.editForm.get('houseRent')?.setValue(houseRent);
     this.editForm.get('houseRentPercent')?.setValue(houseRentPercent);
-
   }
 }

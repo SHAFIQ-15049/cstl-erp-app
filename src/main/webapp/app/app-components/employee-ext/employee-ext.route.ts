@@ -11,7 +11,7 @@ import { EmployeeExtService } from './employee-ext.service';
 import { EmployeeExtComponent } from './employee-ext.component';
 import { EmployeeExtDetailComponent } from './employee-ext-detail.component';
 import { EmployeeExtUpdateComponent } from './employee-ext-update.component';
-import {IdCardComponent} from "app/app-components/employee-ext/id-card/id-card.component";
+import { IdCardComponent } from 'app/app-components/employee-ext/id-card/id-card.component';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeExtResolve implements Resolve<IEmployee> {

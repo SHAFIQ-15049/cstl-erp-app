@@ -1,16 +1,18 @@
 package software.cstl.service;
 
-import software.cstl.domain.EmployeeSalary;
-import software.cstl.repository.EmployeeSalaryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.EmployeeSalary;
+import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.repository.EmployeeSalaryRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link EmployeeSalary}.
@@ -71,5 +73,13 @@ public class EmployeeSalaryService {
     public void delete(Long id) {
         log.debug("Request to delete EmployeeSalary : {}", id);
         employeeSalaryRepository.deleteById(id);
+    }
+
+    public List<EmployeeSalary> getAll() {
+        return employeeSalaryRepository.findAll();
+    }
+
+    public List<EmployeeSalary> getAllByActiveStatus() {
+        return this.getAll().stream().filter(employeeSalary -> employeeSalary.getStatus().equals(ActiveStatus.ACTIVE)).collect(Collectors.toList());
     }
 }

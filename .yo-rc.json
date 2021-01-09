@@ -29,16 +29,13 @@
     "clientTheme": "none",
     "clientThemeVariant": "",
     "creationTimestamp": 1606151629758,
-    "testFrameworks": [
-      "gatling",
-      "cucumber",
-      "protractor"
-    ],
+    "testFrameworks": ["gatling", "cucumber", "protractor"],
     "jhiPrefix": "jhi",
     "entitySuffix": "",
     "dtoSuffix": "DTO",
     "otherModules": [],
     "enableTranslation": false,
-    "blueprints": []
+    "blueprints": [],
+    "lastLiquibaseTimestamp": 1608955545000
   }
 }

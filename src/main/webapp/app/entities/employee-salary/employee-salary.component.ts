@@ -42,7 +42,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-        'employeeId.equals': this.employeeId
+        'employeeId.equals': this.employeeId,
       })
       .subscribe(
         (res: HttpResponse<IEmployeeSalary[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -57,7 +57,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      this.employeeId = + params.get('employeeId')!;
+      this.employeeId = +params.get('employeeId')!;
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');

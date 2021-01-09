@@ -11,7 +11,7 @@ import { EmployeeSalaryService } from './employee-salary.service';
 import { EmployeeSalaryComponent } from './employee-salary.component';
 import { EmployeeSalaryDetailComponent } from './employee-salary-detail.component';
 import { EmployeeSalaryUpdateComponent } from './employee-salary-update.component';
-import {EmployeeService} from "app/entities/employee/employee.service";
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Injectable({ providedIn: 'root' })
 export class EmployeeSalaryResolve implements Resolve<IEmployeeSalary> {
@@ -31,15 +31,14 @@ export class EmployeeSalaryResolve implements Resolve<IEmployeeSalary> {
           }
         })
       );
-    }
-    else if(employeeID){
+    } else if (employeeID) {
       return this.employeeService.find(employeeID).pipe(
-        flatMap((employee)=>{
-          if(employee.body){
+        flatMap(employee => {
+          if (employee.body) {
             const employeeSalary = new EmployeeSalary();
             employeeSalary.employee = employee.body;
             return of(employeeSalary);
-          }else{
+          } else {
             return of(new EmployeeSalary());
           }
         })

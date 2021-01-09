@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="attendance">
+            <h2><span>Attendance</span> {{ attendance.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Attendance Date</span></dt>
+                <dd>
+                    <span>{{ attendance.attendanceDate }}</span>
+                </dd>
+                <dt><span>Attendance Time</span></dt>
+                <dd>
+                    <span>{{ attendance.attendanceTime }}</span>
+                </dd>
+                <dt><span>Consider As</span></dt>
+                <dd>
+                    <span>{{ attendance.considerAs }}</span>
+                </dd>
+                <dt><span>Machine No</span></dt>
+                <dd>
+                    <span>{{ attendance.machineNo }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="attendance.employee">
+                        <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Attendance Data Upload</span></dt>
+                <dd>
+                    <div *ngIf="attendance.attendanceDataUpload">
+                        <a [routerLink]="['/attendance-data-upload', attendance.attendanceDataUpload?.id, 'view']">{{ attendance.attendanceDataUpload?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee Salary</span></dt>
+                <dd>
+                    <div *ngIf="attendance.employeeSalary">
+                        <a [routerLink]="['/employee-salary', attendance.employeeSalary?.id, 'view']">{{ attendance.employeeSalary?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/attendance', attendance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

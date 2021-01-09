@@ -1,0 +1,61 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "relationships": [
+    {
+      "relationshipName": "employee",
+      "otherEntityName": "employee",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "name",
+      "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "attendanceDataUpload",
+      "otherEntityName": "attendanceDataUpload",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": [],
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "employeeSalary",
+      "otherEntityName": "employeeSalary",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
+    }
+  ],
+  "fields": [
+    {
+      "fieldName": "attendanceDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "attendanceTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "considerAs",
+      "fieldType": "ConsiderAsType",
+      "fieldValues": "REGULAR,WEEKENDWITHOVERTIME",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "machineNo",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "changelogDate": "20210108055117",
+  "dto": "no",
+  "searchEngine": false,
+  "service": "serviceClass",
+  "entityTableName": "attendance",
+  "databaseType": "sql",
+  "readOnly": false,
+  "jpaMetamodelFiltering": true,
+  "pagination": "pagination"
+}

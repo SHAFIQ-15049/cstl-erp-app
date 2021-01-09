@@ -73,6 +73,31 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('../app-components/line-ext/line-ext.module').then(m => m.CodeNodeErpLineModule),
       },
       {
+        path: 'weekend',
+        loadChildren: () => import('./weekend/weekend.module').then(m => m.CodeNodeErpWeekendModule),
+      },
+      {
+        path: 'holiday-type',
+        loadChildren: () => import('./holiday-type/holiday-type.module').then(m => m.CodeNodeErpHolidayTypeModule),
+      },
+      {
+        path: 'holiday',
+        loadChildren: () => import('./holiday/holiday.module').then(m => m.CodeNodeErpHolidayModule),
+      },
+      {
+        path: 'leave-type',
+        loadChildren: () => import('./leave-type/leave-type.module').then(m => m.CodeNodeErpLeaveTypeModule),
+      },
+      {
+        path: 'leave-application',
+        loadChildren: () => import('./leave-application/leave-application.module').then(m => m.CodeNodeErpLeaveApplicationModule),
+      },
+      {
+        path: 'attendance-data-upload',
+        loadChildren: () =>
+          import('./attendance-data-upload/attendance-data-upload.module').then(m => m.CodeNodeErpAttendanceDataUploadModule),
+      },
+      {
         path: 'fine',
         loadChildren: () => import('./fine/fine.module').then(m => m.CodeNodeErpFineModule),
       },
@@ -114,7 +139,7 @@ import { RouterModule } from '@angular/router';
       },
       {
         path: 'payroll-management',
-        loadChildren: ()=> import('../app-components/payroll-management/payroll-management.module').then(m=> m.PayrollManagementModule),
+        loadChildren: () => import('../app-components/payroll-management/payroll-management.module').then(m => m.PayrollManagementModule),
       },
       {
         path: 'festival-allowance-payment',
@@ -127,6 +152,10 @@ import { RouterModule } from '@angular/router';
           import('./festival-allowance-payment-dtl/festival-allowance-payment-dtl.module').then(
             m => m.CodeNodeErpFestivalAllowancePaymentDtlModule
           ),
+      },
+      {
+        path: 'attendance',
+        loadChildren: () => import('./attendance/attendance.module').then(m => m.CodeNodeErpAttendanceModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

@@ -1,0 +1,60 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="leaveApplication">
+            <h2><span>Leave Application</span> {{ leaveApplication.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>From</span></dt>
+                <dd>
+                    <span>{{ leaveApplication.from }}</span>
+                </dd>
+                <dt><span>To</span></dt>
+                <dd>
+                    <span>{{ leaveApplication.to }}</span>
+                </dd>
+                <dt><span>Total Days</span></dt>
+                <dd>
+                    <span>{{ leaveApplication.totalDays }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ leaveApplication.status }}</span>
+                </dd>
+                <dt><span>Reason</span></dt>
+                <dd>
+                    <span>{{ leaveApplication.reason }}</span>
+                </dd>
+                <dt><span>Applied By</span></dt>
+                <dd>
+                    {{ leaveApplication.appliedBy?.login }}
+                </dd>
+                <dt><span>Action Taken By</span></dt>
+                <dd>
+                    {{ leaveApplication.actionTakenBy?.login }}
+                </dd>
+                <dt><span>Leave Type</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.leaveType">
+                        <a [routerLink]="['/leave-type', leaveApplication.leaveType?.id, 'view']">{{ leaveApplication.leaveType?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

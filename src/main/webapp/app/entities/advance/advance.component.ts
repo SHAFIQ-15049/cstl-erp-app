@@ -43,7 +43,7 @@ export class AdvanceComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-        'employeeId.equals': this.employeeId
+        'employeeId.equals': this.employeeId,
       })
       .subscribe(
         (res: HttpResponse<IAdvance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),

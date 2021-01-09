@@ -17,6 +17,11 @@ export class LeftSideMenuComponent implements OnInit {
   sidebarWidth = 0;
   sideMarginLeft = 0;
 
+  weekendManagement = false;
+  holidayManagement = false;
+  leaveManagement = false;
+  attendanceManagement = false;
+
   @Input() leftMenuHidden = false;
   constructor(private accountService: AccountService, private mobileSidebarHideService: SidebarService) {}
 
