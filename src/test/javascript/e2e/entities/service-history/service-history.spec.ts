@@ -53,6 +53,7 @@ describe('ServiceHistory e2e test', () => {
       serviceHistoryUpdatePage.setFromInput('2000-12-31'),
       serviceHistoryUpdatePage.setToInput('2000-12-31'),
       serviceHistoryUpdatePage.setAttachmentInput(absolutePath),
+      serviceHistoryUpdatePage.statusSelectLastOption(),
       serviceHistoryUpdatePage.departmentSelectLastOption(),
       serviceHistoryUpdatePage.designationSelectLastOption(),
       serviceHistoryUpdatePage.gradeSelectLastOption(),

@@ -5,6 +5,7 @@ import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.EmployeeType;
 import software.cstl.domain.enumeration.EmployeeCategory;
+import software.cstl.domain.enumeration.ServiceStatus;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -60,6 +61,24 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering ServiceStatus
+     */
+    public static class ServiceStatusFilter extends Filter<ServiceStatus> {
+
+        public ServiceStatusFilter() {
+        }
+
+        public ServiceStatusFilter(ServiceStatusFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public ServiceStatusFilter copy() {
+            return new ServiceStatusFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -72,6 +91,8 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
     private LocalDateFilter from;
 
     private LocalDateFilter to;
+
+    private ServiceStatusFilter status;
 
     private LongFilter departmentId;
 
@@ -90,6 +111,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         this.category = other.category == null ? null : other.category.copy();
         this.from = other.from == null ? null : other.from.copy();
         this.to = other.to == null ? null : other.to.copy();
+        this.status = other.status == null ? null : other.status.copy();
         this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
         this.designationId = other.designationId == null ? null : other.designationId.copy();
         this.gradeId = other.gradeId == null ? null : other.gradeId.copy();
@@ -141,6 +163,14 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         this.to = to;
     }
 
+    public ServiceStatusFilter getStatus() {
+        return status;
+    }
+
+    public void setStatus(ServiceStatusFilter status) {
+        this.status = status;
+    }
+
     public LongFilter getDepartmentId() {
         return departmentId;
     }
@@ -189,6 +219,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
             Objects.equals(category, that.category) &&
             Objects.equals(from, that.from) &&
             Objects.equals(to, that.to) &&
+            Objects.equals(status, that.status) &&
             Objects.equals(departmentId, that.departmentId) &&
             Objects.equals(designationId, that.designationId) &&
             Objects.equals(gradeId, that.gradeId) &&
@@ -203,6 +234,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
         category,
         from,
         to,
+        status,
         departmentId,
         designationId,
         gradeId,
@@ -219,6 +251,7 @@ public class ServiceHistoryCriteria implements Serializable, Criteria {
                 (category != null ? "category=" + category + ", " : "") +
                 (from != null ? "from=" + from + ", " : "") +
                 (to != null ? "to=" + to + ", " : "") +
+                (status != null ? "status=" + status + ", " : "") +
                 (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +
                 (gradeId != null ? "gradeId=" + gradeId + ", " : "") +

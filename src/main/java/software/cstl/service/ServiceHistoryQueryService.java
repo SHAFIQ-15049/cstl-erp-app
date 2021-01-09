@@ -97,6 +97,9 @@ public class ServiceHistoryQueryService extends QueryService<ServiceHistory> {
             if (criteria.getTo() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTo(), ServiceHistory_.to));
             }
+            if (criteria.getStatus() != null) {
+                specification = specification.and(buildSpecification(criteria.getStatus(), ServiceHistory_.status));
+            }
             if (criteria.getDepartmentId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDepartmentId(),
                     root -> root.join(ServiceHistory_.department, JoinType.LEFT).get(Department_.id)));

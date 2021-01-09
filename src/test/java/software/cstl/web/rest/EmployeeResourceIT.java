@@ -2,6 +2,9 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Employee;
+import software.cstl.domain.Fine;
+import software.cstl.domain.Advance;
+import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.EducationalInfo;
 import software.cstl.domain.Training;
 import software.cstl.domain.EmployeeAccount;
@@ -59,6 +62,9 @@ public class EmployeeResourceIT {
     private static final String DEFAULT_GLOBAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_GLOBAL_ID = "BBBBBBBBBB";
 
+    private static final String DEFAULT_ATTENDANCE_MACHINE_ID = "AAAAAAAAAA";
+    private static final String UPDATED_ATTENDANCE_MACHINE_ID = "BBBBBBBBBB";
+
     private static final String DEFAULT_LOCAL_ID = "AAAAAAAAAA";
     private static final String UPDATED_LOCAL_ID = "BBBBBBBBBB";
 
@@ -110,6 +116,7 @@ public class EmployeeResourceIT {
             .name(DEFAULT_NAME)
             .empId(DEFAULT_EMP_ID)
             .globalId(DEFAULT_GLOBAL_ID)
+            .attendanceMachineId(DEFAULT_ATTENDANCE_MACHINE_ID)
             .localId(DEFAULT_LOCAL_ID)
             .category(DEFAULT_CATEGORY)
             .type(DEFAULT_TYPE)
@@ -130,6 +137,7 @@ public class EmployeeResourceIT {
             .name(UPDATED_NAME)
             .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
+            .attendanceMachineId(UPDATED_ATTENDANCE_MACHINE_ID)
             .localId(UPDATED_LOCAL_ID)
             .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
@@ -162,6 +170,7 @@ public class EmployeeResourceIT {
         assertThat(testEmployee.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testEmployee.getEmpId()).isEqualTo(DEFAULT_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(DEFAULT_GLOBAL_ID);
+        assertThat(testEmployee.getAttendanceMachineId()).isEqualTo(DEFAULT_ATTENDANCE_MACHINE_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(DEFAULT_LOCAL_ID);
         assertThat(testEmployee.getCategory()).isEqualTo(DEFAULT_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(DEFAULT_TYPE);
@@ -281,6 +290,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
+            .andExpect(jsonPath("$.[*].attendanceMachineId").value(hasItem(DEFAULT_ATTENDANCE_MACHINE_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
@@ -304,6 +314,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.empId").value(DEFAULT_EMP_ID))
             .andExpect(jsonPath("$.globalId").value(DEFAULT_GLOBAL_ID))
+            .andExpect(jsonPath("$.attendanceMachineId").value(DEFAULT_ATTENDANCE_MACHINE_ID))
             .andExpect(jsonPath("$.localId").value(DEFAULT_LOCAL_ID))
             .andExpect(jsonPath("$.category").value(DEFAULT_CATEGORY.toString()))
             .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
@@ -564,6 +575,84 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where globalId does not contain UPDATED_GLOBAL_ID
         defaultEmployeeShouldBeFound("globalId.doesNotContain=" + UPDATED_GLOBAL_ID);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId equals to DEFAULT_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldBeFound("attendanceMachineId.equals=" + DEFAULT_ATTENDANCE_MACHINE_ID);
+
+        // Get all the employeeList where attendanceMachineId equals to UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.equals=" + UPDATED_ATTENDANCE_MACHINE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId not equals to DEFAULT_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.notEquals=" + DEFAULT_ATTENDANCE_MACHINE_ID);
+
+        // Get all the employeeList where attendanceMachineId not equals to UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldBeFound("attendanceMachineId.notEquals=" + UPDATED_ATTENDANCE_MACHINE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdIsInShouldWork() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId in DEFAULT_ATTENDANCE_MACHINE_ID or UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldBeFound("attendanceMachineId.in=" + DEFAULT_ATTENDANCE_MACHINE_ID + "," + UPDATED_ATTENDANCE_MACHINE_ID);
+
+        // Get all the employeeList where attendanceMachineId equals to UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.in=" + UPDATED_ATTENDANCE_MACHINE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId is not null
+        defaultEmployeeShouldBeFound("attendanceMachineId.specified=true");
+
+        // Get all the employeeList where attendanceMachineId is null
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.specified=false");
+    }
+                @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId contains DEFAULT_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldBeFound("attendanceMachineId.contains=" + DEFAULT_ATTENDANCE_MACHINE_ID);
+
+        // Get all the employeeList where attendanceMachineId contains UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.contains=" + UPDATED_ATTENDANCE_MACHINE_ID);
+    }
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAttendanceMachineIdNotContainsSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+
+        // Get all the employeeList where attendanceMachineId does not contain DEFAULT_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldNotBeFound("attendanceMachineId.doesNotContain=" + DEFAULT_ATTENDANCE_MACHINE_ID);
+
+        // Get all the employeeList where attendanceMachineId does not contain UPDATED_ATTENDANCE_MACHINE_ID
+        defaultEmployeeShouldBeFound("attendanceMachineId.doesNotContain=" + UPDATED_ATTENDANCE_MACHINE_ID);
     }
 
 
@@ -1013,6 +1102,66 @@ public class EmployeeResourceIT {
 
     @Test
     @Transactional
+    public void getAllEmployeesByFineIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Fine fine = FineResourceIT.createEntity(em);
+        em.persist(fine);
+        em.flush();
+        employee.addFine(fine);
+        employeeRepository.saveAndFlush(employee);
+        Long fineId = fine.getId();
+
+        // Get all the employeeList where fine equals to fineId
+        defaultEmployeeShouldBeFound("fineId.equals=" + fineId);
+
+        // Get all the employeeList where fine equals to fineId + 1
+        defaultEmployeeShouldNotBeFound("fineId.equals=" + (fineId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByAdvanceIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        Advance advance = AdvanceResourceIT.createEntity(em);
+        em.persist(advance);
+        em.flush();
+        employee.addAdvance(advance);
+        employeeRepository.saveAndFlush(employee);
+        Long advanceId = advance.getId();
+
+        // Get all the employeeList where advance equals to advanceId
+        defaultEmployeeShouldBeFound("advanceId.equals=" + advanceId);
+
+        // Get all the employeeList where advance equals to advanceId + 1
+        defaultEmployeeShouldNotBeFound("advanceId.equals=" + (advanceId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByEmployeeSalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        EmployeeSalary employeeSalary = EmployeeSalaryResourceIT.createEntity(em);
+        em.persist(employeeSalary);
+        em.flush();
+        employee.addEmployeeSalary(employeeSalary);
+        employeeRepository.saveAndFlush(employee);
+        Long employeeSalaryId = employeeSalary.getId();
+
+        // Get all the employeeList where employeeSalary equals to employeeSalaryId
+        defaultEmployeeShouldBeFound("employeeSalaryId.equals=" + employeeSalaryId);
+
+        // Get all the employeeList where employeeSalary equals to employeeSalaryId + 1
+        defaultEmployeeShouldNotBeFound("employeeSalaryId.equals=" + (employeeSalaryId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllEmployeesByEducationalInfoIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeRepository.saveAndFlush(employee);
@@ -1263,6 +1412,7 @@ public class EmployeeResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].empId").value(hasItem(DEFAULT_EMP_ID)))
             .andExpect(jsonPath("$.[*].globalId").value(hasItem(DEFAULT_GLOBAL_ID)))
+            .andExpect(jsonPath("$.[*].attendanceMachineId").value(hasItem(DEFAULT_ATTENDANCE_MACHINE_ID)))
             .andExpect(jsonPath("$.[*].localId").value(hasItem(DEFAULT_LOCAL_ID)))
             .andExpect(jsonPath("$.[*].category").value(hasItem(DEFAULT_CATEGORY.toString())))
             .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
@@ -1319,6 +1469,7 @@ public class EmployeeResourceIT {
             .name(UPDATED_NAME)
             .empId(UPDATED_EMP_ID)
             .globalId(UPDATED_GLOBAL_ID)
+            .attendanceMachineId(UPDATED_ATTENDANCE_MACHINE_ID)
             .localId(UPDATED_LOCAL_ID)
             .category(UPDATED_CATEGORY)
             .type(UPDATED_TYPE)
@@ -1339,6 +1490,7 @@ public class EmployeeResourceIT {
         assertThat(testEmployee.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testEmployee.getEmpId()).isEqualTo(UPDATED_EMP_ID);
         assertThat(testEmployee.getGlobalId()).isEqualTo(UPDATED_GLOBAL_ID);
+        assertThat(testEmployee.getAttendanceMachineId()).isEqualTo(UPDATED_ATTENDANCE_MACHINE_ID);
         assertThat(testEmployee.getLocalId()).isEqualTo(UPDATED_LOCAL_ID);
         assertThat(testEmployee.getCategory()).isEqualTo(UPDATED_CATEGORY);
         assertThat(testEmployee.getType()).isEqualTo(UPDATED_TYPE);

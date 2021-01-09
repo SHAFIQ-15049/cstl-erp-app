@@ -1,0 +1,46 @@
+{
+  "name": "AdvancePaymentHistory",
+  "fields": [
+    {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "monthType",
+      "fieldType": "MonthType",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "before",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "after",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "advance",
+      "otherEntityRelationshipName": "advancePaymentHistory",
+      "relationshipName": "advance",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201228194927",
+  "entityTableName": "advance_payment_history",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

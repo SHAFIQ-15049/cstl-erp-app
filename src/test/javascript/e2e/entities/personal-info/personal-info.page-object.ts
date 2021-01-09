@@ -49,6 +49,7 @@ export class PersonalInfoUpdatePage {
   birthRegistrationAttachmentIdInput = element(by.id('field_birthRegistrationAttachmentId'));
   heightInput = element(by.id('field_height'));
   genderSelect = element(by.id('field_gender'));
+  religionSelect = element(by.id('field_religion'));
   bloodGroupSelect = element(by.id('field_bloodGroup'));
   emergencyContactInput = element(by.id('field_emergencyContact'));
 
@@ -224,6 +225,18 @@ export class PersonalInfoUpdatePage {
 
   async genderSelectLastOption(): Promise<void> {
     await this.genderSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setReligionSelect(religion: string): Promise<void> {
+    await this.religionSelect.sendKeys(religion);
+  }
+
+  async getReligionSelect(): Promise<string> {
+    return await this.religionSelect.element(by.css('option:checked')).getText();
+  }
+
+  async religionSelectLastOption(): Promise<void> {
+    await this.religionSelect.all(by.tagName('option')).last().click();
   }
 
   async setBloodGroupSelect(bloodGroup: string): Promise<void> {

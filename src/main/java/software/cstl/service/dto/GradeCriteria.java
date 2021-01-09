@@ -11,6 +11,7 @@ import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.Grade} entity. This class is used
@@ -49,6 +50,8 @@ public class GradeCriteria implements Serializable, Criteria {
 
     private StringFilter name;
 
+    private BigDecimalFilter initialSalary;
+
     public GradeCriteria() {
     }
 
@@ -56,6 +59,7 @@ public class GradeCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.category = other.category == null ? null : other.category.copy();
         this.name = other.name == null ? null : other.name.copy();
+        this.initialSalary = other.initialSalary == null ? null : other.initialSalary.copy();
     }
 
     @Override
@@ -87,6 +91,14 @@ public class GradeCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
+    public BigDecimalFilter getInitialSalary() {
+        return initialSalary;
+    }
+
+    public void setInitialSalary(BigDecimalFilter initialSalary) {
+        this.initialSalary = initialSalary;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -100,7 +112,8 @@ public class GradeCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(category, that.category) &&
-            Objects.equals(name, that.name);
+            Objects.equals(name, that.name) &&
+            Objects.equals(initialSalary, that.initialSalary);
     }
 
     @Override
@@ -108,7 +121,8 @@ public class GradeCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         category,
-        name
+        name,
+        initialSalary
         );
     }
 
@@ -119,6 +133,7 @@ public class GradeCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (category != null ? "category=" + category + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
+                (initialSalary != null ? "initialSalary=" + initialSalary + ", " : "") +
             "}";
     }
 

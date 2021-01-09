@@ -1,0 +1,115 @@
+<div>
+    <h2 id="page-heading">
+        <span>Monthly Salary Dtls</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-monthly-salary-dtl" [routerLink]="['/monthly-salary-dtl/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Monthly Salary Dtl
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="monthlySalaryDtls?.length === 0">
+        <span>No monthlySalaryDtls found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="monthlySalaryDtls && monthlySalaryDtls.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="gross"><span>Gross</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="basic"><span>Basic</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="houseRent"><span>House Rent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="houseRentPercent"><span>House Rent Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="medicalAllowancePercent"><span>Medical Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="convinceAllowancePercent"><span>Convince Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="foodAllowance"><span>Food Allowance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="foodAllowancePercent"><span>Food Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fine"><span>Fine</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="advance"><span>Advance</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="monthlySalary.id"><span>Monthly Salary</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let monthlySalaryDtl of monthlySalaryDtls ;trackBy: trackId">
+                    <td><a [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'view']">{{ monthlySalaryDtl.id }}</a></td>
+                    <td>{{ monthlySalaryDtl.gross }}</td>
+                    <td>{{ monthlySalaryDtl.basic }}</td>
+                    <td>{{ monthlySalaryDtl.basicPercent }}</td>
+                    <td>{{ monthlySalaryDtl.houseRent }}</td>
+                    <td>{{ monthlySalaryDtl.houseRentPercent }}</td>
+                    <td>{{ monthlySalaryDtl.medicalAllowance }}</td>
+                    <td>{{ monthlySalaryDtl.medicalAllowancePercent }}</td>
+                    <td>{{ monthlySalaryDtl.convinceAllowance }}</td>
+                    <td>{{ monthlySalaryDtl.convinceAllowancePercent }}</td>
+                    <td>{{ monthlySalaryDtl.foodAllowance }}</td>
+                    <td>{{ monthlySalaryDtl.foodAllowancePercent }}</td>
+                    <td>{{ monthlySalaryDtl.fine }}</td>
+                    <td>{{ monthlySalaryDtl.advance }}</td>
+                    <td>{{ monthlySalaryDtl.status }}</td>
+                    <td>{{ monthlySalaryDtl.executedOn | date:'medium' }}</td>
+                    <td>{{ monthlySalaryDtl.executedBy | date:'medium' }}</td>
+                    <td>{{ monthlySalaryDtl.note }}</td>
+                    <td>
+                        <div *ngIf="monthlySalaryDtl.employee">
+                            <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']" >{{ monthlySalaryDtl.employee?.name }}</a>
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="monthlySalaryDtl.monthlySalary">
+                            <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']" >{{ monthlySalaryDtl.monthlySalary?.id }}</a>
+                        </div>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(monthlySalaryDtl)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="monthlySalaryDtls && monthlySalaryDtls.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

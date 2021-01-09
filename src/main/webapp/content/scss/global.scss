@@ -200,3 +200,54 @@ Custom
   display: flex;
 }
 /* jhipster-needle-scss-add-main JHipster will add new css style */
+
+:root {
+  /* label */
+  --select2-label-text-color: #000;
+  --select2-required-color: red;
+
+  /* selection */
+  --select2-selection-border-radius: 4px;
+  --select2-selection-background: #fff;
+  --select2-selection-disabled-background: #eee;
+  --select2-selection-border-color: #aaa;
+  --select2-selection-focus-border-color: #000;
+  --select2-selection-text-color: #444;
+
+  /* selection: choice item (multiple) */
+  --select2-selection-choice-background: #e4e4e4;
+  --select2-selection-choice-text-color: #000;
+  --select2-selection-choice-border-color: #aaa;
+  --select2-selection-choice-close-color: #999;
+  --select2-selection-choice-hover-close-color: #333;
+
+  /* placeholder */
+
+  --select2-placeholder-color: #999;
+
+  /* arrow */
+  --select2-arrow-color: #888;
+
+  /* dropdown panel */
+  --select2-dropdown-background: #fff;
+  --select2-dropdown-border-color: #aaa;
+
+  /* search field */
+  --select2-search-border-color: #aaa;
+  --select2-search-background: #fff;
+  --select2-search-border-radius: 0px;
+
+  /* dropdown option */
+  --select2-option-text-color: #000;
+  --select2-option-disabled-text-color: #999;
+  --select2-option-disabled-background: transparent;
+  --select2-option-selected-text-color: #000;
+  --select2-option-selected-background: #ddd;
+  --select2-option-highlighted-text-color: #fff;
+  --select2-option-highlighted-background: #5897fb;
+  --select2-option-group-text-color: gray;
+  --select2-option-group-background: transparent;
+
+  /* hint */
+  --select2-hint-text-color: #888;
+}

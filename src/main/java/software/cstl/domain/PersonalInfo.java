@@ -13,6 +13,8 @@ import software.cstl.domain.enumeration.MaritalStatus;
 
 import software.cstl.domain.enumeration.GenderType;
 
+import software.cstl.domain.enumeration.ReligionType;
+
 import software.cstl.domain.enumeration.BloodGroupType;
 
 /**
@@ -106,6 +108,10 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
     @Enumerated(EnumType.STRING)
     @Column(name = "gender")
     private GenderType gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "religion")
+    private ReligionType religion;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "blood_group")
@@ -426,6 +432,19 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
         this.gender = gender;
     }
 
+    public ReligionType getReligion() {
+        return religion;
+    }
+
+    public PersonalInfo religion(ReligionType religion) {
+        this.religion = religion;
+        return this;
+    }
+
+    public void setReligion(ReligionType religion) {
+        this.religion = religion;
+    }
+
     public BloodGroupType getBloodGroup() {
         return bloodGroup;
     }
@@ -510,6 +529,7 @@ public class PersonalInfo extends AbstractAuditingEntity implements Serializable
             ", birthRegistrationAttachmentId='" + getBirthRegistrationAttachmentId() + "'" +
             ", height=" + getHeight() +
             ", gender='" + getGender() + "'" +
+            ", religion='" + getReligion() + "'" +
             ", bloodGroup='" + getBloodGroup() + "'" +
             ", emergencyContact='" + getEmergencyContact() + "'" +
             "}";

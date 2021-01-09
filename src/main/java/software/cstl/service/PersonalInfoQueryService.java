@@ -136,6 +136,9 @@ public class PersonalInfoQueryService extends QueryService<PersonalInfo> {
             if (criteria.getGender() != null) {
                 specification = specification.and(buildSpecification(criteria.getGender(), PersonalInfo_.gender));
             }
+            if (criteria.getReligion() != null) {
+                specification = specification.and(buildSpecification(criteria.getReligion(), PersonalInfo_.religion));
+            }
             if (criteria.getBloodGroup() != null) {
                 specification = specification.and(buildSpecification(criteria.getBloodGroup(), PersonalInfo_.bloodGroup));
             }

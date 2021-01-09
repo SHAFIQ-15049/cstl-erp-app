@@ -6,6 +6,7 @@ import { ServiceHistoryService } from 'app/entities/service-history/service-hist
 import { IServiceHistory, ServiceHistory } from 'app/shared/model/service-history.model';
 import { EmployeeType } from 'app/shared/model/enumerations/employee-type.model';
 import { EmployeeCategory } from 'app/shared/model/enumerations/employee-category.model';
+import { ServiceStatus } from 'app/shared/model/enumerations/service-status.model';
 
 describe('Service Tests', () => {
   describe('ServiceHistory Service', () => {
@@ -33,7 +34,8 @@ describe('Service Tests', () => {
         currentDate,
         currentDate,
         'image/png',
-        'AAAAAAA'
+        'AAAAAAA',
+        ServiceStatus.ACTIVE
       );
     });
 
@@ -87,6 +89,7 @@ describe('Service Tests', () => {
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
             attachment: 'BBBBBB',
+            status: 'BBBBBB',
           },
           elemDefault
         );
@@ -114,6 +117,7 @@ describe('Service Tests', () => {
             from: currentDate.format(DATE_FORMAT),
             to: currentDate.format(DATE_FORMAT),
             attachment: 'BBBBBB',
+            status: 'BBBBBB',
           },
           elemDefault
         );

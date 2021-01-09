@@ -1,0 +1,52 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="finePaymentHistory">
+            <h2><span>Fine Payment History</span> {{ finePaymentHistory.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Year</span></dt>
+                <dd>
+                    <span>{{ finePaymentHistory.year }}</span>
+                </dd>
+                <dt><span>Month Type</span></dt>
+                <dd>
+                    <span>{{ finePaymentHistory.monthType }}</span>
+                </dd>
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{ finePaymentHistory.amount }}</span>
+                </dd>
+                <dt><span>Before Fine</span></dt>
+                <dd>
+                    <span>{{ finePaymentHistory.beforeFine }}</span>
+                </dd>
+                <dt><span>After Fine</span></dt>
+                <dd>
+                    <span>{{ finePaymentHistory.afterFine }}</span>
+                </dd>
+                <dt><span>Fine</span></dt>
+                <dd>
+                    <div *ngIf="finePaymentHistory.fine">
+                        <a [routerLink]="['/fine', finePaymentHistory.fine?.id, 'view']">{{ finePaymentHistory.fine?.id }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/fine-payment-history', finePaymentHistory.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

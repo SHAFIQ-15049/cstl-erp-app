@@ -75,6 +75,7 @@ class GradeGatlingTest extends Simulation {
                 , "category":"TOP_LEVEL"
                 , "name":"SAMPLE_TEXT"
                 , "description":null
+                , "initialSalary":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_grade_url"))).exitHereIfFailed

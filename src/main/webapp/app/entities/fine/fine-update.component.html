@@ -1,0 +1,119 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-fine-heading">{{!editForm.get('id')!.value?'Create': 'Update'}} Fine</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_finedOn">Fined On</label>
+                    <div class="input-group">
+                        <input id="field_finedOn" type="text" class="form-control" name="finedOn" ngbDatepicker #finedOnDp="ngbDatepicker" formControlName="finedOn"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="finedOnDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                    <div *ngIf="editForm.get('finedOn')!.invalid && (editForm.get('finedOn')!.dirty || editForm.get('finedOn')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('finedOn')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_reason">Reason</label>
+                    <textarea class="form-control" name="reason" id="field_reason"
+                              formControlName="reason"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amount">Amount</label>
+                    <input type="number" class="form-control" name="amount" id="field_amount"
+                           formControlName="amount"/>
+                    <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('amount')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('amount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_finePercentage">Fine Percentage</label>
+                    <input type="number" class="form-control" name="finePercentage" id="field_finePercentage"
+                           formControlName="finePercentage"/>
+                    <div *ngIf="editForm.get('finePercentage')!.invalid && (editForm.get('finePercentage')!.dirty || editForm.get('finePercentage')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('finePercentage')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('finePercentage')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_monthlyFineAmount">Monthly Fine Amount</label>
+                    <input type="number" class="form-control" name="monthlyFineAmount" id="field_monthlyFineAmount"
+                           formControlName="monthlyFineAmount"/>
+                    <div *ngIf="editForm.get('monthlyFineAmount')!.invalid && (editForm.get('monthlyFineAmount')!.dirty || editForm.get('monthlyFineAmount')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('monthlyFineAmount')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('monthlyFineAmount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_paymentStatus">Payment Status</label>
+                    <select class="form-control" name="paymentStatus" formControlName="paymentStatus" id="field_paymentStatus">
+                        <option value="NOT_PAID">NOT_PAID</option>
+                        <option value="IN_PROGRESS">IN_PROGRESS</option>
+                        <option value="PAID">PAID</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amountPaid">Amount Paid</label>
+                    <input type="number" class="form-control" name="amountPaid" id="field_amountPaid"
+                           formControlName="amountPaid"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_amountLeft">Amount Left</label>
+                    <input type="number" class="form-control" name="amountLeft" id="field_amountLeft"
+                           formControlName="amountLeft"/>
+                </div>
+
+
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(GradeService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Grade(0, EmployeeCategory.TOP_LEVEL, 'AAAAAAA', 'AAAAAAA');
+      elemDefault = new Grade(0, EmployeeCategory.TOP_LEVEL, 'AAAAAAA', 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -58,6 +58,7 @@ describe('Service Tests', () => {
             category: 'BBBBBB',
             name: 'BBBBBB',
             description: 'BBBBBB',
+            initialSalary: 1,
           },
           elemDefault
         );
@@ -77,6 +78,7 @@ describe('Service Tests', () => {
             category: 'BBBBBB',
             name: 'BBBBBB',
             description: 'BBBBBB',
+            initialSalary: 1,
           },
           elemDefault
         );

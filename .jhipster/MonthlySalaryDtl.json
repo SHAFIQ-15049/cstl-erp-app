@@ -1,0 +1,102 @@
+{
+  "name": "MonthlySalaryDtl",
+  "fields": [
+    {
+      "fieldName": "gross",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "basic",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "basicPercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "houseRent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "houseRentPercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "medicalAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "medicalAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "convinceAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "convinceAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "foodAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "foodAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "fine",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "advance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SalaryExecutionStatus",
+      "fieldValues": "DONE,NOT_DONE"
+    },
+    {
+      "fieldName": "executedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "executedBy",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "monthlySalaryDtl",
+      "relationshipName": "employee",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "monthlySalary",
+      "otherEntityRelationshipName": "monthlySalaryDtl",
+      "relationshipName": "monthlySalary",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20210102143449",
+  "entityTableName": "monthly_salary_dtl",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

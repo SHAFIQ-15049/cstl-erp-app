@@ -1,0 +1,46 @@
+{
+  "name": "FinePaymentHistory",
+  "fields": [
+    {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "monthType",
+      "fieldType": "MonthType",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "beforeFine",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "afterFine",
+      "fieldType": "BigDecimal"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "fine",
+      "otherEntityRelationshipName": "finePaymentHistory",
+      "relationshipName": "fine",
+      "otherEntityField": "id"
+    }
+  ],
+  "changelogDate": "20201228194727",
+  "entityTableName": "fine_payment_history",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

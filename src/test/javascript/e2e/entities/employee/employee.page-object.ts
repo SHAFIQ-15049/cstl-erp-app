@@ -32,6 +32,7 @@ export class EmployeeUpdatePage {
   nameInput = element(by.id('field_name'));
   empIdInput = element(by.id('field_empId'));
   globalIdInput = element(by.id('field_globalId'));
+  attendanceMachineIdInput = element(by.id('field_attendanceMachineId'));
   localIdInput = element(by.id('field_localId'));
   categorySelect = element(by.id('field_category'));
   typeSelect = element(by.id('field_type'));
@@ -72,6 +73,14 @@ export class EmployeeUpdatePage {
 
   async getGlobalIdInput(): Promise<string> {
     return await this.globalIdInput.getAttribute('value');
+  }
+
+  async setAttendanceMachineIdInput(attendanceMachineId: string): Promise<void> {
+    await this.attendanceMachineIdInput.sendKeys(attendanceMachineId);
+  }
+
+  async getAttendanceMachineIdInput(): Promise<string> {
+    return await this.attendanceMachineIdInput.getAttribute('value');
   }
 
   async setLocalIdInput(localId: string): Promise<void> {

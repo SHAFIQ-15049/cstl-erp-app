@@ -1,0 +1,63 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="defaultAllowance">
+            <h2><span>Default Allowance</span> </h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+
+                <dt><span>Basic Percent</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.basicPercent }}</span>
+                </dd>
+                <dt><span>Total Allowance</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.totalAllowance }}</span>
+                </dd>
+                <dt><span>Medical Allowance</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.medicalAllowance }}</span>
+                </dd>
+                <dt><span>Medical Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.medicalAllowancePercent }}</span>
+                </dd>
+                <dt><span>Convince Allowance</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.convinceAllowance }}</span>
+                </dd>
+                <dt><span>Convince Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.convinceAllowancePercent }}</span>
+                </dd>
+                <dt><span>Food Allowance</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.foodAllowance }}</span>
+                </dd>
+                <dt><span>Food Allowance Percent</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.foodAllowancePercent }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ defaultAllowance.status }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/default-allowance', defaultAllowance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

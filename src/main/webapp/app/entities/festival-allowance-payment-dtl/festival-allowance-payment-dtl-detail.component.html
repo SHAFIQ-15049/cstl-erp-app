@@ -1,0 +1,58 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="festivalAllowancePaymentDtl">
+            <h2><span>Festival Allowance Payment Dtl</span> {{ festivalAllowancePaymentDtl.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Amount</span></dt>
+                <dd>
+                    <span>{{ festivalAllowancePaymentDtl.amount }}</span>
+                </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ festivalAllowancePaymentDtl.status }}</span>
+                </dd>
+                <dt><span>Executed On</span></dt>
+                <dd>
+                    <span>{{ festivalAllowancePaymentDtl.executedOn }}</span>
+                </dd>
+                <dt><span>Executed By</span></dt>
+                <dd>
+                    <span>{{ festivalAllowancePaymentDtl.executedBy }}</span>
+                </dd>
+                <dt><span>Note</span></dt>
+                <dd>
+                    <span>{{ festivalAllowancePaymentDtl.note }}</span>
+                </dd>
+                <dt><span>Festival Allowance Payment</span></dt>
+                <dd>
+                    <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
+                        <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']">{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="festivalAllowancePaymentDtl.employee">
+                        <a [routerLink]="['/employee', festivalAllowancePaymentDtl.employee?.id, 'view']">{{ festivalAllowancePaymentDtl.employee?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/festival-allowance-payment-dtl', festivalAllowancePaymentDtl.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

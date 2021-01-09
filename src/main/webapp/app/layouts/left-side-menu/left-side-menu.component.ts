@@ -1,3 +1,4 @@
+import { SidebarService } from './../../shared/sidebar.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { AccountService } from 'app/core/auth/account.service';
 
@@ -11,6 +12,11 @@ export class LeftSideMenuComponent implements OnInit {
   username = '';
   entities = false;
   employeeManagement = false;
+  payrollManagement = false;
+
+  sidebarWidth = 0;
+  sideMarginLeft = 0;
+
   weekendManagement = false;
   holidayManagement = false;
   leaveManagement = false;
@@ -24,5 +30,13 @@ export class LeftSideMenuComponent implements OnInit {
       this.employeeName = res?.firstName! + ' ' + res?.lastName!;
       this.username = res?.login!;
     });
+  }
+
+  mobileSidebarHide(): void {
+    this.mobileSidebarHideService.sendClickEvent();
+  }
+
+  getSidebarWidth(): number {
+    return (this.sidebarWidth = window.innerWidth);
   }
 }

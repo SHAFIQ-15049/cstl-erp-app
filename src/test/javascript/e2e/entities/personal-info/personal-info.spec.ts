@@ -68,6 +68,7 @@ describe('PersonalInfo e2e test', () => {
       personalInfoUpdatePage.setBirthRegistrationAttachmentIdInput('birthRegistrationAttachmentId'),
       personalInfoUpdatePage.setHeightInput('5'),
       personalInfoUpdatePage.genderSelectLastOption(),
+      personalInfoUpdatePage.religionSelectLastOption(),
       personalInfoUpdatePage.bloodGroupSelectLastOption(),
       personalInfoUpdatePage.setEmergencyContactInput('emergencyContact'),
       personalInfoUpdatePage.employeeSelectLastOption(),

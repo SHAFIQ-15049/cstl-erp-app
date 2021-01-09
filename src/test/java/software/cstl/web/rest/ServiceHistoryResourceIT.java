@@ -33,6 +33,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import software.cstl.domain.enumeration.EmployeeType;
 import software.cstl.domain.enumeration.EmployeeCategory;
+import software.cstl.domain.enumeration.ServiceStatus;
 /**
  * Integration tests for the {@link ServiceHistoryResource} REST controller.
  */
@@ -59,6 +60,9 @@ public class ServiceHistoryResourceIT {
     private static final byte[] UPDATED_ATTACHMENT = TestUtil.createByteArray(1, "1");
     private static final String DEFAULT_ATTACHMENT_CONTENT_TYPE = "image/jpg";
     private static final String UPDATED_ATTACHMENT_CONTENT_TYPE = "image/png";
+
+    private static final ServiceStatus DEFAULT_STATUS = ServiceStatus.ACTIVE;
+    private static final ServiceStatus UPDATED_STATUS = ServiceStatus.NOT_ACTIVE;
 
     @Autowired
     private ServiceHistoryRepository serviceHistoryRepository;
@@ -90,7 +94,8 @@ public class ServiceHistoryResourceIT {
             .from(DEFAULT_FROM)
             .to(DEFAULT_TO)
             .attachment(DEFAULT_ATTACHMENT)
-            .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE);
+            .attachmentContentType(DEFAULT_ATTACHMENT_CONTENT_TYPE)
+            .status(DEFAULT_STATUS);
         return serviceHistory;
     }
     /**
@@ -106,7 +111,8 @@ public class ServiceHistoryResourceIT {
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
             .attachment(UPDATED_ATTACHMENT)
-            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE)
+            .status(UPDATED_STATUS);
         return serviceHistory;
     }
 
@@ -135,6 +141,7 @@ public class ServiceHistoryResourceIT {
         assertThat(testServiceHistory.getTo()).isEqualTo(DEFAULT_TO);
         assertThat(testServiceHistory.getAttachment()).isEqualTo(DEFAULT_ATTACHMENT);
         assertThat(testServiceHistory.getAttachmentContentType()).isEqualTo(DEFAULT_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testServiceHistory.getStatus()).isEqualTo(DEFAULT_STATUS);
     }
 
     @Test
@@ -173,7 +180,8 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
     }
     
     @Test
@@ -192,7 +200,8 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.from").value(DEFAULT_FROM.toString()))
             .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()))
             .andExpect(jsonPath("$.attachmentContentType").value(DEFAULT_ATTACHMENT_CONTENT_TYPE))
-            .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)));
+            .andExpect(jsonPath("$.attachment").value(Base64Utils.encodeToString(DEFAULT_ATTACHMENT)))
+            .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()));
     }
 
 
@@ -531,6 +540,58 @@ public class ServiceHistoryResourceIT {
 
     @Test
     @Transactional
+    public void getAllServiceHistoriesByStatusIsEqualToSomething() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where status equals to DEFAULT_STATUS
+        defaultServiceHistoryShouldBeFound("status.equals=" + DEFAULT_STATUS);
+
+        // Get all the serviceHistoryList where status equals to UPDATED_STATUS
+        defaultServiceHistoryShouldNotBeFound("status.equals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByStatusIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where status not equals to DEFAULT_STATUS
+        defaultServiceHistoryShouldNotBeFound("status.notEquals=" + DEFAULT_STATUS);
+
+        // Get all the serviceHistoryList where status not equals to UPDATED_STATUS
+        defaultServiceHistoryShouldBeFound("status.notEquals=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByStatusIsInShouldWork() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where status in DEFAULT_STATUS or UPDATED_STATUS
+        defaultServiceHistoryShouldBeFound("status.in=" + DEFAULT_STATUS + "," + UPDATED_STATUS);
+
+        // Get all the serviceHistoryList where status equals to UPDATED_STATUS
+        defaultServiceHistoryShouldNotBeFound("status.in=" + UPDATED_STATUS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllServiceHistoriesByStatusIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        serviceHistoryRepository.saveAndFlush(serviceHistory);
+
+        // Get all the serviceHistoryList where status is not null
+        defaultServiceHistoryShouldBeFound("status.specified=true");
+
+        // Get all the serviceHistoryList where status is null
+        defaultServiceHistoryShouldNotBeFound("status.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllServiceHistoriesByDepartmentIsEqualToSomething() throws Exception {
         // Initialize the database
         serviceHistoryRepository.saveAndFlush(serviceHistory);
@@ -621,7 +682,8 @@ public class ServiceHistoryResourceIT {
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
             .andExpect(jsonPath("$.[*].attachmentContentType").value(hasItem(DEFAULT_ATTACHMENT_CONTENT_TYPE)))
-            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))));
+            .andExpect(jsonPath("$.[*].attachment").value(hasItem(Base64Utils.encodeToString(DEFAULT_ATTACHMENT))))
+            .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())));
 
         // Check, that the count call also returns 1
         restServiceHistoryMockMvc.perform(get("/api/service-histories/count?sort=id,desc&" + filter))
@@ -673,7 +735,8 @@ public class ServiceHistoryResourceIT {
             .from(UPDATED_FROM)
             .to(UPDATED_TO)
             .attachment(UPDATED_ATTACHMENT)
-            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE);
+            .attachmentContentType(UPDATED_ATTACHMENT_CONTENT_TYPE)
+            .status(UPDATED_STATUS);
 
         restServiceHistoryMockMvc.perform(put("/api/service-histories")
             .contentType(MediaType.APPLICATION_JSON)
@@ -690,6 +753,7 @@ public class ServiceHistoryResourceIT {
         assertThat(testServiceHistory.getTo()).isEqualTo(UPDATED_TO);
         assertThat(testServiceHistory.getAttachment()).isEqualTo(UPDATED_ATTACHMENT);
         assertThat(testServiceHistory.getAttachmentContentType()).isEqualTo(UPDATED_ATTACHMENT_CONTENT_TYPE);
+        assertThat(testServiceHistory.getStatus()).isEqualTo(UPDATED_STATUS);
     }
 
     @Test

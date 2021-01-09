@@ -94,6 +94,9 @@ public class CompanyQueryService extends QueryService<Company> {
             if (criteria.getNameInBangla() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getNameInBangla(), Company_.nameInBangla));
             }
+            if (criteria.getPhone() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getPhone(), Company_.phone));
+            }
         }
         return specification;
     }

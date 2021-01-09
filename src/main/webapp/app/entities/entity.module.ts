@@ -97,6 +97,62 @@ import { RouterModule } from '@angular/router';
         loadChildren: () =>
           import('./attendance-data-upload/attendance-data-upload.module').then(m => m.CodeNodeErpAttendanceDataUploadModule),
       },
+      {
+        path: 'fine',
+        loadChildren: () => import('./fine/fine.module').then(m => m.CodeNodeErpFineModule),
+      },
+      {
+        path: 'fine-payment-history',
+        loadChildren: () => import('./fine-payment-history/fine-payment-history.module').then(m => m.CodeNodeErpFinePaymentHistoryModule),
+      },
+      {
+        path: 'advance',
+        loadChildren: () => import('./advance/advance.module').then(m => m.CodeNodeErpAdvanceModule),
+      },
+      {
+        path: 'advance-payment-history',
+        loadChildren: () =>
+          import('./advance-payment-history/advance-payment-history.module').then(m => m.CodeNodeErpAdvancePaymentHistoryModule),
+      },
+      {
+        path: 'festival-allowance-time-line',
+        loadChildren: () =>
+          import('./festival-allowance-time-line/festival-allowance-time-line.module').then(
+            m => m.CodeNodeErpFestivalAllowanceTimeLineModule
+          ),
+      },
+      {
+        path: 'default-allowance',
+        loadChildren: () => import('./default-allowance/default-allowance.module').then(m => m.CodeNodeErpDefaultAllowanceModule),
+      },
+      {
+        path: 'employee-salary',
+        loadChildren: () => import('./employee-salary/employee-salary.module').then(m => m.CodeNodeErpEmployeeSalaryModule),
+      },
+      {
+        path: 'monthly-salary',
+        loadChildren: () => import('./monthly-salary/monthly-salary.module').then(m => m.CodeNodeErpMonthlySalaryModule),
+      },
+      {
+        path: 'monthly-salary-dtl',
+        loadChildren: () => import('./monthly-salary-dtl/monthly-salary-dtl.module').then(m => m.CodeNodeErpMonthlySalaryDtlModule),
+      },
+      {
+        path: 'payroll-management',
+        loadChildren: () => import('../app-components/payroll-management/payroll-management.module').then(m => m.PayrollManagementModule),
+      },
+      {
+        path: 'festival-allowance-payment',
+        loadChildren: () =>
+          import('./festival-allowance-payment/festival-allowance-payment.module').then(m => m.CodeNodeErpFestivalAllowancePaymentModule),
+      },
+      {
+        path: 'festival-allowance-payment-dtl',
+        loadChildren: () =>
+          import('./festival-allowance-payment-dtl/festival-allowance-payment-dtl.module').then(
+            m => m.CodeNodeErpFestivalAllowancePaymentDtlModule
+          ),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

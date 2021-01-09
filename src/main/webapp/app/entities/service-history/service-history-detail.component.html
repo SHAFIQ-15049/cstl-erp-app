@@ -31,6 +31,10 @@
                         {{ serviceHistory.attachmentContentType }}, {{ byteSize(serviceHistory.attachment) }}
                     </div>
                 </dd>
+                <dt><span>Status</span></dt>
+                <dd>
+                    <span>{{ serviceHistory.status }}</span>
+                </dd>
                 <dt><span>Department</span></dt>
                 <dd>
                     <div *ngIf="serviceHistory.department">

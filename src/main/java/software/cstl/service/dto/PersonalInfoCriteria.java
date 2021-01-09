@@ -5,6 +5,7 @@ import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.MaritalStatus;
 import software.cstl.domain.enumeration.GenderType;
+import software.cstl.domain.enumeration.ReligionType;
 import software.cstl.domain.enumeration.BloodGroupType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
@@ -58,6 +59,24 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         @Override
         public GenderTypeFilter copy() {
             return new GenderTypeFilter(this);
+        }
+
+    }
+    /**
+     * Class for filtering ReligionType
+     */
+    public static class ReligionTypeFilter extends Filter<ReligionType> {
+
+        public ReligionTypeFilter() {
+        }
+
+        public ReligionTypeFilter(ReligionTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public ReligionTypeFilter copy() {
+            return new ReligionTypeFilter(this);
         }
 
     }
@@ -118,6 +137,8 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
 
     private GenderTypeFilter gender;
 
+    private ReligionTypeFilter religion;
+
     private BloodGroupTypeFilter bloodGroup;
 
     private StringFilter emergencyContact;
@@ -146,6 +167,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.birthRegistrationAttachmentId = other.birthRegistrationAttachmentId == null ? null : other.birthRegistrationAttachmentId.copy();
         this.height = other.height == null ? null : other.height.copy();
         this.gender = other.gender == null ? null : other.gender.copy();
+        this.religion = other.religion == null ? null : other.religion.copy();
         this.bloodGroup = other.bloodGroup == null ? null : other.bloodGroup.copy();
         this.emergencyContact = other.emergencyContact == null ? null : other.emergencyContact.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
@@ -300,6 +322,14 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         this.gender = gender;
     }
 
+    public ReligionTypeFilter getReligion() {
+        return religion;
+    }
+
+    public void setReligion(ReligionTypeFilter religion) {
+        this.religion = religion;
+    }
+
     public BloodGroupTypeFilter getBloodGroup() {
         return bloodGroup;
     }
@@ -353,6 +383,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
             Objects.equals(birthRegistrationAttachmentId, that.birthRegistrationAttachmentId) &&
             Objects.equals(height, that.height) &&
             Objects.equals(gender, that.gender) &&
+            Objects.equals(religion, that.religion) &&
             Objects.equals(bloodGroup, that.bloodGroup) &&
             Objects.equals(emergencyContact, that.emergencyContact) &&
             Objects.equals(employeeId, that.employeeId);
@@ -379,6 +410,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
         birthRegistrationAttachmentId,
         height,
         gender,
+        religion,
         bloodGroup,
         emergencyContact,
         employeeId
@@ -407,6 +439,7 @@ public class PersonalInfoCriteria implements Serializable, Criteria {
                 (birthRegistrationAttachmentId != null ? "birthRegistrationAttachmentId=" + birthRegistrationAttachmentId + ", " : "") +
                 (height != null ? "height=" + height + ", " : "") +
                 (gender != null ? "gender=" + gender + ", " : "") +
+                (religion != null ? "religion=" + religion + ", " : "") +
                 (bloodGroup != null ? "bloodGroup=" + bloodGroup + ", " : "") +
                 (emergencyContact != null ? "emergencyContact=" + emergencyContact + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

@@ -18,7 +18,6 @@ export class GradeResolve implements Resolve<IGrade> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<IGrade> | Observable<never> {
     const id = route.params['id'];
-    const employeeCategory = route.params['employeeCategory'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((grade: HttpResponse<Grade>) => {
@@ -30,10 +29,6 @@ export class GradeResolve implements Resolve<IGrade> {
           }
         })
       );
-    } else if (employeeCategory) {
-      const grade = new Grade();
-      grade.category = employeeCategory;
-      return of(grade);
     }
     return of(new Grade());
   }
@@ -64,18 +59,6 @@ export const gradeRoute: Routes = [
   },
   {
     path: 'new',
-    component: GradeUpdateComponent,
-    resolve: {
-      grade: GradeResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'Grades',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':employeeCategory/new',
     component: GradeUpdateComponent,
     resolve: {
       grade: GradeResolve,

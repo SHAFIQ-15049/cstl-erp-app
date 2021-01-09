@@ -1,0 +1,53 @@
+{
+  "name": "MonthlySalary",
+  "fields": [
+    {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "month",
+      "fieldType": "MonthType",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SalaryExecutionStatus",
+      "fieldValues": "DONE,NOT_DONE"
+    },
+    {
+      "fieldName": "executedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "executedBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "monthlySalaryDtl",
+      "otherEntityRelationshipName": "monthlySalary",
+      "relationshipName": "monthlySalaryDtl"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "designation",
+      "otherEntityRelationshipName": "monthlySalary",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20210102143349",
+  "entityTableName": "monthly_salary",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

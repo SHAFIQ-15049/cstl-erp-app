@@ -28,6 +28,7 @@
                     <th scope="col"  jhiSortBy="employeeType"><span>Employee Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -47,7 +48,7 @@
                     <td>{{ serviceHistory.employeeType }}</td>
                     <td>{{ serviceHistory.from | date:'mediumDate' }}</td>
                     <td>{{ serviceHistory.to | date:'mediumDate' }}</td>
-
+                    <td>{{ serviceHistory.status }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
