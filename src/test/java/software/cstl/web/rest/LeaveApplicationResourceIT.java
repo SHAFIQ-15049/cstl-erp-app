@@ -1,14 +1,5 @@
 package software.cstl.web.rest;
 
-import software.cstl.CodeNodeErpApp;
-import software.cstl.domain.LeaveApplication;
-import software.cstl.domain.User;
-import software.cstl.domain.LeaveType;
-import software.cstl.repository.LeaveApplicationRepository;
-import software.cstl.service.LeaveApplicationService;
-import software.cstl.service.dto.LeaveApplicationCriteria;
-import software.cstl.service.LeaveApplicationQueryService;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +9,15 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.CodeNodeErpApp;
+import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.LeaveType;
+import software.cstl.domain.User;
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
+import software.cstl.repository.LeaveApplicationRepository;
+import software.cstl.service.LeaveApplicationQueryService;
+import software.cstl.service.LeaveApplicationService;
+
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -27,8 +27,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import software.cstl.domain.enumeration.LeaveApplicationStatus;
 /**
  * Integration tests for the {@link LeaveApplicationResource} REST controller.
  */
@@ -50,7 +48,7 @@ public class LeaveApplicationResourceIT {
     private static final Integer SMALLER_TOTAL_DAYS = 1 - 1;
 
     private static final LeaveApplicationStatus DEFAULT_STATUS = LeaveApplicationStatus.APPLIED;
-    private static final LeaveApplicationStatus UPDATED_STATUS = LeaveApplicationStatus.ACCEPTED;
+    private static final LeaveApplicationStatus UPDATED_STATUS = LeaveApplicationStatus.ACCEPTED_BY_FIRST_AUTHORITY;
 
     private static final String DEFAULT_REASON = "AAAAAAAAAA";
     private static final String UPDATED_REASON = "BBBBBBBBBB";
@@ -291,7 +289,7 @@ public class LeaveApplicationResourceIT {
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)));
     }
-    
+
     @Test
     @Transactional
     public void getLeaveApplication() throws Exception {

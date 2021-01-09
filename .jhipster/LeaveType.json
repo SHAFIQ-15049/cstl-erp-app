@@ -10,7 +10,13 @@
     },
     {
       "fieldName": "totalDays",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "maxValidity",
+      "fieldType": "Integer",
+      "fieldValidateRules": ["required"]
     }
   ],
   "changelogDate": "20201226040037",

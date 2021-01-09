@@ -18,7 +18,8 @@ export class LeaveTypeUpdateComponent implements OnInit {
   editForm = this.fb.group({
     id: [],
     name: [null, [Validators.required]],
-    totalDays: [],
+    totalDays: [null, [Validators.required]],
+    maxValidity: [null, [Validators.required]],
   });
 
   constructor(protected leaveTypeService: LeaveTypeService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
@@ -34,6 +35,7 @@ export class LeaveTypeUpdateComponent implements OnInit {
       id: leaveType.id,
       name: leaveType.name,
       totalDays: leaveType.totalDays,
+      maxValidity: leaveType.maxValidity,
     });
   }
 
@@ -57,6 +59,7 @@ export class LeaveTypeUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       name: this.editForm.get(['name'])!.value,
       totalDays: this.editForm.get(['totalDays'])!.value,
+      maxValidity: this.editForm.get(['maxValidity'])!.value,
     };
   }
 

@@ -4,8 +4,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 
 /**
@@ -26,8 +25,13 @@ public class LeaveType implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "total_days")
+    @NotNull
+    @Column(name = "total_days", nullable = false)
     private Integer totalDays;
+
+    @NotNull
+    @Column(name = "max_validity", nullable = false)
+    private Integer maxValidity;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -63,6 +67,19 @@ public class LeaveType implements Serializable {
     public void setTotalDays(Integer totalDays) {
         this.totalDays = totalDays;
     }
+
+    public Integer getMaxValidity() {
+        return maxValidity;
+    }
+
+    public LeaveType maxValidity(Integer maxValidity) {
+        this.maxValidity = maxValidity;
+        return this;
+    }
+
+    public void setMaxValidity(Integer maxValidity) {
+        this.maxValidity = maxValidity;
+    }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -88,6 +105,7 @@ public class LeaveType implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", totalDays=" + getTotalDays() +
+            ", maxValidity=" + getMaxValidity() +
             "}";
     }
 }

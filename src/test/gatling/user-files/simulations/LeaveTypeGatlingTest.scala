@@ -1,10 +1,5 @@
-import _root_.io.gatling.core.scenario.Simulation
-import ch.qos.logback.classic.{Level, LoggerContext}
-import io.gatling.core.Predef._
-import io.gatling.http.Predef._
+import ch.qos.logback.classic.LoggerContext
 import org.slf4j.LoggerFactory
-
-import scala.concurrent.duration._
 
 /**
  * Performance test for the LeaveType entity.
@@ -74,6 +69,7 @@ class LeaveTypeGatlingTest extends Simulation {
                 "id":null
                 , "name":"SAMPLE_TEXT"
                 , "totalDays":"0"
+                , "maxValidity":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_leaveType_url"))).exitHereIfFailed

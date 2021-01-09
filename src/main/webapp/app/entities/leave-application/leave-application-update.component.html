@@ -52,7 +52,7 @@
                     <div *ngIf="editForm.get('to')!.invalid && (editForm.get('to')!.dirty || editForm.get('to')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('to')?.errors?.required">
-                        This field is required.
+                            This field is required.
                         </small>
                     </div>
                 </div>
@@ -64,10 +64,10 @@
                     <div *ngIf="editForm.get('totalDays')!.invalid && (editForm.get('totalDays')!.dirty || editForm.get('totalDays')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('totalDays')?.errors?.required">
-                        This field is required.
+                            This field is required.
                         </small>
                         <small class="form-text text-danger"
-                            [hidden]="!editForm.get('totalDays')?.errors?.number">
+                               [hidden]="!editForm.get('totalDays')?.errors?.number">
                             This field should be a number.
                         </small>
                     </div>
@@ -80,19 +80,19 @@
                     <div *ngIf="editForm.get('reason')!.invalid && (editForm.get('reason')!.dirty || editForm.get('reason')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('reason')?.errors?.required">
-                        This field is required.
+                            This field is required.
                         </small>
                     </div>
                 </div>
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
+                <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
 
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-                </button>
-            </div>
+                    <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
         </form>
     </div>
 </div>

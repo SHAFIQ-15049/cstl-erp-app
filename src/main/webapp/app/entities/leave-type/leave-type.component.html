@@ -25,6 +25,7 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="name"><span>Name</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalDays"><span>Total Days</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="maxValidity"><span>Max Validity</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -33,6 +34,7 @@
                     <td><a [routerLink]="['/leave-type', leaveType.id, 'view']">{{ leaveType.id }}</a></td>
                     <td>{{ leaveType.name }}</td>
                     <td>{{ leaveType.totalDays }}</td>
+                    <td>{{ leaveType.maxValidity }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

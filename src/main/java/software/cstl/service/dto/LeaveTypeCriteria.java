@@ -1,15 +1,13 @@
 package software.cstl.service.dto;
 
-import java.io.Serializable;
-import java.util.Objects;
 import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+
+import java.io.Serializable;
+import java.util.Objects;
 
 /**
  * Criteria class for the {@link software.cstl.domain.LeaveType} entity. This class is used
@@ -30,6 +28,8 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
 
     private IntegerFilter totalDays;
 
+    private IntegerFilter maxValidity;
+
     public LeaveTypeCriteria() {
     }
 
@@ -37,6 +37,7 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
         this.totalDays = other.totalDays == null ? null : other.totalDays.copy();
+        this.maxValidity = other.maxValidity == null ? null : other.maxValidity.copy();
     }
 
     @Override
@@ -68,6 +69,14 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         this.totalDays = totalDays;
     }
 
+    public IntegerFilter getMaxValidity() {
+        return maxValidity;
+    }
+
+    public void setMaxValidity(IntegerFilter maxValidity) {
+        this.maxValidity = maxValidity;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -81,7 +90,8 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
-            Objects.equals(totalDays, that.totalDays);
+            Objects.equals(totalDays, that.totalDays) &&
+            Objects.equals(maxValidity, that.maxValidity);
     }
 
     @Override
@@ -89,7 +99,8 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         name,
-        totalDays
+        totalDays,
+        maxValidity
         );
     }
 
@@ -100,6 +111,7 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (totalDays != null ? "totalDays=" + totalDays + ", " : "") +
+                (maxValidity != null ? "maxValidity=" + maxValidity + ", " : "") +
             "}";
     }
 

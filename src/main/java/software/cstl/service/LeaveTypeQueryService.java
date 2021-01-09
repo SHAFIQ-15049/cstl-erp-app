@@ -1,9 +1,6 @@
 package software.cstl.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
 import software.cstl.domain.LeaveType;
-import software.cstl.domain.*; // for static metamodels
+import software.cstl.domain.LeaveType_;
 import software.cstl.repository.LeaveTypeRepository;
 import software.cstl.service.dto.LeaveTypeCriteria;
+
+import java.util.List;
 
 /**
  * Service for executing complex queries for {@link LeaveType} entities in the database.
@@ -90,6 +86,9 @@ public class LeaveTypeQueryService extends QueryService<LeaveType> {
             }
             if (criteria.getTotalDays() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalDays(), LeaveType_.totalDays));
+            }
+            if (criteria.getMaxValidity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMaxValidity(), LeaveType_.maxValidity));
             }
         }
         return specification;

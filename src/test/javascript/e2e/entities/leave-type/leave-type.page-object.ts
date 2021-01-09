@@ -1,4 +1,4 @@
-import { element, by, ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 
 export class LeaveTypeComponentsPage {
   createButton = element(by.id('jh-create-entity'));
@@ -31,6 +31,7 @@ export class LeaveTypeUpdatePage {
 
   nameInput = element(by.id('field_name'));
   totalDaysInput = element(by.id('field_totalDays'));
+  maxValidityInput = element(by.id('field_maxValidity'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -50,6 +51,14 @@ export class LeaveTypeUpdatePage {
 
   async getTotalDaysInput(): Promise<string> {
     return await this.totalDaysInput.getAttribute('value');
+  }
+
+  async setMaxValidityInput(maxValidity: string): Promise<void> {
+    await this.maxValidityInput.sendKeys(maxValidity);
+  }
+
+  async getMaxValidityInput(): Promise<string> {
+    return await this.maxValidityInput.getAttribute('value');
   }
 
   async save(): Promise<void> {

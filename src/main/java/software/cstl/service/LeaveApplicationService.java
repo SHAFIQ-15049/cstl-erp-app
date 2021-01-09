@@ -1,15 +1,14 @@
 package software.cstl.service;
 
-import software.cstl.domain.LeaveApplication;
-import software.cstl.domain.LeaveType;
-import software.cstl.repository.LeaveApplicationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.LeaveType;
+import software.cstl.repository.LeaveApplicationRepository;
 import software.cstl.repository.LeaveTypeRepository;
 
 import java.util.List;
@@ -83,14 +82,10 @@ public class LeaveApplicationService {
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
         List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByAppliedByIsCurrentUser();
         int totalDays = 0;
-        for(int i = 0; i < leaveApplications.size(); i++) {
-            totalDays += leaveApplications.get(i).getTotalDays();
+        for (LeaveApplication application : leaveApplications) {
+            totalDays += application.getTotalDays();
         }
         totalDays = totalDays + leaveApplication.getTotalDays();
-
-        if(totalDays > leaveType.getTotalDays()) {
-            return false;
-        }
-        return true;
+        return totalDays <= leaveType.getTotalDays();
     }
 }

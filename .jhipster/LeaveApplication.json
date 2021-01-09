@@ -47,7 +47,7 @@
     {
       "fieldName": "status",
       "fieldType": "LeaveApplicationStatus",
-      "fieldValues": "APPLIED,ACCEPTED,REJECTED",
+      "fieldValues": "APPLIED,ACCEPTED_BY_FIRST_AUTHORITY,REJECTED_BY_FIRST_AUTHORITY,ACCEPTED,REJECTED",
       "fieldValidateRules": ["required"]
     },
     {
