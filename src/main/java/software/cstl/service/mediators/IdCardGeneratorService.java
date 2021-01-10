@@ -21,8 +21,8 @@ import java.time.format.DateTimeFormatter;
 @Transactional(readOnly = true)
 public class IdCardGeneratorService {
 
-    Font headFontBold = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 11);
-    Font headFont = FontFactory.getFont(FontFactory.HELVETICA, 11);
+    Font headFontBold = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 3);
+    Font headFont = FontFactory.getFont(FontFactory.HELVETICA, 3);
 
     private final EmployeeExtService employeeExtService;
 
@@ -49,11 +49,12 @@ public class IdCardGeneratorService {
         PdfPTable front = new PdfPTable(1);
         front.setSplitLate(false);
         front.setSplitRows(false);
-        front.setWidthPercentage(100);
+        front.setWidthPercentage(28f);
+
 
         PdfPCell cell = new PdfPCell();
-        cell.setPaddingTop(-3f);
-        cell.setPaddingBottom(10f);
+        cell.setPaddingTop(-1f);
+        cell.setPaddingBottom(3f);
         Paragraph paragraph = new Paragraph("Good Day Apparels Ltd.", headFontBold);
         paragraph.setAlignment(Element.ALIGN_CENTER);
         cell.addElement(paragraph);
@@ -62,8 +63,8 @@ public class IdCardGeneratorService {
         front.addCell(cell);
 
         cell = new PdfPCell();
-        cell.setPaddingTop(-3f);
-        cell.setPaddingBottom(10f);
+        cell.setPaddingTop(-1f);
+        cell.setPaddingBottom(3f);
 
         paragraph = new Paragraph("H 79, Block D, Chairmanbari,", headFontBold);
         paragraph.setAlignment(Element.ALIGN_CENTER);
@@ -77,7 +78,7 @@ public class IdCardGeneratorService {
 
         Image image = Image.getInstance(employee.getPersonalInfo().getPhoto());
 
-        image.scalePercent(40f, 40f);
+        image.scaleAbsolute(25f, 25f);
         PdfPCell imageCell = new PdfPCell(image);
         imageCell.setBorder(Rectangle.NO_BORDER);
         imageCell.setBorder(Rectangle.LEFT | Rectangle.RIGHT);
@@ -87,49 +88,60 @@ public class IdCardGeneratorService {
         front.addCell(imageCell);
 
         cell = new PdfPCell();
-        cell.setPaddingTop(-3f);
-        cell.setPaddingBottom(10f);
+        cell.setPaddingTop(-.4f);
+
 
         float[] columnSize = {25f, 75f};
         PdfPTable infoTable = new PdfPTable(columnSize);
         infoTable.setWidthPercentage(100);
         PdfPCell infoCell = new PdfPCell(new Paragraph("Name", headFont));
+
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
+
         infoCell = new PdfPCell(new Paragraph(": "+ employee.getName().toUpperCase(), headFont));
+
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph("Code", headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph(": "+ employee.getLocalId(), headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph("Desig", headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph(": "+ employee.getDesignation().getName().toUpperCase(), headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph("Dept", headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph(": "+ employee.getDepartment().getName().toUpperCase(), headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph("Gend", headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph(": "+ employee.getPersonalInfo().getGender(), headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
@@ -152,14 +164,14 @@ public class IdCardGeneratorService {
         PdfPTable footerTable = new PdfPTable(2);
         footerTable.setWidthPercentage(95);
         PdfPCell footerTableCell = new PdfPCell(new Paragraph("Holder's Sign", headFont));
-        footerTableCell.setPaddingTop(20f);
-        footerTableCell.setPaddingBottom(10f);
+        footerTableCell.setPaddingTop(5f);
+        footerTableCell.setPaddingBottom(3f);
         footerTableCell.setBorder(Rectangle.NO_BORDER);
         footerTable.addCell(footerTableCell);
 
         footerTableCell = new PdfPCell(new Paragraph("Auth. Signature", headFont));
-        footerTableCell.setPaddingTop(20f);
-        footerTableCell.setPaddingBottom(10f);
+        footerTableCell.setPaddingTop(5f);
+        footerTableCell.setPaddingBottom(3f);
 
         footerTableCell.setBorder(Rectangle.NO_BORDER);
         footerTableCell.setHorizontalAlignment(Element.ALIGN_RIGHT);
@@ -177,21 +189,24 @@ public class IdCardGeneratorService {
         //document.add(emptyParagraph);
         document.add(new Paragraph(0, "\u00a0"));
         document.add(front);
-        document.add(new Paragraph(-40, "\u00a0"));
+        document.add(new Paragraph(-20, "\u00a0"));
 
         document.newPage();
-        document.add(new Paragraph(" "));
+        //document.add(new Paragraph(" "));
         document.add(new Paragraph(" "));
 
-        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 15);
+        Font headerFont = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 3.6f);
         paragraph = new Paragraph("GOOD DAY APPARELS LTD.", headerFont);
         paragraph.setAlignment(Element.ALIGN_CENTER);
-        paragraph.setPaddingTop(40f);
+        paragraph.setPaddingTop(10f);
         document.add(paragraph);
+        document.add(Chunk.NEWLINE);
 
-        Font timesFont = FontFactory.getFont(FontFactory.TIMES_BOLD, 15);
+        Font timesFont = FontFactory.getFont(FontFactory.TIMES_BOLD, 3.2f);
         paragraph = new Paragraph("House # 79, Block-D", timesFont);
+        paragraph.setPaddingTop(1f);
         paragraph.setAlignment(Element.ALIGN_CENTER);
+
         document.add(paragraph);
 
         paragraph = new Paragraph("International Airport Road", timesFont);
@@ -213,16 +228,18 @@ public class IdCardGeneratorService {
         document.add(paragraph);
 
         PdfPTable backFooter = new PdfPTable(1);
-        backFooter.setSpacingBefore(30f);
-        backFooter.setWidthPercentage(95);
-        cell = new PdfPCell(new Paragraph("IF FOUND, PLEASE RETURN", FontFactory.getFont(FontFactory.HELVETICA_BOLD,14)));
+        backFooter.setSpacingBefore(4f);
+        backFooter.setWidthPercentage(22);
+        cell = new PdfPCell(new Paragraph("IF FOUND, PLEASE RETURN", FontFactory.getFont(FontFactory.HELVETICA_BOLD,2.8f)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorder(Rectangle.TOP);
-        cell.setBorderWidth(3f);
+        cell.setBorderWidth(.4f);
+        cell.setPaddingBottom(-1f);
+
 
         backFooter.addCell(cell);
 
-        cell = new PdfPCell(new Paragraph("THIS CARD ABOVE ADDRESS", FontFactory.getFont(FontFactory.HELVETICA_BOLD,14)));
+        cell = new PdfPCell(new Paragraph("THIS CARD ABOVE ADDRESS", FontFactory.getFont(FontFactory.HELVETICA_BOLD,2.8f)));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setBorder(Rectangle.NO_BORDER);
 
