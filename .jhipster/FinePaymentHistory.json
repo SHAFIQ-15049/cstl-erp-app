@@ -2,6 +2,10 @@
   "name": "FinePaymentHistory",
   "fields": [
     {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
       "fieldName": "monthType",
       "fieldType": "MonthType",
       "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"

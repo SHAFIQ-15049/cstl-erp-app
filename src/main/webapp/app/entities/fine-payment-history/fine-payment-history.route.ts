@@ -11,7 +11,7 @@ import { FinePaymentHistoryService } from './fine-payment-history.service';
 import { FinePaymentHistoryComponent } from './fine-payment-history.component';
 import { FinePaymentHistoryDetailComponent } from './fine-payment-history-detail.component';
 import { FinePaymentHistoryUpdateComponent } from './fine-payment-history-update.component';
-import {FineService} from "app/entities/fine/fine.service";
+import { FineService } from 'app/entities/fine/fine.service';
 
 @Injectable({ providedIn: 'root' })
 export class FinePaymentHistoryResolve implements Resolve<IFinePaymentHistory> {

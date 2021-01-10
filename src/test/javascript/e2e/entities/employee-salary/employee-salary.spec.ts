@@ -61,6 +61,15 @@ describe('EmployeeSalary e2e test', () => {
       employeeSalaryUpdatePage.setConvinceAllowancePercentInput('5'),
       employeeSalaryUpdatePage.setFoodAllowanceInput('5'),
       employeeSalaryUpdatePage.setFoodAllowancePercentInput('5'),
+      employeeSalaryUpdatePage.specialAllowanceActiveStatusSelectLastOption(),
+      employeeSalaryUpdatePage.setSpecialAllowanceInput('5'),
+      employeeSalaryUpdatePage.setSpecialAllowancePercentInput('5'),
+      employeeSalaryUpdatePage.setSpecialAllowanceDescriptionInput('specialAllowanceDescription'),
+      employeeSalaryUpdatePage.insuranceActiveStatusSelectLastOption(),
+      employeeSalaryUpdatePage.setInsuranceAmountInput('5'),
+      employeeSalaryUpdatePage.setInsurancePercentInput('5'),
+      employeeSalaryUpdatePage.setInsuranceDescriptionInput('insuranceDescription'),
+      employeeSalaryUpdatePage.insuranceProcessTypeSelectLastOption(),
       employeeSalaryUpdatePage.statusSelectLastOption(),
       employeeSalaryUpdatePage.employeeSelectLastOption(),
     ]);
@@ -99,6 +108,21 @@ describe('EmployeeSalary e2e test', () => {
     expect(await employeeSalaryUpdatePage.getFoodAllowancePercentInput()).to.eq(
       '5',
       'Expected foodAllowancePercent value to be equals to 5'
+    );
+    expect(await employeeSalaryUpdatePage.getSpecialAllowanceInput()).to.eq('5', 'Expected specialAllowance value to be equals to 5');
+    expect(await employeeSalaryUpdatePage.getSpecialAllowancePercentInput()).to.eq(
+      '5',
+      'Expected specialAllowancePercent value to be equals to 5'
+    );
+    expect(await employeeSalaryUpdatePage.getSpecialAllowanceDescriptionInput()).to.eq(
+      'specialAllowanceDescription',
+      'Expected SpecialAllowanceDescription value to be equals to specialAllowanceDescription'
+    );
+    expect(await employeeSalaryUpdatePage.getInsuranceAmountInput()).to.eq('5', 'Expected insuranceAmount value to be equals to 5');
+    expect(await employeeSalaryUpdatePage.getInsurancePercentInput()).to.eq('5', 'Expected insurancePercent value to be equals to 5');
+    expect(await employeeSalaryUpdatePage.getInsuranceDescriptionInput()).to.eq(
+      'insuranceDescription',
+      'Expected InsuranceDescription value to be equals to insuranceDescription'
     );
 
     await employeeSalaryUpdatePage.save();

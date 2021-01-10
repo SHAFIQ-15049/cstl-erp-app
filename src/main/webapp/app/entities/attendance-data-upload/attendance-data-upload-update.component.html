@@ -1,0 +1,51 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-attendance-data-upload-heading">Create or edit a Attendance Data Upload</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fileUpload">File Upload</label>
+                    <div>
+                        <div *ngIf="editForm.get('fileUpload')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('fileUploadContentType')!.value, editForm.get('fileUpload')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('fileUploadContentType')!.value }}, {{ byteSize(editForm.get('fileUpload')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({fileUpload: null});editForm.patchValue({fileUploadContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_fileUpload" (change)="setFileData($event, 'fileUpload', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="fileUpload" id="field_fileUpload"
+                           formControlName="fileUpload"/>
+                    <input type="hidden" class="form-control" name="fileUploadContentType" id="field_fileUploadContentType"
+                           formControlName="fileUploadContentType" />
+                    <div *ngIf="editForm.get('fileUpload')!.invalid && (editForm.get('fileUpload')!.dirty || editForm.get('fileUpload')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fileUpload')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,14 +1,13 @@
 package software.cstl.service;
 
-import software.cstl.domain.Employee;
-import software.cstl.repository.EmployeeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.Employee;
+import software.cstl.repository.EmployeeRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -59,7 +58,7 @@ public class EmployeeService {
      *  Get all the employees where Address is {@code null}.
      *  @return the list of entities.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Employee> findAllWhereAddressIsNull() {
         log.debug("Request to get all employees where Address is null");
         return StreamSupport
@@ -73,7 +72,7 @@ public class EmployeeService {
      *  Get all the employees where PersonalInfo is {@code null}.
      *  @return the list of entities.
      */
-    @Transactional(readOnly = true) 
+    @Transactional(readOnly = true)
     public List<Employee> findAllWherePersonalInfoIsNull() {
         log.debug("Request to get all employees where PersonalInfo is null");
         return StreamSupport
@@ -102,5 +101,9 @@ public class EmployeeService {
     public void delete(Long id) {
         log.debug("Request to delete Employee : {}", id);
         employeeRepository.deleteById(id);
+    }
+
+    public List<Employee> getAll() {
+        return employeeRepository.findAll();
     }
 }

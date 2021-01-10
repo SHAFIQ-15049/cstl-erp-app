@@ -58,6 +58,7 @@ entity Employee (mst_employee){
     name String required,
     empId String required,
     globalId String required,
+    attendanceMachineId String,
     // company
     localId String required,
     //department
@@ -169,11 +170,15 @@ entity Fine (fine){
   reason TextBlob,
   amount BigDecimal required,
   finePercentage BigDecimal required,
+  monthlyFineAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity FinePaymentHistory (fine_payment_history){
   //fine
+  year Integer,
   monthType MonthType,
   amount BigDecimal,
   beforeFine BigDecimal,
@@ -186,11 +191,15 @@ entity Advance (advance){
   reason TextBlob,
   amount BigDecimal required,
   paymentPercentage BigDecimal required,
+  monthlyPaymentAmount BigDecimal required,
   paymentStatus PaymentStatus,
+  amountPaid BigDecimal,
+  amountLeft BigDecimal
 }
 
 entity AdvancePaymentHistory (advance_payment_history){
   //fine
+  year Integer,
   monthType MonthType,
   amount BigDecimal,
   before BigDecimal,
@@ -238,8 +247,19 @@ entity EmployeeSalary (employee_salary){
   convinceAllowancePercent BigDecimal,
   foodAllowance BigDecimal,
   foodAllowancePercent BigDecimal,
+  specialAllowanceActiveStatus ActiveStatus,
+  specialAllowance BigDecimal,
+  specialAllowancePercent BigDecimal,
+  specialAllowanceDescription TextBlob,
+  insuranceActiveStatus ActiveStatus,
+  insuranceAmount BigDecimal,
+  insurancePercent BigDecimal,
+  insuranceDescription TextBlob,
+  insuranceProcessType InsuranceProcessType,
   status ActiveStatus
 }
+
+
 
 entity MonthlySalary (monthly_salary){
   //designation
@@ -247,7 +267,7 @@ entity MonthlySalary (monthly_salary){
   month MonthType,
   status SalaryExecutionStatus,
   executedOn Instant,
-  executedBy Instant
+  executedBy String
 }
 
 entity MonthlySalaryDtl (monthly_salary_dtl){
@@ -289,6 +309,11 @@ entity FestivalAllowancePaymentDtl{
     executedOn Instant,
     executedBy Instant,
     note TextBlob
+}
+
+enum InsuranceProcessType{
+  PROCESS_WITH_SALARY,
+  PROCESS_SEPARATELY
 }
 
 enum SalaryExecutionStatus{
@@ -417,13 +442,7 @@ relationship ManyToOne{
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade,
-    Fine{employee(name)} to Employee,
-    FinePaymentHistory{fine} to Fine,
-    Advance{employee(name)} to Employee,
-    AdvancePaymentHistory{advance} to Advance,
-    EmployeeSalary{employee(name)} to Employee,
     MonthlySalary {designation(name)} to Designation,
-    MonthlySalaryDtl {monthlySalary} to MonthlySalary,
     MonthlySalaryDtl {employee(name)} to Employee,
     FestivalAllowancePayment{designation(name)} to Designation,
     FestivalAllowancePaymentDtl{festivalAllowancePayment} to FestivalAllowancePayment,
@@ -431,6 +450,12 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
+    Employee{fine} to Fine{employee(name)},
+    Employee{advance} to Advance{employee(name)},
+    Employee{employeeSalary} to EmployeeSalary{employee(name)},
+    Fine{finePaymentHistory}  to FinePaymentHistory{fine},
+    Advance{advancePaymentHistory} to AdvancePaymentHistory{advance},
+    MonthlySalary{monthlySalaryDtl} to MonthlySalaryDtl{monthlySalary},
     Employee{educationalInfo} to EducationalInfo{employee(name)},
     Employee{training} to Training{employee(name)},
     Employee{employeeAccount} to EmployeeAccount{employee(name)},

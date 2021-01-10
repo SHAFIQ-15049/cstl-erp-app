@@ -10,7 +10,7 @@ import { IDefaultAllowance } from 'app/shared/model/default-allowance.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { DefaultAllowanceService } from './default-allowance.service';
 import { DefaultAllowanceDeleteDialogComponent } from './default-allowance-delete-dialog.component';
-import {EmployeeExtService} from "app/app-components/employee-ext/employee-ext.service";
+import { EmployeeExtService } from 'app/app-components/employee-ext/employee-ext.service';
 
 @Component({
   selector: 'jhi-default-allowance',

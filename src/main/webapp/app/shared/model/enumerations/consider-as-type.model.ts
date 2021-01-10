@@ -1,0 +1,5 @@
+export const enum ConsiderAsType {
+  REGULAR = 'REGULAR',
+
+  WEEKENDWITHOVERTIME = 'WEEKENDWITHOVERTIME',
+}

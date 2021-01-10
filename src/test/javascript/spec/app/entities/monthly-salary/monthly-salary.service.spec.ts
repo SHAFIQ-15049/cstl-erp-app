@@ -26,7 +26,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, SalaryExecutionStatus.DONE, currentDate, currentDate);
+      elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, SalaryExecutionStatus.DONE, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -34,7 +34,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -51,7 +50,6 @@ describe('Service Tests', () => {
           {
             id: 0,
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -59,7 +57,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -78,7 +75,7 @@ describe('Service Tests', () => {
             month: 'BBBBBB',
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
           },
           elemDefault
         );
@@ -86,7 +83,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -105,7 +101,7 @@ describe('Service Tests', () => {
             month: 'BBBBBB',
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
           },
           elemDefault
         );
@@ -113,7 +109,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );

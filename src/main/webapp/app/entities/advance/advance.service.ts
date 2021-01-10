@@ -8,7 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAdvance } from 'app/shared/model/advance.model';
-import {SessionStorageService} from "ngx-webstorage";
+import { SessionStorageService } from 'ngx-webstorage';
 
 type EntityResponseType = HttpResponse<IAdvance>;
 type EntityArrayResponseType = HttpResponse<IAdvance[]>;
@@ -21,11 +21,11 @@ export class AdvanceService {
 
   constructor(protected http: HttpClient, private $sessionStorage: SessionStorageService) {}
 
-  storeAdvanceId(advanceId: number): void{
+  storeAdvanceId(advanceId: number): void {
     this.$sessionStorage.store(this.advanceId, advanceId);
   }
 
-  getAdvanceId(): number | null | undefined{
+  getAdvanceId(): number | null | undefined {
     return this.$sessionStorage.retrieve(this.advanceId);
   }
 

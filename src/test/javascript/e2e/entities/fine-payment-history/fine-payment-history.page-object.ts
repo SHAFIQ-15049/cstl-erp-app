@@ -29,6 +29,7 @@ export class FinePaymentHistoryUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
+  yearInput = element(by.id('field_year'));
   monthTypeSelect = element(by.id('field_monthType'));
   amountInput = element(by.id('field_amount'));
   beforeFineInput = element(by.id('field_beforeFine'));
@@ -38,6 +39,14 @@ export class FinePaymentHistoryUpdatePage {
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
+  }
+
+  async setYearInput(year: string): Promise<void> {
+    await this.yearInput.sendKeys(year);
+  }
+
+  async getYearInput(): Promise<string> {
+    return await this.yearInput.getAttribute('value');
   }
 
   async setMonthTypeSelect(monthType: string): Promise<void> {

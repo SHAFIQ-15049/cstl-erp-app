@@ -39,7 +39,7 @@
                     <td>{{ monthlySalary.month }}</td>
                     <td>{{ monthlySalary.status }}</td>
                     <td>{{ monthlySalary.executedOn | date:'medium' }}</td>
-                    <td>{{ monthlySalary.executedBy | date:'medium' }}</td>
+                    <td>{{ monthlySalary.executedBy }}</td>
                     <td>
                         <div *ngIf="monthlySalary.designation">
                             <a [routerLink]="['/designation', monthlySalary.designation?.id, 'view']" >{{ monthlySalary.designation?.name }}</a>

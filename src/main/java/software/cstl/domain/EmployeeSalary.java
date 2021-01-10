@@ -12,6 +12,8 @@ import java.time.LocalDate;
 
 import software.cstl.domain.enumeration.ActiveStatus;
 
+import software.cstl.domain.enumeration.InsuranceProcessType;
+
 /**
  * A EmployeeSalary.
  */
@@ -76,6 +78,38 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
 
     @Column(name = "food_allowance_percent", precision = 21, scale = 2)
     private BigDecimal foodAllowancePercent;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "special_allowance_active_status")
+    private ActiveStatus specialAllowanceActiveStatus;
+
+    @Column(name = "special_allowance", precision = 21, scale = 2)
+    private BigDecimal specialAllowance;
+
+    @Column(name = "special_allowance_percent", precision = 21, scale = 2)
+    private BigDecimal specialAllowancePercent;
+
+    @Lob
+    @Column(name = "special_allowance_description")
+    private String specialAllowanceDescription;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "insurance_active_status")
+    private ActiveStatus insuranceActiveStatus;
+
+    @Column(name = "insurance_amount", precision = 21, scale = 2)
+    private BigDecimal insuranceAmount;
+
+    @Column(name = "insurance_percent", precision = 21, scale = 2)
+    private BigDecimal insurancePercent;
+
+    @Lob
+    @Column(name = "insurance_description")
+    private String insuranceDescription;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "insurance_process_type")
+    private InsuranceProcessType insuranceProcessType;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -315,6 +349,123 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
         this.foodAllowancePercent = foodAllowancePercent;
     }
 
+    public ActiveStatus getSpecialAllowanceActiveStatus() {
+        return specialAllowanceActiveStatus;
+    }
+
+    public EmployeeSalary specialAllowanceActiveStatus(ActiveStatus specialAllowanceActiveStatus) {
+        this.specialAllowanceActiveStatus = specialAllowanceActiveStatus;
+        return this;
+    }
+
+    public void setSpecialAllowanceActiveStatus(ActiveStatus specialAllowanceActiveStatus) {
+        this.specialAllowanceActiveStatus = specialAllowanceActiveStatus;
+    }
+
+    public BigDecimal getSpecialAllowance() {
+        return specialAllowance;
+    }
+
+    public EmployeeSalary specialAllowance(BigDecimal specialAllowance) {
+        this.specialAllowance = specialAllowance;
+        return this;
+    }
+
+    public void setSpecialAllowance(BigDecimal specialAllowance) {
+        this.specialAllowance = specialAllowance;
+    }
+
+    public BigDecimal getSpecialAllowancePercent() {
+        return specialAllowancePercent;
+    }
+
+    public EmployeeSalary specialAllowancePercent(BigDecimal specialAllowancePercent) {
+        this.specialAllowancePercent = specialAllowancePercent;
+        return this;
+    }
+
+    public void setSpecialAllowancePercent(BigDecimal specialAllowancePercent) {
+        this.specialAllowancePercent = specialAllowancePercent;
+    }
+
+    public String getSpecialAllowanceDescription() {
+        return specialAllowanceDescription;
+    }
+
+    public EmployeeSalary specialAllowanceDescription(String specialAllowanceDescription) {
+        this.specialAllowanceDescription = specialAllowanceDescription;
+        return this;
+    }
+
+    public void setSpecialAllowanceDescription(String specialAllowanceDescription) {
+        this.specialAllowanceDescription = specialAllowanceDescription;
+    }
+
+    public ActiveStatus getInsuranceActiveStatus() {
+        return insuranceActiveStatus;
+    }
+
+    public EmployeeSalary insuranceActiveStatus(ActiveStatus insuranceActiveStatus) {
+        this.insuranceActiveStatus = insuranceActiveStatus;
+        return this;
+    }
+
+    public void setInsuranceActiveStatus(ActiveStatus insuranceActiveStatus) {
+        this.insuranceActiveStatus = insuranceActiveStatus;
+    }
+
+    public BigDecimal getInsuranceAmount() {
+        return insuranceAmount;
+    }
+
+    public EmployeeSalary insuranceAmount(BigDecimal insuranceAmount) {
+        this.insuranceAmount = insuranceAmount;
+        return this;
+    }
+
+    public void setInsuranceAmount(BigDecimal insuranceAmount) {
+        this.insuranceAmount = insuranceAmount;
+    }
+
+    public BigDecimal getInsurancePercent() {
+        return insurancePercent;
+    }
+
+    public EmployeeSalary insurancePercent(BigDecimal insurancePercent) {
+        this.insurancePercent = insurancePercent;
+        return this;
+    }
+
+    public void setInsurancePercent(BigDecimal insurancePercent) {
+        this.insurancePercent = insurancePercent;
+    }
+
+    public String getInsuranceDescription() {
+        return insuranceDescription;
+    }
+
+    public EmployeeSalary insuranceDescription(String insuranceDescription) {
+        this.insuranceDescription = insuranceDescription;
+        return this;
+    }
+
+    public void setInsuranceDescription(String insuranceDescription) {
+        this.insuranceDescription = insuranceDescription;
+    }
+
+    public InsuranceProcessType getInsuranceProcessType() {
+        return insuranceProcessType;
+    }
+
+    public EmployeeSalary insuranceProcessType(InsuranceProcessType insuranceProcessType) {
+        this.insuranceProcessType = insuranceProcessType;
+        return this;
+    }
+
+    public void setInsuranceProcessType(InsuranceProcessType insuranceProcessType) {
+        this.insuranceProcessType = insuranceProcessType;
+    }
+
     public ActiveStatus getStatus() {
         return status;
     }
@@ -380,6 +531,15 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
             ", convinceAllowancePercent=" + getConvinceAllowancePercent() +
             ", foodAllowance=" + getFoodAllowance() +
             ", foodAllowancePercent=" + getFoodAllowancePercent() +
+            ", specialAllowanceActiveStatus='" + getSpecialAllowanceActiveStatus() + "'" +
+            ", specialAllowance=" + getSpecialAllowance() +
+            ", specialAllowancePercent=" + getSpecialAllowancePercent() +
+            ", specialAllowanceDescription='" + getSpecialAllowanceDescription() + "'" +
+            ", insuranceActiveStatus='" + getInsuranceActiveStatus() + "'" +
+            ", insuranceAmount=" + getInsuranceAmount() +
+            ", insurancePercent=" + getInsurancePercent() +
+            ", insuranceDescription='" + getInsuranceDescription() + "'" +
+            ", insuranceProcessType='" + getInsuranceProcessType() + "'" +
             ", status='" + getStatus() + "'" +
             "}";
     }

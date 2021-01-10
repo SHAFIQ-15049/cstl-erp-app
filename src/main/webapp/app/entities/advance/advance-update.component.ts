@@ -27,7 +27,10 @@ export class AdvanceUpdateComponent implements OnInit {
     reason: [],
     amount: [null, [Validators.required]],
     paymentPercentage: [null, [Validators.required]],
+    monthlyPaymentAmount: [null, [Validators.required]],
     paymentStatus: [],
+    amountPaid: [],
+    amountLeft: [],
     employee: [],
   });
 
@@ -55,7 +58,10 @@ export class AdvanceUpdateComponent implements OnInit {
       reason: advance.reason,
       amount: advance.amount,
       paymentPercentage: advance.paymentPercentage,
+      monthlyPaymentAmount: advance.monthlyPaymentAmount,
       paymentStatus: advance.paymentStatus,
+      amountPaid: advance.amountPaid,
+      amountLeft: advance.amountLeft,
       employee: advance.employee,
     });
   }
@@ -98,7 +104,10 @@ export class AdvanceUpdateComponent implements OnInit {
       reason: this.editForm.get(['reason'])!.value,
       amount: this.editForm.get(['amount'])!.value,
       paymentPercentage: this.editForm.get(['paymentPercentage'])!.value,
+      monthlyPaymentAmount: this.editForm.get(['monthlyPaymentAmount'])!.value,
       paymentStatus: this.editForm.get(['paymentStatus'])!.value,
+      amountPaid: this.editForm.get(['amountPaid'])!.value,
+      amountLeft: this.editForm.get(['amountLeft'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };
   }

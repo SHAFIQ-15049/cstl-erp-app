@@ -76,7 +76,10 @@ class FineGatlingTest extends Simulation {
                 , "reason":null
                 , "amount":"0"
                 , "finePercentage":"0"
+                , "monthlyFineAmount":"0"
                 , "paymentStatus":"NOT_PAID"
+                , "amountPaid":"0"
+                , "amountLeft":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_fine_url"))).exitHereIfFailed

@@ -47,8 +47,8 @@ export class MonthlySalaryDtlUpdatePage {
   executedByInput = element(by.id('field_executedBy'));
   noteInput = element(by.id('field_note'));
 
-  monthlySalarySelect = element(by.id('field_monthlySalary'));
   employeeSelect = element(by.id('field_employee'));
+  monthlySalarySelect = element(by.id('field_monthlySalary'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -194,22 +194,6 @@ export class MonthlySalaryDtlUpdatePage {
     return await this.noteInput.getAttribute('value');
   }
 
-  async monthlySalarySelectLastOption(): Promise<void> {
-    await this.monthlySalarySelect.all(by.tagName('option')).last().click();
-  }
-
-  async monthlySalarySelectOption(option: string): Promise<void> {
-    await this.monthlySalarySelect.sendKeys(option);
-  }
-
-  getMonthlySalarySelect(): ElementFinder {
-    return this.monthlySalarySelect;
-  }
-
-  async getMonthlySalarySelectedOption(): Promise<string> {
-    return await this.monthlySalarySelect.element(by.css('option:checked')).getText();
-  }
-
   async employeeSelectLastOption(): Promise<void> {
     await this.employeeSelect.all(by.tagName('option')).last().click();
   }
@@ -224,6 +208,22 @@ export class MonthlySalaryDtlUpdatePage {
 
   async getEmployeeSelectedOption(): Promise<string> {
     return await this.employeeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async monthlySalarySelectLastOption(): Promise<void> {
+    await this.monthlySalarySelect.all(by.tagName('option')).last().click();
+  }
+
+  async monthlySalarySelectOption(option: string): Promise<void> {
+    await this.monthlySalarySelect.sendKeys(option);
+  }
+
+  getMonthlySalarySelect(): ElementFinder {
+    return this.monthlySalarySelect;
+  }
+
+  async getMonthlySalarySelectedOption(): Promise<string> {
+    return await this.monthlySalarySelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

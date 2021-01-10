@@ -45,7 +45,10 @@ describe('Fine e2e test', () => {
       fineUpdatePage.setReasonInput('reason'),
       fineUpdatePage.setAmountInput('5'),
       fineUpdatePage.setFinePercentageInput('5'),
+      fineUpdatePage.setMonthlyFineAmountInput('5'),
       fineUpdatePage.paymentStatusSelectLastOption(),
+      fineUpdatePage.setAmountPaidInput('5'),
+      fineUpdatePage.setAmountLeftInput('5'),
       fineUpdatePage.employeeSelectLastOption(),
     ]);
 
@@ -53,6 +56,9 @@ describe('Fine e2e test', () => {
     expect(await fineUpdatePage.getReasonInput()).to.eq('reason', 'Expected Reason value to be equals to reason');
     expect(await fineUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');
     expect(await fineUpdatePage.getFinePercentageInput()).to.eq('5', 'Expected finePercentage value to be equals to 5');
+    expect(await fineUpdatePage.getMonthlyFineAmountInput()).to.eq('5', 'Expected monthlyFineAmount value to be equals to 5');
+    expect(await fineUpdatePage.getAmountPaidInput()).to.eq('5', 'Expected amountPaid value to be equals to 5');
+    expect(await fineUpdatePage.getAmountLeftInput()).to.eq('5', 'Expected amountLeft value to be equals to 5');
 
     await fineUpdatePage.save();
     expect(await fineUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

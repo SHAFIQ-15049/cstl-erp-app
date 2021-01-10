@@ -10,7 +10,7 @@ import { IAdvancePaymentHistory } from 'app/shared/model/advance-payment-history
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AdvancePaymentHistoryService } from './advance-payment-history.service';
 import { AdvancePaymentHistoryDeleteDialogComponent } from './advance-payment-history-delete-dialog.component';
-import {AdvanceService} from "app/entities/advance/advance.service";
+import { AdvanceService } from 'app/entities/advance/advance.service';
 
 @Component({
   selector: 'jhi-advance-payment-history',

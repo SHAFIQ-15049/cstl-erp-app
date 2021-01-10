@@ -5,6 +5,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { EmployeeSalaryService } from 'app/entities/employee-salary/employee-salary.service';
 import { IEmployeeSalary, EmployeeSalary } from 'app/shared/model/employee-salary.model';
 import { ActiveStatus } from 'app/shared/model/enumerations/active-status.model';
+import { InsuranceProcessType } from 'app/shared/model/enumerations/insurance-process-type.model';
 
 describe('Service Tests', () => {
   describe('EmployeeSalary Service', () => {
@@ -44,6 +45,15 @@ describe('Service Tests', () => {
         0,
         0,
         0,
+        ActiveStatus.ACTIVE,
+        0,
+        0,
+        'AAAAAAA',
+        ActiveStatus.ACTIVE,
+        0,
+        0,
+        'AAAAAAA',
+        InsuranceProcessType.PROCESS_WITH_SALARY,
         ActiveStatus.ACTIVE
       );
     });
@@ -113,6 +123,15 @@ describe('Service Tests', () => {
             convinceAllowancePercent: 1,
             foodAllowance: 1,
             foodAllowancePercent: 1,
+            specialAllowanceActiveStatus: 'BBBBBB',
+            specialAllowance: 1,
+            specialAllowancePercent: 1,
+            specialAllowanceDescription: 'BBBBBB',
+            insuranceActiveStatus: 'BBBBBB',
+            insuranceAmount: 1,
+            insurancePercent: 1,
+            insuranceDescription: 'BBBBBB',
+            insuranceProcessType: 'BBBBBB',
             status: 'BBBBBB',
           },
           elemDefault
@@ -154,6 +173,15 @@ describe('Service Tests', () => {
             convinceAllowancePercent: 1,
             foodAllowance: 1,
             foodAllowancePercent: 1,
+            specialAllowanceActiveStatus: 'BBBBBB',
+            specialAllowance: 1,
+            specialAllowancePercent: 1,
+            specialAllowanceDescription: 'BBBBBB',
+            insuranceActiveStatus: 'BBBBBB',
+            insuranceAmount: 1,
+            insurancePercent: 1,
+            insuranceDescription: 'BBBBBB',
+            insuranceProcessType: 'BBBBBB',
             status: 'BBBBBB',
           },
           elemDefault

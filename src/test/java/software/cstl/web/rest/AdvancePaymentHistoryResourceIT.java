@@ -35,6 +35,10 @@ import software.cstl.domain.enumeration.MonthType;
 @WithMockUser
 public class AdvancePaymentHistoryResourceIT {
 
+    private static final Integer DEFAULT_YEAR = 1;
+    private static final Integer UPDATED_YEAR = 2;
+    private static final Integer SMALLER_YEAR = 1 - 1;
+
     private static final MonthType DEFAULT_MONTH_TYPE = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH_TYPE = MonthType.FEBRUARY;
 
@@ -75,6 +79,7 @@ public class AdvancePaymentHistoryResourceIT {
      */
     public static AdvancePaymentHistory createEntity(EntityManager em) {
         AdvancePaymentHistory advancePaymentHistory = new AdvancePaymentHistory()
+            .year(DEFAULT_YEAR)
             .monthType(DEFAULT_MONTH_TYPE)
             .amount(DEFAULT_AMOUNT)
             .before(DEFAULT_BEFORE)
@@ -89,6 +94,7 @@ public class AdvancePaymentHistoryResourceIT {
      */
     public static AdvancePaymentHistory createUpdatedEntity(EntityManager em) {
         AdvancePaymentHistory advancePaymentHistory = new AdvancePaymentHistory()
+            .year(UPDATED_YEAR)
             .monthType(UPDATED_MONTH_TYPE)
             .amount(UPDATED_AMOUNT)
             .before(UPDATED_BEFORE)
@@ -115,6 +121,7 @@ public class AdvancePaymentHistoryResourceIT {
         List<AdvancePaymentHistory> advancePaymentHistoryList = advancePaymentHistoryRepository.findAll();
         assertThat(advancePaymentHistoryList).hasSize(databaseSizeBeforeCreate + 1);
         AdvancePaymentHistory testAdvancePaymentHistory = advancePaymentHistoryList.get(advancePaymentHistoryList.size() - 1);
+        assertThat(testAdvancePaymentHistory.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testAdvancePaymentHistory.getMonthType()).isEqualTo(DEFAULT_MONTH_TYPE);
         assertThat(testAdvancePaymentHistory.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testAdvancePaymentHistory.getBefore()).isEqualTo(DEFAULT_BEFORE);
@@ -152,6 +159,7 @@ public class AdvancePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advancePaymentHistory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].monthType").value(hasItem(DEFAULT_MONTH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].before").value(hasItem(DEFAULT_BEFORE.intValue())))
@@ -169,6 +177,7 @@ public class AdvancePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(advancePaymentHistory.getId().intValue()))
+            .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.monthType").value(DEFAULT_MONTH_TYPE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.before").value(DEFAULT_BEFORE.intValue()))
@@ -192,6 +201,111 @@ public class AdvancePaymentHistoryResourceIT {
 
         defaultAdvancePaymentHistoryShouldBeFound("id.lessThanOrEqual=" + id);
         defaultAdvancePaymentHistoryShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year equals to DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.equals=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year equals to UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.equals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year not equals to DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.notEquals=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year not equals to UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.notEquals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year in DEFAULT_YEAR or UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.in=" + DEFAULT_YEAR + "," + UPDATED_YEAR);
+
+        // Get all the advancePaymentHistoryList where year equals to UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.in=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year is not null
+        defaultAdvancePaymentHistoryShouldBeFound("year.specified=true");
+
+        // Get all the advancePaymentHistoryList where year is null
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year is greater than or equal to DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.greaterThanOrEqual=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year is greater than or equal to UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.greaterThanOrEqual=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year is less than or equal to DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.lessThanOrEqual=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year is less than or equal to SMALLER_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.lessThanOrEqual=" + SMALLER_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year is less than DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.lessThan=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year is less than UPDATED_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.lessThan=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAdvancePaymentHistoriesByYearIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        advancePaymentHistoryRepository.saveAndFlush(advancePaymentHistory);
+
+        // Get all the advancePaymentHistoryList where year is greater than DEFAULT_YEAR
+        defaultAdvancePaymentHistoryShouldNotBeFound("year.greaterThan=" + DEFAULT_YEAR);
+
+        // Get all the advancePaymentHistoryList where year is greater than SMALLER_YEAR
+        defaultAdvancePaymentHistoryShouldBeFound("year.greaterThan=" + SMALLER_YEAR);
     }
 
 
@@ -589,6 +703,7 @@ public class AdvancePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(advancePaymentHistory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].monthType").value(hasItem(DEFAULT_MONTH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].before").value(hasItem(DEFAULT_BEFORE.intValue())))
@@ -639,6 +754,7 @@ public class AdvancePaymentHistoryResourceIT {
         // Disconnect from session so that the updates on updatedAdvancePaymentHistory are not directly saved in db
         em.detach(updatedAdvancePaymentHistory);
         updatedAdvancePaymentHistory
+            .year(UPDATED_YEAR)
             .monthType(UPDATED_MONTH_TYPE)
             .amount(UPDATED_AMOUNT)
             .before(UPDATED_BEFORE)
@@ -653,6 +769,7 @@ public class AdvancePaymentHistoryResourceIT {
         List<AdvancePaymentHistory> advancePaymentHistoryList = advancePaymentHistoryRepository.findAll();
         assertThat(advancePaymentHistoryList).hasSize(databaseSizeBeforeUpdate);
         AdvancePaymentHistory testAdvancePaymentHistory = advancePaymentHistoryList.get(advancePaymentHistoryList.size() - 1);
+        assertThat(testAdvancePaymentHistory.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testAdvancePaymentHistory.getMonthType()).isEqualTo(UPDATED_MONTH_TYPE);
         assertThat(testAdvancePaymentHistory.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testAdvancePaymentHistory.getBefore()).isEqualTo(UPDATED_BEFORE);

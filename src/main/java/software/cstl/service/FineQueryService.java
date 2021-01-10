@@ -94,8 +94,21 @@ public class FineQueryService extends QueryService<Fine> {
             if (criteria.getFinePercentage() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFinePercentage(), Fine_.finePercentage));
             }
+            if (criteria.getMonthlyFineAmount() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getMonthlyFineAmount(), Fine_.monthlyFineAmount));
+            }
             if (criteria.getPaymentStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getPaymentStatus(), Fine_.paymentStatus));
+            }
+            if (criteria.getAmountPaid() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAmountPaid(), Fine_.amountPaid));
+            }
+            if (criteria.getAmountLeft() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAmountLeft(), Fine_.amountLeft));
+            }
+            if (criteria.getFinePaymentHistoryId() != null) {
+                specification = specification.and(buildSpecification(criteria.getFinePaymentHistoryId(),
+                    root -> root.join(Fine_.finePaymentHistories, JoinType.LEFT).get(FinePaymentHistory_.id)));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

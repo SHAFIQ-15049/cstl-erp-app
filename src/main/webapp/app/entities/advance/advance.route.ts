@@ -11,7 +11,7 @@ import { AdvanceService } from './advance.service';
 import { AdvanceComponent } from './advance.component';
 import { AdvanceDetailComponent } from './advance-detail.component';
 import { AdvanceUpdateComponent } from './advance-update.component';
-import {EmployeeService} from "app/entities/employee/employee.service";
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Injectable({ providedIn: 'root' })
 export class AdvanceResolve implements Resolve<IAdvance> {
@@ -32,15 +32,14 @@ export class AdvanceResolve implements Resolve<IAdvance> {
           }
         })
       );
-    }
-    else if(employeeId){
+    } else if (employeeId) {
       return this.employeeService.find(employeeId).pipe(
-        flatMap((employee)=>{
-          if(employee.body){
+        flatMap(employee => {
+          if (employee.body) {
             const advance = new Advance();
             advance.employee = employee.body;
             return of(advance);
-          }else{
+          } else {
             return of(new Advance());
           }
         })
@@ -72,12 +71,13 @@ export const advanceRoute: Routes = [
       pageTitle: 'Advances',
     },
     canActivate: [UserRouteAccessService],
-    children:[
+    children: [
       {
-        path:'',
-        loadChildren: ()=> import('../advance-payment-history/advance-payment-history.module').then(m=> m.CodeNodeErpAdvancePaymentHistoryModule)
-      }
-    ]
+        path: '',
+        loadChildren: () =>
+          import('../advance-payment-history/advance-payment-history.module').then(m => m.CodeNodeErpAdvancePaymentHistoryModule),
+      },
+    ],
   },
   {
     path: 'new',

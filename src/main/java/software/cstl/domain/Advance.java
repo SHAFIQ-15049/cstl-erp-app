@@ -10,6 +10,8 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.PaymentStatus;
 
@@ -43,9 +45,23 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
     @Column(name = "payment_percentage", precision = 21, scale = 2, nullable = false)
     private BigDecimal paymentPercentage;
 
+    @NotNull
+    @Column(name = "monthly_payment_amount", precision = 21, scale = 2, nullable = false)
+    private BigDecimal monthlyPaymentAmount;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "payment_status")
     private PaymentStatus paymentStatus;
+
+    @Column(name = "amount_paid", precision = 21, scale = 2)
+    private BigDecimal amountPaid;
+
+    @Column(name = "amount_left", precision = 21, scale = 2)
+    private BigDecimal amountLeft;
+
+    @OneToMany(mappedBy = "advance")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<AdvancePaymentHistory> advancePaymentHistories = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "advances", allowSetters = true)
@@ -112,6 +128,19 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
         this.paymentPercentage = paymentPercentage;
     }
 
+    public BigDecimal getMonthlyPaymentAmount() {
+        return monthlyPaymentAmount;
+    }
+
+    public Advance monthlyPaymentAmount(BigDecimal monthlyPaymentAmount) {
+        this.monthlyPaymentAmount = monthlyPaymentAmount;
+        return this;
+    }
+
+    public void setMonthlyPaymentAmount(BigDecimal monthlyPaymentAmount) {
+        this.monthlyPaymentAmount = monthlyPaymentAmount;
+    }
+
     public PaymentStatus getPaymentStatus() {
         return paymentStatus;
     }
@@ -123,6 +152,57 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
 
     public void setPaymentStatus(PaymentStatus paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public BigDecimal getAmountPaid() {
+        return amountPaid;
+    }
+
+    public Advance amountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+        return this;
+    }
+
+    public void setAmountPaid(BigDecimal amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public BigDecimal getAmountLeft() {
+        return amountLeft;
+    }
+
+    public Advance amountLeft(BigDecimal amountLeft) {
+        this.amountLeft = amountLeft;
+        return this;
+    }
+
+    public void setAmountLeft(BigDecimal amountLeft) {
+        this.amountLeft = amountLeft;
+    }
+
+    public Set<AdvancePaymentHistory> getAdvancePaymentHistories() {
+        return advancePaymentHistories;
+    }
+
+    public Advance advancePaymentHistories(Set<AdvancePaymentHistory> advancePaymentHistories) {
+        this.advancePaymentHistories = advancePaymentHistories;
+        return this;
+    }
+
+    public Advance addAdvancePaymentHistory(AdvancePaymentHistory advancePaymentHistory) {
+        this.advancePaymentHistories.add(advancePaymentHistory);
+        advancePaymentHistory.setAdvance(this);
+        return this;
+    }
+
+    public Advance removeAdvancePaymentHistory(AdvancePaymentHistory advancePaymentHistory) {
+        this.advancePaymentHistories.remove(advancePaymentHistory);
+        advancePaymentHistory.setAdvance(null);
+        return this;
+    }
+
+    public void setAdvancePaymentHistories(Set<AdvancePaymentHistory> advancePaymentHistories) {
+        this.advancePaymentHistories = advancePaymentHistories;
     }
 
     public Employee getEmployee() {
@@ -164,7 +244,10 @@ public class Advance extends AbstractAuditingEntity implements Serializable {
             ", reason='" + getReason() + "'" +
             ", amount=" + getAmount() +
             ", paymentPercentage=" + getPaymentPercentage() +
+            ", monthlyPaymentAmount=" + getMonthlyPaymentAmount() +
             ", paymentStatus='" + getPaymentStatus() + "'" +
+            ", amountPaid=" + getAmountPaid() +
+            ", amountLeft=" + getAmountLeft() +
             "}";
     }
 }

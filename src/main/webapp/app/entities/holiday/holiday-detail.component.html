@@ -1,0 +1,44 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="holiday">
+            <h2><span>Holiday</span> {{ holiday.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>From</span></dt>
+                <dd>
+                    <span>{{ holiday.from }}</span>
+                </dd>
+                <dt><span>To</span></dt>
+                <dd>
+                    <span>{{ holiday.to }}</span>
+                </dd>
+                <dt><span>Total Days</span></dt>
+                <dd>
+                    <span>{{ holiday.totalDays }}</span>
+                </dd>
+                <dt><span>Holiday Type</span></dt>
+                <dd>
+                    <div *ngIf="holiday.holidayType">
+                        <a [routerLink]="['/holiday-type', holiday.holidayType?.id, 'view']">{{ holiday.holidayType?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/holiday', holiday.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

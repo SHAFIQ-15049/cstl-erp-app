@@ -40,8 +40,8 @@
                     <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="monthlySalary.id"><span>Monthly Salary</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="monthlySalary.id"><span>Monthly Salary</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -66,13 +66,13 @@
                     <td>{{ monthlySalaryDtl.executedBy | date:'medium' }}</td>
                     <td>{{ monthlySalaryDtl.note }}</td>
                     <td>
-                        <div *ngIf="monthlySalaryDtl.monthlySalary">
-                            <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']" >{{ monthlySalaryDtl.monthlySalary?.id }}</a>
+                        <div *ngIf="monthlySalaryDtl.employee">
+                            <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']" >{{ monthlySalaryDtl.employee?.name }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="monthlySalaryDtl.employee">
-                            <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']" >{{ monthlySalaryDtl.employee?.name }}</a>
+                        <div *ngIf="monthlySalaryDtl.monthlySalary">
+                            <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']" >{{ monthlySalaryDtl.monthlySalary?.id }}</a>
                         </div>
                     </td>
                     <td class="text-right">

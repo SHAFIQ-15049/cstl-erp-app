@@ -17,6 +17,7 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="monthType"><span>Month Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="amount"><span>Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="beforeFine"><span>Before Fine</span> <fa-icon icon="sort"></fa-icon></th>
@@ -26,6 +27,7 @@
             <tbody>
                 <tr *ngFor="let finePaymentHistory of finePaymentHistories ;trackBy: trackId">
                     <td><a [routerLink]="['/fine-payment-history', finePaymentHistory.id, 'view']">{{ finePaymentHistory.id }}</a></td>
+                    <td>{{ finePaymentHistory.year }}</td>
                     <td>{{ finePaymentHistory.monthType }}</td>
                     <td>{{ finePaymentHistory.amount }}</td>
                     <td>{{ finePaymentHistory.beforeFine }}</td>

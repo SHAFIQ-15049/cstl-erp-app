@@ -10,7 +10,7 @@ import { IFinePaymentHistory } from 'app/shared/model/fine-payment-history.model
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { FinePaymentHistoryService } from './fine-payment-history.service';
 import { FinePaymentHistoryDeleteDialogComponent } from './fine-payment-history-delete-dialog.component';
-import {FineService} from "app/entities/fine/fine.service";
+import { FineService } from 'app/entities/fine/fine.service';
 
 @Component({
   selector: 'jhi-fine-payment-history',

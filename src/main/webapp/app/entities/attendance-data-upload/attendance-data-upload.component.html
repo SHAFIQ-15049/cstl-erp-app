@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span>Attendance Data Uploads</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance-data-upload" [routerLink]="['/attendance-data-upload/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Attendance Data Upload
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="attendanceDataUploads?.length === 0">
+        <span>No attendanceDataUploads found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="attendanceDataUploads && attendanceDataUploads.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fileUpload"><span>File Upload</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr *ngFor="let attendanceDataUpload of attendanceDataUploads ;trackBy: trackId">
+                    <td><a [routerLink]="['/attendance-data-upload', attendanceDataUpload.id, 'view']">{{ attendanceDataUpload.id }}</a></td>
+                    <td>
+                        <a *ngIf="attendanceDataUpload.fileUpload" (click)="openFile(attendanceDataUpload.fileUploadContentType, attendanceDataUpload.fileUpload)">open</a>
+                        <span *ngIf="attendanceDataUpload.fileUpload">{{ attendanceDataUpload.fileUploadContentType }}, {{ byteSize(attendanceDataUpload.fileUpload) }}</span>
+                    </td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/attendance-data-upload', attendanceDataUpload.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/attendance-data-upload', attendanceDataUpload.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(attendanceDataUpload)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

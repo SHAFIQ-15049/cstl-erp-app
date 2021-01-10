@@ -11,7 +11,7 @@ import { FineService } from './fine.service';
 import { FineComponent } from './fine.component';
 import { FineDetailComponent } from './fine-detail.component';
 import { FineUpdateComponent } from './fine-update.component';
-import {EmployeeService} from "app/entities/employee/employee.service";
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Injectable({ providedIn: 'root' })
 export class FineResolve implements Resolve<IFine> {
@@ -33,15 +33,14 @@ export class FineResolve implements Resolve<IFine> {
           }
         })
       );
-    }
-    else if(employeeId){
+    } else if (employeeId) {
       return this.employeeService.find(employeeId).pipe(
-        flatMap((employe)=>{
-          if(employe.body){
+        flatMap(employe => {
+          if (employe.body) {
             const fine = new Fine();
             fine.employee = employe.body;
             return of(fine);
-          }else{
+          } else {
             return of(new Fine());
           }
         })
@@ -73,12 +72,12 @@ export const fineRoute: Routes = [
       pageTitle: 'Fines',
     },
     canActivate: [UserRouteAccessService],
-    children:[
+    children: [
       {
         path: '',
-        loadChildren: ()=> import('../fine-payment-history/fine-payment-history.module').then(m=> m.CodeNodeErpFinePaymentHistoryModule)
-      }
-    ]
+        loadChildren: () => import('../fine-payment-history/fine-payment-history.module').then(m => m.CodeNodeErpFinePaymentHistoryModule),
+      },
+    ],
   },
   {
     path: 'new',

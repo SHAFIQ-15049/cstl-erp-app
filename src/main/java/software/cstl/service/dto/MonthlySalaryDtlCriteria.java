@@ -79,9 +79,9 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
 
     private InstantFilter executedBy;
 
-    private LongFilter monthlySalaryId;
-
     private LongFilter employeeId;
+
+    private LongFilter monthlySalaryId;
 
     public MonthlySalaryDtlCriteria() {
     }
@@ -104,8 +104,8 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.status = other.status == null ? null : other.status.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
-        this.monthlySalaryId = other.monthlySalaryId == null ? null : other.monthlySalaryId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
+        this.monthlySalaryId = other.monthlySalaryId == null ? null : other.monthlySalaryId.copy();
     }
 
     @Override
@@ -249,20 +249,20 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.executedBy = executedBy;
     }
 
-    public LongFilter getMonthlySalaryId() {
-        return monthlySalaryId;
-    }
-
-    public void setMonthlySalaryId(LongFilter monthlySalaryId) {
-        this.monthlySalaryId = monthlySalaryId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(LongFilter employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public LongFilter getMonthlySalaryId() {
+        return monthlySalaryId;
+    }
+
+    public void setMonthlySalaryId(LongFilter monthlySalaryId) {
+        this.monthlySalaryId = monthlySalaryId;
     }
 
 
@@ -293,8 +293,8 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
             Objects.equals(status, that.status) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
-            Objects.equals(monthlySalaryId, that.monthlySalaryId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(monthlySalaryId, that.monthlySalaryId);
     }
 
     @Override
@@ -317,8 +317,8 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         status,
         executedOn,
         executedBy,
-        monthlySalaryId,
-        employeeId
+        employeeId,
+        monthlySalaryId
         );
     }
 
@@ -343,8 +343,8 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
                 (status != null ? "status=" + status + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
-                (monthlySalaryId != null ? "monthlySalaryId=" + monthlySalaryId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (monthlySalaryId != null ? "monthlySalaryId=" + monthlySalaryId + ", " : "") +
             "}";
     }
 

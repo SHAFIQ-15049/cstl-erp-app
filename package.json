@@ -25,6 +25,7 @@
     "bootstrap": "4.5.0",
     "moment": "2.27.0",
     "ng-jhipster": "0.15.0",
+    "ng-select2-component": "^7.2.0",
     "ng-sidebar": "^9.4.2",
     "ng2-pdf-viewer": "^6.3.2",
     "ng2-smart-table": "^1.7.2",

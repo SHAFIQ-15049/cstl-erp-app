@@ -76,7 +76,7 @@ class MonthlySalaryGatlingTest extends Simulation {
                 , "month":"JANUARY"
                 , "status":"DONE"
                 , "executedOn":"2020-01-01T00:00:00.000Z"
-                , "executedBy":"2020-01-01T00:00:00.000Z"
+                , "executedBy":"SAMPLE_TEXT"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_monthlySalary_url"))).exitHereIfFailed

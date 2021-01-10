@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IEmployeeSalary } from 'app/shared/model/employee-salary.model';
@@ -29,6 +29,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
   constructor(
     protected employeeSalaryService: EmployeeSalaryService,
     protected activatedRoute: ActivatedRoute,
+    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
@@ -42,7 +43,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
-        'employeeId.equals': this.employeeId
+        'employeeId.equals': this.employeeId,
       })
       .subscribe(
         (res: HttpResponse<IEmployeeSalary[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -57,7 +58,7 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      this.employeeId = + params.get('employeeId')!;
+      this.employeeId = +params.get('employeeId')!;
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
@@ -80,6 +81,14 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
   trackId(index: number, item: IEmployeeSalary): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
+  }
+
+  byteSize(base64String: string): string {
+    return this.dataUtils.byteSize(base64String);
+  }
+
+  openFile(contentType = '', base64String: string): void {
+    return this.dataUtils.openFile(contentType, base64String);
   }
 
   registerChangeInEmployeeSalaries(): void {

@@ -35,6 +35,10 @@ import software.cstl.domain.enumeration.MonthType;
 @WithMockUser
 public class FinePaymentHistoryResourceIT {
 
+    private static final Integer DEFAULT_YEAR = 1;
+    private static final Integer UPDATED_YEAR = 2;
+    private static final Integer SMALLER_YEAR = 1 - 1;
+
     private static final MonthType DEFAULT_MONTH_TYPE = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH_TYPE = MonthType.FEBRUARY;
 
@@ -75,6 +79,7 @@ public class FinePaymentHistoryResourceIT {
      */
     public static FinePaymentHistory createEntity(EntityManager em) {
         FinePaymentHistory finePaymentHistory = new FinePaymentHistory()
+            .year(DEFAULT_YEAR)
             .monthType(DEFAULT_MONTH_TYPE)
             .amount(DEFAULT_AMOUNT)
             .beforeFine(DEFAULT_BEFORE_FINE)
@@ -89,6 +94,7 @@ public class FinePaymentHistoryResourceIT {
      */
     public static FinePaymentHistory createUpdatedEntity(EntityManager em) {
         FinePaymentHistory finePaymentHistory = new FinePaymentHistory()
+            .year(UPDATED_YEAR)
             .monthType(UPDATED_MONTH_TYPE)
             .amount(UPDATED_AMOUNT)
             .beforeFine(UPDATED_BEFORE_FINE)
@@ -115,6 +121,7 @@ public class FinePaymentHistoryResourceIT {
         List<FinePaymentHistory> finePaymentHistoryList = finePaymentHistoryRepository.findAll();
         assertThat(finePaymentHistoryList).hasSize(databaseSizeBeforeCreate + 1);
         FinePaymentHistory testFinePaymentHistory = finePaymentHistoryList.get(finePaymentHistoryList.size() - 1);
+        assertThat(testFinePaymentHistory.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testFinePaymentHistory.getMonthType()).isEqualTo(DEFAULT_MONTH_TYPE);
         assertThat(testFinePaymentHistory.getAmount()).isEqualTo(DEFAULT_AMOUNT);
         assertThat(testFinePaymentHistory.getBeforeFine()).isEqualTo(DEFAULT_BEFORE_FINE);
@@ -152,6 +159,7 @@ public class FinePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(finePaymentHistory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].monthType").value(hasItem(DEFAULT_MONTH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].beforeFine").value(hasItem(DEFAULT_BEFORE_FINE.intValue())))
@@ -169,6 +177,7 @@ public class FinePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(finePaymentHistory.getId().intValue()))
+            .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.monthType").value(DEFAULT_MONTH_TYPE.toString()))
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.beforeFine").value(DEFAULT_BEFORE_FINE.intValue()))
@@ -192,6 +201,111 @@ public class FinePaymentHistoryResourceIT {
 
         defaultFinePaymentHistoryShouldBeFound("id.lessThanOrEqual=" + id);
         defaultFinePaymentHistoryShouldNotBeFound("id.lessThan=" + id);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsEqualToSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year equals to DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.equals=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year equals to UPDATED_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.equals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year not equals to DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.notEquals=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year not equals to UPDATED_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.notEquals=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsInShouldWork() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year in DEFAULT_YEAR or UPDATED_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.in=" + DEFAULT_YEAR + "," + UPDATED_YEAR);
+
+        // Get all the finePaymentHistoryList where year equals to UPDATED_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.in=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year is not null
+        defaultFinePaymentHistoryShouldBeFound("year.specified=true");
+
+        // Get all the finePaymentHistoryList where year is null
+        defaultFinePaymentHistoryShouldNotBeFound("year.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year is greater than or equal to DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.greaterThanOrEqual=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year is greater than or equal to UPDATED_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.greaterThanOrEqual=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year is less than or equal to DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.lessThanOrEqual=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year is less than or equal to SMALLER_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.lessThanOrEqual=" + SMALLER_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsLessThanSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year is less than DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.lessThan=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year is less than UPDATED_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.lessThan=" + UPDATED_YEAR);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFinePaymentHistoriesByYearIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        finePaymentHistoryRepository.saveAndFlush(finePaymentHistory);
+
+        // Get all the finePaymentHistoryList where year is greater than DEFAULT_YEAR
+        defaultFinePaymentHistoryShouldNotBeFound("year.greaterThan=" + DEFAULT_YEAR);
+
+        // Get all the finePaymentHistoryList where year is greater than SMALLER_YEAR
+        defaultFinePaymentHistoryShouldBeFound("year.greaterThan=" + SMALLER_YEAR);
     }
 
 
@@ -589,6 +703,7 @@ public class FinePaymentHistoryResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(finePaymentHistory.getId().intValue())))
+            .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].monthType").value(hasItem(DEFAULT_MONTH_TYPE.toString())))
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].beforeFine").value(hasItem(DEFAULT_BEFORE_FINE.intValue())))
@@ -639,6 +754,7 @@ public class FinePaymentHistoryResourceIT {
         // Disconnect from session so that the updates on updatedFinePaymentHistory are not directly saved in db
         em.detach(updatedFinePaymentHistory);
         updatedFinePaymentHistory
+            .year(UPDATED_YEAR)
             .monthType(UPDATED_MONTH_TYPE)
             .amount(UPDATED_AMOUNT)
             .beforeFine(UPDATED_BEFORE_FINE)
@@ -653,6 +769,7 @@ public class FinePaymentHistoryResourceIT {
         List<FinePaymentHistory> finePaymentHistoryList = finePaymentHistoryRepository.findAll();
         assertThat(finePaymentHistoryList).hasSize(databaseSizeBeforeUpdate);
         FinePaymentHistory testFinePaymentHistory = finePaymentHistoryList.get(finePaymentHistoryList.size() - 1);
+        assertThat(testFinePaymentHistory.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testFinePaymentHistory.getMonthType()).isEqualTo(UPDATED_MONTH_TYPE);
         assertThat(testFinePaymentHistory.getAmount()).isEqualTo(UPDATED_AMOUNT);
         assertThat(testFinePaymentHistory.getBeforeFine()).isEqualTo(UPDATED_BEFORE_FINE);

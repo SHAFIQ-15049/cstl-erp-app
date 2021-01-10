@@ -61,8 +61,8 @@ describe('MonthlySalaryDtl e2e test', () => {
       monthlySalaryDtlUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryDtlUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryDtlUpdatePage.setNoteInput('note'),
-      monthlySalaryDtlUpdatePage.monthlySalarySelectLastOption(),
       monthlySalaryDtlUpdatePage.employeeSelectLastOption(),
+      monthlySalaryDtlUpdatePage.monthlySalarySelectLastOption(),
     ]);
 
     expect(await monthlySalaryDtlUpdatePage.getGrossInput()).to.eq('5', 'Expected gross value to be equals to 5');

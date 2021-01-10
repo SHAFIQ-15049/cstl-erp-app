@@ -25,6 +25,9 @@ public class AdvancePaymentHistory extends AbstractAuditingEntity implements Ser
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "year")
+    private Integer year;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "month_type")
     private MonthType monthType;
@@ -49,6 +52,19 @@ public class AdvancePaymentHistory extends AbstractAuditingEntity implements Ser
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Integer getYear() {
+        return year;
+    }
+
+    public AdvancePaymentHistory year(Integer year) {
+        this.year = year;
+        return this;
+    }
+
+    public void setYear(Integer year) {
+        this.year = year;
     }
 
     public MonthType getMonthType() {
@@ -138,6 +154,7 @@ public class AdvancePaymentHistory extends AbstractAuditingEntity implements Ser
     public String toString() {
         return "AdvancePaymentHistory{" +
             "id=" + getId() +
+            ", year=" + getYear() +
             ", monthType='" + getMonthType() + "'" +
             ", amount=" + getAmount() +
             ", before=" + getBefore() +

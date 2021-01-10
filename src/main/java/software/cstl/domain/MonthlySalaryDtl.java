@@ -16,7 +16,10 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
  * A MonthlySalaryDtl.
  */
 @Entity
-@Table(name = "monthly_salary_dtl")
+@Table(
+    name = "monthly_salary_dtl",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"employee_id","monthly_salary_id","status"})
+)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializable {
 
@@ -79,13 +82,13 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     @Column(name = "note")
     private String note;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.PERSIST)
     @JsonIgnoreProperties(value = "monthlySalaryDtls", allowSetters = true)
-    private MonthlySalary monthlySalary;
+    private Employee employee;
 
     @ManyToOne
     @JsonIgnoreProperties(value = "monthlySalaryDtls", allowSetters = true)
-    private Employee employee;
+    private MonthlySalary monthlySalary;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -317,19 +320,6 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
         this.note = note;
     }
 
-    public MonthlySalary getMonthlySalary() {
-        return monthlySalary;
-    }
-
-    public MonthlySalaryDtl monthlySalary(MonthlySalary monthlySalary) {
-        this.monthlySalary = monthlySalary;
-        return this;
-    }
-
-    public void setMonthlySalary(MonthlySalary monthlySalary) {
-        this.monthlySalary = monthlySalary;
-    }
-
     public Employee getEmployee() {
         return employee;
     }
@@ -341,6 +331,19 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
+    }
+
+    public MonthlySalary getMonthlySalary() {
+        return monthlySalary;
+    }
+
+    public MonthlySalaryDtl monthlySalary(MonthlySalary monthlySalary) {
+        this.monthlySalary = monthlySalary;
+        return this;
+    }
+
+    public void setMonthlySalary(MonthlySalary monthlySalary) {
+        this.monthlySalary = monthlySalary;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

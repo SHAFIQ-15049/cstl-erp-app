@@ -48,7 +48,7 @@ describe('MonthlySalary e2e test', () => {
       monthlySalaryUpdatePage.monthSelectLastOption(),
       monthlySalaryUpdatePage.statusSelectLastOption(),
       monthlySalaryUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
-      monthlySalaryUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      monthlySalaryUpdatePage.setExecutedByInput('executedBy'),
       monthlySalaryUpdatePage.designationSelectLastOption(),
     ]);
 
@@ -57,10 +57,7 @@ describe('MonthlySalary e2e test', () => {
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'
     );
-    expect(await monthlySalaryUpdatePage.getExecutedByInput()).to.contain(
-      '2001-01-01T02:30',
-      'Expected executedBy value to be equals to 2000-12-31'
-    );
+    expect(await monthlySalaryUpdatePage.getExecutedByInput()).to.eq('executedBy', 'Expected ExecutedBy value to be equals to executedBy');
 
     await monthlySalaryUpdatePage.save();
     expect(await monthlySalaryUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

@@ -11,12 +11,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IMonthlySalaryDtl, MonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { MonthlySalaryDtlService } from './monthly-salary-dtl.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
-import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
+import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
 
-type SelectableEntity = IMonthlySalary | IEmployee;
+type SelectableEntity = IEmployee | IMonthlySalary;
 
 @Component({
   selector: 'jhi-monthly-salary-dtl-update',
@@ -24,8 +24,8 @@ type SelectableEntity = IMonthlySalary | IEmployee;
 })
 export class MonthlySalaryDtlUpdateComponent implements OnInit {
   isSaving = false;
-  monthlysalaries: IMonthlySalary[] = [];
   employees: IEmployee[] = [];
+  monthlysalaries: IMonthlySalary[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -46,16 +46,16 @@ export class MonthlySalaryDtlUpdateComponent implements OnInit {
     executedOn: [],
     executedBy: [],
     note: [],
-    monthlySalary: [],
     employee: [],
+    monthlySalary: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected monthlySalaryDtlService: MonthlySalaryDtlService,
-    protected monthlySalaryService: MonthlySalaryService,
     protected employeeService: EmployeeService,
+    protected monthlySalaryService: MonthlySalaryService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -70,9 +70,9 @@ export class MonthlySalaryDtlUpdateComponent implements OnInit {
 
       this.updateForm(monthlySalaryDtl);
 
-      this.monthlySalaryService.query().subscribe((res: HttpResponse<IMonthlySalary[]>) => (this.monthlysalaries = res.body || []));
-
       this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
+
+      this.monthlySalaryService.query().subscribe((res: HttpResponse<IMonthlySalary[]>) => (this.monthlysalaries = res.body || []));
     });
   }
 
@@ -96,8 +96,8 @@ export class MonthlySalaryDtlUpdateComponent implements OnInit {
       executedOn: monthlySalaryDtl.executedOn ? monthlySalaryDtl.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: monthlySalaryDtl.executedBy ? monthlySalaryDtl.executedBy.format(DATE_TIME_FORMAT) : null,
       note: monthlySalaryDtl.note,
-      monthlySalary: monthlySalaryDtl.monthlySalary,
       employee: monthlySalaryDtl.employee,
+      monthlySalary: monthlySalaryDtl.monthlySalary,
     });
   }
 
@@ -152,8 +152,8 @@ export class MonthlySalaryDtlUpdateComponent implements OnInit {
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
       note: this.editForm.get(['note'])!.value,
-      monthlySalary: this.editForm.get(['monthlySalary'])!.value,
       employee: this.editForm.get(['employee'])!.value,
+      monthlySalary: this.editForm.get(['monthlySalary'])!.value,
     };
   }
 

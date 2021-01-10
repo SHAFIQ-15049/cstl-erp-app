@@ -21,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(AdvancePaymentHistoryService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new AdvancePaymentHistory(0, MonthType.JANUARY, 0, 0, 0);
+      elemDefault = new AdvancePaymentHistory(0, 0, MonthType.JANUARY, 0, 0, 0);
     });
 
     describe('Service methods', () => {
@@ -55,6 +55,7 @@ describe('Service Tests', () => {
       it('should update a AdvancePaymentHistory', () => {
         const returnedFromService = Object.assign(
           {
+            year: 1,
             monthType: 'BBBBBB',
             amount: 1,
             before: 1,
@@ -75,6 +76,7 @@ describe('Service Tests', () => {
       it('should return a list of AdvancePaymentHistory', () => {
         const returnedFromService = Object.assign(
           {
+            year: 1,
             monthType: 'BBBBBB',
             amount: 1,
             before: 1,

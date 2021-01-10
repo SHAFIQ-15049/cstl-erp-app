@@ -53,7 +53,15 @@ public class FineCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter finePercentage;
 
+    private BigDecimalFilter monthlyFineAmount;
+
     private PaymentStatusFilter paymentStatus;
+
+    private BigDecimalFilter amountPaid;
+
+    private BigDecimalFilter amountLeft;
+
+    private LongFilter finePaymentHistoryId;
 
     private LongFilter employeeId;
 
@@ -65,7 +73,11 @@ public class FineCriteria implements Serializable, Criteria {
         this.finedOn = other.finedOn == null ? null : other.finedOn.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.finePercentage = other.finePercentage == null ? null : other.finePercentage.copy();
+        this.monthlyFineAmount = other.monthlyFineAmount == null ? null : other.monthlyFineAmount.copy();
         this.paymentStatus = other.paymentStatus == null ? null : other.paymentStatus.copy();
+        this.amountPaid = other.amountPaid == null ? null : other.amountPaid.copy();
+        this.amountLeft = other.amountLeft == null ? null : other.amountLeft.copy();
+        this.finePaymentHistoryId = other.finePaymentHistoryId == null ? null : other.finePaymentHistoryId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
@@ -106,12 +118,44 @@ public class FineCriteria implements Serializable, Criteria {
         this.finePercentage = finePercentage;
     }
 
+    public BigDecimalFilter getMonthlyFineAmount() {
+        return monthlyFineAmount;
+    }
+
+    public void setMonthlyFineAmount(BigDecimalFilter monthlyFineAmount) {
+        this.monthlyFineAmount = monthlyFineAmount;
+    }
+
     public PaymentStatusFilter getPaymentStatus() {
         return paymentStatus;
     }
 
     public void setPaymentStatus(PaymentStatusFilter paymentStatus) {
         this.paymentStatus = paymentStatus;
+    }
+
+    public BigDecimalFilter getAmountPaid() {
+        return amountPaid;
+    }
+
+    public void setAmountPaid(BigDecimalFilter amountPaid) {
+        this.amountPaid = amountPaid;
+    }
+
+    public BigDecimalFilter getAmountLeft() {
+        return amountLeft;
+    }
+
+    public void setAmountLeft(BigDecimalFilter amountLeft) {
+        this.amountLeft = amountLeft;
+    }
+
+    public LongFilter getFinePaymentHistoryId() {
+        return finePaymentHistoryId;
+    }
+
+    public void setFinePaymentHistoryId(LongFilter finePaymentHistoryId) {
+        this.finePaymentHistoryId = finePaymentHistoryId;
     }
 
     public LongFilter getEmployeeId() {
@@ -137,7 +181,11 @@ public class FineCriteria implements Serializable, Criteria {
             Objects.equals(finedOn, that.finedOn) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(finePercentage, that.finePercentage) &&
+            Objects.equals(monthlyFineAmount, that.monthlyFineAmount) &&
             Objects.equals(paymentStatus, that.paymentStatus) &&
+            Objects.equals(amountPaid, that.amountPaid) &&
+            Objects.equals(amountLeft, that.amountLeft) &&
+            Objects.equals(finePaymentHistoryId, that.finePaymentHistoryId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -148,7 +196,11 @@ public class FineCriteria implements Serializable, Criteria {
         finedOn,
         amount,
         finePercentage,
+        monthlyFineAmount,
         paymentStatus,
+        amountPaid,
+        amountLeft,
+        finePaymentHistoryId,
         employeeId
         );
     }
@@ -161,7 +213,11 @@ public class FineCriteria implements Serializable, Criteria {
                 (finedOn != null ? "finedOn=" + finedOn + ", " : "") +
                 (amount != null ? "amount=" + amount + ", " : "") +
                 (finePercentage != null ? "finePercentage=" + finePercentage + ", " : "") +
+                (monthlyFineAmount != null ? "monthlyFineAmount=" + monthlyFineAmount + ", " : "") +
                 (paymentStatus != null ? "paymentStatus=" + paymentStatus + ", " : "") +
+                (amountPaid != null ? "amountPaid=" + amountPaid + ", " : "") +
+                (amountLeft != null ? "amountLeft=" + amountLeft + ", " : "") +
+                (finePaymentHistoryId != null ? "finePaymentHistoryId=" + finePaymentHistoryId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }
