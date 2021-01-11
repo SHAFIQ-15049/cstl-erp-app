@@ -95,20 +95,21 @@ public class WeekendService {
         List<Weekend> weekends = getActiveWeekends();
         List<WeekendDateMapDTO> weekendDateMapDTOS = new ArrayList<>();
 
-        LocalDate candidateDate = fromDate;
+        LocalDate startDate = fromDate;
+        LocalDate endDate = toDate.plusDays(1);
 
-        while(candidateDate.isBefore(toDate)) {
-            DayOfWeek dayOfWeek = candidateDate.getDayOfWeek();
+        while(startDate.isBefore(endDate)) {
+            DayOfWeek dayOfWeek = startDate.getDayOfWeek();
             String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
             for(Weekend weekend: weekends) {
                 if (day.equalsIgnoreCase(weekend.getDay().toString().trim().toUpperCase())) {
                     WeekendDateMapDTO weekendDateMapDTO = new WeekendDateMapDTO();
-                    weekendDateMapDTO.setWeekendDate(candidateDate);
+                    weekendDateMapDTO.setWeekendDate(startDate);
                     weekendDateMapDTO.setWeekendId(weekend.getId());
                     weekendDateMapDTOS.add(weekendDateMapDTO);
                 }
             }
-            candidateDate = fromDate.plusDays(1);
+            startDate = startDate.plusDays(1);
         }
 
         return weekendDateMapDTOS;
