@@ -316,7 +316,6 @@ entity PartialSalary (partial_salary){
     advance BigDecimal,
     status SalaryExecutionStatus,
     executedOn Instant,
-    executedBy String,
     note TextBlob
 }
 

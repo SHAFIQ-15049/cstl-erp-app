@@ -13,6 +13,7 @@ import { PartialSalaryService } from './partial-salary.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import {EmployeeStatus} from "app/shared/model/enumerations/employee-status.model";
 
 @Component({
   selector: 'jhi-partial-salary-update',
@@ -23,6 +24,9 @@ export class PartialSalaryUpdateComponent implements OnInit {
   employees: IEmployee[] = [];
   fromDateDp: any;
   toDateDp: any;
+  employeeSearchStrings: string[] = [];
+  employeeSearchStringMapEmployee = new Map();
+  selectedEmployee!: string;
 
   editForm = this.fb.group({
     id: [],
@@ -63,13 +67,21 @@ export class PartialSalaryUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ partialSalary }) => {
       if (!partialSalary.id) {
         const today = moment().startOf('day');
-        partialSalary.executedOn = today;
-        partialSalary.executedBy = today;
       }
-
+      this.selectedEmployee = partialSalary.employee.name || '';
       this.updateForm(partialSalary);
 
-      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
+      this.employeeService.query({
+        'status.equals': EmployeeStatus.ACTIVE,
+        size:200000
+      }).subscribe((res: HttpResponse<IEmployee[]>) =>{
+        this.employees = res.body || [];
+        this.employees.forEach((e)=>{
+          const searchString = e.name+'['+e.localId+'] ['+e.department?.name+'] ['+e.designation+']';
+          this.employeeSearchStrings.push(searchString);
+          this.employeeSearchStringMapEmployee[searchString] = e;
+        });
+      });
     });
   }
 
