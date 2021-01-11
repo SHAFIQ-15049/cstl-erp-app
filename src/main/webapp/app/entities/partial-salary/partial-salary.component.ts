@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import {JhiEventManager, JhiDataUtils, JhiAlertService} from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IPartialSalary } from 'app/shared/model/partial-salary.model';
@@ -10,6 +10,7 @@ import { IPartialSalary } from 'app/shared/model/partial-salary.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { PartialSalaryService } from './partial-salary.service';
 import { PartialSalaryDeleteDialogComponent } from './partial-salary-delete-dialog.component';
+import {MonthType} from "app/shared/model/enumerations/month-type.model";
 
 @Component({
   selector: 'jhi-partial-salary',
@@ -25,13 +26,18 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  years: number[] = [];
+  selectedYear!: number;
+  selectedMonth!: MonthType;
+
   constructor(
     protected partialSalaryService: PartialSalaryService,
     protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private jhiAlertService: JhiAlertService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -39,6 +45,8 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
 
     this.partialSalaryService
       .query({
+        'year.equals': this.selectedYear,
+        'month.equals': this.selectedMonth,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -50,18 +58,29 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.configureYears();
     this.handleNavigation();
     this.registerChangeInPartialSalaries();
   }
 
+  fetch(): void{
+    if(this.selectedYear && this.selectedMonth){
+      this.router.navigate(['/partial-salary'], {queryParams:{year: this.selectedYear, month: this.selectedMonth}, relativeTo: this.activatedRoute});
+    }else {
+      this.jhiAlertService.warning("Both year and month are needed to be selected");
+    }
+  }
+
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
+      this.selectedYear = +params.get('year')!;
+      this.selectedMonth = MonthType[params.get('month')!];
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
+      if ((pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) && (this.selectedYear && this.selectedMonth)) {
         this.predicate = predicate;
         this.ascending = ascending;
         this.loadPage(pageNumber, true);
@@ -123,5 +142,15 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  configureYears(): void {
+    let year = new Date().getFullYear();
+    this.selectedYear = new Date().getFullYear();
+    this.years.push(year);
+    for (let i = 0; i < 3; i++) {
+      year -= 1;
+      this.years.push(year);
+    }
   }
 }

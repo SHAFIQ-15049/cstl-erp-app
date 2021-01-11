@@ -5,17 +5,47 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partial-salary" [routerLink]="['/partial-salary/new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Partial Salary
+            Add New
             </span>
         </button>
     </h2>
+
+    <div class="form-row align-items-end">
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_year">Year</label>
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="selectedYear">
+                <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-control-label" for="field_month">Month</label>
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
+                <option value="JANUARY">JANUARY</option>
+                <option value="FEBRUARY">FEBRUARY</option>
+                <option value="MARCH">MARCH</option>
+                <option value="APRIL">APRIL</option>
+                <option value="MAY">MAY</option>
+                <option value="JUNE">JUNE</option>
+                <option value="JULY">JULY</option>
+                <option value="AUGUST">AUGUST</option>
+                <option value="SEPTEMBER">SEPTEMBER</option>
+                <option value="OCTOBER">OCTOBER</option>
+                <option value="NOVEMBER">NOVEMBER</option>
+                <option value="DECEMBER">DECEMBER</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2" style="align-items: end;">
+            <button class="btn btn-secondary" (click)="fetch()">Fetch</button>
+        </div>
+    </div>
 
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
 
+
     <div class="alert alert-warning" id="no-result" *ngIf="partialSalaries?.length === 0">
-        <span>No partialSalaries found</span>
+        <span>No records found</span>
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="partialSalaries && partialSalaries.length > 0">
