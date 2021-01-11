@@ -9,7 +9,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.security.SecurityUtils;
 
+import java.time.Instant;
 import java.util.Optional;
 
 /**
@@ -35,6 +37,8 @@ public class PartialSalaryService {
      */
     public PartialSalary save(PartialSalary partialSalary) {
         log.debug("Request to save PartialSalary : {}", partialSalary);
+        partialSalary.setExecutedBy(SecurityUtils.getCurrentUserLogin().get());
+        partialSalary.setExecutedOn(Instant.now());
         return partialSalaryRepository.save(partialSalary);
     }
 

@@ -3,16 +3,10 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-partial-salary-heading">{{!editForm.get('id')!.value?'Create': 'Update'}} Partial Salary</h2>
 
-            <div>
-                <jhi-alert-error></jhi-alert-error>
+            <div class="row">
+                <jhi-alert-error ></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
-
-
-                <div class="form-group">
+                <div class="form-group col-md-12">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <input
                         id="field_employee"
@@ -26,7 +20,7 @@
                     />
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_year">Year</label>
                     <input type="number" class="form-control" name="year" id="field_year"
                            formControlName="year"/>
@@ -42,7 +36,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_month">Month</label>
                     <select class="form-control" name="month" formControlName="month" id="field_month">
                         <option value="JANUARY">JANUARY</option>
@@ -66,7 +60,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_fromDate">From Date</label>
                     <div class="input-group">
                         <input id="field_fromDate" type="text" class="form-control" name="fromDate" ngbDatepicker #fromDateDp="ngbDatepicker" formControlName="fromDate"/>
@@ -82,7 +76,7 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_toDate">To Date</label>
                     <div class="input-group">
                         <input id="field_toDate" type="text" class="form-control" name="toDate" ngbDatepicker #toDateDp="ngbDatepicker" formControlName="toDate"/>
@@ -98,109 +92,99 @@
                     </div>
                 </div>
 
-                <div class="form-group">
+
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <textarea class="form-control" name="note" id="field_note"
+                              formControlName="note"></textarea>
+                </div>
+
+
+                <div class="form-group col-md-12">
                     <label class="form-control-label" for="field_gross">Gross</label>
                     <input type="number" class="form-control" name="gross" id="field_gross"
                            formControlName="gross"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_basic">Basic</label>
                     <input type="number" class="form-control" name="basic" id="field_basic"
                            formControlName="basic"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
                     <input type="number" class="form-control" name="basicPercent" id="field_basicPercent"
                            formControlName="basicPercent"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_houseRent">House Rent</label>
                     <input type="number" class="form-control" name="houseRent" id="field_houseRent"
                            formControlName="houseRent"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_houseRentPercent">House Rent Percent</label>
                     <input type="number" class="form-control" name="houseRentPercent" id="field_houseRentPercent"
                            formControlName="houseRentPercent"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
                     <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
                            formControlName="medicalAllowance"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
                     <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
                            formControlName="medicalAllowancePercent"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
                     <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
                            formControlName="convinceAllowance"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_convinceAllowancePercent">Convince Allowance Percent</label>
                     <input type="number" class="form-control" name="convinceAllowancePercent" id="field_convinceAllowancePercent"
                            formControlName="convinceAllowancePercent"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
                     <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
                            formControlName="foodAllowance"/>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_foodAllowancePercent">Food Allowance Percent</label>
                     <input type="number" class="form-control" name="foodAllowancePercent" id="field_foodAllowancePercent"
                            formControlName="foodAllowancePercent"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_fine">Fine</label>
-                    <input type="number" class="form-control" name="fine" id="field_fine"
-                           formControlName="fine"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_advance">Advance</label>
-                    <input type="number" class="form-control" name="advance" id="field_advance"
-                           formControlName="advance"/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" formControlName="status" id="field_status">
-                        <option value="DONE">DONE</option>
-                        <option value="NOT_DONE">NOT_DONE</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_executedOn">Executed On</label>
                     <div class="d-flex">
-                        <input id="field_executedOn" type="datetime-local" class="form-control" name="executedOn" formControlName="executedOn" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input readonly id="field_executedOn" type="datetime-local" class="form-control" name="executedOn" formControlName="executedOn" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
                 </div>
 
-                <div class="form-group">
+                <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_executedBy">Executed By</label>
-                    <input type="text" class="form-control" name="executedBy" id="field_executedBy"
+                    <input readonly type="text" class="form-control" name="executedBy" id="field_executedBy"
                            formControlName="executedBy"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_note">Note</label>
-                    <textarea class="form-control" name="note" id="field_note"
-                              formControlName="note"></textarea>
+                <div  class="form-group col-md-12">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select readonly class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="DONE">DONE</option>
+                        <option value="NOT_DONE">NOT_DONE</option>
+                    </select>
                 </div>
 
 
@@ -212,7 +196,7 @@
                 </button>
 
                 <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span> {{!editForm.get('id')!.value?'Generate': 'Re-generate'}} Partial Salary</span>
                 </button>
             </div>
         </form>

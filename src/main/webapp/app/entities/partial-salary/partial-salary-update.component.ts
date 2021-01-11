@@ -139,6 +139,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const partialSalary = this.createFromForm();
+    partialSalary.employee = this.employeeSearchStringMapEmployee[this.selectedEmployee];
     if (partialSalary.id !== undefined) {
       this.subscribeToSaveResponse(this.partialSalaryService.update(partialSalary));
     } else {
