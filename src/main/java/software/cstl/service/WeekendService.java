@@ -1,16 +1,18 @@
 package software.cstl.service;
 
-import software.cstl.domain.Weekend;
-import software.cstl.repository.WeekendRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.Weekend;
+import software.cstl.domain.enumeration.WeekendStatus;
+import software.cstl.repository.WeekendRepository;
 
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service Implementation for managing {@link Weekend}.
@@ -71,5 +73,9 @@ public class WeekendService {
     public void delete(Long id) {
         log.debug("Request to delete Weekend : {}", id);
         weekendRepository.deleteById(id);
+    }
+
+    public List<Weekend> getActiveWeekends() {
+        return weekendRepository.findAll().stream().filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE)).collect(Collectors.toList());
     }
 }
