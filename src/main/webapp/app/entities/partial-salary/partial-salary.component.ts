@@ -27,8 +27,8 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
   ngbPaginationPage = 1;
 
   years: number[] = [];
-  selectedYear!: number;
-  selectedMonth!: MonthType;
+  year!: number;
+  month!: MonthType;
 
   constructor(
     protected partialSalaryService: PartialSalaryService,
@@ -45,8 +45,8 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
 
     this.partialSalaryService
       .query({
-        'year.equals': this.selectedYear,
-        'month.equals': this.selectedMonth,
+        'year.equals': this.year,
+        'month.equals': this.month,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -64,8 +64,8 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
   }
 
   fetch(): void{
-    if(this.selectedYear && this.selectedMonth){
-      this.router.navigate(['/partial-salary'], {queryParams:{year: this.selectedYear, month: this.selectedMonth}, relativeTo: this.activatedRoute});
+    if(this.year && this.month){
+      this.router.navigate(['/partial-salary'], {queryParams:{year: this.year, month: this.month}, relativeTo: this.activatedRoute});
     }else {
       this.jhiAlertService.warning("Both year and month are needed to be selected");
     }
@@ -73,14 +73,14 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      this.selectedYear = +params.get('year')!;
-      this.selectedMonth = MonthType[params.get('month')!];
+      this.year = +params.get('year')!;
+      this.month = MonthType[params.get('month')!];
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
-      if ((pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) && (this.selectedYear && this.selectedMonth)) {
+      if ((pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) && (this.year && this.month)) {
         this.predicate = predicate;
         this.ascending = ascending;
         this.loadPage(pageNumber, true);
@@ -146,7 +146,7 @@ export class PartialSalaryComponent implements OnInit, OnDestroy {
 
   configureYears(): void {
     let year = new Date().getFullYear();
-    this.selectedYear = new Date().getFullYear();
+    this.year = new Date().getFullYear();
     this.years.push(year);
     for (let i = 0; i < 3; i++) {
       year -= 1;

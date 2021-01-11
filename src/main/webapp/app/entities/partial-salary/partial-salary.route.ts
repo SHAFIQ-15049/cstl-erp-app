@@ -18,6 +18,8 @@ export class PartialSalaryResolve implements Resolve<IPartialSalary> {
 
   resolve(route: ActivatedRouteSnapshot): Observable<IPartialSalary> | Observable<never> {
     const id = route.params['id'];
+    const year = route.params['year'];
+    const month = route.params['month'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((partialSalary: HttpResponse<PartialSalary>) => {
@@ -29,6 +31,12 @@ export class PartialSalaryResolve implements Resolve<IPartialSalary> {
           }
         })
       );
+    }
+    else if(year && month){
+      const partialSalary = new PartialSalary();
+      partialSalary.year = year;
+      partialSalary.month = month;
+      return of(partialSalary);
     }
     return of(new PartialSalary());
   }
@@ -59,6 +67,18 @@ export const partialSalaryRoute: Routes = [
   },
   {
     path: 'new',
+    component: PartialSalaryUpdateComponent,
+    resolve: {
+      partialSalary: PartialSalaryResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'PartialSalaries',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/:year/:month',
     component: PartialSalaryUpdateComponent,
     resolve: {
       partialSalary: PartialSalaryResolve,

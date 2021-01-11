@@ -2,7 +2,7 @@
     <h2 id="page-heading">
         <span>Partial Salaries</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partial-salary" [routerLink]="['/partial-salary/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partial-salary" [routerLink]="['/partial-salary/new',year, month]">
             <fa-icon icon="plus"></fa-icon>
             <span>
             Add New
@@ -13,13 +13,13 @@
     <div class="form-row align-items-end">
         <div class="form-group col-md-2">
             <label class="form-control-label" for="field_year">Year</label>
-            <select class="form-control" id="field_year" name="year" [(ngModel)]="selectedYear">
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="year">
                 <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
             </select>
         </div>
         <div class="form-group col-md-4">
             <label class="form-control-label" for="field_month">Month</label>
-            <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="month">
                 <option value="JANUARY">JANUARY</option>
                 <option value="FEBRUARY">FEBRUARY</option>
                 <option value="MARCH">MARCH</option>
