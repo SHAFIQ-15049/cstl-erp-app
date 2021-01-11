@@ -2,6 +2,7 @@ import { Moment } from 'moment';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { SalaryExecutionStatus } from 'app/shared/model/enumerations/salary-execution-status.model';
+import { PayrollGenerationType } from 'app/shared/model/enumerations/payroll-generation-type.model';
 
 export interface IMonthlySalaryDtl {
   id?: number;
@@ -19,6 +20,7 @@ export interface IMonthlySalaryDtl {
   fine?: number;
   advance?: number;
   status?: SalaryExecutionStatus;
+  type?: PayrollGenerationType;
   executedOn?: Moment;
   executedBy?: Moment;
   note?: any;
@@ -43,6 +45,7 @@ export class MonthlySalaryDtl implements IMonthlySalaryDtl {
     public fine?: number,
     public advance?: number,
     public status?: SalaryExecutionStatus,
+    public type?: PayrollGenerationType,
     public executedOn?: Moment,
     public executedBy?: Moment,
     public note?: any,

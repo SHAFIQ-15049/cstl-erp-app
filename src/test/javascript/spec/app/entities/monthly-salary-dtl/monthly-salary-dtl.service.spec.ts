@@ -5,6 +5,7 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { MonthlySalaryDtlService } from 'app/entities/monthly-salary-dtl/monthly-salary-dtl.service';
 import { IMonthlySalaryDtl, MonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { SalaryExecutionStatus } from 'app/shared/model/enumerations/salary-execution-status.model';
+import { PayrollGenerationType } from 'app/shared/model/enumerations/payroll-generation-type.model';
 
 describe('Service Tests', () => {
   describe('MonthlySalaryDtl Service', () => {
@@ -41,6 +42,7 @@ describe('Service Tests', () => {
         0,
         0,
         SalaryExecutionStatus.DONE,
+        PayrollGenerationType.FULL,
         currentDate,
         currentDate,
         'AAAAAAA'
@@ -106,6 +108,7 @@ describe('Service Tests', () => {
             fine: 1,
             advance: 1,
             status: 'BBBBBB',
+            type: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
             executedBy: currentDate.format(DATE_TIME_FORMAT),
             note: 'BBBBBB',
@@ -145,6 +148,7 @@ describe('Service Tests', () => {
             fine: 1,
             advance: 1,
             status: 'BBBBBB',
+            type: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
             executedBy: currentDate.format(DATE_TIME_FORMAT),
             note: 'BBBBBB',

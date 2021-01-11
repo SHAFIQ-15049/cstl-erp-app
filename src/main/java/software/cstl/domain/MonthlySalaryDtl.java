@@ -12,6 +12,8 @@ import java.time.Instant;
 
 import software.cstl.domain.enumeration.SalaryExecutionStatus;
 
+import software.cstl.domain.enumeration.PayrollGenerationType;
+
 /**
  * A MonthlySalaryDtl.
  */
@@ -72,6 +74,10 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     @Column(name = "status")
     private SalaryExecutionStatus status;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "type")
+    private PayrollGenerationType type;
+
     @Column(name = "executed_on")
     private Instant executedOn;
 
@@ -82,7 +88,7 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     @Column(name = "note")
     private String note;
 
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne
     @JsonIgnoreProperties(value = "monthlySalaryDtls", allowSetters = true)
     private Employee employee;
 
@@ -281,6 +287,19 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
         this.status = status;
     }
 
+    public PayrollGenerationType getType() {
+        return type;
+    }
+
+    public MonthlySalaryDtl type(PayrollGenerationType type) {
+        this.type = type;
+        return this;
+    }
+
+    public void setType(PayrollGenerationType type) {
+        this.type = type;
+    }
+
     public Instant getExecutedOn() {
         return executedOn;
     }
@@ -382,6 +401,7 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
             ", fine=" + getFine() +
             ", advance=" + getAdvance() +
             ", status='" + getStatus() + "'" +
+            ", type='" + getType() + "'" +
             ", executedOn='" + getExecutedOn() + "'" +
             ", executedBy='" + getExecutedBy() + "'" +
             ", note='" + getNote() + "'" +

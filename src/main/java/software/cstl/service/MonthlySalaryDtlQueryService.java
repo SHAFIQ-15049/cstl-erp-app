@@ -127,6 +127,9 @@ public class MonthlySalaryDtlQueryService extends QueryService<MonthlySalaryDtl>
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), MonthlySalaryDtl_.status));
             }
+            if (criteria.getType() != null) {
+                specification = specification.and(buildSpecification(criteria.getType(), MonthlySalaryDtl_.type));
+            }
             if (criteria.getExecutedOn() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedOn(), MonthlySalaryDtl_.executedOn));
             }

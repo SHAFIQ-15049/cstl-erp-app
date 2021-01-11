@@ -287,6 +287,7 @@ entity MonthlySalaryDtl (monthly_salary_dtl){
     fine BigDecimal,
     advance BigDecimal,
     status SalaryExecutionStatus,
+    type PayrollGenerationType,
     executedOn Instant,
     executedBy Instant,
     note TextBlob
@@ -346,6 +347,11 @@ enum InsuranceProcessType{
 enum SalaryExecutionStatus{
   DONE,
   NOT_DONE
+}
+
+enum PayrollGenerationType{
+ FULL,
+ PARTIAL
 }
 
 enum ServiceStatus{
