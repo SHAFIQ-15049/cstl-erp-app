@@ -13,6 +13,7 @@ import software.cstl.service.dto.WeekendDateMapDTO;
 
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.Month;
 import java.time.format.TextStyle;
 import java.util.ArrayList;
 import java.util.List;
@@ -84,11 +85,23 @@ public class WeekendService {
         weekendRepository.deleteById(id);
     }
 
+    /**
+     * Get active weekend.
+     *
+     * @return the entity.
+     */
     public List<Weekend> getActiveWeekends() {
         log.debug("Request to get all active Weekends");
         return weekendRepository.findAll().stream().filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE)).collect(Collectors.toList());
     }
 
+    /**
+     * Get list of WeekendDateMapDTO.
+     *
+     * @param fromDate the start date.
+     * @param toDate the end date.
+     * @return the WeekendDateMapDTO DTOs.
+     */
     public List<WeekendDateMapDTO> getWeekendDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
         log.debug("Request to get WeekendDateMapDTO : {} {}", fromDate, toDate);
 
@@ -115,10 +128,53 @@ public class WeekendService {
         return weekendDateMapDTOS;
     }
 
-    public int getTotalNumberOfWeekends(int year) {
-        log.debug("Request to get count of total weekends : {}", year);
+    /**
+     * Get list of WeekendDateMapDTO.
+     *
+     * @param year the year.
+     * @param month the month.
+     * @return the WeekendDateMapDTO DTOs.
+     */
+    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(int year, Month month) {
+        log.debug("Request to get WeekendDateMapDTO : {} {}", year, month);
+        LocalDate startDateOfTheMonth = commonService.getFirstDayOfTheMonth(year, month);
+        LocalDate lastDateOfTheMonth = commonService.getLastDayOfTheMonth(year, month);
+        return getWeekendDateMapDTOs(startDateOfTheMonth, lastDateOfTheMonth);
+    }
+
+    /**
+     * Get list of WeekendDateMapDTO.
+     *
+     * @param year the year.
+     * @return the WeekendDateMapDTO DTOs.
+     */
+    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(int year) {
+        log.debug("Request to get WeekendDateMapDTO : {}", year);
         LocalDate startDateOfTheYear = commonService.getFirstDayOfTheYear(year);
         LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
-        return getWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear).size();
+        return getWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
+    }
+
+    /**
+     * Get count of WeekendDateMapDTO.
+     *
+     * @param year the year.
+     * @param month the month.
+     * @return the count.
+     */
+    public int getTotalNumberOfWeekends(int year, Month month) {
+        log.debug("Request to get count of total weekends : {} {}", year, month);
+        return getWeekendDateMapDTOs(year, month).size();
+    }
+
+    /**
+     * Get count of WeekendDateMapDTO.
+     *
+     * @param year the year.
+     * @return the count.
+     */
+    public int getTotalNumberOfWeekends(int year) {
+        log.debug("Request to get count of total weekends : {}", year);
+        return getWeekendDateMapDTOs(year).size();
     }
 }
