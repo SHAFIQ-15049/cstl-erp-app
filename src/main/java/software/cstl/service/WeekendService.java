@@ -96,7 +96,7 @@ public class WeekendService {
     }
 
     /**
-     * Get list of WeekendDateMapDTO.
+     * Get list of weekendDateMapDTO.
      *
      * @param fromDate the start date.
      * @param toDate the end date.
@@ -129,7 +129,7 @@ public class WeekendService {
     }
 
     /**
-     * Get list of WeekendDateMapDTO.
+     * Get list of weekendDateMapDTO.
      *
      * @param year the year.
      * @param month the month.
@@ -143,7 +143,7 @@ public class WeekendService {
     }
 
     /**
-     * Get list of WeekendDateMapDTO.
+     * Get list of weekendDateMapDTO.
      *
      * @param year the year.
      * @return the WeekendDateMapDTO DTOs.
@@ -156,7 +156,7 @@ public class WeekendService {
     }
 
     /**
-     * Get count of WeekendDateMapDTO.
+     * Get count of weekendDateMapDTO.
      *
      * @param year the year.
      * @param month the month.
@@ -168,7 +168,7 @@ public class WeekendService {
     }
 
     /**
-     * Get count of WeekendDateMapDTO.
+     * Get count of weekendDateMapDTO.
      *
      * @param year the year.
      * @return the count.

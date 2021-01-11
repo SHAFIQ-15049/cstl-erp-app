@@ -4,14 +4,14 @@ import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class WeekendDateMapDTO implements Serializable {
+public class HolidayDateMapDTO implements Serializable {
 
     private Long id;
 
     @NotNull
-    private LocalDate weekendDate;
+    private LocalDate holidayDate;
 
-    private Long weekendId;
+    private Long holidayId;
 
     public Long getId() {
         return id;
@@ -21,20 +21,20 @@ public class WeekendDateMapDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getWeekendDate() {
-        return weekendDate;
+    public LocalDate getHolidayDate() {
+        return holidayDate;
     }
 
-    public void setWeekendDate(LocalDate weekendDate) {
-        this.weekendDate = weekendDate;
+    public void setHolidayDate(LocalDate holidayDate) {
+        this.holidayDate = holidayDate;
     }
 
-    public Long getWeekendId() {
-        return weekendId;
+    public Long getHolidayId() {
+        return holidayId;
     }
 
-    public void setWeekendId(Long weekendId) {
-        this.weekendId = weekendId;
+    public void setHolidayId(Long holidayId) {
+        this.holidayId = holidayId;
     }
 
     @Override
@@ -42,11 +42,11 @@ public class WeekendDateMapDTO implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof WeekendDateMapDTO)) {
+        if (!(o instanceof HolidayDateMapDTO)) {
             return false;
         }
 
-        return id != null && id.equals(((WeekendDateMapDTO) o).id);
+        return id != null && id.equals(((HolidayDateMapDTO) o).id);
     }
 
     @Override
@@ -59,8 +59,8 @@ public class WeekendDateMapDTO implements Serializable {
     public String toString() {
         return "WeekendDateMapDTO{" +
             "id=" + getId() +
-            ", weekendDate='" + getWeekendDate() + "'" +
-            ", weekendId=" + getWeekendId() +
+            ", holidayDate='" + getHolidayDate() + "'" +
+            ", holidayId=" + getHolidayId() +
             "}";
     }
 }
