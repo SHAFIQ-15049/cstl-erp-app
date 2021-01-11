@@ -24,7 +24,7 @@ export interface IPartialSalary {
   advance?: number;
   status?: SalaryExecutionStatus;
   executedOn?: Moment;
-  executedBy?: Moment;
+  executedBy?: string;
   note?: any;
   employee?: IEmployee;
 }
@@ -51,7 +51,7 @@ export class PartialSalary implements IPartialSalary {
     public advance?: number,
     public status?: SalaryExecutionStatus,
     public executedOn?: Moment,
-    public executedBy?: Moment,
+    public executedBy?: string,
     public note?: any,
     public employee?: IEmployee
   ) {}

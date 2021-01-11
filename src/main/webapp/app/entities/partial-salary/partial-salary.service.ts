@@ -54,7 +54,6 @@ export class PartialSalaryService {
       fromDate: partialSalary.fromDate && partialSalary.fromDate.isValid() ? partialSalary.fromDate.format(DATE_FORMAT) : undefined,
       toDate: partialSalary.toDate && partialSalary.toDate.isValid() ? partialSalary.toDate.format(DATE_FORMAT) : undefined,
       executedOn: partialSalary.executedOn && partialSalary.executedOn.isValid() ? partialSalary.executedOn.toJSON() : undefined,
-      executedBy: partialSalary.executedBy && partialSalary.executedBy.isValid() ? partialSalary.executedBy.toJSON() : undefined,
     });
     return copy;
   }
@@ -64,7 +63,6 @@ export class PartialSalaryService {
       res.body.fromDate = res.body.fromDate ? moment(res.body.fromDate) : undefined;
       res.body.toDate = res.body.toDate ? moment(res.body.toDate) : undefined;
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
-      res.body.executedBy = res.body.executedBy ? moment(res.body.executedBy) : undefined;
     }
     return res;
   }
@@ -75,7 +73,6 @@ export class PartialSalaryService {
         partialSalary.fromDate = partialSalary.fromDate ? moment(partialSalary.fromDate) : undefined;
         partialSalary.toDate = partialSalary.toDate ? moment(partialSalary.toDate) : undefined;
         partialSalary.executedOn = partialSalary.executedOn ? moment(partialSalary.executedOn) : undefined;
-        partialSalary.executedBy = partialSalary.executedBy ? moment(partialSalary.executedBy) : undefined;
       });
     }
     return res;

@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
+import {merge, Observable, Subject} from 'rxjs';
 import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
@@ -14,6 +14,8 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import {EmployeeStatus} from "app/shared/model/enumerations/employee-status.model";
+import {NgbTypeahead} from "@ng-bootstrap/ng-bootstrap";
+import {debounceTime, distinctUntilChanged, filter, map} from "rxjs/operators";
 
 @Component({
   selector: 'jhi-partial-salary-update',
@@ -27,6 +29,10 @@ export class PartialSalaryUpdateComponent implements OnInit {
   employeeSearchStrings: string[] = [];
   employeeSearchStringMapEmployee = new Map();
   selectedEmployee!: string;
+
+  @ViewChild('instance', {static: true}) instance!: NgbTypeahead;
+  focus$ = new Subject<string>();
+  click$ = new Subject<string>();
 
   editForm = this.fb.group({
     id: [],
@@ -65,10 +71,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ partialSalary }) => {
-      if (!partialSalary.id) {
-        const today = moment().startOf('day');
-      }
-      this.selectedEmployee = partialSalary.employee.name || '';
+      this.selectedEmployee = partialSalary && partialSalary.employee ? partialSalary.employee.name+'['+partialSalary.employee.localId+'] ['+partialSalary.employee.department?.name+'] ['+partialSalary.employee.designation.name+']':'';
       this.updateForm(partialSalary);
 
       this.employeeService.query({
@@ -77,7 +80,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
       }).subscribe((res: HttpResponse<IEmployee[]>) =>{
         this.employees = res.body || [];
         this.employees.forEach((e)=>{
-          const searchString = e.name+'['+e.localId+'] ['+e.department?.name+'] ['+e.designation+']';
+          const searchString = e.name+'['+e.localId+'] ['+e.department?.name+'] ['+e.designation?.name+']';
           this.employeeSearchStrings.push(searchString);
           this.employeeSearchStringMapEmployee[searchString] = e;
         });
@@ -107,7 +110,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
       advance: partialSalary.advance,
       status: partialSalary.status,
       executedOn: partialSalary.executedOn ? partialSalary.executedOn.format(DATE_TIME_FORMAT) : null,
-      executedBy: partialSalary.executedBy ? partialSalary.executedBy.format(DATE_TIME_FORMAT) : null,
+      executedBy: partialSalary.executedBy,
       note: partialSalary.note,
       employee: partialSalary.employee,
     });
@@ -166,7 +169,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
       advance: this.editForm.get(['advance'])!.value,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
-      executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
+      executedBy: this.editForm.get(['executedBy'])!.value,
       note: this.editForm.get(['note'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };
@@ -190,5 +193,17 @@ export class PartialSalaryUpdateComponent implements OnInit {
 
   trackById(index: number, item: IEmployee): any {
     return item.id;
+  }
+
+
+  search = (text$: Observable<string>) => {
+    const debouncedText$ = text$.pipe(debounceTime(200), distinctUntilChanged());
+    const clicksWithClosedPopup$ = this.click$.pipe(filter(() => !this.instance.isPopupOpen()));
+    const inputFocus$ = this.focus$;
+
+    return merge(debouncedText$, inputFocus$, clicksWithClosedPopup$).pipe(
+      map(term => (term === '' ? this.employeeSearchStrings
+        : this.employeeSearchStrings.filter(v => v.toLowerCase().includes(term.toLowerCase()))).slice(0, 10))
+    );
   }
 }

@@ -89,7 +89,7 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
 
     @Lob
     @Column(name = "note")
@@ -355,16 +355,16 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public PartialSalary executedBy(Instant executedBy) {
+    public PartialSalary executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
     }
 

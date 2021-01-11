@@ -47,7 +47,7 @@ describe('Service Tests', () => {
         0,
         SalaryExecutionStatus.DONE,
         currentDate,
-        currentDate,
+        'AAAAAAA',
         'AAAAAAA'
       );
     });
@@ -59,7 +59,6 @@ describe('Service Tests', () => {
             fromDate: currentDate.format(DATE_FORMAT),
             toDate: currentDate.format(DATE_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -78,7 +77,6 @@ describe('Service Tests', () => {
             fromDate: currentDate.format(DATE_FORMAT),
             toDate: currentDate.format(DATE_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -88,7 +86,6 @@ describe('Service Tests', () => {
             fromDate: currentDate,
             toDate: currentDate,
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -122,7 +119,7 @@ describe('Service Tests', () => {
             advance: 1,
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
             note: 'BBBBBB',
           },
           elemDefault
@@ -133,7 +130,6 @@ describe('Service Tests', () => {
             fromDate: currentDate,
             toDate: currentDate,
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -167,7 +163,7 @@ describe('Service Tests', () => {
             advance: 1,
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
             note: 'BBBBBB',
           },
           elemDefault
@@ -178,7 +174,6 @@ describe('Service Tests', () => {
             fromDate: currentDate,
             toDate: currentDate,
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );

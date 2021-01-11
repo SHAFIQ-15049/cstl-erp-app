@@ -143,7 +143,7 @@ public class PartialSalaryQueryService extends QueryService<PartialSalary> {
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedOn(), PartialSalary_.executedOn));
             }
             if (criteria.getExecutedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getExecutedBy(), PartialSalary_.executedBy));
+                specification = specification.and(buildStringSpecification(criteria.getExecutedBy(), PartialSalary_.executedBy));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

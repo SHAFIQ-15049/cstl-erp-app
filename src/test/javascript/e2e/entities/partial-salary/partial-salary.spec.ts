@@ -63,7 +63,7 @@ describe('PartialSalary e2e test', () => {
       partialSalaryUpdatePage.setAdvanceInput('5'),
       partialSalaryUpdatePage.statusSelectLastOption(),
       partialSalaryUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
-      partialSalaryUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      partialSalaryUpdatePage.setExecutedByInput('executedBy'),
       partialSalaryUpdatePage.setNoteInput('note'),
       partialSalaryUpdatePage.employeeSelectLastOption(),
     ]);
@@ -97,10 +97,7 @@ describe('PartialSalary e2e test', () => {
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'
     );
-    expect(await partialSalaryUpdatePage.getExecutedByInput()).to.contain(
-      '2001-01-01T02:30',
-      'Expected executedBy value to be equals to 2000-12-31'
-    );
+    expect(await partialSalaryUpdatePage.getExecutedByInput()).to.eq('executedBy', 'Expected ExecutedBy value to be equals to executedBy');
     expect(await partialSalaryUpdatePage.getNoteInput()).to.eq('note', 'Expected Note value to be equals to note');
 
     await partialSalaryUpdatePage.save();

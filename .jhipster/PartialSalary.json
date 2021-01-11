@@ -81,7 +81,7 @@
     },
     {
       "fieldName": "executedBy",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "note",
