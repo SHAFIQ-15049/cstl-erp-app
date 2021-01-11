@@ -36,10 +36,10 @@ export class PartialSalaryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    year: [],
-    month: [],
-    fromDate: [],
-    toDate: [],
+    year: [null, [Validators.required]],
+    month: [null, [Validators.required]],
+    fromDate: [null, [Validators.required]],
+    toDate: [null, [Validators.required]],
     gross: [],
     basic: [],
     basicPercent: [],
@@ -57,7 +57,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
     executedOn: [],
     executedBy: [],
     note: [],
-    employee: [],
+    employee: [null, Validators.required],
   });
 
   constructor(

@@ -3,20 +3,32 @@
   "fields": [
     {
       "fieldName": "year",
-      "fieldType": "Integer"
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "month",
       "fieldType": "MonthType",
-      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "fromDate",
-      "fieldType": "LocalDate"
+      "fieldType": "LocalDate",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "toDate",
-      "fieldType": "LocalDate"
+      "fieldType": "LocalDate",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "gross",
@@ -94,6 +106,7 @@
       "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "partialSalary",
+      "relationshipValidateRules": "required",
       "relationshipName": "employee",
       "otherEntityField": "name"
     }

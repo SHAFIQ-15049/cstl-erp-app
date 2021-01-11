@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -29,17 +30,21 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "year")
+    @NotNull
+    @Column(name = "year", nullable = false)
     private Integer year;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "month")
+    @Column(name = "month", nullable = false)
     private MonthType month;
 
-    @Column(name = "from_date")
+    @NotNull
+    @Column(name = "from_date", nullable = false)
     private LocalDate fromDate;
 
-    @Column(name = "to_date")
+    @NotNull
+    @Column(name = "to_date", nullable = false)
     private LocalDate toDate;
 
     @Column(name = "gross", precision = 21, scale = 2)
@@ -95,7 +100,8 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
     @Column(name = "note")
     private String note;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
+    @NotNull
     @JsonIgnoreProperties(value = "partialSalaries", allowSetters = true)
     private Employee employee;
 

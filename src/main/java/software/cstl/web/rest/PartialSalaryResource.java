@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,7 +57,7 @@ public class PartialSalaryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/partial-salaries")
-    public ResponseEntity<PartialSalary> createPartialSalary(@RequestBody PartialSalary partialSalary) throws URISyntaxException {
+    public ResponseEntity<PartialSalary> createPartialSalary(@Valid @RequestBody PartialSalary partialSalary) throws URISyntaxException {
         log.debug("REST request to save PartialSalary : {}", partialSalary);
         if (partialSalary.getId() != null) {
             throw new BadRequestAlertException("A new partialSalary cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +78,7 @@ public class PartialSalaryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/partial-salaries")
-    public ResponseEntity<PartialSalary> updatePartialSalary(@RequestBody PartialSalary partialSalary) throws URISyntaxException {
+    public ResponseEntity<PartialSalary> updatePartialSalary(@Valid @RequestBody PartialSalary partialSalary) throws URISyntaxException {
         log.debug("REST request to update PartialSalary : {}", partialSalary);
         if (partialSalary.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");

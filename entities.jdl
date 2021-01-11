@@ -297,10 +297,10 @@ entity MonthlySalaryDtl (monthly_salary_dtl){
 
 entity PartialSalary (partial_salary){
   // employee
-    year Integer,
-    month MonthType,
-    fromDate LocalDate,
-    toDate LocalDate,
+    year Integer required,
+    month MonthType required,
+    fromDate LocalDate required,
+    toDate LocalDate required,
     gross BigDecimal,
     basic BigDecimal,
     basicPercent BigDecimal,
@@ -483,7 +483,7 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
-    Employee{partialSalary} to PartialSalary{employee(name)},
+    Employee{partialSalary} to PartialSalary{employee(name) required},
     Employee{fine} to Fine{employee(name)},
     Employee{advance} to Advance{employee(name)},
     Employee{employeeSalary} to EmployeeSalary{employee(name)},

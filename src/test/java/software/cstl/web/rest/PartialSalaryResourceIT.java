@@ -166,6 +166,16 @@ public class PartialSalaryResourceIT {
             .executedOn(DEFAULT_EXECUTED_ON)
             .executedBy(DEFAULT_EXECUTED_BY)
             .note(DEFAULT_NOTE);
+        // Add required entity
+        Employee employee;
+        if (TestUtil.findAll(em, Employee.class).isEmpty()) {
+            employee = EmployeeResourceIT.createEntity(em);
+            em.persist(employee);
+            em.flush();
+        } else {
+            employee = TestUtil.findAll(em, Employee.class).get(0);
+        }
+        partialSalary.setEmployee(employee);
         return partialSalary;
     }
     /**
@@ -197,6 +207,16 @@ public class PartialSalaryResourceIT {
             .executedOn(UPDATED_EXECUTED_ON)
             .executedBy(UPDATED_EXECUTED_BY)
             .note(UPDATED_NOTE);
+        // Add required entity
+        Employee employee;
+        if (TestUtil.findAll(em, Employee.class).isEmpty()) {
+            employee = EmployeeResourceIT.createUpdatedEntity(em);
+            em.persist(employee);
+            em.flush();
+        } else {
+            employee = TestUtil.findAll(em, Employee.class).get(0);
+        }
+        partialSalary.setEmployee(employee);
         return partialSalary;
     }
 
@@ -261,6 +281,82 @@ public class PartialSalaryResourceIT {
         assertThat(partialSalaryList).hasSize(databaseSizeBeforeCreate);
     }
 
+
+    @Test
+    @Transactional
+    public void checkYearIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
+        // set the field null
+        partialSalary.setYear(null);
+
+        // Create the PartialSalary, which fails.
+
+
+        restPartialSalaryMockMvc.perform(post("/api/partial-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(partialSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<PartialSalary> partialSalaryList = partialSalaryRepository.findAll();
+        assertThat(partialSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkMonthIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
+        // set the field null
+        partialSalary.setMonth(null);
+
+        // Create the PartialSalary, which fails.
+
+
+        restPartialSalaryMockMvc.perform(post("/api/partial-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(partialSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<PartialSalary> partialSalaryList = partialSalaryRepository.findAll();
+        assertThat(partialSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkFromDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
+        // set the field null
+        partialSalary.setFromDate(null);
+
+        // Create the PartialSalary, which fails.
+
+
+        restPartialSalaryMockMvc.perform(post("/api/partial-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(partialSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<PartialSalary> partialSalaryList = partialSalaryRepository.findAll();
+        assertThat(partialSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkToDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
+        // set the field null
+        partialSalary.setToDate(null);
+
+        // Create the PartialSalary, which fails.
+
+
+        restPartialSalaryMockMvc.perform(post("/api/partial-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(partialSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<PartialSalary> partialSalaryList = partialSalaryRepository.findAll();
+        assertThat(partialSalaryList).hasSize(databaseSizeBeforeTest);
+    }
 
     @Test
     @Transactional
@@ -2267,12 +2363,8 @@ public class PartialSalaryResourceIT {
     @Test
     @Transactional
     public void getAllPartialSalariesByEmployeeIsEqualToSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-        Employee employee = EmployeeResourceIT.createEntity(em);
-        em.persist(employee);
-        em.flush();
-        partialSalary.setEmployee(employee);
+        // Get already existing entity
+        Employee employee = partialSalary.getEmployee();
         partialSalaryRepository.saveAndFlush(partialSalary);
         Long employeeId = employee.getId();
 

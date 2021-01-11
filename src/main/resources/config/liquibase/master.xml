@@ -93,6 +93,7 @@
     <include file="config/liquibase/changelog/20210111095610_typeAdded_to_MonthlySalaryDtl.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210111133023_PartialSalary_processedBy_type_dropped.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210111135243_PartialSalary_executedBy_added.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210111143336_constraints_added_PartialSalary.xml" relativeToChangelogFile="false"/>
 
 
 
