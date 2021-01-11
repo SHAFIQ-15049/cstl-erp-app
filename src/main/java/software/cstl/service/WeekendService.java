@@ -9,8 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Weekend;
 import software.cstl.domain.enumeration.WeekendStatus;
 import software.cstl.repository.WeekendRepository;
+import software.cstl.service.dto.WeekendDateMapDTO;
 
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.TextStyle;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,8 +31,11 @@ public class WeekendService {
 
     private final WeekendRepository weekendRepository;
 
-    public WeekendService(WeekendRepository weekendRepository) {
+    private final CommonService commonService;
+
+    public WeekendService(WeekendRepository weekendRepository, CommonService commonService) {
         this.weekendRepository = weekendRepository;
+        this.commonService = commonService;
     }
 
     /**
@@ -76,6 +85,39 @@ public class WeekendService {
     }
 
     public List<Weekend> getActiveWeekends() {
+        log.debug("Request to get all active Weekends");
         return weekendRepository.findAll().stream().filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE)).collect(Collectors.toList());
+    }
+
+    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
+        log.debug("Request to get WeekendDateMapDTO : {} {}", fromDate, toDate);
+
+        List<Weekend> weekends = getActiveWeekends();
+        List<WeekendDateMapDTO> weekendDateMapDTOS = new ArrayList<>();
+
+        LocalDate candidateDate = fromDate;
+
+        while(candidateDate.isBefore(toDate)) {
+            DayOfWeek dayOfWeek = candidateDate.getDayOfWeek();
+            String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
+            for(Weekend weekend: weekends) {
+                if (day.equalsIgnoreCase(weekend.getDay().toString().trim().toUpperCase())) {
+                    WeekendDateMapDTO weekendDateMapDTO = new WeekendDateMapDTO();
+                    weekendDateMapDTO.setWeekendDate(candidateDate);
+                    weekendDateMapDTO.setWeekendId(weekend.getId());
+                    weekendDateMapDTOS.add(weekendDateMapDTO);
+                }
+            }
+            candidateDate = fromDate.plusDays(1);
+        }
+
+        return weekendDateMapDTOS;
+    }
+
+    public int getTotalNumberOfWeekends(int year) {
+        log.debug("Request to get count of total weekends : {}", year);
+        LocalDate startDateOfTheYear = commonService.getFirstDayOfTheYear(year);
+        LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
+        return getWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear).size();
     }
 }
