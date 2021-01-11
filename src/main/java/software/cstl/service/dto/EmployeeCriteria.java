@@ -104,6 +104,8 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     private LocalDateFilter terminationDate;
 
+    private LongFilter partialSalaryId;
+
     private LongFilter fineId;
 
     private LongFilter advanceId;
@@ -149,6 +151,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         this.joiningDate = other.joiningDate == null ? null : other.joiningDate.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.terminationDate = other.terminationDate == null ? null : other.terminationDate.copy();
+        this.partialSalaryId = other.partialSalaryId == null ? null : other.partialSalaryId.copy();
         this.fineId = other.fineId == null ? null : other.fineId.copy();
         this.advanceId = other.advanceId == null ? null : other.advanceId.copy();
         this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
@@ -257,6 +260,14 @@ public class EmployeeCriteria implements Serializable, Criteria {
 
     public void setTerminationDate(LocalDateFilter terminationDate) {
         this.terminationDate = terminationDate;
+    }
+
+    public LongFilter getPartialSalaryId() {
+        return partialSalaryId;
+    }
+
+    public void setPartialSalaryId(LongFilter partialSalaryId) {
+        this.partialSalaryId = partialSalaryId;
     }
 
     public LongFilter getFineId() {
@@ -401,6 +412,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
             Objects.equals(joiningDate, that.joiningDate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(terminationDate, that.terminationDate) &&
+            Objects.equals(partialSalaryId, that.partialSalaryId) &&
             Objects.equals(fineId, that.fineId) &&
             Objects.equals(advanceId, that.advanceId) &&
             Objects.equals(employeeSalaryId, that.employeeSalaryId) &&
@@ -432,6 +444,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
         joiningDate,
         status,
         terminationDate,
+        partialSalaryId,
         fineId,
         advanceId,
         employeeSalaryId,
@@ -465,6 +478,7 @@ public class EmployeeCriteria implements Serializable, Criteria {
                 (joiningDate != null ? "joiningDate=" + joiningDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (terminationDate != null ? "terminationDate=" + terminationDate + ", " : "") +
+                (partialSalaryId != null ? "partialSalaryId=" + partialSalaryId + ", " : "") +
                 (fineId != null ? "fineId=" + fineId + ", " : "") +
                 (advanceId != null ? "advanceId=" + advanceId + ", " : "") +
                 (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +

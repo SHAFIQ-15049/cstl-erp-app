@@ -292,6 +292,33 @@ entity MonthlySalaryDtl (monthly_salary_dtl){
     note TextBlob
 }
 
+
+
+entity PartialSalary (partial_salary){
+  // employee
+    year Integer,
+    month MonthType,
+    fromDate LocalDate,
+    toDate LocalDate,
+    gross BigDecimal,
+    basic BigDecimal,
+    basicPercent BigDecimal,
+    houseRent BigDecimal,
+    houseRentPercent BigDecimal,
+    medicalAllowance BigDecimal,
+    medicalAllowancePercent BigDecimal,
+    convinceAllowance BigDecimal,
+    convinceAllowancePercent BigDecimal,
+    foodAllowance BigDecimal,
+    foodAllowancePercent BigDecimal,
+    fine BigDecimal,
+    advance BigDecimal,
+    status SalaryExecutionStatus,
+    executedOn Instant,
+    executedBy Instant,
+    note TextBlob
+}
+
 entity FestivalAllowancePayment{
     // designation
     year Integer,
@@ -450,6 +477,7 @@ relationship ManyToOne{
 }
 
 relationship OneToMany{
+    Employee{partialSalary} to PartialSalary{employee(name)},
     Employee{fine} to Fine{employee(name)},
     Employee{advance} to Advance{employee(name)},
     Employee{employeeSalary} to EmployeeSalary{employee(name)},
@@ -469,6 +497,6 @@ relationship OneToOne{
     PersonalInfo{employee(name)} to Employee{personalInfo},
 }
 
-service Company, MonthlySalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine,  Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
-filter Company, MonthlySalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
-paginate Company, MonthlySalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
+service Company, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine,  Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
