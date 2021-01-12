@@ -41,8 +41,9 @@ public class AttendanceDataUploadService {
     @Transactional
     public AttendanceDataUpload save(AttendanceDataUpload attendanceDataUpload) {
         log.debug("Request to save AttendanceDataUpload : {}", attendanceDataUpload);
-        attendanceService.bulkSave(attendanceDataUpload);
-        return attendanceDataUploadRepository.save(attendanceDataUpload);
+        AttendanceDataUpload uploadedData = attendanceDataUploadRepository.save(attendanceDataUpload);
+        attendanceService.bulkSave(uploadedData);
+        return uploadedData;
     }
 
     /**
