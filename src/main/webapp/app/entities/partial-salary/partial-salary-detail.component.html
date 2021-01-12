@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
-        <div *ngIf="partialSalary">
-            <h2><span>Partial Salary</span> {{ partialSalary.id }}</h2>
+        <div *ngIf="partialSalary && partialSalary.employee">
+            <h2><span>Partial Salary of </span> {{ partialSalary.employee.name }}</h2>
 
             <hr>
 
@@ -22,11 +22,11 @@
                 </dd>
                 <dt><span>From Date</span></dt>
                 <dd>
-                    <span>{{ partialSalary.fromDate }}</span>
+                    <span>{{ partialSalary.fromDate| date: 'medium' }}</span>
                 </dd>
                 <dt><span>To Date</span></dt>
                 <dd>
-                    <span>{{ partialSalary.toDate }}</span>
+                    <span>{{ partialSalary.toDate| date: 'medium' }}</span>
                 </dd>
                 <dt><span>Gross</span></dt>
                 <dd>
@@ -36,54 +36,26 @@
                 <dd>
                     <span>{{ partialSalary.basic }}</span>
                 </dd>
-                <dt><span>Basic Percent</span></dt>
-                <dd>
-                    <span>{{ partialSalary.basicPercent }}</span>
-                </dd>
                 <dt><span>House Rent</span></dt>
                 <dd>
                     <span>{{ partialSalary.houseRent }}</span>
-                </dd>
-                <dt><span>House Rent Percent</span></dt>
-                <dd>
-                    <span>{{ partialSalary.houseRentPercent }}</span>
                 </dd>
                 <dt><span>Medical Allowance</span></dt>
                 <dd>
                     <span>{{ partialSalary.medicalAllowance }}</span>
                 </dd>
-                <dt><span>Medical Allowance Percent</span></dt>
-                <dd>
-                    <span>{{ partialSalary.medicalAllowancePercent }}</span>
-                </dd>
+
                 <dt><span>Convince Allowance</span></dt>
                 <dd>
                     <span>{{ partialSalary.convinceAllowance }}</span>
                 </dd>
-                <dt><span>Convince Allowance Percent</span></dt>
-                <dd>
-                    <span>{{ partialSalary.convinceAllowancePercent }}</span>
-                </dd>
+
                 <dt><span>Food Allowance</span></dt>
                 <dd>
                     <span>{{ partialSalary.foodAllowance }}</span>
                 </dd>
-                <dt><span>Food Allowance Percent</span></dt>
-                <dd>
-                    <span>{{ partialSalary.foodAllowancePercent }}</span>
-                </dd>
-                <dt><span>Fine</span></dt>
-                <dd>
-                    <span>{{ partialSalary.fine }}</span>
-                </dd>
-                <dt><span>Advance</span></dt>
-                <dd>
-                    <span>{{ partialSalary.advance }}</span>
-                </dd>
-                <dt><span>Status</span></dt>
-                <dd>
-                    <span>{{ partialSalary.status }}</span>
-                </dd>
+
+
                 <dt><span>Executed On</span></dt>
                 <dd>
                     <span>{{ partialSalary.executedOn }}</span>
@@ -96,11 +68,9 @@
                 <dd>
                     <span>{{ partialSalary.note }}</span>
                 </dd>
-                <dt><span>Employee</span></dt>
+                <dt><span>Status</span></dt>
                 <dd>
-                    <div *ngIf="partialSalary.employee">
-                        <a [routerLink]="['/employee', partialSalary.employee?.id, 'view']">{{ partialSalary.employee?.name }}</a>
-                    </div>
+                    <span>{{ partialSalary.status }}</span>
                 </dd>
             </dl>
 

@@ -75,8 +75,8 @@ public class PayrollService {
 
     public PartialSalary assignPartialSalaryAndAllowances(PartialSalary partialSalary){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-        Integer totalWorkingDays = attendanceRepository.totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
-        List<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+        Integer totalWorkingDays = attendanceRepository.countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
 
         String notes = partialSalary.getNote()!=null && partialSalary.getNote().length()>0?partialSalary.getNote(): "";
         if(employeeAttendance.size()<totalWorkingDays){

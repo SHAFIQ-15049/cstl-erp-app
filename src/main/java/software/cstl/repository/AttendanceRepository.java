@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import software.cstl.domain.Attendance;
 import software.cstl.domain.Employee;
+import software.cstl.domain.enumeration.ConsiderAsType;
 
 import java.lang.annotation.Native;
 import java.time.LocalDate;
@@ -22,5 +23,7 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
         "select char(attendance_date,'dd-mm-yyyy') attendance_date from attendance where  (attendance_date>=?1 and attendance_date<=?2)))", nativeQuery = true)
     int totalAttendanceDays(LocalDate from, LocalDate to);
 
-    List<Attendance> findByEmployeeAndAttendanceDataUploadBetween(Employee employee, LocalDate from, LocalDate to);
+    int countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate fromDate, LocalDate toDate);
+
+    List<Attendance> findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate from, LocalDate to);
 }

@@ -17,6 +17,7 @@
                         (focus)="focus$.next($any($event).target.value)"
                         (click)="click$.next($any($event).target.value)"
                         #instance="ngbTypeahead"
+                        [ngModelOptions]="{standalone: true}"
                     />
                 </div>
 

@@ -58,7 +58,7 @@ export class PartialSalaryUpdateComponent implements OnInit {
     executedOn: [],
     executedBy: [],
     note: [],
-    employee: [null, Validators.required],
+    employee: [],
   });
 
   constructor(

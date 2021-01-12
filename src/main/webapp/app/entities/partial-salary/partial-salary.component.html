@@ -52,63 +52,31 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="month"><span>Month</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="totalMonthDays"><span>Total Month Days</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="gross"><span>Gross</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="basic"><span>Basic</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="houseRent"><span>House Rent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="houseRentPercent"><span>House Rent Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="medicalAllowancePercent"><span>Medical Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="convinceAllowancePercent"><span>Convince Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="foodAllowance"><span>Food Allowance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="foodAllowancePercent"><span>Food Allowance Percent</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="fine"><span>Fine</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="advance"><span>Advance</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span>SL</span> </th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> </th>
+                    <th scope="col"  jhiSortBy="year"><span>Year</span> </th>
+                    <th scope="col"  jhiSortBy="month"><span>Month</span> </th>
+                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> </th>
+                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> </th>
+                    <th scope="col"  jhiSortBy="gross"><span>Gross</span> </th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> </th>
+                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> </th>
+                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> </th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let partialSalary of partialSalaries ;trackBy: trackId">
-                    <td><a [routerLink]="['/partial-salary', partialSalary.id, 'view']">{{ partialSalary.id }}</a></td>
+                <tr *ngFor="let partialSalary of partialSalaries; index as i ;trackBy: trackId">
+                    <td><a [routerLink]="['/partial-salary', partialSalary.id, 'view']">{{ (page -1) * itemsPerPage + (i+1)}}</a></td>
+                    <td *ngIf="partialSalary.employee">{{partialSalary.employee.name || ''}}</td>
                     <td>{{ partialSalary.year }}</td>
                     <td>{{ partialSalary.month }}</td>
-                    <td>{{ partialSalary.totalMonthDays }}</td>
                     <td>{{ partialSalary.fromDate | date:'mediumDate' }}</td>
                     <td>{{ partialSalary.toDate | date:'mediumDate' }}</td>
                     <td>{{ partialSalary.gross }}</td>
-                    <td>{{ partialSalary.basic }}</td>
-                    <td>{{ partialSalary.basicPercent }}</td>
-                    <td>{{ partialSalary.houseRent }}</td>
-                    <td>{{ partialSalary.houseRentPercent }}</td>
-                    <td>{{ partialSalary.medicalAllowance }}</td>
-                    <td>{{ partialSalary.medicalAllowancePercent }}</td>
-                    <td>{{ partialSalary.convinceAllowance }}</td>
-                    <td>{{ partialSalary.convinceAllowancePercent }}</td>
-                    <td>{{ partialSalary.foodAllowance }}</td>
-                    <td>{{ partialSalary.foodAllowancePercent }}</td>
-                    <td>{{ partialSalary.fine }}</td>
-                    <td>{{ partialSalary.advance }}</td>
                     <td>{{ partialSalary.status }}</td>
                     <td>{{ partialSalary.executedOn | date:'medium' }}</td>
                     <td>{{ partialSalary.executedBy }}</td>
-                    <td>{{ partialSalary.note }}</td>
-                    <td>
-                        <div *ngIf="partialSalary.employee">
-                            <a [routerLink]="['/employee', partialSalary.employee?.id, 'view']" >{{ partialSalary.employee?.name }}</a>
-                        </div>
-                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
