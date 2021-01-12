@@ -157,7 +157,7 @@ public class AttendanceService {
     private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setMachineNo(machineCode);
-        attendance.setAttendanceDate(instant.atZone(ZoneId.systemDefault()).toLocalDate());
+        attendance.setAttendanceDate(instant.atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1));
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(candidate);
         attendance.setEmployeeSalary(candidateSalary);
