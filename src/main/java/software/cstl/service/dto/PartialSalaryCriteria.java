@@ -71,6 +71,8 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
 
     private MonthTypeFilter month;
 
+    private IntegerFilter totalMonthDays;
+
     private LocalDateFilter fromDate;
 
     private LocalDateFilter toDate;
@@ -116,6 +118,7 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.year = other.year == null ? null : other.year.copy();
         this.month = other.month == null ? null : other.month.copy();
+        this.totalMonthDays = other.totalMonthDays == null ? null : other.totalMonthDays.copy();
         this.fromDate = other.fromDate == null ? null : other.fromDate.copy();
         this.toDate = other.toDate == null ? null : other.toDate.copy();
         this.gross = other.gross == null ? null : other.gross.copy();
@@ -164,6 +167,14 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
 
     public void setMonth(MonthTypeFilter month) {
         this.month = month;
+    }
+
+    public IntegerFilter getTotalMonthDays() {
+        return totalMonthDays;
+    }
+
+    public void setTotalMonthDays(IntegerFilter totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
     }
 
     public LocalDateFilter getFromDate() {
@@ -332,6 +343,7 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
+            Objects.equals(totalMonthDays, that.totalMonthDays) &&
             Objects.equals(fromDate, that.fromDate) &&
             Objects.equals(toDate, that.toDate) &&
             Objects.equals(gross, that.gross) &&
@@ -359,6 +371,7 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
         id,
         year,
         month,
+        totalMonthDays,
         fromDate,
         toDate,
         gross,
@@ -388,6 +401,7 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
+                (totalMonthDays != null ? "totalMonthDays=" + totalMonthDays + ", " : "") +
                 (fromDate != null ? "fromDate=" + fromDate + ", " : "") +
                 (toDate != null ? "toDate=" + toDate + ", " : "") +
                 (gross != null ? "gross=" + gross + ", " : "") +

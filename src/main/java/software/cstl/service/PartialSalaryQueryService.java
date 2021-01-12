@@ -91,6 +91,9 @@ public class PartialSalaryQueryService extends QueryService<PartialSalary> {
             if (criteria.getMonth() != null) {
                 specification = specification.and(buildSpecification(criteria.getMonth(), PartialSalary_.month));
             }
+            if (criteria.getTotalMonthDays() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalMonthDays(), PartialSalary_.totalMonthDays));
+            }
             if (criteria.getFromDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getFromDate(), PartialSalary_.fromDate));
             }

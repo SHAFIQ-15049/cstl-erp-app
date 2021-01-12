@@ -1,5 +1,7 @@
 package software.cstl.service.mediators;
 
+import lombok.AllArgsConstructor;
+import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
@@ -17,6 +19,7 @@ import java.util.*;
 
 @Service
 @Transactional
+@AllArgsConstructor
 public class PayrollService {
 
     private final MonthlySalaryRepository monthlySalaryRepository;
@@ -28,19 +31,9 @@ public class PayrollService {
     private final FinePaymentHistoryRepository finePaymentHistoryRepository;
     private final AdvanceRepository advanceRepository;
     private final AdvancePaymentHistoryRepository advancePaymentHistoryRepository;
+    private final AttendanceRepository attendanceRepository;
+    private final EmployeeSalaryRepository employeeSalaryRepository;
 
-
-    public PayrollService(MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryDtlRepository monthlySalaryDtlRepository, DesignationRepository designationRepository, EmployeeExtRepository employeeExtRepository, DefaultAllowanceRepository defaultAllowanceRepository, FineRepository fineRepository, FinePaymentHistoryRepository finePaymentHistoryRepository, AdvanceRepository advanceRepository, AdvancePaymentHistoryRepository advancePaymentHistoryRepository) {
-        this.monthlySalaryRepository = monthlySalaryRepository;
-        this.monthlySalaryDtlRepository = monthlySalaryDtlRepository;
-        this.designationRepository = designationRepository;
-        this.employeeExtRepository = employeeExtRepository;
-        this.defaultAllowanceRepository = defaultAllowanceRepository;
-        this.fineRepository = fineRepository;
-        this.finePaymentHistoryRepository = finePaymentHistoryRepository;
-        this.advanceRepository = advanceRepository;
-        this.advancePaymentHistoryRepository = advancePaymentHistoryRepository;
-    }
 
     public void createEmptyMonthlySalaries(Integer year, MonthType monthType, Long designationId){
         Designation designation = designationRepository.getOne(designationId);
@@ -78,6 +71,42 @@ public class PayrollService {
 
     private void assignSalaryAndAllowances(MonthlySalaryDtl monthlySalaryDtl){
 
+    }
+
+    public PartialSalary assignPartialSalaryAndAllowances(PartialSalary partialSalary){
+        DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+        Integer totalWorkingDays = attendanceRepository.totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
+        List<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+
+        String notes = partialSalary.getNote();
+        if(employeeAttendance.size()<totalWorkingDays){
+            notes = notes.concat(" Employee has total missing attendance in days: "+ (totalWorkingDays-employeeAttendance.size()));
+        }
+
+        BigDecimal gross, basic, houseRent, medicalAllowance, convinceAllowance, foodAllowance;
+        gross = basic = houseRent = medicalAllowance = foodAllowance = convinceAllowance = BigDecimal.ZERO;
+        BigDecimal totalMonthDays = new BigDecimal(partialSalary.getTotalMonthDays());
+        for(Attendance attendance: employeeAttendance){
+            EmployeeSalary activeSalaryForTheDay = attendance.getEmployeeSalary();
+            gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays));
+            basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays));
+            houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays));
+            medicalAllowance = medicalAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getMedicalAllowance(), defaultAllowance.getMedicalAllowance()).divide(totalMonthDays));
+            foodAllowance = foodAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getFoodAllowance(), defaultAllowance.getFoodAllowance()).divide(totalMonthDays));
+            convinceAllowance = convinceAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getConvinceAllowance(), defaultAllowance.getConvinceAllowance()).divide(totalMonthDays));
+        }
+        partialSalary.setGross(gross);
+        partialSalary.setBasic(basic);
+        partialSalary.setHouseRent(houseRent);
+        partialSalary.setMedicalAllowance(medicalAllowance);
+        partialSalary.setFoodAllowance(foodAllowance);
+        partialSalary.setConvinceAllowance(convinceAllowance);
+
+        partialSalary.setStatus(SalaryExecutionStatus.DONE);
+        partialSalary.setNote(notes);
+        partialSalary.setExecutedBy(SecurityUtils.getCurrentUserLogin().get());
+        partialSalary.setExecutedOn(Instant.now());
+        return partialSalary;
     }
 
 /*

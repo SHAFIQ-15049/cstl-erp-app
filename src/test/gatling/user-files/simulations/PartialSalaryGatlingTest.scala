@@ -74,6 +74,7 @@ class PartialSalaryGatlingTest extends Simulation {
                 "id":null
                 , "year":"0"
                 , "month":"JANUARY"
+                , "totalMonthDays":"0"
                 , "fromDate":"2020-01-01T00:00:00.000Z"
                 , "toDate":"2020-01-01T00:00:00.000Z"
                 , "gross":"0"

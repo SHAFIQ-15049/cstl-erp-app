@@ -7,6 +7,7 @@ export interface IPartialSalary {
   id?: number;
   year?: number;
   month?: MonthType;
+  totalMonthDays?: number;
   fromDate?: Moment;
   toDate?: Moment;
   gross?: number;
@@ -34,6 +35,7 @@ export class PartialSalary implements IPartialSalary {
     public id?: number,
     public year?: number,
     public month?: MonthType,
+    public totalMonthDays?: number,
     public fromDate?: Moment,
     public toDate?: Moment,
     public gross?: number,

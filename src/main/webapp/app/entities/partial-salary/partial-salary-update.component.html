@@ -60,6 +60,22 @@
                     </div>
                 </div>
 
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_totalMonthDays">Total Month Days</label>
+                    <input type="number" class="form-control" name="totalMonthDays" id="field_totalMonthDays"
+                           formControlName="totalMonthDays"/>
+                    <div *ngIf="editForm.get('totalMonthDays')!.invalid && (editForm.get('totalMonthDays')!.dirty || editForm.get('totalMonthDays')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('totalMonthDays')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('totalMonthDays')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
                 <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_fromDate">From Date</label>
                     <div class="input-group">

@@ -30,6 +30,7 @@ describe('Service Tests', () => {
         0,
         0,
         MonthType.JANUARY,
+        0,
         currentDate,
         currentDate,
         0,
@@ -102,6 +103,7 @@ describe('Service Tests', () => {
           {
             year: 1,
             month: 'BBBBBB',
+            totalMonthDays: 1,
             fromDate: currentDate.format(DATE_FORMAT),
             toDate: currentDate.format(DATE_FORMAT),
             gross: 1,
@@ -146,6 +148,7 @@ describe('Service Tests', () => {
           {
             year: 1,
             month: 'BBBBBB',
+            totalMonthDays: 1,
             fromDate: currentDate.format(DATE_FORMAT),
             toDate: currentDate.format(DATE_FORMAT),
             gross: 1,

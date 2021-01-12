@@ -31,6 +31,7 @@ export class PartialSalaryUpdatePage {
 
   yearInput = element(by.id('field_year'));
   monthSelect = element(by.id('field_month'));
+  totalMonthDaysInput = element(by.id('field_totalMonthDays'));
   fromDateInput = element(by.id('field_fromDate'));
   toDateInput = element(by.id('field_toDate'));
   grossInput = element(by.id('field_gross'));
@@ -75,6 +76,14 @@ export class PartialSalaryUpdatePage {
 
   async monthSelectLastOption(): Promise<void> {
     await this.monthSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setTotalMonthDaysInput(totalMonthDays: string): Promise<void> {
+    await this.totalMonthDaysInput.sendKeys(totalMonthDays);
+  }
+
+  async getTotalMonthDaysInput(): Promise<string> {
+    return await this.totalMonthDaysInput.getAttribute('value');
   }
 
   async setFromDateInput(fromDate: string): Promise<void> {

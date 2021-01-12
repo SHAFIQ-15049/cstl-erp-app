@@ -55,6 +55,7 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="month"><span>Month</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalMonthDays"><span>Total Month Days</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="toDate"><span>To Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="gross"><span>Gross</span> <fa-icon icon="sort"></fa-icon></th>
@@ -83,6 +84,7 @@
                     <td><a [routerLink]="['/partial-salary', partialSalary.id, 'view']">{{ partialSalary.id }}</a></td>
                     <td>{{ partialSalary.year }}</td>
                     <td>{{ partialSalary.month }}</td>
+                    <td>{{ partialSalary.totalMonthDays }}</td>
                     <td>{{ partialSalary.fromDate | date:'mediumDate' }}</td>
                     <td>{{ partialSalary.toDate | date:'mediumDate' }}</td>
                     <td>{{ partialSalary.gross }}</td>

@@ -299,6 +299,7 @@ entity PartialSalary (partial_salary){
   // employee
     year Integer required,
     month MonthType required,
+    totalMonthDays Integer required,
     fromDate LocalDate required,
     toDate LocalDate required,
     gross BigDecimal,

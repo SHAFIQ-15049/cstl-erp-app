@@ -1,5 +1,6 @@
 package software.cstl.service;
 
+import org.springframework.context.annotation.Lazy;
 import software.cstl.domain.PartialSalary;
 import software.cstl.repository.PartialSalaryRepository;
 import org.slf4j.Logger;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.security.SecurityUtils;
+import software.cstl.service.mediators.PayrollService;
 
 import java.time.Instant;
 import java.util.Optional;
@@ -24,9 +26,11 @@ public class PartialSalaryService {
     private final Logger log = LoggerFactory.getLogger(PartialSalaryService.class);
 
     private final PartialSalaryRepository partialSalaryRepository;
+    private final PayrollService payrollService;
 
-    public PartialSalaryService(PartialSalaryRepository partialSalaryRepository) {
+    public PartialSalaryService(PartialSalaryRepository partialSalaryRepository,@Lazy PayrollService payrollService) {
         this.partialSalaryRepository = partialSalaryRepository;
+        this.payrollService = payrollService;
     }
 
     /**
@@ -37,8 +41,7 @@ public class PartialSalaryService {
      */
     public PartialSalary save(PartialSalary partialSalary) {
         log.debug("Request to save PartialSalary : {}", partialSalary);
-        partialSalary.setExecutedBy(SecurityUtils.getCurrentUserLogin().get());
-        partialSalary.setExecutedOn(Instant.now());
+        partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
         return partialSalaryRepository.save(partialSalary);
     }
 

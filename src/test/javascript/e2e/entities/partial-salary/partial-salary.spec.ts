@@ -50,6 +50,7 @@ describe('PartialSalary e2e test', () => {
         await promise.all([
             partialSalaryUpdatePage.setYearInput('5'),
             partialSalaryUpdatePage.monthSelectLastOption(),
+            partialSalaryUpdatePage.setTotalMonthDaysInput('5'),
             partialSalaryUpdatePage.setFromDateInput('2000-12-31'),
             partialSalaryUpdatePage.setToDateInput('2000-12-31'),
             partialSalaryUpdatePage.setGrossInput('5'),
@@ -73,6 +74,7 @@ describe('PartialSalary e2e test', () => {
         ]);
 
         expect(await partialSalaryUpdatePage.getYearInput()).to.eq('5', 'Expected year value to be equals to 5');
+        expect(await partialSalaryUpdatePage.getTotalMonthDaysInput()).to.eq('5', 'Expected totalMonthDays value to be equals to 5');
         expect(await partialSalaryUpdatePage.getFromDateInput()).to.eq('2000-12-31', 'Expected fromDate value to be equals to 2000-12-31');
         expect(await partialSalaryUpdatePage.getToDateInput()).to.eq('2000-12-31', 'Expected toDate value to be equals to 2000-12-31');
         expect(await partialSalaryUpdatePage.getGrossInput()).to.eq('5', 'Expected gross value to be equals to 5');

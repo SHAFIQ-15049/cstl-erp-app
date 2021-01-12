@@ -40,6 +40,10 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
     private MonthType month;
 
     @NotNull
+    @Column(name = "total_month_days", nullable = false)
+    private Integer totalMonthDays;
+
+    @NotNull
     @Column(name = "from_date", nullable = false)
     private LocalDate fromDate;
 
@@ -138,6 +142,19 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
 
     public void setMonth(MonthType month) {
         this.month = month;
+    }
+
+    public Integer getTotalMonthDays() {
+        return totalMonthDays;
+    }
+
+    public PartialSalary totalMonthDays(Integer totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
+        return this;
+    }
+
+    public void setTotalMonthDays(Integer totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
     }
 
     public LocalDate getFromDate() {
@@ -424,6 +441,7 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
             "id=" + getId() +
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
+            ", totalMonthDays=" + getTotalMonthDays() +
             ", fromDate='" + getFromDate() + "'" +
             ", toDate='" + getToDate() + "'" +
             ", gross=" + getGross() +

@@ -48,6 +48,10 @@ public class PartialSalaryResourceIT {
     private static final MonthType DEFAULT_MONTH = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH = MonthType.FEBRUARY;
 
+    private static final Integer DEFAULT_TOTAL_MONTH_DAYS = 1;
+    private static final Integer UPDATED_TOTAL_MONTH_DAYS = 2;
+    private static final Integer SMALLER_TOTAL_MONTH_DAYS = 1 - 1;
+
     private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_FROM_DATE = LocalDate.ofEpochDay(-1L);
@@ -147,6 +151,7 @@ public class PartialSalaryResourceIT {
         PartialSalary partialSalary = new PartialSalary()
             .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
+            .totalMonthDays(DEFAULT_TOTAL_MONTH_DAYS)
             .fromDate(DEFAULT_FROM_DATE)
             .toDate(DEFAULT_TO_DATE)
             .gross(DEFAULT_GROSS)
@@ -188,6 +193,7 @@ public class PartialSalaryResourceIT {
         PartialSalary partialSalary = new PartialSalary()
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
+            .totalMonthDays(UPDATED_TOTAL_MONTH_DAYS)
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
             .gross(UPDATED_GROSS)
@@ -241,6 +247,7 @@ public class PartialSalaryResourceIT {
         PartialSalary testPartialSalary = partialSalaryList.get(partialSalaryList.size() - 1);
         assertThat(testPartialSalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testPartialSalary.getMonth()).isEqualTo(DEFAULT_MONTH);
+        assertThat(testPartialSalary.getTotalMonthDays()).isEqualTo(DEFAULT_TOTAL_MONTH_DAYS);
         assertThat(testPartialSalary.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
         assertThat(testPartialSalary.getToDate()).isEqualTo(DEFAULT_TO_DATE);
         assertThat(testPartialSalary.getGross()).isEqualTo(DEFAULT_GROSS);
@@ -322,6 +329,25 @@ public class PartialSalaryResourceIT {
 
     @Test
     @Transactional
+    public void checkTotalMonthDaysIsRequired() throws Exception {
+        int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
+        // set the field null
+        partialSalary.setTotalMonthDays(null);
+
+        // Create the PartialSalary, which fails.
+
+
+        restPartialSalaryMockMvc.perform(post("/api/partial-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(partialSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<PartialSalary> partialSalaryList = partialSalaryRepository.findAll();
+        assertThat(partialSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void checkFromDateIsRequired() throws Exception {
         int databaseSizeBeforeTest = partialSalaryRepository.findAll().size();
         // set the field null
@@ -371,6 +397,7 @@ public class PartialSalaryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(partialSalary.getId().intValue())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
+            .andExpect(jsonPath("$.[*].totalMonthDays").value(hasItem(DEFAULT_TOTAL_MONTH_DAYS)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
@@ -405,6 +432,7 @@ public class PartialSalaryResourceIT {
             .andExpect(jsonPath("$.id").value(partialSalary.getId().intValue()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
+            .andExpect(jsonPath("$.totalMonthDays").value(DEFAULT_TOTAL_MONTH_DAYS))
             .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
             .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
             .andExpect(jsonPath("$.gross").value(DEFAULT_GROSS.intValue()))
@@ -602,6 +630,111 @@ public class PartialSalaryResourceIT {
         // Get all the partialSalaryList where month is null
         defaultPartialSalaryShouldNotBeFound("month.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsEqualToSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays equals to DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.equals=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays equals to UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.equals=" + UPDATED_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays not equals to DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.notEquals=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays not equals to UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.notEquals=" + UPDATED_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsInShouldWork() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays in DEFAULT_TOTAL_MONTH_DAYS or UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.in=" + DEFAULT_TOTAL_MONTH_DAYS + "," + UPDATED_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays equals to UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.in=" + UPDATED_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays is not null
+        defaultPartialSalaryShouldBeFound("totalMonthDays.specified=true");
+
+        // Get all the partialSalaryList where totalMonthDays is null
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays is greater than or equal to DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.greaterThanOrEqual=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays is greater than or equal to UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.greaterThanOrEqual=" + UPDATED_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays is less than or equal to DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.lessThanOrEqual=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays is less than or equal to SMALLER_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.lessThanOrEqual=" + SMALLER_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsLessThanSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays is less than DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.lessThan=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays is less than UPDATED_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.lessThan=" + UPDATED_TOTAL_MONTH_DAYS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllPartialSalariesByTotalMonthDaysIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        partialSalaryRepository.saveAndFlush(partialSalary);
+
+        // Get all the partialSalaryList where totalMonthDays is greater than DEFAULT_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldNotBeFound("totalMonthDays.greaterThan=" + DEFAULT_TOTAL_MONTH_DAYS);
+
+        // Get all the partialSalaryList where totalMonthDays is greater than SMALLER_TOTAL_MONTH_DAYS
+        defaultPartialSalaryShouldBeFound("totalMonthDays.greaterThan=" + SMALLER_TOTAL_MONTH_DAYS);
+    }
+
 
     @Test
     @Transactional
@@ -2385,6 +2518,7 @@ public class PartialSalaryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(partialSalary.getId().intValue())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
+            .andExpect(jsonPath("$.[*].totalMonthDays").value(hasItem(DEFAULT_TOTAL_MONTH_DAYS)))
             .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
             .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].gross").value(hasItem(DEFAULT_GROSS.intValue())))
@@ -2452,6 +2586,7 @@ public class PartialSalaryResourceIT {
         updatedPartialSalary
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
+            .totalMonthDays(UPDATED_TOTAL_MONTH_DAYS)
             .fromDate(UPDATED_FROM_DATE)
             .toDate(UPDATED_TO_DATE)
             .gross(UPDATED_GROSS)
@@ -2483,6 +2618,7 @@ public class PartialSalaryResourceIT {
         PartialSalary testPartialSalary = partialSalaryList.get(partialSalaryList.size() - 1);
         assertThat(testPartialSalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testPartialSalary.getMonth()).isEqualTo(UPDATED_MONTH);
+        assertThat(testPartialSalary.getTotalMonthDays()).isEqualTo(UPDATED_TOTAL_MONTH_DAYS);
         assertThat(testPartialSalary.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
         assertThat(testPartialSalary.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testPartialSalary.getGross()).isEqualTo(UPDATED_GROSS);
