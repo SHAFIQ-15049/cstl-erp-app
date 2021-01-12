@@ -78,7 +78,7 @@ public class PayrollService {
         Integer totalWorkingDays = attendanceRepository.totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
         List<Attendance> employeeAttendance = attendanceRepository.findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
-        String notes = partialSalary.getNote();
+        String notes = partialSalary.getNote()!=null && partialSalary.getNote().length()>0?partialSalary.getNote(): "";
         if(employeeAttendance.size()<totalWorkingDays){
             notes = notes.concat(" Employee has total missing attendance in days: "+ (totalWorkingDays-employeeAttendance.size()));
         }

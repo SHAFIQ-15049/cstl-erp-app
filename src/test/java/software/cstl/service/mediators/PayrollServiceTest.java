@@ -2,6 +2,7 @@ package software.cstl.service.mediators;
 
 import liquibase.pro.packaged.A;
 import liquibase.pro.packaged.B;
+import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.runner.RunWith;
@@ -61,25 +62,99 @@ public class PayrollServiceTest {
 
     DefaultAllowance defaultAllowance;
 
-    @Test
-    public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDays(){
-        PartialSalary partialSalary = new PartialSalary();
-        partialSalary.setEmployee(TestConfig.employee());
-        partialSalary.setFromDate(LocalDate.now());
-        partialSalary.setToDate(LocalDate.now());
-        partialSalary.setTotalMonthDays(4);
+    @Nested
+    class PartialSalaryTest{
 
-        MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
-        Optional<String> adminUser = Optional.of("admin");
-        securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
-        doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-        doReturn(2).when(attendanceRepository).totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
-        doReturn(TestConfig.attendances()).when(attendanceRepository).findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
-        partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
+        @Test
+        public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDays(){
+            PartialSalary partialSalary = new PartialSalary();
+            partialSalary.setEmployee(TestConfig.employee());
+            partialSalary.setFromDate(LocalDate.now());
+            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setTotalMonthDays(4);
 
-        assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4000));
+            MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
+            Optional<String> adminUser = Optional.of("admin");
+            securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
+            doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+            doReturn(2).when(attendanceRepository).totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendances()).when(attendanceRepository).findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+
+            partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
+
+            assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4000));
+            assertThat(partialSalary.getBasic()).isEqualTo(new BigDecimal(4100/2));
+            assertThat(partialSalary.getHouseRent()).isEqualByComparingTo(new BigDecimal(2050.0/2));
+            assertThat(partialSalary.getMedicalAllowance()).isEqualByComparingTo(new BigDecimal(600.0/2));
+            assertThat(partialSalary.getConvinceAllowance()).isEqualByComparingTo(new BigDecimal(350.0/2));
+            assertThat(partialSalary.getFoodAllowance()).isEqualByComparingTo(new BigDecimal(900.0/2));
+        }
+
+        @Test
+        public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDaysAndEmployeeSalaryAllowances(){
+            PartialSalary partialSalary = new PartialSalary();
+            partialSalary.setEmployee(TestConfig.employee());
+            partialSalary.setFromDate(LocalDate.now());
+            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setTotalMonthDays(4);
+
+            MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
+            Optional<String> adminUser = Optional.of("admin");
+            securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
+            doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+            doReturn(2).when(attendanceRepository).totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithEmployeeSalaryWithAllowance()).when(attendanceRepository).findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+
+            partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
+
+            assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4000));
+            assertThat(partialSalary.getMedicalAllowance()).isEqualByComparingTo(new BigDecimal(650.0/2));
+        }
+
+        @Test
+        public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDaysAndDifferentEmployeeSalaries(){
+            PartialSalary partialSalary = new PartialSalary();
+            partialSalary.setEmployee(TestConfig.employee());
+            partialSalary.setFromDate(LocalDate.now());
+            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setTotalMonthDays(4);
+
+            MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
+            Optional<String> adminUser = Optional.of("admin");
+            securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
+            doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+            doReturn(2).when(attendanceRepository).totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithDifferentEmployeeSalaries()).when(attendanceRepository).findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+
+            partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
+
+            assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4025));
+
+        }
+
+        @Test
+        public void assignPartialSalaryAndAllowancesTestWithLessWorkingDays(){
+            PartialSalary partialSalary = new PartialSalary();
+            partialSalary.setEmployee(TestConfig.employee());
+            partialSalary.setFromDate(LocalDate.now());
+            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setTotalMonthDays(4);
+
+            MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
+            Optional<String> adminUser = Optional.of("admin");
+            securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
+            doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+            doReturn(2).when(attendanceRepository).totalAttendanceDays(partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.singleAttendances()).when(attendanceRepository).findByEmployeeAndAttendanceDataUploadBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+
+            partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
+
+            assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(2000));
+        }
     }
+
+
 
     static class TestConfig{
         public static DefaultAllowance defaultAllowance(){
@@ -109,6 +184,25 @@ public class PayrollServiceTest {
             return employeeSalary;
         }
 
+        public static EmployeeSalary employeeSalaryWithAllowance(){
+            EmployeeSalary employeeSalary = new EmployeeSalary();
+            employeeSalary.setEmployee(employee());
+            employeeSalary.setGross(new BigDecimal(8000));
+            employeeSalary.setBasic(new BigDecimal(4100));
+            employeeSalary.setHouseRent(new BigDecimal(2050));
+            employeeSalary.setMedicalAllowance(new BigDecimal(650));
+            return employeeSalary;
+        }
+
+        public static EmployeeSalary updatedEmployeeSalaryWithoutAllowance(){
+            EmployeeSalary employeeSalary = new EmployeeSalary();
+            employeeSalary.setEmployee(employee());
+            employeeSalary.setGross(new BigDecimal(8100));
+            employeeSalary.setBasic(new BigDecimal(4200));
+            employeeSalary.setHouseRent(new BigDecimal(2050));
+            return employeeSalary;
+        }
+
         public static List<Attendance> attendances(){
             List<Attendance> attendances = new ArrayList<>();
             Attendance attendance1 = new Attendance();
@@ -124,6 +218,52 @@ public class PayrollServiceTest {
             attendance2.setAttendanceDate(LocalDate.now());
             attendances.add(attendance2);
 
+            return attendances;
+        }
+
+        public static List<Attendance> attendancesWithEmployeeSalaryWithAllowance(){
+            List<Attendance> attendances = new ArrayList<>();
+            Attendance attendance1 = new Attendance();
+            attendance1.setEmployee(employee());
+            attendance1.setEmployeeSalary(employeeSalaryWithAllowance());
+            attendance1.setAttendanceDate(LocalDate.now());
+
+            attendances.add(attendance1);
+
+            Attendance attendance2 = new Attendance();
+            attendance2.setEmployee(employee());
+            attendance2.setEmployeeSalary(employeeSalaryWithAllowance());
+            attendance2.setAttendanceDate(LocalDate.now());
+            attendances.add(attendance2);
+
+            return attendances;
+        }
+
+        public static List<Attendance> attendancesWithDifferentEmployeeSalaries(){
+            List<Attendance> attendances = new ArrayList<>();
+            Attendance attendance1 = new Attendance();
+            attendance1.setEmployee(employee());
+            attendance1.setEmployeeSalary(employeeSalaryWithoutAllowance());
+            attendance1.setAttendanceDate(LocalDate.now());
+
+            attendances.add(attendance1);
+
+            Attendance attendance2 = new Attendance();
+            attendance2.setEmployee(employee());
+            attendance2.setEmployeeSalary(updatedEmployeeSalaryWithoutAllowance());
+            attendance2.setAttendanceDate(LocalDate.now());
+            attendances.add(attendance2);
+
+            return attendances;
+        }
+
+        public static List<Attendance> singleAttendances(){
+            List<Attendance> attendances = new ArrayList<>();
+            Attendance attendance1 = new Attendance();
+            attendance1.setEmployee(employee());
+            attendance1.setEmployeeSalary(employeeSalaryWithoutAllowance());
+            attendance1.setAttendanceDate(LocalDate.now());
+            attendances.add(attendance1);
             return attendances;
         }
 
