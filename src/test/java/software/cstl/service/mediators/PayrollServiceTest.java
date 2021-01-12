@@ -89,6 +89,8 @@ public class PayrollServiceTest {
             assertThat(partialSalary.getMedicalAllowance()).isEqualByComparingTo(new BigDecimal(600.0/2));
             assertThat(partialSalary.getConvinceAllowance()).isEqualByComparingTo(new BigDecimal(350.0/2));
             assertThat(partialSalary.getFoodAllowance()).isEqualByComparingTo(new BigDecimal(900.0/2));
+
+            securityUtilsMockedStatic.close();
         }
 
         @Test
@@ -110,6 +112,8 @@ public class PayrollServiceTest {
 
             assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4000));
             assertThat(partialSalary.getMedicalAllowance()).isEqualByComparingTo(new BigDecimal(650.0/2));
+            securityUtilsMockedStatic.close();
+
         }
 
         @Test
@@ -130,6 +134,7 @@ public class PayrollServiceTest {
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
             assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(4025));
+            securityUtilsMockedStatic.close();
 
         }
 
@@ -151,6 +156,9 @@ public class PayrollServiceTest {
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
             assertThat(partialSalary.getGross()).isEqualTo(new BigDecimal(2000));
+
+            securityUtilsMockedStatic.close();
+
         }
     }
 
