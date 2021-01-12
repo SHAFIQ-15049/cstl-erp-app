@@ -1,7 +1,5 @@
 package software.cstl.service.mediators;
 
-import liquibase.pro.packaged.A;
-import liquibase.pro.packaged.B;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
