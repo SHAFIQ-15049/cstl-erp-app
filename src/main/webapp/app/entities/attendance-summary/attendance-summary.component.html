@@ -1,0 +1,77 @@
+<div>
+    <h2 id="page-heading">
+        <span>Attendance Summaries</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-md-8">
+            <form>
+                <h4>Filter by date</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">from</span>
+                    </div>
+                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                           required/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">To</span>
+                    </div>
+                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                           required/>
+
+                    <button type="submit" class="btn btn-info" (click)="loadAll()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="attendanceSummaries?.length === 0">
+        <span>No attendanceSummaries found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Employee</span></th>
+                    <th scope="col" ><span>Id (Machine)</span></th>
+                    <th scope="col" ><span>Date</span></th>
+                    <th scope="col" ><span>In</span></th>
+                    <th scope="col" ><span>Out</span></th>
+                    <th scope="col" ><span>Diff</span></th>
+                    <th scope="col" ><span>OverTime</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
+                    <td>{{ attendanceSummary.id }}</td>
+                    <td>
+                        <div *ngIf="attendanceSummary.employeeId">
+                            {{ attendanceSummary.employeeName }}
+                        </div>
+                    </td>
+                    <td>
+                        <div *ngIf="attendanceSummary.employeeId">
+                            {{ attendanceSummary.employeeMachineId }}
+                        </div>
+                    </td>
+                    <td>{{ attendanceSummary.attendanceDate | date:'mediumDate' }}</td>
+                    <td>{{ attendanceSummary.inTime | date:"mediumTime":"+0000" }}</td>
+                    <td>{{ attendanceSummary.outTime | date:"mediumTime":"+0000" }}</td>
+                    <td>{{ attendanceSummary.diff }}</td>
+                    <td>{{ attendanceSummary.overTime }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

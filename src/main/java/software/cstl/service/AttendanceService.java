@@ -14,6 +14,7 @@ import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
+import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,6 +103,29 @@ public class AttendanceService {
     }
 
     /**
+     * Get all the attendances.
+     *
+     * @param employee the employee.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @return the list of entities.
+     */
+    public List<Attendance> findAll(Employee employee, LocalDate fromDate, LocalDate toDate) {
+        return attendanceRepository.getALlByEmployeeEqualsAndAttendanceDateIsGreaterThanEqualAndAttendanceDateIsLessThanEqual(employee, fromDate, toDate);
+    }
+
+    /**
+     * Get all the attendances.
+     *
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @return the list of entities.
+     */
+    public List<Attendance> findAll(LocalDate fromDate, LocalDate toDate) {
+        return attendanceRepository.getAllByAttendanceDateIsGreaterThanEqualAndAttendanceDateIsLessThanEqual(fromDate, toDate);
+    }
+
+    /**
      * Save bulk attendance from TXT file.
      *
      * @param attendanceDataUpload the entity where attendance data needs to process and then save.
@@ -145,8 +169,9 @@ public class AttendanceService {
             String second = attendanceTime.substring(4, 6);
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
+            LocalDate localDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
             Instant instant = Instant.parse(instantText);
-            return getAttendance(attendanceDataUpload, candidateSalary, candidate, machineCode, instant);
+            return getAttendance(attendanceDataUpload, candidateSalary, candidate, machineCode, localDate, instant);
         }
         else {
             log.debug("ERROR! Missing employee or employee salary information {} ", line);
@@ -154,15 +179,16 @@ public class AttendanceService {
         }
     }
 
-    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, Instant instant) {
+    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, LocalDate localDate, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setMachineNo(machineCode);
-        attendance.setAttendanceDate(instant.atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1));
+        attendance.setAttendanceDate(localDate.plusDays(1));
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(candidate);
         attendance.setEmployeeSalary(candidateSalary);
         attendance.setConsiderAs(ConsiderAsType.REGULAR);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
+        attendance.setInOrOutTime(instant.atZone(ZoneId.of("Asia/Dhaka")));
         return attendance;
     }
 

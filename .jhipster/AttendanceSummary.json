@@ -1,0 +1,56 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "relationships": [
+    {
+      "relationshipName": "employee",
+      "otherEntityName": "employee",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendanceSummary"
+    },
+    {
+      "relationshipName": "employeeSalary",
+      "otherEntityName": "employeeSalary",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendanceSummary"
+    }
+  ],
+  "fields": [
+    {
+      "fieldName": "attendanceDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "inTime",
+      "fieldType": "Instant",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "outTime",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "diff",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "overTime",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "changelogDate": "20210112153334",
+  "dto": "mapstruct",
+  "searchEngine": false,
+  "service": "serviceClass",
+  "entityTableName": "attendance_summary",
+  "databaseType": "sql",
+  "readOnly": true,
+  "jpaMetamodelFiltering": false,
+  "pagination": "no"
+}

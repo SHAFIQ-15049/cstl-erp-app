@@ -37,7 +37,6 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
-        <dropDefaultValue tableName="attendance" columnName="attendance_time" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210108055117-1-relations" author="jhipster">
