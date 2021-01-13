@@ -15,7 +15,6 @@ import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
 import java.time.LocalDate;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -188,7 +187,6 @@ public class AttendanceService {
         attendance.setEmployeeSalary(candidateSalary);
         attendance.setConsiderAs(ConsiderAsType.REGULAR);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
-        attendance.setInOrOutTime(instant.atZone(ZoneId.of("Asia/Dhaka")));
         return attendance;
     }
 
