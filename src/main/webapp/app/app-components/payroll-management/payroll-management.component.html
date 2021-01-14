@@ -28,9 +28,9 @@
     </div>
     <div class="form-group col-md-2">
         <label class="form-control-label" for="field_designation">Designation</label>
-        <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignation">
+        <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignationId" (ngModelChange)="designationIdChanged()">
             <option></option>
-            <option [ngValue]="designationOption" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
         </select>
     </div>
     <div class="form-group col-md-2">
@@ -53,6 +53,12 @@
         </div>
     </div>
     <div class="form-group col-md-2" style="align-items: end;">
-        <button class="btn btn-secondary" (click)="fetch()">Fetch</button>
+        <button class="btn btn-secondary" (click)="navigate()">Fetch</button>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <router-outlet></router-outlet>
     </div>
 </div>

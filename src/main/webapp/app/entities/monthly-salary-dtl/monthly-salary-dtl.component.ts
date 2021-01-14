@@ -24,6 +24,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  monthlySalaryId?: number;
 
   constructor(
     protected monthlySalaryDtlService: MonthlySalaryDtlService,
@@ -42,6 +43,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        'monthlySalaryId.equals': this.monthlySalaryId
       })
       .subscribe(
         (res: HttpResponse<IMonthlySalaryDtl[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -56,6 +58,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
+      this.monthlySalaryId = +params.get('monthlySalaryId')!;
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');

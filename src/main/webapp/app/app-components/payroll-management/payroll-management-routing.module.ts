@@ -4,6 +4,8 @@ import { PayrollManagementComponent } from 'app/app-components/payroll-managemen
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 
+
+
 const routes: Routes = [
   {
     path: '',
@@ -13,6 +15,27 @@ const routes: Routes = [
       pageTitle: 'Payroll Management',
     },
     canActivate: [UserRouteAccessService],
+    children: [
+      {
+        path: 'monthly-salary-dtl',
+        loadChildren: ()=> import('../../entities/monthly-salary-dtl/monthly-salary-dtl.module').then(m=> m.CodeNodeErpMonthlySalaryDtlModule)
+      }
+    ]
+  },
+  {
+    path: ':selectedYear/:selectedMonth/:selectedDesignationId/:fromDate/:toDate',
+    component: PayrollManagementComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Payroll Management',
+    },
+    canActivate: [UserRouteAccessService],
+    children: [
+      {
+        path: 'monthly-salary-dtl',
+        loadChildren: ()=> import('../../entities/monthly-salary-dtl/monthly-salary-dtl.module').then(m=> m.CodeNodeErpMonthlySalaryDtlModule)
+      }
+    ]
   },
 ];
 
