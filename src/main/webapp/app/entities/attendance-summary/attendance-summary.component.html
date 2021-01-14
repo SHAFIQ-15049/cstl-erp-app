@@ -8,11 +8,20 @@
     <jhi-alert></jhi-alert>
 
     <div class="row">
-        <div class="col-md-8">
+        <div class="col-md-9">
             <form>
                 <h4>Filter by date</h4>
 
                 <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Employee</span>
+                    </div>
+                    <select class="form-control" name="employee"
+                            [(ngModel)]="employee" required>
+                        <option [ngValue]="-1" selected>Select All</option>
+                        <option [ngValue]="employeeOption.id"
+                                *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
+                    </select>
                     <div class="input-group-prepend">
                         <span class="input-group-text">from</span>
                     </div>

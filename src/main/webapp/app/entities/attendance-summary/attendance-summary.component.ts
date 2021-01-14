@@ -6,6 +6,8 @@ import { JhiEventManager } from 'ng-jhipster';
 import { IAttendanceSummary } from 'app/shared/model/attendance-summary.model';
 import { AttendanceSummaryService } from './attendance-summary.service';
 import { DatePipe } from '@angular/common';
+import { EmployeeService } from 'app/entities/employee/employee.service';
+import { IEmployee } from 'app/shared/model/employee.model';
 
 @Component({
   selector: 'jhi-attendance-summary',
@@ -13,15 +15,18 @@ import { DatePipe } from '@angular/common';
 })
 export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   attendanceSummaries?: IAttendanceSummary[];
+  employees?: IEmployee[];
   eventSubscriber?: Subscription;
 
   fromDate = '';
   toDate = '';
+  employee?: number = -1;
 
   private dateFormat = 'yyyy-MM-dd';
 
   constructor(
     protected attendanceSummaryService: AttendanceSummaryService,
+    protected employeeService: EmployeeService,
     protected eventManager: JhiEventManager,
     private datePipe: DatePipe
   ) {}
@@ -38,8 +43,9 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
 
   loadAll(): void {
     if (this.canLoad()) {
+      this.attendanceSummaries = [];
       this.attendanceSummaryService
-        .findByFromAndToDate(this.fromDate, this.toDate)
+        .findByEmployeeIdFromAndToDate(this.employee!, this.fromDate, this.toDate)
         .subscribe((res: HttpResponse<IAttendanceSummary[]>) => (this.attendanceSummaries = res.body || []));
     }
   }
@@ -47,6 +53,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.toDate = this.today();
     this.fromDate = this.today();
+    this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     this.loadAll();
     this.registerChangeInAttendanceSummaries();
   }

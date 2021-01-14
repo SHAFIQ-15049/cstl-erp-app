@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 /**
@@ -43,7 +44,20 @@ public class AttendanceSummaryService {
     @Transactional(readOnly = true)
     public List<AttendanceSummaryDTO> findAll(Long employeeId, LocalDate fromDate, LocalDate toDate) {
         log.debug("Request to get all AttendanceSummaries {} {} {}", employeeId, fromDate, toDate);
-        return null;
+        List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee = new ArrayList<>();
+
+        if(employeeId != -1) {
+            for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOs) {
+                if (attendanceSummaryDTO.getEmployeeId().equals(employeeId)) {
+                    attendanceSummaryDTOsSpecificEmployee.add(attendanceSummaryDTO);
+                }
+            }
+        }
+        else {
+            attendanceSummaryDTOsSpecificEmployee = attendanceSummaryDTOs;
+        }
+        return attendanceSummaryDTOsSpecificEmployee;
     }
 
 
@@ -84,8 +98,6 @@ public class AttendanceSummaryService {
         List<Attendance> attendances = attendanceService.findAll(from, to);
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = new ArrayList<>();
 
-        int counter = 0;
-
         while (from.isBefore(to)) {
 
             Instant dayWiseFrom = from;
@@ -100,9 +112,7 @@ public class AttendanceSummaryService {
             }
 
             for (Attendance attendance : dayWiseAttendances) {
-                counter++;
                 AttendanceSummaryDTO attendanceSummaryDTO = new AttendanceSummaryDTO();
-                attendanceSummaryDTO.setId((long) counter);
                 attendanceSummaryDTO.setEmployeeId(attendance.getEmployee().getId());
                 attendanceSummaryDTO.setEmployeeName(attendance.getEmployee().getName());
                 attendanceSummaryDTO.setEmployeeMachineId(attendance.getEmployee().getAttendanceMachineId());
@@ -132,15 +142,24 @@ public class AttendanceSummaryService {
 
                 attendanceSummaryDTO.setInTime(inTime);
                 attendanceSummaryDTO.setOutTime(outTime);
-                attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime).toString());
-                attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8).toString() : "N/A");
+                attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
+                attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
 
                 attendanceSummaryDTOs.add(attendanceSummaryDTO);
             }
 
             from = from.plusSeconds(86400);
         }
-        return attendanceSummaryDTOs;
+
+        List<AttendanceSummaryDTO> removeDuplicates = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
+
+        int serial = 0;
+        for(AttendanceSummaryDTO attendanceSummaryDTO: removeDuplicates) {
+            serial++;
+            attendanceSummaryDTO.setId(Long.parseLong(serial + ""));
+        }
+
+        return removeDuplicates;
     }
 
 }

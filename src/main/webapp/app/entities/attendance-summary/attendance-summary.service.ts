@@ -29,6 +29,14 @@ export class AttendanceSummaryService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
+  findByEmployeeIdFromAndToDate(employeeId: number, fromDate: string, toDate: string): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IAttendanceSummary[]>(`${this.resourceUrl}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}`, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   findByFromAndToDate(fromDate: string, toDate: string): Observable<EntityArrayResponseType> {
     return this.http
       .get<IAttendanceSummary[]>(`${this.resourceUrl}/fromDate/${fromDate}/toDate/${toDate}`, { observe: 'response' })

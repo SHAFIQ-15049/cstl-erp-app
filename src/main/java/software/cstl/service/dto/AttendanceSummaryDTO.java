@@ -1,23 +1,20 @@
 package software.cstl.service.dto;
 
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.time.Duration;
 import java.time.Instant;
 
 public class AttendanceSummaryDTO implements Serializable {
 
     private Long id;
 
-    @NotNull
     private Instant inTime;
 
     private Instant outTime;
 
-    @NotNull
-    private String diff;
+    private Duration diff;
 
-    @NotNull
-    private String overTime;
+    private Duration overTime;
 
 
     private Long employeeId;
@@ -52,19 +49,19 @@ public class AttendanceSummaryDTO implements Serializable {
         this.outTime = outTime;
     }
 
-    public String getDiff() {
+    public Duration getDiff() {
         return diff;
     }
 
-    public void setDiff(String diff) {
+    public void setDiff(Duration diff) {
         this.diff = diff;
     }
 
-    public String getOverTime() {
+    public Duration getOverTime() {
         return overTime;
     }
 
-    public void setOverTime(String overTime) {
+    public void setOverTime(Duration overTime) {
         this.overTime = overTime;
     }
 
@@ -109,7 +106,9 @@ public class AttendanceSummaryDTO implements Serializable {
             return false;
         }
 
-        return id != null && id.equals(((AttendanceSummaryDTO) o).id);
+        return employeeId != null && employeeId.equals(((AttendanceSummaryDTO) o).employeeId) &&
+            inTime != null && inTime.equals(((AttendanceSummaryDTO) o).inTime) &&
+            outTime != null && outTime.equals(((AttendanceSummaryDTO) o).outTime);
     }
 
     @Override
