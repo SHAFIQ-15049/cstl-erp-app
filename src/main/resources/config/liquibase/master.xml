@@ -95,6 +95,7 @@
     <include file="config/liquibase/changelog/20210111135243_PartialSalary_executedBy_added.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210111143336_constraints_added_PartialSalary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210111172210_total_monthDays_added_entity_PartialSalary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210113182148_fromDate_and_toDate_added_MonthlySalary.xml" relativeToChangelogFile="false"/>
 
 
 

@@ -74,6 +74,8 @@ class MonthlySalaryGatlingTest extends Simulation {
                 "id":null
                 , "year":"0"
                 , "month":"JANUARY"
+                , "fromDate":"2020-01-01T00:00:00.000Z"
+                , "toDate":"2020-01-01T00:00:00.000Z"
                 , "status":"DONE"
                 , "executedOn":"2020-01-01T00:00:00.000Z"
                 , "executedBy":"SAMPLE_TEXT"

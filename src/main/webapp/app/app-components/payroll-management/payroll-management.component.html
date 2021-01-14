@@ -9,7 +9,7 @@
             <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
         </select>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
         <label class="form-control-label" for="field_month">Month</label>
         <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
             <option value="JANUARY">JANUARY</option>
@@ -26,12 +26,31 @@
             <option value="DECEMBER">DECEMBER</option>
         </select>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
         <label class="form-control-label" for="field_designation">Designation</label>
         <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignation">
             <option></option>
             <option [value]="designationOption" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
         </select>
+    </div>
+    <div class="form-group col-md-2">
+        <label class="form-control-label" for="field_fromDate">From Date</label>
+        <div class="input-group">
+            <input id="field_fromDate" type="text" class="form-control" [(ngModel)]="fromDate" name="fromDate" ngbDatepicker #fromDateDp="ngbDatepicker"/>
+            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fromDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+        </div>
+    </div>
+
+    <div class="form-group col-md-2">
+        <label class="form-control-label" for="field_toDate">To Date</label>
+        <div class="input-group">
+            <input id="field_toDate" type="text"  [(ngModel)]="toDate" class="form-control" name="toDate" ngbDatepicker #toDateDp="ngbDatepicker" />
+            <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="toDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+        </div>
     </div>
     <div class="form-group col-md-2" style="align-items: end;">
         <button class="btn btn-secondary" (click)="fetch()">Fetch</button>

@@ -8,6 +8,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -39,6 +40,12 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
     @Column(name = "month")
     private MonthType month;
 
+    @Column(name = "from_date")
+    private LocalDate fromDate;
+
+    @Column(name = "to_date")
+    private LocalDate toDate;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private SalaryExecutionStatus status;
@@ -49,7 +56,7 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
     @Column(name = "executed_by")
     private String executedBy;
 
-    @OneToMany(mappedBy = "monthlySalary", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "monthlySalary")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<MonthlySalaryDtl> monthlySalaryDtls = new HashSet<>();
 
@@ -90,6 +97,32 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
 
     public void setMonth(MonthType month) {
         this.month = month;
+    }
+
+    public LocalDate getFromDate() {
+        return fromDate;
+    }
+
+    public MonthlySalary fromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
+        return this;
+    }
+
+    public void setFromDate(LocalDate fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public LocalDate getToDate() {
+        return toDate;
+    }
+
+    public MonthlySalary toDate(LocalDate toDate) {
+        this.toDate = toDate;
+        return this;
+    }
+
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
     }
 
     public SalaryExecutionStatus getStatus() {
@@ -193,6 +226,8 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
             "id=" + getId() +
             ", year=" + getYear() +
             ", month='" + getMonth() + "'" +
+            ", fromDate='" + getFromDate() + "'" +
+            ", toDate='" + getToDate() + "'" +
             ", status='" + getStatus() + "'" +
             ", executedOn='" + getExecutedOn() + "'" +
             ", executedBy='" + getExecutedBy() + "'" +

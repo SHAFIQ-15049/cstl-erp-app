@@ -13,6 +13,7 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.InstantFilter;
+import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.MonthlySalary} entity. This class is used
@@ -69,6 +70,10 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
 
     private MonthTypeFilter month;
 
+    private LocalDateFilter fromDate;
+
+    private LocalDateFilter toDate;
+
     private SalaryExecutionStatusFilter status;
 
     private InstantFilter executedOn;
@@ -86,6 +91,8 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.year = other.year == null ? null : other.year.copy();
         this.month = other.month == null ? null : other.month.copy();
+        this.fromDate = other.fromDate == null ? null : other.fromDate.copy();
+        this.toDate = other.toDate == null ? null : other.toDate.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
@@ -120,6 +127,22 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
 
     public void setMonth(MonthTypeFilter month) {
         this.month = month;
+    }
+
+    public LocalDateFilter getFromDate() {
+        return fromDate;
+    }
+
+    public void setFromDate(LocalDateFilter fromDate) {
+        this.fromDate = fromDate;
+    }
+
+    public LocalDateFilter getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(LocalDateFilter toDate) {
+        this.toDate = toDate;
     }
 
     public SalaryExecutionStatusFilter getStatus() {
@@ -176,6 +199,8 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(year, that.year) &&
             Objects.equals(month, that.month) &&
+            Objects.equals(fromDate, that.fromDate) &&
+            Objects.equals(toDate, that.toDate) &&
             Objects.equals(status, that.status) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
@@ -189,6 +214,8 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         id,
         year,
         month,
+        fromDate,
+        toDate,
         status,
         executedOn,
         executedBy,
@@ -204,6 +231,8 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (year != null ? "year=" + year + ", " : "") +
                 (month != null ? "month=" + month + ", " : "") +
+                (fromDate != null ? "fromDate=" + fromDate + ", " : "") +
+                (toDate != null ? "toDate=" + toDate + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +

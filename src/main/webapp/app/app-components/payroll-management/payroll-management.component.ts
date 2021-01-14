@@ -12,6 +12,8 @@ import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.m
 import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
+import {Moment} from "moment";
+import {PayrollManagementService} from "app/app-components/payroll-management/payroll-management.service";
 
 @Component({
   selector: 'jhi-payroll-management',
@@ -25,15 +27,18 @@ export class PayrollManagementComponent implements OnInit {
   designationSelectData: Select2Data = [];
   selectedDesignation?: IDesignation;
   monthlySalary!: IMonthlySalary;
-  monthlySalaryDtl: IMonthlySalaryDtl[] = [];
+  monthlySalaryDtls: IMonthlySalaryDtl[] = [];
   selectedMonth?: MonthType;
+  fromDate?: Moment;
+  toDate?: Moment;
 
   constructor(
     private designationService: DesignationService,
     private monthlySalaryService: MonthlySalaryService,
     private monthlySalaryDtlService: MonthlySalaryDtlService,
     private jhiAlertService: JhiAlertService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private payrollManagementService: PayrollManagementService
   ) {}
 
   ngOnInit(): void {
@@ -58,22 +63,21 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   fetch(): void {
-    if (this.selectedYear && this.selectedDesignation) {
+    if (this.selectedYear && this.selectedDesignation && this.fromDate && this.toDate) {
       this.monthlySalaryService
         .query({
           'year.equals': this.selectedYear,
           'designationId.equals': this.selectedDesignation.id,
-        })
-        .pipe(
-          map(res => {
-            if (res.body?.length! > 0) {
-              this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
-              this.fetchMonthlySalaryDtl();
-            } /*else{
-
-          }*/
-          })
-        );
+        }).subscribe((res)=>{
+        if (res.body?.length! > 0) {
+          this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
+          this.fetchMonthlySalaryDtl();
+        } else{
+          this.payrollManagementService.createEmptySalaries(this.selectedYear!, this.selectedMonth!, this.selectedDesignation?.id!).subscribe((response)=>{
+            this.fetch();
+          });
+        }
+      });
     } else {
       this.jhiAlertService.error('Year and Designation must be selected');
     }
@@ -86,7 +90,7 @@ export class PayrollManagementComponent implements OnInit {
           'monthlySalaryId.equals': this.monthlySalary?.id,
         })
         .subscribe(res => {
-          this.monthlySalaryDtl = res.body!;
+          this.monthlySalaryDtls = res.body!;
         });
     } else {
       this.jhiAlertService.error('Monthly salary is not configured by the system');

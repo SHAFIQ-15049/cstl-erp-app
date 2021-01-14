@@ -8,6 +8,8 @@ export interface IMonthlySalary {
   id?: number;
   year?: number;
   month?: MonthType;
+  fromDate?: Moment;
+  toDate?: Moment;
   status?: SalaryExecutionStatus;
   executedOn?: Moment;
   executedBy?: string;
@@ -20,6 +22,8 @@ export class MonthlySalary implements IMonthlySalary {
     public id?: number,
     public year?: number,
     public month?: MonthType,
+    public fromDate?: Moment,
+    public toDate?: Moment,
     public status?: SalaryExecutionStatus,
     public executedOn?: Moment,
     public executedBy?: string,

@@ -19,11 +19,15 @@ import { DesignationService } from 'app/entities/designation/designation.service
 export class MonthlySalaryUpdateComponent implements OnInit {
   isSaving = false;
   designations: IDesignation[] = [];
+  fromDateDp: any;
+  toDateDp: any;
 
   editForm = this.fb.group({
     id: [],
     year: [],
     month: [],
+    fromDate: [],
+    toDate: [],
     status: [],
     executedOn: [],
     executedBy: [],
@@ -55,6 +59,8 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       id: monthlySalary.id,
       year: monthlySalary.year,
       month: monthlySalary.month,
+      fromDate: monthlySalary.fromDate,
+      toDate: monthlySalary.toDate,
       status: monthlySalary.status,
       executedOn: monthlySalary.executedOn ? monthlySalary.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: monthlySalary.executedBy,
@@ -82,6 +88,8 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       year: this.editForm.get(['year'])!.value,
       month: this.editForm.get(['month'])!.value,
+      fromDate: this.editForm.get(['fromDate'])!.value,
+      toDate: this.editForm.get(['toDate'])!.value,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value,

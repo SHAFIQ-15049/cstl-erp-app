@@ -265,6 +265,8 @@ entity MonthlySalary (monthly_salary){
   //designation
   year Integer,
   month MonthType,
+  fromDate LocalDate,
+  toDate LocalDate,
   status SalaryExecutionStatus,
   executedOn Instant,
   executedBy String
