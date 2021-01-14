@@ -1,13 +1,16 @@
 package software.cstl.web.rest;
 
+import io.github.jhipster.web.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import software.cstl.domain.MonthlySalary;
 import software.cstl.domain.enumeration.MonthType;
 import software.cstl.service.mediators.PayrollService;
+
+import java.net.URI;
+import java.net.URISyntaxException;
 
 /**
  * PayrollManagementResource controller
@@ -27,10 +30,11 @@ public class PayrollManagementResource {
     /**
     * GET generateEmptySalaries
     */
-    @GetMapping("/generate-empty-salaries/year/{year}/month/{month}/designation/{designationId}")
-    public String generateEmptySalaries(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId) {
-        payrollService.createEmptyMonthlySalaries(year, month, designationId);
-        return "generateEmptySalaries";
+    @PostMapping("/generate-empty-salaries")
+    public ResponseEntity<MonthlySalary> generateEmptySalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException {
+        monthlySalary = payrollService.createEmptyMonthlySalaries(monthlySalary);
+        return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
+            .body(monthlySalary);
     }
 
     /**

@@ -24,7 +24,6 @@ export class PayrollManagementComponent implements OnInit {
   years: number[] = [];
   selectedYear?: number;
   designations: IDesignation[] = [];
-  designationSelectData: Select2Data = [];
   selectedDesignation?: IDesignation;
   monthlySalary!: IMonthlySalary;
   monthlySalaryDtls: IMonthlySalaryDtl[] = [];
@@ -73,7 +72,12 @@ export class PayrollManagementComponent implements OnInit {
           this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
           this.fetchMonthlySalaryDtl();
         } else{
-          this.payrollManagementService.createEmptySalaries(this.selectedYear!, this.selectedMonth!, this.selectedDesignation?.id!).subscribe((response)=>{
+          const monthlySalary = new MonthlySalary();
+          monthlySalary.year= this.selectedYear;
+          monthlySalary.designation = this.selectedDesignation;
+          monthlySalary.fromDate = this.fromDate;
+          monthlySalary.toDate = this.toDate;
+          this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe((response)=>{
             this.fetch();
           });
         }

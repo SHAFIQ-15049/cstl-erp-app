@@ -35,27 +35,23 @@ public class PayrollService {
     private final EmployeeSalaryRepository employeeSalaryRepository;
 
 
-    public void createEmptyMonthlySalaries(Integer year, MonthType monthType, Long designationId){
-        Designation designation = designationRepository.getOne(designationId);
-        MonthlySalary monthlySalary = new MonthlySalary();
-        monthlySalary.month(monthType)
-            .year(year)
-            .designation(designation)
-            .monthlySalaryDtls(getEmptyMonthSalaryDtls(designation))
+    public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary){
+        monthlySalary
             .status(SalaryExecutionStatus.NOT_DONE);
+        getEmptyMonthSalaryDtls(monthlySalary);
+        return monthlySalaryRepository.save(monthlySalary);
     }
 
-    private Set<MonthlySalaryDtl> getEmptyMonthSalaryDtls(Designation designation){
-        Set<MonthlySalaryDtl> monthlySalaryDtls = new HashSet<>();
-        List<Employee> employees = employeeExtRepository.findAllByDesignationAndStatus(designation, EmployeeStatus.ACTIVE);
+    private MonthlySalary getEmptyMonthSalaryDtls(MonthlySalary monthlySalary){
+        List<Employee> employees = employeeExtRepository.findAllByDesignationAndStatus(monthlySalary.getDesignation(), EmployeeStatus.ACTIVE);
 
         for(Employee employee: employees){
             MonthlySalaryDtl monthlySalaryDtl = new MonthlySalaryDtl();
             monthlySalaryDtl.employee(employee)
                 .status(SalaryExecutionStatus.NOT_DONE);
-            monthlySalaryDtls.add(monthlySalaryDtl);
+            monthlySalary.addMonthlySalaryDtl(monthlySalaryDtl);
         }
-        return monthlySalaryDtls;
+        return monthlySalary;
     }
 
     public void createMonthlySalaries(Integer year, MonthType monthType, Long designationId){
