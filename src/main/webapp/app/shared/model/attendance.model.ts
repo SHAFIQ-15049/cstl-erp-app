@@ -6,7 +6,6 @@ import { ConsiderAsType } from 'app/shared/model/enumerations/consider-as-type.m
 
 export interface IAttendance {
   id?: number;
-  attendanceDate?: Moment;
   attendanceTime?: Moment;
   considerAs?: ConsiderAsType;
   machineNo?: string;
@@ -18,7 +17,6 @@ export interface IAttendance {
 export class Attendance implements IAttendance {
   constructor(
     public id?: number,
-    public attendanceDate?: Moment,
     public attendanceTime?: Moment,
     public considerAs?: ConsiderAsType,
     public machineNo?: string,

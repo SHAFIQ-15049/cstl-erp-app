@@ -27,11 +27,9 @@ export class AttendanceUpdateComponent implements OnInit {
   employees: IEmployee[] = [];
   attendancedatauploads: IAttendanceDataUpload[] = [];
   employeesalaries: IEmployeeSalary[] = [];
-  attendanceDateDp: any;
 
   editForm = this.fb.group({
     id: [],
-    attendanceDate: [null, [Validators.required]],
     attendanceTime: [null, [Validators.required]],
     considerAs: [null, [Validators.required]],
     machineNo: [null, [Validators.required]],
@@ -71,7 +69,6 @@ export class AttendanceUpdateComponent implements OnInit {
   updateForm(attendance: IAttendance): void {
     this.editForm.patchValue({
       id: attendance.id,
-      attendanceDate: attendance.attendanceDate,
       attendanceTime: attendance.attendanceTime ? attendance.attendanceTime.format(DATE_TIME_FORMAT) : null,
       considerAs: attendance.considerAs,
       machineNo: attendance.machineNo,
@@ -99,7 +96,6 @@ export class AttendanceUpdateComponent implements OnInit {
     return {
       ...new Attendance(),
       id: this.editForm.get(['id'])!.value,
-      attendanceDate: this.editForm.get(['attendanceDate'])!.value,
       attendanceTime: this.editForm.get(['attendanceTime'])!.value
         ? moment(this.editForm.get(['attendanceTime'])!.value, DATE_TIME_FORMAT)
         : undefined,

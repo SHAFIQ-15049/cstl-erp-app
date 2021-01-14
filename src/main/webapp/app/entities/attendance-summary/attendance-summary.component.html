@@ -45,7 +45,6 @@
                     <th scope="col" ><span>ID</span></th>
                     <th scope="col" ><span>Employee</span></th>
                     <th scope="col" ><span>Id (Machine)</span></th>
-                    <th scope="col" ><span>Date</span></th>
                     <th scope="col" ><span>In</span></th>
                     <th scope="col" ><span>Out</span></th>
                     <th scope="col" ><span>Diff</span></th>
@@ -65,9 +64,8 @@
                             {{ attendanceSummary.employeeMachineId }}
                         </div>
                     </td>
-                    <td>{{ attendanceSummary.attendanceDate | date:'mediumDate' }}</td>
-                    <td>{{ attendanceSummary.inTime | date:"mediumTime":"+0000" }}</td>
-                    <td>{{ attendanceSummary.outTime | date:"mediumTime":"+0000" }}</td>
+                    <td>{{ attendanceSummary.inTime | date:"medium":"+0000" }}</td>
+                    <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
                     <td>{{ attendanceSummary.diff }}</td>
                     <td>{{ attendanceSummary.overTime }}</td>
                 </tr>

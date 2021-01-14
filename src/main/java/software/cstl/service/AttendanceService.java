@@ -14,7 +14,6 @@ import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -105,12 +104,12 @@ public class AttendanceService {
      * Get all the attendances.
      *
      * @param employee the employee.
-     * @param fromDate the fromDate.
-     * @param toDate the toDate.
+     * @param from the fromDateTime.
+     * @param to the toDateTime.
      * @return the list of entities.
      */
-    public List<Attendance> findAll(Employee employee, LocalDate fromDate, LocalDate toDate) {
-        return attendanceRepository.getALlByEmployeeEqualsAndAttendanceDateIsGreaterThanEqualAndAttendanceDateIsLessThanEqual(employee, fromDate, toDate);
+    public List<Attendance> findAll(Employee employee, Instant from, Instant to) {
+        return attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(employee, from, to);
     }
 
     /**
@@ -120,8 +119,8 @@ public class AttendanceService {
      * @param toDate the toDate.
      * @return the list of entities.
      */
-    public List<Attendance> findAll(LocalDate fromDate, LocalDate toDate) {
-        return attendanceRepository.getAllByAttendanceDateIsGreaterThanEqualAndAttendanceDateIsLessThanEqual(fromDate, toDate);
+    public List<Attendance> findAll(Instant from, Instant to) {
+        return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(from, to);
     }
 
     /**
@@ -148,8 +147,8 @@ public class AttendanceService {
     }
 
     private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUpload attendanceDataUpload, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
-        EmployeeSalary candidateSalary = null;
-        Employee candidate = null;
+        EmployeeSalary candidateSalary;
+        Employee candidate;
         String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
         String machineCode = data[0];
         String employeeMachineId = data[1];
@@ -168,9 +167,8 @@ public class AttendanceService {
             String second = attendanceTime.substring(4, 6);
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
-            LocalDate localDate = LocalDate.of(Integer.parseInt(year), Integer.parseInt(month), Integer.parseInt(day));
             Instant instant = Instant.parse(instantText);
-            return getAttendance(attendanceDataUpload, candidateSalary, candidate, machineCode, localDate, instant);
+            return getAttendance(attendanceDataUpload, candidateSalary, candidate, machineCode, instant);
         }
         else {
             log.debug("ERROR! Missing employee or employee salary information {} ", line);
@@ -178,10 +176,9 @@ public class AttendanceService {
         }
     }
 
-    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, LocalDate localDate, Instant instant) {
+    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setMachineNo(machineCode);
-        attendance.setAttendanceDate(localDate.plusDays(1));
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(candidate);
         attendance.setEmployeeSalary(candidateSalary);

@@ -29,7 +29,6 @@ export class AttendanceUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
-  attendanceDateInput = element(by.id('field_attendanceDate'));
   attendanceTimeInput = element(by.id('field_attendanceTime'));
   considerAsSelect = element(by.id('field_considerAs'));
   machineNoInput = element(by.id('field_machineNo'));
@@ -40,14 +39,6 @@ export class AttendanceUpdatePage {
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
-  }
-
-  async setAttendanceDateInput(attendanceDate: string): Promise<void> {
-    await this.attendanceDateInput.sendKeys(attendanceDate);
-  }
-
-  async getAttendanceDateInput(): Promise<string> {
-    return await this.attendanceDateInput.getAttribute('value');
   }
 
   async setAttendanceTimeInput(attendanceTime: string): Promise<void> {

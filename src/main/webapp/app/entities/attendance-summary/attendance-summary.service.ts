@@ -3,8 +3,6 @@ import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
-
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAttendanceSummary } from 'app/shared/model/attendance-summary.model';
@@ -39,10 +37,6 @@ export class AttendanceSummaryService {
 
   protected convertDateFromClient(attendanceSummary: IAttendanceSummary): IAttendanceSummary {
     const copy: IAttendanceSummary = Object.assign({}, attendanceSummary, {
-      attendanceDate:
-        attendanceSummary.attendanceDate && attendanceSummary.attendanceDate.isValid()
-          ? attendanceSummary.attendanceDate.format(DATE_FORMAT)
-          : undefined,
       inTime: attendanceSummary.inTime && attendanceSummary.inTime.isValid() ? attendanceSummary.inTime.toJSON() : undefined,
       outTime: attendanceSummary.outTime && attendanceSummary.outTime.isValid() ? attendanceSummary.outTime.toJSON() : undefined,
     });
@@ -51,7 +45,6 @@ export class AttendanceSummaryService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.attendanceDate = res.body.attendanceDate ? moment(res.body.attendanceDate) : undefined;
       res.body.inTime = res.body.inTime ? moment(res.body.inTime) : undefined;
       res.body.outTime = res.body.outTime ? moment(res.body.outTime) : undefined;
     }
@@ -61,7 +54,6 @@ export class AttendanceSummaryService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((attendanceSummary: IAttendanceSummary) => {
-        attendanceSummary.attendanceDate = attendanceSummary.attendanceDate ? moment(attendanceSummary.attendanceDate) : undefined;
         attendanceSummary.inTime = attendanceSummary.inTime ? moment(attendanceSummary.inTime) : undefined;
         attendanceSummary.outTime = attendanceSummary.outTime ? moment(attendanceSummary.outTime) : undefined;
       });

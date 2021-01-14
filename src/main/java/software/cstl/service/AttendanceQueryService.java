@@ -81,9 +81,6 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), Attendance_.id));
             }
-            if (criteria.getAttendanceDate() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getAttendanceDate(), Attendance_.attendanceDate));
-            }
             if (criteria.getAttendanceTime() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAttendanceTime(), Attendance_.attendanceTime));
             }

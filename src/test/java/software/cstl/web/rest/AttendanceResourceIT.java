@@ -21,8 +21,6 @@ import software.cstl.service.AttendanceService;
 
 import javax.persistence.EntityManager;
 import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -37,10 +35,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @AutoConfigureMockMvc
 @WithMockUser
 public class AttendanceResourceIT {
-
-    private static final LocalDate DEFAULT_ATTENDANCE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_ATTENDANCE_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_ATTENDANCE_DATE = LocalDate.ofEpochDay(-1L);
 
     private static final Instant DEFAULT_ATTENDANCE_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ATTENDANCE_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
@@ -76,7 +70,6 @@ public class AttendanceResourceIT {
      */
     public static Attendance createEntity(EntityManager em) {
         Attendance attendance = new Attendance()
-            .attendanceDate(DEFAULT_ATTENDANCE_DATE)
             .attendanceTime(DEFAULT_ATTENDANCE_TIME)
             .considerAs(DEFAULT_CONSIDER_AS)
             .machineNo(DEFAULT_MACHINE_NO);
@@ -100,7 +93,6 @@ public class AttendanceResourceIT {
      */
     public static Attendance createUpdatedEntity(EntityManager em) {
         Attendance attendance = new Attendance()
-            .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
             .considerAs(UPDATED_CONSIDER_AS)
             .machineNo(UPDATED_MACHINE_NO);
@@ -136,7 +128,6 @@ public class AttendanceResourceIT {
         List<Attendance> attendanceList = attendanceRepository.findAll();
         assertThat(attendanceList).hasSize(databaseSizeBeforeCreate + 1);
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getAttendanceDate()).isEqualTo(DEFAULT_ATTENDANCE_DATE);
         assertThat(testAttendance.getAttendanceTime()).isEqualTo(DEFAULT_ATTENDANCE_TIME);
         assertThat(testAttendance.getConsiderAs()).isEqualTo(DEFAULT_CONSIDER_AS);
         assertThat(testAttendance.getMachineNo()).isEqualTo(DEFAULT_MACHINE_NO);
@@ -161,25 +152,6 @@ public class AttendanceResourceIT {
         assertThat(attendanceList).hasSize(databaseSizeBeforeCreate);
     }
 
-
-    @Test
-    @Transactional
-    public void checkAttendanceDateIsRequired() throws Exception {
-        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
-        // set the field null
-        attendance.setAttendanceDate(null);
-
-        // Create the Attendance, which fails.
-
-
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
-    }
 
     @Test
     @Transactional
@@ -249,7 +221,6 @@ public class AttendanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
             .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
@@ -266,7 +237,6 @@ public class AttendanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
-            .andExpect(jsonPath("$.attendanceDate").value(DEFAULT_ATTENDANCE_DATE.toString()))
             .andExpect(jsonPath("$.attendanceTime").value(DEFAULT_ATTENDANCE_TIME.toString()))
             .andExpect(jsonPath("$.considerAs").value(DEFAULT_CONSIDER_AS.toString()))
             .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO));
@@ -289,111 +259,6 @@ public class AttendanceResourceIT {
 
         defaultAttendanceShouldBeFound("id.lessThanOrEqual=" + id);
         defaultAttendanceShouldNotBeFound("id.lessThan=" + id);
-    }
-
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate equals to DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.equals=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate equals to UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.equals=" + UPDATED_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate not equals to DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.notEquals=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate not equals to UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.notEquals=" + UPDATED_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsInShouldWork() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate in DEFAULT_ATTENDANCE_DATE or UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.in=" + DEFAULT_ATTENDANCE_DATE + "," + UPDATED_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate equals to UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.in=" + UPDATED_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate is not null
-        defaultAttendanceShouldBeFound("attendanceDate.specified=true");
-
-        // Get all the attendanceList where attendanceDate is null
-        defaultAttendanceShouldNotBeFound("attendanceDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate is greater than or equal to DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.greaterThanOrEqual=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate is greater than or equal to UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.greaterThanOrEqual=" + UPDATED_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate is less than or equal to DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.lessThanOrEqual=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate is less than or equal to SMALLER_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.lessThanOrEqual=" + SMALLER_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate is less than DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.lessThan=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate is less than UPDATED_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.lessThan=" + UPDATED_ATTENDANCE_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where attendanceDate is greater than DEFAULT_ATTENDANCE_DATE
-        defaultAttendanceShouldNotBeFound("attendanceDate.greaterThan=" + DEFAULT_ATTENDANCE_DATE);
-
-        // Get all the attendanceList where attendanceDate is greater than SMALLER_ATTENDANCE_DATE
-        defaultAttendanceShouldBeFound("attendanceDate.greaterThan=" + SMALLER_ATTENDANCE_DATE);
     }
 
 
@@ -642,7 +507,6 @@ public class AttendanceResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
-            .andExpect(jsonPath("$.[*].attendanceDate").value(hasItem(DEFAULT_ATTENDANCE_DATE.toString())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
             .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
@@ -692,7 +556,6 @@ public class AttendanceResourceIT {
         // Disconnect from session so that the updates on updatedAttendance are not directly saved in db
         em.detach(updatedAttendance);
         updatedAttendance
-            .attendanceDate(UPDATED_ATTENDANCE_DATE)
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
             .considerAs(UPDATED_CONSIDER_AS)
             .machineNo(UPDATED_MACHINE_NO);
@@ -706,7 +569,6 @@ public class AttendanceResourceIT {
         List<Attendance> attendanceList = attendanceRepository.findAll();
         assertThat(attendanceList).hasSize(databaseSizeBeforeUpdate);
         Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getAttendanceDate()).isEqualTo(UPDATED_ATTENDANCE_DATE);
         assertThat(testAttendance.getAttendanceTime()).isEqualTo(UPDATED_ATTENDANCE_TIME);
         assertThat(testAttendance.getConsiderAs()).isEqualTo(UPDATED_CONSIDER_AS);
         assertThat(testAttendance.getMachineNo()).isEqualTo(UPDATED_MACHINE_NO);

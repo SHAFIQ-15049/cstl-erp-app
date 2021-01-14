@@ -14,9 +14,6 @@
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="attendance_date" type="date">
-                <constraints nullable="false" />
-            </column>
             <column name="attendance_time" type="datetime">
                 <constraints nullable="false" />
             </column>
@@ -58,7 +55,6 @@
                   separator=";"
                   tableName="attendance">
             <column name="id" type="numeric"/>
-            <column name="attendance_date" type="date"/>
             <column name="attendance_time" type="datetime"/>
             <column name="consider_as" type="string"/>
             <column name="machine_no" type="string"/>

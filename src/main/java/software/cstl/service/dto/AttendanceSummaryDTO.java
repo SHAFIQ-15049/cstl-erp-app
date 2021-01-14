@@ -3,14 +3,10 @@ package software.cstl.service.dto;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 
 public class AttendanceSummaryDTO implements Serializable {
 
     private Long id;
-
-    @NotNull
-    private LocalDate attendanceDate;
 
     @NotNull
     private Instant inTime;
@@ -38,14 +34,6 @@ public class AttendanceSummaryDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getAttendanceDate() {
-        return attendanceDate;
-    }
-
-    public void setAttendanceDate(LocalDate attendanceDate) {
-        this.attendanceDate = attendanceDate;
     }
 
     public Instant getInTime() {
@@ -134,7 +122,6 @@ public class AttendanceSummaryDTO implements Serializable {
     public String toString() {
         return "AttendanceSummaryDTO{" +
             "id=" + getId() +
-            ", attendanceDate='" + getAttendanceDate() + "'" +
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
             ", diff='" + getDiff() + "'" +

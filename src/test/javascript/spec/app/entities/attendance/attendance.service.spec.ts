@@ -1,7 +1,7 @@
 import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AttendanceService } from 'app/entities/attendance/attendance.service';
 import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
 import { ConsiderAsType } from 'app/shared/model/enumerations/consider-as-type.model';
@@ -25,14 +25,13 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Attendance(0, currentDate, currentDate, ConsiderAsType.REGULAR, 'AAAAAAA');
+      elemDefault = new Attendance(0, currentDate, ConsiderAsType.REGULAR, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -49,7 +48,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -57,7 +55,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            attendanceDate: currentDate,
             attendanceTime: currentDate,
           },
           returnedFromService
@@ -73,7 +70,6 @@ describe('Service Tests', () => {
       it('should update a Attendance', () => {
         const returnedFromService = Object.assign(
           {
-            attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
             considerAs: 'BBBBBB',
             machineNo: 'BBBBBB',
@@ -83,7 +79,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            attendanceDate: currentDate,
             attendanceTime: currentDate,
           },
           returnedFromService
@@ -99,7 +94,6 @@ describe('Service Tests', () => {
       it('should return a list of Attendance', () => {
         const returnedFromService = Object.assign(
           {
-            attendanceDate: currentDate.format(DATE_FORMAT),
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
             considerAs: 'BBBBBB',
             machineNo: 'BBBBBB',
@@ -109,7 +103,6 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
-            attendanceDate: currentDate,
             attendanceTime: currentDate,
           },
           returnedFromService

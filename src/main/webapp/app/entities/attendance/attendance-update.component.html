@@ -8,72 +8,21 @@
 
                 <div class="form-group" [hidden]="!editForm.get('id')!.value">
                     <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly/>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_employee">Employee</label>
-                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
-                        <option *ngIf="!editForm.get('employee')!.value" [ngValue]="null" selected></option>
-                        <option
-                            [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption"
-                            *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
-                    </select>
-                </div>
-                <div
-                    *ngIf="editForm.get('employee')!.invalid && (editForm.get('employee')!.dirty || editForm.get('employee')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('employee')?.errors?.required">
-                        This field is required.
-                    </small>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_machineNo">Machine No</label>
-                    <input type="text" class="form-control" name="machineNo" id="field_machineNo"
-                           formControlName="machineNo"/>
-                    <div
-                        *ngIf="editForm.get('machineNo')!.invalid && (editForm.get('machineNo')!.dirty || editForm.get('machineNo')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('machineNo')?.errors?.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_attendanceDate">Attendance Date</label>
-                    <div class="input-group">
-                        <input id="field_attendanceDate" type="text" class="form-control" name="attendanceDate"
-                               ngbDatepicker #attendanceDateDp="ngbDatepicker" formControlName="attendanceDate"/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="attendanceDateDp.toggle()"><fa-icon
-                                icon="calendar-alt"></fa-icon></button>
-                        </span>
-                    </div>
-                    <div
-                        *ngIf="editForm.get('attendanceDate')!.invalid && (editForm.get('attendanceDate')!.dirty || editForm.get('attendanceDate')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('attendanceDate')?.errors?.required">
-                            This field is required.
-                        </small>
-                    </div>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
                 </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_attendanceTime">Attendance Time</label>
                     <div class="d-flex">
-                        <input id="field_attendanceTime" type="datetime-local" class="form-control"
-                               name="attendanceTime" formControlName="attendanceTime" placeholder="YYYY-MM-DD HH:mm"/>
+                        <input id="field_attendanceTime" type="datetime-local" class="form-control" name="attendanceTime" formControlName="attendanceTime" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
-                    <div
-                        *ngIf="editForm.get('attendanceTime')!.invalid && (editForm.get('attendanceTime')!.dirty || editForm.get('attendanceTime')!.touched)">
+                    <div *ngIf="editForm.get('attendanceTime')!.invalid && (editForm.get('attendanceTime')!.dirty || editForm.get('attendanceTime')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('attendanceTime')?.errors?.required">
-                            This field is required.
+                        This field is required.
                         </small>
                         <small class="form-text text-danger"
-                               [hidden]="!editForm.get('attendanceTime')?.errors?.ZonedDateTimelocal">
+                            [hidden]="!editForm.get('attendanceTime')?.errors?.ZonedDateTimelocal">
                             This field should be a date and time.
                         </small>
                     </div>
@@ -85,15 +34,55 @@
                         <option value="REGULAR">REGULAR</option>
                         <option value="WEEKENDWITHOVERTIME">WEEKENDWITHOVERTIME</option>
                     </select>
-                    <div
-                        *ngIf="editForm.get('considerAs')!.invalid && (editForm.get('considerAs')!.dirty || editForm.get('considerAs')!.touched)">
+                    <div *ngIf="editForm.get('considerAs')!.invalid && (editForm.get('considerAs')!.dirty || editForm.get('considerAs')!.touched)">
                         <small class="form-text text-danger"
                                *ngIf="editForm.get('considerAs')?.errors?.required">
-                            This field is required.
+                        This field is required.
                         </small>
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label class="form-control-label" for="field_machineNo">Machine No</label>
+                    <input type="text" class="form-control" name="machineNo" id="field_machineNo"
+                           formControlName="machineNo"/>
+                    <div *ngIf="editForm.get('machineNo')!.invalid && (editForm.get('machineNo')!.dirty || editForm.get('machineNo')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('machineNo')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option *ngIf="!editForm.get('employee')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('employee')!.invalid && (editForm.get('employee')!.dirty || editForm.get('employee')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('employee')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_attendanceDataUpload">Attendance Data Upload</label>
+                    <select class="form-control" id="field_attendanceDataUpload" name="attendanceDataUpload" formControlName="attendanceDataUpload">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="attendanceDataUploadOption.id === editForm.get('attendanceDataUpload')!.value?.id ? editForm.get('attendanceDataUpload')!.value : attendanceDataUploadOption" *ngFor="let attendanceDataUploadOption of attendancedatauploads; trackBy: trackById">{{ attendanceDataUploadOption.id }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employeeSalary">Employee Salary</label>
+                    <select class="form-control" id="field_employeeSalary" name="employeeSalary" formControlName="employeeSalary">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeSalaryOption.id === editForm.get('employeeSalary')!.value?.id ? editForm.get('employeeSalary')!.value : employeeSalaryOption" *ngFor="let employeeSalaryOption of employeesalaries; trackBy: trackById">{{ employeeSalaryOption.id }}</option>
+                    </select>
+                </div>
             </div>
 
             <div>
@@ -101,8 +90,7 @@
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
 
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
-                        class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

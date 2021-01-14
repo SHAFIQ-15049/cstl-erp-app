@@ -41,7 +41,6 @@ describe('Attendance e2e test', () => {
         await attendanceComponentsPage.clickOnCreateButton();
 
         await promise.all([
-            attendanceUpdatePage.setAttendanceDateInput('2000-12-31'),
             attendanceUpdatePage.setAttendanceTimeInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
             attendanceUpdatePage.considerAsSelectLastOption(),
             attendanceUpdatePage.setMachineNoInput('machineNo'),
@@ -50,7 +49,6 @@ describe('Attendance e2e test', () => {
             attendanceUpdatePage.employeeSalarySelectLastOption(),
         ]);
 
-        expect(await attendanceUpdatePage.getAttendanceDateInput()).to.eq('2000-12-31', 'Expected attendanceDate value to be equals to 2000-12-31');
         expect(await attendanceUpdatePage.getAttendanceTimeInput()).to.contain('2001-01-01T02:30', 'Expected attendanceTime value to be equals to 2000-12-31');
         expect(await attendanceUpdatePage.getMachineNoInput()).to.eq('machineNo', 'Expected MachineNo value to be equals to machineNo');
 
