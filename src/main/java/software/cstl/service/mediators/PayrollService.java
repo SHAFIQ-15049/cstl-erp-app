@@ -33,6 +33,7 @@ public class PayrollService {
     private final AdvancePaymentHistoryRepository advancePaymentHistoryRepository;
     private final AttendanceRepository attendanceRepository;
     private final EmployeeSalaryRepository employeeSalaryRepository;
+    private final PartialSalaryRepository partialSalaryRepository;
 
 
     public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary){
@@ -54,18 +55,18 @@ public class PayrollService {
         return monthlySalary;
     }
 
-    public void createMonthlySalaries(Integer year, MonthType monthType, Long designationId){
-        Designation designation = designationRepository.getOne(designationId);
-        MonthlySalary monthlySalary = monthlySalaryRepository.findMonthlySalaryByYearAndMonthAndDesignation(year, monthType, designation);
+    public void createMonthlySalaries(MonthlySalary monthlySalary){
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-            assignSalaryAndAllowances(monthlySalaryDtl);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
         }
         monthlySalaryRepository.save(monthlySalary);
     }
 
-    private void assignSalaryAndAllowances(MonthlySalaryDtl monthlySalaryDtl){
+    private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl){
+        DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
+        Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
 
     }
 
