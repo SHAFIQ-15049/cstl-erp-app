@@ -73,10 +73,8 @@ export class PayrollManagementComponent implements OnInit {
       this.selectedYear = +params['selectedYear'];
       this.selectedMonth = params['selectedMonth'];
       this.selectedDesignationId = +params['selectedDesignationId'];
-      this.fromDateStr = params['fromDateStr'];
-      this.toDateStr = params['toDateStr'];
-      this.fromDate = moment(this.fromDateStr);
-      this.toDate = moment(this.toDateStr);
+      this.fromDate = params['fromDate'];
+      this.toDate = params['toDate'];
       if(this.selectedDesignationId){
         this.designationService.find(this.selectedDesignationId).subscribe((res)=>{
           this.selectedDesignation = res.body!;
