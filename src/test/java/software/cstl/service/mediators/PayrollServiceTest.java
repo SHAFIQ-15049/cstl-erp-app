@@ -19,6 +19,7 @@ import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
 
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -215,14 +216,14 @@ public class PayrollServiceTest {
             Attendance attendance1 = new Attendance();
             attendance1.setEmployee(employee());
             attendance1.setEmployeeSalary(employeeSalaryWithoutAllowance());
-            attendance1.setAttendanceDate(LocalDate.now());
+            attendance1.setAttendanceTime(Instant.now());
 
             attendances.add(attendance1);
 
             Attendance attendance2 = new Attendance();
             attendance2.setEmployee(employee());
             attendance2.setEmployeeSalary(employeeSalaryWithoutAllowance());
-            attendance2.setAttendanceDate(LocalDate.now());
+            attendance2.setAttendanceTime(Instant.now());
             attendances.add(attendance2);
 
             return attendances;
@@ -233,14 +234,14 @@ public class PayrollServiceTest {
             Attendance attendance1 = new Attendance();
             attendance1.setEmployee(employee());
             attendance1.setEmployeeSalary(employeeSalaryWithAllowance());
-            attendance1.setAttendanceDate(LocalDate.now());
+            attendance1.setAttendanceTime(Instant.now());
 
             attendances.add(attendance1);
 
             Attendance attendance2 = new Attendance();
             attendance2.setEmployee(employee());
             attendance2.setEmployeeSalary(employeeSalaryWithAllowance());
-            attendance2.setAttendanceDate(LocalDate.now());
+            attendance2.setAttendanceTime(Instant.now());
             attendances.add(attendance2);
 
             return attendances;
@@ -251,14 +252,14 @@ public class PayrollServiceTest {
             Attendance attendance1 = new Attendance();
             attendance1.setEmployee(employee());
             attendance1.setEmployeeSalary(employeeSalaryWithoutAllowance());
-            attendance1.setAttendanceDate(LocalDate.now());
+            attendance1.setAttendanceTime(Instant.now());
 
             attendances.add(attendance1);
 
             Attendance attendance2 = new Attendance();
             attendance2.setEmployee(employee());
             attendance2.setEmployeeSalary(updatedEmployeeSalaryWithoutAllowance());
-            attendance2.setAttendanceDate(LocalDate.now());
+            attendance2.setAttendanceTime(Instant.now());
             attendances.add(attendance2);
 
             return attendances;
@@ -269,7 +270,7 @@ public class PayrollServiceTest {
             Attendance attendance1 = new Attendance();
             attendance1.setEmployee(employee());
             attendance1.setEmployeeSalary(employeeSalaryWithoutAllowance());
-            attendance1.setAttendanceDate(LocalDate.now());
+            attendance1.setAttendanceTime(Instant.now());
             attendances.add(attendance1);
             return attendances;
         }
