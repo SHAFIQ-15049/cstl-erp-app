@@ -20,9 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -52,13 +50,11 @@ public class PartialSalaryResourceIT {
     private static final Integer UPDATED_TOTAL_MONTH_DAYS = 2;
     private static final Integer SMALLER_TOTAL_MONTH_DAYS = 1 - 1;
 
-    private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_FROM_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_FROM_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FROM_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_TO_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_TO_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_TO_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_TO_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_TO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final BigDecimal DEFAULT_GROSS = new BigDecimal(1);
     private static final BigDecimal UPDATED_GROSS = new BigDecimal(2);
@@ -790,59 +786,6 @@ public class PartialSalaryResourceIT {
 
     @Test
     @Transactional
-    public void getAllPartialSalariesByFromDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where fromDate is greater than or equal to DEFAULT_FROM_DATE
-        defaultPartialSalaryShouldBeFound("fromDate.greaterThanOrEqual=" + DEFAULT_FROM_DATE);
-
-        // Get all the partialSalaryList where fromDate is greater than or equal to UPDATED_FROM_DATE
-        defaultPartialSalaryShouldNotBeFound("fromDate.greaterThanOrEqual=" + UPDATED_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByFromDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where fromDate is less than or equal to DEFAULT_FROM_DATE
-        defaultPartialSalaryShouldBeFound("fromDate.lessThanOrEqual=" + DEFAULT_FROM_DATE);
-
-        // Get all the partialSalaryList where fromDate is less than or equal to SMALLER_FROM_DATE
-        defaultPartialSalaryShouldNotBeFound("fromDate.lessThanOrEqual=" + SMALLER_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByFromDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where fromDate is less than DEFAULT_FROM_DATE
-        defaultPartialSalaryShouldNotBeFound("fromDate.lessThan=" + DEFAULT_FROM_DATE);
-
-        // Get all the partialSalaryList where fromDate is less than UPDATED_FROM_DATE
-        defaultPartialSalaryShouldBeFound("fromDate.lessThan=" + UPDATED_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByFromDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where fromDate is greater than DEFAULT_FROM_DATE
-        defaultPartialSalaryShouldNotBeFound("fromDate.greaterThan=" + DEFAULT_FROM_DATE);
-
-        // Get all the partialSalaryList where fromDate is greater than SMALLER_FROM_DATE
-        defaultPartialSalaryShouldBeFound("fromDate.greaterThan=" + SMALLER_FROM_DATE);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllPartialSalariesByToDateIsEqualToSomething() throws Exception {
         // Initialize the database
         partialSalaryRepository.saveAndFlush(partialSalary);
@@ -892,59 +835,6 @@ public class PartialSalaryResourceIT {
         // Get all the partialSalaryList where toDate is null
         defaultPartialSalaryShouldNotBeFound("toDate.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByToDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where toDate is greater than or equal to DEFAULT_TO_DATE
-        defaultPartialSalaryShouldBeFound("toDate.greaterThanOrEqual=" + DEFAULT_TO_DATE);
-
-        // Get all the partialSalaryList where toDate is greater than or equal to UPDATED_TO_DATE
-        defaultPartialSalaryShouldNotBeFound("toDate.greaterThanOrEqual=" + UPDATED_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByToDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where toDate is less than or equal to DEFAULT_TO_DATE
-        defaultPartialSalaryShouldBeFound("toDate.lessThanOrEqual=" + DEFAULT_TO_DATE);
-
-        // Get all the partialSalaryList where toDate is less than or equal to SMALLER_TO_DATE
-        defaultPartialSalaryShouldNotBeFound("toDate.lessThanOrEqual=" + SMALLER_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByToDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where toDate is less than DEFAULT_TO_DATE
-        defaultPartialSalaryShouldNotBeFound("toDate.lessThan=" + DEFAULT_TO_DATE);
-
-        // Get all the partialSalaryList where toDate is less than UPDATED_TO_DATE
-        defaultPartialSalaryShouldBeFound("toDate.lessThan=" + UPDATED_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllPartialSalariesByToDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        partialSalaryRepository.saveAndFlush(partialSalary);
-
-        // Get all the partialSalaryList where toDate is greater than DEFAULT_TO_DATE
-        defaultPartialSalaryShouldNotBeFound("toDate.greaterThan=" + DEFAULT_TO_DATE);
-
-        // Get all the partialSalaryList where toDate is greater than SMALLER_TO_DATE
-        defaultPartialSalaryShouldBeFound("toDate.greaterThan=" + SMALLER_TO_DATE);
-    }
-
 
     @Test
     @Transactional

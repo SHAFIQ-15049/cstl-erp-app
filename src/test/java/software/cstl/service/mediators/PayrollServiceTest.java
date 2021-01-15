@@ -70,8 +70,8 @@ public class PayrollServiceTest {
         public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDays(){
             PartialSalary partialSalary = new PartialSalary();
             partialSalary.setEmployee(TestConfig.employee());
-            partialSalary.setFromDate(LocalDate.now());
-            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setFromDate(Instant.now());
+            partialSalary.setToDate(Instant.now());
             partialSalary.setTotalMonthDays(4);
 
             MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
@@ -97,8 +97,8 @@ public class PayrollServiceTest {
         public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDaysAndEmployeeSalaryAllowances(){
             PartialSalary partialSalary = new PartialSalary();
             partialSalary.setEmployee(TestConfig.employee());
-            partialSalary.setFromDate(LocalDate.now());
-            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setFromDate(Instant.now());
+            partialSalary.setToDate(Instant.now());
             partialSalary.setTotalMonthDays(4);
 
             MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
@@ -120,8 +120,8 @@ public class PayrollServiceTest {
         public void assignPartialSalaryAndAllowancesTestWithEqualWorkingDaysAndDifferentEmployeeSalaries(){
             PartialSalary partialSalary = new PartialSalary();
             partialSalary.setEmployee(TestConfig.employee());
-            partialSalary.setFromDate(LocalDate.now());
-            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setFromDate(Instant.now());
+            partialSalary.setToDate(Instant.now());
             partialSalary.setTotalMonthDays(4);
 
             MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);
@@ -142,8 +142,8 @@ public class PayrollServiceTest {
         public void assignPartialSalaryAndAllowancesTestWithLessWorkingDays(){
             PartialSalary partialSalary = new PartialSalary();
             partialSalary.setEmployee(TestConfig.employee());
-            partialSalary.setFromDate(LocalDate.now());
-            partialSalary.setToDate(LocalDate.now());
+            partialSalary.setFromDate(Instant.now());
+            partialSalary.setToDate(Instant.now());
             partialSalary.setTotalMonthDays(4);
 
             MockedStatic<SecurityUtils> securityUtilsMockedStatic = Mockito.mockStatic(SecurityUtils.class);

@@ -25,14 +25,14 @@
     },
     {
       "fieldName": "fromDate",
-      "fieldType": "LocalDate",
+      "fieldType": "Instant",
       "fieldValidateRules": [
         "required"
       ]
     },
     {
       "fieldName": "toDate",
-      "fieldType": "LocalDate",
+      "fieldType": "Instant",
       "fieldValidateRules": [
         "required"
       ]

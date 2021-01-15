@@ -10,7 +10,6 @@ import javax.validation.constraints.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
 
 import software.cstl.domain.enumeration.MonthType;
 
@@ -45,11 +44,11 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
 
     @NotNull
     @Column(name = "from_date", nullable = false)
-    private LocalDate fromDate;
+    private Instant fromDate;
 
     @NotNull
     @Column(name = "to_date", nullable = false)
-    private LocalDate toDate;
+    private Instant toDate;
 
     @Column(name = "gross", precision = 21, scale = 2)
     private BigDecimal gross;
@@ -157,29 +156,29 @@ public class PartialSalary extends AbstractAuditingEntity implements Serializabl
         this.totalMonthDays = totalMonthDays;
     }
 
-    public LocalDate getFromDate() {
+    public Instant getFromDate() {
         return fromDate;
     }
 
-    public PartialSalary fromDate(LocalDate fromDate) {
+    public PartialSalary fromDate(Instant fromDate) {
         this.fromDate = fromDate;
         return this;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(Instant fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getToDate() {
+    public Instant getToDate() {
         return toDate;
     }
 
-    public PartialSalary toDate(LocalDate toDate) {
+    public PartialSalary toDate(Instant toDate) {
         this.toDate = toDate;
         return this;
     }
 
-    public void setToDate(LocalDate toDate) {
+    public void setToDate(Instant toDate) {
         this.toDate = toDate;
     }
 

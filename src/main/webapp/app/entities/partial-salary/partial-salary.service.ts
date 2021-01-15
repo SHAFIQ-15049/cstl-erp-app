@@ -51,8 +51,8 @@ export class PartialSalaryService {
 
   protected convertDateFromClient(partialSalary: IPartialSalary): IPartialSalary {
     const copy: IPartialSalary = Object.assign({}, partialSalary, {
-      fromDate: partialSalary.fromDate && partialSalary.fromDate.isValid() ? partialSalary.fromDate.format(DATE_FORMAT) : undefined,
-      toDate: partialSalary.toDate && partialSalary.toDate.isValid() ? partialSalary.toDate.format(DATE_FORMAT) : undefined,
+      fromDate: partialSalary.fromDate && partialSalary.fromDate.isValid() ? partialSalary.fromDate.toJSON() : undefined,
+      toDate: partialSalary.toDate && partialSalary.toDate.isValid() ? partialSalary.toDate.toJSON() : undefined,
       executedOn: partialSalary.executedOn && partialSalary.executedOn.isValid() ? partialSalary.executedOn.toJSON() : undefined,
     });
     return copy;

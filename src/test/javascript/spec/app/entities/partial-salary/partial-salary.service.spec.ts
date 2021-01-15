@@ -1,7 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { PartialSalaryService } from 'app/entities/partial-salary/partial-salary.service';
 import { IPartialSalary, PartialSalary } from 'app/shared/model/partial-salary.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
@@ -57,8 +57,8 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            fromDate: currentDate.format(DATE_FORMAT),
-            toDate: currentDate.format(DATE_FORMAT),
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -75,8 +75,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            fromDate: currentDate.format(DATE_FORMAT),
-            toDate: currentDate.format(DATE_FORMAT),
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -104,8 +104,8 @@ describe('Service Tests', () => {
             year: 1,
             month: 'BBBBBB',
             totalMonthDays: 1,
-            fromDate: currentDate.format(DATE_FORMAT),
-            toDate: currentDate.format(DATE_FORMAT),
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             gross: 1,
             basic: 1,
             basicPercent: 1,
@@ -149,8 +149,8 @@ describe('Service Tests', () => {
             year: 1,
             month: 'BBBBBB',
             totalMonthDays: 1,
-            fromDate: currentDate.format(DATE_FORMAT),
-            toDate: currentDate.format(DATE_FORMAT),
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             gross: 1,
             basic: 1,
             basicPercent: 1,

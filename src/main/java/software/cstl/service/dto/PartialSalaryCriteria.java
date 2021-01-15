@@ -14,7 +14,6 @@ import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
 import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.PartialSalary} entity. This class is used
@@ -73,9 +72,9 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
 
     private IntegerFilter totalMonthDays;
 
-    private LocalDateFilter fromDate;
+    private InstantFilter fromDate;
 
-    private LocalDateFilter toDate;
+    private InstantFilter toDate;
 
     private BigDecimalFilter gross;
 
@@ -177,19 +176,19 @@ public class PartialSalaryCriteria implements Serializable, Criteria {
         this.totalMonthDays = totalMonthDays;
     }
 
-    public LocalDateFilter getFromDate() {
+    public InstantFilter getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateFilter fromDate) {
+    public void setFromDate(InstantFilter fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDateFilter getToDate() {
+    public InstantFilter getToDate() {
         return toDate;
     }
 
-    public void setToDate(LocalDateFilter toDate) {
+    public void setToDate(InstantFilter toDate) {
         this.toDate = toDate;
     }
 
