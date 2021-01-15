@@ -15,7 +15,11 @@ import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -56,18 +60,47 @@ public class PayrollService {
     }
 
     public void createMonthlySalaries(MonthlySalary monthlySalary){
+        List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
+        Set<String> attendanceDistinctDays = totalAttendance.stream()
+            .map(a-> LocalDate.ofInstant(a.getAttendanceTime(), ZoneOffset.UTC).format(DateTimeFormatter.ofPattern("dd-MM-yy")))
+            .collect(Collectors.toSet());
+        int totalDays = attendanceDistinctDays.size();
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
         }
         monthlySalaryRepository.save(monthlySalary);
     }
 
-    private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl){
+    private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl, int totalDays){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
         Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
+        Instant fromDateTime = partialSalary.isPresent()?partialSalary.get().getToDate().plus(1, ChronoUnit.MINUTES) : monthlySalary.getFromDate();
+        List<Attendance> employeeAttendance = attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalaryDtl.getEmployee(), fromDateTime, monthlySalary.getToDate());
 
+
+        BigDecimal gross, basic, houseRent, medicalAllowance, convinceAllowance, foodAllowance;
+        gross = basic = houseRent = medicalAllowance = foodAllowance = convinceAllowance = BigDecimal.ZERO;
+
+        BigDecimal totalMonthDays = new BigDecimal(totalDays);
+
+        for(Attendance attendance: employeeAttendance){
+            EmployeeSalary activeSalaryForTheDay = attendance.getEmployeeSalary();
+            gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays));
+            basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays));
+            houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays));
+            medicalAllowance = medicalAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getMedicalAllowance(), defaultAllowance.getMedicalAllowance()).divide(totalMonthDays));
+            foodAllowance = foodAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getFoodAllowance(), defaultAllowance.getFoodAllowance()).divide(totalMonthDays));
+            convinceAllowance = convinceAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getConvinceAllowance(), defaultAllowance.getConvinceAllowance()).divide(totalMonthDays));
+        }
+
+        monthlySalaryDtl.setGross(gross);
+        monthlySalaryDtl.setBasic(basic);
+        monthlySalaryDtl.setHouseRent(houseRent);
+        monthlySalaryDtl.setMedicalAllowance(medicalAllowance);
+        monthlySalaryDtl.setFoodAllowance(foodAllowance);
+        monthlySalaryDtl.setConvinceAllowance(convinceAllowance);
 
     }
 
