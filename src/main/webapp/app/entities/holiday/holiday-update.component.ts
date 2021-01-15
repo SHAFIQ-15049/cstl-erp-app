@@ -5,7 +5,7 @@ import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 
-import { IHoliday, Holiday } from 'app/shared/model/holiday.model';
+import { Holiday, IHoliday } from 'app/shared/model/holiday.model';
 import { HolidayService } from './holiday.service';
 import { IHolidayType } from 'app/shared/model/holiday-type.model';
 import { HolidayTypeService } from 'app/entities/holiday-type/holiday-type.service';
@@ -102,21 +102,20 @@ export class HolidayUpdateComponent implements OnInit {
 
   onChanges(): void {
     this.editForm.get('from')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
+      this.updateTotalDays();
     });
 
     this.editForm.get('to')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
+      this.updateTotalDays();
+    });
+  }
+
+  private updateTotalDays(): void {
+    const fromDate = new Date(this.editForm.get('from')!.value);
+    const toDate = new Date(this.editForm.get('to')!.value);
+    const diff = toDate.getTime() - fromDate.getTime();
+    this.editForm.patchValue({
+      totalDays: diff / (1000 * 60 * 60 * 24) + 1,
     });
   }
 }

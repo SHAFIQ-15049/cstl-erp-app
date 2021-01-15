@@ -9,7 +9,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 
 /**
  * A Attendance.
@@ -24,10 +23,6 @@ public class Attendance implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    @NotNull
-    @Column(name = "attendance_date", nullable = false)
-    private LocalDate attendanceDate;
 
     @NotNull
     @Column(name = "attendance_time", nullable = false)
@@ -62,19 +57,6 @@ public class Attendance implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public LocalDate getAttendanceDate() {
-        return attendanceDate;
-    }
-
-    public Attendance attendanceDate(LocalDate attendanceDate) {
-        this.attendanceDate = attendanceDate;
-        return this;
-    }
-
-    public void setAttendanceDate(LocalDate attendanceDate) {
-        this.attendanceDate = attendanceDate;
     }
 
     public Instant getAttendanceTime() {
@@ -177,7 +159,6 @@ public class Attendance implements Serializable {
     public String toString() {
         return "Attendance{" +
             "id=" + getId() +
-            ", attendanceDate='" + getAttendanceDate() + "'" +
             ", attendanceTime='" + getAttendanceTime() + "'" +
             ", considerAs='" + getConsiderAs() + "'" +
             ", machineNo='" + getMachineNo() + "'" +

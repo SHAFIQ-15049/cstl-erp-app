@@ -28,11 +28,6 @@
   ],
   "fields": [
     {
-      "fieldName": "attendanceDate",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "attendanceTime",
       "fieldType": "Instant",
       "fieldValidateRules": ["required"]

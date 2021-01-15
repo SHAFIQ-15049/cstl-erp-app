@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAttendance } from 'app/shared/model/attendance.model';
@@ -51,8 +50,6 @@ export class AttendanceService {
 
   protected convertDateFromClient(attendance: IAttendance): IAttendance {
     const copy: IAttendance = Object.assign({}, attendance, {
-      attendanceDate:
-        attendance.attendanceDate && attendance.attendanceDate.isValid() ? attendance.attendanceDate.format(DATE_FORMAT) : undefined,
       attendanceTime: attendance.attendanceTime && attendance.attendanceTime.isValid() ? attendance.attendanceTime.toJSON() : undefined,
     });
     return copy;
@@ -60,7 +57,6 @@ export class AttendanceService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
-      res.body.attendanceDate = res.body.attendanceDate ? moment(res.body.attendanceDate) : undefined;
       res.body.attendanceTime = res.body.attendanceTime ? moment(res.body.attendanceTime) : undefined;
     }
     return res;
@@ -69,7 +65,6 @@ export class AttendanceService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((attendance: IAttendance) => {
-        attendance.attendanceDate = attendance.attendanceDate ? moment(attendance.attendanceDate) : undefined;
         attendance.attendanceTime = attendance.attendanceTime ? moment(attendance.attendanceTime) : undefined;
       });
     }

@@ -14,7 +14,6 @@ import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
-import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -101,10 +100,35 @@ public class AttendanceService {
         attendanceRepository.deleteById(id);
     }
 
-    public void bulkSave(AttendanceDataUpload attendanceDataUpload) {
-        Employee candidate = null;
-        EmployeeSalary candidateSalary = null;
+    /**
+     * Get all the attendances.
+     *
+     * @param employee the employee.
+     * @param from the fromDateTime.
+     * @param to the toDateTime.
+     * @return the list of entities.
+     */
+    public List<Attendance> findAll(Employee employee, Instant from, Instant to) {
+        return attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(employee, from, to);
+    }
 
+    /**
+     * Get all the attendances.
+     *
+     * @param from the fromDateTime.
+     * @param to the toDateTime.
+     * @return the list of entities.
+     */
+    public List<Attendance> findAll(Instant from, Instant to) {
+        return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(from, to);
+    }
+
+    /**
+     * Save bulk attendance from TXT file.
+     *
+     * @param attendanceDataUpload the entity where attendance data needs to process and then save.
+     */
+    public List<Attendance> bulkSave(AttendanceDataUpload attendanceDataUpload) {
         List<Employee> employees = employeeService.getAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
 
@@ -114,55 +138,70 @@ public class AttendanceService {
         List<Attendance> attendances = new ArrayList<>();
 
         for (String line : lines) {
-            candidate = null;
-            candidateSalary = null;
-            String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
-            String machineCode = data[0];
-            String employeeMachineId = data[1];
-            String attendanceDate = data[2];
-            String attendanceTime = data[3];
-            for(Employee employee: employees) {
-                if(employee.getAttendanceMachineId().equals(data[1])) {
-                    candidate = employee;
-                    break;
-                }
-            }
-            if(candidate != null) {
-                for (EmployeeSalary employeeSalary : employeeSalaries) {
-                    if (employeeSalary.getEmployee().equals(candidate)) {
-                        candidateSalary = employeeSalary;
-                        break;
-                    }
-                }
-            }
-
-            if(candidate != null) {
-                Attendance attendance = new Attendance();
-                String year = attendanceDate.substring(0, 4);
-                String month = attendanceDate.substring(4, 6);
-                String day = attendanceDate.substring(6, 8);
-
-                String hour = attendanceTime.substring(0, 2);
-                String minute = attendanceTime.substring(2, 4);
-                String second = attendanceTime.substring(4, 6);
-                // 2007-12-03T10:15:30.00Z
-                String charText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
-
-                Instant instant = Instant.parse(charText);
-                attendance.setMachineNo(machineCode);
-                attendance.setAttendanceTime(instant);
-                attendance.setAttendanceDate(instant.atZone(ZoneId.systemDefault()).toLocalDate().plusDays(1));
-                attendance.setAttendanceDataUpload(attendanceDataUpload);
-                attendance.setEmployee(candidate);
-                attendance.setEmployeeSalary(candidateSalary);
-                attendance.setConsiderAs(ConsiderAsType.REGULAR);
-
+            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(attendanceDataUpload, employees, employeeSalaries, line);
+            if(attendance != null) {
                 attendances.add(attendance);
             }
-            else {
-                log.debug("ERROR! Missing employee or employee salary information {} ", line);
+        }
+        return saveAll(attendances);
+    }
+
+    private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUpload attendanceDataUpload, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
+        EmployeeSalary candidateSalary;
+        Employee employee;
+        String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
+        String machineCode = data[0];
+        String employeeMachineId = data[1];
+        String attendanceDate = data[2];
+        String attendanceTime = data[3];
+        employee = validateAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
+        if(employee != null) {
+            candidateSalary = getEmployeeSalary(employeeSalaries, employee);
+
+            String year = attendanceDate.substring(0, 4);
+            String month = attendanceDate.substring(4, 6);
+            String day = attendanceDate.substring(6, 8);
+
+            String hour = attendanceTime.substring(0, 2);
+            String minute = attendanceTime.substring(2, 4);
+            String second = attendanceTime.substring(4, 6);
+            String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
+
+            Instant instant = Instant.parse(instantText);
+            return getAttendance(attendanceDataUpload, candidateSalary, employee, machineCode, instant);
+        }
+        else {
+            log.debug("ERROR! Employee or employee salary information is missing {} ", line);
+            return null;
+        }
+    }
+
+    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary employeeSalary, Employee employee, String machineCode, Instant instant) {
+        Attendance attendance = new Attendance();
+        attendance.setMachineNo(machineCode);
+        attendance.setAttendanceTime(instant);
+        attendance.setEmployee(employee);
+        attendance.setEmployeeSalary(employeeSalary);
+        attendance.setConsiderAs(ConsiderAsType.REGULAR);
+        attendance.setAttendanceDataUpload(attendanceDataUpload);
+        return attendance;
+    }
+
+    private EmployeeSalary getEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee employee) {
+        for (EmployeeSalary employeeSalary : employeeSalaries) {
+            if (employeeSalary.getEmployee().equals(employee)) {
+                return employeeSalary;
             }
         }
-        saveAll(attendances);
+        return null;
+    }
+
+    private Employee validateAttendanceMachineIdWithEmployeeRecord(List<Employee> employees, String employeeMachineId) {
+        for(Employee employee: employees) {
+            if(employee.getAttendanceMachineId().equals(employeeMachineId)) {
+                return employee;
+            }
+        }
+        return null;
     }
 }

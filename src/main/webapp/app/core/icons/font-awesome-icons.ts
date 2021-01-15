@@ -9,6 +9,7 @@ import {
   faCalendarAlt,
   faCalendarWeek,
   faCloud,
+  faEquals,
   faEye,
   faFlag,
   faHdd,
@@ -88,4 +89,5 @@ export const fontAwesomeIcons = [
   faStar,
   faBook,
   faSuperscript,
+  faEquals,
 ];

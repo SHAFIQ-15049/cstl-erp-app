@@ -67,7 +67,6 @@ class AttendanceGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "attendanceDate":"2020-01-01T00:00:00.000Z"
                 , "attendanceTime":"2020-01-01T00:00:00.000Z"
                 , "considerAs":"REGULAR"
                 , "machineNo":"SAMPLE_TEXT"

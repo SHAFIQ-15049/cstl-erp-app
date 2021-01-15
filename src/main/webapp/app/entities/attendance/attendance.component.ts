@@ -10,6 +10,7 @@ import { IAttendance } from 'app/shared/model/attendance.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AttendanceService } from './attendance.service';
 import { AttendanceDeleteDialogComponent } from './attendance-delete-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-attendance',
@@ -25,30 +26,52 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  fromDate = '';
+  toDate = '';
+
+  private dateFormat = 'yyyy-MM-dd';
+
   constructor(
     protected attendanceService: AttendanceService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private datePipe: DatePipe
   ) {}
+
+  private today(): string {
+    const date = new Date();
+    date.setDate(date.getDate());
+    return this.datePipe.transform(date, this.dateFormat)!;
+  }
+
+  canLoad(): boolean {
+    return this.fromDate !== '' && this.toDate !== '';
+  }
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.attendanceService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+    if (this.canLoad()) {
+      this.attendanceService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'attendanceDate.greaterOrEqualThan': this.fromDate,
+          'attendanceDate.lessOrEqualThan': this.toDate,
+        })
+        .subscribe(
+          (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    }
   }
 
   ngOnInit(): void {
+    this.toDate = this.today();
+    this.fromDate = this.today();
     this.handleNavigation();
     this.registerChangeInAttendances();
   }

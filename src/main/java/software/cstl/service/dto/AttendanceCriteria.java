@@ -1,7 +1,10 @@
 package software.cstl.service.dto;
 
 import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.*;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.InstantFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
 import software.cstl.domain.enumeration.ConsiderAsType;
 
 import java.io.Serializable;
@@ -40,8 +43,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LocalDateFilter attendanceDate;
-
     private InstantFilter attendanceTime;
 
     private ConsiderAsTypeFilter considerAs;
@@ -59,7 +60,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     public AttendanceCriteria(AttendanceCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
-        this.attendanceDate = other.attendanceDate == null ? null : other.attendanceDate.copy();
         this.attendanceTime = other.attendanceTime == null ? null : other.attendanceTime.copy();
         this.considerAs = other.considerAs == null ? null : other.considerAs.copy();
         this.machineNo = other.machineNo == null ? null : other.machineNo.copy();
@@ -79,14 +79,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     public void setId(LongFilter id) {
         this.id = id;
-    }
-
-    public LocalDateFilter getAttendanceDate() {
-        return attendanceDate;
-    }
-
-    public void setAttendanceDate(LocalDateFilter attendanceDate) {
-        this.attendanceDate = attendanceDate;
     }
 
     public InstantFilter getAttendanceTime() {
@@ -149,7 +141,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
         final AttendanceCriteria that = (AttendanceCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(attendanceDate, that.attendanceDate) &&
             Objects.equals(attendanceTime, that.attendanceTime) &&
             Objects.equals(considerAs, that.considerAs) &&
             Objects.equals(machineNo, that.machineNo) &&
@@ -162,7 +153,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
     public int hashCode() {
         return Objects.hash(
         id,
-        attendanceDate,
         attendanceTime,
         considerAs,
         machineNo,
@@ -177,7 +167,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
     public String toString() {
         return "AttendanceCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
-                (attendanceDate != null ? "attendanceDate=" + attendanceDate + ", " : "") +
                 (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
                 (considerAs != null ? "considerAs=" + considerAs + ", " : "") +
                 (machineNo != null ? "machineNo=" + machineNo + ", " : "") +

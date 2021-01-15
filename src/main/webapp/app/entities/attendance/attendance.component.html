@@ -2,13 +2,8 @@
     <h2 id="page-heading">
         <span>Attendances</span>
 
-        <!--<button id="jh-create-entity-1" class="btn btn-primary float-right jh-create-entity create-attendance" [routerLink]="['/attendance/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span>
-            Create a new Attendance
-            </span>
-        </button>-->
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance-data-upload" [routerLink]="['/attendance-data-upload/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-attendance-data-upload"
+                [routerLink]="['/attendance-data-upload/new']">
             <fa-icon icon="upload"></fa-icon>
             <span>
             Data Upload
@@ -20,6 +15,33 @@
 
     <jhi-alert></jhi-alert>
 
+    <div class="row">
+        <div class="col-md-8">
+            <form>
+                <h4>Filter by date</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">from</span>
+                    </div>
+                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                           required/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">To</span>
+                    </div>
+                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                           required/>
+
+                    <button type="submit" class="btn btn-info" (click)="loadPage()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="attendances?.length === 0">
         <span>No attendances found</span>
     </div>
@@ -30,10 +52,9 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="machineNo"><span>Machine No</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="attendanceDate"><span>Attendance Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="attendanceTime"><span>Attendance Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="considerAs"><span>Consider As</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="machineNo"><span>Machine No</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -45,10 +66,9 @@
                             <a [routerLink]="['/employee', attendance.employee?.id, 'view']" >{{ attendance.employee?.name }}</a>
                         </div>
                     </td>
-                    <td>{{ attendance.machineNo }}</td>
-                    <td>{{ attendance.attendanceDate | date:'mediumDate' }}</td>
-                    <td>{{ attendance.attendanceTime | date:'medium' }}</td>
+                    <td>{{ attendance.attendanceTime | date:"medium":"+0000" }}</td>
                     <td>{{ attendance.considerAs }}</td>
+                    <td>{{ attendance.machineNo }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

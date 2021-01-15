@@ -291,6 +291,12 @@
                         </a>
                     </li>
                     <li>
+                        <a class="dropdown-item" routerLink="attendance-summary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Attendance Summary</span>
+                        </a>
+                    </li>
+                    <li>
                         <a class="dropdown-item" routerLink="employee" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span>Employee</span>

@@ -11,6 +11,8 @@ import software.cstl.domain.enumeration.ConsiderAsType;
 import java.lang.annotation.Native;
 import java.time.LocalDate;
 import java.util.List;
+import java.time.Instant;
+im
 
 /**
  * Spring Data  repository for the Attendance entity.
@@ -26,4 +28,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
     int countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate fromDate, LocalDate toDate);
 
     List<Attendance> findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate from, LocalDate to);
+
+    List<Attendance> getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(Instant from, Instant to);
+
+    List<Attendance> getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(Employee employee, Instant from, Instant to);
 }
