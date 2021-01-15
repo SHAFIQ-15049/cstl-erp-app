@@ -90,7 +90,7 @@ public class AttendanceSummaryService {
         String toMonthString = toMonth < 10 ? "0" + toMonth : "" + toMonth;
 
         String fromInstantText = fromYear + "-" + fromMonthString + "-" + fromDayString + "T06:00:00.00Z";
-        String toInstantText = toYear + "-" + toMonthString + "-" + toDayString + "T05:59:59.00Z";
+        String toInstantText = toYear + "-" + toMonthString + "-" + toDayString + "T06:00:00.00Z";
 
         Instant from = Instant.parse(fromInstantText);
         Instant to = Instant.parse(toInstantText);
@@ -100,66 +100,90 @@ public class AttendanceSummaryService {
 
         while (from.isBefore(to)) {
 
-            Instant dayWiseFrom = from;
-            Instant dayWiseTo = from.plusSeconds(86400);
+            Instant start = from;
+            Instant end = from.plusSeconds(86400);
 
-            List<Attendance> dayWiseAttendances = new ArrayList<>();
+            List<Attendance> attendancesByDateTime
+                = getDayWiseAttendances(attendances, start, end);
 
-            for (Attendance attendance : attendances) {
-                if (attendance.getAttendanceTime().isAfter(dayWiseFrom) && attendance.getAttendanceTime().isBefore(dayWiseTo)) {
-                    dayWiseAttendances.add(attendance);
-                }
-            }
+            for (Attendance attendance : attendancesByDateTime) {
+                List<Attendance> attendancesByEmployeeAndDateTime = getDayEmployeeWiseAttendances(attendancesByDateTime, attendance.getEmployee().getId());
+                Instant inTime = getInTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
+                Instant outTime = getOutTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
 
-            for (Attendance attendance : dayWiseAttendances) {
-                AttendanceSummaryDTO attendanceSummaryDTO = new AttendanceSummaryDTO();
-                attendanceSummaryDTO.setEmployeeId(attendance.getEmployee().getId());
-                attendanceSummaryDTO.setEmployeeName(attendance.getEmployee().getName());
-                attendanceSummaryDTO.setEmployeeMachineId(attendance.getEmployee().getAttendanceMachineId());
-                attendanceSummaryDTO.setEmployeeSalaryId(attendance.getEmployeeSalary() == null ? null :
-                    attendance.getEmployeeSalary().getId());
-
-                List<Attendance> dayEmployeeWiseAttendances = new ArrayList<>();
-                for(Attendance a: dayWiseAttendances) {
-                    if(a.getEmployee().getId().equals(attendanceSummaryDTO.getEmployeeId())) {
-                        dayEmployeeWiseAttendances.add(a);
-                    }
-                }
-
-                Instant inTime = attendance.getAttendanceTime();
-                for(Attendance a: dayEmployeeWiseAttendances) {
-                    if(inTime.isAfter(a.getAttendanceTime())) {
-                        inTime = a.getAttendanceTime();
-                    }
-                }
-
-                Instant outTime = attendance.getAttendanceTime();
-                for(Attendance a: dayEmployeeWiseAttendances) {
-                    if(outTime.isBefore(a.getAttendanceTime())) {
-                        outTime = a.getAttendanceTime();
-                    }
-                }
-
-                attendanceSummaryDTO.setInTime(inTime);
-                attendanceSummaryDTO.setOutTime(outTime);
-                attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
-                attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
-
+                AttendanceSummaryDTO attendanceSummaryDTO = getAttendanceSummaryDTO(attendance, inTime, outTime);
                 attendanceSummaryDTOs.add(attendanceSummaryDTO);
             }
 
             from = from.plusSeconds(86400);
         }
 
-        List<AttendanceSummaryDTO> removeDuplicates = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
+        List<AttendanceSummaryDTO> distinctAttendances = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
+        addSerial(distinctAttendances);
 
+        return distinctAttendances;
+    }
+
+    private void addSerial(List<AttendanceSummaryDTO> removeDuplicates) {
         int serial = 0;
         for(AttendanceSummaryDTO attendanceSummaryDTO: removeDuplicates) {
             serial++;
-            attendanceSummaryDTO.setId(Long.parseLong(serial + ""));
+            attendanceSummaryDTO.setSerialNo(Long.parseLong(serial + ""));
         }
+    }
 
-        return removeDuplicates;
+    private AttendanceSummaryDTO getAttendanceSummaryDTO(Attendance attendance, Instant inTime, Instant outTime) {
+        AttendanceSummaryDTO attendanceSummaryDTO = new AttendanceSummaryDTO();
+        attendanceSummaryDTO.setEmployeeId(attendance.getEmployee().getId());
+        attendanceSummaryDTO.setEmployeeName(attendance.getEmployee().getName());
+        attendanceSummaryDTO.setEmployeeMachineId(attendance.getEmployee().getAttendanceMachineId());
+        attendanceSummaryDTO.setEmployeeSalaryId(attendance.getEmployeeSalary() == null ? null :
+            attendance.getEmployeeSalary().getId());
+        attendanceSummaryDTO.setInTime(inTime);
+        attendanceSummaryDTO.setOutTime(outTime);
+        attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
+        attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        return attendanceSummaryDTO;
+    }
+
+    private Instant getOutTimeFromListOfDayEmployeeWiseAttendances(Attendance attendance, List<Attendance> dayEmployeeWiseAttendances) {
+        Instant outTime = attendance.getAttendanceTime();
+        for(Attendance a: dayEmployeeWiseAttendances) {
+            if(outTime.isBefore(a.getAttendanceTime())) {
+                outTime = a.getAttendanceTime();
+            }
+        }
+        return outTime;
+    }
+
+    private Instant getInTimeFromListOfDayEmployeeWiseAttendances(Attendance attendance, List<Attendance> dayEmployeeWiseAttendances) {
+        Instant inTime = attendance.getAttendanceTime();
+        for(Attendance a: dayEmployeeWiseAttendances) {
+            if(inTime.isAfter(a.getAttendanceTime())) {
+                inTime = a.getAttendanceTime();
+            }
+        }
+        return inTime;
+    }
+
+    private List<Attendance> getDayEmployeeWiseAttendances(List<Attendance> dayWiseAttendances, Long employeeId) {
+        List<Attendance> dayEmployeeWiseAttendances = new ArrayList<>();
+        for(Attendance a: dayWiseAttendances) {
+            if(a.getEmployee().getId().equals(employeeId)) {
+                dayEmployeeWiseAttendances.add(a);
+            }
+        }
+        return dayEmployeeWiseAttendances;
+    }
+
+    private List<Attendance> getDayWiseAttendances(List<Attendance> attendances, Instant dayWiseFrom, Instant dayWiseTo) {
+        List<Attendance> dayWiseAttendances = new ArrayList<>();
+        for (Attendance attendance : attendances) {
+            if (attendance.getAttendanceTime().isAfter(dayWiseFrom) && attendance.getAttendanceTime().isBefore(dayWiseTo)) {
+                dayWiseAttendances.add(attendance);
+            }
+        }
+        return dayWiseAttendances;
     }
 
 }

@@ -51,7 +51,7 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr>
-                    <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Sl.</span></th>
                     <th scope="col" ><span>Employee</span></th>
                     <th scope="col" ><span>Id (Machine)</span></th>
                     <th scope="col" ><span>In</span></th>
@@ -62,7 +62,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
-                    <td>{{ attendanceSummary.id }}</td>
+                    <td>{{ attendanceSummary.serial }}</td>
                     <td>
                         <div *ngIf="attendanceSummary.employeeId">
                             {{ attendanceSummary.employeeName }}

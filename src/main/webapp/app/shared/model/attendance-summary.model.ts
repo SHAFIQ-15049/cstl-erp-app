@@ -1,7 +1,7 @@
 import { Moment } from 'moment';
 
 export interface IAttendanceSummary {
-  id?: number;
+  serial?: number;
   inTime?: Moment;
   outTime?: Moment;
   diff?: number;
@@ -14,7 +14,7 @@ export interface IAttendanceSummary {
 
 export class AttendanceSummary implements IAttendanceSummary {
   constructor(
-    public id?: number,
+    public serial?: number,
     public inTime?: Moment,
     public outTime?: Moment,
     public diff?: number,

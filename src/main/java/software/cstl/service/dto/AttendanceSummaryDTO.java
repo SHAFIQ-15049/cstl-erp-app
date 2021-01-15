@@ -6,7 +6,7 @@ import java.time.Instant;
 
 public class AttendanceSummaryDTO implements Serializable {
 
-    private Long id;
+    private Long serialNo;
 
     private Instant inTime;
 
@@ -25,12 +25,12 @@ public class AttendanceSummaryDTO implements Serializable {
 
     private Long employeeSalaryId;
 
-    public Long getId() {
-        return id;
+    public Long getSerialNo() {
+        return serialNo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSerialNo(Long serialNo) {
+        this.serialNo = serialNo;
     }
 
     public Instant getInTime() {
@@ -120,7 +120,7 @@ public class AttendanceSummaryDTO implements Serializable {
     @Override
     public String toString() {
         return "AttendanceSummaryDTO{" +
-            "id=" + getId() +
+            "id=" + getSerialNo() +
             ", inTime='" + getInTime() + "'" +
             ", outTime='" + getOutTime() + "'" +
             ", diff='" + getDiff() + "'" +
