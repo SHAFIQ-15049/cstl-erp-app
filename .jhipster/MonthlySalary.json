@@ -12,11 +12,11 @@
     },
     {
       "fieldName": "fromDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "toDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "status",

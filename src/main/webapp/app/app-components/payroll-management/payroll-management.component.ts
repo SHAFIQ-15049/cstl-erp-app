@@ -15,7 +15,7 @@ import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 import {Moment} from "moment";
 import {PayrollManagementService} from "app/app-components/payroll-management/payroll-management.service";
 import {ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Router} from "@angular/router";
-import {DATE_FORMAT} from "app/shared/constants/input.constants";
+import {DATE_FORMAT, DATE_TIME_FORMAT} from "app/shared/constants/input.constants";
 import * as moment from "moment";
 
 @Component({
@@ -100,8 +100,8 @@ export class PayrollManagementComponent implements OnInit {
   navigate(): void{
     if (this.selectedYear && this.selectedDesignation && this.fromDate && this.toDate) {
       this.selectedDesignationId = this.selectedDesignation.id;
-      this.fromDateStr = this.fromDate.format(DATE_FORMAT);
-      this.toDateStr = this.toDate.format(DATE_FORMAT);
+      this.fromDateStr = this.fromDate.toString();
+      this.toDateStr = this.toDate.toString();
       this.router.navigate(['/payroll-management',this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDateStr, this.toDateStr]);
     }
   }

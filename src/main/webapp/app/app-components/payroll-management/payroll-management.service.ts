@@ -31,8 +31,8 @@ export class PayrollManagementService {
 
   protected convertDateFromClient(monthlySalary: IMonthlySalary): IMonthlySalary {
     const copy: IMonthlySalary = Object.assign({}, monthlySalary, {
-      fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.format(DATE_FORMAT) : undefined,
-      toDate: monthlySalary.toDate && monthlySalary.toDate.isValid() ? monthlySalary.toDate.format(DATE_FORMAT) : undefined,
+      fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.toJSON() : undefined,
+      toDate: monthlySalary.toDate && monthlySalary.toDate.isValid() ? monthlySalary.toDate.toJSON() : undefined,
       executedOn: monthlySalary.executedOn && monthlySalary.executedOn.isValid() ? monthlySalary.executedOn.toJSON() : undefined,
     });
     return copy;
@@ -46,6 +46,7 @@ export class PayrollManagementService {
     }
     return res;
   }
+
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((monthlySalary: IMonthlySalary) => {

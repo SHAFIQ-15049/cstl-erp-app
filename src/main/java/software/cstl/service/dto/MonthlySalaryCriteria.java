@@ -13,7 +13,6 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.InstantFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.MonthlySalary} entity. This class is used
@@ -70,9 +69,9 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
 
     private MonthTypeFilter month;
 
-    private LocalDateFilter fromDate;
+    private InstantFilter fromDate;
 
-    private LocalDateFilter toDate;
+    private InstantFilter toDate;
 
     private SalaryExecutionStatusFilter status;
 
@@ -129,19 +128,19 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         this.month = month;
     }
 
-    public LocalDateFilter getFromDate() {
+    public InstantFilter getFromDate() {
         return fromDate;
     }
 
-    public void setFromDate(LocalDateFilter fromDate) {
+    public void setFromDate(InstantFilter fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDateFilter getToDate() {
+    public InstantFilter getToDate() {
         return toDate;
     }
 
-    public void setToDate(LocalDateFilter toDate) {
+    public void setToDate(InstantFilter toDate) {
         this.toDate = toDate;
     }
 

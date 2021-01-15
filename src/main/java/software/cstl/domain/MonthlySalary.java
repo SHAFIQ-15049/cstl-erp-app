@@ -8,7 +8,6 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -41,10 +40,10 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
     private MonthType month;
 
     @Column(name = "from_date")
-    private LocalDate fromDate;
+    private Instant fromDate;
 
     @Column(name = "to_date")
-    private LocalDate toDate;
+    private Instant toDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
@@ -99,29 +98,29 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
         this.month = month;
     }
 
-    public LocalDate getFromDate() {
+    public Instant getFromDate() {
         return fromDate;
     }
 
-    public MonthlySalary fromDate(LocalDate fromDate) {
+    public MonthlySalary fromDate(Instant fromDate) {
         this.fromDate = fromDate;
         return this;
     }
 
-    public void setFromDate(LocalDate fromDate) {
+    public void setFromDate(Instant fromDate) {
         this.fromDate = fromDate;
     }
 
-    public LocalDate getToDate() {
+    public Instant getToDate() {
         return toDate;
     }
 
-    public MonthlySalary toDate(LocalDate toDate) {
+    public MonthlySalary toDate(Instant toDate) {
         this.toDate = toDate;
         return this;
     }
 
-    public void setToDate(LocalDate toDate) {
+    public void setToDate(Instant toDate) {
         this.toDate = toDate;
     }
 

@@ -19,9 +19,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.EntityManager;
-import java.time.LocalDate;
 import java.time.Instant;
-import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
 
@@ -47,13 +45,11 @@ public class MonthlySalaryResourceIT {
     private static final MonthType DEFAULT_MONTH = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH = MonthType.FEBRUARY;
 
-    private static final LocalDate DEFAULT_FROM_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_FROM_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_FROM_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_FROM_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FROM_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_TO_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_TO_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_TO_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_TO_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_TO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final SalaryExecutionStatus DEFAULT_STATUS = SalaryExecutionStatus.DONE;
     private static final SalaryExecutionStatus UPDATED_STATUS = SalaryExecutionStatus.NOT_DONE;
@@ -435,59 +431,6 @@ public class MonthlySalaryResourceIT {
 
     @Test
     @Transactional
-    public void getAllMonthlySalariesByFromDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where fromDate is greater than or equal to DEFAULT_FROM_DATE
-        defaultMonthlySalaryShouldBeFound("fromDate.greaterThanOrEqual=" + DEFAULT_FROM_DATE);
-
-        // Get all the monthlySalaryList where fromDate is greater than or equal to UPDATED_FROM_DATE
-        defaultMonthlySalaryShouldNotBeFound("fromDate.greaterThanOrEqual=" + UPDATED_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByFromDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where fromDate is less than or equal to DEFAULT_FROM_DATE
-        defaultMonthlySalaryShouldBeFound("fromDate.lessThanOrEqual=" + DEFAULT_FROM_DATE);
-
-        // Get all the monthlySalaryList where fromDate is less than or equal to SMALLER_FROM_DATE
-        defaultMonthlySalaryShouldNotBeFound("fromDate.lessThanOrEqual=" + SMALLER_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByFromDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where fromDate is less than DEFAULT_FROM_DATE
-        defaultMonthlySalaryShouldNotBeFound("fromDate.lessThan=" + DEFAULT_FROM_DATE);
-
-        // Get all the monthlySalaryList where fromDate is less than UPDATED_FROM_DATE
-        defaultMonthlySalaryShouldBeFound("fromDate.lessThan=" + UPDATED_FROM_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByFromDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where fromDate is greater than DEFAULT_FROM_DATE
-        defaultMonthlySalaryShouldNotBeFound("fromDate.greaterThan=" + DEFAULT_FROM_DATE);
-
-        // Get all the monthlySalaryList where fromDate is greater than SMALLER_FROM_DATE
-        defaultMonthlySalaryShouldBeFound("fromDate.greaterThan=" + SMALLER_FROM_DATE);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllMonthlySalariesByToDateIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
@@ -537,59 +480,6 @@ public class MonthlySalaryResourceIT {
         // Get all the monthlySalaryList where toDate is null
         defaultMonthlySalaryShouldNotBeFound("toDate.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByToDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where toDate is greater than or equal to DEFAULT_TO_DATE
-        defaultMonthlySalaryShouldBeFound("toDate.greaterThanOrEqual=" + DEFAULT_TO_DATE);
-
-        // Get all the monthlySalaryList where toDate is greater than or equal to UPDATED_TO_DATE
-        defaultMonthlySalaryShouldNotBeFound("toDate.greaterThanOrEqual=" + UPDATED_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByToDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where toDate is less than or equal to DEFAULT_TO_DATE
-        defaultMonthlySalaryShouldBeFound("toDate.lessThanOrEqual=" + DEFAULT_TO_DATE);
-
-        // Get all the monthlySalaryList where toDate is less than or equal to SMALLER_TO_DATE
-        defaultMonthlySalaryShouldNotBeFound("toDate.lessThanOrEqual=" + SMALLER_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByToDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where toDate is less than DEFAULT_TO_DATE
-        defaultMonthlySalaryShouldNotBeFound("toDate.lessThan=" + DEFAULT_TO_DATE);
-
-        // Get all the monthlySalaryList where toDate is less than UPDATED_TO_DATE
-        defaultMonthlySalaryShouldBeFound("toDate.lessThan=" + UPDATED_TO_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllMonthlySalariesByToDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        monthlySalaryRepository.saveAndFlush(monthlySalary);
-
-        // Get all the monthlySalaryList where toDate is greater than DEFAULT_TO_DATE
-        defaultMonthlySalaryShouldNotBeFound("toDate.greaterThan=" + DEFAULT_TO_DATE);
-
-        // Get all the monthlySalaryList where toDate is greater than SMALLER_TO_DATE
-        defaultMonthlySalaryShouldBeFound("toDate.greaterThan=" + SMALLER_TO_DATE);
-    }
-
 
     @Test
     @Transactional

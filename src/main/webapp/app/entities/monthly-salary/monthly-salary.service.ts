@@ -4,7 +4,6 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IMonthlySalary } from 'app/shared/model/monthly-salary.model';
@@ -51,8 +50,8 @@ export class MonthlySalaryService {
 
   protected convertDateFromClient(monthlySalary: IMonthlySalary): IMonthlySalary {
     const copy: IMonthlySalary = Object.assign({}, monthlySalary, {
-      fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.format(DATE_FORMAT) : undefined,
-      toDate: monthlySalary.toDate && monthlySalary.toDate.isValid() ? monthlySalary.toDate.format(DATE_FORMAT) : undefined,
+      fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.toJSON() : undefined,
+      toDate: monthlySalary.toDate && monthlySalary.toDate.isValid() ? monthlySalary.toDate.toJSON() : undefined,
       executedOn: monthlySalary.executedOn && monthlySalary.executedOn.isValid() ? monthlySalary.executedOn.toJSON() : undefined,
     });
     return copy;

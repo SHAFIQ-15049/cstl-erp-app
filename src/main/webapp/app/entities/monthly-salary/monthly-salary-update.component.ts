@@ -19,8 +19,6 @@ import { DesignationService } from 'app/entities/designation/designation.service
 export class MonthlySalaryUpdateComponent implements OnInit {
   isSaving = false;
   designations: IDesignation[] = [];
-  fromDateDp: any;
-  toDateDp: any;
 
   editForm = this.fb.group({
     id: [],
@@ -45,6 +43,8 @@ export class MonthlySalaryUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ monthlySalary }) => {
       if (!monthlySalary.id) {
         const today = moment().startOf('day');
+        monthlySalary.fromDate = today;
+        monthlySalary.toDate = today;
         monthlySalary.executedOn = today;
       }
 
@@ -59,8 +59,8 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       id: monthlySalary.id,
       year: monthlySalary.year,
       month: monthlySalary.month,
-      fromDate: monthlySalary.fromDate,
-      toDate: monthlySalary.toDate,
+      fromDate: monthlySalary.fromDate ? monthlySalary.fromDate.format(DATE_TIME_FORMAT) : null,
+      toDate: monthlySalary.toDate ? monthlySalary.toDate.format(DATE_TIME_FORMAT) : null,
       status: monthlySalary.status,
       executedOn: monthlySalary.executedOn ? monthlySalary.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: monthlySalary.executedBy,
@@ -88,8 +88,8 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       id: this.editForm.get(['id'])!.value,
       year: this.editForm.get(['year'])!.value,
       month: this.editForm.get(['month'])!.value,
-      fromDate: this.editForm.get(['fromDate'])!.value,
-      toDate: this.editForm.get(['toDate'])!.value,
+      fromDate: this.editForm.get(['fromDate'])!.value ? moment(this.editForm.get(['fromDate'])!.value, DATE_TIME_FORMAT) : undefined,
+      toDate: this.editForm.get(['toDate'])!.value ? moment(this.editForm.get(['toDate'])!.value, DATE_TIME_FORMAT) : undefined,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value,

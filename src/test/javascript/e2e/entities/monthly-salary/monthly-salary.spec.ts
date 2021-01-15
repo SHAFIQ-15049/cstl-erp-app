@@ -46,8 +46,8 @@ describe('MonthlySalary e2e test', () => {
     await promise.all([
       monthlySalaryUpdatePage.setYearInput('5'),
       monthlySalaryUpdatePage.monthSelectLastOption(),
-      monthlySalaryUpdatePage.setFromDateInput('2000-12-31'),
-      monthlySalaryUpdatePage.setToDateInput('2000-12-31'),
+      monthlySalaryUpdatePage.setFromDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      monthlySalaryUpdatePage.setToDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryUpdatePage.statusSelectLastOption(),
       monthlySalaryUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryUpdatePage.setExecutedByInput('executedBy'),
@@ -55,8 +55,14 @@ describe('MonthlySalary e2e test', () => {
     ]);
 
     expect(await monthlySalaryUpdatePage.getYearInput()).to.eq('5', 'Expected year value to be equals to 5');
-    expect(await monthlySalaryUpdatePage.getFromDateInput()).to.eq('2000-12-31', 'Expected fromDate value to be equals to 2000-12-31');
-    expect(await monthlySalaryUpdatePage.getToDateInput()).to.eq('2000-12-31', 'Expected toDate value to be equals to 2000-12-31');
+    expect(await monthlySalaryUpdatePage.getFromDateInput()).to.contain(
+      '2001-01-01T02:30',
+      'Expected fromDate value to be equals to 2000-12-31'
+    );
+    expect(await monthlySalaryUpdatePage.getToDateInput()).to.contain(
+      '2001-01-01T02:30',
+      'Expected toDate value to be equals to 2000-12-31'
+    );
     expect(await monthlySalaryUpdatePage.getExecutedOnInput()).to.contain(
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'

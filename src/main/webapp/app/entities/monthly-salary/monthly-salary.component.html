@@ -25,6 +25,8 @@
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="month"><span>Month</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
@@ -37,6 +39,8 @@
                     <td><a [routerLink]="['/monthly-salary', monthlySalary.id, 'view']">{{ monthlySalary.id }}</a></td>
                     <td>{{ monthlySalary.year }}</td>
                     <td>{{ monthlySalary.month }}</td>
+                    <td>{{ monthlySalary.fromDate | date:'medium' }}</td>
+                    <td>{{ monthlySalary.toDate | date:'medium' }}</td>
                     <td>{{ monthlySalary.status }}</td>
                     <td>{{ monthlySalary.executedOn | date:'medium' }}</td>
                     <td>{{ monthlySalary.executedBy }}</td>
