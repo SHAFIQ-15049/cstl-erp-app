@@ -115,8 +115,8 @@ public class AttendanceService {
     /**
      * Get all the attendances.
      *
-     * @param fromDate the fromDate.
-     * @param toDate the toDate.
+     * @param from the fromDateTime.
+     * @param to the toDateTime.
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to) {
@@ -128,7 +128,7 @@ public class AttendanceService {
      *
      * @param attendanceDataUpload the entity where attendance data needs to process and then save.
      */
-    public void bulkSave(AttendanceDataUpload attendanceDataUpload) {
+    public List<Attendance> bulkSave(AttendanceDataUpload attendanceDataUpload) {
         List<Employee> employees = employeeService.getAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
 
@@ -143,20 +143,20 @@ public class AttendanceService {
                 attendances.add(attendance);
             }
         }
-        saveAll(attendances);
+        return saveAll(attendances);
     }
 
     private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUpload attendanceDataUpload, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
         EmployeeSalary candidateSalary;
-        Employee candidate;
+        Employee employee;
         String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
         String machineCode = data[0];
         String employeeMachineId = data[1];
         String attendanceDate = data[2];
         String attendanceTime = data[3];
-        candidate = validateAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
-        if(candidate != null) {
-            candidateSalary = getEmployeeSalary(employeeSalaries, candidate);
+        employee = validateAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
+        if(employee != null) {
+            candidateSalary = getEmployeeSalary(employeeSalaries, employee);
 
             String year = attendanceDate.substring(0, 4);
             String month = attendanceDate.substring(4, 6);
@@ -168,28 +168,28 @@ public class AttendanceService {
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
             Instant instant = Instant.parse(instantText);
-            return getAttendance(attendanceDataUpload, candidateSalary, candidate, machineCode, instant);
+            return getAttendance(attendanceDataUpload, candidateSalary, employee, machineCode, instant);
         }
         else {
-            log.debug("ERROR! Missing employee or employee salary information {} ", line);
+            log.debug("ERROR! Employee or employee salary information is missing {} ", line);
             return null;
         }
     }
 
-    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary candidateSalary, Employee candidate, String machineCode, Instant instant) {
+    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary employeeSalary, Employee employee, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setMachineNo(machineCode);
         attendance.setAttendanceTime(instant);
-        attendance.setEmployee(candidate);
-        attendance.setEmployeeSalary(candidateSalary);
+        attendance.setEmployee(employee);
+        attendance.setEmployeeSalary(employeeSalary);
         attendance.setConsiderAs(ConsiderAsType.REGULAR);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
         return attendance;
     }
 
-    private EmployeeSalary getEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee candidate) {
+    private EmployeeSalary getEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee employee) {
         for (EmployeeSalary employeeSalary : employeeSalaries) {
-            if (employeeSalary.getEmployee().equals(candidate)) {
+            if (employeeSalary.getEmployee().equals(employee)) {
                 return employeeSalary;
             }
         }
