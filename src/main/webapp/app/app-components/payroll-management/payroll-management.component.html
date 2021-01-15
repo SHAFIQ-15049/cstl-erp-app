@@ -57,6 +57,21 @@
     </div>
 </div>
 
+<div class="row alert alert-warning" *ngIf="monthlySalary">
+    <div class="col-md-10">
+        Payroll of the month <b>{{this.selectedMonth}}</b> status: <b>{{this.monthlySalary.status === 'DONE'? 'Payroll Generated': 'Payroll Not Generated'}}</b>
+    </div>
+    <div class="col-md-2" *ngIf="monthlySalary.status==='DONE'" align="right">
+        <button class="btn btn-primary" >Re-Generate Payroll</button>
+    </div>
+    <div class="col-md-2" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
+        <button class="btn btn-secondary" >Generate Payroll</button>
+    </div>
+    <div class="col-md-12">
+
+    </div>
+</div>
+
 <div class="row">
     <div class="col-md-12">
         <router-outlet></router-outlet>
