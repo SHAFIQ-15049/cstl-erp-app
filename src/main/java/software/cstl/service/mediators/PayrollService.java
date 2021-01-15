@@ -67,13 +67,13 @@ public class PayrollService {
     private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
         Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
-        
+
     }
 
     public PartialSalary assignPartialSalaryAndAllowances(PartialSalary partialSalary){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-        Integer totalWorkingDays = attendanceRepository.countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+        Integer totalWorkingDays = attendanceRepository.countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, Instant.from(partialSalary.getFromDate()) , Instant.from(partialSalary.getToDate()));
+        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, Instant.from(partialSalary.getFromDate()), Instant.from(partialSalary.getToDate()));
 
         String notes = partialSalary.getNote()!=null && partialSalary.getNote().length()>0?partialSalary.getNote(): "";
         if(employeeAttendance.size()<totalWorkingDays){

@@ -78,8 +78,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -105,8 +105,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendancesWithEmployeeSalaryWithAllowance()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithEmployeeSalaryWithAllowance()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -128,8 +128,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendancesWithDifferentEmployeeSalaries()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithDifferentEmployeeSalaries()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -150,8 +150,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.singleAttendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.singleAttendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 

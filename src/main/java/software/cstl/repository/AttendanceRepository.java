@@ -25,9 +25,9 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
         "select char(attendance_date,'dd-mm-yyyy') attendance_date from attendance where  (attendance_date>=?1 and attendance_date<=?2)))", nativeQuery = true)
     int totalAttendanceDays(LocalDate from, LocalDate to);
 
-    int countAttendancesByEmployeeAndAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate fromDate, LocalDate toDate);
+    int countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(Employee employee, ConsiderAsType considerAsType, Instant fromDate, Instant toDate);
 
-    List<Attendance> findAllByEmployeeAndConsiderAsAndAttendanceDateBetween(Employee employee, ConsiderAsType considerAsType, LocalDate from, LocalDate to);
+    List<Attendance> findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(Employee employee, ConsiderAsType considerAsType, Instant from, Instant to);
 
     List<Attendance> getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(Instant from, Instant to);
 
