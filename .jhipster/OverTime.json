@@ -1,0 +1,79 @@
+{
+  "name": "OverTime",
+  "fields": [
+    {
+      "fieldName": "year",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "month",
+      "fieldType": "MonthType",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
+    },
+    {
+      "fieldName": "fromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "toDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "totalOverTime",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "officialOverTime",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "extraOverTime",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "officialAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "extraAmount",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    },
+    {
+      "fieldName": "executedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "executedBy",
+      "fieldType": "String"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "overTime",
+      "relationshipName": "employee",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20210116134347",
+  "entityTableName": "over_time",
+  "dto": "no",
+  "pagination": "no",
+  "service": "no",
+  "jpaMetamodelFiltering": false,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

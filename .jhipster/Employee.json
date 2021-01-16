@@ -71,6 +71,12 @@
     },
     {
       "relationshipType": "one-to-many",
+      "otherEntityName": "overTime",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "overTime"
+    },
+    {
+      "relationshipType": "one-to-many",
       "otherEntityName": "fine",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "fine"

@@ -323,6 +323,24 @@ entity PartialSalary (partial_salary){
     note TextBlob
 }
 
+entity OverTime{
+    // designation
+    // employee
+    year Integer,
+    month MonthType,
+    fromDate Instant,
+    toDate Instant,
+    totalOverTime Double,
+    officialOverTime Double,
+    extraOverTime Double,
+    totalAmount BigDecimal,
+    officialAmount BigDecimal,
+    extraAmount BigDecimal,
+    note TextBlob,
+    executedOn Instant,
+    executedBy String
+}
+
 entity FestivalAllowancePayment{
     // designation
     year Integer,
@@ -487,6 +505,7 @@ relationship ManyToOne{
 
 relationship OneToMany{
     Employee{partialSalary} to PartialSalary{employee(name) required},
+    Employee{overTime} to OverTime{employee(name)},
     Employee{fine} to Fine{employee(name)},
     Employee{advance} to Advance{employee(name)},
     Employee{employeeSalary} to EmployeeSalary{employee(name)},

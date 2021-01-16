@@ -165,6 +165,10 @@ import { RouterModule } from '@angular/router';
         path: 'attendance-summary',
         loadChildren: () => import('./attendance-summary/attendance-summary.module').then(m => m.CodeNodeErpAttendanceSummaryModule),
       },
+      {
+        path: 'over-time',
+        loadChildren: () => import('./over-time/over-time.module').then(m => m.CodeNodeErpOverTimeModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

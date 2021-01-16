@@ -1,4 +1,4 @@
-export  enum MonthType {
+export const enum MonthType {
   JANUARY = 'JANUARY',
 
   FEBRUARY = 'FEBRUARY',
