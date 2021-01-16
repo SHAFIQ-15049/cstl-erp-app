@@ -93,7 +93,7 @@ public class PayrollService {
         monthlySalaryRepository.save(monthlySalary);
     }
 
-    public void regenerateMonthlySalaryForAnEmployee(Long monthlySalaryId, Long monthlySalaryDtlId){
+    public MonthlySalaryDtl regenerateMonthlySalaryForAnEmployee(Long monthlySalaryId, Long monthlySalaryDtlId){
         MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryId);
         MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtlRepository.getOne(monthlySalaryDtlId);
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
@@ -104,7 +104,7 @@ public class PayrollService {
         assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
         assignFine(monthlySalaryDtl);
         assignAdvance(monthlySalaryDtl);
-        monthlySalaryDtlRepository.save(monthlySalaryDtl);
+        return monthlySalaryDtlRepository.save(monthlySalaryDtl);
     }
 
     private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl, int totalDays){
