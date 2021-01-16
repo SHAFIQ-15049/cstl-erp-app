@@ -122,8 +122,8 @@ export class PayrollManagementComponent implements OnInit {
           monthlySalary.year= this.selectedYear;
           monthlySalary.designation = this.selectedDesignation;
           monthlySalary.month = this.selectedMonth;
-          monthlySalary.fromDate = this.fromDate;
-          monthlySalary.toDate = this.toDate;
+          monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
+          monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
           this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe((response)=>{
             this.fetchExistingData();
           });
