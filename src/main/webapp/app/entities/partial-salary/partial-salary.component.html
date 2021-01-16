@@ -1,0 +1,117 @@
+<div>
+    <h2 id="page-heading">
+        <span>Partial Salaries</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-partial-salary" [routerLink]="['/partial-salary/new',year, month]">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Add New
+            </span>
+        </button>
+    </h2>
+
+    <div class="form-row align-items-end">
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_year">Year</label>
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="year">
+                <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-control-label" for="field_month">Month</label>
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="month">
+                <option value="JANUARY">JANUARY</option>
+                <option value="FEBRUARY">FEBRUARY</option>
+                <option value="MARCH">MARCH</option>
+                <option value="APRIL">APRIL</option>
+                <option value="MAY">MAY</option>
+                <option value="JUNE">JUNE</option>
+                <option value="JULY">JULY</option>
+                <option value="AUGUST">AUGUST</option>
+                <option value="SEPTEMBER">SEPTEMBER</option>
+                <option value="OCTOBER">OCTOBER</option>
+                <option value="NOVEMBER">NOVEMBER</option>
+                <option value="DECEMBER">DECEMBER</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2" style="align-items: end;">
+            <button class="btn btn-secondary" (click)="fetch()">Fetch</button>
+        </div>
+    </div>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+
+    <div class="alert alert-warning" id="no-result" *ngIf="partialSalaries?.length === 0">
+        <span>No records found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="partialSalaries && partialSalaries.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>SL</span> </th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> </th>
+                    <th scope="col"  jhiSortBy="year"><span>Year</span> </th>
+                    <th scope="col"  jhiSortBy="month"><span>Month</span> </th>
+                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> </th>
+                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> </th>
+                    <th scope="col"  jhiSortBy="gross"><span>Gross</span> </th>
+                    <th scope="col"  jhiSortBy="status"><span>Status</span> </th>
+                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> </th>
+                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> </th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let partialSalary of partialSalaries; index as i ;trackBy: trackId">
+                    <td><a [routerLink]="['/partial-salary', partialSalary.id, 'view']">{{ (page -1) * itemsPerPage + (i+1)}}</a></td>
+                    <td *ngIf="partialSalary.employee">{{partialSalary.employee.name || ''}}</td>
+                    <td>{{ partialSalary.year }}</td>
+                    <td>{{ partialSalary.month }}</td>
+                    <td>{{ partialSalary.fromDate | date:'mediumDate' }}</td>
+                    <td>{{ partialSalary.toDate | date:'mediumDate' }}</td>
+                    <td>{{ partialSalary.gross }}</td>
+                    <td>{{ partialSalary.status }}</td>
+                    <td>{{ partialSalary.executedOn | date:'medium' }}</td>
+                    <td>{{ partialSalary.executedBy }}</td>
+                    <td class="text-right">
+                        <div class="btn-group">
+                            <button type="submit"
+                                    [routerLink]="['/partial-salary', partialSalary.id, 'view']"
+                                    class="btn btn-info btn-sm">
+                                <fa-icon icon="eye"></fa-icon>
+                                <span class="d-none d-md-inline">View</span>
+                            </button>
+
+                            <button type="submit"
+                                    [routerLink]="['/partial-salary', partialSalary.id, 'edit']"
+                                    class="btn btn-primary btn-sm">
+                                <fa-icon icon="pencil-alt"></fa-icon>
+                                <span class="d-none d-md-inline">Edit</span>
+                            </button>
+
+                            <button type="submit" (click)="delete(partialSalary)"
+                                    class="btn btn-danger btn-sm">
+                                <fa-icon icon="times"></fa-icon>
+                                <span class="d-none d-md-inline">Delete</span>
+                            </button>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div *ngIf="partialSalaries && partialSalaries.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
+    </div>
+</div>

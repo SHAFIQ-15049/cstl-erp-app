@@ -43,6 +43,7 @@ export class MonthlySalaryDtlUpdatePage {
   fineInput = element(by.id('field_fine'));
   advanceInput = element(by.id('field_advance'));
   statusSelect = element(by.id('field_status'));
+  typeSelect = element(by.id('field_type'));
   executedOnInput = element(by.id('field_executedOn'));
   executedByInput = element(by.id('field_executedBy'));
   noteInput = element(by.id('field_note'));
@@ -168,6 +169,18 @@ export class MonthlySalaryDtlUpdatePage {
 
   async statusSelectLastOption(): Promise<void> {
     await this.statusSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setTypeSelect(type: string): Promise<void> {
+    await this.typeSelect.sendKeys(type);
+  }
+
+  async getTypeSelect(): Promise<string> {
+    return await this.typeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async typeSelectLastOption(): Promise<void> {
+    await this.typeSelect.all(by.tagName('option')).last().click();
   }
 
   async setExecutedOnInput(executedOn: string): Promise<void> {

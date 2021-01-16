@@ -59,6 +59,11 @@
       "fieldValues": "DONE,NOT_DONE"
     },
     {
+      "fieldName": "type",
+      "fieldType": "PayrollGenerationType",
+      "fieldValues": "FULL,PARTIAL"
+    },
+    {
       "fieldName": "executedOn",
       "fieldType": "Instant"
     },

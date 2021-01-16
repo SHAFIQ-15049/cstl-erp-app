@@ -158,6 +158,10 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./attendance/attendance.module').then(m => m.CodeNodeErpAttendanceModule),
       },
       {
+        path: 'partial-salary',
+        loadChildren: () => import('./partial-salary/partial-salary.module').then(m => m.CodeNodeErpPartialSalaryModule),
+      },
+      {
         path: 'attendance-summary',
         loadChildren: () => import('./attendance-summary/attendance-summary.module').then(m => m.CodeNodeErpAttendanceSummaryModule),
       },

@@ -31,6 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import software.cstl.domain.enumeration.SalaryExecutionStatus;
+import software.cstl.domain.enumeration.PayrollGenerationType;
 /**
  * Integration tests for the {@link MonthlySalaryDtlResource} REST controller.
  */
@@ -94,6 +95,9 @@ public class MonthlySalaryDtlResourceIT {
     private static final SalaryExecutionStatus DEFAULT_STATUS = SalaryExecutionStatus.DONE;
     private static final SalaryExecutionStatus UPDATED_STATUS = SalaryExecutionStatus.NOT_DONE;
 
+    private static final PayrollGenerationType DEFAULT_TYPE = PayrollGenerationType.FULL;
+    private static final PayrollGenerationType UPDATED_TYPE = PayrollGenerationType.PARTIAL;
+
     private static final Instant DEFAULT_EXECUTED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_EXECUTED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
@@ -142,6 +146,7 @@ public class MonthlySalaryDtlResourceIT {
             .fine(DEFAULT_FINE)
             .advance(DEFAULT_ADVANCE)
             .status(DEFAULT_STATUS)
+            .type(DEFAULT_TYPE)
             .executedOn(DEFAULT_EXECUTED_ON)
             .executedBy(DEFAULT_EXECUTED_BY)
             .note(DEFAULT_NOTE);
@@ -169,6 +174,7 @@ public class MonthlySalaryDtlResourceIT {
             .fine(UPDATED_FINE)
             .advance(UPDATED_ADVANCE)
             .status(UPDATED_STATUS)
+            .type(UPDATED_TYPE)
             .executedOn(UPDATED_EXECUTED_ON)
             .executedBy(UPDATED_EXECUTED_BY)
             .note(UPDATED_NOTE);
@@ -208,6 +214,7 @@ public class MonthlySalaryDtlResourceIT {
         assertThat(testMonthlySalaryDtl.getFine()).isEqualTo(DEFAULT_FINE);
         assertThat(testMonthlySalaryDtl.getAdvance()).isEqualTo(DEFAULT_ADVANCE);
         assertThat(testMonthlySalaryDtl.getStatus()).isEqualTo(DEFAULT_STATUS);
+        assertThat(testMonthlySalaryDtl.getType()).isEqualTo(DEFAULT_TYPE);
         assertThat(testMonthlySalaryDtl.getExecutedOn()).isEqualTo(DEFAULT_EXECUTED_ON);
         assertThat(testMonthlySalaryDtl.getExecutedBy()).isEqualTo(DEFAULT_EXECUTED_BY);
         assertThat(testMonthlySalaryDtl.getNote()).isEqualTo(DEFAULT_NOTE);
@@ -258,6 +265,7 @@ public class MonthlySalaryDtlResourceIT {
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advance").value(hasItem(DEFAULT_ADVANCE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())));
@@ -288,6 +296,7 @@ public class MonthlySalaryDtlResourceIT {
             .andExpect(jsonPath("$.fine").value(DEFAULT_FINE.intValue()))
             .andExpect(jsonPath("$.advance").value(DEFAULT_ADVANCE.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
+            .andExpect(jsonPath("$.type").value(DEFAULT_TYPE.toString()))
             .andExpect(jsonPath("$.executedOn").value(DEFAULT_EXECUTED_ON.toString()))
             .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY.toString()))
             .andExpect(jsonPath("$.note").value(DEFAULT_NOTE.toString()));
@@ -1732,6 +1741,58 @@ public class MonthlySalaryDtlResourceIT {
 
     @Test
     @Transactional
+    public void getAllMonthlySalaryDtlsByTypeIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+
+        // Get all the monthlySalaryDtlList where type equals to DEFAULT_TYPE
+        defaultMonthlySalaryDtlShouldBeFound("type.equals=" + DEFAULT_TYPE);
+
+        // Get all the monthlySalaryDtlList where type equals to UPDATED_TYPE
+        defaultMonthlySalaryDtlShouldNotBeFound("type.equals=" + UPDATED_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalaryDtlsByTypeIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+
+        // Get all the monthlySalaryDtlList where type not equals to DEFAULT_TYPE
+        defaultMonthlySalaryDtlShouldNotBeFound("type.notEquals=" + DEFAULT_TYPE);
+
+        // Get all the monthlySalaryDtlList where type not equals to UPDATED_TYPE
+        defaultMonthlySalaryDtlShouldBeFound("type.notEquals=" + UPDATED_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalaryDtlsByTypeIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+
+        // Get all the monthlySalaryDtlList where type in DEFAULT_TYPE or UPDATED_TYPE
+        defaultMonthlySalaryDtlShouldBeFound("type.in=" + DEFAULT_TYPE + "," + UPDATED_TYPE);
+
+        // Get all the monthlySalaryDtlList where type equals to UPDATED_TYPE
+        defaultMonthlySalaryDtlShouldNotBeFound("type.in=" + UPDATED_TYPE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalaryDtlsByTypeIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
+
+        // Get all the monthlySalaryDtlList where type is not null
+        defaultMonthlySalaryDtlShouldBeFound("type.specified=true");
+
+        // Get all the monthlySalaryDtlList where type is null
+        defaultMonthlySalaryDtlShouldNotBeFound("type.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllMonthlySalaryDtlsByExecutedOnIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryDtlRepository.saveAndFlush(monthlySalaryDtl);
@@ -1895,6 +1956,7 @@ public class MonthlySalaryDtlResourceIT {
             .andExpect(jsonPath("$.[*].fine").value(hasItem(DEFAULT_FINE.intValue())))
             .andExpect(jsonPath("$.[*].advance").value(hasItem(DEFAULT_ADVANCE.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
+            .andExpect(jsonPath("$.[*].type").value(hasItem(DEFAULT_TYPE.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())));
@@ -1958,6 +2020,7 @@ public class MonthlySalaryDtlResourceIT {
             .fine(UPDATED_FINE)
             .advance(UPDATED_ADVANCE)
             .status(UPDATED_STATUS)
+            .type(UPDATED_TYPE)
             .executedOn(UPDATED_EXECUTED_ON)
             .executedBy(UPDATED_EXECUTED_BY)
             .note(UPDATED_NOTE);
@@ -1985,6 +2048,7 @@ public class MonthlySalaryDtlResourceIT {
         assertThat(testMonthlySalaryDtl.getFine()).isEqualTo(UPDATED_FINE);
         assertThat(testMonthlySalaryDtl.getAdvance()).isEqualTo(UPDATED_ADVANCE);
         assertThat(testMonthlySalaryDtl.getStatus()).isEqualTo(UPDATED_STATUS);
+        assertThat(testMonthlySalaryDtl.getType()).isEqualTo(UPDATED_TYPE);
         assertThat(testMonthlySalaryDtl.getExecutedOn()).isEqualTo(UPDATED_EXECUTED_ON);
         assertThat(testMonthlySalaryDtl.getExecutedBy()).isEqualTo(UPDATED_EXECUTED_BY);
         assertThat(testMonthlySalaryDtl.getNote()).isEqualTo(UPDATED_NOTE);

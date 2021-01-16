@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import {JhiEventManager, JhiDataUtils, JhiAlertService} from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
@@ -10,6 +10,7 @@ import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { MonthlySalaryDtlService } from './monthly-salary-dtl.service';
 import { MonthlySalaryDtlDeleteDialogComponent } from './monthly-salary-dtl-delete-dialog.component';
+import {PayrollManagementService} from "app/app-components/payroll-management/payroll-management.service";
 
 @Component({
   selector: 'jhi-monthly-salary-dtl',
@@ -24,6 +25,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
   predicate!: string;
   ascending!: boolean;
   ngbPaginationPage = 1;
+  monthlySalaryId?: number;
 
   constructor(
     protected monthlySalaryDtlService: MonthlySalaryDtlService,
@@ -31,7 +33,9 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
     protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private payrollManagementService: PayrollManagementService,
+    private jhiAlertService: JhiAlertService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -42,6 +46,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
+        'monthlySalaryId.equals': this.monthlySalaryId
       })
       .subscribe(
         (res: HttpResponse<IMonthlySalaryDtl[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
@@ -56,6 +61,7 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
 
   protected handleNavigation(): void {
     combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
+      this.monthlySalaryId = +params.get('monthlySalaryId')!;
       const page = params.get('page');
       const pageNumber = page !== null ? +page : 1;
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
@@ -123,5 +129,13 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  public regenerateEmployeeSalaries(monthlySalaryDtl: IMonthlySalaryDtl):void{
+    this.payrollManagementService.regenerateEmployeeSalary(this.monthlySalaryId, monthlySalaryDtl.id).subscribe((res)=>{
+      monthlySalaryDtl = res.body!;
+      this.jhiAlertService.success("Employee salary re-generation process completed successfully");
+      this.handleNavigation();
+    });
   }
 }

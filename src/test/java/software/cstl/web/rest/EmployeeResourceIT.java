@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Employee;
+import software.cstl.domain.PartialSalary;
 import software.cstl.domain.Fine;
 import software.cstl.domain.Advance;
 import software.cstl.domain.EmployeeSalary;
@@ -1097,6 +1098,26 @@ public class EmployeeResourceIT {
 
         // Get all the employeeList where terminationDate is greater than SMALLER_TERMINATION_DATE
         defaultEmployeeShouldBeFound("terminationDate.greaterThan=" + SMALLER_TERMINATION_DATE);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllEmployeesByPartialSalaryIsEqualToSomething() throws Exception {
+        // Initialize the database
+        employeeRepository.saveAndFlush(employee);
+        PartialSalary partialSalary = PartialSalaryResourceIT.createEntity(em);
+        em.persist(partialSalary);
+        em.flush();
+        employee.addPartialSalary(partialSalary);
+        employeeRepository.saveAndFlush(employee);
+        Long partialSalaryId = partialSalary.getId();
+
+        // Get all the employeeList where partialSalary equals to partialSalaryId
+        defaultEmployeeShouldBeFound("partialSalaryId.equals=" + partialSalaryId);
+
+        // Get all the employeeList where partialSalary equals to partialSalaryId + 1
+        defaultEmployeeShouldNotBeFound("partialSalaryId.equals=" + (partialSalaryId + 1));
     }
 
 

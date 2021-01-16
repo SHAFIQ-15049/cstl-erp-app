@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.Objects;
 import io.github.jhipster.service.Criteria;
 import software.cstl.domain.enumeration.SalaryExecutionStatus;
+import software.cstl.domain.enumeration.PayrollGenerationType;
 import io.github.jhipster.service.filter.BooleanFilter;
 import io.github.jhipster.service.filter.DoubleFilter;
 import io.github.jhipster.service.filter.Filter;
@@ -42,6 +43,24 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering PayrollGenerationType
+     */
+    public static class PayrollGenerationTypeFilter extends Filter<PayrollGenerationType> {
+
+        public PayrollGenerationTypeFilter() {
+        }
+
+        public PayrollGenerationTypeFilter(PayrollGenerationTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public PayrollGenerationTypeFilter copy() {
+            return new PayrollGenerationTypeFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -75,6 +94,8 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
 
     private SalaryExecutionStatusFilter status;
 
+    private PayrollGenerationTypeFilter type;
+
     private InstantFilter executedOn;
 
     private InstantFilter executedBy;
@@ -102,6 +123,7 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.fine = other.fine == null ? null : other.fine.copy();
         this.advance = other.advance == null ? null : other.advance.copy();
         this.status = other.status == null ? null : other.status.copy();
+        this.type = other.type == null ? null : other.type.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
@@ -233,6 +255,14 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.status = status;
     }
 
+    public PayrollGenerationTypeFilter getType() {
+        return type;
+    }
+
+    public void setType(PayrollGenerationTypeFilter type) {
+        this.type = type;
+    }
+
     public InstantFilter getExecutedOn() {
         return executedOn;
     }
@@ -291,6 +321,7 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
             Objects.equals(fine, that.fine) &&
             Objects.equals(advance, that.advance) &&
             Objects.equals(status, that.status) &&
+            Objects.equals(type, that.type) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
             Objects.equals(employeeId, that.employeeId) &&
@@ -315,6 +346,7 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         fine,
         advance,
         status,
+        type,
         executedOn,
         executedBy,
         employeeId,
@@ -341,6 +373,7 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
                 (fine != null ? "fine=" + fine + ", " : "") +
                 (advance != null ? "advance=" + advance + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
+                (type != null ? "type=" + type + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +

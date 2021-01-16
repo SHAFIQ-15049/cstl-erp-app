@@ -1,0 +1,220 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-partial-salary-heading">{{!editForm.get('id')!.value?'Create': 'Update'}} Partial Salary</h2>
+
+            <div class="row">
+                <jhi-alert-error ></jhi-alert-error>
+
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <input
+                        id="field_employee"
+                        type="text"
+                        class="form-control"
+                        [(ngModel)]="selectedEmployee"
+                        [ngbTypeahead]="search"
+                        (focus)="focus$.next($any($event).target.value)"
+                        (click)="click$.next($any($event).target.value)"
+                        #instance="ngbTypeahead"
+                        [ngModelOptions]="{standalone: true}"
+                    />
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                           formControlName="year"/>
+                    <div *ngIf="editForm.get('year')!.invalid && (editForm.get('year')!.dirty || editForm.get('year')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('year')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('year')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_month">Month</label>
+                    <select class="form-control" name="month" formControlName="month" id="field_month">
+                        <option value="JANUARY">JANUARY</option>
+                        <option value="FEBRUARY">FEBRUARY</option>
+                        <option value="MARCH">MARCH</option>
+                        <option value="APRIL">APRIL</option>
+                        <option value="MAY">MAY</option>
+                        <option value="JUNE">JUNE</option>
+                        <option value="JULY">JULY</option>
+                        <option value="AUGUST">AUGUST</option>
+                        <option value="SEPTEMBER">SEPTEMBER</option>
+                        <option value="OCTOBER">OCTOBER</option>
+                        <option value="NOVEMBER">NOVEMBER</option>
+                        <option value="DECEMBER">DECEMBER</option>
+                    </select>
+                    <div *ngIf="editForm.get('month')!.invalid && (editForm.get('month')!.dirty || editForm.get('month')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('month')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_totalMonthDays">Total Month Days</label>
+                    <input type="number" class="form-control" name="totalMonthDays" id="field_totalMonthDays"
+                           formControlName="totalMonthDays"/>
+                    <div *ngIf="editForm.get('totalMonthDays')!.invalid && (editForm.get('totalMonthDays')!.dirty || editForm.get('totalMonthDays')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('totalMonthDays')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('totalMonthDays')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_fromDate">From Date</label>
+                    <div class="d-flex">
+                        <input id="field_fromDate" type="datetime-local" class="form-control" name="fromDate" formControlName="fromDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('fromDate')!.invalid && (editForm.get('fromDate')!.dirty || editForm.get('fromDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('fromDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('fromDate')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_toDate">To Date</label>
+                    <div class="d-flex">
+                        <input id="field_toDate" type="datetime-local" class="form-control" name="toDate" formControlName="toDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('toDate')!.invalid && (editForm.get('toDate')!.dirty || editForm.get('toDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('toDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('toDate')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <textarea class="form-control" name="note" id="field_note"
+                              formControlName="note"></textarea>
+                </div>
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_gross">Gross</label>
+                    <input type="number" class="form-control" name="gross" id="field_gross"
+                           formControlName="gross"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_basic">Basic</label>
+                    <input type="number" class="form-control" name="basic" id="field_basic"
+                           formControlName="basic"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
+                    <input type="number" class="form-control" name="basicPercent" id="field_basicPercent"
+                           formControlName="basicPercent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_houseRent">House Rent</label>
+                    <input type="number" class="form-control" name="houseRent" id="field_houseRent"
+                           formControlName="houseRent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_houseRentPercent">House Rent Percent</label>
+                    <input type="number" class="form-control" name="houseRentPercent" id="field_houseRentPercent"
+                           formControlName="houseRentPercent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_medicalAllowance">Medical Allowance</label>
+                    <input type="number" class="form-control" name="medicalAllowance" id="field_medicalAllowance"
+                           formControlName="medicalAllowance"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_medicalAllowancePercent">Medical Allowance Percent</label>
+                    <input type="number" class="form-control" name="medicalAllowancePercent" id="field_medicalAllowancePercent"
+                           formControlName="medicalAllowancePercent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_convinceAllowance">Convince Allowance</label>
+                    <input type="number" class="form-control" name="convinceAllowance" id="field_convinceAllowance"
+                           formControlName="convinceAllowance"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_convinceAllowancePercent">Convince Allowance Percent</label>
+                    <input type="number" class="form-control" name="convinceAllowancePercent" id="field_convinceAllowancePercent"
+                           formControlName="convinceAllowancePercent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_foodAllowance">Food Allowance</label>
+                    <input type="number" class="form-control" name="foodAllowance" id="field_foodAllowance"
+                           formControlName="foodAllowance"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_foodAllowancePercent">Food Allowance Percent</label>
+                    <input type="number" class="form-control" name="foodAllowancePercent" id="field_foodAllowancePercent"
+                           formControlName="foodAllowancePercent"/>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_executedOn">Executed On</label>
+                    <div class="d-flex">
+                        <input readonly id="field_executedOn" type="datetime-local" class="form-control" name="executedOn" formControlName="executedOn" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_executedBy">Executed By</label>
+                    <input readonly type="text" class="form-control" name="executedBy" id="field_executedBy"
+                           formControlName="executedBy"/>
+                </div>
+
+                <div  class="form-group col-md-12">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select readonly class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="DONE">DONE</option>
+                        <option value="NOT_DONE">NOT_DONE</option>
+                    </select>
+                </div>
+
+
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span> {{!editForm.get('id')!.value?'Generate': 'Re-generate'}} Partial Salary</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

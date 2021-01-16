@@ -91,6 +91,12 @@ public class MonthlySalaryQueryService extends QueryService<MonthlySalary> {
             if (criteria.getMonth() != null) {
                 specification = specification.and(buildSpecification(criteria.getMonth(), MonthlySalary_.month));
             }
+            if (criteria.getFromDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFromDate(), MonthlySalary_.fromDate));
+            }
+            if (criteria.getToDate() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getToDate(), MonthlySalary_.toDate));
+            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), MonthlySalary_.status));
             }

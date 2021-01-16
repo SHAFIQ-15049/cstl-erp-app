@@ -28,7 +28,7 @@ import {ItemFilter} from "app/core/pipes/item-filter";
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
     NgJhipsterModule.forRoot({
       // set below to true to make alerts look like toast
-      alertAsToast: true,
+      alertAsToast: false,
       alertTimeout: 5000,
     }),
   ],

@@ -1,0 +1,132 @@
+{
+  "name": "PartialSalary",
+  "fields": [
+    {
+      "fieldName": "year",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "month",
+      "fieldType": "MonthType",
+      "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "totalMonthDays",
+      "fieldType": "Integer",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "fromDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "toDate",
+      "fieldType": "Instant",
+      "fieldValidateRules": [
+        "required"
+      ]
+    },
+    {
+      "fieldName": "gross",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "basic",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "basicPercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "houseRent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "houseRentPercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "medicalAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "medicalAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "convinceAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "convinceAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "foodAllowance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "foodAllowancePercent",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "fine",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "advance",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "status",
+      "fieldType": "SalaryExecutionStatus",
+      "fieldValues": "DONE,NOT_DONE"
+    },
+    {
+      "fieldName": "executedOn",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "executedBy",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "text"
+    }
+  ],
+  "relationships": [
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "employee",
+      "otherEntityRelationshipName": "partialSalary",
+      "relationshipValidateRules": "required",
+      "relationshipName": "employee",
+      "otherEntityField": "name"
+    }
+  ],
+  "changelogDate": "20210111095843",
+  "entityTableName": "partial_salary",
+  "dto": "no",
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
+  "fluentMethods": true,
+  "readOnly": false,
+  "embedded": false,
+  "clientRootFolder": "",
+  "applications": "*"
+}

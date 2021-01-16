@@ -1,17 +1,22 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { DesignationService } from 'app/entities/designation/designation.service';
-import { merge, Observable, Subject } from 'rxjs';
+import {combineLatest, merge, Observable, Subject} from 'rxjs';
 import { NgbTypeahead } from '@ng-bootstrap/ng-bootstrap';
 import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators';
 import { Select2Data } from 'ng-select2-component';
 import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
 import { MonthlySalaryDtlService } from 'app/entities/monthly-salary-dtl/monthly-salary-dtl.service';
-import { JhiAlertService } from 'ng-jhipster';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
+import {Moment} from "moment";
+import {PayrollManagementService} from "app/app-components/payroll-management/payroll-management.service";
+import {ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Router} from "@angular/router";
+import {DATE_FORMAT, DATE_TIME_FORMAT} from "app/shared/constants/input.constants";
+import * as moment from "moment";
 
 @Component({
   selector: 'jhi-payroll-management',
@@ -22,18 +27,28 @@ export class PayrollManagementComponent implements OnInit {
   years: number[] = [];
   selectedYear?: number;
   designations: IDesignation[] = [];
-  designationSelectData: Select2Data = [];
   selectedDesignation?: IDesignation;
+  selectedDesignationId?: number;
   monthlySalary!: IMonthlySalary;
-  monthlySalaryDtl: IMonthlySalaryDtl[] = [];
+  monthlySalaryDtls: IMonthlySalaryDtl[] = [];
   selectedMonth?: MonthType;
+  fromDate?: Moment;
+  toDate?: Moment;
+  fromDateStr?: string;
+  toDateStr?: string;
+  showMonthlySalaryDtl = false;
+
 
   constructor(
     private designationService: DesignationService,
     private monthlySalaryService: MonthlySalaryService,
     private monthlySalaryDtlService: MonthlySalaryDtlService,
     private jhiAlertService: JhiAlertService,
-    private employeeService: EmployeeService
+    private employeeService: EmployeeService,
+    private payrollManagementService: PayrollManagementService,
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private eventManager: JhiEventManager
   ) {}
 
   ngOnInit(): void {
@@ -45,6 +60,30 @@ export class PayrollManagementComponent implements OnInit {
       .subscribe(res => {
         this.designations = res.body!;
       });
+    this.handleNavigation();
+  }
+
+  public designationIdChanged(): void{
+    this.designationService.find(this.selectedDesignationId!).subscribe((res)=>{
+      this.selectedDesignation = res.body!;
+    });
+  }
+
+  private handleNavigation():void{
+    this.activatedRoute.params.subscribe((params)=>{
+      this.selectedYear = +params['selectedYear'];
+      this.selectedMonth = params['selectedMonth'];
+      this.selectedDesignationId = +params['selectedDesignationId'];
+      this.fromDate = params['fromDate'];
+      this.toDate = params['toDate'];
+      if(this.selectedDesignationId){
+        this.designationService.find(this.selectedDesignationId).subscribe((res)=>{
+          this.selectedDesignation = res.body!;
+          this.fetch();
+        });
+      }
+    });
+
   }
 
   configureYears(): void {
@@ -57,39 +96,70 @@ export class PayrollManagementComponent implements OnInit {
     }
   }
 
+  navigate(): void{
+    if (this.selectedYear && this.selectedDesignation && this.fromDate && this.toDate) {
+      this.selectedDesignationId = this.selectedDesignation.id;
+      this.fromDateStr = this.fromDate.toString();
+      this.toDateStr = this.toDate.toString();
+      this.router.navigate(['/payroll-management',this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDateStr, this.toDateStr]);
+    }
+  }
+
   fetch(): void {
-    if (this.selectedYear && this.selectedDesignation) {
+    if (this.selectedYear && this.selectedDesignation && this.selectedMonth) {
       this.monthlySalaryService
         .query({
           'year.equals': this.selectedYear,
           'designationId.equals': this.selectedDesignation.id,
-        })
-        .pipe(
-          map(res => {
-            if (res.body?.length! > 0) {
-              this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
-              this.fetchMonthlySalaryDtl();
-            } /*else{
-
-          }*/
-          })
-        );
+          'month.equals': this.selectedMonth.valueOf()
+        }).subscribe((res)=>{
+        if (res.body?.length! > 0) {
+          this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
+          this.showMonthlySalaryDtl = true;
+          this.router.navigate(['monthly-salary-dtl'], {queryParams: {monthlySalaryId: this.monthlySalary.id}, relativeTo: this.activatedRoute});
+        } else{
+          this.showMonthlySalaryDtl = false;
+          const monthlySalary = new MonthlySalary();
+          monthlySalary.year= this.selectedYear;
+          monthlySalary.designation = this.selectedDesignation;
+          monthlySalary.month = this.selectedMonth;
+          monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
+          monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
+          this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe((response)=>{
+            this.fetchExistingData();
+          });
+        }
+      });
     } else {
       this.jhiAlertService.error('Year and Designation must be selected');
     }
   }
 
-  fetchMonthlySalaryDtl(): void {
-    if (this.monthlySalary) {
-      this.monthlySalaryDtlService
-        .query({
-          'monthlySalaryId.equals': this.monthlySalary?.id,
-        })
-        .subscribe(res => {
-          this.monthlySalaryDtl = res.body!;
-        });
-    } else {
-      this.jhiAlertService.error('Monthly salary is not configured by the system');
-    }
+  generateSalaries():void{
+    this.payrollManagementService.createSalaries(this.monthlySalary).subscribe((res)=>{
+      this.eventManager.broadcast("monthlySalaryDtlListModification");
+    });
   }
+
+  regenerateSalaries():void{
+    this.monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
+    this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
+    this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe((res)=>{
+      this.eventManager.broadcast("monthlySalaryDtlListModification");
+    });
+  }
+
+  fetchExistingData():void{
+    this.monthlySalaryService.query({
+      'year.equals': this.selectedYear,
+      'designationId.equals': this.selectedDesignation?.id!,
+      'month.equals': this.selectedMonth
+    }).subscribe((res)=>{
+      this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
+      this.showMonthlySalaryDtl = true;
+      this.router.navigate(['monthly-salary-dtl'], {queryParams: {monthlySalaryId: this.monthlySalary.id}, relativeTo: this.activatedRoute});
+    })
+  }
+
+
 }

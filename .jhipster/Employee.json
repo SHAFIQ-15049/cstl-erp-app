@@ -65,6 +65,12 @@
   "relationships": [
     {
       "relationshipType": "one-to-many",
+      "otherEntityName": "partialSalary",
+      "otherEntityRelationshipName": "employee",
+      "relationshipName": "partialSalary"
+    },
+    {
+      "relationshipType": "one-to-many",
       "otherEntityName": "fine",
       "otherEntityRelationshipName": "employee",
       "relationshipName": "fine"
