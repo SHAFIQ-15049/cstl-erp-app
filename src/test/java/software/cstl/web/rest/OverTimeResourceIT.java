@@ -122,6 +122,7 @@ public class OverTimeResourceIT {
             .note(DEFAULT_NOTE)
             .executedOn(DEFAULT_EXECUTED_ON)
             .executedBy(DEFAULT_EXECUTED_BY);
+        overTime.setCreatedDate(Instant.now());
         return overTime;
     }
     /**
@@ -227,7 +228,7 @@ public class OverTimeResourceIT {
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
     }
-    
+
     @Test
     @Transactional
     public void getOverTime() throws Exception {
@@ -1451,5 +1452,11 @@ public class OverTimeResourceIT {
         // Validate the database contains one less item
         List<OverTime> overTimeList = overTimeRepository.findAll();
         assertThat(overTimeList).hasSize(databaseSizeBeforeDelete - 1);
+    }
+
+    @Test
+    @Transactional
+    public void generateOverTime() throws Exception{
+
     }
 }

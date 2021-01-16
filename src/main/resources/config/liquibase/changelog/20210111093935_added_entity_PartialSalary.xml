@@ -15,7 +15,7 @@
             <column name="fine" type="DECIMAL(21, 2)"/>
             <column name="food_allowance" type="DECIMAL(21, 2)"/>
             <column name="food_allowance_percent" type="DECIMAL(21, 2)"/>
-            <column name="from_date" type="date"/>
+            <column name="from_date" type="timestamp"/>
             <column name="gross" type="DECIMAL(21, 2)"/>
             <column name="house_rent" type="DECIMAL(21, 2)"/>
             <column name="house_rent_percent" type="DECIMAL(21, 2)"/>
@@ -24,7 +24,7 @@
             <column name="month" type="VARCHAR(255)"/>
             <column name="note" type="LONGTEXT"/>
             <column name="status" type="VARCHAR(255)"/>
-            <column name="to_date" type="date"/>
+            <column name="to_date" type="timestamp"/>
             <column name="year" type="INT"/>
             <column name="employee_id" type="BIGINT"/>
             <column name="created_by" type="VARCHAR(50)">
