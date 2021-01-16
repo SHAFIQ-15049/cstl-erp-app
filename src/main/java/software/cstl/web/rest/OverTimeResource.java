@@ -1,16 +1,23 @@
 package software.cstl.web.rest;
 
 import software.cstl.domain.OverTime;
-import software.cstl.repository.OverTimeRepository;
+import software.cstl.service.OverTimeService;
 import software.cstl.web.rest.errors.BadRequestAlertException;
+import software.cstl.service.dto.OverTimeCriteria;
+import software.cstl.service.OverTimeQueryService;
 
 import io.github.jhipster.web.util.HeaderUtil;
+import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -23,7 +30,6 @@ import java.util.Optional;
  */
 @RestController
 @RequestMapping("/api")
-@Transactional
 public class OverTimeResource {
 
     private final Logger log = LoggerFactory.getLogger(OverTimeResource.class);
@@ -33,10 +39,13 @@ public class OverTimeResource {
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    private final OverTimeRepository overTimeRepository;
+    private final OverTimeService overTimeService;
 
-    public OverTimeResource(OverTimeRepository overTimeRepository) {
-        this.overTimeRepository = overTimeRepository;
+    private final OverTimeQueryService overTimeQueryService;
+
+    public OverTimeResource(OverTimeService overTimeService, OverTimeQueryService overTimeQueryService) {
+        this.overTimeService = overTimeService;
+        this.overTimeQueryService = overTimeQueryService;
     }
 
     /**
@@ -52,7 +61,7 @@ public class OverTimeResource {
         if (overTime.getId() != null) {
             throw new BadRequestAlertException("A new overTime cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        OverTime result = overTimeRepository.save(overTime);
+        OverTime result = overTimeService.save(overTime);
         return ResponseEntity.created(new URI("/api/over-times/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
@@ -73,7 +82,7 @@ public class OverTimeResource {
         if (overTime.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        OverTime result = overTimeRepository.save(overTime);
+        OverTime result = overTimeService.save(overTime);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, overTime.getId().toString()))
             .body(result);
@@ -82,12 +91,28 @@ public class OverTimeResource {
     /**
      * {@code GET  /over-times} : get all the overTimes.
      *
+     * @param pageable the pagination information.
+     * @param criteria the criteria which the requested entities should match.
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of overTimes in body.
      */
     @GetMapping("/over-times")
-    public List<OverTime> getAllOverTimes() {
-        log.debug("REST request to get all OverTimes");
-        return overTimeRepository.findAll();
+    public ResponseEntity<List<OverTime>> getAllOverTimes(OverTimeCriteria criteria, Pageable pageable) {
+        log.debug("REST request to get OverTimes by criteria: {}", criteria);
+        Page<OverTime> page = overTimeQueryService.findByCriteria(criteria, pageable);
+        HttpHeaders headers = PaginationUtil.generatePaginationHttpHeaders(ServletUriComponentsBuilder.fromCurrentRequest(), page);
+        return ResponseEntity.ok().headers(headers).body(page.getContent());
+    }
+
+    /**
+     * {@code GET  /over-times/count} : count all the overTimes.
+     *
+     * @param criteria the criteria which the requested entities should match.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the count in body.
+     */
+    @GetMapping("/over-times/count")
+    public ResponseEntity<Long> countOverTimes(OverTimeCriteria criteria) {
+        log.debug("REST request to count OverTimes by criteria: {}", criteria);
+        return ResponseEntity.ok().body(overTimeQueryService.countByCriteria(criteria));
     }
 
     /**
@@ -99,7 +124,7 @@ public class OverTimeResource {
     @GetMapping("/over-times/{id}")
     public ResponseEntity<OverTime> getOverTime(@PathVariable Long id) {
         log.debug("REST request to get OverTime : {}", id);
-        Optional<OverTime> overTime = overTimeRepository.findById(id);
+        Optional<OverTime> overTime = overTimeService.findOne(id);
         return ResponseUtil.wrapOrNotFound(overTime);
     }
 
@@ -112,7 +137,7 @@ public class OverTimeResource {
     @DeleteMapping("/over-times/{id}")
     public ResponseEntity<Void> deleteOverTime(@PathVariable Long id) {
         log.debug("REST request to delete OverTime : {}", id);
-        overTimeRepository.deleteById(id);
+        overTimeService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

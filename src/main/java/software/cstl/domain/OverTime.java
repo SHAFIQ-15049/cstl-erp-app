@@ -16,12 +16,9 @@ import software.cstl.domain.enumeration.MonthType;
  * A OverTime.
  */
 @Entity
-@Table(
-    name = "over_time",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","employee_id"})
-)
+@Table(name = "over_time")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class OverTime extends AbstractAuditingEntity implements Serializable {
+public class OverTime implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

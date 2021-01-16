@@ -1,16 +1,20 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
+import { combineLatest, Subscription } from 'rxjs';
+import { JhiAlertService, JhiDataUtils, JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IOverTime } from 'app/shared/model/over-time.model';
+
+import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { OverTimeService } from './over-time.service';
 import { OverTimeDeleteDialogComponent } from './over-time-delete-dialog.component';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
-import * as moment from 'moment';
 import { Moment } from 'moment';
+import * as moment from 'moment';
+import { DesignationService } from 'app/entities/designation/designation.service';
 
 @Component({
   selector: 'jhi-over-time',
@@ -19,6 +23,13 @@ import { Moment } from 'moment';
 export class OverTimeComponent implements OnInit, OnDestroy {
   overTimes?: IOverTime[];
   eventSubscriber?: Subscription;
+  totalItems = 0;
+  itemsPerPage = ITEMS_PER_PAGE;
+  page!: number;
+  predicate!: string;
+  ascending!: boolean;
+  ngbPaginationPage = 1;
+
   years: number[] = [];
   selectedYear?: number;
   designations: IDesignation[] = [];
@@ -27,22 +38,91 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   selectedMonth?: MonthType;
   fromDate?: Moment;
   toDate?: Moment;
+  pageNumber?: number;
 
   constructor(
     protected overTimeService: OverTimeService,
+    protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
+    protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private alertService: JhiAlertService,
+    private designationService: DesignationService
   ) {}
 
-  loadAll(): void {
-    this.overTimeService.query().subscribe((res: HttpResponse<IOverTime[]>) => (this.overTimes = res.body || []));
+  loadPage(page?: number, dontNavigate?: boolean): void {
+    const pageToLoad: number = page || this.page || 1;
+
+    this.overTimeService
+      .query({
+        page: pageToLoad - 1,
+        size: this.itemsPerPage,
+        sort: this.sort(),
+        'year.equals': this.selectedYear,
+        'month.equals': this.selectedMonth,
+        'designationId.equals': this.selectedDesignationId,
+      })
+      .subscribe(
+        (res: HttpResponse<IOverTime[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        () => this.onError()
+      );
   }
 
   ngOnInit(): void {
     this.configureYears();
-    this.loadAll();
+    this.handleNavigation();
     this.registerChangeInOverTimes();
+    this.designationService
+      .query({
+        size: 10000,
+      })
+      .subscribe(res => {
+        this.designations = res.body || [];
+      });
+  }
+
+  protected handleNavigation(): void {
+    combineLatest(
+      this.activatedRoute.data,
+      this.activatedRoute.queryParamMap,
+      this.activatedRoute.params,
+      (data: Data, params: ParamMap, aParams) => {
+        const page = params.get('page');
+        this.pageNumber = page !== null ? +page : 1;
+        this.sort = (params.get('sort') ?? data['defaultSort']).split(',');
+        const predicate = this.sort[0];
+        const ascending = this.sort[1] === 'asc';
+      }
+    )
+      .pipe(res => {
+        return this.activatedRoute.params;
+      })
+      .subscribe(params => {
+        this.selectedYear = +params['selectedYear'];
+        this.selectedMonth = params['selectedMonth'];
+        this.selectedDesignationId = +params['selectedDesignationId'];
+        this.fromDate = params['fromDate'];
+        this.toDate = params['toDate'];
+        if (
+          (this.pageNumber !== this.page || this.predicate !== this.predicate || this.ascending !== this.ascending) &&
+          this.selectedYear &&
+          this.selectedMonth &&
+          this.selectedDesignationId &&
+          this.fromDate &&
+          this.toDate
+        ) {
+          this.loadPage(this.pageNumber, true);
+        }
+      });
+  }
+
+  navigate(): void {
+    if (this.selectedYear && this.selectedMonth && this.selectedDesignationId && this.fromDate && this.toDate) {
+      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDate, this.toDate]);
+    } else {
+      this.alertService.error('Year, month, designation, from date and to date must be selected');
+    }
   }
 
   ngOnDestroy(): void {
@@ -65,12 +145,40 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   registerChangeInOverTimes(): void {
-    this.eventSubscriber = this.eventManager.subscribe('overTimeListModification', () => this.loadAll());
+    this.eventSubscriber = this.eventManager.subscribe('overTimeListModification', () => this.loadPage());
   }
 
   delete(overTime: IOverTime): void {
     const modalRef = this.modalService.open(OverTimeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.overTime = overTime;
+  }
+
+  sort(): string[] {
+    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
+    if (this.predicate !== 'id') {
+      result.push('id');
+    }
+    return result;
+  }
+
+  protected onSuccess(data: IOverTime[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+    this.totalItems = Number(headers.get('X-Total-Count'));
+    this.page = page;
+    if (navigate) {
+      this.router.navigate(['/over-time'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+        },
+      });
+    }
+    this.overTimes = data || [];
+    this.ngbPaginationPage = this.page;
+  }
+
+  protected onError(): void {
+    this.ngbPaginationPage = this.page ?? 1;
   }
 
   configureYears(): void {
