@@ -46,17 +46,16 @@
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
-                                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'view']"
+                                    [routerLink]="[ monthlySalaryDtl.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
                             </button>
 
                             <button type="submit"
-                                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
+                                    class="btn btn-primary btn-sm" (click)="regenerateEmployeeSalaries(monthlySalaryDtl)">
                                 <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
+                                <span class="d-none d-md-inline">Re-generate</span>
                             </button>
 
                             <button type="submit" (click)="delete(monthlySalaryDtl)"

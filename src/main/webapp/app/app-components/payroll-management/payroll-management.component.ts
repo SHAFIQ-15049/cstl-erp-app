@@ -7,7 +7,7 @@ import { debounceTime, distinctUntilChanged, filter, map } from 'rxjs/operators'
 import { Select2Data } from 'ng-select2-component';
 import { MonthlySalaryService } from 'app/entities/monthly-salary/monthly-salary.service';
 import { MonthlySalaryDtlService } from 'app/entities/monthly-salary-dtl/monthly-salary-dtl.service';
-import { JhiAlertService } from 'ng-jhipster';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
@@ -47,7 +47,8 @@ export class PayrollManagementComponent implements OnInit {
     private employeeService: EmployeeService,
     private payrollManagementService: PayrollManagementService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private eventManager: JhiEventManager
   ) {}
 
   ngOnInit(): void {
@@ -132,6 +133,20 @@ export class PayrollManagementComponent implements OnInit {
     } else {
       this.jhiAlertService.error('Year and Designation must be selected');
     }
+  }
+
+  generateSalaries():void{
+    this.payrollManagementService.createSalaries(this.monthlySalary).subscribe((res)=>{
+      this.eventManager.broadcast("monthlySalaryDtlListModification");
+    });
+  }
+
+  regenerateSalaries():void{
+    this.monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
+    this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
+    this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe((res)=>{
+      this.eventManager.broadcast("monthlySalaryDtlListModification");
+    });
   }
 
   fetchExistingData():void{
