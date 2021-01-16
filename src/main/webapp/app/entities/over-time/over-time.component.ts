@@ -90,9 +90,9 @@ export class OverTimeComponent implements OnInit, OnDestroy {
       (data: Data, params: ParamMap, aParams) => {
         const page = params.get('page');
         this.pageNumber = page !== null ? +page : 1;
-        this.sort = (params.get('sort') ?? data['defaultSort']).split(',');
-        const predicate = this.sort[0];
-        const ascending = this.sort[1] === 'asc';
+        const sort = (params.get('sort') ?? data['defaultSort']).split(',');
+        const predicate = sort[0];
+        const ascending = sort[1] === 'asc';
       }
     )
       .pipe(res => {
@@ -105,12 +105,10 @@ export class OverTimeComponent implements OnInit, OnDestroy {
         this.fromDate = params['fromDate'];
         this.toDate = params['toDate'];
         if (
-          (this.pageNumber !== this.page || this.predicate !== this.predicate || this.ascending !== this.ascending) &&
-          this.selectedYear &&
-          this.selectedMonth &&
-          this.selectedDesignationId &&
-          this.fromDate &&
-          this.toDate
+          this.pageNumber !== this.page ||
+          this.predicate !== this.predicate ||
+          this.ascending !== this.ascending ||
+          (this.selectedYear && this.selectedMonth && this.selectedDesignationId && this.fromDate && this.toDate)
         ) {
           this.loadPage(this.pageNumber, true);
         }
@@ -154,7 +152,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   sort(): string[] {
-    const result = [this.predicate + ',' + (this.ascending ? 'asc' : 'desc')];
+    const result = [this.predicate ? this.predicate : 'id' + ',' + (this.ascending ? 'asc' : 'desc')];
     if (this.predicate !== 'id') {
       result.push('id');
     }
