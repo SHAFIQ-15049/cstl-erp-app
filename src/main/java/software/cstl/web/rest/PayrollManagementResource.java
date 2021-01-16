@@ -37,6 +37,13 @@ public class PayrollManagementResource {
             .body(monthlySalary);
     }
 
+    @PostMapping("/generate-salaries")
+    public ResponseEntity<MonthlySalary> generateSalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException {
+        payrollService.createMonthlySalaries(monthlySalary);
+        return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
+            .body(monthlySalary);
+    }
+
     /**
     * GET generateSalaries
     */

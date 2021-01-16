@@ -28,6 +28,13 @@ export class PayrollManagementService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  createSalaries(monthlySalary: IMonthlySalary): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(monthlySalary);
+    return this.http
+      .put<IMonthlySalary>(`${this.resourceUrl}/generate-salaries`, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
 
   protected convertDateFromClient(monthlySalary: IMonthlySalary): IMonthlySalary {
     const copy: IMonthlySalary = Object.assign({}, monthlySalary, {

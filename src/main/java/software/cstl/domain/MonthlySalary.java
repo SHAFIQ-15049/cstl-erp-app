@@ -55,7 +55,7 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
     @Column(name = "executed_by")
     private String executedBy;
 
-    @OneToMany(mappedBy = "monthlySalary", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "monthlySalary", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<MonthlySalaryDtl> monthlySalaryDtls = new HashSet<>();
 
