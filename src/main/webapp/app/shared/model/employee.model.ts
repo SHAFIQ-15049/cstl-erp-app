@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { IPartialSalary } from 'app/shared/model/partial-salary.model';
+import { IOverTime } from 'app/shared/model/over-time.model';
 import { IFine } from 'app/shared/model/fine.model';
 import { IAdvance } from 'app/shared/model/advance.model';
 import { IEmployeeSalary } from 'app/shared/model/employee-salary.model';
@@ -33,6 +34,7 @@ export interface IEmployee {
   terminationDate?: Moment;
   terminationReason?: any;
   partialSalaries?: IPartialSalary[];
+  overTimes?: IOverTime[];
   fines?: IFine[];
   advances?: IAdvance[];
   employeeSalaries?: IEmployeeSalary[];
@@ -65,6 +67,7 @@ export class Employee implements IEmployee {
     public terminationDate?: Moment,
     public terminationReason?: any,
     public partialSalaries?: IPartialSalary[],
+    public overTimes?: IOverTime[],
     public fines?: IFine[],
     public advances?: IAdvance[],
     public employeeSalaries?: IEmployeeSalary[],

@@ -80,6 +80,10 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     @OneToMany(mappedBy = "employee")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<OverTime> overTimes = new HashSet<>();
+
+    @OneToMany(mappedBy = "employee")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<Fine> fines = new HashSet<>();
 
     @OneToMany(mappedBy = "employee")
@@ -313,6 +317,31 @@ public class Employee extends AbstractAuditingEntity implements Serializable {
 
     public void setPartialSalaries(Set<PartialSalary> partialSalaries) {
         this.partialSalaries = partialSalaries;
+    }
+
+    public Set<OverTime> getOverTimes() {
+        return overTimes;
+    }
+
+    public Employee overTimes(Set<OverTime> overTimes) {
+        this.overTimes = overTimes;
+        return this;
+    }
+
+    public Employee addOverTime(OverTime overTime) {
+        this.overTimes.add(overTime);
+        overTime.setEmployee(this);
+        return this;
+    }
+
+    public Employee removeOverTime(OverTime overTime) {
+        this.overTimes.remove(overTime);
+        overTime.setEmployee(null);
+        return this;
+    }
+
+    public void setOverTimes(Set<OverTime> overTimes) {
+        this.overTimes = overTimes;
     }
 
     public Set<Fine> getFines() {
