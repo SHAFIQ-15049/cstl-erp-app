@@ -7,6 +7,10 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { IOverTime } from 'app/shared/model/over-time.model';
 import { OverTimeService } from './over-time.service';
 import { OverTimeDeleteDialogComponent } from './over-time-delete-dialog.component';
+import { IDesignation } from 'app/shared/model/designation.model';
+import { MonthType } from 'app/shared/model/enumerations/month-type.model';
+import * as moment from 'moment';
+import { Moment } from 'moment';
 
 @Component({
   selector: 'jhi-over-time',
@@ -15,6 +19,14 @@ import { OverTimeDeleteDialogComponent } from './over-time-delete-dialog.compone
 export class OverTimeComponent implements OnInit, OnDestroy {
   overTimes?: IOverTime[];
   eventSubscriber?: Subscription;
+  years: number[] = [];
+  selectedYear?: number;
+  designations: IDesignation[] = [];
+  selectedDesignation?: IDesignation;
+  selectedDesignationId?: number;
+  selectedMonth?: MonthType;
+  fromDate?: Moment;
+  toDate?: Moment;
 
   constructor(
     protected overTimeService: OverTimeService,
@@ -28,6 +40,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.configureYears();
     this.loadAll();
     this.registerChangeInOverTimes();
   }
@@ -58,5 +71,15 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   delete(overTime: IOverTime): void {
     const modalRef = this.modalService.open(OverTimeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
     modalRef.componentInstance.overTime = overTime;
+  }
+
+  configureYears(): void {
+    let year = new Date().getFullYear();
+    this.selectedYear = new Date().getFullYear();
+    this.years.push(year);
+    for (let i = 0; i < 3; i++) {
+      year -= 1;
+      this.years.push(year);
+    }
   }
 }

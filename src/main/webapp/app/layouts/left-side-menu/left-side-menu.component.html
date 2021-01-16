@@ -203,6 +203,12 @@
                         <span>Partial Salary</span>
                     </a>
                 </li>
+                <li>
+                    <a class="dropdown-item" routerLink="over-time" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()">
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Over Time</span>
+                    </a>
+                </li>
 
             </ul>
         </li>
