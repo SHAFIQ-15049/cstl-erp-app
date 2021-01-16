@@ -66,7 +66,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
 
   trackId(index: number, item: IAttendanceSummary): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
-    return item.serial!;
+    return item.serialNo!;
   }
 
   registerChangeInAttendanceSummaries(): void {

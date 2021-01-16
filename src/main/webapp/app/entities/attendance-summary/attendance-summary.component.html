@@ -62,7 +62,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
-                    <td>{{ attendanceSummary.serial }}</td>
+                    <td>{{ attendanceSummary.serialNo }}</td>
                     <td>
                         <div *ngIf="attendanceSummary.employeeId">
                             {{ attendanceSummary.employeeName }}

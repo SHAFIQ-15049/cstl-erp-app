@@ -119,17 +119,20 @@ public class AttendanceSummaryService {
         }
 
         List<AttendanceSummaryDTO> distinctAttendances = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
-        addSerial(distinctAttendances);
 
-        return distinctAttendances;
+        return addSerial(distinctAttendances);
     }
 
-    private void addSerial(List<AttendanceSummaryDTO> removeDuplicates) {
+    private List<AttendanceSummaryDTO> addSerial(List<AttendanceSummaryDTO> removeDuplicates) {
+        List<AttendanceSummaryDTO> attendanceSummaryDTOs = new ArrayList<>();
         int serial = 0;
         for(AttendanceSummaryDTO attendanceSummaryDTO: removeDuplicates) {
             serial++;
             attendanceSummaryDTO.setSerialNo(Long.parseLong(serial + ""));
+            attendanceSummaryDTOs.add(attendanceSummaryDTO);
         }
+
+        return attendanceSummaryDTOs;
     }
 
     private AttendanceSummaryDTO getAttendanceSummaryDTO(Attendance attendance, Instant inTime, Instant outTime) {
