@@ -18,17 +18,17 @@ import { ErrorHandlerInterceptor } from 'app/blocks/interceptor/errorhandler.int
 import { NotificationInterceptor } from 'app/blocks/interceptor/notification.interceptor';
 
 import { fontAwesomeIcons } from './icons/font-awesome-icons';
-import {ItemFilter} from "app/core/pipes/item-filter";
+import { ItemFilter } from 'app/core/pipes/item-filter';
 
 @NgModule({
-  declarations:[ItemFilter],
-  exports:[ItemFilter],
+  declarations: [ItemFilter],
+  exports: [ItemFilter],
   imports: [
     HttpClientModule,
     NgxWebstorageModule.forRoot({ prefix: 'jhi', separator: '-' }),
     NgJhipsterModule.forRoot({
       // set below to true to make alerts look like toast
-      alertAsToast: true,
+      alertAsToast: false,
       alertTimeout: 5000,
     }),
   ],

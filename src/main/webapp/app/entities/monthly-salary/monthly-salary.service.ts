@@ -50,6 +50,8 @@ export class MonthlySalaryService {
 
   protected convertDateFromClient(monthlySalary: IMonthlySalary): IMonthlySalary {
     const copy: IMonthlySalary = Object.assign({}, monthlySalary, {
+      fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.toJSON() : undefined,
+      toDate: monthlySalary.toDate && monthlySalary.toDate.isValid() ? monthlySalary.toDate.toJSON() : undefined,
       executedOn: monthlySalary.executedOn && monthlySalary.executedOn.isValid() ? monthlySalary.executedOn.toJSON() : undefined,
     });
     return copy;
@@ -57,6 +59,8 @@ export class MonthlySalaryService {
 
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
+      res.body.fromDate = res.body.fromDate ? moment(res.body.fromDate) : undefined;
+      res.body.toDate = res.body.toDate ? moment(res.body.toDate) : undefined;
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
     }
     return res;
@@ -65,6 +69,8 @@ export class MonthlySalaryService {
   protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((monthlySalary: IMonthlySalary) => {
+        monthlySalary.fromDate = monthlySalary.fromDate ? moment(monthlySalary.fromDate) : undefined;
+        monthlySalary.toDate = monthlySalary.toDate ? moment(monthlySalary.toDate) : undefined;
         monthlySalary.executedOn = monthlySalary.executedOn ? moment(monthlySalary.executedOn) : undefined;
       });
     }

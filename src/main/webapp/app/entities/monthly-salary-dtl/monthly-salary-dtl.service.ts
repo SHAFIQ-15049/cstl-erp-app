@@ -48,7 +48,7 @@ export class MonthlySalaryDtlService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  protected convertDateFromClient(monthlySalaryDtl: IMonthlySalaryDtl): IMonthlySalaryDtl {
+  public convertDateFromClient(monthlySalaryDtl: IMonthlySalaryDtl): IMonthlySalaryDtl {
     const copy: IMonthlySalaryDtl = Object.assign({}, monthlySalaryDtl, {
       executedOn: monthlySalaryDtl.executedOn && monthlySalaryDtl.executedOn.isValid() ? monthlySalaryDtl.executedOn.toJSON() : undefined,
       executedBy: monthlySalaryDtl.executedBy && monthlySalaryDtl.executedBy.isValid() ? monthlySalaryDtl.executedBy.toJSON() : undefined,
@@ -56,7 +56,7 @@ export class MonthlySalaryDtlService {
     return copy;
   }
 
-  protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
+  public convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
       res.body.executedBy = res.body.executedBy ? moment(res.body.executedBy) : undefined;
@@ -64,7 +64,7 @@ export class MonthlySalaryDtlService {
     return res;
   }
 
-  protected convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
+  public convertDateArrayFromServer(res: EntityArrayResponseType): EntityArrayResponseType {
     if (res.body) {
       res.body.forEach((monthlySalaryDtl: IMonthlySalaryDtl) => {
         monthlySalaryDtl.executedOn = monthlySalaryDtl.executedOn ? moment(monthlySalaryDtl.executedOn) : undefined;

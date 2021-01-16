@@ -36,6 +36,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_fromDate">From Date</label>
+                    <div class="d-flex">
+                        <input id="field_fromDate" type="datetime-local" class="form-control" name="fromDate" formControlName="fromDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_toDate">To Date</label>
+                    <div class="d-flex">
+                        <input id="field_toDate" type="datetime-local" class="form-control" name="toDate" formControlName="toDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="DONE">DONE</option>

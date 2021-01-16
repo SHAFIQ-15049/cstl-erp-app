@@ -9,7 +9,7 @@
             <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
         </select>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
         <label class="form-control-label" for="field_month">Month</label>
         <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
             <option value="JANUARY">JANUARY</option>
@@ -26,14 +26,49 @@
             <option value="DECEMBER">DECEMBER</option>
         </select>
     </div>
-    <div class="form-group col-md-4">
+    <div class="form-group col-md-2">
         <label class="form-control-label" for="field_designation">Designation</label>
-        <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignation">
+        <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignationId" (ngModelChange)="designationIdChanged()">
             <option></option>
-            <option [value]="designationOption" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+            <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
         </select>
     </div>
+    <div class="form-group col-md-2">
+        <label class="form-control-label" for="field_fromDate">From Date</label>
+        <div class="d-flex">
+            <input id="field_fromDate" [(ngModel)]="fromDate" type="datetime-local" class="form-control" name="fromDate"  placeholder="YYYY-MM-DD HH:mm"/>
+        </div>
+    </div>
+
+    <div class="form-group col-md-2">
+        <label class="form-control-label" for="field_toDate">To Date</label>
+        <div class="d-flex">
+            <input id="field_toDate" [(ngModel)]="toDate" type="datetime-local" class="form-control" name="toDate"  placeholder="YYYY-MM-DD HH:mm"/>
+        </div>
+    </div>
+
     <div class="form-group col-md-2" style="align-items: end;">
-        <button class="btn btn-secondary" (click)="fetch()">Fetch</button>
+        <button class="btn btn-secondary" (click)="navigate()">Fetch</button>
+    </div>
+</div>
+
+<div class="row alert alert-warning" *ngIf="monthlySalary">
+    <div class="col-md-10">
+        Payroll of the month <b>{{this.selectedMonth}}</b> status: <b>{{this.monthlySalary.status === 'DONE'? 'Payroll Generated': 'Payroll Not Generated'}}</b>
+    </div>
+    <div class="col-md-2" *ngIf="monthlySalary.status==='DONE'" align="right">
+        <button class="btn btn-primary" (click)="regenerateSalaries()">Re-Generate Payroll</button>
+    </div>
+    <div class="col-md-2" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
+        <button class="btn btn-secondary" (click)="generateSalaries()">Generate Payroll</button>
+    </div>
+    <div class="col-md-12">
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <router-outlet></router-outlet>
     </div>
 </div>

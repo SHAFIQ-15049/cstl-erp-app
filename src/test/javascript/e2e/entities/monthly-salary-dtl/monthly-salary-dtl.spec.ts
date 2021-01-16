@@ -58,6 +58,7 @@ describe('MonthlySalaryDtl e2e test', () => {
       monthlySalaryDtlUpdatePage.setFineInput('5'),
       monthlySalaryDtlUpdatePage.setAdvanceInput('5'),
       monthlySalaryDtlUpdatePage.statusSelectLastOption(),
+      monthlySalaryDtlUpdatePage.typeSelectLastOption(),
       monthlySalaryDtlUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryDtlUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryDtlUpdatePage.setNoteInput('note'),

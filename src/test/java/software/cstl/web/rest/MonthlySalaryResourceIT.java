@@ -45,6 +45,12 @@ public class MonthlySalaryResourceIT {
     private static final MonthType DEFAULT_MONTH = MonthType.JANUARY;
     private static final MonthType UPDATED_MONTH = MonthType.FEBRUARY;
 
+    private static final Instant DEFAULT_FROM_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_FROM_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
+    private static final Instant DEFAULT_TO_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_TO_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+
     private static final SalaryExecutionStatus DEFAULT_STATUS = SalaryExecutionStatus.DONE;
     private static final SalaryExecutionStatus UPDATED_STATUS = SalaryExecutionStatus.NOT_DONE;
 
@@ -81,6 +87,8 @@ public class MonthlySalaryResourceIT {
         MonthlySalary monthlySalary = new MonthlySalary()
             .year(DEFAULT_YEAR)
             .month(DEFAULT_MONTH)
+            .fromDate(DEFAULT_FROM_DATE)
+            .toDate(DEFAULT_TO_DATE)
             .status(DEFAULT_STATUS)
             .executedOn(DEFAULT_EXECUTED_ON)
             .executedBy(DEFAULT_EXECUTED_BY);
@@ -96,6 +104,8 @@ public class MonthlySalaryResourceIT {
         MonthlySalary monthlySalary = new MonthlySalary()
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
+            .fromDate(UPDATED_FROM_DATE)
+            .toDate(UPDATED_TO_DATE)
             .status(UPDATED_STATUS)
             .executedOn(UPDATED_EXECUTED_ON)
             .executedBy(UPDATED_EXECUTED_BY);
@@ -123,6 +133,8 @@ public class MonthlySalaryResourceIT {
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
         assertThat(testMonthlySalary.getYear()).isEqualTo(DEFAULT_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(DEFAULT_MONTH);
+        assertThat(testMonthlySalary.getFromDate()).isEqualTo(DEFAULT_FROM_DATE);
+        assertThat(testMonthlySalary.getToDate()).isEqualTo(DEFAULT_TO_DATE);
         assertThat(testMonthlySalary.getStatus()).isEqualTo(DEFAULT_STATUS);
         assertThat(testMonthlySalary.getExecutedOn()).isEqualTo(DEFAULT_EXECUTED_ON);
         assertThat(testMonthlySalary.getExecutedBy()).isEqualTo(DEFAULT_EXECUTED_BY);
@@ -161,6 +173,8 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
+            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
@@ -179,6 +193,8 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.id").value(monthlySalary.getId().intValue()))
             .andExpect(jsonPath("$.year").value(DEFAULT_YEAR))
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
+            .andExpect(jsonPath("$.fromDate").value(DEFAULT_FROM_DATE.toString()))
+            .andExpect(jsonPath("$.toDate").value(DEFAULT_TO_DATE.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.executedOn").value(DEFAULT_EXECUTED_ON.toString()))
             .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY));
@@ -359,6 +375,110 @@ public class MonthlySalaryResourceIT {
 
         // Get all the monthlySalaryList where month is null
         defaultMonthlySalaryShouldNotBeFound("month.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFromDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where fromDate equals to DEFAULT_FROM_DATE
+        defaultMonthlySalaryShouldBeFound("fromDate.equals=" + DEFAULT_FROM_DATE);
+
+        // Get all the monthlySalaryList where fromDate equals to UPDATED_FROM_DATE
+        defaultMonthlySalaryShouldNotBeFound("fromDate.equals=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFromDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where fromDate not equals to DEFAULT_FROM_DATE
+        defaultMonthlySalaryShouldNotBeFound("fromDate.notEquals=" + DEFAULT_FROM_DATE);
+
+        // Get all the monthlySalaryList where fromDate not equals to UPDATED_FROM_DATE
+        defaultMonthlySalaryShouldBeFound("fromDate.notEquals=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFromDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where fromDate in DEFAULT_FROM_DATE or UPDATED_FROM_DATE
+        defaultMonthlySalaryShouldBeFound("fromDate.in=" + DEFAULT_FROM_DATE + "," + UPDATED_FROM_DATE);
+
+        // Get all the monthlySalaryList where fromDate equals to UPDATED_FROM_DATE
+        defaultMonthlySalaryShouldNotBeFound("fromDate.in=" + UPDATED_FROM_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByFromDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where fromDate is not null
+        defaultMonthlySalaryShouldBeFound("fromDate.specified=true");
+
+        // Get all the monthlySalaryList where fromDate is null
+        defaultMonthlySalaryShouldNotBeFound("fromDate.specified=false");
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByToDateIsEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where toDate equals to DEFAULT_TO_DATE
+        defaultMonthlySalaryShouldBeFound("toDate.equals=" + DEFAULT_TO_DATE);
+
+        // Get all the monthlySalaryList where toDate equals to UPDATED_TO_DATE
+        defaultMonthlySalaryShouldNotBeFound("toDate.equals=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByToDateIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where toDate not equals to DEFAULT_TO_DATE
+        defaultMonthlySalaryShouldNotBeFound("toDate.notEquals=" + DEFAULT_TO_DATE);
+
+        // Get all the monthlySalaryList where toDate not equals to UPDATED_TO_DATE
+        defaultMonthlySalaryShouldBeFound("toDate.notEquals=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByToDateIsInShouldWork() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where toDate in DEFAULT_TO_DATE or UPDATED_TO_DATE
+        defaultMonthlySalaryShouldBeFound("toDate.in=" + DEFAULT_TO_DATE + "," + UPDATED_TO_DATE);
+
+        // Get all the monthlySalaryList where toDate equals to UPDATED_TO_DATE
+        defaultMonthlySalaryShouldNotBeFound("toDate.in=" + UPDATED_TO_DATE);
+    }
+
+    @Test
+    @Transactional
+    public void getAllMonthlySalariesByToDateIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        monthlySalaryRepository.saveAndFlush(monthlySalary);
+
+        // Get all the monthlySalaryList where toDate is not null
+        defaultMonthlySalaryShouldBeFound("toDate.specified=true");
+
+        // Get all the monthlySalaryList where toDate is null
+        defaultMonthlySalaryShouldNotBeFound("toDate.specified=false");
     }
 
     @Test
@@ -592,6 +712,8 @@ public class MonthlySalaryResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(monthlySalary.getId().intValue())))
             .andExpect(jsonPath("$.[*].year").value(hasItem(DEFAULT_YEAR)))
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
+            .andExpect(jsonPath("$.[*].fromDate").value(hasItem(DEFAULT_FROM_DATE.toString())))
+            .andExpect(jsonPath("$.[*].toDate").value(hasItem(DEFAULT_TO_DATE.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
@@ -643,6 +765,8 @@ public class MonthlySalaryResourceIT {
         updatedMonthlySalary
             .year(UPDATED_YEAR)
             .month(UPDATED_MONTH)
+            .fromDate(UPDATED_FROM_DATE)
+            .toDate(UPDATED_TO_DATE)
             .status(UPDATED_STATUS)
             .executedOn(UPDATED_EXECUTED_ON)
             .executedBy(UPDATED_EXECUTED_BY);
@@ -658,6 +782,8 @@ public class MonthlySalaryResourceIT {
         MonthlySalary testMonthlySalary = monthlySalaryList.get(monthlySalaryList.size() - 1);
         assertThat(testMonthlySalary.getYear()).isEqualTo(UPDATED_YEAR);
         assertThat(testMonthlySalary.getMonth()).isEqualTo(UPDATED_MONTH);
+        assertThat(testMonthlySalary.getFromDate()).isEqualTo(UPDATED_FROM_DATE);
+        assertThat(testMonthlySalary.getToDate()).isEqualTo(UPDATED_TO_DATE);
         assertThat(testMonthlySalary.getStatus()).isEqualTo(UPDATED_STATUS);
         assertThat(testMonthlySalary.getExecutedOn()).isEqualTo(UPDATED_EXECUTED_ON);
         assertThat(testMonthlySalary.getExecutedBy()).isEqualTo(UPDATED_EXECUTED_BY);

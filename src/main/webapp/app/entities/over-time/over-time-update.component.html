@@ -1,0 +1,127 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-over-time-heading">Create or edit a Over Time</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_year">Year</label>
+                    <input type="number" class="form-control" name="year" id="field_year"
+                           formControlName="year"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_month">Month</label>
+                    <select class="form-control" name="month" formControlName="month" id="field_month">
+                        <option value="JANUARY">JANUARY</option>
+                        <option value="FEBRUARY">FEBRUARY</option>
+                        <option value="MARCH">MARCH</option>
+                        <option value="APRIL">APRIL</option>
+                        <option value="MAY">MAY</option>
+                        <option value="JUNE">JUNE</option>
+                        <option value="JULY">JULY</option>
+                        <option value="AUGUST">AUGUST</option>
+                        <option value="SEPTEMBER">SEPTEMBER</option>
+                        <option value="OCTOBER">OCTOBER</option>
+                        <option value="NOVEMBER">NOVEMBER</option>
+                        <option value="DECEMBER">DECEMBER</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fromDate">From Date</label>
+                    <div class="d-flex">
+                        <input id="field_fromDate" type="datetime-local" class="form-control" name="fromDate" formControlName="fromDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_toDate">To Date</label>
+                    <div class="d-flex">
+                        <input id="field_toDate" type="datetime-local" class="form-control" name="toDate" formControlName="toDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalOverTime">Total Over Time</label>
+                    <input type="number" class="form-control" name="totalOverTime" id="field_totalOverTime"
+                           formControlName="totalOverTime"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_officialOverTime">Official Over Time</label>
+                    <input type="number" class="form-control" name="officialOverTime" id="field_officialOverTime"
+                           formControlName="officialOverTime"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_extraOverTime">Extra Over Time</label>
+                    <input type="number" class="form-control" name="extraOverTime" id="field_extraOverTime"
+                           formControlName="extraOverTime"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalAmount">Total Amount</label>
+                    <input type="number" class="form-control" name="totalAmount" id="field_totalAmount"
+                           formControlName="totalAmount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_officialAmount">Official Amount</label>
+                    <input type="number" class="form-control" name="officialAmount" id="field_officialAmount"
+                           formControlName="officialAmount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_extraAmount">Extra Amount</label>
+                    <input type="number" class="form-control" name="extraAmount" id="field_extraAmount"
+                           formControlName="extraAmount"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_note">Note</label>
+                    <textarea class="form-control" name="note" id="field_note"
+                              formControlName="note"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_executedOn">Executed On</label>
+                    <div class="d-flex">
+                        <input id="field_executedOn" type="datetime-local" class="form-control" name="executedOn" formControlName="executedOn" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_executedBy">Executed By</label>
+                    <input type="text" class="form-control" name="executedBy" id="field_executedBy"
+                           formControlName="executedBy"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_employee">Employee</label>
+                    <select class="form-control" id="field_employee" name="employee" formControlName="employee">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -31,6 +31,8 @@ export class MonthlySalaryUpdatePage {
 
   yearInput = element(by.id('field_year'));
   monthSelect = element(by.id('field_month'));
+  fromDateInput = element(by.id('field_fromDate'));
+  toDateInput = element(by.id('field_toDate'));
   statusSelect = element(by.id('field_status'));
   executedOnInput = element(by.id('field_executedOn'));
   executedByInput = element(by.id('field_executedBy'));
@@ -59,6 +61,22 @@ export class MonthlySalaryUpdatePage {
 
   async monthSelectLastOption(): Promise<void> {
     await this.monthSelect.all(by.tagName('option')).last().click();
+  }
+
+  async setFromDateInput(fromDate: string): Promise<void> {
+    await this.fromDateInput.sendKeys(fromDate);
+  }
+
+  async getFromDateInput(): Promise<string> {
+    return await this.fromDateInput.getAttribute('value');
+  }
+
+  async setToDateInput(toDate: string): Promise<void> {
+    await this.toDateInput.sendKeys(toDate);
+  }
+
+  async getToDateInput(): Promise<string> {
+    return await this.toDateInput.getAttribute('value');
   }
 
   async setStatusSelect(status: string): Promise<void> {

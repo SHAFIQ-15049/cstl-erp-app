@@ -11,6 +11,14 @@
       "fieldValues": "JANUARY,FEBRUARY,MARCH,APRIL,MAY,JUNE,JULY,AUGUST,SEPTEMBER,OCTOBER,NOVEMBER,DECEMBER"
     },
     {
+      "fieldName": "fromDate",
+      "fieldType": "Instant"
+    },
+    {
+      "fieldName": "toDate",
+      "fieldType": "Instant"
+    },
+    {
       "fieldName": "status",
       "fieldType": "SalaryExecutionStatus",
       "fieldValues": "DONE,NOT_DONE"

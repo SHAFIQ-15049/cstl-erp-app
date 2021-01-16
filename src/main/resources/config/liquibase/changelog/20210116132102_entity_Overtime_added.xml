@@ -1,0 +1,27 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1610803271332-1">
+        <createTable tableName="over_time">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="over_timePK"/>
+            </column>
+            <column name="executed_by" type="VARCHAR(255)"/>
+            <column name="executed_on" type="datetime(6)"/>
+            <column name="extra_amount" type="DECIMAL(21, 2)"/>
+            <column name="extra_over_time" type="DOUBLE"/>
+            <column name="from_date" type="datetime(6)"/>
+            <column name="month" type="VARCHAR(255)"/>
+            <column name="note" type="LONGTEXT"/>
+            <column name="official_amount" type="DECIMAL(21, 2)"/>
+            <column name="official_over_time" type="DOUBLE"/>
+            <column name="to_date" type="datetime(6)"/>
+            <column name="total_amount" type="DECIMAL(21, 2)"/>
+            <column name="total_over_time" type="DOUBLE"/>
+            <column name="year" type="INT"/>
+            <column name="employee_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1610803271332-2">
+        <addForeignKeyConstraint baseColumnNames="employee_id" baseTableName="over_time" constraintName="FKsl79nviqpxnxk4oeev1dnfnpt" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_employee" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

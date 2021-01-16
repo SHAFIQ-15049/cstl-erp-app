@@ -86,6 +86,7 @@ class MonthlySalaryDtlGatlingTest extends Simulation {
                 , "fine":"0"
                 , "advance":"0"
                 , "status":"DONE"
+                , "type":"FULL"
                 , "executedOn":"2020-01-01T00:00:00.000Z"
                 , "executedBy":"2020-01-01T00:00:00.000Z"
                 , "note":null

@@ -6,6 +6,7 @@ import { NgJhipsterModule } from 'ng-jhipster';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 import { Select2Module } from 'ng-select2-component';
+import { ChartsModule } from 'ng2-charts';
 
 @NgModule({
   exports: [
@@ -17,6 +18,7 @@ import { Select2Module } from 'ng-select2-component';
     FontAwesomeModule,
     ReactiveFormsModule,
     Select2Module,
+    ChartsModule,
   ],
 })
 export class CodeNodeErpSharedLibsModule {}

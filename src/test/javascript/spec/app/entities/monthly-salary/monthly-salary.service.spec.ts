@@ -26,13 +26,24 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new MonthlySalary(0, 0, MonthType.JANUARY, SalaryExecutionStatus.DONE, currentDate, 'AAAAAAA');
+      elemDefault = new MonthlySalary(
+        0,
+        0,
+        MonthType.JANUARY,
+        currentDate,
+        currentDate,
+        SalaryExecutionStatus.DONE,
+        currentDate,
+        'AAAAAAA'
+      );
     });
 
     describe('Service methods', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -49,6 +60,8 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             executedOn: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
@@ -56,6 +69,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            fromDate: currentDate,
+            toDate: currentDate,
             executedOn: currentDate,
           },
           returnedFromService
@@ -73,6 +88,8 @@ describe('Service Tests', () => {
           {
             year: 1,
             month: 'BBBBBB',
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
             executedBy: 'BBBBBB',
@@ -82,6 +99,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            fromDate: currentDate,
+            toDate: currentDate,
             executedOn: currentDate,
           },
           returnedFromService
@@ -99,6 +118,8 @@ describe('Service Tests', () => {
           {
             year: 1,
             month: 'BBBBBB',
+            fromDate: currentDate.format(DATE_TIME_FORMAT),
+            toDate: currentDate.format(DATE_TIME_FORMAT),
             status: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
             executedBy: 'BBBBBB',
@@ -108,6 +129,8 @@ describe('Service Tests', () => {
 
         const expected = Object.assign(
           {
+            fromDate: currentDate,
+            toDate: currentDate,
             executedOn: currentDate,
           },
           returnedFromService
