@@ -17,20 +17,6 @@ export class AttendanceService {
 
   constructor(protected http: HttpClient) {}
 
-  create(attendance: IAttendance): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(attendance);
-    return this.http
-      .post<IAttendance>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-  }
-
-  update(attendance: IAttendance): Observable<EntityResponseType> {
-    const copy = this.convertDateFromClient(attendance);
-    return this.http
-      .put<IAttendance>(this.resourceUrl, copy, { observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-  }
-
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IAttendance>(`${this.resourceUrl}/${id}`, { observe: 'response' })
@@ -42,10 +28,6 @@ export class AttendanceService {
     return this.http
       .get<IAttendance[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-  }
-
-  delete(id: number): Observable<HttpResponse<{}>> {
-    return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
   protected convertDateFromClient(attendance: IAttendance): IAttendance {

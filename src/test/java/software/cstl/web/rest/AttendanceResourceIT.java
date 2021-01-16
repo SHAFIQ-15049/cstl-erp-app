@@ -14,7 +14,6 @@ import software.cstl.domain.Attendance;
 import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
-import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.AttendanceRepository;
 import software.cstl.service.AttendanceQueryService;
 import software.cstl.service.AttendanceService;
@@ -22,12 +21,11 @@ import software.cstl.service.AttendanceService;
 import javax.persistence.EntityManager;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 /**
  * Integration tests for the {@link AttendanceResource} REST controller.
  */
@@ -38,9 +36,6 @@ public class AttendanceResourceIT {
 
     private static final Instant DEFAULT_ATTENDANCE_TIME = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_ATTENDANCE_TIME = Instant.now().truncatedTo(ChronoUnit.MILLIS);
-
-    private static final ConsiderAsType DEFAULT_CONSIDER_AS = ConsiderAsType.REGULAR;
-    private static final ConsiderAsType UPDATED_CONSIDER_AS = ConsiderAsType.WEEKENDWITHOVERTIME;
 
     private static final String DEFAULT_MACHINE_NO = "AAAAAAAAAA";
     private static final String UPDATED_MACHINE_NO = "BBBBBBBBBB";
@@ -71,7 +66,6 @@ public class AttendanceResourceIT {
     public static Attendance createEntity(EntityManager em) {
         Attendance attendance = new Attendance()
             .attendanceTime(DEFAULT_ATTENDANCE_TIME)
-            .considerAs(DEFAULT_CONSIDER_AS)
             .machineNo(DEFAULT_MACHINE_NO);
         // Add required entity
         Employee employee;
@@ -94,7 +88,6 @@ public class AttendanceResourceIT {
     public static Attendance createUpdatedEntity(EntityManager em) {
         Attendance attendance = new Attendance()
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
-            .considerAs(UPDATED_CONSIDER_AS)
             .machineNo(UPDATED_MACHINE_NO);
         // Add required entity
         Employee employee;
@@ -116,102 +109,6 @@ public class AttendanceResourceIT {
 
     @Test
     @Transactional
-    public void createAttendance() throws Exception {
-        int databaseSizeBeforeCreate = attendanceRepository.findAll().size();
-        // Create the Attendance
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isCreated());
-
-        // Validate the Attendance in the database
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeCreate + 1);
-        Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getAttendanceTime()).isEqualTo(DEFAULT_ATTENDANCE_TIME);
-        assertThat(testAttendance.getConsiderAs()).isEqualTo(DEFAULT_CONSIDER_AS);
-        assertThat(testAttendance.getMachineNo()).isEqualTo(DEFAULT_MACHINE_NO);
-    }
-
-    @Test
-    @Transactional
-    public void createAttendanceWithExistingId() throws Exception {
-        int databaseSizeBeforeCreate = attendanceRepository.findAll().size();
-
-        // Create the Attendance with an existing ID
-        attendance.setId(1L);
-
-        // An entity with an existing ID cannot be created, so this API call must fail
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the Attendance in the database
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeCreate);
-    }
-
-
-    @Test
-    @Transactional
-    public void checkAttendanceTimeIsRequired() throws Exception {
-        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
-        // set the field null
-        attendance.setAttendanceTime(null);
-
-        // Create the Attendance, which fails.
-
-
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkConsiderAsIsRequired() throws Exception {
-        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
-        // set the field null
-        attendance.setConsiderAs(null);
-
-        // Create the Attendance, which fails.
-
-
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
-    public void checkMachineNoIsRequired() throws Exception {
-        int databaseSizeBeforeTest = attendanceRepository.findAll().size();
-        // set the field null
-        attendance.setMachineNo(null);
-
-        // Create the Attendance, which fails.
-
-
-        restAttendanceMockMvc.perform(post("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllAttendances() throws Exception {
         // Initialize the database
         attendanceRepository.saveAndFlush(attendance);
@@ -222,7 +119,6 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
     }
 
@@ -238,7 +134,6 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
             .andExpect(jsonPath("$.attendanceTime").value(DEFAULT_ATTENDANCE_TIME.toString()))
-            .andExpect(jsonPath("$.considerAs").value(DEFAULT_CONSIDER_AS.toString()))
             .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO));
     }
 
@@ -312,58 +207,6 @@ public class AttendanceResourceIT {
 
         // Get all the attendanceList where attendanceTime is null
         defaultAttendanceShouldNotBeFound("attendanceTime.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByConsiderAsIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where considerAs equals to DEFAULT_CONSIDER_AS
-        defaultAttendanceShouldBeFound("considerAs.equals=" + DEFAULT_CONSIDER_AS);
-
-        // Get all the attendanceList where considerAs equals to UPDATED_CONSIDER_AS
-        defaultAttendanceShouldNotBeFound("considerAs.equals=" + UPDATED_CONSIDER_AS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByConsiderAsIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where considerAs not equals to DEFAULT_CONSIDER_AS
-        defaultAttendanceShouldNotBeFound("considerAs.notEquals=" + DEFAULT_CONSIDER_AS);
-
-        // Get all the attendanceList where considerAs not equals to UPDATED_CONSIDER_AS
-        defaultAttendanceShouldBeFound("considerAs.notEquals=" + UPDATED_CONSIDER_AS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByConsiderAsIsInShouldWork() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where considerAs in DEFAULT_CONSIDER_AS or UPDATED_CONSIDER_AS
-        defaultAttendanceShouldBeFound("considerAs.in=" + DEFAULT_CONSIDER_AS + "," + UPDATED_CONSIDER_AS);
-
-        // Get all the attendanceList where considerAs equals to UPDATED_CONSIDER_AS
-        defaultAttendanceShouldNotBeFound("considerAs.in=" + UPDATED_CONSIDER_AS);
-    }
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByConsiderAsIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-
-        // Get all the attendanceList where considerAs is not null
-        defaultAttendanceShouldBeFound("considerAs.specified=true");
-
-        // Get all the attendanceList where considerAs is null
-        defaultAttendanceShouldNotBeFound("considerAs.specified=false");
     }
 
     @Test
@@ -508,7 +351,6 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].considerAs").value(hasItem(DEFAULT_CONSIDER_AS.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
 
         // Check, that the count call also returns 1
@@ -541,70 +383,5 @@ public class AttendanceResourceIT {
         // Get the attendance
         restAttendanceMockMvc.perform(get("/api/attendances/{id}", Long.MAX_VALUE))
             .andExpect(status().isNotFound());
-    }
-
-    @Test
-    @Transactional
-    public void updateAttendance() throws Exception {
-        // Initialize the database
-        attendanceService.save(attendance);
-
-        int databaseSizeBeforeUpdate = attendanceRepository.findAll().size();
-
-        // Update the attendance
-        Attendance updatedAttendance = attendanceRepository.findById(attendance.getId()).get();
-        // Disconnect from session so that the updates on updatedAttendance are not directly saved in db
-        em.detach(updatedAttendance);
-        updatedAttendance
-            .attendanceTime(UPDATED_ATTENDANCE_TIME)
-            .considerAs(UPDATED_CONSIDER_AS)
-            .machineNo(UPDATED_MACHINE_NO);
-
-        restAttendanceMockMvc.perform(put("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(updatedAttendance)))
-            .andExpect(status().isOk());
-
-        // Validate the Attendance in the database
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeUpdate);
-        Attendance testAttendance = attendanceList.get(attendanceList.size() - 1);
-        assertThat(testAttendance.getAttendanceTime()).isEqualTo(UPDATED_ATTENDANCE_TIME);
-        assertThat(testAttendance.getConsiderAs()).isEqualTo(UPDATED_CONSIDER_AS);
-        assertThat(testAttendance.getMachineNo()).isEqualTo(UPDATED_MACHINE_NO);
-    }
-
-    @Test
-    @Transactional
-    public void updateNonExistingAttendance() throws Exception {
-        int databaseSizeBeforeUpdate = attendanceRepository.findAll().size();
-
-        // If the entity doesn't have an ID, it will throw BadRequestAlertException
-        restAttendanceMockMvc.perform(put("/api/attendances")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(attendance)))
-            .andExpect(status().isBadRequest());
-
-        // Validate the Attendance in the database
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeUpdate);
-    }
-
-    @Test
-    @Transactional
-    public void deleteAttendance() throws Exception {
-        // Initialize the database
-        attendanceService.save(attendance);
-
-        int databaseSizeBeforeDelete = attendanceRepository.findAll().size();
-
-        // Delete the attendance
-        restAttendanceMockMvc.perform(delete("/api/attendances/{id}", attendance.getId())
-            .accept(MediaType.APPLICATION_JSON))
-            .andExpect(status().isNoContent());
-
-        // Validate the database contains one less item
-        List<Attendance> attendanceList = attendanceRepository.findAll();
-        assertThat(attendanceList).hasSize(databaseSizeBeforeDelete - 1);
     }
 }

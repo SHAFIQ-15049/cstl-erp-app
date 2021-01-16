@@ -10,7 +10,6 @@ import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
 import { AttendanceService } from './attendance.service';
 import { AttendanceComponent } from './attendance.component';
 import { AttendanceDetailComponent } from './attendance-detail.component';
-import { AttendanceUpdateComponent } from './attendance-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class AttendanceResolve implements Resolve<IAttendance> {
@@ -48,30 +47,6 @@ export const attendanceRoute: Routes = [
   {
     path: ':id/view',
     component: AttendanceDetailComponent,
-    resolve: {
-      attendance: AttendanceResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'Attendances',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: 'new',
-    component: AttendanceUpdateComponent,
-    resolve: {
-      attendance: AttendanceResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'Attendances',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
-    component: AttendanceUpdateComponent,
     resolve: {
       attendance: AttendanceResolve,
     },

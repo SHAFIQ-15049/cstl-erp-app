@@ -1,26 +1,23 @@
 package software.cstl.web.rest;
 
-import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import software.cstl.domain.Attendance;
 import software.cstl.service.AttendanceQueryService;
 import software.cstl.service.AttendanceService;
 import software.cstl.service.dto.AttendanceCriteria;
-import software.cstl.web.rest.errors.BadRequestAlertException;
 
-import javax.validation.Valid;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.List;
 import java.util.Optional;
 
@@ -33,11 +30,6 @@ public class AttendanceResource {
 
     private final Logger log = LoggerFactory.getLogger(AttendanceResource.class);
 
-    private static final String ENTITY_NAME = "attendance";
-
-    @Value("${jhipster.clientApp.name}")
-    private String applicationName;
-
     private final AttendanceService attendanceService;
 
     private final AttendanceQueryService attendanceQueryService;
@@ -45,46 +37,6 @@ public class AttendanceResource {
     public AttendanceResource(AttendanceService attendanceService, AttendanceQueryService attendanceQueryService) {
         this.attendanceService = attendanceService;
         this.attendanceQueryService = attendanceQueryService;
-    }
-
-    /**
-     * {@code POST  /attendances} : Create a new attendance.
-     *
-     * @param attendance the attendance to create.
-     * @return the {@link ResponseEntity} with status {@code 201 (Created)} and with body the new attendance, or with status {@code 400 (Bad Request)} if the attendance has already an ID.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PostMapping("/attendances")
-    public ResponseEntity<Attendance> createAttendance(@Valid @RequestBody Attendance attendance) throws URISyntaxException {
-        log.debug("REST request to save Attendance : {}", attendance);
-        if (attendance.getId() != null) {
-            throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
-        }
-        Attendance result = attendanceService.save(attendance);
-        return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
-            .body(result);
-    }
-
-    /**
-     * {@code PUT  /attendances} : Updates an existing attendance.
-     *
-     * @param attendance the attendance to update.
-     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the updated attendance,
-     * or with status {@code 400 (Bad Request)} if the attendance is not valid,
-     * or with status {@code 500 (Internal Server Error)} if the attendance couldn't be updated.
-     * @throws URISyntaxException if the Location URI syntax is incorrect.
-     */
-    @PutMapping("/attendances")
-    public ResponseEntity<Attendance> updateAttendance(@Valid @RequestBody Attendance attendance) throws URISyntaxException {
-        log.debug("REST request to update Attendance : {}", attendance);
-        if (attendance.getId() == null) {
-            throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
-        }
-        Attendance result = attendanceService.save(attendance);
-        return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, attendance.getId().toString()))
-            .body(result);
     }
 
     /**
@@ -125,18 +77,5 @@ public class AttendanceResource {
         log.debug("REST request to get Attendance : {}", id);
         Optional<Attendance> attendance = attendanceService.findOne(id);
         return ResponseUtil.wrapOrNotFound(attendance);
-    }
-
-    /**
-     * {@code DELETE  /attendances/:id} : delete the "id" attendance.
-     *
-     * @param id the id of the attendance to delete.
-     * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
-     */
-    @DeleteMapping("/attendances/{id}")
-    public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
-        log.debug("REST request to delete Attendance : {}", id);
-        attendanceService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

@@ -52,9 +52,8 @@
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="attendanceTime"><span>Attendance Time</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="considerAs"><span>Consider As</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="machineNo"><span>Machine No</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="attendanceTime"><span>Attendance Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -66,9 +65,9 @@
                             <a [routerLink]="['/employee', attendance.employee?.id, 'view']" >{{ attendance.employee?.name }}</a>
                         </div>
                     </td>
-                    <td>{{ attendance.attendanceTime | date:"medium":"+0000" }}</td>
-                    <td>{{ attendance.considerAs }}</td>
                     <td>{{ attendance.machineNo }}</td>
+
+                    <td>{{ attendance.attendanceTime | date:'medium' }}</td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -76,19 +75,6 @@
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
                                 <span class="d-none d-md-inline">View</span>
-                            </button>
-
-                            <button type="submit"
-                                    [routerLink]="['/attendance', attendance.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
-
-                            <button type="submit" (click)="delete(attendance)"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
                             </button>
                         </div>
                     </td>

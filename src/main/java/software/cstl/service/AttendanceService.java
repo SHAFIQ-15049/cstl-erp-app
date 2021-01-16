@@ -10,7 +10,6 @@ import software.cstl.domain.Attendance;
 import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
-import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
@@ -182,7 +181,6 @@ public class AttendanceService {
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(employee);
         attendance.setEmployeeSalary(employeeSalary);
-        attendance.setConsiderAs(ConsiderAsType.REGULAR);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
         return attendance;
     }

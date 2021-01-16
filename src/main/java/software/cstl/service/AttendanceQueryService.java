@@ -84,9 +84,6 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getAttendanceTime() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAttendanceTime(), Attendance_.attendanceTime));
             }
-            if (criteria.getConsiderAs() != null) {
-                specification = specification.and(buildSpecification(criteria.getConsiderAs(), Attendance_.considerAs));
-            }
             if (criteria.getMachineNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMachineNo(), Attendance_.machineNo));
             }

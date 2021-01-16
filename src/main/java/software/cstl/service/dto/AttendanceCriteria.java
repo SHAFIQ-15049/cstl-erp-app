@@ -5,7 +5,6 @@ import io.github.jhipster.service.filter.Filter;
 import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
-import software.cstl.domain.enumeration.ConsiderAsType;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -20,32 +19,12 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class AttendanceCriteria implements Serializable, Criteria {
-    /**
-     * Class for filtering ConsiderAsType
-     */
-    public static class ConsiderAsTypeFilter extends Filter<ConsiderAsType> {
-
-        public ConsiderAsTypeFilter() {
-        }
-
-        public ConsiderAsTypeFilter(ConsiderAsTypeFilter filter) {
-            super(filter);
-        }
-
-        @Override
-        public ConsiderAsTypeFilter copy() {
-            return new ConsiderAsTypeFilter(this);
-        }
-
-    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
     private InstantFilter attendanceTime;
-
-    private ConsiderAsTypeFilter considerAs;
 
     private StringFilter machineNo;
 
@@ -61,7 +40,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
     public AttendanceCriteria(AttendanceCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.attendanceTime = other.attendanceTime == null ? null : other.attendanceTime.copy();
-        this.considerAs = other.considerAs == null ? null : other.considerAs.copy();
         this.machineNo = other.machineNo == null ? null : other.machineNo.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
         this.attendanceDataUploadId = other.attendanceDataUploadId == null ? null : other.attendanceDataUploadId.copy();
@@ -87,14 +65,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     public void setAttendanceTime(InstantFilter attendanceTime) {
         this.attendanceTime = attendanceTime;
-    }
-
-    public ConsiderAsTypeFilter getConsiderAs() {
-        return considerAs;
-    }
-
-    public void setConsiderAs(ConsiderAsTypeFilter considerAs) {
-        this.considerAs = considerAs;
     }
 
     public StringFilter getMachineNo() {
@@ -142,7 +112,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(attendanceTime, that.attendanceTime) &&
-            Objects.equals(considerAs, that.considerAs) &&
             Objects.equals(machineNo, that.machineNo) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(attendanceDataUploadId, that.attendanceDataUploadId) &&
@@ -154,7 +123,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         attendanceTime,
-        considerAs,
         machineNo,
         employeeId,
         attendanceDataUploadId,
@@ -168,7 +136,6 @@ public class AttendanceCriteria implements Serializable, Criteria {
         return "AttendanceCriteria{" +
                 (id != null ? "id=" + id + ", " : "") +
                 (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
-                (considerAs != null ? "considerAs=" + considerAs + ", " : "") +
                 (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (attendanceDataUploadId != null ? "attendanceDataUploadId=" + attendanceDataUploadId + ", " : "") +

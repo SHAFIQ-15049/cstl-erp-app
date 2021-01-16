@@ -17,9 +17,6 @@
             <column name="attendance_time" type="datetime">
                 <constraints nullable="false" />
             </column>
-            <column name="consider_as" type="varchar(255)">
-                <constraints nullable="false" />
-            </column>
             <column name="machine_no" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
@@ -34,6 +31,7 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="attendance" columnName="attendance_time" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210108055117-1-relations" author="jhipster">
@@ -56,7 +54,6 @@
                   tableName="attendance">
             <column name="id" type="numeric"/>
             <column name="attendance_time" type="datetime"/>
-            <column name="consider_as" type="string"/>
             <column name="machine_no" type="string"/>
             <column name="employee_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->

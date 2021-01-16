@@ -33,12 +33,6 @@
       "fieldValidateRules": ["required"]
     },
     {
-      "fieldName": "considerAs",
-      "fieldType": "ConsiderAsType",
-      "fieldValues": "REGULAR,WEEKENDWITHOVERTIME",
-      "fieldValidateRules": ["required"]
-    },
-    {
       "fieldName": "machineNo",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
@@ -50,7 +44,7 @@
   "service": "serviceClass",
   "entityTableName": "attendance",
   "databaseType": "sql",
-  "readOnly": false,
+  "readOnly": true,
   "jpaMetamodelFiltering": true,
   "pagination": "pagination"
 }

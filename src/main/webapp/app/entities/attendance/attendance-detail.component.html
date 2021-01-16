@@ -12,10 +12,6 @@
                 <dd>
                     <span>{{ attendance.attendanceTime }}</span>
                 </dd>
-                <dt><span>Consider As</span></dt>
-                <dd>
-                    <span>{{ attendance.considerAs }}</span>
-                </dd>
                 <dt><span>Machine No</span></dt>
                 <dd>
                     <span>{{ attendance.machineNo }}</span>
@@ -44,12 +40,6 @@
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/attendance', attendance.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
         </div>
     </div>

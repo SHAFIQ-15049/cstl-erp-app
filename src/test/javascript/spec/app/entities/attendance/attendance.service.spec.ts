@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AttendanceService } from 'app/entities/attendance/attendance.service';
 import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
-import { ConsiderAsType } from 'app/shared/model/enumerations/consider-as-type.model';
 
 describe('Service Tests', () => {
   describe('Attendance Service', () => {
@@ -25,7 +24,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Attendance(0, currentDate, ConsiderAsType.REGULAR, 'AAAAAAA');
+      elemDefault = new Attendance(0, currentDate, 'AAAAAAA');
     });
 
     describe('Service methods', () => {
@@ -44,58 +43,10 @@ describe('Service Tests', () => {
         expect(expectedResult).toMatchObject(elemDefault);
       });
 
-      it('should create a Attendance', () => {
-        const returnedFromService = Object.assign(
-          {
-            id: 0,
-            attendanceTime: currentDate.format(DATE_TIME_FORMAT),
-          },
-          elemDefault
-        );
-
-        const expected = Object.assign(
-          {
-            attendanceTime: currentDate,
-          },
-          returnedFromService
-        );
-
-        service.create(new Attendance()).subscribe(resp => (expectedResult = resp.body));
-
-        const req = httpMock.expectOne({ method: 'POST' });
-        req.flush(returnedFromService);
-        expect(expectedResult).toMatchObject(expected);
-      });
-
-      it('should update a Attendance', () => {
-        const returnedFromService = Object.assign(
-          {
-            attendanceTime: currentDate.format(DATE_TIME_FORMAT),
-            considerAs: 'BBBBBB',
-            machineNo: 'BBBBBB',
-          },
-          elemDefault
-        );
-
-        const expected = Object.assign(
-          {
-            attendanceTime: currentDate,
-          },
-          returnedFromService
-        );
-
-        service.update(expected).subscribe(resp => (expectedResult = resp.body));
-
-        const req = httpMock.expectOne({ method: 'PUT' });
-        req.flush(returnedFromService);
-        expect(expectedResult).toMatchObject(expected);
-      });
-
       it('should return a list of Attendance', () => {
         const returnedFromService = Object.assign(
           {
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
-            considerAs: 'BBBBBB',
             machineNo: 'BBBBBB',
           },
           elemDefault
@@ -114,14 +65,6 @@ describe('Service Tests', () => {
         req.flush([returnedFromService]);
         httpMock.verify();
         expect(expectedResult).toContainEqual(expected);
-      });
-
-      it('should delete a Attendance', () => {
-        service.delete(123).subscribe(resp => (expectedResult = resp.ok));
-
-        const req = httpMock.expectOne({ method: 'DELETE' });
-        req.flush({ status: 200 });
-        expect(expectedResult);
       });
     });
 
