@@ -18,7 +18,6 @@ import {ChartsModule} from "ng2-charts";
     FontAwesomeModule,
     ReactiveFormsModule,
     Select2Module,
-    ChartsModule,
   ],
 })
 export class CodeNodeErpSharedLibsModule {}
