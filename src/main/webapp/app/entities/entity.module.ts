@@ -161,6 +161,10 @@ import { RouterModule } from '@angular/router';
         path: 'attendance-summary',
         loadChildren: () => import('./attendance-summary/attendance-summary.module').then(m => m.CodeNodeErpAttendanceSummaryModule),
       },
+      {
+        path: 'leave-balance',
+        loadChildren: () => import('./leave-balance/leave-balance.module').then(m => m.CodeNodeErpLeaveBalanceModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

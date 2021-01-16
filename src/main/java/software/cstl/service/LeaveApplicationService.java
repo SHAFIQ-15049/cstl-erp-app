@@ -6,11 +6,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.Employee;
 import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.repository.LeaveApplicationRepository;
 import software.cstl.repository.LeaveTypeRepository;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,6 +81,15 @@ public class LeaveApplicationService {
         leaveApplicationRepository.deleteById(id);
     }
 
+    public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
+        return null;
+    }
+
+    public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
+        return null;
+    }
+
+    // TODO: Need to fix this one
     public boolean isValid(LeaveApplication leaveApplication) {
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
         List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByAppliedByIsCurrentUser();

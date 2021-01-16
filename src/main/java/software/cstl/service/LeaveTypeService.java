@@ -1,15 +1,15 @@
 package software.cstl.service;
 
-import software.cstl.domain.LeaveType;
-import software.cstl.repository.LeaveTypeRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import software.cstl.domain.LeaveType;
+import software.cstl.repository.LeaveTypeRepository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -71,5 +71,14 @@ public class LeaveTypeService {
     public void delete(Long id) {
         log.debug("Request to delete LeaveType : {}", id);
         leaveTypeRepository.deleteById(id);
+    }
+
+    /**
+     * Get all the leaveTypes.
+     *
+     * @return the list of entities.
+     */
+    public List<LeaveType> getAll() {
+        return leaveTypeRepository.findAll();
     }
 }

@@ -1,0 +1,40 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="leaveBalance">
+            <h2><span>Leave Balance</span> {{ leaveBalance.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Total Days</span></dt>
+                <dd>
+                    <span>{{ leaveBalance.totalDays }}</span>
+                </dd>
+                <dt><span>Remaining Days</span></dt>
+                <dd>
+                    <span>{{ leaveBalance.remainingDays }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="leaveBalance.employeeId">
+                        <a [routerLink]="['/employee', leaveBalance.employeeId, 'view']">{{ leaveBalance.employeeId }}</a>
+                    </div>
+                </dd>
+                <dt><span>Leave Type</span></dt>
+                <dd>
+                    <div *ngIf="leaveBalance.leaveTypeId">
+                        <a [routerLink]="['/leave-type', leaveBalance.leaveTypeId, 'view']">{{ leaveBalance.leaveTypeId }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+        </div>
+    </div>
+</div>
