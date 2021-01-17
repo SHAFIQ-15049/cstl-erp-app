@@ -1457,6 +1457,10 @@ public class OverTimeResourceIT {
     @Test
     @Transactional
     public void generateOverTime() throws Exception{
+        Employee employee =  EmployeeResourceIT.createEntity(em);
+    }
+    private void prepareDataForOverTimeGeneration() throws Exception{
+        Employee employee =  EmployeeResourceIT.createEntity(em);
 
     }
 }
