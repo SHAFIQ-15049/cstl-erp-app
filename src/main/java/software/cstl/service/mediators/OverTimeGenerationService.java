@@ -1,16 +1,13 @@
 package software.cstl.service.mediators;
 
-import liquibase.pro.packaged.O;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
-import software.cstl.domain.MonthlySalary;
 import software.cstl.domain.OverTime;
 import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.MonthType;
-import software.cstl.repository.EmployeeRepository;
 import software.cstl.repository.EmployeeSalaryRepository;
 import software.cstl.repository.OverTimeRepository;
 import software.cstl.repository.extended.EmployeeExtRepository;
