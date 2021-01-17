@@ -71,6 +71,8 @@ public class OverTimeCriteria implements Serializable, Criteria {
 
     private StringFilter executedBy;
 
+    private LongFilter designationId;
+
     private LongFilter employeeId;
 
     public OverTimeCriteria() {
@@ -90,6 +92,7 @@ public class OverTimeCriteria implements Serializable, Criteria {
         this.extraAmount = other.extraAmount == null ? null : other.extraAmount.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
+        this.designationId = other.designationId == null ? null : other.designationId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
     }
 
@@ -202,6 +205,14 @@ public class OverTimeCriteria implements Serializable, Criteria {
         this.executedBy = executedBy;
     }
 
+    public LongFilter getDesignationId() {
+        return designationId;
+    }
+
+    public void setDesignationId(LongFilter designationId) {
+        this.designationId = designationId;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -234,6 +245,7 @@ public class OverTimeCriteria implements Serializable, Criteria {
             Objects.equals(extraAmount, that.extraAmount) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
+            Objects.equals(designationId, that.designationId) &&
             Objects.equals(employeeId, that.employeeId);
     }
 
@@ -253,6 +265,7 @@ public class OverTimeCriteria implements Serializable, Criteria {
         extraAmount,
         executedOn,
         executedBy,
+        designationId,
         employeeId
         );
     }
@@ -274,6 +287,7 @@ public class OverTimeCriteria implements Serializable, Criteria {
                 (extraAmount != null ? "extraAmount=" + extraAmount + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
+                (designationId != null ? "designationId=" + designationId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
             "}";
     }

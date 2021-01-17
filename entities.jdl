@@ -500,7 +500,8 @@ relationship ManyToOne{
     MonthlySalaryDtl {employee(name)} to Employee,
     FestivalAllowancePayment{designation(name)} to Designation,
     FestivalAllowancePaymentDtl{festivalAllowancePayment} to FestivalAllowancePayment,
-    FestivalAllowancePaymentDtl {employee(name)} to Employee
+    FestivalAllowancePaymentDtl {employee(name)} to Employee,
+    OverTime{designation(name)} to Designation
 }
 
 relationship OneToMany{

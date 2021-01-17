@@ -121,6 +121,10 @@ public class OverTimeQueryService extends QueryService<OverTime> {
             if (criteria.getExecutedBy() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getExecutedBy(), OverTime_.executedBy));
             }
+            if (criteria.getDesignationId() != null) {
+                specification = specification.and(buildSpecification(criteria.getDesignationId(),
+                    root -> root.join(OverTime_.designation, JoinType.LEFT).get(Designation_.id)));
+            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(OverTime_.employee, JoinType.LEFT).get(Employee_.id)));

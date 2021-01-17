@@ -15,6 +15,7 @@ import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 import { Moment } from 'moment';
 import * as moment from 'moment';
 import { DesignationService } from 'app/entities/designation/designation.service';
+import { over } from 'webstomp-client';
 
 @Component({
   selector: 'jhi-over-time',
@@ -187,5 +188,33 @@ export class OverTimeComponent implements OnInit, OnDestroy {
       year -= 1;
       this.years.push(year);
     }
+  }
+
+  generateOverTime(): void {
+    this.overTimeService
+      .generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDate?.toJSON(), this.toDate?.toJSON())
+      .subscribe(res => {
+        this.loadPage(0);
+      });
+  }
+
+  regenerateOverTime(): void {
+    this.overTimeService
+      .regenerateOverTimes(
+        this.selectedYear,
+        this.selectedMonth,
+        this.selectedDesignationId,
+        this.fromDate?.toJSON(),
+        this.toDate?.toJSON()
+      )
+      .subscribe(res => {
+        this.loadPage(0);
+      });
+  }
+
+  regenerateEmployeeOverTime(overTime: IOverTime): void {
+    this.overTimeService.regenerateEmployeeOverTime(overTime.id).subscribe(res => {
+      this.handleNavigation();
+    });
   }
 }

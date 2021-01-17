@@ -72,6 +72,10 @@ public class OverTime extends AbstractAuditingEntity implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "overTimes", allowSetters = true)
+    private Designation designation;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "overTimes", allowSetters = true)
     private Employee employee;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -250,6 +254,19 @@ public class OverTime extends AbstractAuditingEntity implements Serializable {
 
     public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public Designation getDesignation() {
+        return designation;
+    }
+
+    public OverTime designation(Designation designation) {
+        this.designation = designation;
+        return this;
+    }
+
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
     }
 
     public Employee getEmployee() {

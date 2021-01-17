@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.OverTime;
+import software.cstl.domain.Designation;
 import software.cstl.domain.Employee;
 import software.cstl.repository.OverTimeRepository;
 import software.cstl.service.OverTimeService;
@@ -122,7 +123,6 @@ public class OverTimeResourceIT {
             .note(DEFAULT_NOTE)
             .executedOn(DEFAULT_EXECUTED_ON)
             .executedBy(DEFAULT_EXECUTED_BY);
-        overTime.setCreatedDate(Instant.now());
         return overTime;
     }
     /**
@@ -228,7 +228,7 @@ public class OverTimeResourceIT {
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
             .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
     }
-
+    
     @Test
     @Transactional
     public void getOverTime() throws Exception {
@@ -1298,6 +1298,26 @@ public class OverTimeResourceIT {
 
     @Test
     @Transactional
+    public void getAllOverTimesByDesignationIsEqualToSomething() throws Exception {
+        // Initialize the database
+        overTimeRepository.saveAndFlush(overTime);
+        Designation designation = DesignationResourceIT.createEntity(em);
+        em.persist(designation);
+        em.flush();
+        overTime.setDesignation(designation);
+        overTimeRepository.saveAndFlush(overTime);
+        Long designationId = designation.getId();
+
+        // Get all the overTimeList where designation equals to designationId
+        defaultOverTimeShouldBeFound("designationId.equals=" + designationId);
+
+        // Get all the overTimeList where designation equals to designationId + 1
+        defaultOverTimeShouldNotBeFound("designationId.equals=" + (designationId + 1));
+    }
+
+
+    @Test
+    @Transactional
     public void getAllOverTimesByEmployeeIsEqualToSomething() throws Exception {
         // Initialize the database
         overTimeRepository.saveAndFlush(overTime);
@@ -1452,15 +1472,5 @@ public class OverTimeResourceIT {
         // Validate the database contains one less item
         List<OverTime> overTimeList = overTimeRepository.findAll();
         assertThat(overTimeList).hasSize(databaseSizeBeforeDelete - 1);
-    }
-
-    @Test
-    @Transactional
-    public void generateOverTime() throws Exception{
-        Employee employee =  EmployeeResourceIT.createEntity(em);
-    }
-    private void prepareDataForOverTimeGeneration() throws Exception{
-        Employee employee =  EmployeeResourceIT.createEntity(em);
-
     }
 }
