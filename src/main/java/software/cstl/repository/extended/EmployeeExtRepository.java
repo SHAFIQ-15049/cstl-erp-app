@@ -9,4 +9,6 @@ import java.util.List;
 
 public interface EmployeeExtRepository extends EmployeeRepository {
     List<Employee> findAllByDesignationAndStatus(Designation designation, EmployeeStatus status);
+
+    List<Employee> findAllByDesignation_IdAndStatus(Long designationId, EmployeeStatus status);
 }
