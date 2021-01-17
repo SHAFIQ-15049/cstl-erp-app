@@ -59,6 +59,13 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
+      "otherEntityName": "designation",
+      "otherEntityRelationshipName": "overTime",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "overTime",
       "relationshipName": "employee",

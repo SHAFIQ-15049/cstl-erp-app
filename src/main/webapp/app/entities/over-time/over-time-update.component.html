@@ -105,6 +105,14 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_designation">Designation</label>
+                    <select class="form-control" id="field_designation" name="designation" formControlName="designation">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="designationOption.id === editForm.get('designation')!.value?.id ? editForm.get('designation')!.value : designationOption" *ngFor="let designationOption of designations; trackBy: trackById">{{ designationOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" formControlName="employee">
                         <option [ngValue]="null"></option>

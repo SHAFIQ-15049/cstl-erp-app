@@ -43,6 +43,7 @@ export class OverTimeUpdatePage {
   executedOnInput = element(by.id('field_executedOn'));
   executedByInput = element(by.id('field_executedBy'));
 
+  designationSelect = element(by.id('field_designation'));
   employeeSelect = element(by.id('field_employee'));
 
   async getPageTitle(): Promise<string> {
@@ -155,6 +156,22 @@ export class OverTimeUpdatePage {
 
   async getExecutedByInput(): Promise<string> {
     return await this.executedByInput.getAttribute('value');
+  }
+
+  async designationSelectLastOption(): Promise<void> {
+    await this.designationSelect.all(by.tagName('option')).last().click();
+  }
+
+  async designationSelectOption(option: string): Promise<void> {
+    await this.designationSelect.sendKeys(option);
+  }
+
+  getDesignationSelect(): ElementFinder {
+    return this.designationSelect;
+  }
+
+  async getDesignationSelectedOption(): Promise<string> {
+    return await this.designationSelect.element(by.css('option:checked')).getText();
   }
 
   async employeeSelectLastOption(): Promise<void> {

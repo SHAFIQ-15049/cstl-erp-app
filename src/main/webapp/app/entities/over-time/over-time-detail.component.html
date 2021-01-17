@@ -60,6 +60,12 @@
                 <dd>
                     <span>{{ overTime.executedBy }}</span>
                 </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <div *ngIf="overTime.designation">
+                        <a [routerLink]="['/designation', overTime.designation?.id, 'view']">{{ overTime.designation?.name }}</a>
+                    </div>
+                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="overTime.employee">

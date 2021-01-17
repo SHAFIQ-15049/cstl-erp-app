@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IDesignation } from 'app/shared/model/designation.model';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 
@@ -17,6 +18,7 @@ export interface IOverTime {
   note?: any;
   executedOn?: Moment;
   executedBy?: string;
+  designation?: IDesignation;
   employee?: IEmployee;
 }
 
@@ -36,6 +38,7 @@ export class OverTime implements IOverTime {
     public note?: any,
     public executedOn?: Moment,
     public executedBy?: string,
+    public designation?: IDesignation,
     public employee?: IEmployee
   ) {}
 }
