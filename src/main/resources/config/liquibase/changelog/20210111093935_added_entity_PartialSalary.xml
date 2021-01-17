@@ -1,6 +1,7 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <changeSet author="monju (generated)" id="1610357986242-1">
+        <validCheckSum>8:c5477be8bf297ee6ec6b0b6e2743218c</validCheckSum>
         <createTable tableName="partial_salary">
             <column autoIncrement="true" name="id" type="BIGINT">
                 <constraints nullable="false" primaryKey="true" primaryKeyName="partial_salaryPK"/>
@@ -15,7 +16,7 @@
             <column name="fine" type="DECIMAL(21, 2)"/>
             <column name="food_allowance" type="DECIMAL(21, 2)"/>
             <column name="food_allowance_percent" type="DECIMAL(21, 2)"/>
-            <column name="from_date" type="date"/>
+            <column name="from_date" type="timestamp"/>
             <column name="gross" type="DECIMAL(21, 2)"/>
             <column name="house_rent" type="DECIMAL(21, 2)"/>
             <column name="house_rent_percent" type="DECIMAL(21, 2)"/>
@@ -24,7 +25,7 @@
             <column name="month" type="VARCHAR(255)"/>
             <column name="note" type="LONGTEXT"/>
             <column name="status" type="VARCHAR(255)"/>
-            <column name="to_date" type="date"/>
+            <column name="to_date" type="timestamp"/>
             <column name="year" type="INT"/>
             <column name="employee_id" type="BIGINT"/>
             <column name="created_by" type="VARCHAR(50)">

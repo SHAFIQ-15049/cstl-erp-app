@@ -10,5 +10,5 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface OverTimeRepository extends JpaRepository<OverTime, Long> {
+public interface OverTimeRepository extends JpaRepository<OverTime, Long>, JpaSpecificationExecutor<OverTime> {
 }

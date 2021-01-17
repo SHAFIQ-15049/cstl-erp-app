@@ -1,13 +1,15 @@
 <?xml version="1.1" encoding="UTF-8" standalone="no"?>
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <changeSet author="monju (generated)" id="1610562119051-1">
+        <validCheckSum>8:ccbb8b5b7507c264f56b4789c9996696</validCheckSum>
         <addColumn tableName="monthly_salary">
-            <column name="from_date" type="date"/>
+            <column name="from_date" type="timestamp"/>
         </addColumn>
     </changeSet>
     <changeSet author="monju (generated)" id="1610562119051-2">
+        <validCheckSum>8:f12393d1d28ca293be5082099a9422ea</validCheckSum>
         <addColumn tableName="monthly_salary">
-            <column name="to_date" type="date"/>
+            <column name="to_date" type="timestamp"/>
         </addColumn>
     </changeSet>
 </databaseChangeLog>
