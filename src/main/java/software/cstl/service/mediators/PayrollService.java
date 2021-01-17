@@ -62,7 +62,7 @@ public class PayrollService {
     public void createMonthlySalaries(MonthlySalary monthlySalary){
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.of("UTC")).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
+            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
@@ -81,7 +81,7 @@ public class PayrollService {
 
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.of("UTC")).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
+            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
@@ -98,7 +98,7 @@ public class PayrollService {
         MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtlRepository.getOne(monthlySalaryDtlId);
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.of("UTC")).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
+            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
         assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
