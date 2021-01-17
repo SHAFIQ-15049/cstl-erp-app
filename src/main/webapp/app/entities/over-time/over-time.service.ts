@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IOverTime } from 'app/shared/model/over-time.model';
+import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 
 type EntityResponseType = HttpResponse<IOverTime>;
 type EntityArrayResponseType = HttpResponse<IOverTime[]>;
@@ -42,6 +43,40 @@ export class OverTimeService {
     return this.http
       .get<IOverTime[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  generateOverTimes(
+    year?: number,
+    month?: MonthType,
+    designationId?: number,
+    fromDate?: string,
+    toDate?: string
+  ): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IOverTime[]>(`${this.resourceUrl}/generate-over-time/${year}/${month}/${designationId}/${fromDate}/${toDate}`, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  regenerateOverTimes(
+    year?: number,
+    month?: MonthType,
+    designationId?: number,
+    fromDate?: string,
+    toDate?: string
+  ): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IOverTime[]>(`${this.resourceUrl}/regenerate-over-time/${year}/${month}/${designationId}/${fromDate}/${toDate}`, {
+        observe: 'response',
+      })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  regenerateEmployeeOverTime(overTimeId?: number): Observable<EntityResponseType> {
+    return this.http
+      .get<IOverTime>(`${this.resourceUrl}/regenerate-employee-over-time/${overTimeId}`, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
   delete(id: number): Observable<HttpResponse<{}>> {
