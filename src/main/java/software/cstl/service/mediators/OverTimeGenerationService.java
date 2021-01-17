@@ -37,7 +37,7 @@ public class OverTimeGenerationService {
         List<OverTime> overTimes = new ArrayList<>();
         List<Employee> employees = employeeExtRepository.findAllByDesignation_IdAndStatus(designationId, EmployeeStatus.ACTIVE);
         for(Employee employee: employees){
-            OverTime overTime= new OverTime();
+            OverTime overTime = new OverTime();
             overTime
                 .employee(employee)
                 .designation(employee.getDesignation())
@@ -47,17 +47,35 @@ public class OverTimeGenerationService {
                 .toDate(toDate)
                 .executedBy(SecurityUtils.getCurrentUserLogin().get())
                 .executedOn(Instant.now());
-
-            calculateOverTimeAmount(fromDate, toDate, employee, overTime);
-
+            calculateEmployeeOverTime(overTime);
             overTimes.add(overTime);
         }
 
         return overTimeRepository.saveAll(overTimes);
     }
 
-    private void calculateOverTimeAmount(Instant fromDate, Instant toDate, Employee employee, OverTime overTime) {
-        List<AttendanceSummaryDTO> attendanceSummaries = attendanceSummaryService.findAll(employee.getId(), fromDate.atZone(ZoneId.systemDefault()).toLocalDate(), toDate.atZone(ZoneId.systemDefault()).toLocalDate());
+    public List<OverTime> regenerateOverTime(Integer year, MonthType monthType, Long designationId, Instant fromDate, Instant toDate){
+        overTimeRepository.deleteOverTimeByYearAndMonthAndDesignation_Id(year, monthType, designationId);
+        overTimeRepository.flush();
+        return generateOverTime(year, monthType, designationId, fromDate, toDate);
+    }
+
+    public OverTime regenerateEmployeeOverTime(Long overTimeId){
+        OverTime overTime = overTimeRepository.getOne(overTimeId);
+        return calculateEmployeeOverTime(overTime);
+    }
+
+
+    private OverTime calculateEmployeeOverTime(OverTime overTime) {
+        calculateOverTimeAmount(overTime);
+        return overTime;
+    }
+
+
+
+
+    private void calculateOverTimeAmount(OverTime overTime) {
+        List<AttendanceSummaryDTO> attendanceSummaries = attendanceSummaryService.findAll(overTime.getEmployee().getId(), overTime.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), overTime.getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
         Long validOverTimeHour = new Long((attendanceSummaries.size()*2));
         Long totalOverTimeHour = 0L;
         boolean overTimeOverLoaded = false;
