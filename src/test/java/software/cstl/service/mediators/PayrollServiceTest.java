@@ -21,6 +21,7 @@ import software.cstl.security.SecurityUtils;
 import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -275,6 +276,15 @@ public class PayrollServiceTest {
             return attendances;
         }
 
+    }
+
+    @Test
+    public void randomTest(){
+        Instant instant = Instant.now();
+        LocalDate localDate = instant.atZone(ZoneId.systemDefault()).toLocalDate();
+        System.out.println(localDate.getYear());
+        System.out.println(localDate.getMonth().getValue());
+        System.out.println(localDate.getDayOfMonth());
     }
 
 }
