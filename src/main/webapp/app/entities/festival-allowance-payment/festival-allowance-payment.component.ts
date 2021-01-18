@@ -12,6 +12,7 @@ import { FestivalAllowancePaymentService } from './festival-allowance-payment.se
 import { FestivalAllowancePaymentDeleteDialogComponent } from './festival-allowance-payment-delete-dialog.component';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
+import { DesignationService } from 'app/entities/designation/designation.service';
 
 @Component({
   selector: 'jhi-festival-allowance-payment',
@@ -39,7 +40,8 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
-    private jhiAlertService: JhiAlertService
+    private jhiAlertService: JhiAlertService,
+    private designationService: DesignationService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -58,33 +60,40 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.configureYears();
     this.handleNavigation();
     this.registerChangeInFestivalAllowancePayments();
+    this.designationService
+      .query({
+        size: 10000,
+      })
+      .subscribe(res => {
+        this.designations = res.body || [];
+      });
   }
 
   protected handleNavigation(): void {
     combineLatest(
       this.activatedRoute.data,
       this.activatedRoute.queryParamMap,
-      (data: Data, params: ParamMap) => {
+      this.activatedRoute.params,
+      (data: Data, params: ParamMap, linkParams: any) => {
         const page = params.get('page');
         const pageNumber = page !== null ? +page : 1;
         const sort = (params.get('sort') ?? data['defaultSort']).split(',');
         const predicate = sort[0];
         const ascending = sort[1] === 'asc';
+
+        this.year = +linkParams['year'];
+        this.month = linkParams['month'];
+        this.designationId = +linkParams['designationId'];
         if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
           this.predicate = predicate;
           this.ascending = ascending;
           this.loadPage(pageNumber, true);
         }
-      },
-      this.activatedRoute.params
-    ).subscribe(res => {
-      const params = res[3];
-      this.year = +params['year'];
-      this.month = params['month'];
-      this.designationId = +params['designationId'];
-    });
+      }
+    ).subscribe();
   }
 
   navigate(): void {

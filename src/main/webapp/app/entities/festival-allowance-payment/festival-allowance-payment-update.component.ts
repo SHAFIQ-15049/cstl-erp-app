@@ -19,6 +19,7 @@ import { DesignationService } from 'app/entities/designation/designation.service
 export class FestivalAllowancePaymentUpdateComponent implements OnInit {
   isSaving = false;
   designations: IDesignation[] = [];
+  disableStatus = true;
 
   editForm = this.fb.group({
     id: [],
@@ -47,7 +48,11 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
 
       this.updateForm(festivalAllowancePayment);
 
-      this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+      this.designationService
+        .query({
+          size: 10000,
+        })
+        .subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
     });
   }
 

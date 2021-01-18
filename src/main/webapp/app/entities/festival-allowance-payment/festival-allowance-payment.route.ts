@@ -11,13 +11,18 @@ import { FestivalAllowancePaymentService } from './festival-allowance-payment.se
 import { FestivalAllowancePaymentComponent } from './festival-allowance-payment.component';
 import { FestivalAllowancePaymentDetailComponent } from './festival-allowance-payment-detail.component';
 import { FestivalAllowancePaymentUpdateComponent } from './festival-allowance-payment-update.component';
+import { DesignationService } from 'app/entities/designation/designation.service';
+import { Designation } from 'app/shared/model/designation.model';
 
 @Injectable({ providedIn: 'root' })
 export class FestivalAllowancePaymentResolve implements Resolve<IFestivalAllowancePayment> {
-  constructor(private service: FestivalAllowancePaymentService, private router: Router) {}
+  constructor(private service: FestivalAllowancePaymentService, private router: Router, private designationService: DesignationService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<IFestivalAllowancePayment> | Observable<never> {
     const id = route.params['id'];
+    const year = route.params['year'];
+    const month = route.params['month'];
+    const designationId = route.params['designationId'];
     if (id) {
       return this.service.find(id).pipe(
         flatMap((festivalAllowancePayment: HttpResponse<FestivalAllowancePayment>) => {
@@ -27,6 +32,16 @@ export class FestivalAllowancePaymentResolve implements Resolve<IFestivalAllowan
             this.router.navigate(['404']);
             return EMPTY;
           }
+        })
+      );
+    } else if (year && month && designationId) {
+      return this.designationService.find(designationId).pipe(
+        flatMap(res => {
+          const festivalAllowancePayment = new FestivalAllowancePayment();
+          festivalAllowancePayment.month = month;
+          festivalAllowancePayment.year = year;
+          festivalAllowancePayment.designation = res.body!;
+          return of(festivalAllowancePayment);
         })
       );
     }
@@ -69,6 +84,18 @@ export const festivalAllowancePaymentRoute: Routes = [
   },
   {
     path: 'new',
+    component: FestivalAllowancePaymentUpdateComponent,
+    resolve: {
+      festivalAllowancePayment: FestivalAllowancePaymentResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'FestivalAllowancePayments',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/:year/:month/:designationId',
     component: FestivalAllowancePaymentUpdateComponent,
     resolve: {
       festivalAllowancePayment: FestivalAllowancePaymentResolve,
