@@ -39,6 +39,7 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.disableStatus = true;
     this.activatedRoute.data.subscribe(({ festivalAllowancePayment }) => {
       if (!festivalAllowancePayment.id) {
         const today = moment().startOf('day');
