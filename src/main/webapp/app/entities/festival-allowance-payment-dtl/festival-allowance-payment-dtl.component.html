@@ -28,8 +28,8 @@
                     <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="festivalAllowancePayment.id"><span>Festival Allowance Payment</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="festivalAllowancePayment.id"><span>Festival Allowance Payment</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -42,13 +42,13 @@
                     <td>{{ festivalAllowancePaymentDtl.executedBy | date:'medium' }}</td>
                     <td>{{ festivalAllowancePaymentDtl.note }}</td>
                     <td>
-                        <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
-                            <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']" >{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
+                        <div *ngIf="festivalAllowancePaymentDtl.employee">
+                            <a [routerLink]="['/employee', festivalAllowancePaymentDtl.employee?.id, 'view']" >{{ festivalAllowancePaymentDtl.employee?.name }}</a>
                         </div>
                     </td>
                     <td>
-                        <div *ngIf="festivalAllowancePaymentDtl.employee">
-                            <a [routerLink]="['/employee', festivalAllowancePaymentDtl.employee?.id, 'view']" >{{ festivalAllowancePaymentDtl.employee?.name }}</a>
+                        <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
+                            <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']" >{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
                         </div>
                     </td>
                     <td class="text-right">

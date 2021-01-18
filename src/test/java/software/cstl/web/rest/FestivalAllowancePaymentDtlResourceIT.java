@@ -2,8 +2,8 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.FestivalAllowancePaymentDtl;
-import software.cstl.domain.FestivalAllowancePayment;
 import software.cstl.domain.Employee;
+import software.cstl.domain.FestivalAllowancePayment;
 import software.cstl.repository.FestivalAllowancePaymentDtlRepository;
 import software.cstl.service.FestivalAllowancePaymentDtlService;
 import software.cstl.service.dto.FestivalAllowancePaymentDtlCriteria;
@@ -468,26 +468,6 @@ public class FestivalAllowancePaymentDtlResourceIT {
 
     @Test
     @Transactional
-    public void getAllFestivalAllowancePaymentDtlsByFestivalAllowancePaymentIsEqualToSomething() throws Exception {
-        // Initialize the database
-        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
-        FestivalAllowancePayment festivalAllowancePayment = FestivalAllowancePaymentResourceIT.createEntity(em);
-        em.persist(festivalAllowancePayment);
-        em.flush();
-        festivalAllowancePaymentDtl.setFestivalAllowancePayment(festivalAllowancePayment);
-        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
-        Long festivalAllowancePaymentId = festivalAllowancePayment.getId();
-
-        // Get all the festivalAllowancePaymentDtlList where festivalAllowancePayment equals to festivalAllowancePaymentId
-        defaultFestivalAllowancePaymentDtlShouldBeFound("festivalAllowancePaymentId.equals=" + festivalAllowancePaymentId);
-
-        // Get all the festivalAllowancePaymentDtlList where festivalAllowancePayment equals to festivalAllowancePaymentId + 1
-        defaultFestivalAllowancePaymentDtlShouldNotBeFound("festivalAllowancePaymentId.equals=" + (festivalAllowancePaymentId + 1));
-    }
-
-
-    @Test
-    @Transactional
     public void getAllFestivalAllowancePaymentDtlsByEmployeeIsEqualToSomething() throws Exception {
         // Initialize the database
         festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
@@ -503,6 +483,26 @@ public class FestivalAllowancePaymentDtlResourceIT {
 
         // Get all the festivalAllowancePaymentDtlList where employee equals to employeeId + 1
         defaultFestivalAllowancePaymentDtlShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentDtlsByFestivalAllowancePaymentIsEqualToSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
+        FestivalAllowancePayment festivalAllowancePayment = FestivalAllowancePaymentResourceIT.createEntity(em);
+        em.persist(festivalAllowancePayment);
+        em.flush();
+        festivalAllowancePaymentDtl.setFestivalAllowancePayment(festivalAllowancePayment);
+        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
+        Long festivalAllowancePaymentId = festivalAllowancePayment.getId();
+
+        // Get all the festivalAllowancePaymentDtlList where festivalAllowancePayment equals to festivalAllowancePaymentId
+        defaultFestivalAllowancePaymentDtlShouldBeFound("festivalAllowancePaymentId.equals=" + festivalAllowancePaymentId);
+
+        // Get all the festivalAllowancePaymentDtlList where festivalAllowancePayment equals to festivalAllowancePaymentId + 1
+        defaultFestivalAllowancePaymentDtlShouldNotBeFound("festivalAllowancePaymentId.equals=" + (festivalAllowancePaymentId + 1));
     }
 
     /**

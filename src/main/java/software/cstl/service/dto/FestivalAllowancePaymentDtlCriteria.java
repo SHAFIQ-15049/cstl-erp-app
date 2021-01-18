@@ -55,9 +55,9 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
 
     private InstantFilter executedBy;
 
-    private LongFilter festivalAllowancePaymentId;
-
     private LongFilter employeeId;
+
+    private LongFilter festivalAllowancePaymentId;
 
     public FestivalAllowancePaymentDtlCriteria() {
     }
@@ -68,8 +68,8 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
         this.status = other.status == null ? null : other.status.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
-        this.festivalAllowancePaymentId = other.festivalAllowancePaymentId == null ? null : other.festivalAllowancePaymentId.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
+        this.festivalAllowancePaymentId = other.festivalAllowancePaymentId == null ? null : other.festivalAllowancePaymentId.copy();
     }
 
     @Override
@@ -117,20 +117,20 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
         this.executedBy = executedBy;
     }
 
-    public LongFilter getFestivalAllowancePaymentId() {
-        return festivalAllowancePaymentId;
-    }
-
-    public void setFestivalAllowancePaymentId(LongFilter festivalAllowancePaymentId) {
-        this.festivalAllowancePaymentId = festivalAllowancePaymentId;
-    }
-
     public LongFilter getEmployeeId() {
         return employeeId;
     }
 
     public void setEmployeeId(LongFilter employeeId) {
         this.employeeId = employeeId;
+    }
+
+    public LongFilter getFestivalAllowancePaymentId() {
+        return festivalAllowancePaymentId;
+    }
+
+    public void setFestivalAllowancePaymentId(LongFilter festivalAllowancePaymentId) {
+        this.festivalAllowancePaymentId = festivalAllowancePaymentId;
     }
 
 
@@ -149,8 +149,8 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
             Objects.equals(status, that.status) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
-            Objects.equals(festivalAllowancePaymentId, that.festivalAllowancePaymentId) &&
-            Objects.equals(employeeId, that.employeeId);
+            Objects.equals(employeeId, that.employeeId) &&
+            Objects.equals(festivalAllowancePaymentId, that.festivalAllowancePaymentId);
     }
 
     @Override
@@ -161,8 +161,8 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
         status,
         executedOn,
         executedBy,
-        festivalAllowancePaymentId,
-        employeeId
+        employeeId,
+        festivalAllowancePaymentId
         );
     }
 
@@ -175,8 +175,8 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
                 (status != null ? "status=" + status + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
-                (festivalAllowancePaymentId != null ? "festivalAllowancePaymentId=" + festivalAllowancePaymentId + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+                (festivalAllowancePaymentId != null ? "festivalAllowancePaymentId=" + festivalAllowancePaymentId + ", " : "") +
             "}";
     }
 

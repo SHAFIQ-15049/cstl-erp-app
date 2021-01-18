@@ -56,8 +56,8 @@ describe('FestivalAllowancePaymentDtl e2e test', () => {
       festivalAllowancePaymentDtlUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       festivalAllowancePaymentDtlUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       festivalAllowancePaymentDtlUpdatePage.setNoteInput('note'),
-      festivalAllowancePaymentDtlUpdatePage.festivalAllowancePaymentSelectLastOption(),
       festivalAllowancePaymentDtlUpdatePage.employeeSelectLastOption(),
+      festivalAllowancePaymentDtlUpdatePage.festivalAllowancePaymentSelectLastOption(),
     ]);
 
     expect(await festivalAllowancePaymentDtlUpdatePage.getAmountInput()).to.eq('5', 'Expected amount value to be equals to 5');

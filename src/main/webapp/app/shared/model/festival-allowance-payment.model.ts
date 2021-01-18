@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IFestivalAllowancePaymentDtl } from 'app/shared/model/festival-allowance-payment-dtl.model';
 import { IDesignation } from 'app/shared/model/designation.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 import { SalaryExecutionStatus } from 'app/shared/model/enumerations/salary-execution-status.model';
@@ -10,6 +11,7 @@ export interface IFestivalAllowancePayment {
   status?: SalaryExecutionStatus;
   executedOn?: Moment;
   executedBy?: Moment;
+  festivalAllowancePaymentDtls?: IFestivalAllowancePaymentDtl[];
   designation?: IDesignation;
 }
 
@@ -21,6 +23,7 @@ export class FestivalAllowancePayment implements IFestivalAllowancePayment {
     public status?: SalaryExecutionStatus,
     public executedOn?: Moment,
     public executedBy?: Moment,
+    public festivalAllowancePaymentDtls?: IFestivalAllowancePaymentDtl[],
     public designation?: IDesignation
   ) {}
 }

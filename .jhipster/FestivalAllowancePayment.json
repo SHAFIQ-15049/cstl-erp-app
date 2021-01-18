@@ -26,6 +26,12 @@
   ],
   "relationships": [
     {
+      "relationshipType": "one-to-many",
+      "otherEntityName": "festivalAllowancePaymentDtl",
+      "otherEntityRelationshipName": "festivalAllowancePayment",
+      "relationshipName": "festivalAllowancePaymentDtl"
+    },
+    {
       "relationshipType": "many-to-one",
       "otherEntityName": "designation",
       "otherEntityRelationshipName": "festivalAllowancePayment",

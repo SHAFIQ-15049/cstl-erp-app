@@ -11,12 +11,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IFestivalAllowancePaymentDtl, FestivalAllowancePaymentDtl } from 'app/shared/model/festival-allowance-payment-dtl.model';
 import { FestivalAllowancePaymentDtlService } from './festival-allowance-payment-dtl.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
-import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
-import { FestivalAllowancePaymentService } from 'app/entities/festival-allowance-payment/festival-allowance-payment.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
+import { FestivalAllowancePaymentService } from 'app/entities/festival-allowance-payment/festival-allowance-payment.service';
 
-type SelectableEntity = IFestivalAllowancePayment | IEmployee;
+type SelectableEntity = IEmployee | IFestivalAllowancePayment;
 
 @Component({
   selector: 'jhi-festival-allowance-payment-dtl-update',
@@ -24,8 +24,8 @@ type SelectableEntity = IFestivalAllowancePayment | IEmployee;
 })
 export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
   isSaving = false;
-  festivalallowancepayments: IFestivalAllowancePayment[] = [];
   employees: IEmployee[] = [];
+  festivalallowancepayments: IFestivalAllowancePayment[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -34,16 +34,16 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
     executedOn: [],
     executedBy: [],
     note: [],
-    festivalAllowancePayment: [],
     employee: [],
+    festivalAllowancePayment: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected festivalAllowancePaymentDtlService: FestivalAllowancePaymentDtlService,
-    protected festivalAllowancePaymentService: FestivalAllowancePaymentService,
     protected employeeService: EmployeeService,
+    protected festivalAllowancePaymentService: FestivalAllowancePaymentService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -58,11 +58,11 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
 
       this.updateForm(festivalAllowancePaymentDtl);
 
+      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
+
       this.festivalAllowancePaymentService
         .query()
         .subscribe((res: HttpResponse<IFestivalAllowancePayment[]>) => (this.festivalallowancepayments = res.body || []));
-
-      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
   }
 
@@ -74,8 +74,8 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
       executedOn: festivalAllowancePaymentDtl.executedOn ? festivalAllowancePaymentDtl.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: festivalAllowancePaymentDtl.executedBy ? festivalAllowancePaymentDtl.executedBy.format(DATE_TIME_FORMAT) : null,
       note: festivalAllowancePaymentDtl.note,
-      festivalAllowancePayment: festivalAllowancePaymentDtl.festivalAllowancePayment,
       employee: festivalAllowancePaymentDtl.employee,
+      festivalAllowancePayment: festivalAllowancePaymentDtl.festivalAllowancePayment,
     });
   }
 
@@ -118,8 +118,8 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
       note: this.editForm.get(['note'])!.value,
-      festivalAllowancePayment: this.editForm.get(['festivalAllowancePayment'])!.value,
       employee: this.editForm.get(['employee'])!.value,
+      festivalAllowancePayment: this.editForm.get(['festivalAllowancePayment'])!.value,
     };
   }
 

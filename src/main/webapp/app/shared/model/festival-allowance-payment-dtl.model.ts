@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
-import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
 import { SalaryExecutionStatus } from 'app/shared/model/enumerations/salary-execution-status.model';
 
 export interface IFestivalAllowancePaymentDtl {
@@ -10,8 +10,8 @@ export interface IFestivalAllowancePaymentDtl {
   executedOn?: Moment;
   executedBy?: Moment;
   note?: any;
-  festivalAllowancePayment?: IFestivalAllowancePayment;
   employee?: IEmployee;
+  festivalAllowancePayment?: IFestivalAllowancePayment;
 }
 
 export class FestivalAllowancePaymentDtl implements IFestivalAllowancePaymentDtl {
@@ -22,7 +22,7 @@ export class FestivalAllowancePaymentDtl implements IFestivalAllowancePaymentDtl
     public executedOn?: Moment,
     public executedBy?: Moment,
     public note?: any,
-    public festivalAllowancePayment?: IFestivalAllowancePayment,
-    public employee?: IEmployee
+    public employee?: IEmployee,
+    public festivalAllowancePayment?: IFestivalAllowancePayment
   ) {}
 }

@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.FestivalAllowancePayment;
+import software.cstl.domain.FestivalAllowancePaymentDtl;
 import software.cstl.domain.Designation;
 import software.cstl.repository.FestivalAllowancePaymentRepository;
 import software.cstl.service.FestivalAllowancePaymentService;
@@ -515,6 +516,26 @@ public class FestivalAllowancePaymentResourceIT {
         // Get all the festivalAllowancePaymentList where executedBy is null
         defaultFestivalAllowancePaymentShouldNotBeFound("executedBy.specified=false");
     }
+
+    @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentsByFestivalAllowancePaymentDtlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+        FestivalAllowancePaymentDtl festivalAllowancePaymentDtl = FestivalAllowancePaymentDtlResourceIT.createEntity(em);
+        em.persist(festivalAllowancePaymentDtl);
+        em.flush();
+        festivalAllowancePayment.addFestivalAllowancePaymentDtl(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+        Long festivalAllowancePaymentDtlId = festivalAllowancePaymentDtl.getId();
+
+        // Get all the festivalAllowancePaymentList where festivalAllowancePaymentDtl equals to festivalAllowancePaymentDtlId
+        defaultFestivalAllowancePaymentShouldBeFound("festivalAllowancePaymentDtlId.equals=" + festivalAllowancePaymentDtlId);
+
+        // Get all the festivalAllowancePaymentList where festivalAllowancePaymentDtl equals to festivalAllowancePaymentDtlId + 1
+        defaultFestivalAllowancePaymentShouldNotBeFound("festivalAllowancePaymentDtlId.equals=" + (festivalAllowancePaymentDtlId + 1));
+    }
+
 
     @Test
     @Transactional

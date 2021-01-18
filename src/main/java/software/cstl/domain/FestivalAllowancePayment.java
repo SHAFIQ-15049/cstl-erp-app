@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.MonthType;
 
@@ -46,6 +48,10 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
 
     @Column(name = "executed_by")
     private Instant executedBy;
+
+    @OneToMany(mappedBy = "festivalAllowancePayment")
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "festivalAllowancePayments", allowSetters = true)
@@ -123,6 +129,31 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
 
     public void setExecutedBy(Instant executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public Set<FestivalAllowancePaymentDtl> getFestivalAllowancePaymentDtls() {
+        return festivalAllowancePaymentDtls;
+    }
+
+    public FestivalAllowancePayment festivalAllowancePaymentDtls(Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls) {
+        this.festivalAllowancePaymentDtls = festivalAllowancePaymentDtls;
+        return this;
+    }
+
+    public FestivalAllowancePayment addFestivalAllowancePaymentDtl(FestivalAllowancePaymentDtl festivalAllowancePaymentDtl) {
+        this.festivalAllowancePaymentDtls.add(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentDtl.setFestivalAllowancePayment(this);
+        return this;
+    }
+
+    public FestivalAllowancePayment removeFestivalAllowancePaymentDtl(FestivalAllowancePaymentDtl festivalAllowancePaymentDtl) {
+        this.festivalAllowancePaymentDtls.remove(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentDtl.setFestivalAllowancePayment(null);
+        return this;
+    }
+
+    public void setFestivalAllowancePaymentDtls(Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls) {
+        this.festivalAllowancePaymentDtls = festivalAllowancePaymentDtls;
     }
 
     public Designation getDesignation() {
