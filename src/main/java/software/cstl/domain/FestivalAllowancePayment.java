@@ -49,7 +49,7 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
     @Column(name = "executed_by")
     private Instant executedBy;
 
-    @OneToMany(mappedBy = "festivalAllowancePayment")
+    @OneToMany(mappedBy = "festivalAllowancePayment", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     private Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls = new HashSet<>();
 

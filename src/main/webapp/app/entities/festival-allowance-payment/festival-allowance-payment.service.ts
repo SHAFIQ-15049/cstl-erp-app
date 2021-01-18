@@ -18,9 +18,17 @@ export class FestivalAllowancePaymentService {
   constructor(protected http: HttpClient) {}
 
   create(festivalAllowancePayment: IFestivalAllowancePayment): Observable<EntityResponseType> {
+    if (festivalAllowancePayment.id) return this.regenerate(festivalAllowancePayment);
     const copy = this.convertDateFromClient(festivalAllowancePayment);
     return this.http
       .post<IFestivalAllowancePayment>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  regenerate(festivalAllowancePayment: IFestivalAllowancePayment): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(festivalAllowancePayment);
+    return this.http
+      .post<IFestivalAllowancePayment>(this.resourceUrl + '/regenerate', copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
