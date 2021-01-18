@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager } from 'ng-jhipster';
+import { JhiAlertService, JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
@@ -10,6 +10,8 @@ import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-p
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { FestivalAllowancePaymentService } from './festival-allowance-payment.service';
 import { FestivalAllowancePaymentDeleteDialogComponent } from './festival-allowance-payment-delete-dialog.component';
+import { IDesignation } from 'app/shared/model/designation.model';
+import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 
 @Component({
   selector: 'jhi-festival-allowance-payment',
@@ -25,12 +27,19 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  years: number[] = [];
+  year?: number;
+  designations: IDesignation[] = [];
+  designationId?: number;
+  month?: MonthType;
+
   constructor(
     protected festivalAllowancePaymentService: FestivalAllowancePaymentService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private jhiAlertService: JhiAlertService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -54,18 +63,36 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
   }
 
   protected handleNavigation(): void {
-    combineLatest(this.activatedRoute.data, this.activatedRoute.queryParamMap, (data: Data, params: ParamMap) => {
-      const page = params.get('page');
-      const pageNumber = page !== null ? +page : 1;
-      const sort = (params.get('sort') ?? data['defaultSort']).split(',');
-      const predicate = sort[0];
-      const ascending = sort[1] === 'asc';
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-        this.predicate = predicate;
-        this.ascending = ascending;
-        this.loadPage(pageNumber, true);
-      }
-    }).subscribe();
+    combineLatest(
+      this.activatedRoute.data,
+      this.activatedRoute.queryParamMap,
+      (data: Data, params: ParamMap) => {
+        const page = params.get('page');
+        const pageNumber = page !== null ? +page : 1;
+        const sort = (params.get('sort') ?? data['defaultSort']).split(',');
+        const predicate = sort[0];
+        const ascending = sort[1] === 'asc';
+        if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
+          this.predicate = predicate;
+          this.ascending = ascending;
+          this.loadPage(pageNumber, true);
+        }
+      },
+      this.activatedRoute.params
+    ).subscribe(res => {
+      const params = res[3];
+      this.year = +params['year'];
+      this.month = params['month'];
+      this.designationId = +params['designationId'];
+    });
+  }
+
+  navigate(): void {
+    if (this.year && this.month && this.designationId) {
+      this.router.navigate(['/festival-allowance-payment', this.year, this.month, this.designationId]);
+    } else {
+      this.jhiAlertService.error('Year, month and designation must be selected');
+    }
   }
 
   ngOnDestroy(): void {
@@ -114,5 +141,15 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  configureYears(): void {
+    let year = new Date().getFullYear();
+    this.year = new Date().getFullYear();
+    this.years.push(year);
+    for (let i = 0; i < 3; i++) {
+      year -= 1;
+      this.years.push(year);
+    }
   }
 }

@@ -209,7 +209,13 @@
                         <span>Over Time</span>
                     </a>
                 </li>
-
+                <li>
+                    <a class="dropdown-item" routerLink="festival-allowance-payment" routerLinkActive="active"
+                       [routerLinkActiveOptions]="{ exact: true }" (click)="getSidebarWidth() < 640 && mobileSidebarHide()">
+                        <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                        <span>Festival Allowance</span>
+                    </a>
+                </li>
             </ul>
         </li>
 

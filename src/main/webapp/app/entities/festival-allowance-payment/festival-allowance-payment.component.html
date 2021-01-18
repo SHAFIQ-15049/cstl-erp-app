@@ -5,7 +5,7 @@
         <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-festival-allowance-payment" [routerLink]="['/festival-allowance-payment/new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Festival Allowance Payment
+            Add
             </span>
         </button>
     </h2>
@@ -13,6 +13,47 @@
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
+
+    <div class="form-row align-items-end" >
+        <div class="col-md-12">
+            <jhi-alert></jhi-alert>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_year">Year</label>
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="year">
+                <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_month">Month</label>
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="month">
+                <option value="JANUARY">JANUARY</option>
+                <option value="FEBRUARY">FEBRUARY</option>
+                <option value="MARCH">MARCH</option>
+                <option value="APRIL">APRIL</option>
+                <option value="MAY">MAY</option>
+                <option value="JUNE">JUNE</option>
+                <option value="JULY">JULY</option>
+                <option value="AUGUST">AUGUST</option>
+                <option value="SEPTEMBER">SEPTEMBER</option>
+                <option value="OCTOBER">OCTOBER</option>
+                <option value="NOVEMBER">NOVEMBER</option>
+                <option value="DECEMBER">DECEMBER</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-control-label" for="field_designation">Designation</label>
+            <select class="form-control" id="field_designation" name="designation" [(ngModel)]="designationId" >
+                <option></option>
+                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+            </select>
+        </div>
+
+
+        <div class="form-group col-md-2" style="align-items: end;">
+            <button class="btn btn-secondary" (click)="navigate()">Fetch</button>
+        </div>
+    </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="festivalAllowancePayments?.length === 0">
         <span>No festivalAllowancePayments found</span>

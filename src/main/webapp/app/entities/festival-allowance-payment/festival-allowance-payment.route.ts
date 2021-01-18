@@ -46,6 +46,16 @@ export const festivalAllowancePaymentRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':year/:month/:designationId',
+    component: FestivalAllowancePaymentComponent,
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,asc',
+      pageTitle: 'FestivalAllowancePayments',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/view',
     component: FestivalAllowancePaymentDetailComponent,
     resolve: {
