@@ -17,7 +17,10 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
  * A FestivalAllowancePayment.
  */
 @Entity
-@Table(name = "festival_allowance_payment")
+@Table(
+    name = "festival_allowance_payment",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status"})
+)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FestivalAllowancePayment extends AbstractAuditingEntity implements Serializable {
 
