@@ -11,8 +11,12 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { IOverTime, OverTime } from 'app/shared/model/over-time.model';
 import { OverTimeService } from './over-time.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IDesignation } from 'app/shared/model/designation.model';
+import { DesignationService } from 'app/entities/designation/designation.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+
+type SelectableEntity = IDesignation | IEmployee;
 
 @Component({
   selector: 'jhi-over-time-update',
@@ -20,6 +24,7 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 })
 export class OverTimeUpdateComponent implements OnInit {
   isSaving = false;
+  designations: IDesignation[] = [];
   employees: IEmployee[] = [];
 
   editForm = this.fb.group({
@@ -37,6 +42,7 @@ export class OverTimeUpdateComponent implements OnInit {
     note: [],
     executedOn: [],
     executedBy: [],
+    designation: [],
     employee: [],
   });
 
@@ -44,6 +50,7 @@ export class OverTimeUpdateComponent implements OnInit {
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected overTimeService: OverTimeService,
+    protected designationService: DesignationService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
@@ -59,6 +66,8 @@ export class OverTimeUpdateComponent implements OnInit {
       }
 
       this.updateForm(overTime);
+
+      this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
 
       this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
@@ -80,6 +89,7 @@ export class OverTimeUpdateComponent implements OnInit {
       note: overTime.note,
       executedOn: overTime.executedOn ? overTime.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: overTime.executedBy,
+      designation: overTime.designation,
       employee: overTime.employee,
     });
   }
@@ -131,6 +141,7 @@ export class OverTimeUpdateComponent implements OnInit {
       note: this.editForm.get(['note'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value,
+      designation: this.editForm.get(['designation'])!.value,
       employee: this.editForm.get(['employee'])!.value,
     };
   }
@@ -151,7 +162,7 @@ export class OverTimeUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IEmployee): any {
+  trackById(index: number, item: SelectableEntity): any {
     return item.id;
   }
 }

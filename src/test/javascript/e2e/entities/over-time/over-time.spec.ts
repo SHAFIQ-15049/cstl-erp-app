@@ -54,6 +54,7 @@ describe('OverTime e2e test', () => {
       overTimeUpdatePage.setNoteInput('note'),
       overTimeUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       overTimeUpdatePage.setExecutedByInput('executedBy'),
+      overTimeUpdatePage.designationSelectLastOption(),
       overTimeUpdatePage.employeeSelectLastOption(),
     ]);
 

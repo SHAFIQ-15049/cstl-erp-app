@@ -40,6 +40,17 @@ export const overTimeRoute: Routes = [
     component: OverTimeComponent,
     data: {
       authorities: [Authority.USER],
+      defaultSort: 'id,asc',
+      pageTitle: 'OverTimes',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':selectedYear/:selectedMonth/:selectedDesignationId/:fromDate/:toDate',
+    component: OverTimeComponent,
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,asc',
       pageTitle: 'OverTimes',
     },
     canActivate: [UserRouteAccessService],

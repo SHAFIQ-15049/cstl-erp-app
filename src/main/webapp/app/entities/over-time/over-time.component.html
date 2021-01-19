@@ -2,18 +2,66 @@
     <h2 id="page-heading">
         <span>Over Times</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-over-time" [routerLink]="['/over-time/new']">
-            <fa-icon icon="plus"></fa-icon>
-            <span>
-            Create a new Over Time
-            </span>
-        </button>
+
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
 
+
+    <div class="form-row align-items-end" >
+        <div class="col-md-12">
+            <jhi-alert></jhi-alert>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_year">Year</label>
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="selectedYear">
+                <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_month">Month</label>
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
+                <option value="JANUARY">JANUARY</option>
+                <option value="FEBRUARY">FEBRUARY</option>
+                <option value="MARCH">MARCH</option>
+                <option value="APRIL">APRIL</option>
+                <option value="MAY">MAY</option>
+                <option value="JUNE">JUNE</option>
+                <option value="JULY">JULY</option>
+                <option value="AUGUST">AUGUST</option>
+                <option value="SEPTEMBER">SEPTEMBER</option>
+                <option value="OCTOBER">OCTOBER</option>
+                <option value="NOVEMBER">NOVEMBER</option>
+                <option value="DECEMBER">DECEMBER</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_designation">Designation</label>
+            <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignationId" >
+                <option></option>
+                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_fromDate">From Date</label>
+            <div class="d-flex">
+                <input id="field_fromDate" [(ngModel)]="fromDate" type="datetime-local" class="form-control" name="fromDate"  placeholder="YYYY-MM-DD HH:mm"/>
+            </div>
+        </div>
+
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_toDate">To Date</label>
+            <div class="d-flex">
+                <input id="field_toDate" [(ngModel)]="toDate" type="datetime-local" class="form-control" name="toDate"  placeholder="YYYY-MM-DD HH:mm"/>
+            </div>
+        </div>
+
+        <div class="form-group col-md-2" style="align-items: end;">
+            <button class="btn btn-secondary" (click)="navigate()">Fetch</button>
+        </div>
+    </div>
     <div class="alert alert-warning" id="no-result" *ngIf="overTimes?.length === 0">
         <span>No overTimes found</span>
     </div>
@@ -21,22 +69,22 @@
     <div class="table-responsive" id="entities" *ngIf="overTimes && overTimes.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span>ID</span></th>
-                    <th scope="col" ><span>Year</span></th>
-                    <th scope="col" ><span>Month</span></th>
-                    <th scope="col" ><span>From Date</span></th>
-                    <th scope="col" ><span>To Date</span></th>
-                    <th scope="col" ><span>Total Over Time</span></th>
-                    <th scope="col" ><span>Official Over Time</span></th>
-                    <th scope="col" ><span>Extra Over Time</span></th>
-                    <th scope="col" ><span>Total Amount</span></th>
-                    <th scope="col" ><span>Official Amount</span></th>
-                    <th scope="col" ><span>Extra Amount</span></th>
-                    <th scope="col" ><span>Note</span></th>
-                    <th scope="col" ><span>Executed On</span></th>
-                    <th scope="col" ><span>Executed By</span></th>
-                    <th scope="col" ><span>Employee</span></th>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
+                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="month"><span>Month</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalOverTime"><span>Total Over Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="officialOverTime"><span>Official Over Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="extraOverTime"><span>Extra Over Time</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="totalAmount"><span>Total Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="officialAmount"><span>Official Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="extraAmount"><span>Extra Amount</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
@@ -87,5 +135,15 @@
                 </tr>
             </tbody>
         </table>
+    </div>
+
+    <div *ngIf="overTimes && overTimes.length > 0">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="totalItems" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+        </div>
     </div>
 </div>

@@ -59,6 +59,13 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
+      "otherEntityName": "designation",
+      "otherEntityRelationshipName": "overTime",
+      "relationshipName": "designation",
+      "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "overTime",
       "relationshipName": "employee",
@@ -68,9 +75,9 @@
   "changelogDate": "20210116134347",
   "entityTableName": "over_time",
   "dto": "no",
-  "pagination": "no",
-  "service": "no",
-  "jpaMetamodelFiltering": false,
+  "pagination": "pagination",
+  "service": "serviceClass",
+  "jpaMetamodelFiltering": true,
   "fluentMethods": true,
   "readOnly": false,
   "embedded": false,

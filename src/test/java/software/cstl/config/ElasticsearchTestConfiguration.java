@@ -9,11 +9,11 @@ import org.springframework.context.annotation.Primary;
 
 import java.io.File;
 
-@Configuration
-public class ElasticsearchTestConfiguration {
-    @Autowired
-    public void elasticsearchProperties(ElasticsearchProperties elasticsearchProperties) {
-        File tempdir = Files.newTemporaryFolder();
-        elasticsearchProperties.getProperties().put("path.home", tempdir.getAbsolutePath());
-    }
-}
+//@Configuration
+//public class ElasticsearchTestConfiguration {
+//    @Autowired
+//    public void elasticsearchProperties(ElasticsearchProperties elasticsearchProperties) {
+//        File tempdir = Files.newTemporaryFolder();
+//        elasticsearchProperties.getProperties().put("path.home", tempdir.getAbsolutePath());
+//    }
+//}
