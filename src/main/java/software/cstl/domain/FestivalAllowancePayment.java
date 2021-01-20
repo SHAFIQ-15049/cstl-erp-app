@@ -47,7 +47,7 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
 
     @OneToMany(mappedBy = "festivalAllowancePayment", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
@@ -118,16 +118,16 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public FestivalAllowancePayment executedBy(Instant executedBy) {
+    public FestivalAllowancePayment executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
     }
 

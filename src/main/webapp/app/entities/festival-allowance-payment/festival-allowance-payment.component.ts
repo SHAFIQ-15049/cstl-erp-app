@@ -47,16 +47,21 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.festivalAllowancePaymentService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IFestivalAllowancePayment[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+    if (this.year && this.month && this.designationId) {
+      this.festivalAllowancePaymentService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'year.equals': this.year,
+          'month.equals': this.month,
+          'designationId.equals': this.designationId,
+        })
+        .subscribe(
+          (res: HttpResponse<IFestivalAllowancePayment[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    }
   }
 
   ngOnInit(): void {
@@ -100,7 +105,7 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
     if (this.year && this.month && this.designationId) {
       this.router.navigate(['/festival-allowance-payment', this.year, this.month, this.designationId]);
     } else {
-      this.jhiAlertService.error('Year, month and designation must be selected');
+      this.jhiAlertService.warning('Year, month and designation must be selected');
     }
   }
 

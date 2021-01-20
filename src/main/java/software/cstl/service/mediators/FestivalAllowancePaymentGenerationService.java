@@ -44,7 +44,11 @@ public class FestivalAllowancePaymentGenerationService {
         festivalAllowancePaymentDtl.amount(employeeActiveSalary.getBasic())
             .status(SalaryExecutionStatus.DONE)
             .executedOn(Instant.now())
+            .executedBy(SecurityUtils.getCurrentUserLogin().get())
             .employee(employee);
+        festivalAllowancePayment.setExecutedBy(SecurityUtils.getCurrentUserLogin().get());
+        festivalAllowancePayment.setExecutedOn(Instant.now());
+        festivalAllowancePayment.setStatus(SalaryExecutionStatus.DONE);
         festivalAllowancePayment.addFestivalAllowancePaymentDtl(festivalAllowancePaymentDtl);
     }
 
@@ -56,6 +60,9 @@ public class FestivalAllowancePaymentGenerationService {
         for(Employee employee: employees){
             calculateEmployeeFestivalPayment(festivalAllowancePayment, employee);
         }
+        festivalAllowancePayment.setExecutedBy(SecurityUtils.getCurrentUserLogin().get());
+        festivalAllowancePayment.setExecutedOn(Instant.now());
+        festivalAllowancePayment.setStatus(SalaryExecutionStatus.DONE);
         return festivalAllowancePaymentRepository.save(festivalAllowancePayment);
     }
 }

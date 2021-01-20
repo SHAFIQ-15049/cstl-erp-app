@@ -81,6 +81,15 @@ export const festivalAllowancePaymentRoute: Routes = [
       pageTitle: 'FestivalAllowancePayments',
     },
     canActivate: [UserRouteAccessService],
+    children: [
+      {
+        path: '',
+        loadChildren: () =>
+          import('../festival-allowance-payment-dtl/festival-allowance-payment-dtl.module').then(
+            m => m.CodeNodeErpFestivalAllowancePaymentDtlModule
+          ),
+      },
+    ],
   },
   {
     path: 'new',

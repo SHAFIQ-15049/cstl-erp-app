@@ -95,7 +95,7 @@ public class FestivalAllowancePaymentDtlQueryService extends QueryService<Festiv
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedOn(), FestivalAllowancePaymentDtl_.executedOn));
             }
             if (criteria.getExecutedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getExecutedBy(), FestivalAllowancePaymentDtl_.executedBy));
+                specification = specification.and(buildStringSpecification(criteria.getExecutedBy(), FestivalAllowancePaymentDtl_.executedBy));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

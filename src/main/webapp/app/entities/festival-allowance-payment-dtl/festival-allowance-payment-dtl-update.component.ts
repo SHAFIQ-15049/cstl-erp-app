@@ -53,7 +53,6 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
       if (!festivalAllowancePaymentDtl.id) {
         const today = moment().startOf('day');
         festivalAllowancePaymentDtl.executedOn = today;
-        festivalAllowancePaymentDtl.executedBy = today;
       }
 
       this.updateForm(festivalAllowancePaymentDtl);
@@ -72,7 +71,7 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
       amount: festivalAllowancePaymentDtl.amount,
       status: festivalAllowancePaymentDtl.status,
       executedOn: festivalAllowancePaymentDtl.executedOn ? festivalAllowancePaymentDtl.executedOn.format(DATE_TIME_FORMAT) : null,
-      executedBy: festivalAllowancePaymentDtl.executedBy ? festivalAllowancePaymentDtl.executedBy.format(DATE_TIME_FORMAT) : null,
+      executedBy: festivalAllowancePaymentDtl.executedBy,
       note: festivalAllowancePaymentDtl.note,
       employee: festivalAllowancePaymentDtl.employee,
       festivalAllowancePayment: festivalAllowancePaymentDtl.festivalAllowancePayment,
@@ -116,7 +115,7 @@ export class FestivalAllowancePaymentDtlUpdateComponent implements OnInit {
       amount: this.editForm.get(['amount'])!.value,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
-      executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
+      executedBy: this.editForm.get(['executedBy'])!.value,
       note: this.editForm.get(['note'])!.value,
       employee: this.editForm.get(['employee'])!.value,
       festivalAllowancePayment: this.editForm.get(['festivalAllowancePayment'])!.value,

@@ -21,7 +21,7 @@
     },
     {
       "fieldName": "executedBy",
-      "fieldType": "Instant"
+      "fieldType": "String"
     }
   ],
   "relationships": [

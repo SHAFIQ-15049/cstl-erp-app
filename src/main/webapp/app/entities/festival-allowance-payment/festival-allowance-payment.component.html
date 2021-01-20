@@ -11,12 +11,10 @@
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
-
     <jhi-alert></jhi-alert>
 
     <div class="form-row align-items-end" >
         <div class="col-md-12">
-            <jhi-alert></jhi-alert>
         </div>
         <div class="form-group col-md-2">
             <label class="form-control-label" for="field_year">Year</label>
@@ -80,7 +78,7 @@
                     <td>{{ festivalAllowancePayment.month }}</td>
                     <td>{{ festivalAllowancePayment.status }}</td>
                     <td>{{ festivalAllowancePayment.executedOn | date:'medium' }}</td>
-                    <td>{{ festivalAllowancePayment.executedBy | date:'medium' }}</td>
+                    <td>{{ festivalAllowancePayment.executedBy }}</td>
                     <td>
                         <div *ngIf="festivalAllowancePayment.designation">
                             <a [routerLink]="['/designation', festivalAllowancePayment.designation?.id, 'view']" >{{ festivalAllowancePayment.designation?.name }}</a>
@@ -92,7 +90,7 @@
                                     [routerLink]="['/festival-allowance-payment', festivalAllowancePayment.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
+                                <span class="d-none d-md-inline">Details</span>
                             </button>
 
                             <button type="submit"

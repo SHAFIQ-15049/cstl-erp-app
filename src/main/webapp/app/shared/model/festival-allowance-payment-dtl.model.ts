@@ -8,7 +8,7 @@ export interface IFestivalAllowancePaymentDtl {
   amount?: number;
   status?: SalaryExecutionStatus;
   executedOn?: Moment;
-  executedBy?: Moment;
+  executedBy?: string;
   note?: any;
   employee?: IEmployee;
   festivalAllowancePayment?: IFestivalAllowancePayment;
@@ -20,7 +20,7 @@ export class FestivalAllowancePaymentDtl implements IFestivalAllowancePaymentDtl
     public amount?: number,
     public status?: SalaryExecutionStatus,
     public executedOn?: Moment,
-    public executedBy?: Moment,
+    public executedBy?: string,
     public note?: any,
     public employee?: IEmployee,
     public festivalAllowancePayment?: IFestivalAllowancePayment

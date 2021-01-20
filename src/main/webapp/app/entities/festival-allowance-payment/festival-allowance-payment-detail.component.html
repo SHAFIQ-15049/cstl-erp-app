@@ -1,52 +1,51 @@
 <div class="row justify-content-center">
-    <div class="col-8">
+
+    <div class="col-12">
         <div *ngIf="festivalAllowancePayment">
-            <h2><span>Festival Allowance Payment</span> {{ festivalAllowancePayment.id }}</h2>
+            <h2><span>Festival Allowance Payment Details</span> </h2>
 
             <hr>
 
             <jhi-alert-error></jhi-alert-error>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Year</span></dt>
-                <dd>
+            <dl class="row ">
+                <dt class="col-md-1"><span>Year</span></dt>
+                <dd class="col-md-1">
                     <span>{{ festivalAllowancePayment.year }}</span>
                 </dd>
-                <dt><span>Month</span></dt>
-                <dd>
+                <dt class="col-md-1"><span>Month</span></dt>
+                <dd class="col-md-1">
                     <span>{{ festivalAllowancePayment.month }}</span>
                 </dd>
-                <dt><span>Status</span></dt>
-                <dd>
+                <dt class="col-md-1"><span>Status</span></dt>
+                <dd class="col-md-1">
                     <span>{{ festivalAllowancePayment.status }}</span>
                 </dd>
-                <dt><span>Executed On</span></dt>
-                <dd>
-                    <span>{{ festivalAllowancePayment.executedOn }}</span>
-                </dd>
-                <dt><span>Executed By</span></dt>
-                <dd>
-                    <span>{{ festivalAllowancePayment.executedBy }}</span>
-                </dd>
-                <dt><span>Designation</span></dt>
-                <dd>
+                <dt class="col-md-1"><span>Designation</span></dt>
+                <dd class="col-md-1">
                     <div *ngIf="festivalAllowancePayment.designation">
-                        <a [routerLink]="['/designation', festivalAllowancePayment.designation?.id, 'view']">{{ festivalAllowancePayment.designation?.name }}</a>
+                        {{ festivalAllowancePayment.designation?.name }}
                     </div>
                 </dd>
             </dl>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-            </button>
 
-            <button type="button"
-                    [routerLink]="['/festival-allowance-payment', festivalAllowancePayment.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-            </button>
         </div>
+    </div>
+    <div class="col-md-12">
+       <router-outlet></router-outlet>
+    </div>
+    <div class="col-md-12">
+        <button type="submit"
+                (click)="previousState()"
+                class="btn btn-info">
+            <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+        </button>
+
+        <button type="button"
+                [routerLink]="['/festival-allowance-payment', festivalAllowancePayment?.id!, 'edit']"
+                class="btn btn-primary">
+            <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Re-Generate</span>
+        </button>
     </div>
 </div>

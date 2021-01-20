@@ -74,8 +74,8 @@ public class FestivalAllowancePaymentResource {
     @PostMapping("/festival-allowance-payments/regenerate")
     public ResponseEntity<FestivalAllowancePayment> regenerateFestivalAllowancePayment(@RequestBody FestivalAllowancePayment festivalAllowancePayment) throws URISyntaxException {
         log.debug("REST request to save FestivalAllowancePayment : {}", festivalAllowancePayment);
-        if (festivalAllowancePayment.getId() != null) {
-            throw new BadRequestAlertException("A new festivalAllowancePayment cannot already have an ID", ENTITY_NAME, "idexists");
+        if (festivalAllowancePayment.getId() == null) {
+            throw new BadRequestAlertException("Regeneration should be done on existing records", ENTITY_NAME, "idexists");
         }
         FestivalAllowancePayment result = festivalAllowancePaymentGenerationService.reGenerateFestivalAllowancePayment(festivalAllowancePayment);
         return ResponseEntity.created(new URI("/api/festival-allowance-payments/" + result.getId()))

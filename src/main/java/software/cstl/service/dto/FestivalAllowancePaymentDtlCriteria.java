@@ -53,7 +53,7 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
 
     private InstantFilter executedOn;
 
-    private InstantFilter executedBy;
+    private StringFilter executedBy;
 
     private LongFilter employeeId;
 
@@ -109,11 +109,11 @@ public class FestivalAllowancePaymentDtlCriteria implements Serializable, Criter
         this.executedOn = executedOn;
     }
 
-    public InstantFilter getExecutedBy() {
+    public StringFilter getExecutedBy() {
         return executedBy;
     }
 
-    public void setExecutedBy(InstantFilter executedBy) {
+    public void setExecutedBy(StringFilter executedBy) {
         this.executedBy = executedBy;
     }
 

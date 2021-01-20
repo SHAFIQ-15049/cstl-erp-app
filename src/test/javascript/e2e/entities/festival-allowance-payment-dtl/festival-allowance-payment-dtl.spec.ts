@@ -54,7 +54,7 @@ describe('FestivalAllowancePaymentDtl e2e test', () => {
       festivalAllowancePaymentDtlUpdatePage.setAmountInput('5'),
       festivalAllowancePaymentDtlUpdatePage.statusSelectLastOption(),
       festivalAllowancePaymentDtlUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
-      festivalAllowancePaymentDtlUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      festivalAllowancePaymentDtlUpdatePage.setExecutedByInput('executedBy'),
       festivalAllowancePaymentDtlUpdatePage.setNoteInput('note'),
       festivalAllowancePaymentDtlUpdatePage.employeeSelectLastOption(),
       festivalAllowancePaymentDtlUpdatePage.festivalAllowancePaymentSelectLastOption(),
@@ -65,9 +65,9 @@ describe('FestivalAllowancePaymentDtl e2e test', () => {
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'
     );
-    expect(await festivalAllowancePaymentDtlUpdatePage.getExecutedByInput()).to.contain(
-      '2001-01-01T02:30',
-      'Expected executedBy value to be equals to 2000-12-31'
+    expect(await festivalAllowancePaymentDtlUpdatePage.getExecutedByInput()).to.eq(
+      'executedBy',
+      'Expected ExecutedBy value to be equals to executedBy'
     );
     expect(await festivalAllowancePaymentDtlUpdatePage.getNoteInput()).to.eq('note', 'Expected Note value to be equals to note');
 

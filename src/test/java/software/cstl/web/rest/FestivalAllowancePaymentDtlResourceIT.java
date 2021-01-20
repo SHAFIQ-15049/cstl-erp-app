@@ -49,8 +49,8 @@ public class FestivalAllowancePaymentDtlResourceIT {
     private static final Instant DEFAULT_EXECUTED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_EXECUTED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Instant DEFAULT_EXECUTED_BY = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_EXECUTED_BY = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_EXECUTED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_EXECUTED_BY = "BBBBBBBBBB";
 
     private static final String DEFAULT_NOTE = "AAAAAAAAAA";
     private static final String UPDATED_NOTE = "BBBBBBBBBB";
@@ -163,7 +163,7 @@ public class FestivalAllowancePaymentDtlResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())))
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())));
     }
     
@@ -181,7 +181,7 @@ public class FestivalAllowancePaymentDtlResourceIT {
             .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.executedOn").value(DEFAULT_EXECUTED_ON.toString()))
-            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY.toString()))
+            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY))
             .andExpect(jsonPath("$.note").value(DEFAULT_NOTE.toString()));
     }
 
@@ -465,6 +465,32 @@ public class FestivalAllowancePaymentDtlResourceIT {
         // Get all the festivalAllowancePaymentDtlList where executedBy is null
         defaultFestivalAllowancePaymentDtlShouldNotBeFound("executedBy.specified=false");
     }
+                @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentDtlsByExecutedByContainsSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
+
+        // Get all the festivalAllowancePaymentDtlList where executedBy contains DEFAULT_EXECUTED_BY
+        defaultFestivalAllowancePaymentDtlShouldBeFound("executedBy.contains=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the festivalAllowancePaymentDtlList where executedBy contains UPDATED_EXECUTED_BY
+        defaultFestivalAllowancePaymentDtlShouldNotBeFound("executedBy.contains=" + UPDATED_EXECUTED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentDtlsByExecutedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentDtlRepository.saveAndFlush(festivalAllowancePaymentDtl);
+
+        // Get all the festivalAllowancePaymentDtlList where executedBy does not contain DEFAULT_EXECUTED_BY
+        defaultFestivalAllowancePaymentDtlShouldNotBeFound("executedBy.doesNotContain=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the festivalAllowancePaymentDtlList where executedBy does not contain UPDATED_EXECUTED_BY
+        defaultFestivalAllowancePaymentDtlShouldBeFound("executedBy.doesNotContain=" + UPDATED_EXECUTED_BY);
+    }
+
 
     @Test
     @Transactional
@@ -516,7 +542,7 @@ public class FestivalAllowancePaymentDtlResourceIT {
             .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())))
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE.toString())));
 
         // Check, that the count call also returns 1

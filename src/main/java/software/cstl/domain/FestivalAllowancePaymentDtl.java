@@ -37,7 +37,7 @@ public class FestivalAllowancePaymentDtl extends AbstractAuditingEntity implemen
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
 
     @Lob
     @Column(name = "note")
@@ -99,16 +99,16 @@ public class FestivalAllowancePaymentDtl extends AbstractAuditingEntity implemen
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public FestivalAllowancePaymentDtl executedBy(Instant executedBy) {
+    public FestivalAllowancePaymentDtl executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
     }
 
