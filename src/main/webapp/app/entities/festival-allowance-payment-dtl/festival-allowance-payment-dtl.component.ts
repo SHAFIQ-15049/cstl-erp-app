@@ -10,6 +10,7 @@ import { IFestivalAllowancePaymentDtl } from 'app/shared/model/festival-allowanc
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { FestivalAllowancePaymentDtlService } from './festival-allowance-payment-dtl.service';
 import { FestivalAllowancePaymentDtlDeleteDialogComponent } from './festival-allowance-payment-dtl-delete-dialog.component';
+import { FestivalAllowancePaymentService } from 'app/entities/festival-allowance-payment/festival-allowance-payment.service';
 
 @Component({
   selector: 'jhi-festival-allowance-payment-dtl',
@@ -25,13 +26,16 @@ export class FestivalAllowancePaymentDtlComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  festivalAllowanceId?: number;
+
   constructor(
     protected festivalAllowancePaymentDtlService: FestivalAllowancePaymentDtlService,
     protected activatedRoute: ActivatedRoute,
     protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    private festivalAllowanceService: FestivalAllowancePaymentService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -39,6 +43,7 @@ export class FestivalAllowancePaymentDtlComponent implements OnInit, OnDestroy {
 
     this.festivalAllowancePaymentDtlService
       .query({
+        'festivalAllowancePaymentId.equals': this.festivalAllowanceService.getFestivalAllowanceId(),
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),

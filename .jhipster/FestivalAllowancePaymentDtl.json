@@ -16,7 +16,7 @@
     },
     {
       "fieldName": "executedBy",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "note",
@@ -27,17 +27,17 @@
   "relationships": [
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "festivalAllowancePayment",
-      "otherEntityRelationshipName": "festivalAllowancePaymentDtl",
-      "relationshipName": "festivalAllowancePayment",
-      "otherEntityField": "id"
-    },
-    {
-      "relationshipType": "many-to-one",
       "otherEntityName": "employee",
       "otherEntityRelationshipName": "festivalAllowancePaymentDtl",
       "relationshipName": "employee",
       "otherEntityField": "name"
+    },
+    {
+      "relationshipType": "many-to-one",
+      "otherEntityName": "festivalAllowancePayment",
+      "otherEntityRelationshipName": "festivalAllowancePaymentDtl",
+      "relationshipName": "festivalAllowancePayment",
+      "otherEntityField": "id"
     }
   ],
   "changelogDate": "20210102143649",

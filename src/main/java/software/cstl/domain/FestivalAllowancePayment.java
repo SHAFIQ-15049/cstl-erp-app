@@ -8,6 +8,8 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 
 import software.cstl.domain.enumeration.MonthType;
 
@@ -17,7 +19,10 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
  * A FestivalAllowancePayment.
  */
 @Entity
-@Table(name = "festival_allowance_payment")
+@Table(
+    name = "festival_allowance_payment",
+    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status"})
+)
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class FestivalAllowancePayment extends AbstractAuditingEntity implements Serializable {
 
@@ -42,7 +47,11 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
+
+    @OneToMany(mappedBy = "festivalAllowancePayment", cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    private Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls = new HashSet<>();
 
     @ManyToOne
     @JsonIgnoreProperties(value = "festivalAllowancePayments", allowSetters = true)
@@ -109,17 +118,42 @@ public class FestivalAllowancePayment extends AbstractAuditingEntity implements 
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public FestivalAllowancePayment executedBy(Instant executedBy) {
+    public FestivalAllowancePayment executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public Set<FestivalAllowancePaymentDtl> getFestivalAllowancePaymentDtls() {
+        return festivalAllowancePaymentDtls;
+    }
+
+    public FestivalAllowancePayment festivalAllowancePaymentDtls(Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls) {
+        this.festivalAllowancePaymentDtls = festivalAllowancePaymentDtls;
+        return this;
+    }
+
+    public FestivalAllowancePayment addFestivalAllowancePaymentDtl(FestivalAllowancePaymentDtl festivalAllowancePaymentDtl) {
+        this.festivalAllowancePaymentDtls.add(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentDtl.setFestivalAllowancePayment(this);
+        return this;
+    }
+
+    public FestivalAllowancePayment removeFestivalAllowancePaymentDtl(FestivalAllowancePaymentDtl festivalAllowancePaymentDtl) {
+        this.festivalAllowancePaymentDtls.remove(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentDtl.setFestivalAllowancePayment(null);
+        return this;
+    }
+
+    public void setFestivalAllowancePaymentDtls(Set<FestivalAllowancePaymentDtl> festivalAllowancePaymentDtls) {
+        this.festivalAllowancePaymentDtls = festivalAllowancePaymentDtls;
     }
 
     public Designation getDesignation() {

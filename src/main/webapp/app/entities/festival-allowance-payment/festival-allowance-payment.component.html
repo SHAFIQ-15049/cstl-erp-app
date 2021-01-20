@@ -2,17 +2,56 @@
     <h2 id="page-heading">
         <span>Festival Allowance Payments</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-festival-allowance-payment" [routerLink]="['/festival-allowance-payment/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-festival-allowance-payment" [routerLink]="['/festival-allowance-payment/new', year, month, designationId]">
             <fa-icon icon="plus"></fa-icon>
             <span>
-            Create a new Festival Allowance Payment
+            Add
             </span>
         </button>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
-
     <jhi-alert></jhi-alert>
+
+    <div class="form-row align-items-end" >
+        <div class="col-md-12">
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_year">Year</label>
+            <select class="form-control" id="field_year" name="year" [(ngModel)]="year">
+                <option [value]="yearOption"  *ngFor="let yearOption of years">{{yearOption}}</option>
+            </select>
+        </div>
+        <div class="form-group col-md-2">
+            <label class="form-control-label" for="field_month">Month</label>
+            <select class="form-control" name="month"  id="field_month" [(ngModel)]="month">
+                <option value="JANUARY">JANUARY</option>
+                <option value="FEBRUARY">FEBRUARY</option>
+                <option value="MARCH">MARCH</option>
+                <option value="APRIL">APRIL</option>
+                <option value="MAY">MAY</option>
+                <option value="JUNE">JUNE</option>
+                <option value="JULY">JULY</option>
+                <option value="AUGUST">AUGUST</option>
+                <option value="SEPTEMBER">SEPTEMBER</option>
+                <option value="OCTOBER">OCTOBER</option>
+                <option value="NOVEMBER">NOVEMBER</option>
+                <option value="DECEMBER">DECEMBER</option>
+            </select>
+        </div>
+        <div class="form-group col-md-4">
+            <label class="form-control-label" for="field_designation">Designation</label>
+            <select class="form-control" id="field_designation" name="designation" [(ngModel)]="designationId" >
+                <option></option>
+                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
+            </select>
+        </div>
+
+
+        <div class="form-group col-md-2" style="align-items: end;">
+            <button class="btn btn-secondary" (click)="navigate()">Fetch</button>
+        </div>
+    </div>
 
     <div class="alert alert-warning" id="no-result" *ngIf="festivalAllowancePayments?.length === 0">
         <span>No festivalAllowancePayments found</span>
@@ -39,7 +78,7 @@
                     <td>{{ festivalAllowancePayment.month }}</td>
                     <td>{{ festivalAllowancePayment.status }}</td>
                     <td>{{ festivalAllowancePayment.executedOn | date:'medium' }}</td>
-                    <td>{{ festivalAllowancePayment.executedBy | date:'medium' }}</td>
+                    <td>{{ festivalAllowancePayment.executedBy }}</td>
                     <td>
                         <div *ngIf="festivalAllowancePayment.designation">
                             <a [routerLink]="['/designation', festivalAllowancePayment.designation?.id, 'view']" >{{ festivalAllowancePayment.designation?.name }}</a>
@@ -51,7 +90,7 @@
                                     [routerLink]="['/festival-allowance-payment', festivalAllowancePayment.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
+                                <span class="d-none d-md-inline">Details</span>
                             </button>
 
                             <button type="submit"

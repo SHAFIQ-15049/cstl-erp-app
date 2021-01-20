@@ -28,16 +28,16 @@
                 <dd>
                     <span>{{ festivalAllowancePaymentDtl.note }}</span>
                 </dd>
-                <dt><span>Festival Allowance Payment</span></dt>
-                <dd>
-                    <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
-                        <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']">{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
-                    </div>
-                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="festivalAllowancePaymentDtl.employee">
                         <a [routerLink]="['/employee', festivalAllowancePaymentDtl.employee?.id, 'view']">{{ festivalAllowancePaymentDtl.employee?.name }}</a>
+                    </div>
+                </dd>
+                <dt><span>Festival Allowance Payment</span></dt>
+                <dd>
+                    <div *ngIf="festivalAllowancePaymentDtl.festivalAllowancePayment">
+                        <a [routerLink]="['/festival-allowance-payment', festivalAllowancePaymentDtl.festivalAllowancePayment?.id, 'view']">{{ festivalAllowancePaymentDtl.festivalAllowancePayment?.id }}</a>
                     </div>
                 </dd>
             </dl>

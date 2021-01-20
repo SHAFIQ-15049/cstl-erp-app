@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.domain.FestivalAllowancePayment;
 import software.cstl.service.FestivalAllowancePaymentService;
+import software.cstl.service.mediators.FestivalAllowancePaymentGenerationService;
 import software.cstl.web.rest.errors.BadRequestAlertException;
 import software.cstl.service.dto.FestivalAllowancePaymentCriteria;
 import software.cstl.service.FestivalAllowancePaymentQueryService;
@@ -43,9 +44,12 @@ public class FestivalAllowancePaymentResource {
 
     private final FestivalAllowancePaymentQueryService festivalAllowancePaymentQueryService;
 
-    public FestivalAllowancePaymentResource(FestivalAllowancePaymentService festivalAllowancePaymentService, FestivalAllowancePaymentQueryService festivalAllowancePaymentQueryService) {
+    private final FestivalAllowancePaymentGenerationService festivalAllowancePaymentGenerationService;
+
+    public FestivalAllowancePaymentResource(FestivalAllowancePaymentService festivalAllowancePaymentService, FestivalAllowancePaymentQueryService festivalAllowancePaymentQueryService, FestivalAllowancePaymentGenerationService festivalAllowancePaymentGenerationService) {
         this.festivalAllowancePaymentService = festivalAllowancePaymentService;
         this.festivalAllowancePaymentQueryService = festivalAllowancePaymentQueryService;
+        this.festivalAllowancePaymentGenerationService = festivalAllowancePaymentGenerationService;
     }
 
     /**
@@ -61,7 +65,19 @@ public class FestivalAllowancePaymentResource {
         if (festivalAllowancePayment.getId() != null) {
             throw new BadRequestAlertException("A new festivalAllowancePayment cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        FestivalAllowancePayment result = festivalAllowancePaymentService.save(festivalAllowancePayment);
+        FestivalAllowancePayment result = festivalAllowancePaymentGenerationService.generateFestivalAllowancePayment(festivalAllowancePayment);
+        return ResponseEntity.created(new URI("/api/festival-allowance-payments/" + result.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .body(result);
+    }
+
+    @PostMapping("/festival-allowance-payments/regenerate")
+    public ResponseEntity<FestivalAllowancePayment> regenerateFestivalAllowancePayment(@RequestBody FestivalAllowancePayment festivalAllowancePayment) throws URISyntaxException {
+        log.debug("REST request to save FestivalAllowancePayment : {}", festivalAllowancePayment);
+        if (festivalAllowancePayment.getId() == null) {
+            throw new BadRequestAlertException("Regeneration should be done on existing records", ENTITY_NAME, "idexists");
+        }
+        FestivalAllowancePayment result = festivalAllowancePaymentGenerationService.reGenerateFestivalAllowancePayment(festivalAllowancePayment);
         return ResponseEntity.created(new URI("/api/festival-allowance-payments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);

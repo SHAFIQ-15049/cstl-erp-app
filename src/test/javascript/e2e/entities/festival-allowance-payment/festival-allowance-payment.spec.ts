@@ -55,7 +55,7 @@ describe('FestivalAllowancePayment e2e test', () => {
       festivalAllowancePaymentUpdatePage.monthSelectLastOption(),
       festivalAllowancePaymentUpdatePage.statusSelectLastOption(),
       festivalAllowancePaymentUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
-      festivalAllowancePaymentUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      festivalAllowancePaymentUpdatePage.setExecutedByInput('executedBy'),
       festivalAllowancePaymentUpdatePage.designationSelectLastOption(),
     ]);
 
@@ -64,9 +64,9 @@ describe('FestivalAllowancePayment e2e test', () => {
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'
     );
-    expect(await festivalAllowancePaymentUpdatePage.getExecutedByInput()).to.contain(
-      '2001-01-01T02:30',
-      'Expected executedBy value to be equals to 2000-12-31'
+    expect(await festivalAllowancePaymentUpdatePage.getExecutedByInput()).to.eq(
+      'executedBy',
+      'Expected ExecutedBy value to be equals to executedBy'
     );
 
     await festivalAllowancePaymentUpdatePage.save();

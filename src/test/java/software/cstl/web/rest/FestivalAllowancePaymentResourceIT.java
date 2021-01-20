@@ -2,6 +2,7 @@ package software.cstl.web.rest;
 
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.FestivalAllowancePayment;
+import software.cstl.domain.FestivalAllowancePaymentDtl;
 import software.cstl.domain.Designation;
 import software.cstl.repository.FestivalAllowancePaymentRepository;
 import software.cstl.service.FestivalAllowancePaymentService;
@@ -50,8 +51,8 @@ public class FestivalAllowancePaymentResourceIT {
     private static final Instant DEFAULT_EXECUTED_ON = Instant.ofEpochMilli(0L);
     private static final Instant UPDATED_EXECUTED_ON = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final Instant DEFAULT_EXECUTED_BY = Instant.ofEpochMilli(0L);
-    private static final Instant UPDATED_EXECUTED_BY = Instant.now().truncatedTo(ChronoUnit.MILLIS);
+    private static final String DEFAULT_EXECUTED_BY = "AAAAAAAAAA";
+    private static final String UPDATED_EXECUTED_BY = "BBBBBBBBBB";
 
     @Autowired
     private FestivalAllowancePaymentRepository festivalAllowancePaymentRepository;
@@ -162,7 +163,7 @@ public class FestivalAllowancePaymentResourceIT {
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())));
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
     }
     
     @Test
@@ -180,7 +181,7 @@ public class FestivalAllowancePaymentResourceIT {
             .andExpect(jsonPath("$.month").value(DEFAULT_MONTH.toString()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.executedOn").value(DEFAULT_EXECUTED_ON.toString()))
-            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY.toString()));
+            .andExpect(jsonPath("$.executedBy").value(DEFAULT_EXECUTED_BY));
     }
 
 
@@ -515,6 +516,52 @@ public class FestivalAllowancePaymentResourceIT {
         // Get all the festivalAllowancePaymentList where executedBy is null
         defaultFestivalAllowancePaymentShouldNotBeFound("executedBy.specified=false");
     }
+                @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentsByExecutedByContainsSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+
+        // Get all the festivalAllowancePaymentList where executedBy contains DEFAULT_EXECUTED_BY
+        defaultFestivalAllowancePaymentShouldBeFound("executedBy.contains=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the festivalAllowancePaymentList where executedBy contains UPDATED_EXECUTED_BY
+        defaultFestivalAllowancePaymentShouldNotBeFound("executedBy.contains=" + UPDATED_EXECUTED_BY);
+    }
+
+    @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentsByExecutedByNotContainsSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+
+        // Get all the festivalAllowancePaymentList where executedBy does not contain DEFAULT_EXECUTED_BY
+        defaultFestivalAllowancePaymentShouldNotBeFound("executedBy.doesNotContain=" + DEFAULT_EXECUTED_BY);
+
+        // Get all the festivalAllowancePaymentList where executedBy does not contain UPDATED_EXECUTED_BY
+        defaultFestivalAllowancePaymentShouldBeFound("executedBy.doesNotContain=" + UPDATED_EXECUTED_BY);
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllFestivalAllowancePaymentsByFestivalAllowancePaymentDtlIsEqualToSomething() throws Exception {
+        // Initialize the database
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+        FestivalAllowancePaymentDtl festivalAllowancePaymentDtl = FestivalAllowancePaymentDtlResourceIT.createEntity(em);
+        em.persist(festivalAllowancePaymentDtl);
+        em.flush();
+        festivalAllowancePayment.addFestivalAllowancePaymentDtl(festivalAllowancePaymentDtl);
+        festivalAllowancePaymentRepository.saveAndFlush(festivalAllowancePayment);
+        Long festivalAllowancePaymentDtlId = festivalAllowancePaymentDtl.getId();
+
+        // Get all the festivalAllowancePaymentList where festivalAllowancePaymentDtl equals to festivalAllowancePaymentDtlId
+        defaultFestivalAllowancePaymentShouldBeFound("festivalAllowancePaymentDtlId.equals=" + festivalAllowancePaymentDtlId);
+
+        // Get all the festivalAllowancePaymentList where festivalAllowancePaymentDtl equals to festivalAllowancePaymentDtlId + 1
+        defaultFestivalAllowancePaymentShouldNotBeFound("festivalAllowancePaymentDtlId.equals=" + (festivalAllowancePaymentDtlId + 1));
+    }
+
 
     @Test
     @Transactional
@@ -547,7 +594,7 @@ public class FestivalAllowancePaymentResourceIT {
             .andExpect(jsonPath("$.[*].month").value(hasItem(DEFAULT_MONTH.toString())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].executedOn").value(hasItem(DEFAULT_EXECUTED_ON.toString())))
-            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY.toString())));
+            .andExpect(jsonPath("$.[*].executedBy").value(hasItem(DEFAULT_EXECUTED_BY)));
 
         // Check, that the count call also returns 1
         restFestivalAllowancePaymentMockMvc.perform(get("/api/festival-allowance-payments/count?sort=id,desc&" + filter))

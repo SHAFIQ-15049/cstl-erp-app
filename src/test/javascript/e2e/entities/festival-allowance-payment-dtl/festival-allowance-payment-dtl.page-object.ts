@@ -35,8 +35,8 @@ export class FestivalAllowancePaymentDtlUpdatePage {
   executedByInput = element(by.id('field_executedBy'));
   noteInput = element(by.id('field_note'));
 
-  festivalAllowancePaymentSelect = element(by.id('field_festivalAllowancePayment'));
   employeeSelect = element(by.id('field_employee'));
+  festivalAllowancePaymentSelect = element(by.id('field_festivalAllowancePayment'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -86,22 +86,6 @@ export class FestivalAllowancePaymentDtlUpdatePage {
     return await this.noteInput.getAttribute('value');
   }
 
-  async festivalAllowancePaymentSelectLastOption(): Promise<void> {
-    await this.festivalAllowancePaymentSelect.all(by.tagName('option')).last().click();
-  }
-
-  async festivalAllowancePaymentSelectOption(option: string): Promise<void> {
-    await this.festivalAllowancePaymentSelect.sendKeys(option);
-  }
-
-  getFestivalAllowancePaymentSelect(): ElementFinder {
-    return this.festivalAllowancePaymentSelect;
-  }
-
-  async getFestivalAllowancePaymentSelectedOption(): Promise<string> {
-    return await this.festivalAllowancePaymentSelect.element(by.css('option:checked')).getText();
-  }
-
   async employeeSelectLastOption(): Promise<void> {
     await this.employeeSelect.all(by.tagName('option')).last().click();
   }
@@ -116,6 +100,22 @@ export class FestivalAllowancePaymentDtlUpdatePage {
 
   async getEmployeeSelectedOption(): Promise<string> {
     return await this.employeeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async festivalAllowancePaymentSelectLastOption(): Promise<void> {
+    await this.festivalAllowancePaymentSelect.all(by.tagName('option')).last().click();
+  }
+
+  async festivalAllowancePaymentSelectOption(option: string): Promise<void> {
+    await this.festivalAllowancePaymentSelect.sendKeys(option);
+  }
+
+  getFestivalAllowancePaymentSelect(): ElementFinder {
+    return this.festivalAllowancePaymentSelect;
+  }
+
+  async getFestivalAllowancePaymentSelectedOption(): Promise<string> {
+    return await this.festivalAllowancePaymentSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

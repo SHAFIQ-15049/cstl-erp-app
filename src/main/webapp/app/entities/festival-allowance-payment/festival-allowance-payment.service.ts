@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IFestivalAllowancePayment } from 'app/shared/model/festival-allowance-payment.model';
+import { SessionStorageService } from 'ngx-webstorage';
 
 type EntityResponseType = HttpResponse<IFestivalAllowancePayment>;
 type EntityArrayResponseType = HttpResponse<IFestivalAllowancePayment[]>;
@@ -15,12 +16,30 @@ type EntityArrayResponseType = HttpResponse<IFestivalAllowancePayment[]>;
 export class FestivalAllowancePaymentService {
   public resourceUrl = SERVER_API_URL + 'api/festival-allowance-payments';
 
-  constructor(protected http: HttpClient) {}
+  private festivalAllowanceId = 'festivalAllowanceId';
+
+  constructor(protected http: HttpClient, private $sessionStorage: SessionStorageService) {}
+
+  storeFestivalAllowanceId(festivalAllowanceId: number): void {
+    this.$sessionStorage.store(this.festivalAllowanceId, festivalAllowanceId);
+  }
+
+  getFestivalAllowanceId(): number | null | undefined {
+    return this.$sessionStorage.retrieve(this.festivalAllowanceId);
+  }
 
   create(festivalAllowancePayment: IFestivalAllowancePayment): Observable<EntityResponseType> {
+    if (festivalAllowancePayment.id) return this.regenerate(festivalAllowancePayment);
     const copy = this.convertDateFromClient(festivalAllowancePayment);
     return this.http
       .post<IFestivalAllowancePayment>(this.resourceUrl, copy, { observe: 'response' })
+      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
+  }
+
+  regenerate(festivalAllowancePayment: IFestivalAllowancePayment): Observable<EntityResponseType> {
+    const copy = this.convertDateFromClient(festivalAllowancePayment);
+    return this.http
+      .post<IFestivalAllowancePayment>(this.resourceUrl + '/regenerate', copy, { observe: 'response' })
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
@@ -54,10 +73,6 @@ export class FestivalAllowancePaymentService {
         festivalAllowancePayment.executedOn && festivalAllowancePayment.executedOn.isValid()
           ? festivalAllowancePayment.executedOn.toJSON()
           : undefined,
-      executedBy:
-        festivalAllowancePayment.executedBy && festivalAllowancePayment.executedBy.isValid()
-          ? festivalAllowancePayment.executedBy.toJSON()
-          : undefined,
     });
     return copy;
   }
@@ -65,7 +80,6 @@ export class FestivalAllowancePaymentService {
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
-      res.body.executedBy = res.body.executedBy ? moment(res.body.executedBy) : undefined;
     }
     return res;
   }
@@ -74,7 +88,6 @@ export class FestivalAllowancePaymentService {
     if (res.body) {
       res.body.forEach((festivalAllowancePayment: IFestivalAllowancePayment) => {
         festivalAllowancePayment.executedOn = festivalAllowancePayment.executedOn ? moment(festivalAllowancePayment.executedOn) : undefined;
-        festivalAllowancePayment.executedBy = festivalAllowancePayment.executedBy ? moment(festivalAllowancePayment.executedBy) : undefined;
       });
     }
     return res;
