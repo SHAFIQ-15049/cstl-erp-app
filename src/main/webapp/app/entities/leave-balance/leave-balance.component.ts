@@ -5,6 +5,8 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 import { LeaveBalanceService } from './leave-balance.service';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Component({
   selector: 'jhi-leave-balance',
@@ -12,16 +14,26 @@ import { LeaveBalanceService } from './leave-balance.service';
 })
 export class LeaveBalanceComponent implements OnInit, OnDestroy {
   leaveBalances?: ILeaveBalance[];
+  employees?: IEmployee[];
+  employeeId?: number;
   eventSubscriber?: Subscription;
 
-  constructor(protected leaveBalanceService: LeaveBalanceService, protected eventManager: JhiEventManager) {}
+  constructor(
+    protected leaveBalanceService: LeaveBalanceService,
+    protected employeeService: EmployeeService,
+    protected eventManager: JhiEventManager
+  ) {}
 
   loadAll(): void {
-    this.leaveBalanceService.query().subscribe((res: HttpResponse<ILeaveBalance[]>) => (this.leaveBalances = res.body || []));
+    if (this.employeeId) {
+      this.leaveBalanceService
+        .findByEmployeeId(this.employeeId)
+        .subscribe((res: HttpResponse<ILeaveBalance[]>) => (this.leaveBalances = res.body || []));
+    }
   }
 
   ngOnInit(): void {
-    this.loadAll();
+    this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     this.registerChangeInLeaveBalances();
   }
 

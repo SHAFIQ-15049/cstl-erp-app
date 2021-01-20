@@ -12,9 +12,6 @@ import software.cstl.service.dto.LeaveBalanceDTO;
 
 import java.util.List;
 
-/**
- * REST controller for managing {@link LeaveBalanceDTO}.
- */
 @RestController
 @RequestMapping("/api")
 public class LeaveBalanceResource {

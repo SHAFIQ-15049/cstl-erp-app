@@ -26,5 +26,11 @@
                                  referencedColumnNames="id"
                                  referencedTableName="leave_type"/>
 
+        <addForeignKeyConstraint baseColumnNames="applicant_id"
+                                 baseTableName="leave_application"
+                                 constraintName="fk_leave_application_applicant_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_employee"/>
+
     </changeSet>
 </databaseChangeLog>

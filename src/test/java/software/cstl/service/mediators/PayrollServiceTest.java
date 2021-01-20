@@ -3,17 +3,11 @@ package software.cstl.service.mediators;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.junit.runner.RunWith;
 import org.mockito.*;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Bean;
 import org.springframework.security.core.context.SecurityContext;
-import org.springframework.transaction.annotation.Transactional;
-import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.*;
 import software.cstl.domain.enumeration.ActiveStatus;
-import software.cstl.domain.enumeration.ConsiderAsType;
 import software.cstl.repository.*;
 import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
@@ -28,7 +22,6 @@ import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.doReturn;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class PayrollServiceTest {
@@ -79,8 +72,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendances()).when(attendanceRepository).findAllByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -106,8 +99,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendancesWithEmployeeSalaryWithAllowance()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithEmployeeSalaryWithAllowance()).when(attendanceRepository).findAllByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -129,8 +122,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.attendancesWithDifferentEmployeeSalaries()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.attendancesWithDifferentEmployeeSalaries()).when(attendanceRepository).findAllByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 
@@ -151,8 +144,8 @@ public class PayrollServiceTest {
             Optional<String> adminUser = Optional.of("admin");
             securityUtilsMockedStatic.when(SecurityUtils::getCurrentUserLogin).thenReturn(adminUser);
             doReturn(TestConfig.defaultAllowance()).when(defaultAllowanceRepository).findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
-            doReturn(TestConfig.singleAttendances()).when(attendanceRepository).findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(2).when(attendanceRepository).countAttendancesByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
+            doReturn(TestConfig.singleAttendances()).when(attendanceRepository).findAllByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), partialSalary.getFromDate(), partialSalary.getToDate());
 
             partialSalary = payrollService.assignPartialSalaryAndAllowances(partialSalary);
 

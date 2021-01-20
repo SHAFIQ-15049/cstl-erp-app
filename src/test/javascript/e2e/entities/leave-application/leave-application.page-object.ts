@@ -1,4 +1,4 @@
-import { element, by, ElementFinder } from 'protractor';
+import { by, element, ElementFinder } from 'protractor';
 
 export class LeaveApplicationComponentsPage {
   createButton = element(by.id('jh-create-entity'));
@@ -38,6 +38,7 @@ export class LeaveApplicationUpdatePage {
   appliedBySelect = element(by.id('field_appliedBy'));
   actionTakenBySelect = element(by.id('field_actionTakenBy'));
   leaveTypeSelect = element(by.id('field_leaveType'));
+  applicantSelect = element(by.id('field_applicant'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -133,6 +134,22 @@ export class LeaveApplicationUpdatePage {
 
   async getLeaveTypeSelectedOption(): Promise<string> {
     return await this.leaveTypeSelect.element(by.css('option:checked')).getText();
+  }
+
+  async applicantSelectLastOption(): Promise<void> {
+    await this.applicantSelect.all(by.tagName('option')).last().click();
+  }
+
+  async applicantSelectOption(option: string): Promise<void> {
+    await this.applicantSelect.sendKeys(option);
+  }
+
+  getApplicantSelect(): ElementFinder {
+    return this.applicantSelect;
+  }
+
+  async getApplicantSelectedOption(): Promise<string> {
+    return await this.applicantSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

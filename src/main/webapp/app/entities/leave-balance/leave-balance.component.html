@@ -7,6 +7,31 @@
 
     <jhi-alert></jhi-alert>
 
+    <div class="row">
+        <div class="col-md-5">
+            <form>
+                <h4>Filter by Employee</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Employee</span>
+                    </div>
+                    <select class="form-control" name="employee"
+                            [(ngModel)]="employeeId" required>
+                        <option [ngValue]="" selected></option>
+                        <option [ngValue]="employeeOption.id"
+                                *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-info" (click)="loadAll()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="leaveBalances?.length === 0">
         <span>No leaveBalances found</span>
     </div>

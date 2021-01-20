@@ -42,6 +42,12 @@
                         <a [routerLink]="['/leave-type', leaveApplication.leaveType?.id, 'view']">{{ leaveApplication.leaveType?.name }}</a>
                     </div>
                 </dd>
+                <dt><span>Applicant</span></dt>
+                <dd>
+                    <div *ngIf="leaveApplication.applicant">
+                        <a [routerLink]="['/employee', leaveApplication.applicant?.id, 'view']">{{ leaveApplication.applicant?.id }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

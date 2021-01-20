@@ -5,16 +5,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
+import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.service.dto.LeaveBalanceDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * Service Implementation for managing {@link LeaveBalanceDTO}.
- */
 @Service
 @Transactional
 public class LeaveBalanceService {
@@ -35,17 +35,19 @@ public class LeaveBalanceService {
 
     public List<LeaveBalanceDTO> calculate(Long employeeId) {
 
+        List<LeaveBalanceDTO> leaveBalanceDTOs = new ArrayList<>();
         Optional<Employee> employee = employeeService.findOne(employeeId);
 
         if (employee.isPresent()) {
             List<LeaveType> leaveTypes = leaveTypeService.getAll();
 
             for(LeaveType leaveType: leaveTypes) {
-
+                LeaveBalanceDTO leaveBalanceDTO = calculate(employeeId, leaveType.getId());
+                leaveBalanceDTOs.add(leaveBalanceDTO);
             }
         }
 
-        return null;
+        return leaveBalanceDTOs;
     }
 
     public LeaveBalanceDTO calculate(Long employeeId, Long leaveTypeId) {
@@ -60,9 +62,25 @@ public class LeaveBalanceService {
 
             LocalDate startDate = employee.get().getJoiningDate().plusYears(numberOfYearPassedAfterJoining);
             LocalDate endDate = startDate.plusYears(1);
+
+            List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee.get(), leaveType.get(), startDate, endDate, LeaveApplicationStatus.ACCEPTED);
+
+            leaveBalanceDTO = getLeaveBalanceDTO(employee.get(), leaveType.get(), acceptedLeaveApplications);
         }
 
-        return null;
+        return leaveBalanceDTO;
+    }
+
+    private LeaveBalanceDTO getLeaveBalanceDTO(Employee employee, LeaveType leaveType, List<LeaveApplication> acceptedLeaveApplications) {
+        LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
+        leaveBalanceDTO.setEmployeeId(employee.getId());
+        leaveBalanceDTO.setEmployeeName(employee.getName());
+        leaveBalanceDTO.setEmployeeJoiningDate(employee.getJoiningDate());
+        leaveBalanceDTO.setLeaveTypeId(leaveType.getId());
+        leaveBalanceDTO.setLeaveTypeName(leaveType.getName());
+        leaveBalanceDTO.setTotalDays(Double.parseDouble(leaveType.getTotalDays().toString()));
+        leaveBalanceDTO.setRemainingDays((double) leaveType.getTotalDays() - acceptedLeaveApplications.size());
+        return leaveBalanceDTO;
     }
 
     private int getNumberOfYearsPassedAfterJoining(LocalDate employeeJoiningDate) {
@@ -73,7 +91,7 @@ public class LeaveBalanceService {
 
         int totalYear = 0;
 
-        while(!(startDate.isBefore(today) && endDate.isAfter(today))) {
+        while(!(startDate.isAfter(today) && endDate.isBefore(today))) {
 
             totalYear = totalYear + 1;
             startDate = startDate.plusYears(1);

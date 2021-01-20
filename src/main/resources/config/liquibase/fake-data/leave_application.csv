@@ -1,11 +1,11 @@
-id;jhi_from;jhi_to;total_days;status;reason;applied_by_id;leave_type_id
-1;2020-12-25;2020-12-25;76415;REJECTED_BY_FIRST_AUTHORITY;withdrawal Corporate e-markets;2;1
-2;2020-12-25;2020-12-25;27490;REJECTED;indigo;1;2
-3;2020-12-26;2020-12-26;14566;REJECTED;matrix Investment Account;2;3
-4;2020-12-25;2020-12-25;57253;ACCEPTED;purple;1;4
-5;2020-12-25;2020-12-25;2067;APPLIED;Producer;1;5
-6;2020-12-25;2020-12-26;14192;ACCEPTED;Malaysia quantify;1;6
-7;2020-12-25;2020-12-25;1696;REJECTED;Steel payment Estates;2;7
-8;2020-12-25;2020-12-25;66146;REJECTED;bypassing;1;8
-9;2020-12-25;2020-12-25;21264;ACCEPTED;Buckinghamshire PNG;2;9
-10;2020-12-25;2020-12-25;66948;REJECTED;silver Zimbabwe Dollar virtual;2;10
+id;jhi_from;jhi_to;total_days;status;reason;applied_by_id;leave_type_id;applicant_id
+1;2020-12-25;2020-12-25;76415;REJECTED_BY_FIRST_AUTHORITY;withdrawal Corporate e-markets;2;1;1
+2;2020-12-25;2020-12-25;27490;REJECTED;indigo;1;2;2
+3;2020-12-26;2020-12-26;14566;REJECTED;matrix Investment Account;2;3;3
+4;2020-12-25;2020-12-25;57253;ACCEPTED;purple;1;4;4
+5;2020-12-25;2020-12-25;2067;APPLIED;Producer;1;5;5
+6;2020-12-25;2020-12-26;14192;ACCEPTED;Malaysia quantify;1;6;6
+7;2020-12-25;2020-12-25;1696;REJECTED;Steel payment Estates;2;7;7
+8;2020-12-25;2020-12-25;66146;REJECTED;bypassing;1;8;8
+9;2020-12-25;2020-12-25;21264;ACCEPTED;Buckinghamshire PNG;2;9;9
+10;2020-12-25;2020-12-25;66948;REJECTED;silver Zimbabwe Dollar virtual;2;10;10

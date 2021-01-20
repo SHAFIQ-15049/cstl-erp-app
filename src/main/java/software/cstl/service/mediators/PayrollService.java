@@ -9,12 +9,9 @@ import software.cstl.domain.enumeration.*;
 import software.cstl.repository.*;
 import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
-import software.cstl.service.MonthlySalaryService;
 
-import java.lang.reflect.Array;
 import java.math.BigDecimal;
 import java.time.Instant;
-import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
@@ -141,8 +138,8 @@ public class PayrollService {
 
     public PartialSalary assignPartialSalaryAndAllowances(PartialSalary partialSalary){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-        Integer totalWorkingDays = attendanceRepository.countAttendancesByEmployeeAndAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, Instant.from(partialSalary.getFromDate()) , Instant.from(partialSalary.getToDate()));
-        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndConsiderAsAndAttendanceTimeBetween(partialSalary.getEmployee(), ConsiderAsType.REGULAR, Instant.from(partialSalary.getFromDate()), Instant.from(partialSalary.getToDate()));
+        Integer totalWorkingDays = attendanceRepository.countAttendancesByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), Instant.from(partialSalary.getFromDate()) , Instant.from(partialSalary.getToDate()));
+        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndAttendanceTimeBetween(partialSalary.getEmployee(), Instant.from(partialSalary.getFromDate()), Instant.from(partialSalary.getToDate()));
 
         String notes = partialSalary.getNote()!=null && partialSalary.getNote().length()>0?partialSalary.getNote(): "";
         if(employeeAttendance.size()<totalWorkingDays){

@@ -1,6 +1,7 @@
 import { Moment } from 'moment';
 import { IUser } from 'app/core/user/user.model';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
+import { IEmployee } from 'app/shared/model/employee.model';
 import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
 
 export interface ILeaveApplication {
@@ -13,6 +14,7 @@ export interface ILeaveApplication {
   appliedBy?: IUser;
   actionTakenBy?: IUser;
   leaveType?: ILeaveType;
+  applicant?: IEmployee;
 }
 
 export class LeaveApplication implements ILeaveApplication {
@@ -25,6 +27,7 @@ export class LeaveApplication implements ILeaveApplication {
     public reason?: string,
     public appliedBy?: IUser,
     public actionTakenBy?: IUser,
-    public leaveType?: ILeaveType
+    public leaveType?: ILeaveType,
+    public applicant?: IEmployee
   ) {}
 }

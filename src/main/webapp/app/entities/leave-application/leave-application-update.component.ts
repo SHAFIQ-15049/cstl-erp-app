@@ -11,11 +11,10 @@ import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
-import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
-import { AccountService } from 'app/core/auth/account.service';
-import { Account } from 'app/core/user/account.model';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
-type SelectableEntity = IUser | ILeaveType;
+type SelectableEntity = IUser | ILeaveType | IEmployee;
 
 @Component({
   selector: 'jhi-leave-application-update',
@@ -25,10 +24,9 @@ export class LeaveApplicationUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
   leavetypes: ILeaveType[] = [];
+  employees: IEmployee[] = [];
   fromDp: any;
   toDp: any;
-
-  currentUser: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -40,29 +38,28 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     appliedBy: [null, Validators.required],
     actionTakenBy: [],
     leaveType: [null, Validators.required],
+    applicant: [null, Validators.required],
   });
 
   constructor(
     protected leaveApplicationService: LeaveApplicationService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
+    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
-    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.accountService.identity().subscribe(currentUser => {
-      this.currentUser = currentUser;
-    });
     this.activatedRoute.data.subscribe(({ leaveApplication }) => {
       this.updateForm(leaveApplication);
 
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
 
       this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
+
+      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
-    this.onChanges();
   }
 
   updateForm(leaveApplication: ILeaveApplication): void {
@@ -71,11 +68,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
       from: leaveApplication.from,
       to: leaveApplication.to,
       totalDays: leaveApplication.totalDays,
-      status: LeaveApplicationStatus.APPLIED,
+      status: leaveApplication.status,
       reason: leaveApplication.reason,
-      appliedBy: this.currentUser,
+      appliedBy: leaveApplication.appliedBy,
       actionTakenBy: leaveApplication.actionTakenBy,
       leaveType: leaveApplication.leaveType,
+      applicant: leaveApplication.applicant,
     });
   }
 
@@ -105,6 +103,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
       appliedBy: this.editForm.get(['appliedBy'])!.value,
       actionTakenBy: this.editForm.get(['actionTakenBy'])!.value,
       leaveType: this.editForm.get(['leaveType'])!.value,
+      applicant: this.editForm.get(['applicant'])!.value,
     };
   }
 
@@ -126,25 +125,5 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
-  }
-
-  onChanges(): void {
-    this.editForm.get('from')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
-    });
-
-    this.editForm.get('to')!.valueChanges.subscribe(() => {
-      const fromDate = this.editForm.get('from')!.value;
-      const toDate = this.editForm.get('to')!.value;
-      const diff = toDate.diff(fromDate, 'days') + 1;
-      this.editForm.patchValue({
-        totalDays: diff,
-      });
-    });
   }
 }

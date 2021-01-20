@@ -3,9 +3,15 @@
                    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
     <changeSet author="kawsu (generated)" id="1610774257219-1">
+        <preConditions onFail="MARK_RAN">
+            <columnExists columnName="test_attendance_data" tableName="attendance"/>
+        </preConditions>
         <dropTable tableName="test_attendance_data"/>
     </changeSet>
     <changeSet author="kawsu (generated)" id="1610774257219-2">
+        <preConditions onFail="MARK_RAN">
+            <columnExists columnName="consider_as" tableName="attendance"/>
+        </preConditions>
         <dropColumn columnName="consider_as" tableName="attendance"/>
     </changeSet>
 </databaseChangeLog>

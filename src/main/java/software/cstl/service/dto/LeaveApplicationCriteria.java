@@ -1,17 +1,11 @@
 package software.cstl.service.dto;
 
+import io.github.jhipster.service.Criteria;
+import io.github.jhipster.service.filter.*;
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
+
 import java.io.Serializable;
 import java.util.Objects;
-import io.github.jhipster.service.Criteria;
-import software.cstl.domain.enumeration.LeaveApplicationStatus;
-import io.github.jhipster.service.filter.BooleanFilter;
-import io.github.jhipster.service.filter.DoubleFilter;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.FloatFilter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.LeaveApplication} entity. This class is used
@@ -62,6 +56,8 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
 
     private LongFilter leaveTypeId;
 
+    private LongFilter applicantId;
+
     public LeaveApplicationCriteria() {
     }
 
@@ -75,6 +71,7 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
         this.appliedById = other.appliedById == null ? null : other.appliedById.copy();
         this.actionTakenById = other.actionTakenById == null ? null : other.actionTakenById.copy();
         this.leaveTypeId = other.leaveTypeId == null ? null : other.leaveTypeId.copy();
+        this.applicantId = other.applicantId == null ? null : other.applicantId.copy();
     }
 
     @Override
@@ -154,6 +151,14 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
         this.leaveTypeId = leaveTypeId;
     }
 
+    public LongFilter getApplicantId() {
+        return applicantId;
+    }
+
+    public void setApplicantId(LongFilter applicantId) {
+        this.applicantId = applicantId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -173,7 +178,8 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
             Objects.equals(reason, that.reason) &&
             Objects.equals(appliedById, that.appliedById) &&
             Objects.equals(actionTakenById, that.actionTakenById) &&
-            Objects.equals(leaveTypeId, that.leaveTypeId);
+            Objects.equals(leaveTypeId, that.leaveTypeId) &&
+            Objects.equals(applicantId, that.applicantId);
     }
 
     @Override
@@ -187,7 +193,8 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
         reason,
         appliedById,
         actionTakenById,
-        leaveTypeId
+        leaveTypeId,
+        applicantId
         );
     }
 
@@ -204,6 +211,7 @@ public class LeaveApplicationCriteria implements Serializable, Criteria {
                 (appliedById != null ? "appliedById=" + appliedById + ", " : "") +
                 (actionTakenById != null ? "actionTakenById=" + actionTakenById + ", " : "") +
                 (leaveTypeId != null ? "leaveTypeId=" + leaveTypeId + ", " : "") +
+                (applicantId != null ? "applicantId=" + applicantId + ", " : "") +
             "}";
     }
 

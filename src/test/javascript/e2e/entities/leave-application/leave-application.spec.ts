@@ -1,11 +1,7 @@
-import { browser, ExpectedConditions as ec /* , promise */ } from 'protractor';
+import { browser, ExpectedConditions as ec } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-import {
-  LeaveApplicationComponentsPage,
-  /* LeaveApplicationDeleteDialog, */
-  LeaveApplicationUpdatePage,
-} from './leave-application.page-object';
+import { LeaveApplicationComponentsPage, LeaveApplicationUpdatePage } from './leave-application.page-object';
 
 const expect = chai.expect;
 
@@ -56,6 +52,7 @@ describe('LeaveApplication e2e test', () => {
             leaveApplicationUpdatePage.appliedBySelectLastOption(),
             leaveApplicationUpdatePage.actionTakenBySelectLastOption(),
             leaveApplicationUpdatePage.leaveTypeSelectLastOption(),
+            leaveApplicationUpdatePage.applicantSelectLastOption(),
         ]);
 
         expect(await leaveApplicationUpdatePage.getFromInput()).to.eq('2000-12-31', 'Expected from value to be equals to 2000-12-31');

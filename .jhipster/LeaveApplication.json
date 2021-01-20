@@ -26,6 +26,14 @@
       "relationshipValidateRules": ["required"],
       "otherEntityField": "name",
       "otherEntityRelationshipName": "leaveApplication"
+    },
+    {
+      "relationshipName": "applicant",
+      "otherEntityName": "employee",
+      "relationshipType": "many-to-one",
+      "relationshipValidateRules": ["required"],
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "leaveApplication"
     }
   ],
   "fields": [

@@ -1,9 +1,6 @@
 package software.cstl.service;
 
-import java.util.List;
-
-import javax.persistence.criteria.JoinType;
-
+import io.github.jhipster.service.QueryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -11,13 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import io.github.jhipster.service.QueryService;
-
-import software.cstl.domain.LeaveApplication;
-import software.cstl.domain.*; // for static metamodels
+import software.cstl.domain.*;
 import software.cstl.repository.LeaveApplicationRepository;
 import software.cstl.service.dto.LeaveApplicationCriteria;
+
+import javax.persistence.criteria.JoinType;
+import java.util.List;
 
 /**
  * Service for executing complex queries for {@link LeaveApplication} entities in the database.
@@ -111,6 +107,10 @@ public class LeaveApplicationQueryService extends QueryService<LeaveApplication>
             if (criteria.getLeaveTypeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getLeaveTypeId(),
                     root -> root.join(LeaveApplication_.leaveType, JoinType.LEFT).get(LeaveType_.id)));
+            }
+            if (criteria.getApplicantId() != null) {
+                specification = specification.and(buildSpecification(criteria.getApplicantId(),
+                    root -> root.join(LeaveApplication_.applicant, JoinType.LEFT).get(Employee_.id)));
             }
         }
         return specification;

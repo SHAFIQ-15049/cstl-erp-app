@@ -10,6 +10,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.CodeNodeErpApp;
+import software.cstl.domain.Employee;
 import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
 import software.cstl.domain.User;
@@ -98,6 +99,16 @@ public class LeaveApplicationResourceIT {
             leaveType = TestUtil.findAll(em, LeaveType.class).get(0);
         }
         leaveApplication.setLeaveType(leaveType);
+        // Add required entity
+        Employee employee;
+        if (TestUtil.findAll(em, Employee.class).isEmpty()) {
+            employee = EmployeeResourceIT.createEntity(em);
+            em.persist(employee);
+            em.flush();
+        } else {
+            employee = TestUtil.findAll(em, Employee.class).get(0);
+        }
+        leaveApplication.setApplicant(employee);
         return leaveApplication;
     }
     /**
@@ -128,6 +139,16 @@ public class LeaveApplicationResourceIT {
             leaveType = TestUtil.findAll(em, LeaveType.class).get(0);
         }
         leaveApplication.setLeaveType(leaveType);
+        // Add required entity
+        Employee employee;
+        if (TestUtil.findAll(em, Employee.class).isEmpty()) {
+            employee = EmployeeResourceIT.createUpdatedEntity(em);
+            em.persist(employee);
+            em.flush();
+        } else {
+            employee = TestUtil.findAll(em, Employee.class).get(0);
+        }
+        leaveApplication.setApplicant(employee);
         return leaveApplication;
     }
 
@@ -822,6 +843,22 @@ public class LeaveApplicationResourceIT {
 
         // Get all the leaveApplicationList where leaveType equals to leaveTypeId + 1
         defaultLeaveApplicationShouldNotBeFound("leaveTypeId.equals=" + (leaveTypeId + 1));
+    }
+
+
+    @Test
+    @Transactional
+    public void getAllLeaveApplicationsByApplicantIsEqualToSomething() throws Exception {
+        // Get already existing entity
+        Employee applicant = leaveApplication.getApplicant();
+        leaveApplicationRepository.saveAndFlush(leaveApplication);
+        Long applicantId = applicant.getId();
+
+        // Get all the leaveApplicationList where applicant equals to applicantId
+        defaultLeaveApplicationShouldBeFound("applicantId.equals=" + applicantId);
+
+        // Get all the leaveApplicationList where applicant equals to applicantId + 1
+        defaultLeaveApplicationShouldNotBeFound("applicantId.equals=" + (applicantId + 1));
     }
 
     /**

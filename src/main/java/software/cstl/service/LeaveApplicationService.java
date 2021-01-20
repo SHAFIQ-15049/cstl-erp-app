@@ -81,15 +81,18 @@ public class LeaveApplicationService {
         leaveApplicationRepository.deleteById(id);
     }
 
+    public List<LeaveApplication> getLeaveApplications(Employee employee, LeaveType leaveType, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
+        return leaveApplicationRepository.findByApplicantEqualsAndLeaveTypeEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, leaveType, fromDate, toDate, leaveApplicationStatus);
+    }
+
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
-        return null;
+        return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, fromDate, toDate, leaveApplicationStatus);
     }
 
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
-        return null;
+        return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(employee, fromDate, toDate);
     }
 
-    // TODO: Need to fix this one
     public boolean isValid(LeaveApplication leaveApplication) {
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
         List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByAppliedByIsCurrentUser();

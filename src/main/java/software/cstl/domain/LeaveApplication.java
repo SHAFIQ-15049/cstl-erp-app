@@ -3,14 +3,12 @@ package software.cstl.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
-
+import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
-
-import software.cstl.domain.enumeration.LeaveApplicationStatus;
 
 /**
  * A LeaveApplication.
@@ -60,6 +58,11 @@ public class LeaveApplication implements Serializable {
     @NotNull
     @JsonIgnoreProperties(value = "leaveApplications", allowSetters = true)
     private LeaveType leaveType;
+
+    @ManyToOne(optional = false)
+    @NotNull
+    @JsonIgnoreProperties(value = "leaveApplications", allowSetters = true)
+    private Employee applicant;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -172,6 +175,19 @@ public class LeaveApplication implements Serializable {
 
     public void setLeaveType(LeaveType leaveType) {
         this.leaveType = leaveType;
+    }
+
+    public Employee getApplicant() {
+        return applicant;
+    }
+
+    public LeaveApplication applicant(Employee employee) {
+        this.applicant = employee;
+        return this;
+    }
+
+    public void setApplicant(Employee employee) {
+        this.applicant = employee;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
