@@ -34,9 +34,8 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_executedBy">Executed By</label>
-                    <div class="d-flex">
-                        <input id="field_executedBy" type="datetime-local" class="form-control" name="executedBy" formControlName="executedBy" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
+                    <input type="text" class="form-control" name="executedBy" id="field_executedBy"
+                           formControlName="executedBy"/>
                 </div>
 
                 <div class="form-group">
@@ -46,18 +45,18 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_festivalAllowancePayment">Festival Allowance Payment</label>
-                    <select class="form-control" id="field_festivalAllowancePayment" name="festivalAllowancePayment" formControlName="festivalAllowancePayment">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="festivalAllowancePaymentOption.id === editForm.get('festivalAllowancePayment')!.value?.id ? editForm.get('festivalAllowancePayment')!.value : festivalAllowancePaymentOption" *ngFor="let festivalAllowancePaymentOption of festivalallowancepayments; trackBy: trackById">{{ festivalAllowancePaymentOption.id }}</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" for="field_employee">Employee</label>
                     <select class="form-control" id="field_employee" name="employee" formControlName="employee">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="employeeOption.id === editForm.get('employee')!.value?.id ? editForm.get('employee')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_festivalAllowancePayment">Festival Allowance Payment</label>
+                    <select class="form-control" id="field_festivalAllowancePayment" name="festivalAllowancePayment" formControlName="festivalAllowancePayment">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="festivalAllowancePaymentOption.id === editForm.get('festivalAllowancePayment')!.value?.id ? editForm.get('festivalAllowancePayment')!.value : festivalAllowancePaymentOption" *ngFor="let festivalAllowancePaymentOption of festivalallowancepayments; trackBy: trackById">{{ festivalAllowancePaymentOption.id }}</option>
                     </select>
                 </div>
             </div>

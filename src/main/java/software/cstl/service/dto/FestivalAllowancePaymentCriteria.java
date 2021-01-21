@@ -73,7 +73,9 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
 
     private InstantFilter executedOn;
 
-    private InstantFilter executedBy;
+    private StringFilter executedBy;
+
+    private LongFilter festivalAllowancePaymentDtlId;
 
     private LongFilter designationId;
 
@@ -87,6 +89,7 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
         this.status = other.status == null ? null : other.status.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
+        this.festivalAllowancePaymentDtlId = other.festivalAllowancePaymentDtlId == null ? null : other.festivalAllowancePaymentDtlId.copy();
         this.designationId = other.designationId == null ? null : other.designationId.copy();
     }
 
@@ -135,12 +138,20 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
         this.executedOn = executedOn;
     }
 
-    public InstantFilter getExecutedBy() {
+    public StringFilter getExecutedBy() {
         return executedBy;
     }
 
-    public void setExecutedBy(InstantFilter executedBy) {
+    public void setExecutedBy(StringFilter executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public LongFilter getFestivalAllowancePaymentDtlId() {
+        return festivalAllowancePaymentDtlId;
+    }
+
+    public void setFestivalAllowancePaymentDtlId(LongFilter festivalAllowancePaymentDtlId) {
+        this.festivalAllowancePaymentDtlId = festivalAllowancePaymentDtlId;
     }
 
     public LongFilter getDesignationId() {
@@ -168,6 +179,7 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
             Objects.equals(status, that.status) &&
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
+            Objects.equals(festivalAllowancePaymentDtlId, that.festivalAllowancePaymentDtlId) &&
             Objects.equals(designationId, that.designationId);
     }
 
@@ -180,6 +192,7 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
         status,
         executedOn,
         executedBy,
+        festivalAllowancePaymentDtlId,
         designationId
         );
     }
@@ -194,6 +207,7 @@ public class FestivalAllowancePaymentCriteria implements Serializable, Criteria 
                 (status != null ? "status=" + status + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
+                (festivalAllowancePaymentDtlId != null ? "festivalAllowancePaymentDtlId=" + festivalAllowancePaymentDtlId + ", " : "") +
                 (designationId != null ? "designationId=" + designationId + ", " : "") +
             "}";
     }

@@ -54,10 +54,6 @@ export class FestivalAllowancePaymentDtlService {
         festivalAllowancePaymentDtl.executedOn && festivalAllowancePaymentDtl.executedOn.isValid()
           ? festivalAllowancePaymentDtl.executedOn.toJSON()
           : undefined,
-      executedBy:
-        festivalAllowancePaymentDtl.executedBy && festivalAllowancePaymentDtl.executedBy.isValid()
-          ? festivalAllowancePaymentDtl.executedBy.toJSON()
-          : undefined,
     });
     return copy;
   }
@@ -65,7 +61,6 @@ export class FestivalAllowancePaymentDtlService {
   protected convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
-      res.body.executedBy = res.body.executedBy ? moment(res.body.executedBy) : undefined;
     }
     return res;
   }
@@ -75,9 +70,6 @@ export class FestivalAllowancePaymentDtlService {
       res.body.forEach((festivalAllowancePaymentDtl: IFestivalAllowancePaymentDtl) => {
         festivalAllowancePaymentDtl.executedOn = festivalAllowancePaymentDtl.executedOn
           ? moment(festivalAllowancePaymentDtl.executedOn)
-          : undefined;
-        festivalAllowancePaymentDtl.executedBy = festivalAllowancePaymentDtl.executedBy
-          ? moment(festivalAllowancePaymentDtl.executedBy)
           : undefined;
       });
     }

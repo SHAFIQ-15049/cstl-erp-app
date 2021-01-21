@@ -1,15 +1,11 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-festival-allowance-payment-heading">Create or edit a Festival Allowance Payment</h2>
+            <h2 id="jhi-festival-allowance-payment-heading">{{!editForm.get('id')!.value? 'Create': 'Update'}} Festival Allowance Payment</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_year">Year</label>
@@ -36,34 +32,21 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" formControlName="status" id="field_status">
-                        <option value="DONE">DONE</option>
-                        <option value="NOT_DONE">NOT_DONE</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_executedOn">Executed On</label>
-                    <div class="d-flex">
-                        <input id="field_executedOn" type="datetime-local" class="form-control" name="executedOn" formControlName="executedOn" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_executedBy">Executed By</label>
-                    <div class="d-flex">
-                        <input id="field_executedBy" type="datetime-local" class="form-control" name="executedBy" formControlName="executedBy" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <label class="form-control-label" for="field_designation">Designation</label>
                     <select class="form-control" id="field_designation" name="designation" formControlName="designation">
                         <option [ngValue]="null"></option>
                         <option [ngValue]="designationOption.id === editForm.get('designation')!.value?.id ? editForm.get('designation')!.value : designationOption" *ngFor="let designationOption of designations; trackBy: trackById">{{ designationOption.name }}</option>
                     </select>
                 </div>
+
+                <!--<div class="form-group" >
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select [disabled]="disableStatus" class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="DONE">DONE</option>
+                        <option value="NOT_DONE">NOT_DONE</option>
+                    </select>
+                </div>-->
+
             </div>
 
             <div>
@@ -71,8 +54,11 @@
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
 
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                <button *ngIf="!editForm.get('id')!.value" type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Generate Festival Payments</span>
+                </button>
+                <button *ngIf="editForm.get('id')!.value" type="submit" id="regenerate-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-success">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Re-Generate Festival Payments</span>
                 </button>
             </div>
         </form>

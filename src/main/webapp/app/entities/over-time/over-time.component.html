@@ -2,7 +2,19 @@
     <h2 id="page-heading">
         <span>Over Times</span>
 
+        <button *ngIf="overTimes && overTimes.length==0" id="generate-entity" class="btn btn-primary float-right jh-create-entity create-over-time" (click)="generateOverTime()">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Generate Over Time Payments
+            </span>
+        </button>
 
+        <button *ngIf="overTimes && overTimes.length>0" id="re-generate-entity" class="btn btn-primary float-right jh-create-entity create-over-time" (click)="regenerateOverTime()">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Generate Over Time Payments
+            </span>
+        </button>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
@@ -70,45 +82,36 @@
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="year"><span>Year</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="month"><span>Month</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="fromDate"><span>From Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="toDate"><span>To Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="id"><span>SN</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalOverTime"><span>Total Over Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="officialOverTime"><span>Official Over Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="extraOverTime"><span>Extra Over Time</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalAmount"><span>Total Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="officialAmount"><span>Official Amount</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="extraAmount"><span>Extra Amount</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="note"><span>Note</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedOn"><span>Executed On</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="executedBy"><span>Executed By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="employee.name"><span>Employee</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let overTime of overTimes ;trackBy: trackId">
-                    <td><a [routerLink]="['/over-time', overTime.id, 'view']">{{ overTime.id }}</a></td>
-                    <td>{{ overTime.year }}</td>
-                    <td>{{ overTime.month }}</td>
-                    <td>{{ overTime.fromDate | date:'medium' }}</td>
-                    <td>{{ overTime.toDate | date:'medium' }}</td>
+                <tr *ngFor="let overTime of overTimes ; index as i ;trackBy: trackId">
+                    <td><a [routerLink]="['/over-time', overTime.id, 'view']">{{ (page -1) * itemsPerPage + (i+1)}}</a></td>
+                    <td>
+                        <div *ngIf="overTime.employee">
+                            <a [routerLink]="['/employee', overTime.employee?.id, 'view']" >{{ overTime.employee?.name+ '('+overTime.employee?.localId+')' }}</a>
+                        </div>
+                    </td>
                     <td>{{ overTime.totalOverTime }}</td>
                     <td>{{ overTime.officialOverTime }}</td>
                     <td>{{ overTime.extraOverTime }}</td>
                     <td>{{ overTime.totalAmount }}</td>
                     <td>{{ overTime.officialAmount }}</td>
                     <td>{{ overTime.extraAmount }}</td>
-                    <td>{{ overTime.note }}</td>
                     <td>{{ overTime.executedOn | date:'medium' }}</td>
                     <td>{{ overTime.executedBy }}</td>
-                    <td>
-                        <div *ngIf="overTime.employee">
-                            <a [routerLink]="['/employee', overTime.employee?.id, 'view']" >{{ overTime.employee?.name }}</a>
-                        </div>
-                    </td>
+
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
@@ -119,10 +122,9 @@
                             </button>
 
                             <button type="submit"
-                                    [routerLink]="['/over-time', overTime.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
+                                    class="btn btn-primary btn-sm" (click)="regenerateEmployeeOverTime(overTime)">
                                 <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
+                                <span class="d-none d-md-inline">Re-generate</span>
                             </button>
 
                             <button type="submit" (click)="delete(overTime)"

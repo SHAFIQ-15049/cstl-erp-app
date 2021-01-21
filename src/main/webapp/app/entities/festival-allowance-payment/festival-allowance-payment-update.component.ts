@@ -42,7 +42,6 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
       if (!festivalAllowancePayment.id) {
         const today = moment().startOf('day');
         festivalAllowancePayment.executedOn = today;
-        festivalAllowancePayment.executedBy = today;
       }
 
       this.updateForm(festivalAllowancePayment);
@@ -58,7 +57,7 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
       month: festivalAllowancePayment.month,
       status: festivalAllowancePayment.status,
       executedOn: festivalAllowancePayment.executedOn ? festivalAllowancePayment.executedOn.format(DATE_TIME_FORMAT) : null,
-      executedBy: festivalAllowancePayment.executedBy ? festivalAllowancePayment.executedBy.format(DATE_TIME_FORMAT) : null,
+      executedBy: festivalAllowancePayment.executedBy,
       designation: festivalAllowancePayment.designation,
     });
   }
@@ -71,7 +70,7 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
     this.isSaving = true;
     const festivalAllowancePayment = this.createFromForm();
     if (festivalAllowancePayment.id !== undefined) {
-      this.subscribeToSaveResponse(this.festivalAllowancePaymentService.update(festivalAllowancePayment));
+      this.subscribeToSaveResponse(this.festivalAllowancePaymentService.regenerate(festivalAllowancePayment));
     } else {
       this.subscribeToSaveResponse(this.festivalAllowancePaymentService.create(festivalAllowancePayment));
     }
@@ -85,7 +84,7 @@ export class FestivalAllowancePaymentUpdateComponent implements OnInit {
       month: this.editForm.get(['month'])!.value,
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
-      executedBy: this.editForm.get(['executedBy'])!.value ? moment(this.editForm.get(['executedBy'])!.value, DATE_TIME_FORMAT) : undefined,
+      executedBy: this.editForm.get(['executedBy'])!.value,
       designation: this.editForm.get(['designation'])!.value,
     };
   }

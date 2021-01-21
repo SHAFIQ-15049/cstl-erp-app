@@ -98,7 +98,11 @@ public class FestivalAllowancePaymentQueryService extends QueryService<FestivalA
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedOn(), FestivalAllowancePayment_.executedOn));
             }
             if (criteria.getExecutedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getExecutedBy(), FestivalAllowancePayment_.executedBy));
+                specification = specification.and(buildStringSpecification(criteria.getExecutedBy(), FestivalAllowancePayment_.executedBy));
+            }
+            if (criteria.getFestivalAllowancePaymentDtlId() != null) {
+                specification = specification.and(buildSpecification(criteria.getFestivalAllowancePaymentDtlId(),
+                    root -> root.join(FestivalAllowancePayment_.festivalAllowancePaymentDtls, JoinType.LEFT).get(FestivalAllowancePaymentDtl_.id)));
             }
             if (criteria.getDesignationId() != null) {
                 specification = specification.and(buildSpecification(criteria.getDesignationId(),
