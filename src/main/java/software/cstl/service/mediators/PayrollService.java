@@ -2,6 +2,7 @@ package software.cstl.service.mediators;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
+@Lazy
 public class PayrollService {
 
     private final MonthlySalaryRepository monthlySalaryRepository;
@@ -57,6 +59,7 @@ public class PayrollService {
     }
 
     public void createMonthlySalaries(MonthlySalary monthlySalary){
+        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
             .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
@@ -133,6 +136,8 @@ public class PayrollService {
         monthlySalaryDtl.setMedicalAllowance(medicalAllowance);
         monthlySalaryDtl.setFoodAllowance(foodAllowance);
         monthlySalaryDtl.setConvinceAllowance(convinceAllowance);
+        monthlySalaryDtl.setStatus(SalaryExecutionStatus.DONE);
+        monthlySalaryDtl.setExecutedOn(Instant.now());
 
     }
 
@@ -191,10 +196,11 @@ public class PayrollService {
                 FinePaymentHistory finePaymentHistory = new FinePaymentHistory()
                     .year(year)
                     .monthType(monthType)
+                    .fine(fine)
                     .amount(totalPayableAmount)
                     .beforeFine(fine.getAmountLeft())
                     .afterFine(fine.getAmountLeft().subtract(totalPayableAmount));
-
+                monthlySalaryDtl.setFine(totalPayableAmount);
                 finePaymentHistoryRepository.save(finePaymentHistory); // saving history
 
                 fine.setAmountLeft(fine.getAmountLeft().subtract(totalPayableAmount));
@@ -206,6 +212,9 @@ public class PayrollService {
                     fine.setPaymentStatus(PaymentStatus.IN_PROGRESS); // else the fine payment is in progress
                 }
                 fineRepository.save(fine);
+            }else{
+                FinePaymentHistory finePaymentHistory = finePaymentHistoryRepository.findByFineAndYearAndMonthType(fine, year, monthType);
+                monthlySalaryDtl.setFine(finePaymentHistory.getAmount());
             }
         }
     }
@@ -228,11 +237,13 @@ public class PayrollService {
                 BigDecimal totalPayableAmount = advance.getAmountLeft().compareTo(advance.getMonthlyPaymentAmount())>0? advance.getMonthlyPaymentAmount(): advance.getAmountLeft();
                 AdvancePaymentHistory advancePaymentHistory = new AdvancePaymentHistory()
                     .year(year)
+                    .advance(advance)
                     .monthType(monthType)
                     .amount(totalPayableAmount)
                     .before(advance.getAmountLeft())
                     .after(advance.getAmountLeft().subtract(totalPayableAmount));
 
+                monthlySalaryDtl.setAdvance(totalPayableAmount);
                 advancePaymentHistoryRepository.save(advancePaymentHistory); // saving history
 
                 advance.setAmountLeft(advance.getAmountLeft().subtract(totalPayableAmount));
@@ -245,6 +256,8 @@ public class PayrollService {
                 }
 
                 advanceRepository.save(advance);
+            }else{
+                monthlySalaryDtl.setAdvance(advancePaymentHistoryRepository.findByAdvanceAndYearAndMonthType(advance, year, monthType).getAmount());
             }
         }
     }
