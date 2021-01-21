@@ -13,6 +13,7 @@ import { LeaveApplicationDetailComponent } from './leave-application-detail.comp
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
 import { LeaveApplicationReviewComponent } from 'app/entities/leave-application/leave-application-review.component';
 import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
+import { OtherLeaveApplicationUpdateComponent } from 'app/entities/leave-application/other-leave-application-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -94,6 +95,18 @@ export const leaveApplicationRoute: Routes = [
   {
     path: ':id/action',
     component: LeaveApplicationActionUpdateComponent,
+    resolve: {
+      leaveApplication: LeaveApplicationResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/others',
+    component: OtherLeaveApplicationUpdateComponent,
     resolve: {
       leaveApplication: LeaveApplicationResolve,
     },

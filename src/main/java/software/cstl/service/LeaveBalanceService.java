@@ -73,6 +73,7 @@ public class LeaveBalanceService {
 
     private LeaveBalanceDTO getLeaveBalanceDTO(Employee employee, LeaveType leaveType, List<LeaveApplication> acceptedLeaveApplications) {
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
+        leaveBalanceDTO.setId(leaveType.getId());
         leaveBalanceDTO.setEmployeeId(employee.getId());
         leaveBalanceDTO.setEmployeeName(employee.getName());
         leaveBalanceDTO.setEmployeeJoiningDate(employee.getJoiningDate());
@@ -80,6 +81,7 @@ public class LeaveBalanceService {
         leaveBalanceDTO.setLeaveTypeName(leaveType.getName());
         leaveBalanceDTO.setTotalDays(Double.parseDouble(leaveType.getTotalDays().toString()));
         leaveBalanceDTO.setRemainingDays((double) leaveType.getTotalDays() - acceptedLeaveApplications.size());
+        leaveBalanceDTO.setAcceptedLeaveApplications(acceptedLeaveApplications);
         return leaveBalanceDTO;
     }
 

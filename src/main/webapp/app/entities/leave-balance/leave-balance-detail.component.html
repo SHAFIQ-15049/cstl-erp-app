@@ -1,40 +1,80 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="leaveBalance">
-            <h2><span>Leave Balance</span> {{ leaveBalance.id }}</h2>
+<form name="detailForm">
+    <div class="modal-header">
+        <h4 class="modal-title">Leave Detail</h4>
 
-            <hr>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="cancel()">&times;
+        </button>
+    </div>
 
-            <jhi-alert-error></jhi-alert-error>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Total Days</span></dt>
-                <dd>
-                    <span>{{ leaveBalance.totalDays }}</span>
-                </dd>
-                <dt><span>Remaining Days</span></dt>
-                <dd>
-                    <span>{{ leaveBalance.remainingDays }}</span>
-                </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="leaveBalance.employeeId">
-                        <a [routerLink]="['/employee', leaveBalance.employeeId, 'view']">{{ leaveBalance.employeeId }}</a>
-                    </div>
-                </dd>
-                <dt><span>Leave Type</span></dt>
-                <dd>
-                    <div *ngIf="leaveBalance.leaveTypeId">
-                        <a [routerLink]="['/leave-type', leaveBalance.leaveTypeId, 'view']">{{ leaveBalance.leaveTypeId }}</a>
-                    </div>
-                </dd>
-            </dl>
+        <div *ngIf="!leaveApplications || leaveApplications.length === 0">
+            <p>No records found.</p>
+        </div>
 
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-            </button>
+        <div *ngIf="leaveApplications && leaveApplications.length > 0">
+            <table class="table table-striped" aria-describedby="page-heading">
+                <thead>
+                <tr>
+                    <th scope="col" jhiSortBy="id"><span>ID</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="leaveType.name"><span>Leave Type</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="from"><span>From</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="to"><span>To</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="totalDays"><span>Total Days</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="status"><span>Status</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="reason"><span>Reason</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="appliedBy.login"><span>Applied By</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                    <th scope="col" jhiSortBy="actionTakenBy.login"><span>Action Taken By</span>
+                        <fa-icon icon="sort"></fa-icon>
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
+                    <td>{{ leaveApplication.id }}</td>
+                    <td>
+                        <div *ngIf="leaveApplication.leaveType">
+                            {{ leaveApplication.leaveType?.name }}
+                        </div>
+                    </td>
+                    <td>{{ leaveApplication.from | date:'mediumDate' }}</td>
+                    <td>{{ leaveApplication.to | date:'mediumDate' }}</td>
+                    <td>{{ leaveApplication.totalDays }}</td>
+                    <td>{{ leaveApplication.status }}</td>
+                    <td>{{ leaveApplication.reason }}</td>
+                    <td>
+                        {{ leaveApplication.appliedBy?.login }}
+                    </td>
+                    <td>
+                        {{ leaveApplication.actionTakenBy?.login }}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
         </div>
     </div>
-</div>
+
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+            <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+        </button>
+    </div>
+</form>

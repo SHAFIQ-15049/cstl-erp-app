@@ -9,6 +9,7 @@ import { LeaveApplicationDeleteDialogComponent } from './leave-application-delet
 import { leaveApplicationRoute } from './leave-application.route';
 import { LeaveApplicationReviewComponent } from 'app/entities/leave-application/leave-application-review.component';
 import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
+import { OtherLeaveApplicationUpdateComponent } from 'app/entities/leave-application/other-leave-application-update.component';
 
 @NgModule({
   imports: [CodeNodeErpSharedModule, RouterModule.forChild(leaveApplicationRoute)],
@@ -19,6 +20,7 @@ import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-applic
     LeaveApplicationDeleteDialogComponent,
     LeaveApplicationReviewComponent,
     LeaveApplicationActionUpdateComponent,
+    OtherLeaveApplicationUpdateComponent,
   ],
   entryComponents: [LeaveApplicationDeleteDialogComponent],
 })
