@@ -65,9 +65,9 @@ public class PayrollService {
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
         }
         monthlySalary.status(SalaryExecutionStatus.DONE);
         monthlySalaryRepository.save(monthlySalary);
@@ -85,9 +85,9 @@ public class PayrollService {
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
         }
         monthlySalary.status(SalaryExecutionStatus.DONE);
         monthlySalaryRepository.save(monthlySalary);
@@ -101,9 +101,9 @@ public class PayrollService {
             .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
         int totalDays = attendanceDistinctDays.size();
-        assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
         assignFine(monthlySalaryDtl);
         assignAdvance(monthlySalaryDtl);
+        assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
         return monthlySalaryDtlRepository.save(monthlySalaryDtl);
     }
 
@@ -130,7 +130,7 @@ public class PayrollService {
         }
 
         monthlySalaryDtl.setType(partialSalary.isPresent()? PayrollGenerationType.PARTIAL: PayrollGenerationType.FULL);
-        monthlySalaryDtl.setGross(gross);
+        monthlySalaryDtl.setGross(gross.subtract(monthlySalaryDtl.getFine()).subtract(monthlySalaryDtl.getAdvance()));
         monthlySalaryDtl.setBasic(basic);
         monthlySalaryDtl.setHouseRent(houseRent);
         monthlySalaryDtl.setMedicalAllowance(medicalAllowance);
@@ -186,7 +186,7 @@ public class PayrollService {
     private void assignFine(MonthlySalaryDtl monthlySalaryDtl){
         Integer year = monthlySalaryDtl.getMonthlySalary().getYear();
         MonthType monthType = monthlySalaryDtl.getMonthlySalary().getMonth();
-
+        monthlySalaryDtl.setFine(BigDecimal.ZERO);
         if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
             Fine fine = fineRepository.findFineByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID));  // if exists, then we fetch the fine
             monthlySalaryDtl.setFine(fine.getAmount());
@@ -232,8 +232,12 @@ public class PayrollService {
     private void assignAdvance(MonthlySalaryDtl monthlySalaryDtl){
         Integer year = monthlySalaryDtl.getMonthlySalary().getYear();
         MonthType monthType = monthlySalaryDtl.getMonthlySalary().getMonth();
-
-        if(advanceRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
+        monthlySalaryDtl.setAdvance(BigDecimal.ZERO);
+        if(advanceRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
+            Advance advance = advanceRepository.findByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.PAID));
+            monthlySalaryDtl.setAdvance(advance.getAmount());
+        }
+        else if(advanceRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
             Advance advance = advanceRepository.findByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
 
             // create advance payment history
