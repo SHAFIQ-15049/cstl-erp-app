@@ -22,7 +22,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 @AllArgsConstructor
-@Lazy
 public class PayrollService {
 
     private final MonthlySalaryRepository monthlySalaryRepository;
@@ -75,6 +74,7 @@ public class PayrollService {
     }
 
     public void regenerateMonthlySalaries(MonthlySalary monthlySalary){
+        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
         monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
         monthlySalary.setMonthlySalaryDtls(new HashSet<>());
         monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
