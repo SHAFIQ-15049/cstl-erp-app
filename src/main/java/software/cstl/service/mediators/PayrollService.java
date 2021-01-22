@@ -187,7 +187,11 @@ public class PayrollService {
         Integer year = monthlySalaryDtl.getMonthlySalary().getYear();
         MonthType monthType = monthlySalaryDtl.getMonthlySalary().getMonth();
 
-        if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
+        if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
+            Fine fine = fineRepository.findFineByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID));  // if exists, then we fetch the fine
+            monthlySalaryDtl.setFine(fine.getAmount());
+        }
+        else if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
             Fine fine = fineRepository.findFineByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
 
             // create fine payment history
