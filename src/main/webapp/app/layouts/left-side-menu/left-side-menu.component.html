@@ -314,16 +314,16 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item" routerLink="leave-application/new/others" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                         <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
-                        <span>Other Leave Application</span>
+                        <span>Leave Application</span>
                     </a>
                 </li>
 
                 <li>
-                    <a class="dropdown-item" routerLink="leave-application" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="leave-application/others-leave" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                         <fa-icon icon="book" [fixedWidth]="true"></fa-icon>
-                        <span>Leave Application</span>
+                        <span>Other Leave Application</span>
                     </a>
                 </li>
 
@@ -335,9 +335,16 @@
                 </li>
 
                 <li>
-                    <a class="dropdown-item" routerLink="leave-application/review" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                    <a class="dropdown-item" routerLink="leave-application/review-first-authority" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                         <fa-icon icon="superscript" [fixedWidth]="true"></fa-icon>
-                        <span>Review Application</span>
+                        <span>Review Application (FA)</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="leave-application/review-second-authority" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="superscript" [fixedWidth]="true"></fa-icon>
+                        <span>Review Application (SA)</span>
                     </a>
                 </li>
 

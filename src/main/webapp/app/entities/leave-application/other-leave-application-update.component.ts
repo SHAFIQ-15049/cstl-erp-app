@@ -13,6 +13,8 @@ import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 type SelectableEntity = IUser | ILeaveType | IEmployee;
 
@@ -27,6 +29,8 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
   employees: IEmployee[] = [];
   fromDp: any;
   toDp: any;
+
+  currentUser: Account | null = null;
 
   editForm = this.fb.group({
     id: [],
@@ -47,10 +51,15 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
     protected leaveTypeService: LeaveTypeService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
+    this.accountService.identity().subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
+
     this.activatedRoute.data.subscribe(({ leaveApplication }) => {
       this.updateForm(leaveApplication);
 
@@ -60,6 +69,8 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
 
       this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
+
+    this.onChanges();
   }
 
   updateForm(leaveApplication: ILeaveApplication): void {
@@ -70,7 +81,7 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
       totalDays: leaveApplication.totalDays,
       status: leaveApplication.status,
       reason: leaveApplication.reason,
-      appliedBy: leaveApplication.appliedBy,
+      appliedBy: this.currentUser,
       actionTakenBy: leaveApplication.actionTakenBy,
       leaveType: leaveApplication.leaveType,
       applicant: leaveApplication.applicant,
@@ -125,5 +136,24 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  onChanges(): void {
+    this.editForm.get('from')!.valueChanges.subscribe(() => {
+      this.updateTotalDays();
+    });
+
+    this.editForm.get('to')!.valueChanges.subscribe(() => {
+      this.updateTotalDays();
+    });
+  }
+
+  private updateTotalDays(): void {
+    const fromDate = new Date(this.editForm.get('from')!.value);
+    const toDate = new Date(this.editForm.get('to')!.value);
+    const diff = toDate.getTime() - fromDate.getTime();
+    this.editForm.patchValue({
+      totalDays: diff / (1000 * 60 * 60 * 24) + 1,
+    });
   }
 }

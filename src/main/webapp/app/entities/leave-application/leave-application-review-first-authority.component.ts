@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
@@ -12,10 +12,10 @@ import { LeaveApplicationDeleteDialogComponent } from './leave-application-delet
 import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
 
 @Component({
-  selector: 'jhi-leave-application-review',
-  templateUrl: './leave-application-review.component.html',
+  selector: 'jhi-leave-application-review-first-authority',
+  templateUrl: './leave-application-review-first-authority.component.html',
 })
-export class LeaveApplicationReviewComponent implements OnInit, OnDestroy {
+export class LeaveApplicationReviewFirstAuthorityComponent implements OnInit, OnDestroy {
   leaveApplications: ILeaveApplication[];
   eventSubscriber?: Subscription;
   itemsPerPage: number;

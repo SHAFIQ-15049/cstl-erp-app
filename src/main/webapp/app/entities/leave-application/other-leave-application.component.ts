@@ -9,16 +9,14 @@ import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { LeaveApplicationService } from './leave-application.service';
 import { LeaveApplicationDeleteDialogComponent } from './leave-application-delete-dialog.component';
-import { IEmployee } from 'app/shared/model/employee.model';
-import { Account } from 'app/core/user/account.model';
-import { EmployeeService } from 'app/entities/employee/employee.service';
 import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
 
 @Component({
-  selector: 'jhi-leave-application',
-  templateUrl: './leave-application.component.html',
+  selector: 'jhi-other-leave-application',
+  templateUrl: './other-leave-application.component.html',
 })
-export class LeaveApplicationComponent implements OnInit, OnDestroy {
+export class OtherLeaveApplicationComponent implements OnInit, OnDestroy {
   leaveApplications: ILeaveApplication[];
   eventSubscriber?: Subscription;
   itemsPerPage: number;
@@ -27,7 +25,6 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
   predicate: string;
   ascending: boolean;
 
-  employees: IEmployee[] = [];
   currentUser: Account | null = null;
 
   constructor(
@@ -35,7 +32,6 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
     protected parseLinks: JhiParseLinks,
-    protected employeeService: EmployeeService,
     protected accountService: AccountService
   ) {
     this.leaveApplications = [];
@@ -54,7 +50,7 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
         page: this.page,
         size: this.itemsPerPage,
         sort: this.sort(),
-        'localId.equals': this.employees[0].localId,
+        appliedBy: this.currentUser,
       })
       .subscribe((res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers));
   }
@@ -73,14 +69,7 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.accountService.identity().subscribe(currentUser => {
       this.currentUser = currentUser;
-      this.employeeService
-        .query({
-          'localId.equals': this.currentUser?.login,
-        })
-        .subscribe((res: HttpResponse<IEmployee[]>) => {
-          this.employees = res.body || [];
-          this.loadAll();
-        });
+      this.loadAll();
     });
     this.registerChangeInLeaveApplications();
   }

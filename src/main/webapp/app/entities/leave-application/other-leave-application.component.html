@@ -1,0 +1,114 @@
+<div>
+    <h2 id="page-heading">
+        <span>Leave Applications</span>
+
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-leave-application"
+                [routerLink]="['/leave-application/others-leave/new']">
+            <fa-icon icon="plus"></fa-icon>
+            <span>
+            Create a new Leave Application
+            </span>
+        </button>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="leaveApplications?.length === 0">
+        <span>No leaveApplications found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="leaveApplications && leaveApplications.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                <th scope="col" jhiSortBy="id"><span>ID</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="applicant"><span>Applicant</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="leaveType.name"><span>Leave Type</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="from"><span>From</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="to"><span>To</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="totalDays"><span>Total Days</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="status"><span>Status</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="reason"><span>Reason</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="appliedBy.login"><span>Applied By</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="actionTakenBy.login"><span>Action Taken By</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                   [infiniteScrollDistance]="0">
+            <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
+                <td><a [routerLink]="['/leave-application', leaveApplication.id, 'view']">{{ leaveApplication.id }}</a>
+                </td>
+                <td>
+                    <div *ngIf="leaveApplication.applicant">
+                        <a [routerLink]="['/employee', leaveApplication.applicant?.id, 'view']">{{ leaveApplication.applicant?.name }}</a>
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="leaveApplication.leaveType">
+                        <a [routerLink]="['/leave-type', leaveApplication.leaveType?.id, 'view']">{{ leaveApplication.leaveType?.name }}</a>
+                    </div>
+                </td>
+                <td>{{ leaveApplication.from | date:'mediumDate' }}</td>
+                <td>{{ leaveApplication.to | date:'mediumDate' }}</td>
+                <td>{{ leaveApplication.totalDays }}</td>
+                <td>{{ leaveApplication.status }}</td>
+                <td>{{ leaveApplication.reason }}</td>
+                <td>
+                    {{ leaveApplication.appliedBy?.login }}
+                </td>
+                <td>
+                    {{ leaveApplication.actionTakenBy?.login }}
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [hidden]="leaveApplication.actionTakenBy"
+                                [routerLink]="['/leave-application', leaveApplication.id, 'view']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
+
+                        <button type="submit" [hidden]="leaveApplication.actionTakenBy"
+                                [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
+
+                        <button type="submit" (click)="delete(leaveApplication)"
+                                [hidden]="leaveApplication.actionTakenBy"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

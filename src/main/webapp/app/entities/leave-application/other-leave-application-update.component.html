@@ -12,6 +12,20 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_applicant">Applicant</label>
+                    <select class="form-control" id="field_applicant" name="applicant" formControlName="applicant">
+                        <option *ngIf="!editForm.get('applicant')!.value" [ngValue]="null" selected></option>
+                        <option [ngValue]="employeeOption.id === editForm.get('applicant')!.value?.id ? editForm.get('applicant')!.value : employeeOption" *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                    </select>
+                </div>
+                <div *ngIf="editForm.get('applicant')!.invalid && (editForm.get('applicant')!.dirty || editForm.get('applicant')!.touched)">
+                    <small class="form-text text-danger"
+                           *ngIf="editForm.get('applicant')?.errors?.required">
+                        This field is required.
+                    </small>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_leaveType">Leave Type</label>
                     <select class="form-control" id="field_leaveType" name="leaveType" formControlName="leaveType">
                         <option *ngIf="!editForm.get('leaveType')!.value" [ngValue]="null" selected></option>
@@ -84,6 +98,21 @@
                         </small>
                     </div>
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_status">Status</label>
+                    <select class="form-control" name="status" formControlName="status" id="field_status">
+                        <option value="APPLIED">APPLIED</option>
+                        <option value="ACCEPTED_BY_FIRST_AUTHORITY">ACCEPTED</option>
+                        <option value="REJECTED_BY_FIRST_AUTHORITY">REJECTED</option>
+                    </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required">
+                            This field is required.
+                        </small>
+                    </div>
+                </div>
+
                 <div>
                     <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
                         <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>

@@ -11,9 +11,11 @@ import { LeaveApplicationService } from './leave-application.service';
 import { LeaveApplicationComponent } from './leave-application.component';
 import { LeaveApplicationDetailComponent } from './leave-application-detail.component';
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
-import { LeaveApplicationReviewComponent } from 'app/entities/leave-application/leave-application-review.component';
+import { LeaveApplicationReviewFirstAuthorityComponent } from 'app/entities/leave-application/leave-application-review-first-authority.component';
 import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
 import { OtherLeaveApplicationUpdateComponent } from 'app/entities/leave-application/other-leave-application-update.component';
+import { OtherLeaveApplicationComponent } from 'app/entities/leave-application/other-leave-application.component';
+import { LeaveApplicationReviewSecondAuthorityComponent } from 'app/entities/leave-application/leave-application-review-second-authority.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -84,8 +86,17 @@ export const leaveApplicationRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'review',
-    component: LeaveApplicationReviewComponent,
+    path: 'review-first-authority',
+    component: LeaveApplicationReviewFirstAuthorityComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'review-second-authority',
+    component: LeaveApplicationReviewSecondAuthorityComponent,
     data: {
       authorities: [Authority.USER],
       pageTitle: 'LeaveApplications',
@@ -105,7 +116,19 @@ export const leaveApplicationRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: 'new/others',
+    path: 'others-leave',
+    component: OtherLeaveApplicationComponent,
+    resolve: {
+      leaveApplication: LeaveApplicationResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'others-leave/new',
     component: OtherLeaveApplicationUpdateComponent,
     resolve: {
       leaveApplication: LeaveApplicationResolve,
