@@ -10,6 +10,8 @@ import software.cstl.domain.enumeration.*;
 import software.cstl.repository.*;
 import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
+import software.cstl.service.AttendanceSummaryService;
+import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.math.BigDecimal;
 import java.time.Instant;
@@ -36,6 +38,7 @@ public class PayrollService {
     private final AttendanceRepository attendanceRepository;
     private final EmployeeSalaryRepository employeeSalaryRepository;
     private final PartialSalaryRepository partialSalaryRepository;
+    private final AttendanceSummaryService attendanceSummaryService;
 
 
     public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary){
@@ -111,6 +114,7 @@ public class PayrollService {
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
         Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
         Instant fromDateTime = partialSalary.isPresent()?partialSalary.get().getToDate().plus(1, ChronoUnit.MINUTES) : monthlySalary.getFromDate();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate() );
         List<Attendance> employeeAttendance = attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalaryDtl.getEmployee(), fromDateTime, monthlySalary.getToDate());
 
 
@@ -119,8 +123,8 @@ public class PayrollService {
 
         BigDecimal totalMonthDays = new BigDecimal(totalDays);
 
-        for(Attendance attendance: employeeAttendance){
-            EmployeeSalary activeSalaryForTheDay = attendance.getEmployeeSalary();
+        for(AttendanceSummaryDTO attendance: attendanceSummaryDTOS){
+            EmployeeSalary activeSalaryForTheDay = employeeSalaryRepository.getOne(attendance.getEmployeeSalaryId());
             gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays));
             basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays));
             houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays));

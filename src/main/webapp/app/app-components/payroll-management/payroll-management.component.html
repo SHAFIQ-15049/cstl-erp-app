@@ -53,13 +53,14 @@
 </div>
 
 <div class="row alert alert-warning" *ngIf="monthlySalary">
-    <div class="col-md-10">
+    <div class="col-md-8">
         Payroll of the month <b>{{this.selectedMonth}}</b> status: <b>{{this.monthlySalary.status === 'DONE'? 'Payroll Generated': 'Payroll Not Generated'}}</b>
     </div>
-    <div class="col-md-2" *ngIf="monthlySalary.status==='DONE'" align="right">
+    <div class="col-md-4" *ngIf="monthlySalary.status==='DONE'" align="right">
         <button class="btn btn-primary" (click)="regenerateSalaries()">Re-Generate Payroll</button>
+        <button class="btn btn-primary" (click)="downloadReport()">Download Report</button>
     </div>
-    <div class="col-md-2" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
+    <div class="col-md-4" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
         <button class="btn btn-secondary" (click)="generateSalaries()">Generate Payroll</button>
     </div>
     <div class="col-md-12">

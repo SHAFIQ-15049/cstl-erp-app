@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { PayrollManagementComponent } from 'app/app-components/payroll-management/payroll-management.component';
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
+import { PayrollReportComponent } from 'app/app-components/payroll-management/payroll-report.component';
 
 const routes: Routes = [
   {
@@ -36,6 +37,15 @@ const routes: Routes = [
           import('../../entities/monthly-salary-dtl/monthly-salary-dtl.module').then(m => m.CodeNodeErpMonthlySalaryDtlModule),
       },
     ],
+  },
+  {
+    path: 'report',
+    component: PayrollReportComponent,
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'Payroll Report',
+    },
+    canActivate: [UserRouteAccessService],
   },
 ];
 

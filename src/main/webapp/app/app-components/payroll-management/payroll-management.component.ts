@@ -175,4 +175,15 @@ export class PayrollManagementComponent implements OnInit {
         });
       });
   }
+
+  downloadReport(): void {
+    this.monthlySalaryService.downloadSalaryReport(this.monthlySalary.id!).subscribe(data => {
+      const file = new Blob([data], { type: 'application/pdf' });
+      const pdfData = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = pdfData;
+      link.download = 'salary-report.pdf';
+      link.click();
+    });
+  }
 }
