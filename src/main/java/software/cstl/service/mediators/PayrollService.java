@@ -99,11 +99,8 @@ public class PayrollService {
     public MonthlySalaryDtl regenerateMonthlySalaryForAnEmployee(Long monthlySalaryId, Long monthlySalaryDtlId){
         MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryId);
         MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtlRepository.getOne(monthlySalaryDtlId);
-        List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
-        Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
-            .collect(Collectors.toSet());
-        int totalDays = attendanceDistinctDays.size();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
+        int totalDays = attendanceSummaryDTOS.size();
         assignFine(monthlySalaryDtl);
         assignAdvance(monthlySalaryDtl);
         assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);

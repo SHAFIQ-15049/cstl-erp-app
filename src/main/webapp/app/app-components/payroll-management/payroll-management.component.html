@@ -58,7 +58,7 @@
     </div>
     <div class="col-md-4" *ngIf="monthlySalary.status==='DONE'" align="right">
         <button class="btn btn-primary" (click)="regenerateSalaries()">Re-Generate Payroll</button>
-        <button class="btn btn-primary" (click)="downloadReport()">Download Report</button>
+        <button class="btn btn-secondary" (click)="downloadReport()">Download Report</button>
     </div>
     <div class="col-md-4" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
         <button class="btn btn-secondary" (click)="generateSalaries()">Generate Payroll</button>

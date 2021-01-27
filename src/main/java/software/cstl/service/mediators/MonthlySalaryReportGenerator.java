@@ -231,11 +231,9 @@ public class MonthlySalaryReportGenerator {
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         salaryDetailsTable.addCell(cell);
 
-        List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalaryDtl.getMonthlySalary().getFromDate(), monthlySalaryDtl.getMonthlySalary().getToDate());
-        Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
-            .collect(Collectors.toSet());
-        int totalDays = attendanceDistinctDays.size();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getMonthlySalary().getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalaryDtl.getMonthlySalary().getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
+
+        int totalDays = attendanceSummaryDTOS.size();
 
         cell = new PdfPCell();
         cell.addElement(new Paragraph("0", bodyFont));
@@ -244,11 +242,11 @@ public class MonthlySalaryReportGenerator {
         salaryDetailsTable.addCell(cell);
 
 
-        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),monthlySalaryDtl.getMonthlySalary().getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalaryDtl.getMonthlySalary().getToDate().atZone(ZoneId.systemDefault()).toLocalDate() );
+        List<AttendanceSummaryDTO> employeeAttendanceSummary = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),monthlySalaryDtl.getMonthlySalary().getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalaryDtl.getMonthlySalary().getToDate().atZone(ZoneId.systemDefault()).toLocalDate() );
 
 
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(attendanceSummaryDTOS.size()+"", bodyFont));
+        cell.addElement(new Paragraph(employeeAttendanceSummary.size()+"", bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         salaryDetailsTable.addCell(cell);
