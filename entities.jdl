@@ -233,7 +233,7 @@ entity EmployeeSalary (employee_salary){
   gross BigDecimal,
   incrementAmount BigDecimal,
   incrementPercentage BigDecimal,
-  salaryStartDate LocalDate,
+  salaryStartDate Instant,
   salaryEndDate LocalDate,
   nextIncrementDate LocalDate,
   basic BigDecimal,

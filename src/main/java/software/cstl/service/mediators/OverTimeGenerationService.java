@@ -80,6 +80,8 @@ public class OverTimeGenerationService {
         BigDecimal validOverTimeSalary = BigDecimal.ZERO;
         BigDecimal totalOverTimeSalary = BigDecimal.ZERO;
         for(AttendanceSummaryDTO summaryDTO: attendanceSummaries){
+            System.out.println(summaryDTO.getOverTime().toHours());
+            System.out.println(summaryDTO.getDiff());
             Long overTimeHourOfTheDay = summaryDTO.getOverTime().toHours();
             totalOverTimeHour = totalOverTimeHour+overTimeHourOfTheDay;
 

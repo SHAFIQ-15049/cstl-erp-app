@@ -20,4 +20,6 @@ public interface EmployeeSalaryRepository extends JpaRepository<EmployeeSalary, 
     List<EmployeeSalary> findAllByEmployee_DesignationAndEmployee_Status(Designation designation, EmployeeStatus status);
 
     EmployeeSalary findByEmployeeAndStatus(Employee employee, ActiveStatus status);
+
+
 }
