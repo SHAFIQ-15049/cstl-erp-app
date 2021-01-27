@@ -8,7 +8,7 @@ import javax.persistence.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.time.LocalDate;
+import java.time.Instant;
 
 import software.cstl.domain.enumeration.ActiveStatus;
 
@@ -38,13 +38,13 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
     private BigDecimal incrementPercentage;
 
     @Column(name = "salary_start_date")
-    private LocalDate salaryStartDate;
+    private Instant salaryStartDate;
 
     @Column(name = "salary_end_date")
-    private LocalDate salaryEndDate;
+    private Instant salaryEndDate;
 
     @Column(name = "next_increment_date")
-    private LocalDate nextIncrementDate;
+    private Instant nextIncrementDate;
 
     @Column(name = "basic", precision = 21, scale = 2)
     private BigDecimal basic;
@@ -167,42 +167,42 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
         this.incrementPercentage = incrementPercentage;
     }
 
-    public LocalDate getSalaryStartDate() {
+    public Instant getSalaryStartDate() {
         return salaryStartDate;
     }
 
-    public EmployeeSalary salaryStartDate(LocalDate salaryStartDate) {
+    public EmployeeSalary salaryStartDate(Instant salaryStartDate) {
         this.salaryStartDate = salaryStartDate;
         return this;
     }
 
-    public void setSalaryStartDate(LocalDate salaryStartDate) {
+    public void setSalaryStartDate(Instant salaryStartDate) {
         this.salaryStartDate = salaryStartDate;
     }
 
-    public LocalDate getSalaryEndDate() {
+    public Instant getSalaryEndDate() {
         return salaryEndDate;
     }
 
-    public EmployeeSalary salaryEndDate(LocalDate salaryEndDate) {
+    public EmployeeSalary salaryEndDate(Instant salaryEndDate) {
         this.salaryEndDate = salaryEndDate;
         return this;
     }
 
-    public void setSalaryEndDate(LocalDate salaryEndDate) {
+    public void setSalaryEndDate(Instant salaryEndDate) {
         this.salaryEndDate = salaryEndDate;
     }
 
-    public LocalDate getNextIncrementDate() {
+    public Instant getNextIncrementDate() {
         return nextIncrementDate;
     }
 
-    public EmployeeSalary nextIncrementDate(LocalDate nextIncrementDate) {
+    public EmployeeSalary nextIncrementDate(Instant nextIncrementDate) {
         this.nextIncrementDate = nextIncrementDate;
         return this;
     }
 
-    public void setNextIncrementDate(LocalDate nextIncrementDate) {
+    public void setNextIncrementDate(Instant nextIncrementDate) {
         this.nextIncrementDate = nextIncrementDate;
     }
 

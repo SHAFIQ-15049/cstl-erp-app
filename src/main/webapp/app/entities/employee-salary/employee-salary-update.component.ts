@@ -4,6 +4,8 @@ import { HttpResponse } from '@angular/common/http';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } from 'ng-jhipster';
 
 import { IEmployeeSalary, EmployeeSalary } from 'app/shared/model/employee-salary.model';
@@ -89,9 +91,9 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
       gross: employeeSalary.gross,
       incrementAmount: employeeSalary.incrementAmount,
       incrementPercentage: employeeSalary.incrementPercentage,
-      salaryStartDate: employeeSalary.salaryStartDate,
-      salaryEndDate: employeeSalary.salaryEndDate,
-      nextIncrementDate: employeeSalary.nextIncrementDate,
+      salaryStartDate: employeeSalary.salaryStartDate ? employeeSalary.salaryStartDate.format(DATE_TIME_FORMAT) : null,
+      salaryEndDate: employeeSalary.salaryEndDate ? employeeSalary.salaryEndDate.format(DATE_TIME_FORMAT) : null,
+      nextIncrementDate: employeeSalary.nextIncrementDate ? employeeSalary.nextIncrementDate.format(DATE_TIME_FORMAT) : null,
       basic: employeeSalary.basic,
       basicPercent: employeeSalary.basicPercent,
       houseRent: employeeSalary.houseRent,
@@ -154,9 +156,15 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
       gross: this.editForm.get(['gross'])!.value,
       incrementAmount: this.editForm.get(['incrementAmount'])!.value,
       incrementPercentage: this.editForm.get(['incrementPercentage'])!.value,
-      salaryStartDate: this.editForm.get(['salaryStartDate'])!.value,
-      salaryEndDate: this.editForm.get(['salaryEndDate'])!.value,
-      nextIncrementDate: this.editForm.get(['nextIncrementDate'])!.value,
+      salaryStartDate: this.editForm.get(['salaryStartDate'])!.value
+        ? moment(this.editForm.get(['salaryStartDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      salaryEndDate: this.editForm.get(['salaryEndDate'])!.value
+        ? moment(this.editForm.get(['salaryEndDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
+      nextIncrementDate: this.editForm.get(['nextIncrementDate'])!.value
+        ? moment(this.editForm.get(['nextIncrementDate'])!.value, DATE_TIME_FORMAT)
+        : undefined,
       basic: this.editForm.get(['basic'])!.value,
       basicPercent: this.editForm.get(['basicPercent'])!.value,
       houseRent: this.editForm.get(['houseRent'])!.value,

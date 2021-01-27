@@ -52,16 +52,12 @@ export class EmployeeSalaryService {
   protected convertDateFromClient(employeeSalary: IEmployeeSalary): IEmployeeSalary {
     const copy: IEmployeeSalary = Object.assign({}, employeeSalary, {
       salaryStartDate:
-        employeeSalary.salaryStartDate && employeeSalary.salaryStartDate.isValid()
-          ? employeeSalary.salaryStartDate.format(DATE_FORMAT)
-          : undefined,
+        employeeSalary.salaryStartDate && employeeSalary.salaryStartDate.isValid() ? employeeSalary.salaryStartDate.toJSON() : undefined,
       salaryEndDate:
-        employeeSalary.salaryEndDate && employeeSalary.salaryEndDate.isValid()
-          ? employeeSalary.salaryEndDate.format(DATE_FORMAT)
-          : undefined,
+        employeeSalary.salaryEndDate && employeeSalary.salaryEndDate.isValid() ? employeeSalary.salaryEndDate.toJSON() : undefined,
       nextIncrementDate:
         employeeSalary.nextIncrementDate && employeeSalary.nextIncrementDate.isValid()
-          ? employeeSalary.nextIncrementDate.format(DATE_FORMAT)
+          ? employeeSalary.nextIncrementDate.toJSON()
           : undefined,
     });
     return copy;

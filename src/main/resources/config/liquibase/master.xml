@@ -106,6 +106,10 @@
     <include file="config/liquibase/changelog/20210119172428_executedBy_added_in_FestivalPayment_and_FestivalPaymentDtl.xml" relativeToChangelogFile="false"/>
     <include context="dev" file="config/liquibase/changelog/20210121202349_changelog.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210121202625_default_value_added_entity_Fine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127074918_next_increment_date_Dropped_in_EmployeeSalary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127075320_salary_end_date_and_salary_end_date_dropped_in_EmployeeSalary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127080740_employee_salary_refactored.xml" relativeToChangelogFile="false"/>
+
 
 
 

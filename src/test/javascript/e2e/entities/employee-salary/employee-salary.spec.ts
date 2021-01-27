@@ -1,4 +1,4 @@
-import { browser, ExpectedConditions as ec, promise } from 'protractor';
+import { browser, ExpectedConditions as ec, protractor, promise } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
 import { EmployeeSalaryComponentsPage, EmployeeSalaryDeleteDialog, EmployeeSalaryUpdatePage } from './employee-salary.page-object';
@@ -47,9 +47,9 @@ describe('EmployeeSalary e2e test', () => {
       employeeSalaryUpdatePage.setGrossInput('5'),
       employeeSalaryUpdatePage.setIncrementAmountInput('5'),
       employeeSalaryUpdatePage.setIncrementPercentageInput('5'),
-      employeeSalaryUpdatePage.setSalaryStartDateInput('2000-12-31'),
-      employeeSalaryUpdatePage.setSalaryEndDateInput('2000-12-31'),
-      employeeSalaryUpdatePage.setNextIncrementDateInput('2000-12-31'),
+      employeeSalaryUpdatePage.setSalaryStartDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      employeeSalaryUpdatePage.setSalaryEndDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      employeeSalaryUpdatePage.setNextIncrementDateInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       employeeSalaryUpdatePage.setBasicInput('5'),
       employeeSalaryUpdatePage.setBasicPercentInput('5'),
       employeeSalaryUpdatePage.setHouseRentInput('5'),
@@ -77,16 +77,16 @@ describe('EmployeeSalary e2e test', () => {
     expect(await employeeSalaryUpdatePage.getGrossInput()).to.eq('5', 'Expected gross value to be equals to 5');
     expect(await employeeSalaryUpdatePage.getIncrementAmountInput()).to.eq('5', 'Expected incrementAmount value to be equals to 5');
     expect(await employeeSalaryUpdatePage.getIncrementPercentageInput()).to.eq('5', 'Expected incrementPercentage value to be equals to 5');
-    expect(await employeeSalaryUpdatePage.getSalaryStartDateInput()).to.eq(
-      '2000-12-31',
+    expect(await employeeSalaryUpdatePage.getSalaryStartDateInput()).to.contain(
+      '2001-01-01T02:30',
       'Expected salaryStartDate value to be equals to 2000-12-31'
     );
-    expect(await employeeSalaryUpdatePage.getSalaryEndDateInput()).to.eq(
-      '2000-12-31',
+    expect(await employeeSalaryUpdatePage.getSalaryEndDateInput()).to.contain(
+      '2001-01-01T02:30',
       'Expected salaryEndDate value to be equals to 2000-12-31'
     );
-    expect(await employeeSalaryUpdatePage.getNextIncrementDateInput()).to.eq(
-      '2000-12-31',
+    expect(await employeeSalaryUpdatePage.getNextIncrementDateInput()).to.contain(
+      '2001-01-01T02:30',
       'Expected nextIncrementDate value to be equals to 2000-12-31'
     );
     expect(await employeeSalaryUpdatePage.getBasicInput()).to.eq('5', 'Expected basic value to be equals to 5');

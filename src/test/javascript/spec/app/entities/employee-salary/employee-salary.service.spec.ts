@@ -1,7 +1,7 @@
 import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import * as moment from 'moment';
-import { DATE_FORMAT } from 'app/shared/constants/input.constants';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { EmployeeSalaryService } from 'app/entities/employee-salary/employee-salary.service';
 import { IEmployeeSalary, EmployeeSalary } from 'app/shared/model/employee-salary.model';
 import { ActiveStatus } from 'app/shared/model/enumerations/active-status.model';
@@ -62,9 +62,9 @@ describe('Service Tests', () => {
       it('should find an element', () => {
         const returnedFromService = Object.assign(
           {
-            salaryStartDate: currentDate.format(DATE_FORMAT),
-            salaryEndDate: currentDate.format(DATE_FORMAT),
-            nextIncrementDate: currentDate.format(DATE_FORMAT),
+            salaryStartDate: currentDate.format(DATE_TIME_FORMAT),
+            salaryEndDate: currentDate.format(DATE_TIME_FORMAT),
+            nextIncrementDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -80,9 +80,9 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             id: 0,
-            salaryStartDate: currentDate.format(DATE_FORMAT),
-            salaryEndDate: currentDate.format(DATE_FORMAT),
-            nextIncrementDate: currentDate.format(DATE_FORMAT),
+            salaryStartDate: currentDate.format(DATE_TIME_FORMAT),
+            salaryEndDate: currentDate.format(DATE_TIME_FORMAT),
+            nextIncrementDate: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -109,9 +109,9 @@ describe('Service Tests', () => {
             gross: 1,
             incrementAmount: 1,
             incrementPercentage: 1,
-            salaryStartDate: currentDate.format(DATE_FORMAT),
-            salaryEndDate: currentDate.format(DATE_FORMAT),
-            nextIncrementDate: currentDate.format(DATE_FORMAT),
+            salaryStartDate: currentDate.format(DATE_TIME_FORMAT),
+            salaryEndDate: currentDate.format(DATE_TIME_FORMAT),
+            nextIncrementDate: currentDate.format(DATE_TIME_FORMAT),
             basic: 1,
             basicPercent: 1,
             houseRent: 1,
@@ -159,9 +159,9 @@ describe('Service Tests', () => {
             gross: 1,
             incrementAmount: 1,
             incrementPercentage: 1,
-            salaryStartDate: currentDate.format(DATE_FORMAT),
-            salaryEndDate: currentDate.format(DATE_FORMAT),
-            nextIncrementDate: currentDate.format(DATE_FORMAT),
+            salaryStartDate: currentDate.format(DATE_TIME_FORMAT),
+            salaryEndDate: currentDate.format(DATE_TIME_FORMAT),
+            nextIncrementDate: currentDate.format(DATE_TIME_FORMAT),
             basic: 1,
             basicPercent: 1,
             houseRent: 1,
