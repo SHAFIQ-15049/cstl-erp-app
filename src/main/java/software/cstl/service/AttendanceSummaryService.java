@@ -108,8 +108,8 @@ public class AttendanceSummaryService {
 
             for (Attendance attendance : attendancesByDateTime) {
                 List<Attendance> attendancesByEmployeeAndDateTime = getDayEmployeeWiseAttendances(attendancesByDateTime, attendance.getEmployee().getId());
-                Instant outTime = getInTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
-                Instant inTime = getOutTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
+                Instant inTime = getInTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
+                Instant outTime = getOutTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
 
                 AttendanceSummaryDTO attendanceSummaryDTO = getAttendanceSummaryDTO(attendance, inTime, outTime);
                 attendanceSummaryDTOs.add(attendanceSummaryDTO);
