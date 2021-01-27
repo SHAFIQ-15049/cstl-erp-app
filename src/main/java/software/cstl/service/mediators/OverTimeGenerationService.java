@@ -103,7 +103,7 @@ public class OverTimeGenerationService {
         BigDecimal extraOverTimeSalary = totalOverTimeSalary.subtract(validOverTimeSalary);
 
         overTime.setTotalOverTime(Double.parseDouble(totalOverTimeHour.toString()));
-        overTime.setOfficialOverTime(Double.parseDouble((totalOverTimeHour>validOverTimeHour? totalOverTimeHour-validOverTimeHour: totalOverTimeHour)+""));
+        overTime.setOfficialOverTime(Double.parseDouble((totalOverTimeHour>validOverTimeHour? validOverTimeHour: totalOverTimeHour)+""));
         overTime.setExtraOverTime(Double.parseDouble(extraOverTimeHour.toString()));
         overTime.setTotalAmount(totalOverTimeSalary);
         overTime.setOfficialAmount(validOverTimeSalary);
