@@ -92,11 +92,9 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
         this.year = +linkParams['year'];
         this.month = linkParams['month'];
         this.designationId = +linkParams['designationId'];
-        if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-          this.predicate = predicate;
-          this.ascending = ascending;
-          this.loadPage(pageNumber, true);
-        }
+        this.predicate = predicate;
+        this.ascending = ascending;
+        this.loadPage(pageNumber, true);
       }
     ).subscribe();
   }
