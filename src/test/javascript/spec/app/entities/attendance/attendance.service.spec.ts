@@ -4,6 +4,7 @@ import * as moment from 'moment';
 import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import { AttendanceService } from 'app/entities/attendance/attendance.service';
 import { Attendance, IAttendance } from 'app/shared/model/attendance.model';
+import { AttendanceMarkedAs } from 'app/shared/model/enumerations/attendance-marked-as.model';
 
 describe('Service Tests', () => {
   describe('Attendance Service', () => {
@@ -24,7 +25,7 @@ describe('Service Tests', () => {
       httpMock = injector.get(HttpTestingController);
       currentDate = moment();
 
-      elemDefault = new Attendance(0, currentDate, 'AAAAAAA');
+      elemDefault = new Attendance(0, currentDate, 'AAAAAAA', AttendanceMarkedAs.R);
     });
 
     describe('Service methods', () => {
@@ -48,6 +49,7 @@ describe('Service Tests', () => {
           {
             attendanceTime: currentDate.format(DATE_TIME_FORMAT),
             machineNo: 'BBBBBB',
+            markedAs: 'BBBBBB',
           },
           elemDefault
         );

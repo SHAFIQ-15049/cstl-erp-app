@@ -3,6 +3,7 @@ package software.cstl.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -30,6 +31,11 @@ public class Attendance implements Serializable {
     @NotNull
     @Column(name = "machine_no", nullable = false)
     private String machineNo;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    @Column(name = "marked_as", nullable = false)
+    private AttendanceMarkedAs markedAs;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -77,6 +83,19 @@ public class Attendance implements Serializable {
 
     public void setMachineNo(String machineNo) {
         this.machineNo = machineNo;
+    }
+
+    public AttendanceMarkedAs getMarkedAs() {
+        return markedAs;
+    }
+
+    public Attendance markedAs(AttendanceMarkedAs markedAs) {
+        this.markedAs = markedAs;
+        return this;
+    }
+
+    public void setMarkedAs(AttendanceMarkedAs markedAs) {
+        this.markedAs = markedAs;
     }
 
     public Employee getEmployee() {
@@ -142,6 +161,7 @@ public class Attendance implements Serializable {
             "id=" + getId() +
             ", attendanceTime='" + getAttendanceTime() + "'" +
             ", machineNo='" + getMachineNo() + "'" +
+            ", markedAs='" + getMarkedAs() + "'" +
             "}";
     }
 }

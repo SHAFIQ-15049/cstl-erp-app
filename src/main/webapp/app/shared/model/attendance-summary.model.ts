@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { AttendanceMarkedAs } from 'app/shared/model/enumerations/attendance-marked-as.model';
 
 export interface IAttendanceSummary {
   serialNo?: number;
@@ -6,6 +7,7 @@ export interface IAttendanceSummary {
   outTime?: Moment;
   diff?: number;
   overTime?: number;
+  attendanceMarkedAs?: AttendanceMarkedAs;
   employeeId?: number;
   employeeName?: number;
   employeeMachineId?: number;
@@ -19,6 +21,7 @@ export class AttendanceSummary implements IAttendanceSummary {
     public outTime?: Moment,
     public diff?: number,
     public overTime?: number,
+    public attendanceMarkedAs?: AttendanceMarkedAs,
     public employeeId?: number,
     public employeeName?: number,
     public employeeMachineId?: number,

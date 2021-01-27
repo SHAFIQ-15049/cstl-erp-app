@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
+import software.cstl.domain.Employee;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.time.Duration;
@@ -12,6 +14,7 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -33,6 +36,22 @@ public class AttendanceSummaryService {
         this.employeeService = employeeService;
     }
 
+    @Transactional
+    public List<AttendanceSummaryDTO> update(List<AttendanceSummaryDTO> attendanceSummaryDTOs) {
+        log.debug("Request to update Attendance Summaries : {}", attendanceSummaryDTOs);
+        for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
+            Optional<Employee> employee = employeeService.findOne(attendanceSummaryDTO.getEmployeeId());
+            if(employee.isPresent()) {
+                List<Attendance> attendances = attendanceService.findAll(employee.get(), attendanceSummaryDTO.getInTime(), attendanceSummaryDTO.getOutTime());
+                for(Attendance attendance: attendances) {
+                    attendance.setMarkedAs(attendanceSummaryDTO.getAttendanceMarkedAs());
+                    attendanceService.save(attendance);
+                }
+            }
+        }
+        return attendanceSummaryDTOs;
+    }
+
     /**
      * Get all the attendanceSummaries.
      *
@@ -42,10 +61,11 @@ public class AttendanceSummaryService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public List<AttendanceSummaryDTO> findAll(Long employeeId, LocalDate fromDate, LocalDate toDate) {
-        log.debug("Request to get all AttendanceSummaries {} {} {}", employeeId, fromDate, toDate);
+    public List<AttendanceSummaryDTO> findAll(Long employeeId, LocalDate fromDate, LocalDate toDate, AttendanceMarkedAs attendanceMarkedAs) {
+        log.debug("Request to get all AttendanceSummaries {} {} {} {}", employeeId, fromDate, toDate, attendanceMarkedAs);
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
         List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee = new ArrayList<>();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = new ArrayList<>();
 
         if(employeeId != -1) {
             for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOs) {
@@ -57,7 +77,19 @@ public class AttendanceSummaryService {
         else {
             attendanceSummaryDTOsSpecificEmployee = attendanceSummaryDTOs;
         }
-        return attendanceSummaryDTOsSpecificEmployee;
+
+        if(attendanceMarkedAs != null) {
+            for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOsSpecificEmployee) {
+                if(attendanceSummaryDTO.getAttendanceMarkedAs().equals(attendanceMarkedAs)) {
+                    attendanceSummaryDTOsSpecificEmployeeAndMarkedAs.add(attendanceSummaryDTO);
+                }
+            }
+        }
+        else {
+            attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = attendanceSummaryDTOsSpecificEmployee;
+        }
+
+        return attendanceSummaryDTOsSpecificEmployeeAndMarkedAs;
     }
 
 
@@ -146,6 +178,7 @@ public class AttendanceSummaryService {
         attendanceSummaryDTO.setOutTime(outTime);
         attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
         attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
         return attendanceSummaryDTO;
     }
 

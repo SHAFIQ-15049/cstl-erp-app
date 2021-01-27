@@ -14,6 +14,7 @@ import software.cstl.domain.Attendance;
 import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.repository.AttendanceRepository;
 import software.cstl.service.AttendanceQueryService;
 import software.cstl.service.AttendanceService;
@@ -25,7 +26,6 @@ import java.time.temporal.ChronoUnit;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Integration tests for the {@link AttendanceResource} REST controller.
  */
@@ -39,6 +39,9 @@ public class AttendanceResourceIT {
 
     private static final String DEFAULT_MACHINE_NO = "AAAAAAAAAA";
     private static final String UPDATED_MACHINE_NO = "BBBBBBBBBB";
+
+    private static final AttendanceMarkedAs DEFAULT_MARKED_AS = AttendanceMarkedAs.R;
+    private static final AttendanceMarkedAs UPDATED_MARKED_AS = AttendanceMarkedAs.WR;
 
     @Autowired
     private AttendanceRepository attendanceRepository;
@@ -66,7 +69,8 @@ public class AttendanceResourceIT {
     public static Attendance createEntity(EntityManager em) {
         Attendance attendance = new Attendance()
             .attendanceTime(DEFAULT_ATTENDANCE_TIME)
-            .machineNo(DEFAULT_MACHINE_NO);
+            .machineNo(DEFAULT_MACHINE_NO)
+            .markedAs(DEFAULT_MARKED_AS);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -88,7 +92,8 @@ public class AttendanceResourceIT {
     public static Attendance createUpdatedEntity(EntityManager em) {
         Attendance attendance = new Attendance()
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
-            .machineNo(UPDATED_MACHINE_NO);
+            .machineNo(UPDATED_MACHINE_NO)
+            .markedAs(UPDATED_MARKED_AS);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -119,7 +124,8 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
+            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)))
+            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())));
     }
 
     @Test
@@ -134,7 +140,8 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
             .andExpect(jsonPath("$.attendanceTime").value(DEFAULT_ATTENDANCE_TIME.toString()))
-            .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO));
+            .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO))
+            .andExpect(jsonPath("$.markedAs").value(DEFAULT_MARKED_AS.toString()));
     }
 
 
@@ -289,6 +296,58 @@ public class AttendanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAttendancesByMarkedAsIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where markedAs equals to DEFAULT_MARKED_AS
+        defaultAttendanceShouldBeFound("markedAs.equals=" + DEFAULT_MARKED_AS);
+
+        // Get all the attendanceList where markedAs equals to UPDATED_MARKED_AS
+        defaultAttendanceShouldNotBeFound("markedAs.equals=" + UPDATED_MARKED_AS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMarkedAsIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where markedAs not equals to DEFAULT_MARKED_AS
+        defaultAttendanceShouldNotBeFound("markedAs.notEquals=" + DEFAULT_MARKED_AS);
+
+        // Get all the attendanceList where markedAs not equals to UPDATED_MARKED_AS
+        defaultAttendanceShouldBeFound("markedAs.notEquals=" + UPDATED_MARKED_AS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMarkedAsIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where markedAs in DEFAULT_MARKED_AS or UPDATED_MARKED_AS
+        defaultAttendanceShouldBeFound("markedAs.in=" + DEFAULT_MARKED_AS + "," + UPDATED_MARKED_AS);
+
+        // Get all the attendanceList where markedAs equals to UPDATED_MARKED_AS
+        defaultAttendanceShouldNotBeFound("markedAs.in=" + UPDATED_MARKED_AS);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByMarkedAsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where markedAs is not null
+        defaultAttendanceShouldBeFound("markedAs.specified=true");
+
+        // Get all the attendanceList where markedAs is null
+        defaultAttendanceShouldNotBeFound("markedAs.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
         // Get already existing entity
         Employee employee = attendance.getEmployee();
@@ -351,7 +410,8 @@ public class AttendanceResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
-            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)));
+            .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)))
+            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())));
 
         // Check, that the count call also returns 1
         restAttendanceMockMvc.perform(get("/api/attendances/count?sort=id,desc&" + filter))

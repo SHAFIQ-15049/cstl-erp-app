@@ -16,6 +16,16 @@ export class AttendanceSummaryService {
 
   constructor(protected http: HttpClient) {}
 
+  update(attendanceSummaries: IAttendanceSummary[]): Observable<EntityArrayResponseType> {
+    const copy: IAttendanceSummary[] = [];
+    for (let i = 0; i < attendanceSummaries.length; i++) {
+      copy.push(this.convertDateFromClient(attendanceSummaries[i]));
+    }
+    return this.http
+      .put<IAttendanceSummary[]>(`${this.resourceUrl}/marked-as`, copy, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IAttendanceSummary>(`${this.resourceUrl}/${id}`, { observe: 'response' })
@@ -29,11 +39,19 @@ export class AttendanceSummaryService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  findByEmployeeIdFromAndToDate(employeeId: number, fromDate: string, toDate: string): Observable<EntityArrayResponseType> {
+  findByEmployeeIdFromAndToDate(
+    employeeId: number,
+    fromDate: string,
+    toDate: string,
+    markedAs: string
+  ): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IAttendanceSummary[]>(`${this.resourceUrl}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}`, {
-        observe: 'response',
-      })
+      .get<IAttendanceSummary[]>(
+        `${this.resourceUrl}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}/markedAs/${markedAs}`,
+        {
+          observe: 'response',
+        }
+      )
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 

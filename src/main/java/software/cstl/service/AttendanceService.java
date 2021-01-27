@@ -10,6 +10,7 @@ import software.cstl.domain.Attendance;
 import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
@@ -123,6 +124,18 @@ public class AttendanceService {
     }
 
     /**
+     * Get all the attendances.
+     *
+     * @param from the fromDateTime.
+     * @param to the toDateTime.
+     * @param attendanceMarkedAs the markedAs
+     * @return the list of entities.
+     */
+    public List<Attendance> findAll(Instant from, Instant to, AttendanceMarkedAs attendanceMarkedAs) {
+        return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqualAndMarkedAsEquals(from, to, attendanceMarkedAs);
+    }
+
+    /**
      * Save bulk attendance from TXT file.
      *
      * @param attendanceDataUpload the entity where attendance data needs to process and then save.
@@ -182,6 +195,7 @@ public class AttendanceService {
         attendance.setEmployee(employee);
         attendance.setEmployeeSalary(employeeSalary);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
+        attendance.setMarkedAs(AttendanceMarkedAs.R);
         return attendance;
     }
 

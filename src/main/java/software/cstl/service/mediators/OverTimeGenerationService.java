@@ -6,6 +6,7 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.OverTime;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.MonthType;
 import software.cstl.repository.EmployeeSalaryRepository;
@@ -72,7 +73,7 @@ public class OverTimeGenerationService {
 
 
     private void calculateOverTimeAmount(OverTime overTime) {
-        List<AttendanceSummaryDTO> attendanceSummaries = attendanceSummaryService.findAll(overTime.getEmployee().getId(), overTime.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), overTime.getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
+        List<AttendanceSummaryDTO> attendanceSummaries = attendanceSummaryService.findAll(overTime.getEmployee().getId(), overTime.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), overTime.getToDate().atZone(ZoneId.systemDefault()).toLocalDate(), AttendanceMarkedAs.R);
         Long validOverTimeHour = new Long((attendanceSummaries.size()*2));
         Long totalOverTimeHour = 0L;
         boolean overTimeOverLoaded = false;

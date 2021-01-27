@@ -36,6 +36,12 @@
       "fieldName": "machineNo",
       "fieldType": "String",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "markedAs",
+      "fieldType": "AttendanceMarkedAs",
+      "fieldValues": "R,WR,HR,WO,HO",
+      "fieldValidateRules": ["required"]
     }
   ],
   "changelogDate": "20210108055117",
