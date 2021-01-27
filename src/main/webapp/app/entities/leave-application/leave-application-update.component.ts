@@ -16,6 +16,8 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 
 type SelectableEntity = IUser | ILeaveType | IEmployee;
 
@@ -32,6 +34,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
   toDp: any;
 
   currentUser: Account | null = null;
+  leaveBalances: ILeaveBalance[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -48,6 +51,7 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   constructor(
     protected leaveApplicationService: LeaveApplicationService,
+    protected leaveBalanceService: LeaveBalanceService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
     protected employeeService: EmployeeService,
@@ -74,6 +78,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
           this.employees = res.body || [];
 
           this.updateForm(leaveApplication);
+
+          if (this.employees) {
+            this.leaveBalanceService.findByEmployeeId(this.employees[0].id!).subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+              this.leaveBalances = res1.body!;
+            });
+          }
         });
     });
 

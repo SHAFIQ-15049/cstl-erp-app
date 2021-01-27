@@ -125,4 +125,25 @@
             </div>
         </form>
     </div>
+
+    <div class="col-3">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"><span>Type</span></th>
+                    <th scope="col"><span>Total</span></th>
+                    <th scope="col"><span>Balance</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let leaveBalance of leaveBalances;">
+                    <td>{{ leaveBalance.leaveTypeName }}</td>
+                    <td>{{ leaveBalance.totalDays }}</td>
+                    <td>{{ leaveBalance.remainingDays }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
 </div>

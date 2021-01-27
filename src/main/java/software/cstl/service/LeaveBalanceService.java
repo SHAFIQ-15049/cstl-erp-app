@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static java.time.temporal.ChronoUnit.DAYS;
+
 @Service
 @Transactional
 public class LeaveBalanceService {
@@ -27,10 +29,16 @@ public class LeaveBalanceService {
 
     private final LeaveTypeService leaveTypeService;
 
-    public LeaveBalanceService(EmployeeService employeeService, LeaveApplicationService leaveApplicationService, LeaveTypeService leaveTypeService) {
+    private final WeekendService weekendService;
+
+    private final HolidayService holidayService;
+
+    public LeaveBalanceService(EmployeeService employeeService, LeaveApplicationService leaveApplicationService, LeaveTypeService leaveTypeService, WeekendService weekendService, HolidayService holidayService) {
         this.employeeService = employeeService;
         this.leaveApplicationService = leaveApplicationService;
         this.leaveTypeService = leaveTypeService;
+        this.weekendService = weekendService;
+        this.holidayService = holidayService;
     }
 
     public List<LeaveBalanceDTO> calculate(Long employeeId) {
@@ -41,7 +49,7 @@ public class LeaveBalanceService {
         if (employee.isPresent()) {
             List<LeaveType> leaveTypes = leaveTypeService.getAll();
 
-            for(LeaveType leaveType: leaveTypes) {
+            for (LeaveType leaveType : leaveTypes) {
                 LeaveBalanceDTO leaveBalanceDTO = calculate(employeeId, leaveType.getId());
                 leaveBalanceDTOs.add(leaveBalanceDTO);
             }
@@ -57,7 +65,7 @@ public class LeaveBalanceService {
 
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
 
-        if(employee.isPresent() && leaveType.isPresent()) {
+        if (employee.isPresent() && leaveType.isPresent()) {
             int numberOfYearPassedAfterJoining = getNumberOfYearsPassedAfterJoining(employee.get().getJoiningDate());
 
             LocalDate startDate = employee.get().getJoiningDate().plusYears(numberOfYearPassedAfterJoining);
@@ -65,13 +73,13 @@ public class LeaveBalanceService {
 
             List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee.get(), leaveType.get(), startDate, endDate, LeaveApplicationStatus.ACCEPTED);
 
-            leaveBalanceDTO = getLeaveBalanceDTO(employee.get(), leaveType.get(), acceptedLeaveApplications);
+            leaveBalanceDTO = getLeaveBalanceDTO(employee.get(), leaveType.get(), acceptedLeaveApplications, numberOfYearPassedAfterJoining);
         }
 
         return leaveBalanceDTO;
     }
 
-    private LeaveBalanceDTO getLeaveBalanceDTO(Employee employee, LeaveType leaveType, List<LeaveApplication> acceptedLeaveApplications) {
+    private LeaveBalanceDTO getLeaveBalanceDTO(Employee employee, LeaveType leaveType, List<LeaveApplication> acceptedLeaveApplications, int numberOfYearPassedAfterJoining) {
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
         leaveBalanceDTO.setId(leaveType.getId());
         leaveBalanceDTO.setEmployeeId(employee.getId());
@@ -80,7 +88,28 @@ public class LeaveBalanceService {
         leaveBalanceDTO.setLeaveTypeId(leaveType.getId());
         leaveBalanceDTO.setLeaveTypeName(leaveType.getName());
         leaveBalanceDTO.setTotalDays(Double.parseDouble(leaveType.getTotalDays().toString()));
-        leaveBalanceDTO.setRemainingDays((double) leaveType.getTotalDays() - acceptedLeaveApplications.size());
+        if (leaveType.getMaxValidity() > 1) {
+            if (numberOfYearPassedAfterJoining > 0) {
+
+                double earnedLeaveAmount = 0;
+
+                LocalDate startDate = employee.getJoiningDate();
+                LocalDate endDate = LocalDate.now();
+                int numberOfWeekends = weekendService.getWeekendDateMapDTOs(startDate, endDate).size();
+                int numberOfHolidays = holidayService.getHolidayDateMapDTOs(startDate, endDate).size();
+                List<LeaveApplication> takenLeaves = leaveApplicationService.getLeaveApplications(employee, leaveType, employee.getJoiningDate(), LocalDate.now(), LeaveApplicationStatus.ACCEPTED);
+                long totalDays = DAYS.between(startDate, endDate);
+                earnedLeaveAmount = (double) (totalDays - numberOfWeekends - numberOfHolidays - takenLeaves.size())/18;
+                if(earnedLeaveAmount > 40) {
+                    earnedLeaveAmount = 40;
+                }
+                leaveBalanceDTO.setRemainingDays(earnedLeaveAmount);
+            } else {
+                leaveBalanceDTO.setRemainingDays((double) 0);
+            }
+        } else {
+            leaveBalanceDTO.setRemainingDays((double) leaveType.getTotalDays() - acceptedLeaveApplications.size());
+        }
         leaveBalanceDTO.setAcceptedLeaveApplications(acceptedLeaveApplications);
         return leaveBalanceDTO;
     }
@@ -93,7 +122,7 @@ public class LeaveBalanceService {
 
         int totalYear = 0;
 
-        while(!(startDate.isAfter(today) && endDate.isBefore(today))) {
+        while (!(startDate.isAfter(today) && endDate.isBefore(today))) {
 
             totalYear = totalYear + 1;
             startDate = startDate.plusYears(1);

@@ -15,6 +15,8 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 
 type SelectableEntity = IUser | ILeaveType | IEmployee;
 
@@ -31,6 +33,7 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
   toDp: any;
 
   currentUser: Account | null = null;
+  leaveBalances: ILeaveBalance[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -47,6 +50,7 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
 
   constructor(
     protected leaveApplicationService: LeaveApplicationService,
+    protected leaveBalanceService: LeaveBalanceService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
     protected employeeService: EmployeeService,
@@ -145,6 +149,14 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
 
     this.editForm.get('to')!.valueChanges.subscribe(() => {
       this.updateTotalDays();
+    });
+
+    this.editForm.get('applicant')!.valueChanges.subscribe(() => {
+      this.leaveBalanceService
+        .findByEmployeeId(this.editForm.get('applicant')!.value.id)
+        .subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+          this.leaveBalances = res1.body!;
+        });
     });
   }
 
