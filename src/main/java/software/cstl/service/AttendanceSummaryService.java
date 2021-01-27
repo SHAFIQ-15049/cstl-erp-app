@@ -41,7 +41,7 @@ public class AttendanceSummaryService {
         log.debug("Request to update Attendance Summaries : {}", attendanceSummaryDTOs);
         for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
             Optional<Employee> employee = employeeService.findOne(attendanceSummaryDTO.getEmployeeId());
-            if(employee.isPresent()) {
+            if(employee.isPresent() && attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
                 List<Attendance> attendances = attendanceService.findAll(employee.get(), attendanceSummaryDTO.getInTime(), attendanceSummaryDTO.getOutTime());
                 for(Attendance attendance: attendances) {
                     attendance.setMarkedAs(attendanceSummaryDTO.getAttendanceMarkedAs());
@@ -175,9 +175,15 @@ public class AttendanceSummaryService {
         attendanceSummaryDTO.setEmployeeSalaryId(attendance.getEmployeeSalary() == null ? null :
             attendance.getEmployeeSalary().getId());
         attendanceSummaryDTO.setInTime(inTime);
-        attendanceSummaryDTO.setOutTime(outTime);
-        attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
-        attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        attendanceSummaryDTO.setOutTime(inTime.equals(outTime) ? null : outTime);
+        if(attendance.getMarkedAs().equals(AttendanceMarkedAs.WO) || attendance.getMarkedAs().equals(AttendanceMarkedAs.HO)) {
+            attendanceSummaryDTO.setDiff(Duration.ZERO);
+            attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime));
+        }
+        else {
+            attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
+            attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        }
         attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
         return attendanceSummaryDTO;
     }
