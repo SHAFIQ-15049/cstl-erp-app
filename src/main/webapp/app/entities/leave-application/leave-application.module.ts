@@ -8,10 +8,11 @@ import { LeaveApplicationUpdateComponent } from './leave-application-update.comp
 import { LeaveApplicationDeleteDialogComponent } from './leave-application-delete-dialog.component';
 import { leaveApplicationRoute } from './leave-application.route';
 import { LeaveApplicationReviewFirstAuthorityComponent } from 'app/entities/leave-application/leave-application-review-first-authority.component';
-import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
 import { OtherLeaveApplicationUpdateComponent } from 'app/entities/leave-application/other-leave-application-update.component';
 import { OtherLeaveApplicationComponent } from 'app/entities/leave-application/other-leave-application.component';
 import { LeaveApplicationReviewSecondAuthorityComponent } from 'app/entities/leave-application/leave-application-review-second-authority.component';
+import { LeaveApplicationActionBySecondAuthorityUpdateComponent } from 'app/entities/leave-application/leave-application-action-by-second-authority-update.component';
+import { LeaveApplicationActionByFirstAuthorityUpdateComponent } from 'app/entities/leave-application/leave-application-action-by-first-authority-update.component';
 
 @NgModule({
   imports: [CodeNodeErpSharedModule, RouterModule.forChild(leaveApplicationRoute)],
@@ -22,7 +23,8 @@ import { LeaveApplicationReviewSecondAuthorityComponent } from 'app/entities/lea
     LeaveApplicationDeleteDialogComponent,
     LeaveApplicationReviewFirstAuthorityComponent,
     LeaveApplicationReviewSecondAuthorityComponent,
-    LeaveApplicationActionUpdateComponent,
+    LeaveApplicationActionByFirstAuthorityUpdateComponent,
+    LeaveApplicationActionBySecondAuthorityUpdateComponent,
     OtherLeaveApplicationComponent,
     OtherLeaveApplicationUpdateComponent,
   ],

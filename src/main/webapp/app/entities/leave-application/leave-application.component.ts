@@ -49,14 +49,16 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
   }
 
   loadAll(): void {
-    this.leaveApplicationService
-      .query({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-        'localId.equals': this.employees[0].localId,
-      })
-      .subscribe((res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers));
+    if (this.employees.length > 0) {
+      this.leaveApplicationService
+        .query({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'applicant.equals': this.employees[0],
+        })
+        .subscribe((res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers));
+    }
   }
 
   reset(): void {

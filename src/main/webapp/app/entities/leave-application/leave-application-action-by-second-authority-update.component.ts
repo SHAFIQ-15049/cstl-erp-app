@@ -11,23 +11,19 @@ import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
-import { IEmployee } from 'app/shared/model/employee.model';
-import { EmployeeService } from 'app/entities/employee/employee.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
-import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
 
-type SelectableEntity = IUser | ILeaveType | IEmployee;
+type SelectableEntity = IUser | ILeaveType;
 
 @Component({
-  selector: 'jhi-leave-application-update',
-  templateUrl: './leave-application-update.component.html',
+  selector: 'jhi-leave-application-action-by-second-authority-update',
+  templateUrl: './leave-application-action-by-second-authority-update.component.html',
 })
-export class LeaveApplicationUpdateComponent implements OnInit {
+export class LeaveApplicationActionBySecondAuthorityUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
   leavetypes: ILeaveType[] = [];
-  employees: IEmployee[] = [];
   fromDp: any;
   toDp: any;
 
@@ -50,7 +46,6 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     protected leaveApplicationService: LeaveApplicationService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
-    protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
     protected accountService: AccountService,
     private fb: FormBuilder
@@ -60,24 +55,13 @@ export class LeaveApplicationUpdateComponent implements OnInit {
     this.accountService.identity().subscribe(currentUser => {
       this.currentUser = currentUser;
     });
-
     this.activatedRoute.data.subscribe(({ leaveApplication }) => {
+      this.updateForm(leaveApplication);
+
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
 
       this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
-
-      this.employeeService
-        .query({
-          'localId.equals': this.currentUser?.login,
-        })
-        .subscribe((res: HttpResponse<IEmployee[]>) => {
-          this.employees = res.body || [];
-
-          this.updateForm(leaveApplication);
-        });
     });
-
-    this.onChanges();
   }
 
   updateForm(leaveApplication: ILeaveApplication): void {
@@ -86,12 +70,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
       from: leaveApplication.from,
       to: leaveApplication.to,
       totalDays: leaveApplication.totalDays,
-      status: leaveApplication.status ? leaveApplication.status : LeaveApplicationStatus.APPLIED,
+      status: leaveApplication.status,
       reason: leaveApplication.reason,
-      appliedBy: this.currentUser,
-      actionTakenBy: leaveApplication.actionTakenBy,
+      appliedBy: leaveApplication.appliedBy,
+      actionTakenBy: this.currentUser,
       leaveType: leaveApplication.leaveType,
-      applicant: leaveApplication.applicant ? leaveApplication.applicant : this.employees[0],
+      applicant: leaveApplication.applicant,
     });
   }
 
@@ -143,24 +127,5 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
-  }
-
-  onChanges(): void {
-    this.editForm.get('from')!.valueChanges.subscribe(() => {
-      this.updateTotalDays();
-    });
-
-    this.editForm.get('to')!.valueChanges.subscribe(() => {
-      this.updateTotalDays();
-    });
-  }
-
-  private updateTotalDays(): void {
-    const fromDate = new Date(this.editForm.get('from')!.value);
-    const toDate = new Date(this.editForm.get('to')!.value);
-    const diff = toDate.getTime() - fromDate.getTime();
-    this.editForm.patchValue({
-      totalDays: diff / (1000 * 60 * 60 * 24) + 1,
-    });
   }
 }

@@ -11,23 +11,21 @@ import { IUser } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
 import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
-import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
 
 type SelectableEntity = IUser | ILeaveType;
 
 @Component({
-  selector: 'jhi-leave-application-action-update',
-  templateUrl: './leave-application-action-update.component.html',
+  selector: 'jhi-leave-application-action-by-first-authority-update',
+  templateUrl: './leave-application-action-by-first-authority-update.component.html',
 })
-export class LeaveApplicationActionUpdateComponent implements OnInit {
+export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements OnInit {
   isSaving = false;
   users: IUser[] = [];
   leavetypes: ILeaveType[] = [];
   fromDp: any;
   toDp: any;
-
   currentUser: Account | null = null;
 
   editForm = this.fb.group({
@@ -40,6 +38,7 @@ export class LeaveApplicationActionUpdateComponent implements OnInit {
     appliedBy: [null, Validators.required],
     actionTakenBy: [],
     leaveType: [null, Validators.required],
+    applicant: [null, Validators.required],
   });
 
   constructor(
@@ -75,6 +74,7 @@ export class LeaveApplicationActionUpdateComponent implements OnInit {
       appliedBy: leaveApplication.appliedBy,
       actionTakenBy: this.currentUser,
       leaveType: leaveApplication.leaveType,
+      applicant: leaveApplication.applicant,
     });
   }
 
@@ -104,6 +104,7 @@ export class LeaveApplicationActionUpdateComponent implements OnInit {
       appliedBy: this.editForm.get(['appliedBy'])!.value,
       actionTakenBy: this.editForm.get(['actionTakenBy'])!.value,
       leaveType: this.editForm.get(['leaveType'])!.value,
+      applicant: this.editForm.get(['applicant'])!.value,
     };
   }
 

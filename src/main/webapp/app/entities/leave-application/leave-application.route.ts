@@ -12,10 +12,11 @@ import { LeaveApplicationComponent } from './leave-application.component';
 import { LeaveApplicationDetailComponent } from './leave-application-detail.component';
 import { LeaveApplicationUpdateComponent } from './leave-application-update.component';
 import { LeaveApplicationReviewFirstAuthorityComponent } from 'app/entities/leave-application/leave-application-review-first-authority.component';
-import { LeaveApplicationActionUpdateComponent } from 'app/entities/leave-application/leave-application-action-update.component';
 import { OtherLeaveApplicationUpdateComponent } from 'app/entities/leave-application/other-leave-application-update.component';
 import { OtherLeaveApplicationComponent } from 'app/entities/leave-application/other-leave-application.component';
 import { LeaveApplicationReviewSecondAuthorityComponent } from 'app/entities/leave-application/leave-application-review-second-authority.component';
+import { LeaveApplicationActionByFirstAuthorityUpdateComponent } from 'app/entities/leave-application/leave-application-action-by-first-authority-update.component';
+import { LeaveApplicationActionBySecondAuthorityUpdateComponent } from 'app/entities/leave-application/leave-application-action-by-second-authority-update.component';
 
 @Injectable({ providedIn: 'root' })
 export class LeaveApplicationResolve implements Resolve<ILeaveApplication> {
@@ -104,8 +105,20 @@ export const leaveApplicationRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':id/action',
-    component: LeaveApplicationActionUpdateComponent,
+    path: ':id/action-by-first-authority',
+    component: LeaveApplicationActionByFirstAuthorityUpdateComponent,
+    resolve: {
+      leaveApplication: LeaveApplicationResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'LeaveApplications',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: ':id/action-by-second-authority',
+    component: LeaveApplicationActionBySecondAuthorityUpdateComponent,
     resolve: {
       leaveApplication: LeaveApplicationResolve,
     },
