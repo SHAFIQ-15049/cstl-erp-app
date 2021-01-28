@@ -52,4 +52,10 @@ public class AttendanceSummaryResource {
         log.debug("REST request to get all AttendanceSummaries");
         return attendanceSummaryService.findAll(fromDate, toDate);
     }
+
+    @GetMapping("/attendance-summaries/duty-leave")
+    public List<AttendanceSummaryDTO> getAllAttendanceSummaries() {
+        log.debug("REST request to get all AttendanceSummaries");
+        return attendanceSummaryService.findAllWhoWillGetDutyLeave();
+    }
 }

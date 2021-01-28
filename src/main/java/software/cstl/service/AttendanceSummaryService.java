@@ -12,6 +12,7 @@ import software.cstl.service.dto.AttendanceSummaryDTO;
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -50,6 +51,19 @@ public class AttendanceSummaryService {
             }
         }
         return attendanceSummaryDTOs;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AttendanceSummaryDTO> findAllWhoWillGetDutyLeave() {
+        log.debug("Request to get all AttendanceSummaries");
+        List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(LocalDate.of(1995, Month.JANUARY, 1), LocalDate.now());
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsWhoWillGetDutyLeave = new ArrayList<>();
+        for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
+            if(attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.WR) || attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.HR)) {
+                attendanceSummaryDTOsWhoWillGetDutyLeave.add(attendanceSummaryDTO);
+            }
+        }
+        return attendanceSummaryDTOsWhoWillGetDutyLeave;
     }
 
     /**

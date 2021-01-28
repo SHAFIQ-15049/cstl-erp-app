@@ -61,6 +61,12 @@ export class AttendanceSummaryService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
+  findWhoWillGetDutyLeave(): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IAttendanceSummary[]>(`${this.resourceUrl}/duty-leave`, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   protected convertDateFromClient(attendanceSummary: IAttendanceSummary): IAttendanceSummary {
     const copy: IAttendanceSummary = Object.assign({}, attendanceSummary, {
       inTime: attendanceSummary.inTime && attendanceSummary.inTime.isValid() ? attendanceSummary.inTime.toJSON() : undefined,
