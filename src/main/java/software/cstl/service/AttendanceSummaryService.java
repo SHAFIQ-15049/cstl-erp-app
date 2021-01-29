@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
 import software.cstl.domain.Employee;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.time.Duration;
@@ -59,7 +60,7 @@ public class AttendanceSummaryService {
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(LocalDate.of(1995, Month.JANUARY, 1), LocalDate.now());
         List<AttendanceSummaryDTO> attendanceSummaryDTOsWhoWillGetDutyLeave = new ArrayList<>();
         for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
-            if(attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.WR) || attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.HR)) {
+            if((attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.WR) || attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.HR)) && (attendanceSummaryDTO.getLeaveAppliedStatus() == null || attendanceSummaryDTO.getLeaveAppliedStatus().equals(LeaveAppliedStatus.NO))) {
                 attendanceSummaryDTOsWhoWillGetDutyLeave.add(attendanceSummaryDTO);
             }
         }
@@ -216,6 +217,7 @@ public class AttendanceSummaryService {
             attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
         }
         attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
+        attendanceSummaryDTO.setLeaveAppliedStatus(attendance.getLeaveApplied());
         return attendanceSummaryDTO;
     }
 

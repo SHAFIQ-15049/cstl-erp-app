@@ -16,6 +16,8 @@ public class DutyLeaveDTO implements Serializable {
 
     private String employeeName;
 
+    private AttendanceSummaryDTO attendanceSummaryDTO;
+
     public Long getId() {
         return id;
     }
@@ -54,6 +56,14 @@ public class DutyLeaveDTO implements Serializable {
 
     public void setEmployeeName(String employeeName) {
         this.employeeName = employeeName;
+    }
+
+    public AttendanceSummaryDTO getAttendanceSummaryDTO() {
+        return attendanceSummaryDTO;
+    }
+
+    public void setAttendanceSummaryDTO(AttendanceSummaryDTO attendanceSummaryDTO) {
+        this.attendanceSummaryDTO = attendanceSummaryDTO;
     }
 
     @Override

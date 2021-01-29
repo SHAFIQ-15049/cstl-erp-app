@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -36,6 +37,10 @@ public class Attendance implements Serializable {
     @Enumerated(EnumType.STRING)
     @Column(name = "marked_as", nullable = false)
     private AttendanceMarkedAs markedAs;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "leave_applied")
+    private LeaveAppliedStatus leaveApplied;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -96,6 +101,19 @@ public class Attendance implements Serializable {
 
     public void setMarkedAs(AttendanceMarkedAs markedAs) {
         this.markedAs = markedAs;
+    }
+
+    public LeaveAppliedStatus getLeaveApplied() {
+        return leaveApplied;
+    }
+
+    public Attendance leaveApplied(LeaveAppliedStatus leaveApplied) {
+        this.leaveApplied = leaveApplied;
+        return this;
+    }
+
+    public void setLeaveApplied(LeaveAppliedStatus leaveApplied) {
+        this.leaveApplied = leaveApplied;
     }
 
     public Employee getEmployee() {
@@ -162,6 +180,7 @@ public class Attendance implements Serializable {
             ", attendanceTime='" + getAttendanceTime() + "'" +
             ", machineNo='" + getMachineNo() + "'" +
             ", markedAs='" + getMarkedAs() + "'" +
+            ", leaveApplied='" + getLeaveApplied() + "'" +
             "}";
     }
 }

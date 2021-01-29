@@ -15,6 +15,7 @@ import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.repository.AttendanceRepository;
 import software.cstl.service.AttendanceQueryService;
 import software.cstl.service.AttendanceService;
@@ -43,6 +44,9 @@ public class AttendanceResourceIT {
     private static final AttendanceMarkedAs DEFAULT_MARKED_AS = AttendanceMarkedAs.R;
     private static final AttendanceMarkedAs UPDATED_MARKED_AS = AttendanceMarkedAs.WR;
 
+    private static final LeaveAppliedStatus DEFAULT_LEAVE_APPLIED = LeaveAppliedStatus.YES;
+    private static final LeaveAppliedStatus UPDATED_LEAVE_APPLIED = LeaveAppliedStatus.NO;
+
     @Autowired
     private AttendanceRepository attendanceRepository;
 
@@ -70,7 +74,8 @@ public class AttendanceResourceIT {
         Attendance attendance = new Attendance()
             .attendanceTime(DEFAULT_ATTENDANCE_TIME)
             .machineNo(DEFAULT_MACHINE_NO)
-            .markedAs(DEFAULT_MARKED_AS);
+            .markedAs(DEFAULT_MARKED_AS)
+            .leaveApplied(DEFAULT_LEAVE_APPLIED);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -93,7 +98,8 @@ public class AttendanceResourceIT {
         Attendance attendance = new Attendance()
             .attendanceTime(UPDATED_ATTENDANCE_TIME)
             .machineNo(UPDATED_MACHINE_NO)
-            .markedAs(UPDATED_MARKED_AS);
+            .markedAs(UPDATED_MARKED_AS)
+            .leaveApplied(UPDATED_LEAVE_APPLIED);
         // Add required entity
         Employee employee;
         if (TestUtil.findAll(em, Employee.class).isEmpty()) {
@@ -125,7 +131,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)))
-            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())));
+            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())))
+            .andExpect(jsonPath("$.[*].leaveApplied").value(hasItem(DEFAULT_LEAVE_APPLIED.toString())));
     }
 
     @Test
@@ -141,7 +148,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.id").value(attendance.getId().intValue()))
             .andExpect(jsonPath("$.attendanceTime").value(DEFAULT_ATTENDANCE_TIME.toString()))
             .andExpect(jsonPath("$.machineNo").value(DEFAULT_MACHINE_NO))
-            .andExpect(jsonPath("$.markedAs").value(DEFAULT_MARKED_AS.toString()));
+            .andExpect(jsonPath("$.markedAs").value(DEFAULT_MARKED_AS.toString()))
+            .andExpect(jsonPath("$.leaveApplied").value(DEFAULT_LEAVE_APPLIED.toString()));
     }
 
 
@@ -348,6 +356,58 @@ public class AttendanceResourceIT {
 
     @Test
     @Transactional
+    public void getAllAttendancesByLeaveAppliedIsEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where leaveApplied equals to DEFAULT_LEAVE_APPLIED
+        defaultAttendanceShouldBeFound("leaveApplied.equals=" + DEFAULT_LEAVE_APPLIED);
+
+        // Get all the attendanceList where leaveApplied equals to UPDATED_LEAVE_APPLIED
+        defaultAttendanceShouldNotBeFound("leaveApplied.equals=" + UPDATED_LEAVE_APPLIED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByLeaveAppliedIsNotEqualToSomething() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where leaveApplied not equals to DEFAULT_LEAVE_APPLIED
+        defaultAttendanceShouldNotBeFound("leaveApplied.notEquals=" + DEFAULT_LEAVE_APPLIED);
+
+        // Get all the attendanceList where leaveApplied not equals to UPDATED_LEAVE_APPLIED
+        defaultAttendanceShouldBeFound("leaveApplied.notEquals=" + UPDATED_LEAVE_APPLIED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByLeaveAppliedIsInShouldWork() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where leaveApplied in DEFAULT_LEAVE_APPLIED or UPDATED_LEAVE_APPLIED
+        defaultAttendanceShouldBeFound("leaveApplied.in=" + DEFAULT_LEAVE_APPLIED + "," + UPDATED_LEAVE_APPLIED);
+
+        // Get all the attendanceList where leaveApplied equals to UPDATED_LEAVE_APPLIED
+        defaultAttendanceShouldNotBeFound("leaveApplied.in=" + UPDATED_LEAVE_APPLIED);
+    }
+
+    @Test
+    @Transactional
+    public void getAllAttendancesByLeaveAppliedIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        attendanceRepository.saveAndFlush(attendance);
+
+        // Get all the attendanceList where leaveApplied is not null
+        defaultAttendanceShouldBeFound("leaveApplied.specified=true");
+
+        // Get all the attendanceList where leaveApplied is null
+        defaultAttendanceShouldNotBeFound("leaveApplied.specified=false");
+    }
+
+    @Test
+    @Transactional
     public void getAllAttendancesByEmployeeIsEqualToSomething() throws Exception {
         // Get already existing entity
         Employee employee = attendance.getEmployee();
@@ -411,7 +471,8 @@ public class AttendanceResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(attendance.getId().intValue())))
             .andExpect(jsonPath("$.[*].attendanceTime").value(hasItem(DEFAULT_ATTENDANCE_TIME.toString())))
             .andExpect(jsonPath("$.[*].machineNo").value(hasItem(DEFAULT_MACHINE_NO)))
-            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())));
+            .andExpect(jsonPath("$.[*].markedAs").value(hasItem(DEFAULT_MARKED_AS.toString())))
+            .andExpect(jsonPath("$.[*].leaveApplied").value(hasItem(DEFAULT_LEAVE_APPLIED.toString())));
 
         // Check, that the count call also returns 1
         restAttendanceMockMvc.perform(get("/api/attendances/count?sort=id,desc&" + filter))

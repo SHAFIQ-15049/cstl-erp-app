@@ -42,6 +42,11 @@
       "fieldType": "AttendanceMarkedAs",
       "fieldValues": "R,WR,HR,WO,HO",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "leaveApplied",
+      "fieldType": "LeaveAppliedStatus",
+      "fieldValues": "YES,NO"
     }
   ],
   "changelogDate": "20210108055117",

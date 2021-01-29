@@ -1,4 +1,5 @@
 import { Moment } from 'moment';
+import { IAttendanceSummary } from 'app/shared/model/attendance-summary.model';
 
 export interface IDutyLeave {
   id?: number;
@@ -6,6 +7,7 @@ export interface IDutyLeave {
   toDate?: Moment;
   employeeName?: string;
   employeeId?: number;
+  attendanceSummaryDTO?: IAttendanceSummary;
 }
 
 export class DutyLeave implements IDutyLeave {
@@ -14,6 +16,7 @@ export class DutyLeave implements IDutyLeave {
     public fromDate?: Moment,
     public toDate?: Moment,
     public employeeName?: string,
-    public employeeId?: number
+    public employeeId?: number,
+    public attendanceSummaryDTO?: IAttendanceSummary
   ) {}
 }

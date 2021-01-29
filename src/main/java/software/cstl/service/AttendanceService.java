@@ -11,6 +11,7 @@ import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.repository.AttendanceRepository;
 
 import java.time.Instant;
@@ -196,6 +197,7 @@ public class AttendanceService {
         attendance.setEmployeeSalary(employeeSalary);
         attendance.setAttendanceDataUpload(attendanceDataUpload);
         attendance.setMarkedAs(AttendanceMarkedAs.R);
+        attendance.setLeaveApplied(LeaveAppliedStatus.NO);
         return attendance;
     }
 

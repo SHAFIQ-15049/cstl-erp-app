@@ -3,12 +3,14 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { IAttendanceDataUpload } from 'app/shared/model/attendance-data-upload.model';
 import { IEmployeeSalary } from 'app/shared/model/employee-salary.model';
 import { AttendanceMarkedAs } from 'app/shared/model/enumerations/attendance-marked-as.model';
+import { LeaveAppliedStatus } from 'app/shared/model/enumerations/leave-applied-status.model';
 
 export interface IAttendance {
   id?: number;
   attendanceTime?: Moment;
   machineNo?: string;
   markedAs?: AttendanceMarkedAs;
+  leaveApplied?: LeaveAppliedStatus;
   employee?: IEmployee;
   attendanceDataUpload?: IAttendanceDataUpload;
   employeeSalary?: IEmployeeSalary;
@@ -20,6 +22,7 @@ export class Attendance implements IAttendance {
     public attendanceTime?: Moment,
     public machineNo?: string,
     public markedAs?: AttendanceMarkedAs,
+    public leaveApplied?: LeaveAppliedStatus,
     public employee?: IEmployee,
     public attendanceDataUpload?: IAttendanceDataUpload,
     public employeeSalary?: IEmployeeSalary

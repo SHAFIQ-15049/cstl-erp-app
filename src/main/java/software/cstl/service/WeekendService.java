@@ -75,6 +75,7 @@ public class WeekendService {
         return weekendRepository.findById(id);
     }
 
+
     /**
      * Delete the weekend by id.
      *

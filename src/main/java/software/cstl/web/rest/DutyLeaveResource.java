@@ -35,7 +35,7 @@ public class DutyLeaveResource {
         log.debug("REST request to update duty leaves : {}", dutyLeaveDTOS);
         List<DutyLeaveDTO> results = dutyLeaveService.save(dutyLeaveDTOS);
         return ResponseEntity.ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, "duty-leaves", results.get(0).getId().toString()))
+            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, "duty-leaves", results.get(0).getEmployeeId().toString()))
             .body(results);
     }
 

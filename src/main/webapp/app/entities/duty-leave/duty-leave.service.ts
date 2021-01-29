@@ -18,6 +18,16 @@ export class DutyLeaveService {
 
   constructor(protected http: HttpClient) {}
 
+  update(dutyLeaves: IDutyLeave[]): Observable<EntityArrayResponseType> {
+    const copy: IDutyLeave[] = [];
+    for (let i = 0; i < dutyLeaves.length; i++) {
+      copy.push(this.convertDateFromClient(dutyLeaves[i]));
+    }
+    return this.http
+      .put<IDutyLeave[]>(`${this.resourceUrl}`, copy, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   find(id: number): Observable<EntityResponseType> {
     return this.http
       .get<IDutyLeave>(`${this.resourceUrl}/${id}`, { observe: 'response' })
