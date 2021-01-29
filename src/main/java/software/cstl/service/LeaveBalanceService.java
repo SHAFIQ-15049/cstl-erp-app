@@ -31,14 +31,17 @@ public class LeaveBalanceService {
 
     private final WeekendService weekendService;
 
+    private final WeekendDateMapService weekendDateMapService;
+
     private final HolidayService holidayService;
 
-    public LeaveBalanceService(EmployeeService employeeService, LeaveApplicationService leaveApplicationService, LeaveTypeService leaveTypeService, WeekendService weekendService, HolidayService holidayService) {
+    public LeaveBalanceService(EmployeeService employeeService, LeaveApplicationService leaveApplicationService, LeaveTypeService leaveTypeService, WeekendService weekendService, WeekendDateMapService weekendDateMapService, HolidayService holidayService) {
         this.employeeService = employeeService;
         this.leaveApplicationService = leaveApplicationService;
         this.leaveTypeService = leaveTypeService;
         this.weekendService = weekendService;
         this.holidayService = holidayService;
+        this.weekendDateMapService = weekendDateMapService;
     }
 
     public List<LeaveBalanceDTO> calculate(Long employeeId) {
@@ -95,7 +98,7 @@ public class LeaveBalanceService {
 
                 LocalDate startDate = employee.getJoiningDate();
                 LocalDate endDate = LocalDate.now();
-                int numberOfWeekends = weekendService.getWeekendDateMapDTOs(startDate, endDate).size();
+                int numberOfWeekends = weekendDateMapService.getWeekendDateMapDTOs(startDate, endDate).size();
                 int numberOfHolidays = holidayService.getHolidayDateMapDTOs(startDate, endDate).size();
                 List<LeaveApplication> takenLeaves = leaveApplicationService.getLeaveApplications(employee, leaveType, employee.getJoiningDate(), LocalDate.now(), LeaveApplicationStatus.ACCEPTED);
                 long totalDays = DAYS.between(startDate, endDate);

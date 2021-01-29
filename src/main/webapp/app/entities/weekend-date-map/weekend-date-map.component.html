@@ -1,0 +1,36 @@
+<div>
+    <h2 id="page-heading">
+        <span>Weekend Date Maps</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="weekendDateMaps?.length === 0">
+        <span>No weekendDateMaps found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="weekendDateMaps && weekendDateMaps.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                    <th scope="col"  jhiSortBy="serialNo"><span>Serial No</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="weekendDate"><span>Weekend Date</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="weekendDay"><span>Weekend</span> <fa-icon icon="sort"></fa-icon></th>
+                </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+                <tr *ngFor="let weekendDateMap of weekendDateMaps ;trackBy: trackId">
+                    <td>{{ weekendDateMap.serialNo }}</td>
+                    <td>{{ weekendDateMap.weekendDate | date:'mediumDate' }}</td>
+                    <td>
+                        <div *ngIf="weekendDateMap.weekendId">
+                            <a [routerLink]="['/weekend', weekendDateMap.weekendId , 'view']" >{{ weekendDateMap.weekendDay }}</a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
