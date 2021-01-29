@@ -45,6 +45,8 @@ public class WeekendDateMapService {
         log.debug("Request to get all WeekendDateMaps of current year");
         LocalDate currentDate = LocalDate.now();
         List<WeekendDateMapDTO> weekendDateMapDTOs = getWeekendDateMapDTOs(currentDate.getYear());
+        int start = (int) pageable.getOffset();
+        int end = (int) (start + pageable.getPageSize()) > weekendDateMapDTOs.size() ? weekendDateMapDTOs.size() : (start + pageable.getPageSize());
         return new PageImpl<>(weekendDateMapDTOs, pageable, weekendDateMapDTOs.size());
     }
 
@@ -63,14 +65,15 @@ public class WeekendDateMapService {
 
         LocalDate startDate = fromDate;
         LocalDate endDate = toDate.plusDays(1);
+        long serial = 0L;
 
         while(startDate.isBefore(endDate)) {
             DayOfWeek dayOfWeek = startDate.getDayOfWeek();
             String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
-            long serial = 0L;
             for(Weekend weekend: weekends) {
                 if (day.equalsIgnoreCase(weekend.getDay().toString().trim().toUpperCase())) {
-                    WeekendDateMapDTO weekendDateMapDTO = getDateMapDTO(++serial, startDate, weekend.getId(), weekend.getDay());
+                    serial = serial + 1;
+                    WeekendDateMapDTO weekendDateMapDTO = getDateMapDTO(serial, startDate, weekend.getId(), weekend.getDay());
                     weekendDateMapDTOS.add(weekendDateMapDTO);
                 }
             }
