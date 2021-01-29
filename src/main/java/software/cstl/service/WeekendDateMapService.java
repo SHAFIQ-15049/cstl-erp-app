@@ -2,8 +2,6 @@ package software.cstl.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,13 +39,10 @@ public class WeekendDateMapService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
-    public Page<WeekendDateMapDTO> findAll(Pageable pageable) {
+    public List<WeekendDateMapDTO> findAll(Pageable pageable) {
         log.debug("Request to get all WeekendDateMaps of current year");
         LocalDate currentDate = LocalDate.now();
-        List<WeekendDateMapDTO> weekendDateMapDTOs = getWeekendDateMapDTOs(currentDate.getYear());
-        int start = (int) pageable.getOffset();
-        int end = (int) (start + pageable.getPageSize()) > weekendDateMapDTOs.size() ? weekendDateMapDTOs.size() : (start + pageable.getPageSize());
-        return new PageImpl<>(weekendDateMapDTOs, pageable, weekendDateMapDTOs.size());
+        return getWeekendDateMapDTOs(currentDate.getYear());
     }
 
     /**

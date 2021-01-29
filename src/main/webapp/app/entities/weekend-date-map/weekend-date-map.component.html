@@ -14,13 +14,13 @@
     <div class="table-responsive" id="entities" *ngIf="weekendDateMaps && weekendDateMaps.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-                    <th scope="col"  jhiSortBy="serialNo"><span>Serial No</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="weekendDate"><span>Weekend Date</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="weekendDay"><span>Weekend</span> <fa-icon icon="sort"></fa-icon></th>
+                <tr>
+                    <th scope="col" ><span>Serial No</span></th>
+                    <th scope="col" ><span>Weekend Date</span></th>
+                    <th scope="col" ><span>Weekend</span></th>
                 </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tbody>
                 <tr *ngFor="let weekendDateMap of weekendDateMaps ;trackBy: trackId">
                     <td>{{ weekendDateMap.serialNo }}</td>
                     <td>{{ weekendDateMap.weekendDate | date:'mediumDate' }}</td>
