@@ -36,7 +36,7 @@ export const weekendDateMapRoute: Routes = [
     path: '',
     component: WeekendDateMapComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.WEEKEND_ADMIN, Authority.WEEKEND_MANAGER],
       pageTitle: 'WeekendDateMaps',
     },
     canActivate: [UserRouteAccessService],
