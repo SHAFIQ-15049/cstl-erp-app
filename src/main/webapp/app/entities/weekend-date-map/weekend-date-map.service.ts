@@ -24,6 +24,18 @@ export class WeekendDateMapService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  fetchByYear(year: number): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IWeekendDateMap[]>(`${this.resourceUrl}/year/${year}`, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  fetchByYearAndMonth(year: number, month: number): Observable<EntityArrayResponseType> {
+    return this.http
+      .get<IWeekendDateMap[]>(`${this.resourceUrl}/year/${year}/month/${month}`, { observe: 'response' })
+      .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
