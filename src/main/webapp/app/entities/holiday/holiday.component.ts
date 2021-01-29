@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Subscription } from 'rxjs';
 import { JhiEventManager, JhiParseLinks } from 'ng-jhipster';
@@ -9,6 +9,7 @@ import { IHoliday } from 'app/shared/model/holiday.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { HolidayService } from './holiday.service';
 import { HolidayDeleteDialogComponent } from './holiday-delete-dialog.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-holiday',
@@ -23,11 +24,17 @@ export class HolidayComponent implements OnInit, OnDestroy {
   predicate: string;
   ascending: boolean;
 
+  fromDate = '';
+  toDate = '';
+
+  private dateFormat = 'yyyy-MM-dd';
+
   constructor(
     protected holidayService: HolidayService,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
-    protected parseLinks: JhiParseLinks
+    protected parseLinks: JhiParseLinks,
+    private datePipe: DatePipe
   ) {
     this.holidays = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -39,14 +46,30 @@ export class HolidayComponent implements OnInit, OnDestroy {
     this.ascending = true;
   }
 
+  private getFirstDayOfYear(): string {
+    const date = new Date();
+    date.setDate(date.getDate());
+    return this.datePipe.transform(new Date(date.getFullYear(), 0, 1), this.dateFormat)!;
+  }
+
+  private getLastDayOfYear(): string {
+    const date = new Date();
+    date.setDate(date.getDate());
+    return this.datePipe.transform(new Date(date.getFullYear(), 11, 31), this.dateFormat)!;
+  }
+
   loadAll(): void {
-    this.holidayService
-      .query({
-        page: this.page,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe((res: HttpResponse<IHoliday[]>) => this.paginateHolidays(res.body, res.headers));
+    if (this.canLoad()) {
+      this.holidayService
+        .query({
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'from.greaterOrEqualThan': this.fromDate,
+          'to.lessOrEqualThan': this.toDate,
+        })
+        .subscribe((res: HttpResponse<IHoliday[]>) => this.paginateHolidays(res.body, res.headers));
+    }
   }
 
   reset(): void {
@@ -60,7 +83,13 @@ export class HolidayComponent implements OnInit, OnDestroy {
     this.loadAll();
   }
 
+  canLoad(): boolean {
+    return this.fromDate !== '' && this.toDate !== '';
+  }
+
   ngOnInit(): void {
+    this.fromDate = this.getFirstDayOfYear();
+    this.toDate = this.getLastDayOfYear();
     this.loadAll();
     this.registerChangeInHolidays();
   }

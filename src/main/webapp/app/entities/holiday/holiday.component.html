@@ -2,7 +2,8 @@
     <h2 id="page-heading">
         <span>Holidays</span>
 
-        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-holiday" [routerLink]="['/holiday/new']">
+        <button id="jh-create-entity" class="btn btn-primary float-right jh-create-entity create-holiday"
+                [routerLink]="['/holiday/new']">
             <fa-icon icon="plus"></fa-icon>
             <span>
             Create a new Holiday
@@ -14,6 +15,34 @@
 
     <jhi-alert></jhi-alert>
 
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <h4>Filter by date</h4>
+                <div class="input-group mb-3">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">from</span>
+                    </div>
+
+                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                           required/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">To</span>
+                    </div>
+
+                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                           required/>
+
+                    <button type="submit" class="btn btn-info" (click)="reset()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="holidays?.length === 0">
         <span>No holidays found</span>
     </div>
@@ -21,51 +50,62 @@
     <div class="table-responsive" id="entities" *ngIf="holidays && holidays.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
-                    <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="holidayType.name"><span>Holiday Type</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="totalDays"><span>Total Days</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"></th>
-                </tr>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                <th scope="col" jhiSortBy="id"><span>ID</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="holidayType.name"><span>Holiday Type</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="from"><span>From</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="to"><span>To</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col" jhiSortBy="totalDays"><span>Total Days</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
+                <th scope="col"></th>
+            </tr>
             </thead>
-            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
-                <tr *ngFor="let holiday of holidays ;trackBy: trackId">
-                    <td><a [routerLink]="['/holiday', holiday.id, 'view']">{{ holiday.id }}</a></td>
-                    <td>
-                        <div *ngIf="holiday.holidayType">
-                            <a [routerLink]="['/holiday-type', holiday.holidayType?.id, 'view']" >{{ holiday.holidayType?.name }}</a>
-                        </div>
-                    </td>
-                    <td>{{ holiday.from | date:'mediumDate' }}</td>
-                    <td>{{ holiday.to | date:'mediumDate' }}</td>
-                    <td>{{ holiday.totalDays }}</td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/holiday', holiday.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']"
+                   [infiniteScrollDistance]="0">
+            <tr *ngFor="let holiday of holidays ;trackBy: trackId">
+                <td><a [routerLink]="['/holiday', holiday.id, 'view']">{{ holiday.id }}</a></td>
+                <td>
+                    <div *ngIf="holiday.holidayType">
+                        <a [routerLink]="['/holiday-type', holiday.holidayType?.id, 'view']">{{ holiday.holidayType?.name }}</a>
+                    </div>
+                </td>
+                <td>{{ holiday.from | date:'mediumDate' }}</td>
+                <td>{{ holiday.to | date:'mediumDate' }}</td>
+                <td>{{ holiday.totalDays }}</td>
+                <td class="text-right">
+                    <div class="btn-group">
+                        <button type="submit"
+                                [routerLink]="['/holiday', holiday.id, 'view']"
+                                class="btn btn-info btn-sm">
+                            <fa-icon icon="eye"></fa-icon>
+                            <span class="d-none d-md-inline">View</span>
+                        </button>
 
-                            <button type="submit"
-                                    [routerLink]="['/holiday', holiday.id, 'edit']"
-                                    class="btn btn-primary btn-sm">
-                                <fa-icon icon="pencil-alt"></fa-icon>
-                                <span class="d-none d-md-inline">Edit</span>
-                            </button>
+                        <button type="submit"
+                                [routerLink]="['/holiday', holiday.id, 'edit']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline">Edit</span>
+                        </button>
 
-                            <button type="submit" (click)="delete(holiday)"
-                                    *jhiHasAnyAuthority="['ROLE_ADMIN']"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
-                            </button>
-                        </div>
-                    </td>
-                </tr>
+                        <button type="submit" (click)="delete(holiday)"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN']"
+                                class="btn btn-danger btn-sm">
+                            <fa-icon icon="times"></fa-icon>
+                            <span class="d-none d-md-inline">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
