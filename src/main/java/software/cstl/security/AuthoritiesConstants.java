@@ -15,6 +15,10 @@ public final class AuthoritiesConstants {
 
     public static final String WEEKEND_MANAGER = "ROLE_WEEKEND_MANAGER";
 
+    public static final String HOLIDAY_ADMIN = "ROLE_HOLIDAY_ADMIN";
+
+    public static final String HOLIDAY_MANAGER = "ROLE_HOLIDAY_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

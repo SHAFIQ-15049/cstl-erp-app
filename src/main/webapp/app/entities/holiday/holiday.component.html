@@ -58,6 +58,7 @@
                             </button>
 
                             <button type="submit" (click)="delete(holiday)"
+                                    *jhiHasAnyAuthority="['ROLE_ADMIN']"
                                     class="btn btn-danger btn-sm">
                                 <fa-icon icon="times"></fa-icon>
                                 <span class="d-none d-md-inline">Delete</span>

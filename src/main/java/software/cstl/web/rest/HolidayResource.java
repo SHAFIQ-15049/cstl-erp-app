@@ -10,9 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import software.cstl.domain.Holiday;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.HolidayQueryService;
 import software.cstl.service.HolidayService;
 import software.cstl.service.dto.HolidayCriteria;
@@ -55,6 +57,9 @@ public class HolidayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/holidays")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_MANAGER + "\")" )
     public ResponseEntity<Holiday> createHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to save Holiday : {}", holiday);
         if (holiday.getId() != null) {
@@ -76,6 +81,9 @@ public class HolidayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/holidays")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_MANAGER + "\")" )
     public ResponseEntity<Holiday> updateHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to update Holiday : {}", holiday);
         if (holiday.getId() == null) {
@@ -134,6 +142,7 @@ public class HolidayResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/holidays/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteHoliday(@PathVariable Long id) {
         log.debug("REST request to delete Holiday : {}", id);
         holidayService.delete(id);

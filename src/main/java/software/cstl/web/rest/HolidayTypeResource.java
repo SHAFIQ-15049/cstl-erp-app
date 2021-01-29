@@ -1,11 +1,5 @@
 package software.cstl.web.rest;
 
-import software.cstl.domain.HolidayType;
-import software.cstl.service.HolidayTypeService;
-import software.cstl.web.rest.errors.BadRequestAlertException;
-import software.cstl.service.dto.HolidayTypeCriteria;
-import software.cstl.service.HolidayTypeQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -15,10 +9,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import software.cstl.domain.HolidayType;
+import software.cstl.security.AuthoritiesConstants;
+import software.cstl.service.HolidayTypeQueryService;
+import software.cstl.service.HolidayTypeService;
+import software.cstl.service.dto.HolidayTypeCriteria;
+import software.cstl.web.rest.errors.BadRequestAlertException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -57,6 +57,8 @@ public class HolidayTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/holiday-types")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")")
     public ResponseEntity<HolidayType> createHolidayType(@Valid @RequestBody HolidayType holidayType) throws URISyntaxException {
         log.debug("REST request to save HolidayType : {}", holidayType);
         if (holidayType.getId() != null) {
@@ -78,6 +80,8 @@ public class HolidayTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/holiday-types")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")")
     public ResponseEntity<HolidayType> updateHolidayType(@Valid @RequestBody HolidayType holidayType) throws URISyntaxException {
         log.debug("REST request to update HolidayType : {}", holidayType);
         if (holidayType.getId() == null) {
@@ -136,6 +140,7 @@ public class HolidayTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/holiday-types/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteHolidayType(@PathVariable Long id) {
         log.debug("REST request to delete HolidayType : {}", id);
         holidayTypeService.delete(id);
