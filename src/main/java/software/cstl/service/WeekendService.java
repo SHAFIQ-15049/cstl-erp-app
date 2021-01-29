@@ -93,7 +93,10 @@ public class WeekendService {
      */
     public List<Weekend> getActiveWeekends() {
         log.debug("Request to get all active Weekends");
-        return weekendRepository.findAll().stream().filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE)).collect(Collectors.toList());
+        return weekendRepository.findAll()
+            .stream()
+            .filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE))
+            .collect(Collectors.toList());
     }
 
     /**
@@ -117,9 +120,7 @@ public class WeekendService {
             String day = dayOfWeek.getDisplayName(TextStyle.FULL, Locale.ENGLISH).trim().toUpperCase();
             for(Weekend weekend: weekends) {
                 if (day.equalsIgnoreCase(weekend.getDay().toString().trim().toUpperCase())) {
-                    WeekendDateMapDTO weekendDateMapDTO = new WeekendDateMapDTO();
-                    weekendDateMapDTO.setWeekendDate(startDate);
-                    weekendDateMapDTO.setWeekendId(weekend.getId());
+                    WeekendDateMapDTO weekendDateMapDTO = getDateMapDTO(startDate, weekend.getId());
                     weekendDateMapDTOS.add(weekendDateMapDTO);
                 }
             }
@@ -177,5 +178,12 @@ public class WeekendService {
     public int getTotalNumberOfWeekends(int year) {
         log.debug("Request to get count of total weekends : {}", year);
         return getWeekendDateMapDTOs(year).size();
+    }
+
+    private WeekendDateMapDTO getDateMapDTO(LocalDate startDate, Long weekendId) {
+        WeekendDateMapDTO weekendDateMapDTO = new WeekendDateMapDTO();
+        weekendDateMapDTO.setWeekendDate(startDate);
+        weekendDateMapDTO.setWeekendId(weekendId);
+        return weekendDateMapDTO;
     }
 }
