@@ -60,7 +60,7 @@ public class AttendanceResource {
         if (attendance.getId() != null) {
             throw new BadRequestAlertException("A new attendance cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        Attendance result = attendanceService.save(attendance);
+        Attendance result = attendanceService.manualSave(attendance);
         return ResponseEntity.created(new URI("/api/attendances/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);

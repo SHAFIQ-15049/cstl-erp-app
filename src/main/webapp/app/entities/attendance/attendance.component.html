@@ -36,43 +36,16 @@
                 <th scope="col" jhiSortBy="id"><span>ID</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
-                <th scope="col" jhiSortBy="attendanceTime"><span>Attendance Time</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="machineNo"><span>Machine No</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="markedAs"><span>Marked As</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="leaveApplied"><span>Leave Applied</span>
+                <th scope="col" jhiSortBy="employee.name"><span>Employee</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
                 <th scope="col" jhiSortBy="employeeMachineId"><span>Employee Machine Id</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
-                <th scope="col" jhiSortBy="employeeCategory"><span>Employee Category</span>
+                <th scope="col" jhiSortBy="machineNo"><span>Machine No</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
-                <th scope="col" jhiSortBy="employeeType"><span>Employee Type</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="employee.name"><span>Employee</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="employeeSalary.id"><span>Employee Salary</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="department.id"><span>Department</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="designation.id"><span>Designation</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="line.id"><span>Line</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-                <th scope="col" jhiSortBy="grade.id"><span>Grade</span>
+                <th scope="col" jhiSortBy="attendanceTime"><span>Attendance Time</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
                 <th scope="col"></th>
@@ -81,43 +54,14 @@
             <tbody>
             <tr *ngFor="let attendance of attendances ;trackBy: trackId">
                 <td><a [routerLink]="['/attendance', attendance.id, 'view']">{{ attendance.id }}</a></td>
-                <td>{{ attendance.attendanceTime | date:'medium' }}</td>
-                <td>{{ attendance.machineNo }}</td>
-                <td>{{ attendance.markedAs }}</td>
-                <td>{{ attendance.leaveApplied }}</td>
-                <td>{{ attendance.employeeMachineId }}</td>
-                <td>{{ attendance.employeeCategory }}</td>
-                <td>{{ attendance.employeeType }}</td>
                 <td>
                     <div *ngIf="attendance.employee">
                         <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
                     </div>
                 </td>
-                <td>
-                    <div *ngIf="attendance.employeeSalary">
-                        <a [routerLink]="['/employee-salary', attendance.employeeSalary?.id, 'view']">{{ attendance.employeeSalary?.id }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="attendance.department">
-                        <a [routerLink]="['/department', attendance.department?.id, 'view']">{{ attendance.department?.id }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="attendance.designation">
-                        <a [routerLink]="['/designation', attendance.designation?.id, 'view']">{{ attendance.designation?.id }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="attendance.line">
-                        <a [routerLink]="['/line', attendance.line?.id, 'view']">{{ attendance.line?.id }}</a>
-                    </div>
-                </td>
-                <td>
-                    <div *ngIf="attendance.grade">
-                        <a [routerLink]="['/grade', attendance.grade?.id, 'view']">{{ attendance.grade?.id }}</a>
-                    </div>
-                </td>
+                <td>{{ attendance.employeeMachineId }}</td>
+                <td>{{ attendance.machineNo }}</td>
+                <td>{{ attendance.attendanceTime | date:'medium' }}</td>
                 <td class="text-right">
                     <div class="btn-group">
                         <button type="submit"

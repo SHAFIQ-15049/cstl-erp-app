@@ -61,7 +61,7 @@ public class AttendanceService {
      * @param attendances the entity to save.
      * @return the persisted entities.
      */
-    public List<Attendance> saveAll(List<Attendance> attendances) {
+    public List<Attendance> save(List<Attendance> attendances) {
         log.debug("Request to save Attendances : {}", attendances);
         return attendanceRepository.saveAll(attendances);
     }
@@ -105,8 +105,8 @@ public class AttendanceService {
      * Get all the attendances.
      *
      * @param employee the employee.
-     * @param from the fromDateTime.
-     * @param to the toDateTime.
+     * @param from     the fromDateTime.
+     * @param to       the toDateTime.
      * @return the list of entities.
      */
     public List<Attendance> findAll(Employee employee, Instant from, Instant to) {
@@ -117,7 +117,7 @@ public class AttendanceService {
      * Get all the attendances.
      *
      * @param from the fromDateTime.
-     * @param to the toDateTime.
+     * @param to   the toDateTime.
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to) {
@@ -127,13 +127,33 @@ public class AttendanceService {
     /**
      * Get all the attendances.
      *
-     * @param from the fromDateTime.
-     * @param to the toDateTime.
+     * @param from               the fromDateTime.
+     * @param to                 the toDateTime.
      * @param attendanceMarkedAs the markedAs
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to, AttendanceMarkedAs attendanceMarkedAs) {
         return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqualAndMarkedAsEquals(from, to, attendanceMarkedAs);
+    }
+
+    /**
+     * Save bulk attendance from TXT file.
+     *
+     * @param attendance the attendance data.
+     */
+    public Attendance manualSave(Attendance attendance) {
+        log.debug("Request to save Attendance : {}", attendance);
+        List<Employee> employees = employeeService.getAll();
+        List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
+
+        Attendance result = prepareAttendanceData(employees, employeeSalaries, attendance);
+        return save(result);
+    }
+
+    private Attendance prepareAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, Attendance attendance) {
+        EmployeeSalary employeeSalary = getEmployeeSalary(employeeSalaries, attendance.getEmployee());
+        return getAttendance(employeeSalary, attendance.getEmployee().getAttendanceMachineId(), attendance.getEmployee(), attendance.getMachineNo(), attendance.getAttendanceTime());
+
     }
 
     /**
@@ -152,11 +172,11 @@ public class AttendanceService {
 
         for (String line : lines) {
             Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(employees, employeeSalaries, line);
-            if(attendance != null) {
+            if (attendance != null) {
                 attendances.add(attendance);
             }
         }
-        return saveAll(attendances);
+        return save(attendances);
     }
 
     private Attendance splitAndValidateContentAndPrepareAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
@@ -168,7 +188,7 @@ public class AttendanceService {
         String attendanceDate = data[2];
         String attendanceTime = data[3];
         employee = validateAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
-        if(employee != null) {
+        if (employee != null) {
             candidateSalary = getEmployeeSalary(employeeSalaries, employee);
 
             String year = attendanceDate.substring(0, 4);
@@ -182,8 +202,7 @@ public class AttendanceService {
 
             Instant instant = Instant.parse(instantText);
             return getAttendance(candidateSalary, employeeMachineId, employee, machineCode, instant);
-        }
-        else {
+        } else {
             log.debug("ERROR! Employee or employee salary information is missing {} ", line);
             return null;
         }
@@ -217,8 +236,8 @@ public class AttendanceService {
     }
 
     private Employee validateAttendanceMachineIdWithEmployeeRecord(List<Employee> employees, String employeeMachineId) {
-        for(Employee employee: employees) {
-            if(employee.getAttendanceMachineId().equals(employeeMachineId)) {
+        for (Employee employee : employees) {
+            if (employee.getAttendanceMachineId().equals(employeeMachineId)) {
                 return employee;
             }
         }
