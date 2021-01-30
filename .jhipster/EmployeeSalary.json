@@ -15,15 +15,15 @@
     },
     {
       "fieldName": "salaryStartDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "salaryEndDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "nextIncrementDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "basic",

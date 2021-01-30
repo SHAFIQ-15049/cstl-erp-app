@@ -11,21 +11,24 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
 
 @NgModule({
   imports: [
-    RouterModule.forRoot([
-      {
-        path: 'admin',
-        data: {
-          authorities: [Authority.ADMIN],
+    RouterModule.forRoot(
+      [
+        {
+          path: 'admin',
+          data: {
+            authorities: [Authority.ADMIN],
+          },
+          canActivate: [UserRouteAccessService],
+          loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule),
         },
-        canActivate: [UserRouteAccessService],
-        loadChildren: () => import('./admin/admin-routing.module').then(m => m.AdminRoutingModule),
-      },
-      {
-        path: 'account',
-        loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
-      },
-      ...LAYOUT_ROUTES,
-    ]),
+        {
+          path: 'account',
+          loadChildren: () => import('./account/account.module').then(m => m.AccountModule),
+        },
+        ...LAYOUT_ROUTES,
+      ],
+      { enableTracing: true }
+    ),
   ],
   exports: [RouterModule],
 })

@@ -20,8 +20,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Base64Utils;
 import javax.persistence.EntityManager;
 import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -53,17 +53,14 @@ public class EmployeeSalaryResourceIT {
     private static final BigDecimal UPDATED_INCREMENT_PERCENTAGE = new BigDecimal(2);
     private static final BigDecimal SMALLER_INCREMENT_PERCENTAGE = new BigDecimal(1 - 1);
 
-    private static final LocalDate DEFAULT_SALARY_START_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_SALARY_START_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_SALARY_START_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_SALARY_START_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_SALARY_START_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_SALARY_END_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_SALARY_END_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_SALARY_END_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_SALARY_END_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_SALARY_END_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_NEXT_INCREMENT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_NEXT_INCREMENT_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_NEXT_INCREMENT_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_NEXT_INCREMENT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_NEXT_INCREMENT_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final BigDecimal DEFAULT_BASIC = new BigDecimal(1);
     private static final BigDecimal UPDATED_BASIC = new BigDecimal(2);
@@ -772,59 +769,6 @@ public class EmployeeSalaryResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeeSalariesBySalaryStartDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryStartDate is greater than or equal to DEFAULT_SALARY_START_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryStartDate.greaterThanOrEqual=" + DEFAULT_SALARY_START_DATE);
-
-        // Get all the employeeSalaryList where salaryStartDate is greater than or equal to UPDATED_SALARY_START_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryStartDate.greaterThanOrEqual=" + UPDATED_SALARY_START_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryStartDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryStartDate is less than or equal to DEFAULT_SALARY_START_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryStartDate.lessThanOrEqual=" + DEFAULT_SALARY_START_DATE);
-
-        // Get all the employeeSalaryList where salaryStartDate is less than or equal to SMALLER_SALARY_START_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryStartDate.lessThanOrEqual=" + SMALLER_SALARY_START_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryStartDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryStartDate is less than DEFAULT_SALARY_START_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryStartDate.lessThan=" + DEFAULT_SALARY_START_DATE);
-
-        // Get all the employeeSalaryList where salaryStartDate is less than UPDATED_SALARY_START_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryStartDate.lessThan=" + UPDATED_SALARY_START_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryStartDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryStartDate is greater than DEFAULT_SALARY_START_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryStartDate.greaterThan=" + DEFAULT_SALARY_START_DATE);
-
-        // Get all the employeeSalaryList where salaryStartDate is greater than SMALLER_SALARY_START_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryStartDate.greaterThan=" + SMALLER_SALARY_START_DATE);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllEmployeeSalariesBySalaryEndDateIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeSalaryRepository.saveAndFlush(employeeSalary);
@@ -877,59 +821,6 @@ public class EmployeeSalaryResourceIT {
 
     @Test
     @Transactional
-    public void getAllEmployeeSalariesBySalaryEndDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryEndDate is greater than or equal to DEFAULT_SALARY_END_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryEndDate.greaterThanOrEqual=" + DEFAULT_SALARY_END_DATE);
-
-        // Get all the employeeSalaryList where salaryEndDate is greater than or equal to UPDATED_SALARY_END_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryEndDate.greaterThanOrEqual=" + UPDATED_SALARY_END_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryEndDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryEndDate is less than or equal to DEFAULT_SALARY_END_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryEndDate.lessThanOrEqual=" + DEFAULT_SALARY_END_DATE);
-
-        // Get all the employeeSalaryList where salaryEndDate is less than or equal to SMALLER_SALARY_END_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryEndDate.lessThanOrEqual=" + SMALLER_SALARY_END_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryEndDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryEndDate is less than DEFAULT_SALARY_END_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryEndDate.lessThan=" + DEFAULT_SALARY_END_DATE);
-
-        // Get all the employeeSalaryList where salaryEndDate is less than UPDATED_SALARY_END_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryEndDate.lessThan=" + UPDATED_SALARY_END_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesBySalaryEndDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where salaryEndDate is greater than DEFAULT_SALARY_END_DATE
-        defaultEmployeeSalaryShouldNotBeFound("salaryEndDate.greaterThan=" + DEFAULT_SALARY_END_DATE);
-
-        // Get all the employeeSalaryList where salaryEndDate is greater than SMALLER_SALARY_END_DATE
-        defaultEmployeeSalaryShouldBeFound("salaryEndDate.greaterThan=" + SMALLER_SALARY_END_DATE);
-    }
-
-
-    @Test
-    @Transactional
     public void getAllEmployeeSalariesByNextIncrementDateIsEqualToSomething() throws Exception {
         // Initialize the database
         employeeSalaryRepository.saveAndFlush(employeeSalary);
@@ -979,59 +870,6 @@ public class EmployeeSalaryResourceIT {
         // Get all the employeeSalaryList where nextIncrementDate is null
         defaultEmployeeSalaryShouldNotBeFound("nextIncrementDate.specified=false");
     }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesByNextIncrementDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where nextIncrementDate is greater than or equal to DEFAULT_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldBeFound("nextIncrementDate.greaterThanOrEqual=" + DEFAULT_NEXT_INCREMENT_DATE);
-
-        // Get all the employeeSalaryList where nextIncrementDate is greater than or equal to UPDATED_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldNotBeFound("nextIncrementDate.greaterThanOrEqual=" + UPDATED_NEXT_INCREMENT_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesByNextIncrementDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where nextIncrementDate is less than or equal to DEFAULT_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldBeFound("nextIncrementDate.lessThanOrEqual=" + DEFAULT_NEXT_INCREMENT_DATE);
-
-        // Get all the employeeSalaryList where nextIncrementDate is less than or equal to SMALLER_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldNotBeFound("nextIncrementDate.lessThanOrEqual=" + SMALLER_NEXT_INCREMENT_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesByNextIncrementDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where nextIncrementDate is less than DEFAULT_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldNotBeFound("nextIncrementDate.lessThan=" + DEFAULT_NEXT_INCREMENT_DATE);
-
-        // Get all the employeeSalaryList where nextIncrementDate is less than UPDATED_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldBeFound("nextIncrementDate.lessThan=" + UPDATED_NEXT_INCREMENT_DATE);
-    }
-
-    @Test
-    @Transactional
-    public void getAllEmployeeSalariesByNextIncrementDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        employeeSalaryRepository.saveAndFlush(employeeSalary);
-
-        // Get all the employeeSalaryList where nextIncrementDate is greater than DEFAULT_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldNotBeFound("nextIncrementDate.greaterThan=" + DEFAULT_NEXT_INCREMENT_DATE);
-
-        // Get all the employeeSalaryList where nextIncrementDate is greater than SMALLER_NEXT_INCREMENT_DATE
-        defaultEmployeeSalaryShouldBeFound("nextIncrementDate.greaterThan=" + SMALLER_NEXT_INCREMENT_DATE);
-    }
-
 
     @Test
     @Transactional

@@ -4,6 +4,10 @@ import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigDecimal;
+import java.text.NumberFormat;
+import java.util.Locale;
+
 @Slf4j
 public class CodeNodeErpUtils {
     private static final char[] banglaDigits = {'০','১','২','৩','৪','৫','৬','৭','৮','৯'};
@@ -30,5 +34,10 @@ public class CodeNodeErpUtils {
             return new String("");
         }
         return builder.toString();
+    }
+
+    public static String currencyWithChosenLocalisation(BigDecimal value) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        return nf.format(value).replace("$","");
     }
 }

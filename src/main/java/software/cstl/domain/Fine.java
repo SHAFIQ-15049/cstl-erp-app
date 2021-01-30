@@ -13,6 +13,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.hibernate.annotations.ColumnDefault;
 import software.cstl.domain.enumeration.PaymentStatus;
 
 /**
@@ -54,10 +55,12 @@ public class Fine extends AbstractAuditingEntity  implements Serializable {
     private PaymentStatus paymentStatus;
 
     @Column(name = "amount_paid", precision = 21, scale = 2)
-    private BigDecimal amountPaid;
+    @ColumnDefault("0")
+    private BigDecimal amountPaid = BigDecimal.ZERO;
 
     @Column(name = "amount_left", precision = 21, scale = 2)
-    private BigDecimal amountLeft;
+    @ColumnDefault("0")
+    private BigDecimal amountLeft = BigDecimal.ZERO;
 
     @OneToMany(mappedBy = "fine")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)

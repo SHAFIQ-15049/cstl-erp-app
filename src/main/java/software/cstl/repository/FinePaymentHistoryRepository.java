@@ -1,5 +1,6 @@
 package software.cstl.repository;
 
+import software.cstl.domain.Employee;
 import software.cstl.domain.Fine;
 import software.cstl.domain.FinePaymentHistory;
 
@@ -14,6 +15,8 @@ import software.cstl.domain.enumeration.MonthType;
 @Repository
 public interface FinePaymentHistoryRepository extends JpaRepository<FinePaymentHistory, Long>, JpaSpecificationExecutor<FinePaymentHistory> {
     FinePaymentHistory findByFineAndYearAndMonthType(Fine fine, Integer year, MonthType monthType);
+
+    FinePaymentHistory findByFine_EmployeeAndYearAndMonthType(Employee employee, Integer year, MonthType monthType);
 
     Boolean existsByFineAndYearAndMonthType(Fine fine, Integer year, MonthType monthType);
 }

@@ -1,9 +1,11 @@
 package software.cstl.service.mediators;
 
 import com.itextpdf.text.*;
+import com.itextpdf.text.pdf.BaseFont;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import com.itextpdf.text.pdf.languages.IndicLigaturizer;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +17,7 @@ import software.cstl.service.extended.EmployeeExtService;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.time.format.DateTimeFormatter;
 
 @Component
@@ -99,8 +102,17 @@ public class IdCardGeneratorService {
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
 
+        byte[] bytes = employee.getPersonalInfo().getBanglaName().getBytes(StandardCharsets.US_ASCII);
+        StringBuilder sb = new StringBuilder();
+        for(byte b: bytes){
+            sb.append(String.format("x%02x", b));
+        }
 
-        infoCell = new PdfPCell(new Paragraph(": "+ employee.getName().toUpperCase(), headFont));
+        IndicLigaturizer indicLigaturizer;
+
+        BaseFont base = BaseFont.createFont("D://kalpurush.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
+        Font font = new Font(base, 11f, Font.BOLD);
+        infoCell = new PdfPCell(new Paragraph(": "+  employee.getPersonalInfo().getBanglaName(), headFont));
 
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);

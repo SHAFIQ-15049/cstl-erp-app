@@ -344,7 +344,14 @@
                             <span>Festival Allowance Payment Dtl</span>
                         </a>
                     </li>
+                  <li>
+                      <a class="dropdown-item" routerLink="employee-salary" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
+                            <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                            <span>Employee Salary</span>
+                    </a>
+                  </li>
                     <li>
+
                         <a class="dropdown-item" routerLink="duty-leave" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" (click)="collapseNavbar()">
                             <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                             <span>Duty Leave</span>

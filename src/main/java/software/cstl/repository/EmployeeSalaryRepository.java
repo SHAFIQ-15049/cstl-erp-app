@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import software.cstl.domain.enumeration.ActiveStatus;
 import software.cstl.domain.enumeration.EmployeeStatus;
 
+import java.time.Instant;
 import java.util.List;
 
 /**
@@ -20,4 +21,9 @@ public interface EmployeeSalaryRepository extends JpaRepository<EmployeeSalary, 
     List<EmployeeSalary> findAllByEmployee_DesignationAndEmployee_Status(Designation designation, EmployeeStatus status);
 
     EmployeeSalary findByEmployeeAndStatus(Employee employee, ActiveStatus status);
+
+    List<EmployeeSalary> findAllByStatusAndSalaryStartDateIsBeforeAndSalaryEndDateIsAfter(ActiveStatus status, Instant  startDate, Instant endDate);
+
+    List<EmployeeSalary> findAllByStatusAndSalaryEndDateIsBefore(ActiveStatus status, Instant dateTime);
+
 }

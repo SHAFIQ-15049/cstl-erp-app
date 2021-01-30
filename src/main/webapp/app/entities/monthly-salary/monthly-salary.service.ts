@@ -48,6 +48,10 @@ export class MonthlySalaryService {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
+  downloadSalaryReport(salaryId: number): Observable<any> {
+    return this.http.get(this.resourceUrl + '/report/' + salaryId, { responseType: 'blob' });
+  }
+
   protected convertDateFromClient(monthlySalary: IMonthlySalary): IMonthlySalary {
     const copy: IMonthlySalary = Object.assign({}, monthlySalary, {
       fromDate: monthlySalary.fromDate && monthlySalary.fromDate.isValid() ? monthlySalary.fromDate.toJSON() : undefined,

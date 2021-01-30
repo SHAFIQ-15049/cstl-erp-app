@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { User } from 'app/core/user/user.model';
 import { UserService } from 'app/core/user/user.service';
+import { EmployeeService } from 'app/entities/employee/employee.service';
 
 @Component({
   selector: 'jhi-user-mgmt-update',
@@ -13,6 +14,7 @@ export class UserManagementUpdateComponent implements OnInit {
   user!: User;
   authorities: string[] = [];
   isSaving = false;
+  employeeId?: number;
 
   editForm = this.fb.group({
     id: [],
@@ -33,7 +35,12 @@ export class UserManagementUpdateComponent implements OnInit {
     authorities: [],
   });
 
-  constructor(private userService: UserService, private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(
+    private userService: UserService,
+    private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private employeeService: EmployeeService
+  ) {}
 
   ngOnInit(): void {
     this.route.data.subscribe(({ user }) => {
@@ -41,8 +48,24 @@ export class UserManagementUpdateComponent implements OnInit {
         this.user = user;
         if (this.user.id === undefined) {
           this.user.activated = true;
+          this.route.queryParams.subscribe(params => {
+            this.employeeId = +params['employeeId'];
+            if (this.employeeId) {
+              this.employeeService.find(this.employeeId).subscribe(employeeRes => {
+                const employee = employeeRes.body;
+                const nameInParts = employee?.name?.split(' ')!;
+                this.user.login = employee?.localId;
+                this.user.firstName = nameInParts[0] || '';
+                this.user.lastName = nameInParts[nameInParts.length]! || '';
+                this.updateForm(this.user);
+              });
+            } else {
+              this.updateForm(user);
+            }
+          });
+        } else {
+          this.updateForm(user);
         }
-        this.updateForm(user);
       }
     });
     this.userService.authorities().subscribe(authorities => {

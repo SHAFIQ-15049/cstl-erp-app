@@ -1,6 +1,6 @@
 <style>
     .specialAllowance{
-        background-color: ;
+        background-color: white;
     }
 </style>
 <div class="row justify-content-center">
@@ -36,35 +36,26 @@
                                formControlName="incrementPercentage"/>
                     </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_salaryStartDate">Salary Start Date</label>
-                        <div class="input-group">
-                            <input id="field_salaryStartDate" type="text" class="form-control" name="salaryStartDate" ngbDatepicker #salaryStartDateDp="ngbDatepicker" formControlName="salaryStartDate"/>
-                            <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="salaryStartDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-                        </span>
-                        </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_salaryStartDate">Salary Start Date</label>
+                    <div class="d-flex">
+                        <input id="field_salaryStartDate" type="datetime-local" class="form-control" name="salaryStartDate" formControlName="salaryStartDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
+                </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_salaryEndDate">Salary End Date</label>
-                        <div class="input-group">
-                            <input id="field_salaryEndDate" type="text" class="form-control" name="salaryEndDate" ngbDatepicker #salaryEndDateDp="ngbDatepicker" formControlName="salaryEndDate"/>
-                            <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="salaryEndDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-                        </span>
-                        </div>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_salaryEndDate">Salary End Date</label>
+                    <div class="d-flex">
+                        <input id="field_salaryEndDate" type="datetime-local" class="form-control" name="salaryEndDate" formControlName="salaryEndDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
+                </div>
 
-                    <div class="form-group col-md-12">
-                        <label class="form-control-label" for="field_nextIncrementDate">Next Increment Date</label>
-                        <div class="input-group">
-                            <input id="field_nextIncrementDate" type="text" class="form-control" name="nextIncrementDate" ngbDatepicker #nextIncrementDateDp="ngbDatepicker" formControlName="nextIncrementDate"/>
-                            <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="nextIncrementDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
-                        </span>
-                        </div>
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_nextIncrementDate">Next Increment Date</label>
+                    <div class="d-flex">
+                        <input id="field_nextIncrementDate" type="datetime-local" class="form-control" name="nextIncrementDate" formControlName="nextIncrementDate" placeholder="YYYY-MM-DD HH:mm"/>
                     </div>
+                </div>
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_basic">Basic</label>

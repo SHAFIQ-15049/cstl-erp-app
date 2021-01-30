@@ -33,7 +33,7 @@
     <include file="config/liquibase/changelog/20201226033211_added_entity_HolidayType.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201226033631_added_entity_Holiday.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201226040037_added_entity_LeaveType.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20201226040545_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
+    <include  file="config/liquibase/changelog/20201226040545_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210108052957_added_entity_AttendanceDataUpload.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210108055117_added_entity_Attendance.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
@@ -104,6 +104,13 @@
     <include file="config/liquibase/changelog/20210118162802_unique_constraints_added_FestivalAllowancePayment.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210119161247_executed_by_dropped_Festival_Payment_and_Dtl.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20210119172428_executedBy_added_in_FestivalPayment_and_FestivalPaymentDtl.xml" relativeToChangelogFile="false"/>
+    <include context="dev" file="config/liquibase/changelog/20210121202349_changelog.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210121202625_default_value_added_entity_Fine.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127074918_next_increment_date_Dropped_in_EmployeeSalary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127075320_salary_end_date_and_salary_end_date_dropped_in_EmployeeSalary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210127080740_employee_salary_refactored.xml" relativeToChangelogFile="false"/>
+
+
 
 
 

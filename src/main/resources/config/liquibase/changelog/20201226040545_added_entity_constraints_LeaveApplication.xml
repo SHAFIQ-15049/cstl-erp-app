@@ -7,7 +7,7 @@
         Added the constraints for entity LeaveApplication.
     -->
     <changeSet id="20201226040545-2" author="jhipster">
-        
+        <validCheckSum>8:016dca3bbe29780b2bc109c10ec096b5</validCheckSum>
         <addForeignKeyConstraint baseColumnNames="applied_by_id"
                                  baseTableName="leave_application"
                                  constraintName="fk_leave_application_applied_by_id"
