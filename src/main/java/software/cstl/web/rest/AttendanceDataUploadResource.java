@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.AttendanceDataUploadService;
 import software.cstl.service.dto.AttendanceDataUploadDTO;
 import software.cstl.web.rest.errors.BadRequestAlertException;
@@ -43,6 +45,9 @@ public class AttendanceDataUploadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/attendance-data-uploads")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<AttendanceDataUploadDTO> createAttendanceDataUpload(@Valid @RequestBody AttendanceDataUploadDTO attendanceDataUploadDTO) throws URISyntaxException {
         log.debug("REST request to save AttendanceDataUpload : {}", attendanceDataUploadDTO);
         if (attendanceDataUploadDTO.getId() != null) {

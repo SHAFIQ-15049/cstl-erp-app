@@ -40,7 +40,7 @@ export const attendanceDataUploadRoute: Routes = [
       attendanceDataUpload: AttendanceDataUploadResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       pageTitle: 'AttendanceDataUploads',
     },
     canActivate: [UserRouteAccessService],
