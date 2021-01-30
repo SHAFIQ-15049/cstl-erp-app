@@ -7,6 +7,9 @@ import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 import { LeaveBalanceService } from './leave-balance.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ILeaveApplication } from 'app/shared/model/leave-application.model';
+import { LeaveBalanceDetailComponent } from 'app/entities/leave-balance/leave-balance-detail.component';
 
 @Component({
   selector: 'jhi-leave-balance',
@@ -21,7 +24,8 @@ export class LeaveBalanceComponent implements OnInit, OnDestroy {
   constructor(
     protected leaveBalanceService: LeaveBalanceService,
     protected employeeService: EmployeeService,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal
   ) {}
 
   loadAll(): void {
@@ -50,5 +54,10 @@ export class LeaveBalanceComponent implements OnInit, OnDestroy {
 
   registerChangeInLeaveBalances(): void {
     this.eventSubscriber = this.eventManager.subscribe('leaveBalanceListModification', () => this.loadAll());
+  }
+
+  showDetail(acceptedLeaveApplications?: ILeaveApplication[]): void {
+    const modalRef = this.modalService.open(LeaveBalanceDetailComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.leaveApplications = acceptedLeaveApplications;
   }
 }

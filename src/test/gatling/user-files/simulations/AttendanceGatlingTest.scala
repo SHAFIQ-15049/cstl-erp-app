@@ -69,6 +69,8 @@ class AttendanceGatlingTest extends Simulation {
                 "id":null
                 , "attendanceTime":"2020-01-01T00:00:00.000Z"
                 , "machineNo":"SAMPLE_TEXT"
+                , "markedAs":"R"
+                , "leaveApplied":"YES"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_attendance_url"))).exitHereIfFailed

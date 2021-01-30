@@ -1,11 +1,11 @@
-id;attendance_time;machine_no;employee_id
-1;2021-01-07T19:49:36;overriding cross-platform quantifying;1
-2;2021-01-07T13:27:34;Iceland;2
-3;2021-01-07T20:27:25;directional turn-key frictionless;3
-4;2021-01-08T01:29:22;enterprise Expanded;4
-5;2021-01-07T11:01:53;local area network productize pixel;5
-6;2021-01-08T02:14:27;Personal Loan Account model 24 hour;6
-7;2021-01-08T02:01:14;channels;7
-8;2021-01-07T16:36:54;array withdrawal;8
-9;2021-01-08T00:40:45;Grocery;9
-10;2021-01-07T09:05:48;Facilitator Investment Account Principal;10
+id;attendance_time;machine_no;marked_as;leave_applied;employee_id
+1;2021-01-07T19:49:36;overriding cross-platform quantifying;WR;NO;1
+2;2021-01-07T21:15:37;Expanded optical local area network;WO;YES;2
+3;2021-01-08T02:01:14;channels;WR;YES;3
+4;2021-01-07T09:05:48;Facilitator Investment Account Principal;R;YES;4
+5;2021-01-07T10:19:56;Oklahoma;HR;YES;5
+6;2021-01-07T16:15:27;1080p Delaware;WR;NO;6
+7;2021-01-07T08:32:20;Shores;HR;YES;7
+8;2021-01-07T17:17:47;repurpose Strategist;HR;YES;8
+9;2021-01-07T15:46:14;approach Austria;HR;NO;9
+10;2021-01-08T02:40:50;Soft Handcrafted Towels;WO;YES;10

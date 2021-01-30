@@ -8,7 +8,7 @@
     <jhi-alert></jhi-alert>
 
     <div class="row">
-        <div class="col-md-9">
+        <div class="col-md-12">
             <form>
                 <h4>Filter by date</h4>
 
@@ -34,6 +34,16 @@
                     <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
                            required/>
 
+                    <select class="form-control" name="markedType"
+                            [(ngModel)]="markedType" required>
+                        <option value="null">Select All</option>
+                        <option value="R">Regular</option>
+                        <option value="WR">Weekend/Regular</option>
+                        <option value="HR">Holiday/Regular</option>
+                        <option value="WO">Weekend/Overtime</option>
+                        <option value="HO">Holiday/Overtime</option>
+                    </select>
+
                     <button type="submit" class="btn btn-info" (click)="loadAll()">
                         <fa-icon icon="search"></fa-icon>
                     </button>
@@ -58,6 +68,7 @@
                     <th scope="col" ><span>Out</span></th>
                     <th scope="col" ><span>Diff</span></th>
                     <th scope="col" ><span>OverTime</span></th>
+                    <th scope="col" ><span>MarkedAs</span></th>
                 </tr>
             </thead>
             <tbody>
@@ -77,8 +88,24 @@
                     <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
                     <td>{{ attendanceSummary.diff }}</td>
                     <td>{{ attendanceSummary.overTime }}</td>
+                    <td>
+                        <select class="form-control" name="markedAs" id="field_markedAs" [(ngModel)]="attendanceSummary.attendanceMarkedAs">
+                            <option value="R">Regular</option>
+                            <option value="WR">Weekend/Regular</option>
+                            <option value="HR">Holiday/Regular</option>
+                            <option value="WO">Weekend/Overtime</option>
+                            <option value="HO">Holiday/Overtime</option>
+                        </select>
+                    </td>
                 </tr>
             </tbody>
         </table>
+
+        <div>
+            <button style="float:right" type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
+                    class="btn btn-success">
+                <span class="d-none d-md-inline">Update</span>
+            </button>
+        </div>
     </div>
 </div>

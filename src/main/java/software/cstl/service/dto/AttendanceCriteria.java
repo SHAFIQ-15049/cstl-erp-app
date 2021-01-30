@@ -5,6 +5,8 @@ import io.github.jhipster.service.filter.Filter;
 import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,6 +21,42 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class AttendanceCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering AttendanceMarkedAs
+     */
+    public static class AttendanceMarkedAsFilter extends Filter<AttendanceMarkedAs> {
+
+        public AttendanceMarkedAsFilter() {
+        }
+
+        public AttendanceMarkedAsFilter(AttendanceMarkedAsFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public AttendanceMarkedAsFilter copy() {
+            return new AttendanceMarkedAsFilter(this);
+        }
+
+    }
+    /**
+     * Class for filtering LeaveAppliedStatus
+     */
+    public static class LeaveAppliedStatusFilter extends Filter<LeaveAppliedStatus> {
+
+        public LeaveAppliedStatusFilter() {
+        }
+
+        public LeaveAppliedStatusFilter(LeaveAppliedStatusFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public LeaveAppliedStatusFilter copy() {
+            return new LeaveAppliedStatusFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -27,6 +65,10 @@ public class AttendanceCriteria implements Serializable, Criteria {
     private InstantFilter attendanceTime;
 
     private StringFilter machineNo;
+
+    private AttendanceMarkedAsFilter markedAs;
+
+    private LeaveAppliedStatusFilter leaveApplied;
 
     private LongFilter employeeId;
 
@@ -41,6 +83,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.attendanceTime = other.attendanceTime == null ? null : other.attendanceTime.copy();
         this.machineNo = other.machineNo == null ? null : other.machineNo.copy();
+        this.markedAs = other.markedAs == null ? null : other.markedAs.copy();
+        this.leaveApplied = other.leaveApplied == null ? null : other.leaveApplied.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
         this.attendanceDataUploadId = other.attendanceDataUploadId == null ? null : other.attendanceDataUploadId.copy();
         this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
@@ -73,6 +117,22 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     public void setMachineNo(StringFilter machineNo) {
         this.machineNo = machineNo;
+    }
+
+    public AttendanceMarkedAsFilter getMarkedAs() {
+        return markedAs;
+    }
+
+    public void setMarkedAs(AttendanceMarkedAsFilter markedAs) {
+        this.markedAs = markedAs;
+    }
+
+    public LeaveAppliedStatusFilter getLeaveApplied() {
+        return leaveApplied;
+    }
+
+    public void setLeaveApplied(LeaveAppliedStatusFilter leaveApplied) {
+        this.leaveApplied = leaveApplied;
     }
 
     public LongFilter getEmployeeId() {
@@ -113,6 +173,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(attendanceTime, that.attendanceTime) &&
             Objects.equals(machineNo, that.machineNo) &&
+            Objects.equals(markedAs, that.markedAs) &&
+            Objects.equals(leaveApplied, that.leaveApplied) &&
             Objects.equals(employeeId, that.employeeId) &&
             Objects.equals(attendanceDataUploadId, that.attendanceDataUploadId) &&
             Objects.equals(employeeSalaryId, that.employeeSalaryId);
@@ -124,6 +186,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
         id,
         attendanceTime,
         machineNo,
+        markedAs,
+        leaveApplied,
         employeeId,
         attendanceDataUploadId,
         employeeSalaryId
@@ -137,6 +201,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
                 (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
+                (markedAs != null ? "markedAs=" + markedAs + ", " : "") +
+                (leaveApplied != null ? "leaveApplied=" + leaveApplied + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
                 (attendanceDataUploadId != null ? "attendanceDataUploadId=" + attendanceDataUploadId + ", " : "") +
                 (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +

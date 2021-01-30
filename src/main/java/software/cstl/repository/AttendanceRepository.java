@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import software.cstl.domain.Attendance;
 import software.cstl.domain.Employee;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
 
 import java.time.Instant;
 import java.time.LocalDate;
@@ -28,6 +29,8 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Long>, J
     List<Attendance> findAllByEmployeeAndAttendanceTimeBetween(Employee employee, Instant from, Instant to);
 
     List<Attendance> getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(Instant from, Instant to);
+
+    List<Attendance> getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqualAndMarkedAsEquals(Instant from, Instant to, AttendanceMarkedAs attendanceMarkedAs);
 
     List<Attendance> getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(Employee employee, Instant from, Instant to);
 }

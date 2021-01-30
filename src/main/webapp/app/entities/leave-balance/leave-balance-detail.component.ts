@@ -1,22 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-
-import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { Component } from '@angular/core';
+import { ILeaveApplication } from 'app/shared/model/leave-application.model';
+import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { JhiEventManager } from 'ng-jhipster';
 
 @Component({
   selector: 'jhi-leave-balance-detail',
   templateUrl: './leave-balance-detail.component.html',
 })
-export class LeaveBalanceDetailComponent implements OnInit {
-  leaveBalance: ILeaveBalance | null = null;
+export class LeaveBalanceDetailComponent {
+  leaveApplications?: ILeaveApplication[];
 
-  constructor(protected activatedRoute: ActivatedRoute) {}
+  constructor(public activeModal: NgbActiveModal, protected eventManager: JhiEventManager) {}
 
-  ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ leaveBalance }) => (this.leaveBalance = leaveBalance));
+  cancel(): void {
+    this.activeModal.dismiss();
   }
 
-  previousState(): void {
-    window.history.back();
+  trackId(index: number, item: ILeaveApplication): number {
+    // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
+    return item.id!;
   }
 }

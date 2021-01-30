@@ -5,13 +5,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
+import software.cstl.domain.Employee;
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.time.Duration;
 import java.time.Instant;
 import java.time.LocalDate;
+import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -33,6 +38,35 @@ public class AttendanceSummaryService {
         this.employeeService = employeeService;
     }
 
+    @Transactional
+    public List<AttendanceSummaryDTO> update(List<AttendanceSummaryDTO> attendanceSummaryDTOs) {
+        log.debug("Request to update Attendance Summaries : {}", attendanceSummaryDTOs);
+        for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
+            Optional<Employee> employee = employeeService.findOne(attendanceSummaryDTO.getEmployeeId());
+            if(employee.isPresent() && attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
+                List<Attendance> attendances = attendanceService.findAll(employee.get(), attendanceSummaryDTO.getInTime(), attendanceSummaryDTO.getOutTime());
+                for(Attendance attendance: attendances) {
+                    attendance.setMarkedAs(attendanceSummaryDTO.getAttendanceMarkedAs());
+                    attendanceService.save(attendance);
+                }
+            }
+        }
+        return attendanceSummaryDTOs;
+    }
+
+    @Transactional(readOnly = true)
+    public List<AttendanceSummaryDTO> findAllWhoWillGetDutyLeave() {
+        log.debug("Request to get all AttendanceSummaries");
+        List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(LocalDate.of(1995, Month.JANUARY, 1), LocalDate.now());
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsWhoWillGetDutyLeave = new ArrayList<>();
+        for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOs) {
+            if((attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.WR) || attendanceSummaryDTO.getAttendanceMarkedAs().equals(AttendanceMarkedAs.HR)) && (attendanceSummaryDTO.getLeaveAppliedStatus() == null || attendanceSummaryDTO.getLeaveAppliedStatus().equals(LeaveAppliedStatus.NO))) {
+                attendanceSummaryDTOsWhoWillGetDutyLeave.add(attendanceSummaryDTO);
+            }
+        }
+        return attendanceSummaryDTOsWhoWillGetDutyLeave;
+    }
+
     /**
      * Get all the attendanceSummaries.
      *
@@ -42,11 +76,41 @@ public class AttendanceSummaryService {
      * @return the list of entities.
      */
     @Transactional(readOnly = true)
+    public List<AttendanceSummaryDTO> findAll(Long employeeId, LocalDate fromDate, LocalDate toDate, AttendanceMarkedAs attendanceMarkedAs) {
+        log.debug("Request to get all AttendanceSummaries {} {} {} {}", employeeId, fromDate, toDate, attendanceMarkedAs);
+        List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee = new ArrayList<>();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = new ArrayList<>();
+        attendanceSummaryDTOsSpecificEmployee = filterByEmployee(employeeId, attendanceSummaryDTOs, attendanceSummaryDTOsSpecificEmployee);
+        attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = filterByEmployeeAndMarkedAs(attendanceMarkedAs, attendanceSummaryDTOsSpecificEmployee, attendanceSummaryDTOsSpecificEmployeeAndMarkedAs);
+        return attendanceSummaryDTOsSpecificEmployeeAndMarkedAs;
+    }
+
+    @Transactional(readOnly = true)
     public List<AttendanceSummaryDTO> findAll(Long employeeId, LocalDate fromDate, LocalDate toDate) {
         log.debug("Request to get all AttendanceSummaries {} {} {}", employeeId, fromDate, toDate);
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
         List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee = new ArrayList<>();
+        attendanceSummaryDTOsSpecificEmployee = filterByEmployee(employeeId, attendanceSummaryDTOs, attendanceSummaryDTOsSpecificEmployee);
+        return attendanceSummaryDTOsSpecificEmployee;
+    }
 
+
+    private List<AttendanceSummaryDTO> filterByEmployeeAndMarkedAs(AttendanceMarkedAs attendanceMarkedAs, List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee, List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployeeAndMarkedAs) {
+        if(attendanceMarkedAs != null) {
+            for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryDTOsSpecificEmployee) {
+                if(attendanceSummaryDTO.getAttendanceMarkedAs().equals(attendanceMarkedAs)) {
+                    attendanceSummaryDTOsSpecificEmployeeAndMarkedAs.add(attendanceSummaryDTO);
+                }
+            }
+        }
+        else {
+            attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = attendanceSummaryDTOsSpecificEmployee;
+        }
+        return attendanceSummaryDTOsSpecificEmployeeAndMarkedAs;
+    }
+
+    private List<AttendanceSummaryDTO> filterByEmployee(Long employeeId, List<AttendanceSummaryDTO> attendanceSummaryDTOs, List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee) {
         if(employeeId != -1) {
             for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOs) {
                 if (attendanceSummaryDTO.getEmployeeId().equals(employeeId)) {
@@ -143,9 +207,17 @@ public class AttendanceSummaryService {
         attendanceSummaryDTO.setEmployeeSalaryId(attendance.getEmployeeSalary() == null ? null :
             attendance.getEmployeeSalary().getId());
         attendanceSummaryDTO.setInTime(inTime);
-        attendanceSummaryDTO.setOutTime(outTime);
-        attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
-        attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        attendanceSummaryDTO.setOutTime(inTime.equals(outTime) ? null : outTime);
+        if(attendance.getMarkedAs().equals(AttendanceMarkedAs.WO) || attendance.getMarkedAs().equals(AttendanceMarkedAs.HO)) {
+            attendanceSummaryDTO.setDiff(Duration.ZERO);
+            attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime));
+        }
+        else {
+            attendanceSummaryDTO.setDiff(Duration.between(inTime, outTime));
+            attendanceSummaryDTO.setOverTime(Duration.between(inTime, outTime).toHours() > 8 ? Duration.between(inTime, outTime).minusHours(8) : Duration.ZERO);
+        }
+        attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
+        attendanceSummaryDTO.setLeaveAppliedStatus(attendance.getLeaveApplied());
         return attendanceSummaryDTO;
     }
 

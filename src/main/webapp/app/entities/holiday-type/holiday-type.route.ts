@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router, Routes } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
-import { IHolidayType, HolidayType } from 'app/shared/model/holiday-type.model';
+import { HolidayType, IHolidayType } from 'app/shared/model/holiday-type.model';
 import { HolidayTypeService } from './holiday-type.service';
 import { HolidayTypeComponent } from './holiday-type.component';
 import { HolidayTypeDetailComponent } from './holiday-type-detail.component';
@@ -39,7 +39,7 @@ export const holidayTypeRoute: Routes = [
     path: '',
     component: HolidayTypeComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.HOLIDAY_ADMIN, Authority.HOLIDAY_MANAGER],
       pageTitle: 'HolidayTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -51,7 +51,7 @@ export const holidayTypeRoute: Routes = [
       holidayType: HolidayTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.HOLIDAY_ADMIN, Authority.HOLIDAY_MANAGER],
       pageTitle: 'HolidayTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -63,7 +63,7 @@ export const holidayTypeRoute: Routes = [
       holidayType: HolidayTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.HOLIDAY_ADMIN],
       pageTitle: 'HolidayTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -75,7 +75,7 @@ export const holidayTypeRoute: Routes = [
       holidayType: HolidayTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.HOLIDAY_ADMIN],
       pageTitle: 'HolidayTypes',
     },
     canActivate: [UserRouteAccessService],

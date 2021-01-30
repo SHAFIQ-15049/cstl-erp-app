@@ -21,6 +21,12 @@
             <column name="machine_no" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
+            <column name="marked_as" type="varchar(255)">
+                <constraints nullable="false" />
+            </column>
+            <column name="leave_applied" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="employee_id" type="bigint">
                 <constraints nullable="false" />
             </column>
@@ -32,10 +38,17 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="attendance" columnName="attendance_time" columnDataType="datetime"/>
     </changeSet>
 
     <changeSet id="20210108055117-1-relations" author="jhipster">
 
+    </changeSet>
+
+    <changeSet author="kawsu (generated)" id="1611801392094-1">
+        <addColumn tableName="attendance">
+            <column name="leave_applied" type="varchar(255)"/>
+        </addColumn>
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
@@ -55,6 +68,8 @@
             <column name="id" type="numeric"/>
             <column name="attendance_time" type="datetime"/>
             <column name="machine_no" type="string"/>
+            <column name="marked_as" type="string"/>
+            <column name="leave_applied" type="string"/>
             <column name="employee_id" type="numeric"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>

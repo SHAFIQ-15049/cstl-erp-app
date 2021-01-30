@@ -1,0 +1,75 @@
+<div>
+    <h2 id="page-heading">
+        <span>Weekend Date Maps</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <h4>Filter by Year & Month</h4>
+
+                <div class="input-group mb-3">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Year</span>
+                    </div>
+
+                    <select class="form-control" name="year"
+                            [(ngModel)]="selectedYear" required>
+                        <option [ngValue]="yearOption"
+                                *ngFor="let yearOption of years;">{{ yearOption.name }}</option>
+                    </select>
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Month</span>
+                    </div>
+
+                    <select class="form-control" name="month"
+                            [(ngModel)]="selectedMonth" required>
+                        <option [ngValue]="monthOption"
+                                *ngFor="let monthOption of months;">{{ monthOption.name }}</option>
+                    </select>
+
+                    <button type="submit" class="btn btn-info" (click)="reset()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="selected-year">
+        <span *ngIf="selectedYear">Selected Year: <b>{{selectedYear.name}}</b></span> <span *ngIf="selectedMonth"> Selected Month: <b>{{selectedMonth.name}}</b></span>
+    </div>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="weekendDateMaps?.length === 0">
+        <span>No weekendDateMaps found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="weekendDateMaps && weekendDateMaps.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+                <tr>
+                    <th scope="col" ><span>Serial No</span></th>
+                    <th scope="col" ><span>Weekend</span></th>
+                    <th scope="col" ><span>Weekend Date</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let weekendDateMap of weekendDateMaps ;trackBy: trackId">
+                    <td>{{ weekendDateMap.serialNo }}</td>
+                    <td>
+                        <div *ngIf="weekendDateMap.weekendId">
+                            <a [routerLink]="['/weekend', weekendDateMap.weekendId , 'view']" >{{ weekendDateMap.weekendDay }}</a>
+                        </div>
+                    </td>
+                    <td>{{ weekendDateMap.weekendDate | date:'mediumDate' }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

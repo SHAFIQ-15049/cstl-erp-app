@@ -10,9 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import software.cstl.domain.Weekend;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.WeekendQueryService;
 import software.cstl.service.WeekendService;
 import software.cstl.service.dto.WeekendCriteria;
@@ -55,6 +57,8 @@ public class WeekendResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/weekends")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")")
     public ResponseEntity<Weekend> createWeekend(@Valid @RequestBody Weekend weekend) throws URISyntaxException {
         log.debug("REST request to save Weekend : {}", weekend);
         if (weekend.getId() != null) {
@@ -76,6 +80,8 @@ public class WeekendResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/weekends")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")")
     public ResponseEntity<Weekend> updateWeekend(@Valid @RequestBody Weekend weekend) throws URISyntaxException {
         log.debug("REST request to update Weekend : {}", weekend);
         if (weekend.getId() == null) {
@@ -134,6 +140,7 @@ public class WeekendResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/weekends/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteWeekend(@PathVariable Long id) {
         log.debug("REST request to delete Weekend : {}", id);
         weekendService.delete(id);

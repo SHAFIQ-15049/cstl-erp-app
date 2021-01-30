@@ -13,6 +13,11 @@ import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { IEmployee } from 'app/shared/model/employee.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
+import { AccountService } from 'app/core/auth/account.service';
+import { Account } from 'app/core/user/account.model';
+import { LeaveApplicationStatus } from 'app/shared/model/enumerations/leave-application-status.model';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
 
 type SelectableEntity = IUser | ILeaveType | IEmployee;
 
@@ -27,6 +32,9 @@ export class LeaveApplicationUpdateComponent implements OnInit {
   employees: IEmployee[] = [];
   fromDp: any;
   toDp: any;
+
+  currentUser: Account | null = null;
+  leaveBalances: ILeaveBalance[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -43,23 +51,43 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   constructor(
     protected leaveApplicationService: LeaveApplicationService,
+    protected leaveBalanceService: LeaveBalanceService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
     protected employeeService: EmployeeService,
     protected activatedRoute: ActivatedRoute,
+    protected accountService: AccountService,
     private fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
-    this.activatedRoute.data.subscribe(({ leaveApplication }) => {
-      this.updateForm(leaveApplication);
+    this.accountService.identity().subscribe(currentUser => {
+      this.currentUser = currentUser;
+    });
 
+    this.activatedRoute.data.subscribe(({ leaveApplication }) => {
       this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
 
       this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
 
-      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
+      this.employeeService
+        .query({
+          'localId.equals': this.currentUser?.login,
+        })
+        .subscribe((res: HttpResponse<IEmployee[]>) => {
+          this.employees = res.body || [];
+
+          this.updateForm(leaveApplication);
+
+          if (this.employees) {
+            this.leaveBalanceService.findByEmployeeId(this.employees[0].id!).subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+              this.leaveBalances = res1.body!;
+            });
+          }
+        });
     });
+
+    this.onChanges();
   }
 
   updateForm(leaveApplication: ILeaveApplication): void {
@@ -68,12 +96,12 @@ export class LeaveApplicationUpdateComponent implements OnInit {
       from: leaveApplication.from,
       to: leaveApplication.to,
       totalDays: leaveApplication.totalDays,
-      status: leaveApplication.status,
+      status: leaveApplication.status ? leaveApplication.status : LeaveApplicationStatus.APPLIED,
       reason: leaveApplication.reason,
-      appliedBy: leaveApplication.appliedBy,
+      appliedBy: this.currentUser,
       actionTakenBy: leaveApplication.actionTakenBy,
       leaveType: leaveApplication.leaveType,
-      applicant: leaveApplication.applicant,
+      applicant: leaveApplication.applicant ? leaveApplication.applicant : this.employees[0],
     });
   }
 
@@ -125,5 +153,24 @@ export class LeaveApplicationUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  onChanges(): void {
+    this.editForm.get('from')!.valueChanges.subscribe(() => {
+      this.updateTotalDays();
+    });
+
+    this.editForm.get('to')!.valueChanges.subscribe(() => {
+      this.updateTotalDays();
+    });
+  }
+
+  private updateTotalDays(): void {
+    const fromDate = new Date(this.editForm.get('from')!.value);
+    const toDate = new Date(this.editForm.get('to')!.value);
+    const diff = toDate.getTime() - fromDate.getTime();
+    this.editForm.patchValue({
+      totalDays: diff / (1000 * 60 * 60 * 24) + 1,
+    });
   }
 }

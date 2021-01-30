@@ -33,6 +33,7 @@ public class LeaveApplicationService {
     public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository, LeaveTypeRepository leaveTypeRepository) {
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.leaveTypeRepository = leaveTypeRepository;
+
     }
 
     /**
@@ -91,16 +92,5 @@ public class LeaveApplicationService {
 
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
         return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(employee, fromDate, toDate);
-    }
-
-    public boolean isValid(LeaveApplication leaveApplication) {
-        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        List<LeaveApplication> leaveApplications = leaveApplicationRepository.findByAppliedByIsCurrentUser();
-        int totalDays = 0;
-        for (LeaveApplication application : leaveApplications) {
-            totalDays += application.getTotalDays();
-        }
-        totalDays = totalDays + leaveApplication.getTotalDays();
-        return totalDays <= leaveType.getTotalDays();
     }
 }

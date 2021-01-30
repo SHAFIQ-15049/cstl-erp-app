@@ -173,6 +173,14 @@ import { RouterModule } from '@angular/router';
         path: 'over-time',
         loadChildren: () => import('./over-time/over-time.module').then(m => m.CodeNodeErpOverTimeModule),
       },
+      {
+        path: 'duty-leave',
+        loadChildren: () => import('./duty-leave/duty-leave.module').then(m => m.CodeNodeErpDutyLeaveModule),
+      },
+      {
+        path: 'weekend-date-map',
+        loadChildren: () => import('./weekend-date-map/weekend-date-map.module').then(m => m.CodeNodeErpWeekendDateMapModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

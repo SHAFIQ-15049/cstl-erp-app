@@ -1,0 +1,82 @@
+<div>
+    <h2 id="page-heading">
+        <span>Duty Leaves</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="dutyLeaves?.length === 0">
+        <span>No dutyLeaves found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr>
+                <th scope="col"><span>Sl.</span></th>
+                <th scope="col"><span>Employee</span></th>
+                <th scope="col"><span>Id (Machine)</span></th>
+                <th scope="col"><span>In</span></th>
+                <th scope="col"><span>Out</span></th>
+                <th scope="col"><span>Diff</span></th>
+                <th scope="col"><span>OverTime</span></th>
+                <th scope="col"><span>MarkedAs</span></th>
+                <th scope="col"><span>Apply DL</span></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
+                <td>{{ attendanceSummary.serialNo }}</td>
+                <td>
+                    <div *ngIf="attendanceSummary.employeeId">
+                        {{ attendanceSummary.employeeName }}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="attendanceSummary.employeeId">
+                        {{ attendanceSummary.employeeMachineId }}
+                    </div>
+                </td>
+                <td>{{ attendanceSummary.inTime | date:"medium":"+0000" }}</td>
+                <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
+                <td>{{ attendanceSummary.diff }}</td>
+                <td>{{ attendanceSummary.overTime }}</td>
+                <td>{{attendanceSummary.attendanceMarkedAs}}
+                </td>
+                <td>
+                    <select class="form-control" name="applyLeave" id="field_applyLeave"
+                            [(ngModel)]="attendanceSummary.leaveApplied">
+                        <option value="YES">Apply</option>
+                        <option value="NO">No</option>
+                    </select>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<div *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
+    <div class="row">
+        <div class="col-3">
+            <span class="input-group-text">From</span>
+            <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                   required/>
+        </div>
+
+        <div class="col-3">
+            <span class="input-group-text">To</span>
+
+            <input type="date" class="form-control" name="start" [(ngModel)]="toDate"
+                   required/>
+        </div>
+        <div class="col-6">
+            <button style="float:right" type="button" [disabled]="isSaving" (click)="applyLeave()"
+                    class="btn btn-success">
+                <span class="d-none d-md-inline">Update</span>
+            </button>
+        </div>
+    </div>
+</div>
