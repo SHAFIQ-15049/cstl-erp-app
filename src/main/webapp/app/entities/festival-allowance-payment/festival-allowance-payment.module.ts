@@ -7,6 +7,7 @@ import { FestivalAllowancePaymentDetailComponent } from './festival-allowance-pa
 import { FestivalAllowancePaymentUpdateComponent } from './festival-allowance-payment-update.component';
 import { FestivalAllowancePaymentDeleteDialogComponent } from './festival-allowance-payment-delete-dialog.component';
 import { festivalAllowancePaymentRoute } from './festival-allowance-payment.route';
+import { FestivalAllowanceEmployeeComponent } from './festival-allowance-employee/festival-allowance-employee.component';
 
 @NgModule({
   imports: [CodeNodeErpSharedModule, RouterModule.forChild(festivalAllowancePaymentRoute)],
@@ -15,6 +16,7 @@ import { festivalAllowancePaymentRoute } from './festival-allowance-payment.rout
     FestivalAllowancePaymentDetailComponent,
     FestivalAllowancePaymentUpdateComponent,
     FestivalAllowancePaymentDeleteDialogComponent,
+    FestivalAllowanceEmployeeComponent,
   ],
   entryComponents: [FestivalAllowancePaymentDeleteDialogComponent],
 })

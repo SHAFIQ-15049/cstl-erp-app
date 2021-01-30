@@ -23,7 +23,6 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>SL</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="basicPercent"><span>Basic Percent</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalAllowance"><span>Total Allowance</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="medicalAllowance"><span>Medical Allowance</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="convinceAllowance"><span>Convince Allowance</span> <fa-icon icon="sort"></fa-icon></th>
@@ -35,7 +34,6 @@
             <tbody>
                 <tr *ngFor="let defaultAllowance of defaultAllowances; let i=index ;trackBy: trackId">
                     <td><a [routerLink]="['/default-allowance', defaultAllowance.id, 'view']">{{(page -1) * itemsPerPage + (i+1)}}</a></td>
-                    <td>{{ defaultAllowance.basicPercent }}</td>
                     <td>{{ defaultAllowance.totalAllowance }}</td>
                     <td>{{ defaultAllowance.medicalAllowance }}</td>
                     <td>{{ defaultAllowance.convinceAllowance }}</td>
