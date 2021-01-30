@@ -8,8 +8,6 @@ import { Authority } from 'app/shared/constants/authority.constants';
 import { UserRouteAccessService } from 'app/core/auth/user-route-access-service';
 import { AttendanceDataUpload, IAttendanceDataUpload } from 'app/shared/model/attendance-data-upload.model';
 import { AttendanceDataUploadService } from './attendance-data-upload.service';
-import { AttendanceDataUploadComponent } from './attendance-data-upload.component';
-import { AttendanceDataUploadDetailComponent } from './attendance-data-upload-detail.component';
 import { AttendanceDataUploadUpdateComponent } from './attendance-data-upload-update.component';
 
 @Injectable({ providedIn: 'root' })
@@ -36,40 +34,7 @@ export class AttendanceDataUploadResolve implements Resolve<IAttendanceDataUploa
 
 export const attendanceDataUploadRoute: Routes = [
   {
-    path: '',
-    component: AttendanceDataUploadComponent,
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'AttendanceDataUploads',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/view',
-    component: AttendanceDataUploadDetailComponent,
-    resolve: {
-      attendanceDataUpload: AttendanceDataUploadResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'AttendanceDataUploads',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
     path: 'new',
-    component: AttendanceDataUploadUpdateComponent,
-    resolve: {
-      attendanceDataUpload: AttendanceDataUploadResolve,
-    },
-    data: {
-      authorities: [Authority.USER],
-      pageTitle: 'AttendanceDataUploads',
-    },
-    canActivate: [UserRouteAccessService],
-  },
-  {
-    path: ':id/edit',
     component: AttendanceDataUploadUpdateComponent,
     resolve: {
       attendanceDataUpload: AttendanceDataUploadResolve,

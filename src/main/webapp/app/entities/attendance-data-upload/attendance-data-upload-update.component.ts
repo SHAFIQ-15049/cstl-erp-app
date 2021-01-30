@@ -68,11 +68,7 @@ export class AttendanceDataUploadUpdateComponent implements OnInit {
   save(): void {
     this.isSaving = true;
     const attendanceDataUpload = this.createFromForm();
-    if (attendanceDataUpload.id !== undefined) {
-      this.subscribeToSaveResponse(this.attendanceDataUploadService.update(attendanceDataUpload));
-    } else {
-      this.subscribeToSaveResponse(this.attendanceDataUploadService.create(attendanceDataUpload));
-    }
+    this.subscribeToSaveResponse(this.attendanceDataUploadService.create(attendanceDataUpload));
   }
 
   private createFromForm(): IAttendanceDataUpload {

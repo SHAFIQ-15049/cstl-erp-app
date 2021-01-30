@@ -49,10 +49,6 @@ public class Attendance implements Serializable {
 
     @ManyToOne
     @JsonIgnoreProperties(value = "attendances", allowSetters = true)
-    private AttendanceDataUpload attendanceDataUpload;
-
-    @ManyToOne
-    @JsonIgnoreProperties(value = "attendances", allowSetters = true)
     private EmployeeSalary employeeSalary;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -127,19 +123,6 @@ public class Attendance implements Serializable {
 
     public void setEmployee(Employee employee) {
         this.employee = employee;
-    }
-
-    public AttendanceDataUpload getAttendanceDataUpload() {
-        return attendanceDataUpload;
-    }
-
-    public Attendance attendanceDataUpload(AttendanceDataUpload attendanceDataUpload) {
-        this.attendanceDataUpload = attendanceDataUpload;
-        return this;
-    }
-
-    public void setAttendanceDataUpload(AttendanceDataUpload attendanceDataUpload) {
-        this.attendanceDataUpload = attendanceDataUpload;
     }
 
     public EmployeeSalary getEmployeeSalary() {

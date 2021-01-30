@@ -7,12 +7,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
-import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.repository.AttendanceRepository;
+import software.cstl.service.dto.AttendanceDataUploadDTO;
 
 import java.time.Instant;
 import java.util.ArrayList;
@@ -139,19 +139,19 @@ public class AttendanceService {
     /**
      * Save bulk attendance from TXT file.
      *
-     * @param attendanceDataUpload the entity where attendance data needs to process and then save.
+     * @param attendanceDataUploadDTO the entity where attendance data needs to process and then save.
      */
-    public List<Attendance> bulkSave(AttendanceDataUpload attendanceDataUpload) {
+    public List<Attendance> bulkSave(AttendanceDataUploadDTO attendanceDataUploadDTO) {
         List<Employee> employees = employeeService.getAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
 
-        String fileContents = commonService.getByteArrayToString(attendanceDataUpload.getFileUpload());
+        String fileContents = commonService.getByteArrayToString(attendanceDataUploadDTO.getFileUpload());
         String[] lines = commonService.getStringArrayBySeparatingStringContentUsingSeparator(fileContents, "\r\n");
 
         List<Attendance> attendances = new ArrayList<>();
 
         for (String line : lines) {
-            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(attendanceDataUpload, employees, employeeSalaries, line);
+            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(attendanceDataUploadDTO, employees, employeeSalaries, line);
             if(attendance != null) {
                 attendances.add(attendance);
             }
@@ -159,7 +159,7 @@ public class AttendanceService {
         return saveAll(attendances);
     }
 
-    private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUpload attendanceDataUpload, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
+    private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUploadDTO attendanceDataUploadDTO, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
         EmployeeSalary candidateSalary;
         Employee employee;
         String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
@@ -181,7 +181,7 @@ public class AttendanceService {
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
             Instant instant = Instant.parse(instantText);
-            return getAttendance(attendanceDataUpload, candidateSalary, employee, machineCode, instant);
+            return getAttendance(candidateSalary, employee, machineCode, instant);
         }
         else {
             log.debug("ERROR! Employee or employee salary information is missing {} ", line);
@@ -189,13 +189,12 @@ public class AttendanceService {
         }
     }
 
-    private Attendance getAttendance(AttendanceDataUpload attendanceDataUpload, EmployeeSalary employeeSalary, Employee employee, String machineCode, Instant instant) {
+    private Attendance getAttendance(EmployeeSalary employeeSalary, Employee employee, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setMachineNo(machineCode);
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(employee);
         attendance.setEmployeeSalary(employeeSalary);
-        attendance.setAttendanceDataUpload(attendanceDataUpload);
         attendance.setMarkedAs(AttendanceMarkedAs.R);
         attendance.setLeaveApplied(LeaveAppliedStatus.NO);
         return attendance;

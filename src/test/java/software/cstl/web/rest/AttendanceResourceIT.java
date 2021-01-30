@@ -11,7 +11,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.Attendance;
-import software.cstl.domain.AttendanceDataUpload;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
@@ -420,27 +419,6 @@ public class AttendanceResourceIT {
         // Get all the attendanceList where employee equals to employeeId + 1
         defaultAttendanceShouldNotBeFound("employeeId.equals=" + (employeeId + 1));
     }
-
-
-    @Test
-    @Transactional
-    public void getAllAttendancesByAttendanceDataUploadIsEqualToSomething() throws Exception {
-        // Initialize the database
-        attendanceRepository.saveAndFlush(attendance);
-        AttendanceDataUpload attendanceDataUpload = AttendanceDataUploadResourceIT.createEntity(em);
-        em.persist(attendanceDataUpload);
-        em.flush();
-        attendance.setAttendanceDataUpload(attendanceDataUpload);
-        attendanceRepository.saveAndFlush(attendance);
-        Long attendanceDataUploadId = attendanceDataUpload.getId();
-
-        // Get all the attendanceList where attendanceDataUpload equals to attendanceDataUploadId
-        defaultAttendanceShouldBeFound("attendanceDataUploadId.equals=" + attendanceDataUploadId);
-
-        // Get all the attendanceList where attendanceDataUpload equals to attendanceDataUploadId + 1
-        defaultAttendanceShouldNotBeFound("attendanceDataUploadId.equals=" + (attendanceDataUploadId + 1));
-    }
-
 
     @Test
     @Transactional
