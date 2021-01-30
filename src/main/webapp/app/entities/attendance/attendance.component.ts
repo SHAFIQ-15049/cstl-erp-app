@@ -3,11 +3,13 @@ import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 import { IAttendance } from 'app/shared/model/attendance.model';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AttendanceService } from './attendance.service';
+import { AttendanceDeleteDialogComponent } from './attendance-delete-dialog.component';
 
 @Component({
   selector: 'jhi-attendance',
@@ -27,7 +29,8 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     protected attendanceService: AttendanceService,
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
-    protected eventManager: JhiEventManager
+    protected eventManager: JhiEventManager,
+    protected modalService: NgbModal
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -78,6 +81,11 @@ export class AttendanceComponent implements OnInit, OnDestroy {
 
   registerChangeInAttendances(): void {
     this.eventSubscriber = this.eventManager.subscribe('attendanceListModification', () => this.loadPage());
+  }
+
+  delete(attendance: IAttendance): void {
+    const modalRef = this.modalService.open(AttendanceDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.attendance = attendance;
   }
 
   sort(): string[] {

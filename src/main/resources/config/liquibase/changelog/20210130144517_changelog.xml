@@ -1,0 +1,67 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="kawsu (generated)" id="1612017938437-2">
+        <addColumn tableName="attendance">
+            <column name="department_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-3">
+        <addColumn tableName="attendance">
+            <column name="designation_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-4">
+        <addColumn tableName="attendance">
+            <column name="employee_category" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-5">
+        <addColumn tableName="attendance">
+            <column name="employee_machine_id" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-6">
+        <addColumn tableName="attendance">
+            <column name="employee_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-7">
+        <addColumn tableName="attendance">
+            <column name="grade_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-8">
+        <addColumn tableName="attendance">
+            <column name="line_id" type="bigint"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-9">
+        <addForeignKeyConstraint baseColumnNames="line_id" baseTableName="attendance" constraintName="FKfevtwtesftdwdvkcvxwm0p9oe" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="line" validate="true"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-10">
+        <addForeignKeyConstraint baseColumnNames="grade_id" baseTableName="attendance" constraintName="FKgaja7ftx0j1q5frjiw8s8aiyd" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_grade" validate="true"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-11">
+        <addForeignKeyConstraint baseColumnNames="department_id" baseTableName="attendance" constraintName="FKoxatag1idcrvxje972320upu7" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_department" validate="true"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-12">
+        <addForeignKeyConstraint baseColumnNames="designation_id" baseTableName="attendance" constraintName="FKrndj4ns1g45x968y3ekgbscol" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="mst_designation" validate="true"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-13">
+        <dropForeignKeyConstraint baseTableName="attendance" constraintName="fk_attendance_attendance_data_upload_id"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-14">
+        <dropTable tableName="attendance_data_upload"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-15">
+        <dropColumn columnName="attendance_data_upload_id" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-16">
+        <dropColumn columnName="duty_leave_applied" tableName="attendance"/>
+    </changeSet>
+    <changeSet author="kawsu (generated)" id="1612017938437-1">
+        <dropNotNullConstraint columnDataType="varchar(255)" columnName="marked_as" tableName="attendance"/>
+    </changeSet>
+</databaseChangeLog>

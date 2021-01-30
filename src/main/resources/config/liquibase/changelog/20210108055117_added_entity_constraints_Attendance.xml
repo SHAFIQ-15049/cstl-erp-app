@@ -14,17 +14,35 @@
                                  referencedColumnNames="id"
                                  referencedTableName="mst_employee"/>
 
-        <addForeignKeyConstraint baseColumnNames="attendance_data_upload_id"
-                                 baseTableName="attendance"
-                                 constraintName="fk_attendance_attendance_data_upload_id"
-                                 referencedColumnNames="id"
-                                 referencedTableName="attendance_data_upload"/>
-
         <addForeignKeyConstraint baseColumnNames="employee_salary_id"
                                  baseTableName="attendance"
                                  constraintName="fk_attendance_employee_salary_id"
                                  referencedColumnNames="id"
                                  referencedTableName="employee_salary"/>
+
+        <addForeignKeyConstraint baseColumnNames="department_id"
+                                 baseTableName="attendance"
+                                 constraintName="fk_attendance_department_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_department"/>
+
+        <addForeignKeyConstraint baseColumnNames="designation_id"
+                                 baseTableName="attendance"
+                                 constraintName="fk_attendance_designation_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_designation"/>
+
+        <addForeignKeyConstraint baseColumnNames="line_id"
+                                 baseTableName="attendance"
+                                 constraintName="fk_attendance_line_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="line"/>
+
+        <addForeignKeyConstraint baseColumnNames="grade_id"
+                                 baseTableName="attendance"
+                                 constraintName="fk_attendance_grade_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="mst_grade"/>
 
     </changeSet>
 </databaseChangeLog>

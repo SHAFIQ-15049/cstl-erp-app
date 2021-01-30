@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.EmployeeCategory;
+import software.cstl.domain.enumeration.EmployeeType;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 
 import javax.persistence.*;
@@ -33,14 +35,24 @@ public class Attendance implements Serializable {
     @Column(name = "machine_no", nullable = false)
     private String machineNo;
 
-    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "marked_as", nullable = false)
+    @Column(name = "marked_as")
     private AttendanceMarkedAs markedAs;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "leave_applied")
     private LeaveAppliedStatus leaveApplied;
+
+    @Column(name = "employee_machine_id")
+    private String employeeMachineId;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "employee_category")
+    private EmployeeCategory employeeCategory;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "employee_type")
+    private EmployeeType employeeType;
 
     @ManyToOne(optional = false)
     @NotNull
@@ -50,6 +62,22 @@ public class Attendance implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = "attendances", allowSetters = true)
     private EmployeeSalary employeeSalary;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "attendances", allowSetters = true)
+    private Department department;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "attendances", allowSetters = true)
+    private Designation designation;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "attendances", allowSetters = true)
+    private Line line;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = "attendances", allowSetters = true)
+    private Grade grade;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -112,6 +140,45 @@ public class Attendance implements Serializable {
         this.leaveApplied = leaveApplied;
     }
 
+    public String getEmployeeMachineId() {
+        return employeeMachineId;
+    }
+
+    public Attendance employeeMachineId(String employeeMachineId) {
+        this.employeeMachineId = employeeMachineId;
+        return this;
+    }
+
+    public void setEmployeeMachineId(String employeeMachineId) {
+        this.employeeMachineId = employeeMachineId;
+    }
+
+    public EmployeeCategory getEmployeeCategory() {
+        return employeeCategory;
+    }
+
+    public Attendance employeeCategory(EmployeeCategory employeeCategory) {
+        this.employeeCategory = employeeCategory;
+        return this;
+    }
+
+    public void setEmployeeCategory(EmployeeCategory employeeCategory) {
+        this.employeeCategory = employeeCategory;
+    }
+
+    public EmployeeType getEmployeeType() {
+        return employeeType;
+    }
+
+    public Attendance employeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+        return this;
+    }
+
+    public void setEmployeeType(EmployeeType employeeType) {
+        this.employeeType = employeeType;
+    }
+
     public Employee getEmployee() {
         return employee;
     }
@@ -136,6 +203,58 @@ public class Attendance implements Serializable {
 
     public void setEmployeeSalary(EmployeeSalary employeeSalary) {
         this.employeeSalary = employeeSalary;
+    }
+
+    public Department getDepartment() {
+        return department;
+    }
+
+    public Attendance department(Department department) {
+        this.department = department;
+        return this;
+    }
+
+    public void setDepartment(Department department) {
+        this.department = department;
+    }
+
+    public Designation getDesignation() {
+        return designation;
+    }
+
+    public Attendance designation(Designation designation) {
+        this.designation = designation;
+        return this;
+    }
+
+    public void setDesignation(Designation designation) {
+        this.designation = designation;
+    }
+
+    public Line getLine() {
+        return line;
+    }
+
+    public Attendance line(Line line) {
+        this.line = line;
+        return this;
+    }
+
+    public void setLine(Line line) {
+        this.line = line;
+    }
+
+    public Grade getGrade() {
+        return grade;
+    }
+
+    public Attendance grade(Grade grade) {
+        this.grade = grade;
+        return this;
+    }
+
+    public void setGrade(Grade grade) {
+        this.grade = grade;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -164,6 +283,9 @@ public class Attendance implements Serializable {
             ", machineNo='" + getMachineNo() + "'" +
             ", markedAs='" + getMarkedAs() + "'" +
             ", leaveApplied='" + getLeaveApplied() + "'" +
+            ", employeeMachineId='" + getEmployeeMachineId() + "'" +
+            ", employeeCategory='" + getEmployeeCategory() + "'" +
+            ", employeeType='" + getEmployeeType() + "'" +
             "}";
     }
 }

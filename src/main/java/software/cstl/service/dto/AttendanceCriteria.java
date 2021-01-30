@@ -6,6 +6,8 @@ import io.github.jhipster.service.filter.InstantFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.EmployeeCategory;
+import software.cstl.domain.enumeration.EmployeeType;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 
 import java.io.Serializable;
@@ -57,6 +59,42 @@ public class AttendanceCriteria implements Serializable, Criteria {
         }
 
     }
+    /**
+     * Class for filtering EmployeeCategory
+     */
+    public static class EmployeeCategoryFilter extends Filter<EmployeeCategory> {
+
+        public EmployeeCategoryFilter() {
+        }
+
+        public EmployeeCategoryFilter(EmployeeCategoryFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeCategoryFilter copy() {
+            return new EmployeeCategoryFilter(this);
+        }
+
+    }
+    /**
+     * Class for filtering EmployeeType
+     */
+    public static class EmployeeTypeFilter extends Filter<EmployeeType> {
+
+        public EmployeeTypeFilter() {
+        }
+
+        public EmployeeTypeFilter(EmployeeTypeFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public EmployeeTypeFilter copy() {
+            return new EmployeeTypeFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
@@ -70,11 +108,23 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     private LeaveAppliedStatusFilter leaveApplied;
 
+    private StringFilter employeeMachineId;
+
+    private EmployeeCategoryFilter employeeCategory;
+
+    private EmployeeTypeFilter employeeType;
+
     private LongFilter employeeId;
 
-    private LongFilter attendanceDataUploadId;
-
     private LongFilter employeeSalaryId;
+
+    private LongFilter departmentId;
+
+    private LongFilter designationId;
+
+    private LongFilter lineId;
+
+    private LongFilter gradeId;
 
     public AttendanceCriteria() {
     }
@@ -85,9 +135,15 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.machineNo = other.machineNo == null ? null : other.machineNo.copy();
         this.markedAs = other.markedAs == null ? null : other.markedAs.copy();
         this.leaveApplied = other.leaveApplied == null ? null : other.leaveApplied.copy();
+        this.employeeMachineId = other.employeeMachineId == null ? null : other.employeeMachineId.copy();
+        this.employeeCategory = other.employeeCategory == null ? null : other.employeeCategory.copy();
+        this.employeeType = other.employeeType == null ? null : other.employeeType.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
-        this.attendanceDataUploadId = other.attendanceDataUploadId == null ? null : other.attendanceDataUploadId.copy();
         this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
+        this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
+        this.designationId = other.designationId == null ? null : other.designationId.copy();
+        this.lineId = other.lineId == null ? null : other.lineId.copy();
+        this.gradeId = other.gradeId == null ? null : other.gradeId.copy();
     }
 
     @Override
@@ -135,6 +191,30 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.leaveApplied = leaveApplied;
     }
 
+    public StringFilter getEmployeeMachineId() {
+        return employeeMachineId;
+    }
+
+    public void setEmployeeMachineId(StringFilter employeeMachineId) {
+        this.employeeMachineId = employeeMachineId;
+    }
+
+    public EmployeeCategoryFilter getEmployeeCategory() {
+        return employeeCategory;
+    }
+
+    public void setEmployeeCategory(EmployeeCategoryFilter employeeCategory) {
+        this.employeeCategory = employeeCategory;
+    }
+
+    public EmployeeTypeFilter getEmployeeType() {
+        return employeeType;
+    }
+
+    public void setEmployeeType(EmployeeTypeFilter employeeType) {
+        this.employeeType = employeeType;
+    }
+
     public LongFilter getEmployeeId() {
         return employeeId;
     }
@@ -143,20 +223,44 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.employeeId = employeeId;
     }
 
-    public LongFilter getAttendanceDataUploadId() {
-        return attendanceDataUploadId;
-    }
-
-    public void setAttendanceDataUploadId(LongFilter attendanceDataUploadId) {
-        this.attendanceDataUploadId = attendanceDataUploadId;
-    }
-
     public LongFilter getEmployeeSalaryId() {
         return employeeSalaryId;
     }
 
     public void setEmployeeSalaryId(LongFilter employeeSalaryId) {
         this.employeeSalaryId = employeeSalaryId;
+    }
+
+    public LongFilter getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(LongFilter departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public LongFilter getDesignationId() {
+        return designationId;
+    }
+
+    public void setDesignationId(LongFilter designationId) {
+        this.designationId = designationId;
+    }
+
+    public LongFilter getLineId() {
+        return lineId;
+    }
+
+    public void setLineId(LongFilter lineId) {
+        this.lineId = lineId;
+    }
+
+    public LongFilter getGradeId() {
+        return gradeId;
+    }
+
+    public void setGradeId(LongFilter gradeId) {
+        this.gradeId = gradeId;
     }
 
 
@@ -175,9 +279,15 @@ public class AttendanceCriteria implements Serializable, Criteria {
             Objects.equals(machineNo, that.machineNo) &&
             Objects.equals(markedAs, that.markedAs) &&
             Objects.equals(leaveApplied, that.leaveApplied) &&
+            Objects.equals(employeeMachineId, that.employeeMachineId) &&
+            Objects.equals(employeeCategory, that.employeeCategory) &&
+            Objects.equals(employeeType, that.employeeType) &&
             Objects.equals(employeeId, that.employeeId) &&
-            Objects.equals(attendanceDataUploadId, that.attendanceDataUploadId) &&
-            Objects.equals(employeeSalaryId, that.employeeSalaryId);
+            Objects.equals(employeeSalaryId, that.employeeSalaryId) &&
+            Objects.equals(departmentId, that.departmentId) &&
+            Objects.equals(designationId, that.designationId) &&
+            Objects.equals(lineId, that.lineId) &&
+            Objects.equals(gradeId, that.gradeId);
     }
 
     @Override
@@ -188,9 +298,15 @@ public class AttendanceCriteria implements Serializable, Criteria {
         machineNo,
         markedAs,
         leaveApplied,
+        employeeMachineId,
+        employeeCategory,
+        employeeType,
         employeeId,
-        attendanceDataUploadId,
-        employeeSalaryId
+        employeeSalaryId,
+        departmentId,
+        designationId,
+        lineId,
+        gradeId
         );
     }
 
@@ -203,9 +319,15 @@ public class AttendanceCriteria implements Serializable, Criteria {
                 (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
                 (markedAs != null ? "markedAs=" + markedAs + ", " : "") +
                 (leaveApplied != null ? "leaveApplied=" + leaveApplied + ", " : "") +
+                (employeeMachineId != null ? "employeeMachineId=" + employeeMachineId + ", " : "") +
+                (employeeCategory != null ? "employeeCategory=" + employeeCategory + ", " : "") +
+                (employeeType != null ? "employeeType=" + employeeType + ", " : "") +
                 (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
-                (attendanceDataUploadId != null ? "attendanceDataUploadId=" + attendanceDataUploadId + ", " : "") +
                 (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +
+                (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
+                (designationId != null ? "designationId=" + designationId + ", " : "") +
+                (lineId != null ? "lineId=" + lineId + ", " : "") +
+                (gradeId != null ? "gradeId=" + gradeId + ", " : "") +
             "}";
     }
 

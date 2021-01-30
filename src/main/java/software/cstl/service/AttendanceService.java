@@ -151,7 +151,7 @@ public class AttendanceService {
         List<Attendance> attendances = new ArrayList<>();
 
         for (String line : lines) {
-            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(attendanceDataUploadDTO, employees, employeeSalaries, line);
+            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(employees, employeeSalaries, line);
             if(attendance != null) {
                 attendances.add(attendance);
             }
@@ -159,7 +159,7 @@ public class AttendanceService {
         return saveAll(attendances);
     }
 
-    private Attendance splitAndValidateContentAndPrepareAttendanceData(AttendanceDataUploadDTO attendanceDataUploadDTO, List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
+    private Attendance splitAndValidateContentAndPrepareAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
         EmployeeSalary candidateSalary;
         Employee employee;
         String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
@@ -181,7 +181,7 @@ public class AttendanceService {
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
             Instant instant = Instant.parse(instantText);
-            return getAttendance(candidateSalary, employee, machineCode, instant);
+            return getAttendance(candidateSalary, employeeMachineId, employee, machineCode, instant);
         }
         else {
             log.debug("ERROR! Employee or employee salary information is missing {} ", line);
@@ -189,11 +189,18 @@ public class AttendanceService {
         }
     }
 
-    private Attendance getAttendance(EmployeeSalary employeeSalary, Employee employee, String machineCode, Instant instant) {
+    private Attendance getAttendance(EmployeeSalary employeeSalary, String employeeMachineId, Employee employee, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
+        attendance.setEmployeeMachineId(employeeMachineId);
         attendance.setMachineNo(machineCode);
         attendance.setAttendanceTime(instant);
         attendance.setEmployee(employee);
+        attendance.setDepartment(employee.getDepartment());
+        attendance.setDesignation(employee.getDesignation());
+        attendance.setEmployeeCategory(employee.getCategory());
+        attendance.setEmployeeType(employee.getType());
+        attendance.setGrade(employee.getGrade());
+        attendance.setLine(employee.getLine());
         attendance.setEmployeeSalary(employeeSalary);
         attendance.setMarkedAs(AttendanceMarkedAs.R);
         attendance.setLeaveApplied(LeaveAppliedStatus.NO);

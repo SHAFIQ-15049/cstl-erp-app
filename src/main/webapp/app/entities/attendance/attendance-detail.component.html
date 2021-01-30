@@ -24,16 +24,22 @@
                 <dd>
                     <span>{{ attendance.leaveApplied }}</span>
                 </dd>
+                <dt><span>Employee Machine Id</span></dt>
+                <dd>
+                    <span>{{ attendance.employeeMachineId }}</span>
+                </dd>
+                <dt><span>Employee Category</span></dt>
+                <dd>
+                    <span>{{ attendance.employeeCategory }}</span>
+                </dd>
+                <dt><span>Employee Type</span></dt>
+                <dd>
+                    <span>{{ attendance.employeeType }}</span>
+                </dd>
                 <dt><span>Employee</span></dt>
                 <dd>
                     <div *ngIf="attendance.employee">
                         <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Attendance Data Upload</span></dt>
-                <dd>
-                    <div *ngIf="attendance.attendanceDataUpload">
-                        <a [routerLink]="['/attendance-data-upload', attendance.attendanceDataUpload?.id, 'view']">{{ attendance.attendanceDataUpload?.id }}</a>
                     </div>
                 </dd>
                 <dt><span>Employee Salary</span></dt>
@@ -42,12 +48,42 @@
                         <a [routerLink]="['/employee-salary', attendance.employeeSalary?.id, 'view']">{{ attendance.employeeSalary?.id }}</a>
                     </div>
                 </dd>
+                <dt><span>Department</span></dt>
+                <dd>
+                    <div *ngIf="attendance.department">
+                        <a [routerLink]="['/department', attendance.department?.id, 'view']">{{ attendance.department?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Designation</span></dt>
+                <dd>
+                    <div *ngIf="attendance.designation">
+                        <a [routerLink]="['/designation', attendance.designation?.id, 'view']">{{ attendance.designation?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Line</span></dt>
+                <dd>
+                    <div *ngIf="attendance.line">
+                        <a [routerLink]="['/line', attendance.line?.id, 'view']">{{ attendance.line?.id }}</a>
+                    </div>
+                </dd>
+                <dt><span>Grade</span></dt>
+                <dd>
+                    <div *ngIf="attendance.grade">
+                        <a [routerLink]="['/grade', attendance.grade?.id, 'view']">{{ attendance.grade?.id }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"
                     (click)="previousState()"
                     class="btn btn-info">
                 <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/attendance', attendance.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>
         </div>
     </div>

@@ -16,6 +16,34 @@
       "relationshipType": "many-to-one",
       "otherEntityField": "id",
       "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "department",
+      "otherEntityName": "department",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "designation",
+      "otherEntityName": "designation",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "line",
+      "otherEntityName": "line",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
+    },
+    {
+      "relationshipName": "grade",
+      "otherEntityName": "grade",
+      "relationshipType": "many-to-one",
+      "otherEntityField": "id",
+      "otherEntityRelationshipName": "attendance"
     }
   ],
   "fields": [
@@ -33,12 +61,26 @@
       "fieldName": "markedAs",
       "fieldType": "AttendanceMarkedAs",
       "fieldValues": "R,WR,HR,WO,HO",
-      "fieldValidateRules": ["required"]
+      "fieldValidateRules": []
     },
     {
       "fieldName": "leaveApplied",
       "fieldType": "LeaveAppliedStatus",
       "fieldValues": "YES,NO"
+    },
+    {
+      "fieldName": "employeeMachineId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "employeeCategory",
+      "fieldType": "EmployeeCategory",
+      "fieldValues": "TOP_LEVEL,MID_LEVEL,STAFF,WORKER"
+    },
+    {
+      "fieldName": "employeeType",
+      "fieldType": "EmployeeType",
+      "fieldValues": "PERMANENT,TEMPORARY,PART_TIME,CONTRACTUAL"
     }
   ],
   "changelogDate": "20210108055117",
@@ -47,7 +89,7 @@
   "service": "serviceClass",
   "entityTableName": "attendance",
   "databaseType": "sql",
-  "readOnly": true,
+  "readOnly": false,
   "jpaMetamodelFiltering": true,
   "pagination": "pagination"
 }

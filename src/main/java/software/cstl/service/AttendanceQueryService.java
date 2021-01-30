@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import software.cstl.domain.Attendance;
-import software.cstl.domain.Attendance_;
-import software.cstl.domain.EmployeeSalary_;
-import software.cstl.domain.Employee_;
+import software.cstl.domain.*;
 import software.cstl.repository.AttendanceRepository;
 import software.cstl.service.dto.AttendanceCriteria;
 
@@ -96,6 +93,15 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getLeaveApplied() != null) {
                 specification = specification.and(buildSpecification(criteria.getLeaveApplied(), Attendance_.leaveApplied));
             }
+            if (criteria.getEmployeeMachineId() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getEmployeeMachineId(), Attendance_.employeeMachineId));
+            }
+            if (criteria.getEmployeeCategory() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeCategory(), Attendance_.employeeCategory));
+            }
+            if (criteria.getEmployeeType() != null) {
+                specification = specification.and(buildSpecification(criteria.getEmployeeType(), Attendance_.employeeType));
+            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(Attendance_.employee, JoinType.LEFT).get(Employee_.id)));
@@ -103,6 +109,22 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getEmployeeSalaryId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeSalaryId(),
                     root -> root.join(Attendance_.employeeSalary, JoinType.LEFT).get(EmployeeSalary_.id)));
+            }
+            if (criteria.getDepartmentId() != null) {
+                specification = specification.and(buildSpecification(criteria.getDepartmentId(),
+                    root -> root.join(Attendance_.department, JoinType.LEFT).get(Department_.id)));
+            }
+            if (criteria.getDesignationId() != null) {
+                specification = specification.and(buildSpecification(criteria.getDesignationId(),
+                    root -> root.join(Attendance_.designation, JoinType.LEFT).get(Designation_.id)));
+            }
+            if (criteria.getLineId() != null) {
+                specification = specification.and(buildSpecification(criteria.getLineId(),
+                    root -> root.join(Attendance_.line, JoinType.LEFT).get(Line_.id)));
+            }
+            if (criteria.getGradeId() != null) {
+                specification = specification.and(buildSpecification(criteria.getGradeId(),
+                    root -> root.join(Attendance_.grade, JoinType.LEFT).get(Grade_.id)));
             }
         }
         return specification;
