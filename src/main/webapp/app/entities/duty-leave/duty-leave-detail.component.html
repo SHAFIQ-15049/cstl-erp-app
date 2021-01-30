@@ -1,0 +1,34 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="dutyLeave">
+            <h2><span>Duty Leave</span> {{ dutyLeave.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>From Date</span></dt>
+                <dd>
+                    <span>{{ dutyLeave.fromDate }}</span>
+                </dd>
+                <dt><span>To Date</span></dt>
+                <dd>
+                    <span>{{ dutyLeave.toDate }}</span>
+                </dd>
+                <dt><span>Employee</span></dt>
+                <dd>
+                    <div *ngIf="dutyLeave.employeeId">
+                        <a [routerLink]="['/employee', dutyLeave.employeeId, 'view']">{{ dutyLeave.employeeName }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+        </div>
+    </div>
+</div>

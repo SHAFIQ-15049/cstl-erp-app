@@ -87,6 +87,12 @@ public class AttendanceQueryService extends QueryService<Attendance> {
             if (criteria.getMachineNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getMachineNo(), Attendance_.machineNo));
             }
+            if (criteria.getMarkedAs() != null) {
+                specification = specification.and(buildSpecification(criteria.getMarkedAs(), Attendance_.markedAs));
+            }
+            if (criteria.getLeaveApplied() != null) {
+                specification = specification.and(buildSpecification(criteria.getLeaveApplied(), Attendance_.leaveApplied));
+            }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),
                     root -> root.join(Attendance_.employee, JoinType.LEFT).get(Employee_.id)));

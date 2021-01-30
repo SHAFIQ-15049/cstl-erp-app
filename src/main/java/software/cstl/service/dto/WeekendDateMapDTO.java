@@ -1,24 +1,29 @@
 package software.cstl.service.dto;
 
+import software.cstl.domain.enumeration.WeekDay;
+
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.time.LocalDate;
 
 public class WeekendDateMapDTO implements Serializable {
 
-    private Long id;
+    private Long serialNo;
 
     @NotNull
     private LocalDate weekendDate;
 
+
     private Long weekendId;
 
-    public Long getId() {
-        return id;
+    private WeekDay weekendDay;
+
+    public Long getSerialNo() {
+        return serialNo;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public void setSerialNo(Long id) {
+        this.serialNo = id;
     }
 
     public LocalDate getWeekendDate() {
@@ -37,6 +42,14 @@ public class WeekendDateMapDTO implements Serializable {
         this.weekendId = weekendId;
     }
 
+    public WeekDay getWeekendDay() {
+        return weekendDay;
+    }
+
+    public void setWeekendDay(WeekDay weekendDay) {
+        this.weekendDay = weekendDay;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -46,7 +59,7 @@ public class WeekendDateMapDTO implements Serializable {
             return false;
         }
 
-        return id != null && id.equals(((WeekendDateMapDTO) o).id);
+        return serialNo != null && serialNo.equals(((WeekendDateMapDTO) o).serialNo);
     }
 
     @Override
@@ -58,9 +71,10 @@ public class WeekendDateMapDTO implements Serializable {
     @Override
     public String toString() {
         return "WeekendDateMapDTO{" +
-            "id=" + getId() +
+            "id=" + getSerialNo() +
             ", weekendDate='" + getWeekendDate() + "'" +
             ", weekendId=" + getWeekendId() +
+            ", weekendDay='" + getWeekendDay() + "'" +
             "}";
     }
 }

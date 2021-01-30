@@ -1,5 +1,8 @@
 package software.cstl.service.dto;
 
+import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.LeaveAppliedStatus;
+
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
@@ -16,6 +19,8 @@ public class AttendanceSummaryDTO implements Serializable {
 
     private Duration overTime;
 
+    private AttendanceMarkedAs attendanceMarkedAs;
+
 
     private Long employeeId;
 
@@ -24,6 +29,8 @@ public class AttendanceSummaryDTO implements Serializable {
     private String employeeMachineId;
 
     private Long employeeSalaryId;
+
+    private LeaveAppliedStatus leaveAppliedStatus;
 
     public Long getSerialNo() {
         return serialNo;
@@ -95,6 +102,22 @@ public class AttendanceSummaryDTO implements Serializable {
 
     public void setEmployeeSalaryId(Long employeeSalaryId) {
         this.employeeSalaryId = employeeSalaryId;
+    }
+
+    public AttendanceMarkedAs getAttendanceMarkedAs() {
+        return attendanceMarkedAs;
+    }
+
+    public void setAttendanceMarkedAs(AttendanceMarkedAs attendanceMarkedAs) {
+        this.attendanceMarkedAs = attendanceMarkedAs;
+    }
+
+    public LeaveAppliedStatus getLeaveAppliedStatus() {
+        return leaveAppliedStatus;
+    }
+
+    public void setLeaveAppliedStatus(LeaveAppliedStatus leaveAppliedStatus) {
+        this.leaveAppliedStatus = leaveAppliedStatus;
     }
 
     @Override

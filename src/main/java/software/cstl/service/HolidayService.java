@@ -124,9 +124,7 @@ public class HolidayService {
             LocalDate startDate = holiday.getFrom();
             LocalDate endDate = holiday.getTo().plusDays(1);
             while(startDate.isBefore(endDate)) {
-                HolidayDateMapDTO holidayDateMapDTO = new HolidayDateMapDTO();
-                holidayDateMapDTO.setHolidayDate(startDate);
-                holidayDateMapDTO.setHolidayId(holiday.getId());
+                HolidayDateMapDTO holidayDateMapDTO = getDateMapDTO(holiday, startDate);
                 holidayDateMapDTOs.add(holidayDateMapDTO);
                 startDate = startDate.plusDays(1);
             }
@@ -183,5 +181,12 @@ public class HolidayService {
     public int getTotalNumberOfHolidays(int year) {
         log.debug("Request to get count of total holidays : {}", year);
         return getHolidayDateMapDTOs(year).size();
+    }
+
+    private HolidayDateMapDTO getDateMapDTO(Holiday holiday, LocalDate startDate) {
+        HolidayDateMapDTO holidayDateMapDTO = new HolidayDateMapDTO();
+        holidayDateMapDTO.setHolidayDate(startDate);
+        holidayDateMapDTO.setHolidayId(holiday.getId());
+        return holidayDateMapDTO;
     }
 }

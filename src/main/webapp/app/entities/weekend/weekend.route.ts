@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router, Routes } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
@@ -39,7 +39,7 @@ export const weekendRoute: Routes = [
     path: '',
     component: WeekendComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.WEEKEND_ADMIN, Authority.WEEKEND_MANAGER],
       pageTitle: 'Weekends',
     },
     canActivate: [UserRouteAccessService],
@@ -51,7 +51,7 @@ export const weekendRoute: Routes = [
       weekend: WeekendResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.WEEKEND_ADMIN, Authority.WEEKEND_MANAGER],
       pageTitle: 'Weekends',
     },
     canActivate: [UserRouteAccessService],
@@ -63,7 +63,7 @@ export const weekendRoute: Routes = [
       weekend: WeekendResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.WEEKEND_ADMIN],
       pageTitle: 'Weekends',
     },
     canActivate: [UserRouteAccessService],
@@ -75,7 +75,7 @@ export const weekendRoute: Routes = [
       weekend: WeekendResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.WEEKEND_ADMIN],
       pageTitle: 'Weekends',
     },
     canActivate: [UserRouteAccessService],

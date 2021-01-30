@@ -1,11 +1,11 @@
 package software.cstl.service.dto;
 
+import software.cstl.domain.LeaveApplication;
+
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.List;
 
-/**
- * A DTO for the {@link software.cstl.domain.LeaveBalance} entity.
- */
 public class LeaveBalanceDTO implements Serializable {
 
     private Long id;
@@ -24,6 +24,8 @@ public class LeaveBalanceDTO implements Serializable {
     private Long leaveTypeId;
 
     private String leaveTypeName;
+
+    private List<LeaveApplication> acceptedLeaveApplications;
 
     public Long getId() {
         return id;
@@ -87,6 +89,14 @@ public class LeaveBalanceDTO implements Serializable {
 
     public void setLeaveTypeName(String leaveTypeName) {
         this.leaveTypeName = leaveTypeName;
+    }
+
+    public List<LeaveApplication> getAcceptedLeaveApplications() {
+        return acceptedLeaveApplications;
+    }
+
+    public void setAcceptedLeaveApplications(List<LeaveApplication> acceptedLeaveApplications) {
+        this.acceptedLeaveApplications = acceptedLeaveApplications;
     }
 
     @Override

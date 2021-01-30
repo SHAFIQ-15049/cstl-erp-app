@@ -37,42 +37,34 @@
     </div>
 
     <div class="table-responsive" id="entities" *ngIf="leaveBalances && leaveBalances.length > 0">
+
+        <div>
+            <p>Joining Date: <span><b>{{leaveBalances[0].employeeJoiningDate | date: 'mediumDate'}}</b></span></p>
+        </div>
+
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr>
-                    <th scope="col" ><span>ID</span></th>
-                    <th scope="col" ><span>Total Days</span></th>
-                    <th scope="col" ><span>Remaining Days</span></th>
                     <th scope="col" ><span>Employee</span></th>
                     <th scope="col" ><span>Leave Type</span></th>
-                    <th scope="col"></th>
+                    <th scope="col" ><span>Total Days</span></th>
+                    <th scope="col" ><span>Remaining Days</span></th>
                 </tr>
             </thead>
             <tbody>
                 <tr *ngFor="let leaveBalance of leaveBalances ;trackBy: trackId">
-                    <td><a [routerLink]="['/leave-balance', leaveBalance.id, 'view']">{{ leaveBalance.id }}</a></td>
-                    <td>{{ leaveBalance.totalDays }}</td>
-                    <td>{{ leaveBalance.remainingDays }}</td>
                     <td>
                         <div *ngIf="leaveBalance.employeeId">
-                            <a [routerLink]="['/employee', leaveBalance.employeeId , 'view']" >{{ leaveBalance.employeeId }}</a>
+                            <a [routerLink]="['/employee', leaveBalance.employeeId , 'view']" >{{ leaveBalance.employeeName }}</a>
                         </div>
                     </td>
                     <td>
                         <div *ngIf="leaveBalance.leaveTypeId">
-                            <a [routerLink]="['/leave-type', leaveBalance.leaveTypeId , 'view']" >{{ leaveBalance.leaveTypeId }}</a>
+                            <a [routerLink]="['/leave-type', leaveBalance.leaveTypeId , 'view']" >{{ leaveBalance.leaveTypeName }}</a>
                         </div>
                     </td>
-                    <td class="text-right">
-                        <div class="btn-group">
-                            <button type="submit"
-                                    [routerLink]="['/leave-balance', leaveBalance.id, 'view']"
-                                    class="btn btn-info btn-sm">
-                                <fa-icon icon="eye"></fa-icon>
-                                <span class="d-none d-md-inline">View</span>
-                            </button>
-                        </div>
-                    </td>
+                    <td>{{ leaveBalance.totalDays }}</td>
+                    <td><a style="cursor: pointer" (click)="showDetail(leaveBalance.acceptedLeaveApplications)"> {{ leaveBalance.remainingDays }} </a></td>
                 </tr>
             </tbody>
         </table>

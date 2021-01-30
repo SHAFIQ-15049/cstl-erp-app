@@ -1,11 +1,5 @@
 package software.cstl.web.rest;
 
-import software.cstl.domain.LeaveApplication;
-import software.cstl.service.LeaveApplicationService;
-import software.cstl.web.rest.errors.BadRequestAlertException;
-import software.cstl.service.dto.LeaveApplicationCriteria;
-import software.cstl.service.LeaveApplicationQueryService;
-
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -15,10 +9,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.LeaveType;
+import software.cstl.repository.LeaveTypeRepository;
+import software.cstl.service.LeaveApplicationQueryService;
+import software.cstl.service.LeaveApplicationService;
+import software.cstl.service.LeaveBalanceService;
+import software.cstl.service.dto.LeaveApplicationCriteria;
+import software.cstl.service.dto.LeaveBalanceDTO;
+import software.cstl.web.rest.errors.BadRequestAlertException;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -44,9 +46,16 @@ public class LeaveApplicationResource {
 
     private final LeaveApplicationQueryService leaveApplicationQueryService;
 
-    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService) {
+    private final LeaveTypeRepository leaveTypeRepository;
+
+    private final LeaveBalanceService leaveBalanceService;
+
+    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService,
+                                    LeaveTypeRepository leaveTypeRepository, LeaveBalanceService leaveBalanceService) {
         this.leaveApplicationService = leaveApplicationService;
         this.leaveApplicationQueryService = leaveApplicationQueryService;
+        this.leaveTypeRepository = leaveTypeRepository;
+        this.leaveBalanceService = leaveBalanceService;
     }
 
     /**
@@ -62,7 +71,9 @@ public class LeaveApplicationResource {
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if(!leaveApplicationService.isValid(leaveApplication)) {
+        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.calculate(leaveApplication.getApplicant().getId(), leaveType.getId());
+        if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
@@ -85,6 +96,11 @@ public class LeaveApplicationResource {
         log.debug("REST request to update LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.calculate(leaveApplication.getApplicant().getId(), leaveType.getId());
+        if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
+            throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.ok()

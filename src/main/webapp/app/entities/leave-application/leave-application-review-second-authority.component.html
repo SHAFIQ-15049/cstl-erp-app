@@ -1,0 +1,64 @@
+<div>
+    <h2 id="page-heading">
+        <span>Review Applications</span>
+    </h2>
+
+    <jhi-alert-error></jhi-alert-error>
+
+    <jhi-alert></jhi-alert>
+
+    <div class="alert alert-warning" id="no-result" *ngIf="leaveApplications?.length === 0">
+        <span>No leaveApplications found</span>
+    </div>
+
+    <div class="table-responsive" id="entities" *ngIf="leaveApplications && leaveApplications.length > 0">
+        <table class="table table-striped" aria-describedby="page-heading">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
+                <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="totalDays"><span>Total Days</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="reason"><span>Reason</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="appliedBy.login"><span>Applied By</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="actionTakenBy.login"><span>Action Taken By</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"  jhiSortBy="leaveType.name"><span>Leave Type</span> <fa-icon icon="sort"></fa-icon></th>
+                <th scope="col"></th>
+            </tr>
+            </thead>
+            <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
+            <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
+                <td><a [routerLink]="['/leave-application', leaveApplication.id, 'view']">{{ leaveApplication.id }}</a></td>
+                <td>{{ leaveApplication.from | date:'mediumDate' }}</td>
+                <td>{{ leaveApplication.to | date:'mediumDate' }}</td>
+                <td>{{ leaveApplication.totalDays }}</td>
+                <td>{{ leaveApplication.status }}</td>
+                <td>{{ leaveApplication.reason }}</td>
+                <td>
+                    {{ leaveApplication.appliedBy?.login }}
+                </td>
+                <td>
+                    {{ leaveApplication.actionTakenBy?.login }}
+                </td>
+                <td>
+                    <div *ngIf="leaveApplication.leaveType">
+                        <a [routerLink]="['/leave-type', leaveApplication.leaveType?.id, 'view']" >{{ leaveApplication.leaveType?.name }}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group">
+
+                        <button type="submit"
+                                [routerLink]="['/leave-application', leaveApplication.id, 'action-by-second-authority']"
+                                class="btn btn-primary btn-sm">
+                            <fa-icon icon="pencil-alt"></fa-icon>
+                            <span class="d-none d-md-inline">Review</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

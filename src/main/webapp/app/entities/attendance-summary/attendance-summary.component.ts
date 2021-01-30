@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Subscription } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { JhiEventManager } from 'ng-jhipster';
 
 import { IAttendanceSummary } from 'app/shared/model/attendance-summary.model';
@@ -17,10 +17,12 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   attendanceSummaries?: IAttendanceSummary[];
   employees?: IEmployee[];
   eventSubscriber?: Subscription;
+  isSaving = false;
 
   fromDate = '';
   toDate = '';
   employee?: number = -1;
+  markedType?: string = 'null';
 
   private dateFormat = 'yyyy-MM-dd';
 
@@ -45,7 +47,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
     if (this.canLoad()) {
       this.attendanceSummaries = [];
       this.attendanceSummaryService
-        .findByEmployeeIdFromAndToDate(this.employee!, this.fromDate, this.toDate)
+        .findByEmployeeIdFromAndToDate(this.employee!, this.fromDate, this.toDate, this.markedType!.toString())
         .subscribe((res: HttpResponse<IAttendanceSummary[]>) => (this.attendanceSummaries = res.body || []));
     }
   }
@@ -71,5 +73,28 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
 
   registerChangeInAttendanceSummaries(): void {
     this.eventSubscriber = this.eventManager.subscribe('attendanceSummaryListModification', () => this.loadAll());
+  }
+
+  updateMarkedAs(): void {
+    if (this.attendanceSummaries) {
+      this.isSaving = true;
+      this.subscribeToSaveResponse(this.attendanceSummaryService.update(this.attendanceSummaries));
+    }
+  }
+
+  protected subscribeToSaveResponse(result: Observable<HttpResponse<IAttendanceSummary[]>>): void {
+    result.subscribe(
+      () => this.onSaveSuccess(),
+      () => this.onSaveError()
+    );
+  }
+
+  protected onSaveSuccess(): void {
+    this.isSaving = false;
+    this.loadAll();
+  }
+
+  protected onSaveError(): void {
+    this.isSaving = false;
   }
 }
