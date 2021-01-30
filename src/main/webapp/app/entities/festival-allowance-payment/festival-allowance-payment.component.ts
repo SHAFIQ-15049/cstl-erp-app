@@ -40,8 +40,8 @@ export class FestivalAllowancePaymentComponent implements OnInit, OnDestroy {
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
-    private jhiAlertService: JhiAlertService,
-    private designationService: DesignationService
+    protected jhiAlertService: JhiAlertService,
+    protected designationService: DesignationService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
