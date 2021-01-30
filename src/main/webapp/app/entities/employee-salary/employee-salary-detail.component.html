@@ -22,15 +22,15 @@
                 </dd>
                 <dt><span>Salary Start Date</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.salaryStartDate }}</span>
+                    <span>{{ employeeSalary.salaryStartDate | date: 'dd-MMM-yyyy hh:mm a'}}</span>
                 </dd>
                 <dt><span>Salary End Date</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.salaryEndDate }}</span>
+                    <span>{{ employeeSalary.salaryEndDate | date: 'dd-MMM-yyyy hh:mm a' }}</span>
                 </dd>
                 <dt><span>Next Increment Date</span></dt>
                 <dd>
-                    <span>{{ employeeSalary.nextIncrementDate }}</span>
+                    <span>{{ employeeSalary.nextIncrementDate | date: 'dd-MMM-yyyy hh:mm a' }}</span>
                 </dd>
                 <dt><span>Basic</span></dt>
                 <dd>

@@ -16,6 +16,7 @@ import software.cstl.service.AttendanceSummaryService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
 import java.time.ZoneId;
 import java.util.ArrayList;
@@ -79,11 +80,13 @@ public class OverTimeGenerationService {
         BigDecimal validOverTimeSalary = BigDecimal.ZERO;
         BigDecimal totalOverTimeSalary = BigDecimal.ZERO;
         for(AttendanceSummaryDTO summaryDTO: attendanceSummaries){
+            System.out.println(summaryDTO.getOverTime().toHours());
+            System.out.println(summaryDTO.getDiff());
             Long overTimeHourOfTheDay = summaryDTO.getOverTime().toHours();
             totalOverTimeHour = totalOverTimeHour+overTimeHourOfTheDay;
 
             EmployeeSalary employeeSalaryOfTheDay = employeeSalaryRepository.getOne(summaryDTO.getEmployeeSalaryId());
-            BigDecimal overTimeAmountPerHour = (employeeSalaryOfTheDay.getBasic().divide(new BigDecimal(208))).multiply(new BigDecimal(2));
+            BigDecimal overTimeAmountPerHour = (employeeSalaryOfTheDay.getBasic().divide(new BigDecimal(208), RoundingMode.HALF_UP)).multiply(new BigDecimal(2));
             totalOverTimeSalary = totalOverTimeSalary.add(overTimeAmountPerHour.multiply(new BigDecimal(overTimeHourOfTheDay)));
 
             if(!overTimeOverLoaded){
@@ -96,14 +99,14 @@ public class OverTimeGenerationService {
                 }
             }
         }
-        Long extraOverTimeHour = totalOverTimeHour - validOverTimeHour;
+        Long extraOverTimeHour = totalOverTimeHour>validOverTimeHour? totalOverTimeHour - validOverTimeHour: 0L;
         BigDecimal extraOverTimeSalary = totalOverTimeSalary.subtract(validOverTimeSalary);
 
         overTime.setTotalOverTime(Double.parseDouble(totalOverTimeHour.toString()));
-        overTime.setOfficialOverTime(Double.parseDouble(validOverTimeHour.toString()));
+        overTime.setOfficialOverTime(Double.parseDouble((totalOverTimeHour>validOverTimeHour? validOverTimeHour: totalOverTimeHour)+""));
         overTime.setExtraOverTime(Double.parseDouble(extraOverTimeHour.toString()));
         overTime.setTotalAmount(totalOverTimeSalary);
-        overTime.setOfficialAmount(validOverTimeSalary);
-        overTime.setExtraAmount(extraOverTimeSalary);
+        overTime.setOfficialAmount(totalOverTimeSalary.divide(new BigDecimal(validOverTimeHour), RoundingMode.HALF_UP));
+        overTime.setExtraAmount(totalOverTimeSalary.subtract(overTime.getOfficialAmount()));
     }
 }

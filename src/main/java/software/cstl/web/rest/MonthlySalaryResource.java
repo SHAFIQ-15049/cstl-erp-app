@@ -1,7 +1,11 @@
 package software.cstl.web.rest;
 
+import com.itextpdf.text.DocumentException;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import software.cstl.domain.MonthlySalary;
 import software.cstl.service.MonthlySalaryService;
+import software.cstl.service.mediators.MonthlySalaryReportGenerator;
 import software.cstl.web.rest.errors.BadRequestAlertException;
 import software.cstl.service.dto.MonthlySalaryCriteria;
 import software.cstl.service.MonthlySalaryQueryService;
@@ -20,6 +24,8 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -43,9 +49,12 @@ public class MonthlySalaryResource {
 
     private final MonthlySalaryQueryService monthlySalaryQueryService;
 
-    public MonthlySalaryResource(MonthlySalaryService monthlySalaryService, MonthlySalaryQueryService monthlySalaryQueryService) {
+    private final MonthlySalaryReportGenerator monthlySalaryReportGenerator;
+
+    public MonthlySalaryResource(MonthlySalaryService monthlySalaryService, MonthlySalaryQueryService monthlySalaryQueryService, MonthlySalaryReportGenerator monthlySalaryReportGenerator) {
         this.monthlySalaryService = monthlySalaryService;
         this.monthlySalaryQueryService = monthlySalaryQueryService;
+        this.monthlySalaryReportGenerator = monthlySalaryReportGenerator;
     }
 
     /**
@@ -126,6 +135,19 @@ public class MonthlySalaryResource {
         log.debug("REST request to get MonthlySalary : {}", id);
         Optional<MonthlySalary> monthlySalary = monthlySalaryService.findOne(id);
         return ResponseUtil.wrapOrNotFound(monthlySalary);
+    }
+
+    @GetMapping("/monthly-salaries/report/{id}")
+    public ResponseEntity<InputStreamResource> getMonthlySalaryReport(@PathVariable Long id) throws DocumentException {
+        log.debug("REST request to get MonthlySalary Report : {}", id);
+        ByteArrayInputStream bis = monthlySalaryReportGenerator.createSalaryReport(id);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "inline; filename=monthly-salary-report.pdf");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(bis));
     }
 
     /**

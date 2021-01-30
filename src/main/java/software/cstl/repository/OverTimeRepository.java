@@ -1,5 +1,6 @@
 package software.cstl.repository;
 
+import software.cstl.domain.Employee;
 import software.cstl.domain.OverTime;
 
 import org.springframework.data.jpa.repository.*;
@@ -13,4 +14,6 @@ import software.cstl.domain.enumeration.MonthType;
 @Repository
 public interface OverTimeRepository extends JpaRepository<OverTime, Long>, JpaSpecificationExecutor<OverTime> {
     void deleteOverTimeByYearAndMonthAndDesignation_Id(Integer year, MonthType monthType, Long designationid);
+
+    OverTime findByYearAndMonthAndEmployee(Integer year, MonthType monthType, Employee employee);
 }

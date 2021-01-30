@@ -67,11 +67,9 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
-      if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
-        this.predicate = predicate;
-        this.ascending = ascending;
-        this.loadPage(pageNumber, true);
-      }
+      this.predicate = predicate;
+      this.ascending = ascending;
+      this.loadPage(pageNumber, true);
     }).subscribe();
   }
 
@@ -115,12 +113,14 @@ export class MonthlySalaryDtlComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/monthly-salary-dtl'], {
+      this.router.navigate([], {
         queryParams: {
+          monthlySalaryId: this.monthlySalaryId,
           page: this.page,
           size: this.itemsPerPage,
           sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
         },
+        relativeTo: this.activatedRoute,
       });
     }
     this.monthlySalaryDtls = data || [];

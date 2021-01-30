@@ -192,7 +192,13 @@ export class OverTimeComponent implements OnInit, OnDestroy {
 
   generateOverTime(): void {
     this.overTimeService
-      .generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDate?.toJSON(), this.toDate?.toJSON())
+      .generateOverTimes(
+        this.selectedYear,
+        this.selectedMonth,
+        this.selectedDesignationId,
+        moment(this.fromDate).toJSON(),
+        moment(this.toDate).toJSON()
+      )
       .subscribe(res => {
         this.loadPage(0);
       });

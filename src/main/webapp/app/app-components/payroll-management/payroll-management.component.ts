@@ -151,9 +151,10 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   regenerateSalaries(): void {
-    this.monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
-    this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
+    // this.monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
+    // this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
     this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(res => {
+      this.jhiAlertService.success('Re-generation success');
       this.eventManager.broadcast('monthlySalaryDtlListModification');
     });
   }
@@ -173,5 +174,16 @@ export class PayrollManagementComponent implements OnInit {
           relativeTo: this.activatedRoute,
         });
       });
+  }
+
+  downloadReport(): void {
+    this.monthlySalaryService.downloadSalaryReport(this.monthlySalary.id!).subscribe(data => {
+      const file = new Blob([data], { type: 'application/pdf' });
+      const pdfData = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = pdfData;
+      link.download = 'salary-report.pdf';
+      link.click();
+    });
   }
 }

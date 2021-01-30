@@ -15,7 +15,7 @@ import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
 import io.github.jhipster.service.filter.StringFilter;
 import io.github.jhipster.service.filter.BigDecimalFilter;
-import io.github.jhipster.service.filter.LocalDateFilter;
+import io.github.jhipster.service.filter.InstantFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.EmployeeSalary} entity. This class is used
@@ -74,11 +74,11 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter incrementPercentage;
 
-    private LocalDateFilter salaryStartDate;
+    private InstantFilter salaryStartDate;
 
-    private LocalDateFilter salaryEndDate;
+    private InstantFilter salaryEndDate;
 
-    private LocalDateFilter nextIncrementDate;
+    private InstantFilter nextIncrementDate;
 
     private BigDecimalFilter basic;
 
@@ -190,27 +190,27 @@ public class EmployeeSalaryCriteria implements Serializable, Criteria {
         this.incrementPercentage = incrementPercentage;
     }
 
-    public LocalDateFilter getSalaryStartDate() {
+    public InstantFilter getSalaryStartDate() {
         return salaryStartDate;
     }
 
-    public void setSalaryStartDate(LocalDateFilter salaryStartDate) {
+    public void setSalaryStartDate(InstantFilter salaryStartDate) {
         this.salaryStartDate = salaryStartDate;
     }
 
-    public LocalDateFilter getSalaryEndDate() {
+    public InstantFilter getSalaryEndDate() {
         return salaryEndDate;
     }
 
-    public void setSalaryEndDate(LocalDateFilter salaryEndDate) {
+    public void setSalaryEndDate(InstantFilter salaryEndDate) {
         this.salaryEndDate = salaryEndDate;
     }
 
-    public LocalDateFilter getNextIncrementDate() {
+    public InstantFilter getNextIncrementDate() {
         return nextIncrementDate;
     }
 
-    public void setNextIncrementDate(LocalDateFilter nextIncrementDate) {
+    public void setNextIncrementDate(InstantFilter nextIncrementDate) {
         this.nextIncrementDate = nextIncrementDate;
     }
 
