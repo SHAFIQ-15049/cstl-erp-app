@@ -10,9 +10,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import software.cstl.domain.Attendance;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.AttendanceQueryService;
 import software.cstl.service.AttendanceService;
 import software.cstl.service.dto.AttendanceCriteria;
@@ -55,6 +57,9 @@ public class AttendanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/attendances")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<Attendance> createAttendance(@Valid @RequestBody Attendance attendance) throws URISyntaxException {
         log.debug("REST request to save Attendance : {}", attendance);
         if (attendance.getId() != null) {
@@ -76,6 +81,9 @@ public class AttendanceResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/attendances")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<Attendance> updateAttendance(@Valid @RequestBody Attendance attendance) throws URISyntaxException {
         log.debug("REST request to update Attendance : {}", attendance);
         if (attendance.getId() == null) {
@@ -134,6 +142,7 @@ public class AttendanceResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/attendances/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteAttendance(@PathVariable Long id) {
         log.debug("REST request to delete Attendance : {}", id);
         attendanceService.delete(id);

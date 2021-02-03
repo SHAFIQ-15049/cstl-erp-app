@@ -39,7 +39,7 @@ export const attendanceRoute: Routes = [
     path: '',
     component: AttendanceComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       defaultSort: 'id,asc',
       pageTitle: 'Attendances',
     },
@@ -52,7 +52,7 @@ export const attendanceRoute: Routes = [
       attendance: AttendanceResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       pageTitle: 'Attendances',
     },
     canActivate: [UserRouteAccessService],
@@ -64,7 +64,7 @@ export const attendanceRoute: Routes = [
       attendance: AttendanceResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       pageTitle: 'Attendances',
     },
     canActivate: [UserRouteAccessService],
@@ -76,7 +76,7 @@ export const attendanceRoute: Routes = [
       attendance: AttendanceResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       pageTitle: 'Attendances',
     },
     canActivate: [UserRouteAccessService],
