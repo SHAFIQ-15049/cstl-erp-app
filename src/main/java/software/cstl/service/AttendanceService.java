@@ -15,6 +15,8 @@ import software.cstl.repository.AttendanceRepository;
 import software.cstl.service.dto.AttendanceDataUploadDTO;
 
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -201,6 +203,8 @@ public class AttendanceService {
             String instantText = year + "-" + month + "-" + day + "T" + hour + ":" + minute + ":" + second + ".00Z";
 
             Instant instant = Instant.parse(instantText);
+            ZoneOffset zoneOffset = ZoneId.systemDefault().getRules().getOffset(instant);
+            instant = instant.minusSeconds(zoneOffset.getTotalSeconds());
             return getAttendance(candidateSalary, employeeMachineId, employee, machineCode, instant);
         } else {
             log.debug("ERROR! Employee or employee salary information is missing {} ", line);
