@@ -8,6 +8,9 @@ import { AttendanceSummaryService } from './attendance-summary.service';
 import { DatePipe } from '@angular/common';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { IEmployee } from 'app/shared/model/employee.model';
+import { IDepartment } from 'app/shared/model/department.model';
+import { DepartmentService } from 'app/entities/department/department.service';
+import { AttendanceMarkedAs } from 'app/shared/model/enumerations/attendance-marked-as.model';
 
 @Component({
   selector: 'jhi-attendance-summary',
@@ -19,10 +22,15 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   eventSubscriber?: Subscription;
   isSaving = false;
 
+  departments?: IDepartment[];
+
   fromDate = '';
   toDate = '';
-  employee?: number = -1;
-  markedType?: string = 'null';
+  employeeId = -1;
+  markedType = 'null';
+  departmentId = -1;
+
+  bulkMarkedType?: AttendanceMarkedAs;
 
   private dateFormat = 'yyyy-MM-dd';
 
@@ -30,6 +38,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
     protected attendanceSummaryService: AttendanceSummaryService,
     protected employeeService: EmployeeService,
     protected eventManager: JhiEventManager,
+    protected departmentService: DepartmentService,
     private datePipe: DatePipe
   ) {}
 
@@ -47,14 +56,29 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
     if (this.canLoad()) {
       this.attendanceSummaries = [];
       this.attendanceSummaryService
-        .findByEmployeeIdFromAndToDate(this.employee!, this.fromDate, this.toDate, this.markedType!.toString())
+        .findByDepartmentIdAndEmployeeIdAndFromAndToDate(
+          this.departmentId,
+          this.employeeId,
+          this.fromDate,
+          this.toDate,
+          this.markedType.toString()
+        )
         .subscribe((res: HttpResponse<IAttendanceSummary[]>) => (this.attendanceSummaries = res.body || []));
+    }
+  }
+
+  updateBulkMarkedAs(): void {
+    if (this.attendanceSummaries && this.bulkMarkedType) {
+      for (let i = 0; i < this.attendanceSummaries.length; i++) {
+        this.attendanceSummaries[i].attendanceMarkedAs = this.bulkMarkedType;
+      }
     }
   }
 
   ngOnInit(): void {
     this.toDate = this.today();
     this.fromDate = this.today();
+    this.departmentService.query().subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
     this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     this.loadAll();
     this.registerChangeInAttendanceSummaries();

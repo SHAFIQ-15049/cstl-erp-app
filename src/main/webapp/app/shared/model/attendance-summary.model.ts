@@ -10,6 +10,8 @@ export interface IAttendanceSummary {
   overTime?: number;
   attendanceMarkedAs?: AttendanceMarkedAs;
   leaveApplied?: LeaveAppliedStatus;
+  departmentId?: number;
+  departmentName?: string;
   employeeId?: number;
   employeeName?: number;
   employeeMachineId?: number;
@@ -25,6 +27,8 @@ export class AttendanceSummary implements IAttendanceSummary {
     public overTime?: number,
     public attendanceMarkedAs?: AttendanceMarkedAs,
     public leaveApplied?: LeaveAppliedStatus,
+    public departmentId?: number,
+    public departmentName?: string,
     public employeeId?: number,
     public employeeName?: number,
     public employeeMachineId?: number,

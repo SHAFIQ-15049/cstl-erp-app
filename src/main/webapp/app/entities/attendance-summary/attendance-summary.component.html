@@ -14,10 +14,19 @@
 
                 <div class="input-group mb-3">
                     <div class="input-group-prepend">
+                        <span class="input-group-text">Department</span>
+                    </div>
+                    <select class="form-control" name="department"
+                            [(ngModel)]="departmentId" required>
+                        <option [ngValue]="-1" selected>Select All</option>
+                        <option [ngValue]="departmentOption.id"
+                                *ngFor="let departmentOption of departments;">{{ departmentOption.name }}</option>
+                    </select>
+                    <div class="input-group-prepend">
                         <span class="input-group-text">Employee</span>
                     </div>
                     <select class="form-control" name="employee"
-                            [(ngModel)]="employee" required>
+                            [(ngModel)]="employeeId" required>
                         <option [ngValue]="-1" selected>Select All</option>
                         <option [ngValue]="employeeOption.id"
                                 *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
@@ -34,6 +43,9 @@
                     <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
                            required/>
 
+                    <div class="input-group-append">
+                        <span class="input-group-text">Marked As</span>
+                    </div>
                     <select class="form-control" name="markedType"
                             [(ngModel)]="markedType" required>
                         <option value="null">Select All</option>
@@ -60,52 +72,72 @@
     <div class="table-responsive" id="entities" *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
-                <tr>
-                    <th scope="col" ><span>Sl.</span></th>
-                    <th scope="col" ><span>Employee</span></th>
-                    <th scope="col" ><span>Id (Machine)</span></th>
-                    <th scope="col" ><span>In</span></th>
-                    <th scope="col" ><span>Out</span></th>
-                    <th scope="col" ><span>Diff</span></th>
-                    <th scope="col" ><span>OverTime</span></th>
-                    <th scope="col" ><span>MarkedAs</span></th>
-                </tr>
+            <tr>
+                <th scope="col"><span>Sl.</span></th>
+                <th scope="col"><span>Department</span></th>
+                <th scope="col"><span>Employee</span></th>
+                <th scope="col"><span>Id (Machine)</span></th>
+                <th scope="col"><span>In</span></th>
+                <th scope="col"><span>Out</span></th>
+                <th scope="col"><span>Diff</span></th>
+                <th scope="col"><span>OverTime</span></th>
+                <th scope="col"><span>MarkedAs</span></th>
+            </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
-                    <td>{{ attendanceSummary.serialNo }}</td>
-                    <td>
-                        <div *ngIf="attendanceSummary.employeeId">
-                            {{ attendanceSummary.employeeName }}
-                        </div>
-                    </td>
-                    <td>
-                        <div *ngIf="attendanceSummary.employeeId">
-                            {{ attendanceSummary.employeeMachineId }}
-                        </div>
-                    </td>
-                    <td>{{ attendanceSummary.inTime | date:"medium":"+0000" }}</td>
-                    <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
-                    <td>{{ attendanceSummary.diff }}</td>
-                    <td>{{ attendanceSummary.overTime }}</td>
-                    <td>
-                        <select class="form-control" name="markedAs" id="field_markedAs" [(ngModel)]="attendanceSummary.attendanceMarkedAs">
-                            <option value="R">Regular</option>
-                            <option value="WR">Weekend/Regular</option>
-                            <option value="HR">Holiday/Regular</option>
-                            <option value="WO">Weekend/Overtime</option>
-                            <option value="HO">Holiday/Overtime</option>
-                        </select>
-                    </td>
-                </tr>
+            <tr *ngFor="let attendanceSummary of attendanceSummaries ;trackBy: trackId">
+                <td>{{ attendanceSummary.serialNo }}</td>
+                <td>
+                    <div *ngIf="attendanceSummary.departmentId">
+                        {{ attendanceSummary.departmentName }}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="attendanceSummary.employeeId">
+                        {{ attendanceSummary.employeeName }}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="attendanceSummary.employeeId">
+                        {{ attendanceSummary.employeeMachineId }}
+                    </div>
+                </td>
+                <td>{{ attendanceSummary.inTime | date:"medium":"+0000" }}</td>
+                <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
+                <td>{{ attendanceSummary.diff }}</td>
+                <td>{{ attendanceSummary.overTime }}</td>
+                <td>
+                    <select class="form-control" name="markedAs" id="field_markedAs"
+                            [(ngModel)]="attendanceSummary.attendanceMarkedAs">
+                        <option value="R">Regular</option>
+                        <option value="WR">Weekend/Regular</option>
+                        <option value="HR">Holiday/Regular</option>
+                        <option value="WO">Weekend/Overtime</option>
+                        <option value="HO">Holiday/Overtime</option>
+                    </select>
+                </td>
+            </tr>
             </tbody>
         </table>
 
-        <div>
-            <button style="float:right" type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
-                    class="btn btn-success">
-                <span class="d-none d-md-inline">Update</span>
-            </button>
+
+        <div class="row">
+            <div class="col-3">
+                <select class="form-control" name="bulk_markedType"
+                        [(ngModel)]="bulkMarkedType" (ngModelChange)="updateBulkMarkedAs()">
+                    <option value="R">Regular</option>
+                    <option value="WR">Weekend/Regular</option>
+                    <option value="HR">Holiday/Regular</option>
+                    <option value="WO">Weekend/Overtime</option>
+                    <option value="HO">Holiday/Overtime</option>
+                </select>
+            </div>
+            <div class="col-9">
+                <button style="float: right" type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
+                        class="btn btn-success">
+                    <span class="d-none d-md-inline">Update</span>
+                </button>
+            </div>
         </div>
     </div>
 </div>

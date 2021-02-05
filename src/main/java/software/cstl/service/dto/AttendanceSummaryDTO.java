@@ -21,6 +21,9 @@ public class AttendanceSummaryDTO implements Serializable {
 
     private AttendanceMarkedAs attendanceMarkedAs;
 
+    private Long departmentId;
+
+    private String departmentName;
 
     private Long employeeId;
 
@@ -118,6 +121,22 @@ public class AttendanceSummaryDTO implements Serializable {
 
     public void setLeaveAppliedStatus(LeaveAppliedStatus leaveAppliedStatus) {
         this.leaveAppliedStatus = leaveAppliedStatus;
+    }
+
+    public Long getDepartmentId() {
+        return departmentId;
+    }
+
+    public void setDepartmentId(Long departmentId) {
+        this.departmentId = departmentId;
+    }
+
+    public String getDepartmentName() {
+        return departmentName;
+    }
+
+    public void setDepartmentName(String departmentName) {
+        this.departmentName = departmentName;
     }
 
     @Override

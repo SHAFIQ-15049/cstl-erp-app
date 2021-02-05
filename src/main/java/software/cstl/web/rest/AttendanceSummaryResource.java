@@ -5,8 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.AttendanceSummaryService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
@@ -33,6 +35,9 @@ public class AttendanceSummaryResource {
     }
 
     @PutMapping("/attendance-summaries/marked-as")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
+        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<List<AttendanceSummaryDTO>> updateAttendanceSummaries(@RequestBody  List<AttendanceSummaryDTO> attendanceSummaryDTOs) throws URISyntaxException {
         log.debug("REST request to update attendance summaries : {}", attendanceSummaryDTOs);
         List<AttendanceSummaryDTO> results = attendanceSummaryService.update(attendanceSummaryDTOs);
@@ -41,10 +46,10 @@ public class AttendanceSummaryResource {
             .body(results);
     }
 
-    @GetMapping("/attendance-summaries/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}")
-    public List<AttendanceSummaryDTO> getAllAttendanceSummaries(@PathVariable Long employeeId, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String markedAs) {
+    @GetMapping("/attendance-summaries/departmentId/{departmentId}/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}")
+    public List<AttendanceSummaryDTO> getAllAttendanceSummaries(@PathVariable Long departmentId, @PathVariable Long employeeId, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String markedAs) {
         log.debug("REST request to get all AttendanceSummaries");
-        return attendanceSummaryService.findAll(employeeId, fromDate, toDate, AttendanceMarkedAs.lookup(markedAs));
+        return attendanceSummaryService.findAll(departmentId, employeeId, fromDate, toDate, AttendanceMarkedAs.lookup(markedAs));
     }
 
     @GetMapping("/attendance-summaries/fromDate/{fromDate}/toDate/{toDate}")

@@ -27,76 +27,6 @@
 
     <jhi-alert></jhi-alert>
 
-    <div class="row">
-        <div class="col-md-12">
-            <form>
-                <h4>Filter by date-time</h4>
-
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">from</span>
-                    </div>
-
-                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
-                           required/>
-
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Hour</span>
-                    </div>
-
-                    <select class="form-control" name="fromHour"
-                            [(ngModel)]="fromHour" required>
-                        <option [ngValue]="hourOption"
-                                *ngFor="let hourOption of hours;">{{ hourOption.name }}</option>
-                    </select>
-
-
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Minute</span>
-                    </div>
-
-                    <select class="form-control" name="fromMinute"
-                            [(ngModel)]="fromMinute" required>
-                        <option [ngValue]="minuteOption"
-                                *ngFor="let minuteOption of minutes;">{{ minuteOption.name }}</option>
-                    </select>
-
-                    <div class="input-group-append">
-                        <span class="input-group-text">To</span>
-                    </div>
-
-                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
-                           required/>
-
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Hour</span>
-                    </div>
-
-                    <select class="form-control" name="fromHour"
-                            [(ngModel)]="toHour" required>
-                        <option [ngValue]="hourOption"
-                                *ngFor="let hourOption of hours;">{{ hourOption.name }}</option>
-                    </select>
-
-
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Minute</span>
-                    </div>
-
-                    <select class="form-control" name="fromMinute"
-                            [(ngModel)]="toMinute" required>
-                        <option [ngValue]="minuteOption"
-                                *ngFor="let minuteOption of minutes;">{{ minuteOption.name }}</option>
-                    </select>
-
-                    <button type="submit" class="btn btn-info" (click)="loadPage()">
-                        <fa-icon icon="search"></fa-icon>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-
     <div class="alert alert-warning" id="no-result" *ngIf="attendances?.length === 0">
         <span>No attendances found</span>
     </div>
@@ -151,6 +81,7 @@
                         </button>
 
                         <button type="submit" (click)="delete(attendance)"
+                                *jhiHasAnyAuthority="['ROLE_ADMIN']"
                                 class="btn btn-danger btn-sm">
                             <fa-icon icon="times"></fa-icon>
                             <span class="d-none d-md-inline">Delete</span>
