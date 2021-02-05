@@ -67,15 +67,6 @@ public class AttendanceSummaryService {
         return attendanceSummaryDTOsWhoWillGetDutyLeave;
     }
 
-    /**
-     * Get all the attendanceSummaries.
-     *
-     * @param departmentId the department
-     * @param employeeId the employee
-     * @param fromDate   the fromDate
-     * @param toDate     the toDate
-     * @return the list of entities.
-     */
     @Transactional(readOnly = true)
     public List<AttendanceSummaryDTO> findAll(Long departmentId, Long employeeId, LocalDate fromDate, LocalDate toDate, AttendanceMarkedAs attendanceMarkedAs) {
         log.debug("Request to get all AttendanceSummaries {} {} {} {}", employeeId, fromDate, toDate, attendanceMarkedAs);
@@ -92,7 +83,6 @@ public class AttendanceSummaryService {
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
         return filterByEmployee(employeeId, attendanceSummaryDTOs);
     }
-
 
     private List<AttendanceSummaryDTO> filterByEmployeeAndMarkedAs(AttendanceMarkedAs attendanceMarkedAs, List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee) {
         List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = new ArrayList<>();
@@ -138,7 +128,6 @@ public class AttendanceSummaryService {
         }
         return attendanceSummaryDTOsSpecificEmployee;
     }
-
 
     /**
      * Get all the attendanceSummaries.
