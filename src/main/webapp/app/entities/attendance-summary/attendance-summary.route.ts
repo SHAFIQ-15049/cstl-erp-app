@@ -37,7 +37,7 @@ export const attendanceSummaryRoute: Routes = [
     path: '',
     component: AttendanceSummaryComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.ATTENDANCE_ADMIN, Authority.ATTENDANCE_MANAGER],
       pageTitle: 'AttendanceSummaries',
     },
     canActivate: [UserRouteAccessService],
