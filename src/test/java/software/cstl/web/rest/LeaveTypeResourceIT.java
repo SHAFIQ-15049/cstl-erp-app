@@ -11,6 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.LeaveType;
+import software.cstl.domain.enumeration.LeaveTypeName;
 import software.cstl.repository.LeaveTypeRepository;
 import software.cstl.service.LeaveTypeQueryService;
 import software.cstl.service.LeaveTypeService;
@@ -22,7 +23,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 /**
  * Integration tests for the {@link LeaveTypeResource} REST controller.
  */
@@ -31,16 +31,12 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class LeaveTypeResourceIT {
 
-    private static final String DEFAULT_NAME = "AAAAAAAAAA";
-    private static final String UPDATED_NAME = "BBBBBBBBBB";
+    private static final LeaveTypeName DEFAULT_NAME = LeaveTypeName.CASUAL_LEAVE;
+    private static final LeaveTypeName UPDATED_NAME = LeaveTypeName.MEDICAL_LEAVE;
 
     private static final Integer DEFAULT_TOTAL_DAYS = 1;
     private static final Integer UPDATED_TOTAL_DAYS = 2;
     private static final Integer SMALLER_TOTAL_DAYS = 1 - 1;
-
-    private static final Integer DEFAULT_MAX_VALIDITY = 1;
-    private static final Integer UPDATED_MAX_VALIDITY = 2;
-    private static final Integer SMALLER_MAX_VALIDITY = 1 - 1;
 
     @Autowired
     private LeaveTypeRepository leaveTypeRepository;
@@ -68,8 +64,7 @@ public class LeaveTypeResourceIT {
     public static LeaveType createEntity(EntityManager em) {
         LeaveType leaveType = new LeaveType()
             .name(DEFAULT_NAME)
-            .totalDays(DEFAULT_TOTAL_DAYS)
-            .maxValidity(DEFAULT_MAX_VALIDITY);
+            .totalDays(DEFAULT_TOTAL_DAYS);
         return leaveType;
     }
     /**
@@ -81,8 +76,7 @@ public class LeaveTypeResourceIT {
     public static LeaveType createUpdatedEntity(EntityManager em) {
         LeaveType leaveType = new LeaveType()
             .name(UPDATED_NAME)
-            .totalDays(UPDATED_TOTAL_DAYS)
-            .maxValidity(UPDATED_MAX_VALIDITY);
+            .totalDays(UPDATED_TOTAL_DAYS);
         return leaveType;
     }
 
@@ -107,7 +101,6 @@ public class LeaveTypeResourceIT {
         LeaveType testLeaveType = leaveTypeList.get(leaveTypeList.size() - 1);
         assertThat(testLeaveType.getName()).isEqualTo(DEFAULT_NAME);
         assertThat(testLeaveType.getTotalDays()).isEqualTo(DEFAULT_TOTAL_DAYS);
-        assertThat(testLeaveType.getMaxValidity()).isEqualTo(DEFAULT_MAX_VALIDITY);
     }
 
     @Test
@@ -170,25 +163,6 @@ public class LeaveTypeResourceIT {
 
     @Test
     @Transactional
-    public void checkMaxValidityIsRequired() throws Exception {
-        int databaseSizeBeforeTest = leaveTypeRepository.findAll().size();
-        // set the field null
-        leaveType.setMaxValidity(null);
-
-        // Create the LeaveType, which fails.
-
-
-        restLeaveTypeMockMvc.perform(post("/api/leave-types")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(TestUtil.convertObjectToJsonBytes(leaveType)))
-            .andExpect(status().isBadRequest());
-
-        List<LeaveType> leaveTypeList = leaveTypeRepository.findAll();
-        assertThat(leaveTypeList).hasSize(databaseSizeBeforeTest);
-    }
-
-    @Test
-    @Transactional
     public void getAllLeaveTypes() throws Exception {
         // Initialize the database
         leaveTypeRepository.saveAndFlush(leaveType);
@@ -198,9 +172,8 @@ public class LeaveTypeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveType.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)))
-            .andExpect(jsonPath("$.[*].maxValidity").value(hasItem(DEFAULT_MAX_VALIDITY)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)));
     }
 
     @Test
@@ -214,9 +187,8 @@ public class LeaveTypeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(leaveType.getId().intValue()))
-            .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS))
-            .andExpect(jsonPath("$.maxValidity").value(DEFAULT_MAX_VALIDITY));
+            .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
+            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS));
     }
 
 
@@ -290,32 +262,6 @@ public class LeaveTypeResourceIT {
         // Get all the leaveTypeList where name is null
         defaultLeaveTypeShouldNotBeFound("name.specified=false");
     }
-                @Test
-    @Transactional
-    public void getAllLeaveTypesByNameContainsSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where name contains DEFAULT_NAME
-        defaultLeaveTypeShouldBeFound("name.contains=" + DEFAULT_NAME);
-
-        // Get all the leaveTypeList where name contains UPDATED_NAME
-        defaultLeaveTypeShouldNotBeFound("name.contains=" + UPDATED_NAME);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByNameNotContainsSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where name does not contain DEFAULT_NAME
-        defaultLeaveTypeShouldNotBeFound("name.doesNotContain=" + DEFAULT_NAME);
-
-        // Get all the leaveTypeList where name does not contain UPDATED_NAME
-        defaultLeaveTypeShouldBeFound("name.doesNotContain=" + UPDATED_NAME);
-    }
-
 
     @Test
     @Transactional
@@ -421,111 +367,6 @@ public class LeaveTypeResourceIT {
         defaultLeaveTypeShouldBeFound("totalDays.greaterThan=" + SMALLER_TOTAL_DAYS);
     }
 
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity equals to DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.equals=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity equals to UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.equals=" + UPDATED_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsNotEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity not equals to DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.notEquals=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity not equals to UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.notEquals=" + UPDATED_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsInShouldWork() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity in DEFAULT_MAX_VALIDITY or UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.in=" + DEFAULT_MAX_VALIDITY + "," + UPDATED_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity equals to UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.in=" + UPDATED_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsNullOrNotNull() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity is not null
-        defaultLeaveTypeShouldBeFound("maxValidity.specified=true");
-
-        // Get all the leaveTypeList where maxValidity is null
-        defaultLeaveTypeShouldNotBeFound("maxValidity.specified=false");
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity is greater than or equal to DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.greaterThanOrEqual=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity is greater than or equal to UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.greaterThanOrEqual=" + UPDATED_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity is less than or equal to DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.lessThanOrEqual=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity is less than or equal to SMALLER_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.lessThanOrEqual=" + SMALLER_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsLessThanSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity is less than DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.lessThan=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity is less than UPDATED_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.lessThan=" + UPDATED_MAX_VALIDITY);
-    }
-
-    @Test
-    @Transactional
-    public void getAllLeaveTypesByMaxValidityIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        leaveTypeRepository.saveAndFlush(leaveType);
-
-        // Get all the leaveTypeList where maxValidity is greater than DEFAULT_MAX_VALIDITY
-        defaultLeaveTypeShouldNotBeFound("maxValidity.greaterThan=" + DEFAULT_MAX_VALIDITY);
-
-        // Get all the leaveTypeList where maxValidity is greater than SMALLER_MAX_VALIDITY
-        defaultLeaveTypeShouldBeFound("maxValidity.greaterThan=" + SMALLER_MAX_VALIDITY);
-    }
-
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -534,9 +375,8 @@ public class LeaveTypeResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveType.getId().intValue())))
-            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)))
-            .andExpect(jsonPath("$.[*].maxValidity").value(hasItem(DEFAULT_MAX_VALIDITY)));
+            .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)));
 
         // Check, that the count call also returns 1
         restLeaveTypeMockMvc.perform(get("/api/leave-types/count?sort=id,desc&" + filter))
@@ -584,8 +424,7 @@ public class LeaveTypeResourceIT {
         em.detach(updatedLeaveType);
         updatedLeaveType
             .name(UPDATED_NAME)
-            .totalDays(UPDATED_TOTAL_DAYS)
-            .maxValidity(UPDATED_MAX_VALIDITY);
+            .totalDays(UPDATED_TOTAL_DAYS);
 
         restLeaveTypeMockMvc.perform(put("/api/leave-types")
             .contentType(MediaType.APPLICATION_JSON)
@@ -598,7 +437,6 @@ public class LeaveTypeResourceIT {
         LeaveType testLeaveType = leaveTypeList.get(leaveTypeList.size() - 1);
         assertThat(testLeaveType.getName()).isEqualTo(UPDATED_NAME);
         assertThat(testLeaveType.getTotalDays()).isEqualTo(UPDATED_TOTAL_DAYS);
-        assertThat(testLeaveType.getMaxValidity()).isEqualTo(UPDATED_MAX_VALIDITY);
     }
 
     @Test

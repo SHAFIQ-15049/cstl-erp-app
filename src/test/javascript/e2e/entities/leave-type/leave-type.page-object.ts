@@ -29,20 +29,23 @@ export class LeaveTypeUpdatePage {
   saveButton = element(by.id('save-entity'));
   cancelButton = element(by.id('cancel-save'));
 
-  nameInput = element(by.id('field_name'));
+  nameSelect = element(by.id('field_name'));
   totalDaysInput = element(by.id('field_totalDays'));
-  maxValidityInput = element(by.id('field_maxValidity'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
   }
 
-  async setNameInput(name: string): Promise<void> {
-    await this.nameInput.sendKeys(name);
+  async setNameSelect(name: string): Promise<void> {
+    await this.nameSelect.sendKeys(name);
   }
 
-  async getNameInput(): Promise<string> {
-    return await this.nameInput.getAttribute('value');
+  async getNameSelect(): Promise<string> {
+    return await this.nameSelect.element(by.css('option:checked')).getText();
+  }
+
+  async nameSelectLastOption(): Promise<void> {
+    await this.nameSelect.all(by.tagName('option')).last().click();
   }
 
   async setTotalDaysInput(totalDays: string): Promise<void> {
@@ -51,14 +54,6 @@ export class LeaveTypeUpdatePage {
 
   async getTotalDaysInput(): Promise<string> {
     return await this.totalDaysInput.getAttribute('value');
-  }
-
-  async setMaxValidityInput(maxValidity: string): Promise<void> {
-    await this.maxValidityInput.sendKeys(maxValidity);
-  }
-
-  async getMaxValidityInput(): Promise<string> {
-    return await this.maxValidityInput.getAttribute('value');
   }
 
   async save(): Promise<void> {

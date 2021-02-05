@@ -10,9 +10,9 @@ public class LeaveBalanceDTO implements Serializable {
 
     private Long id;
 
-    private Double totalDays;
+    private double totalDays;
 
-    private Double remainingDays;
+    private double remainingDays;
 
 
     private Long employeeId;
@@ -35,19 +35,19 @@ public class LeaveBalanceDTO implements Serializable {
         this.id = id;
     }
 
-    public Double getTotalDays() {
+    public double getTotalDays() {
         return totalDays;
     }
 
-    public void setTotalDays(Double totalDays) {
+    public void setTotalDays(double totalDays) {
         this.totalDays = totalDays;
     }
 
-    public Double getRemainingDays() {
+    public double getRemainingDays() {
         return remainingDays;
     }
 
-    public void setRemainingDays(Double remainingDays) {
+    public void setRemainingDays(double remainingDays) {
         this.remainingDays = remainingDays;
     }
 

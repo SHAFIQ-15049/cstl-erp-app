@@ -82,13 +82,10 @@ public class LeaveTypeQueryService extends QueryService<LeaveType> {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), LeaveType_.id));
             }
             if (criteria.getName() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getName(), LeaveType_.name));
+                specification = specification.and(buildSpecification(criteria.getName(), LeaveType_.name));
             }
             if (criteria.getTotalDays() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalDays(), LeaveType_.totalDays));
-            }
-            if (criteria.getMaxValidity() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getMaxValidity(), LeaveType_.maxValidity));
             }
         }
         return specification;

@@ -23,6 +23,10 @@ public final class AuthoritiesConstants {
 
     public static final String ATTENDANCE_MANAGER = "ROLE_ATTENDANCE_MANAGER";
 
+    public static final String LEAVE_ADMIN = "ROLE_LEAVE_ADMIN";
+
+    public static final String LEAVE_MANAGER = "ROLE_LEAVE_MANAGER";
+
     private AuthoritiesConstants() {
     }
 }

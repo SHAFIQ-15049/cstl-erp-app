@@ -82,14 +82,41 @@ public class LeaveApplicationService {
         leaveApplicationRepository.deleteById(id);
     }
 
+    /**
+     * Get all the leaveApplications by employee, leaveType, fromDate, toDate, leaveStatus.
+     *
+     * @param employee the employee.
+     * @param leaveType the leaveType.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @param leaveApplicationStatus the leaveApplicationStatus.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LeaveType leaveType, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
         return leaveApplicationRepository.findByApplicantEqualsAndLeaveTypeEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, leaveType, fromDate, toDate, leaveApplicationStatus);
     }
 
+    /**
+     * Get all the leaveApplications by employee, fromDate, toDate, leaveStatus.
+     *
+     * @param employee the employee.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @param leaveApplicationStatus the leaveApplicationStatus.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
         return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, fromDate, toDate, leaveApplicationStatus);
     }
 
+    /**
+     * Get all the leaveApplications by employee, fromDate, toDate.
+     *
+     * @param employee the employee.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
         return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(employee, fromDate, toDate);
     }
