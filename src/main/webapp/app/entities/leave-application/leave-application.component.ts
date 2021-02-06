@@ -13,6 +13,7 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { Account } from 'app/core/user/account.model';
 import { EmployeeService } from 'app/entities/employee/employee.service';
 import { AccountService } from 'app/core/auth/account.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'jhi-leave-application',
@@ -30,13 +31,18 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
   employees: IEmployee[] = [];
   currentUser: Account | null = null;
 
+  fromDate = '';
+  toDate = '';
+  private dateFormat = 'yyyy-MM-dd';
+
   constructor(
     protected leaveApplicationService: LeaveApplicationService,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal,
     protected parseLinks: JhiParseLinks,
     protected employeeService: EmployeeService,
-    protected accountService: AccountService
+    protected accountService: AccountService,
+    private datePipe: DatePipe
   ) {
     this.leaveApplications = [];
     this.itemsPerPage = ITEMS_PER_PAGE;
@@ -48,14 +54,32 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
     this.ascending = true;
   }
 
+  private firstDayOfTheYear(): string {
+    const date = new Date();
+    const firstDay = new Date(date.getFullYear(), 0, 1);
+    return this.datePipe.transform(firstDay, this.dateFormat)!;
+  }
+
+  private lastDayOfTheYear(): string {
+    const date = new Date();
+    const lastDay = new Date(date.getFullYear(), 11, 31);
+    return this.datePipe.transform(lastDay, this.dateFormat)!;
+  }
+
+  canLoad(): boolean {
+    return this.fromDate !== '' && this.toDate !== '';
+  }
+
   loadAll(): void {
-    if (this.employees.length > 0) {
+    if (this.canLoad() && this.employees.length > 0) {
       this.leaveApplicationService
         .query({
           page: this.page,
           size: this.itemsPerPage,
           sort: this.sort(),
           'applicant.equals': this.employees[0],
+          'from.greaterOrEqualThan': this.fromDate,
+          'to.lessOrEqualThan': this.toDate,
         })
         .subscribe((res: HttpResponse<ILeaveApplication[]>) => this.paginateLeaveApplications(res.body, res.headers));
     }
@@ -73,6 +97,8 @@ export class LeaveApplicationComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.toDate = this.lastDayOfTheYear();
+    this.fromDate = this.firstDayOfTheYear();
     this.accountService.identity().subscribe(currentUser => {
       this.currentUser = currentUser;
       this.employeeService

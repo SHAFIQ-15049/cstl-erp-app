@@ -57,6 +57,7 @@
             </button>
 
             <button type="button"
+                    [hidden]="leaveApplication.actionTakenBy"
                     [routerLink]="['/leave-application', leaveApplication.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>

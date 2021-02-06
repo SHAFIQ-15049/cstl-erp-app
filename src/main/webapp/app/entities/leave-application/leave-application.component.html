@@ -14,6 +14,36 @@
 
     <jhi-alert></jhi-alert>
 
+    <div class="row">
+        <div class="col-md-6">
+            <form>
+                <h4>Filter by date</h4>
+
+                <div class="input-group mb-3">
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">from</span>
+                    </div>
+
+                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                           required/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">To</span>
+                    </div>
+
+                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                           required/>
+
+                    <button type="submit" class="btn btn-info" (click)="loadAll()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="leaveApplications?.length === 0">
         <span>No leaveApplications found</span>
     </div>
@@ -23,40 +53,40 @@
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="reset.bind(this)">
                     <th scope="col"  jhiSortBy="id"><span>ID</span> <fa-icon icon="sort"></fa-icon></th>
+                    <th scope="col"  jhiSortBy="leaveType.name"><span>Leave Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="from"><span>From</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="to"><span>To</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="totalDays"><span>Total Days</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"  jhiSortBy="status"><span>Status</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="reason"><span>Reason</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="appliedBy.login"><span>Applied By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="actionTakenBy.login"><span>Action Taken By</span> <fa-icon icon="sort"></fa-icon></th>
-                    <th scope="col"  jhiSortBy="leaveType.name"><span>Leave Type</span> <fa-icon icon="sort"></fa-icon></th>
                     <th scope="col"></th>
                 </tr>
             </thead>
             <tbody infinite-scroll (scrolled)="loadPage(page + 1)" [infiniteScrollDisabled]="page >= links['last']" [infiniteScrollDistance]="0">
                 <tr *ngFor="let leaveApplication of leaveApplications ;trackBy: trackId">
                     <td><a [routerLink]="['/leave-application', leaveApplication.id, 'view']">{{ leaveApplication.id }}</a></td>
-                    <td>{{ leaveApplication.from | date:'mediumDate' }}</td>
-                    <td>{{ leaveApplication.to | date:'mediumDate' }}</td>
-                    <td>{{ leaveApplication.totalDays }}</td>
-                    <td>{{ leaveApplication.status }}</td>
-                    <td>{{ leaveApplication.reason }}</td>
-                    <td>
-                        {{ leaveApplication.appliedBy?.login }}
-                    </td>
-                    <td>
-                        {{ leaveApplication.actionTakenBy?.login }}
-                    </td>
                     <td>
                         <div *ngIf="leaveApplication.leaveType">
                             <a [routerLink]="['/leave-type', leaveApplication.leaveType?.id, 'view']" >{{ leaveApplication.leaveType?.name }}</a>
                         </div>
                     </td>
+                    <td>{{ leaveApplication.from | date:'mediumDate' }}</td>
+                    <td>{{ leaveApplication.to | date:'mediumDate' }}</td>
+                    <td>{{ leaveApplication.totalDays }}</td>
+                    <td>
+                        <button class="btn btn-info btn-sm" *ngIf="leaveApplication.status==='APPLIED'">{{ leaveApplication.status }}
+                        </button>
+                        <button class="btn btn-outline-success btn-sm" *ngIf="leaveApplication.status==='ACCEPTED_BY_FIRST_AUTHORITY'">{{ leaveApplication.status }}
+                        </button>
+                        <button class="btn btn-danger btn-sm" *ngIf="leaveApplication.status==='REJECTED_BY_FIRST_AUTHORITY'">{{ leaveApplication.status }}
+                        </button>
+                        <button class="btn btn-success btn-sm" *ngIf="leaveApplication.status==='ACCEPTED'">{{ leaveApplication.status }}
+                        </button>
+                        <button class="btn btn-danger btn-sm" *ngIf="leaveApplication.status==='REJECTED'">{{ leaveApplication.status }}
+                        </button>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"
-                                    [hidden]="leaveApplication.actionTakenBy"
                                     [routerLink]="['/leave-application', leaveApplication.id, 'view']"
                                     class="btn btn-info btn-sm">
                                 <fa-icon icon="eye"></fa-icon>
@@ -68,13 +98,6 @@
                                     class="btn btn-primary btn-sm">
                                 <fa-icon icon="pencil-alt"></fa-icon>
                                 <span class="d-none d-md-inline">Edit</span>
-                            </button>
-
-                            <button type="submit" (click)="delete(leaveApplication)"
-                                    [hidden]="leaveApplication.actionTakenBy"
-                                    class="btn btn-danger btn-sm">
-                                <fa-icon icon="times"></fa-icon>
-                                <span class="d-none d-md-inline">Delete</span>
                             </button>
                         </div>
                     </td>
