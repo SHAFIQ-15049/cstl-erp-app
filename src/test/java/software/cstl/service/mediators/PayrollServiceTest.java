@@ -8,14 +8,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.core.context.SecurityContext;
 import software.cstl.domain.*;
 import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.MonthType;
+import software.cstl.domain.enumeration.WeekDay;
 import software.cstl.repository.*;
 import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
 
 import java.math.BigDecimal;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -269,6 +269,33 @@ public class PayrollServiceTest {
             return attendances;
         }
 
+    }
+
+    @Test
+    public void weekendTest(){
+        WeekDay weekDay = WeekDay.SATURDAY;
+        int weekDayOrdinalValue = 0;
+        if (weekDay.equals(WeekDay.MONDAY)) {
+            weekDayOrdinalValue=1;
+        }else if(weekDay.equals(WeekDay.SUNDAY)){
+            weekDayOrdinalValue=7;
+        }else{
+            weekDayOrdinalValue = weekDay.ordinal();
+        }
+
+        YearMonth yearMonth = YearMonth.of(2021, (MonthType.JANUARY.ordinal()+1));
+        LocalDate firstDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
+        int totalDays = 0;
+        while (!firstDay.isAfter(lastDay)){
+            if(firstDay.getDayOfWeek().equals(DayOfWeek.of(weekDayOrdinalValue))){
+                totalDays+=1;
+                System.out.println(firstDay.getDayOfWeek().toString());
+            }
+            firstDay = firstDay.plusDays(1);
+        }
+
+        System.out.println(totalDays);
     }
 
     @Test

@@ -3,9 +3,14 @@ package software.cstl.utils;
 import lombok.extern.java.Log;
 import lombok.extern.log4j.Log4j;
 import lombok.extern.slf4j.Slf4j;
+import software.cstl.domain.enumeration.MonthType;
+import software.cstl.domain.enumeration.WeekDay;
 
 import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.util.Locale;
 
 @Slf4j
@@ -39,5 +44,35 @@ public class CodeNodeErpUtils {
     public static String currencyWithChosenLocalisation(BigDecimal value) {
         NumberFormat nf = NumberFormat.getCurrencyInstance();
         return nf.format(value).replace("$","");
+    }
+
+    public static int getTotalDayOccurrenceOfWeekDay(int year, MonthType monthType, WeekDay weekDay){
+
+        int weekDayOrdinalValue = getWeekDayOrdinalValue(weekDay); // we need this ordinal value as we are not using java standard week day enum
+
+        YearMonth yearMonth = YearMonth.of(year, (monthType.ordinal()+1));
+        LocalDate firstDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
+        int totalDays = 0;
+        while (!firstDay.isAfter(lastDay)){
+            if(firstDay.getDayOfWeek().equals(DayOfWeek.of(weekDayOrdinalValue))){
+                totalDays+=1;
+            }
+            firstDay = firstDay.plusDays(1);
+        }
+
+        return totalDays;
+    }
+
+    private static int getWeekDayOrdinalValue(WeekDay weekDay) {
+        int weekDayOrdinalValue = 0;
+        if (weekDay.equals(WeekDay.MONDAY)) {
+            weekDayOrdinalValue=1;
+        }else if(weekDay.equals(WeekDay.SUNDAY)){
+            weekDayOrdinalValue=7;
+        }else{
+            weekDayOrdinalValue = weekDay.ordinal();
+        }
+        return weekDayOrdinalValue;
     }
 }

@@ -61,6 +61,9 @@ public class PayrollService {
     }
 
     public void createMonthlySalaries(MonthlySalary monthlySalary){
+        // weekends --> substract total days
+        // leaves --> employee specific
+        // holidays --> substract total days
         monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
         List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
