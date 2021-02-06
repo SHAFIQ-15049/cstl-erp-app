@@ -10,11 +10,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
 import software.cstl.repository.LeaveTypeRepository;
+import software.cstl.security.AuthoritiesConstants;
 import software.cstl.service.LeaveApplicationQueryService;
 import software.cstl.service.LeaveApplicationService;
 import software.cstl.service.LeaveBalanceService;
@@ -155,6 +157,7 @@ public class LeaveApplicationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/leave-applications/{id}")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteLeaveApplication(@PathVariable Long id) {
         log.debug("REST request to delete LeaveApplication : {}", id);
         leaveApplicationService.delete(id);

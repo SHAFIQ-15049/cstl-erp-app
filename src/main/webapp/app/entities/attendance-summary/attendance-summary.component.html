@@ -119,25 +119,24 @@
             </tr>
             </tbody>
         </table>
+    </div>
 
-
-        <div class="row">
-            <div class="col-3">
-                <select class="form-control" name="bulk_markedType"
-                        [(ngModel)]="bulkMarkedType" (ngModelChange)="updateBulkMarkedAs()">
-                    <option value="R">Regular</option>
-                    <option value="WR">Weekend/Regular</option>
-                    <option value="HR">Holiday/Regular</option>
-                    <option value="WO">Weekend/Overtime</option>
-                    <option value="HO">Holiday/Overtime</option>
-                </select>
-            </div>
-            <div class="col-9">
-                <button style="float: right" type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
-                        class="btn btn-success">
-                    <span class="d-none d-md-inline">Update</span>
-                </button>
-            </div>
+    <div class="row" *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
+        <div class="col-3">
+            <select class="form-control" name="bulk_markedType"
+                    [(ngModel)]="bulkMarkedType" (ngModelChange)="updateBulkMarkedAs()">
+                <option value="R">Regular</option>
+                <option value="WR">Weekend/Regular</option>
+                <option value="HR">Holiday/Regular</option>
+                <option value="WO">Weekend/Overtime</option>
+                <option value="HO">Holiday/Overtime</option>
+            </select>
+        </div>
+        <div class="col-9">
+            <button type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
+                    class="btn btn-success">
+                <span class="d-none d-md-inline">Update</span>
+            </button>
         </div>
     </div>
 </div>
