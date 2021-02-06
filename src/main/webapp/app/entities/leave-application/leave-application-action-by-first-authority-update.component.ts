@@ -62,29 +62,30 @@ export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements On
   ngOnInit(): void {
     this.accountService.identity().subscribe(currentUser => {
       this.currentUser = currentUser;
-    });
-    this.activatedRoute.data.subscribe(({ leaveApplication }) => {
-      this.updateForm(leaveApplication);
 
-      this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
+      this.activatedRoute.data.subscribe(({ leaveApplication }) => {
+        this.updateForm(leaveApplication);
 
-      this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
+        this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
 
-      this.employeeService
-        .query({
-          'localId.equals': this.currentUser?.login,
-        })
-        .subscribe((res: HttpResponse<IEmployee[]>) => {
-          this.employees = res.body || [];
+        this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
 
-          this.updateForm(leaveApplication);
+        this.employeeService
+          .query({
+            'id.equals': leaveApplication.applicant.id,
+          })
+          .subscribe((res: HttpResponse<IEmployee[]>) => {
+            this.employees = res.body || [];
 
-          if (this.employees) {
-            this.leaveBalanceService.findByEmployeeId(this.employees[0].id!).subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
-              this.leaveBalances = res1.body!;
-            });
-          }
-        });
+            this.updateForm(leaveApplication);
+
+            if (this.employees) {
+              this.leaveBalanceService.findByEmployeeId(this.employees[0].id!).subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+                this.leaveBalances = res1.body!;
+              });
+            }
+          });
+      });
     });
   }
 
