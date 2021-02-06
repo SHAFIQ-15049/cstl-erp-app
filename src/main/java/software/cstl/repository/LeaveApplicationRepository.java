@@ -34,6 +34,7 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
     @Query("select l from LeaveApplication l where l.status=?3 and  (?1>= l.from or ?1<l.from) and (?2>=l.to or ?2<l.to) ")
     List<LeaveApplication> findLeavesWithinRange(LocalDate from, LocalDate to, LeaveApplicationStatus leaveApplicationStatus);
 
-    @Query("select l from LeaveApplication l where l.applicant=?4 l.status=?3 and  (?1>= l.from or ?1<l.from) and (?2>=l.to or ?2<l.to) ")
+    @Query("select l from LeaveApplication l where l.applicant=?4 and l.status=?3 and  (?1>= l.from or ?1<l.from) and (?2>=l.to or ?2<l.to) ")
     List<LeaveApplication> findLeavesWithinRangeByEmployee(LocalDate from, LocalDate to, LeaveApplicationStatus leaveApplicationStatus, Employee applicant);
+
 }
