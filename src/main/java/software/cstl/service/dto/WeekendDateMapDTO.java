@@ -18,6 +18,16 @@ public class WeekendDateMapDTO implements Serializable {
 
     private WeekDay weekendDay;
 
+    public WeekendDateMapDTO() {
+    }
+
+    public WeekendDateMapDTO(Long serialNo, @NotNull LocalDate weekendDate, Long weekendId, WeekDay weekendDay) {
+        this.serialNo = serialNo;
+        this.weekendDate = weekendDate;
+        this.weekendId = weekendId;
+        this.weekendDay = weekendDay;
+    }
+
     public Long getSerialNo() {
         return serialNo;
     }

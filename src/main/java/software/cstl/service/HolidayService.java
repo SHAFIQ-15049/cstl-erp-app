@@ -103,7 +103,7 @@ public class HolidayService {
         return getAllHolidays()
             .stream()
             .filter(holiday
-                -> (fromDate.isBefore(holiday.getFrom()) || fromDate.isEqual(holiday.getFrom())) && (toDate.isAfter(holiday.getTo()) || toDate.isEqual(holiday.getFrom())))
+                -> (fromDate.isAfter(holiday.getFrom()) || fromDate.isEqual(holiday.getFrom())) && (toDate.isBefore(holiday.getTo()) || toDate.isEqual(holiday.getFrom())))
             .collect(Collectors.toList());
     }
 
@@ -119,12 +119,14 @@ public class HolidayService {
 
         List<Holiday> holidays = getHolidays(fromDate, toDate);
         List<HolidayDateMapDTO> holidayDateMapDTOs = new ArrayList<>();
+        long serial = 0L;
 
         for(Holiday holiday: holidays) {
             LocalDate startDate = holiday.getFrom();
             LocalDate endDate = holiday.getTo().plusDays(1);
             while(startDate.isBefore(endDate)) {
-                HolidayDateMapDTO holidayDateMapDTO = getDateMapDTO(holiday, startDate);
+                serial = serial + 1;
+                HolidayDateMapDTO holidayDateMapDTO = new HolidayDateMapDTO(serial, startDate, holiday.getId());
                 holidayDateMapDTOs.add(holidayDateMapDTO);
                 startDate = startDate.plusDays(1);
             }
@@ -181,12 +183,5 @@ public class HolidayService {
     public int getTotalNumberOfHolidays(int year) {
         log.debug("Request to get count of total holidays : {}", year);
         return getHolidayDateMapDTOs(year).size();
-    }
-
-    private HolidayDateMapDTO getDateMapDTO(Holiday holiday, LocalDate startDate) {
-        HolidayDateMapDTO holidayDateMapDTO = new HolidayDateMapDTO();
-        holidayDateMapDTO.setHolidayDate(startDate);
-        holidayDateMapDTO.setHolidayId(holiday.getId());
-        return holidayDateMapDTO;
     }
 }

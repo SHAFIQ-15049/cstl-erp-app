@@ -2,7 +2,6 @@ package software.cstl.service.mediators;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
@@ -62,7 +61,7 @@ public class PayrollService {
 
     public void createMonthlySalaries(MonthlySalary monthlySalary){
         monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-        List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
+        List<Attendance> totalAttendance = attendanceRepository.findAllByAttendanceTimeBetween(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
             .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
@@ -82,7 +81,7 @@ public class PayrollService {
         monthlySalary.setMonthlySalaryDtls(new HashSet<>());
         monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
 
-        List<Attendance> totalAttendance = attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalary.getFromDate(), monthlySalary.getToDate());
+        List<Attendance> totalAttendance = attendanceRepository.findAllByAttendanceTimeBetween(monthlySalary.getFromDate(), monthlySalary.getToDate());
         Set<String> attendanceDistinctDays = totalAttendance.stream()
             .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
             .collect(Collectors.toSet());
@@ -112,7 +111,7 @@ public class PayrollService {
         Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
         Instant fromDateTime = partialSalary.isPresent()?partialSalary.get().getToDate().plus(1, ChronoUnit.MINUTES) : monthlySalary.getFromDate();
         List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate() );
-        List<Attendance> employeeAttendance = attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(monthlySalaryDtl.getEmployee(), fromDateTime, monthlySalary.getToDate());
+        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndAttendanceTimeBetween(monthlySalaryDtl.getEmployee(), fromDateTime, monthlySalary.getToDate());
 
 
         BigDecimal gross, basic, houseRent, medicalAllowance, convinceAllowance, foodAllowance;

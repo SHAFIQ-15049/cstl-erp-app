@@ -13,6 +13,15 @@ public class HolidayDateMapDTO implements Serializable {
 
     private Long holidayId;
 
+    public HolidayDateMapDTO() {
+    }
+
+    public HolidayDateMapDTO(Long id, @NotNull LocalDate holidayDate, Long holidayId) {
+        this.id = id;
+        this.holidayDate = holidayDate;
+        this.holidayId = holidayId;
+    }
+
     public Long getId() {
         return id;
     }

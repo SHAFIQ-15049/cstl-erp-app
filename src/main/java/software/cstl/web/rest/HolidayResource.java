@@ -58,8 +58,8 @@ public class HolidayResource {
      */
     @PostMapping("/holidays")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_MANAGER + "\")" )
+        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_MANAGER + "\")" )
     public ResponseEntity<Holiday> createHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to save Holiday : {}", holiday);
         if (holiday.getId() != null) {
@@ -82,8 +82,8 @@ public class HolidayResource {
      */
     @PutMapping("/holidays")
     @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.WEEKEND_MANAGER + "\")" )
+        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_MANAGER + "\")" )
     public ResponseEntity<Holiday> updateHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to update Holiday : {}", holiday);
         if (holiday.getId() == null) {
