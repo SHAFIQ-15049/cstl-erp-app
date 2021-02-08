@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
+import software.cstl.domain.enumeration.ActiveStatus;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.repository.AttendanceRepository;
@@ -232,7 +233,7 @@ public class AttendanceService {
 
     private EmployeeSalary getEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee employee) {
         for (EmployeeSalary employeeSalary : employeeSalaries) {
-            if (employeeSalary.getEmployee().equals(employee)) {
+            if (employeeSalary.getEmployee().equals(employee) && employeeSalary.getStatus().equals(ActiveStatus.ACTIVE)) {
                 return employeeSalary;
             }
         }

@@ -6,10 +6,13 @@ import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import java.io.Serializable;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
 
 public class AttendanceSummaryDTO implements Serializable {
 
     private Long serialNo;
+
+    private LocalDate attendanceDate;
 
     private Instant inTime;
 
@@ -30,6 +33,8 @@ public class AttendanceSummaryDTO implements Serializable {
     private String employeeName;
 
     private String employeeMachineId;
+
+    private String attendanceStatus;
 
     private Long employeeSalaryId;
 
@@ -137,6 +142,22 @@ public class AttendanceSummaryDTO implements Serializable {
 
     public void setDepartmentName(String departmentName) {
         this.departmentName = departmentName;
+    }
+
+    public String getAttendanceStatus() {
+        return attendanceStatus;
+    }
+
+    public void setAttendanceStatus(String attendanceStatus) {
+        this.attendanceStatus = attendanceStatus;
+    }
+
+    public LocalDate getAttendanceDate() {
+        return attendanceDate;
+    }
+
+    public void setAttendanceDate(LocalDate attendanceDate) {
+        this.attendanceDate = attendanceDate;
     }
 
     @Override

@@ -16,6 +16,8 @@ export interface IAttendanceSummary {
   employeeName?: number;
   employeeMachineId?: number;
   employeeSalaryId?: number;
+  attendanceStatus?: string;
+  attendanceDate?: Moment;
 }
 
 export class AttendanceSummary implements IAttendanceSummary {
@@ -32,6 +34,8 @@ export class AttendanceSummary implements IAttendanceSummary {
     public employeeId?: number,
     public employeeName?: number,
     public employeeMachineId?: number,
-    public employeeSalaryId?: number
+    public employeeSalaryId?: number,
+    public attendanceStatus?: string,
+    public attendanceDate?: Moment
   ) {}
 }
