@@ -25,7 +25,7 @@ public class OverTimeGenerationServiceTest {
         Long designationId = 1L;
         Instant fromDate = Instant.now();
         Instant toDate = Instant.now();
-        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, monthType, designationId, fromDate, toDate);
+        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, monthType, designationId);
     }
 
     @Test

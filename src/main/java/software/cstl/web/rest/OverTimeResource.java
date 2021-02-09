@@ -94,18 +94,18 @@ public class OverTimeResource {
             .body(result);
     }
 
-    @GetMapping("/over-times/generate-over-time/{year}/{month}/{designationId}/{fromDate}/{toDate}")
-    public ResponseEntity<List<OverTime>> generateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId, @PathVariable Instant fromDate,@PathVariable Instant toDate){
-        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}, fromDate: {}, toDate: {}", year, month, designationId, fromDate, toDate);
-        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, month, designationId, fromDate, toDate);
+    @GetMapping("/over-times/generate-over-time/{year}/{month}/{designationId}")
+    public ResponseEntity<List<OverTime>> generateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId){
+        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}", year, month, designationId);
+        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, month, designationId);
         return  ResponseEntity.ok()
             .body(overTimes);
     }
 
-    @GetMapping("/over-times/regenerate-over-time/{year}/{month}/{designationId}/{fromDate}/{toDate}")
-    public ResponseEntity<List<OverTime>> regenerateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId, @PathVariable Instant fromDate,@PathVariable Instant toDate){
-        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}, fromDate: {}, toDate: {}", year, month, designationId, fromDate, toDate);
-        List<OverTime> overTimes = overTimeGenerationService.regenerateOverTime(year, month, designationId, fromDate, toDate);
+    @GetMapping("/over-times/regenerate-over-time/{year}/{month}/{designationId}")
+    public ResponseEntity<List<OverTime>> regenerateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId){
+        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}", year, month, designationId);
+        List<OverTime> overTimes = overTimeGenerationService.regenerateOverTime(year, month, designationId);
         return  ResponseEntity.ok()
             .body(overTimes);
     }

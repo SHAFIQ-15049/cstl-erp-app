@@ -65,7 +65,9 @@ export class OverTimeComponent implements OnInit, OnDestroy {
         'designationId.equals': this.selectedDesignationId,
       })
       .subscribe(
-        (res: HttpResponse<IOverTime[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        (res: HttpResponse<IOverTime[]>) => {
+          this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate);
+        },
         () => this.onError()
       );
   }
@@ -103,13 +105,11 @@ export class OverTimeComponent implements OnInit, OnDestroy {
         this.selectedYear = +params['selectedYear'];
         this.selectedMonth = params['selectedMonth'];
         this.selectedDesignationId = +params['selectedDesignationId'];
-        this.fromDate = params['fromDate'];
-        this.toDate = params['toDate'];
         if (
           this.pageNumber !== this.page ||
           this.predicate !== this.predicate ||
           this.ascending !== this.ascending ||
-          (this.selectedYear && this.selectedMonth && this.selectedDesignationId && this.fromDate && this.toDate)
+          (this.selectedYear && this.selectedMonth && this.selectedDesignationId)
         ) {
           this.loadPage(this.pageNumber, true);
         }
@@ -117,10 +117,10 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   navigate(): void {
-    if (this.selectedYear && this.selectedMonth && this.selectedDesignationId && this.fromDate && this.toDate) {
-      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth, this.selectedDesignationId, this.fromDate, this.toDate]);
+    if (this.selectedYear && this.selectedMonth && this.selectedDesignationId) {
+      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth, this.selectedDesignationId]);
     } else {
-      this.alertService.error('Year, month, designation, from date and to date must be selected');
+      this.alertService.error('Year, month and designation must be selected');
     }
   }
 
@@ -191,31 +191,15 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   generateOverTime(): void {
-    this.overTimeService
-      .generateOverTimes(
-        this.selectedYear,
-        this.selectedMonth,
-        this.selectedDesignationId,
-        moment(this.fromDate).toJSON(),
-        moment(this.toDate).toJSON()
-      )
-      .subscribe(res => {
-        this.loadPage(0);
-      });
+    this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+      this.loadPage(0);
+    });
   }
 
   regenerateOverTime(): void {
-    this.overTimeService
-      .regenerateOverTimes(
-        this.selectedYear,
-        this.selectedMonth,
-        this.selectedDesignationId,
-        this.fromDate?.toJSON(),
-        this.toDate?.toJSON()
-      )
-      .subscribe(res => {
-        this.loadPage(0);
-      });
+    this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+      this.loadPage(0);
+    });
   }
 
   regenerateEmployeeOverTime(overTime: IOverTime): void {
