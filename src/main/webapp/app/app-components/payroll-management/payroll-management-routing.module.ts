@@ -23,7 +23,7 @@ const routes: Routes = [
     ],
   },
   {
-    path: ':selectedYear/:selectedMonth/:selectedDesignationId/:fromDate/:toDate',
+    path: ':selectedYear/:selectedMonth/:selectedDesignationId',
     component: PayrollManagementComponent,
     data: {
       authorities: [Authority.USER],

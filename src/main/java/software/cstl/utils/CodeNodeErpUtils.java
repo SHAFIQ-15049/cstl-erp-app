@@ -64,7 +64,7 @@ public class CodeNodeErpUtils {
         return totalDays;
     }
 
-    private static int getWeekDayOrdinalValue(WeekDay weekDay) {
+    public static int getWeekDayOrdinalValue(WeekDay weekDay) {
         int weekDayOrdinalValue = 0;
         if (weekDay.equals(WeekDay.MONDAY)) {
             weekDayOrdinalValue=1;

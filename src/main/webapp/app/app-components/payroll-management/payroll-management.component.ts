@@ -73,8 +73,6 @@ export class PayrollManagementComponent implements OnInit {
       this.selectedYear = +params['selectedYear'];
       this.selectedMonth = params['selectedMonth'];
       this.selectedDesignationId = +params['selectedDesignationId'];
-      this.fromDate = params['fromDate'];
-      this.toDate = params['toDate'];
       if (this.selectedDesignationId) {
         this.designationService.find(this.selectedDesignationId).subscribe(res => {
           this.selectedDesignation = res.body!;
@@ -95,18 +93,11 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   navigate(): void {
-    if (this.selectedYear && this.selectedDesignation && this.fromDate && this.toDate) {
+    if (this.selectedYear && this.selectedDesignation && this.selectedMonth) {
       this.selectedDesignationId = this.selectedDesignation.id;
-      this.fromDateStr = this.fromDate.toString();
-      this.toDateStr = this.toDate.toString();
-      this.router.navigate([
-        '/payroll-management',
-        this.selectedYear,
-        this.selectedMonth,
-        this.selectedDesignationId,
-        this.fromDateStr,
-        this.toDateStr,
-      ]);
+      this.router.navigate(['/payroll-management', this.selectedYear, this.selectedMonth, this.selectedDesignationId]).then(() => {
+        this.fetch();
+      });
     }
   }
 
@@ -132,8 +123,6 @@ export class PayrollManagementComponent implements OnInit {
             monthlySalary.year = this.selectedYear;
             monthlySalary.designation = this.selectedDesignation;
             monthlySalary.month = this.selectedMonth;
-            monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
-            monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
             this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe(response => {
               this.fetchExistingData();
             });
@@ -147,6 +136,7 @@ export class PayrollManagementComponent implements OnInit {
   generateSalaries(): void {
     this.payrollManagementService.createSalaries(this.monthlySalary).subscribe(res => {
       this.eventManager.broadcast('monthlySalaryDtlListModification');
+      this.navigate();
     });
   }
 
@@ -155,7 +145,7 @@ export class PayrollManagementComponent implements OnInit {
     // this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
     this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(res => {
       this.jhiAlertService.success('Re-generation success');
-      this.eventManager.broadcast('monthlySalaryDtlListModification');
+      //this.eventManager.broadcast('monthlySalaryDtlListModification');
     });
   }
 
