@@ -59,7 +59,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
       .query({
         page: pageToLoad - 1,
         size: this.itemsPerPage,
-        sort: this.sort(),
+        sort: ['id,asc'],
         'year.equals': this.selectedYear,
         'month.equals': this.selectedMonth,
         'designationId.equals': this.selectedDesignationId,
@@ -192,18 +192,20 @@ export class OverTimeComponent implements OnInit, OnDestroy {
 
   generateOverTime(): void {
     this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
-      this.loadPage(0);
+      this.handleNavigation();
     });
   }
 
   regenerateOverTime(): void {
     this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
-      this.loadPage(0);
+      this.alertService.info('Overtime successfully generated');
+      this.handleNavigation();
     });
   }
 
   regenerateEmployeeOverTime(overTime: IOverTime): void {
     this.overTimeService.regenerateEmployeeOverTime(overTime.id).subscribe(res => {
+      this.alertService.info('Employee overtime successfully generated');
       this.handleNavigation();
     });
   }
