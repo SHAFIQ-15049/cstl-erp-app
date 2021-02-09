@@ -133,13 +133,7 @@
                     </select>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_monthlySalary">Monthly Salary</label>
-                    <select class="form-control" id="field_monthlySalary" name="monthlySalary" formControlName="monthlySalary">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="monthlySalaryOption.id === editForm.get('monthlySalary')!.value?.id ? editForm.get('monthlySalary')!.value : monthlySalaryOption" *ngFor="let monthlySalaryOption of monthlysalaries; trackBy: trackById">{{ monthlySalaryOption.id }}</option>
-                    </select>
-                </div>
+
             </div>
 
             <div>

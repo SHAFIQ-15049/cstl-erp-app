@@ -145,7 +145,7 @@ export class PayrollManagementComponent implements OnInit {
     // this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
     this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(res => {
       this.jhiAlertService.success('Re-generation success');
-      //this.eventManager.broadcast('monthlySalaryDtlListModification');
+      this.eventManager.broadcast('monthlySalaryDtlListModification');
     });
   }
 

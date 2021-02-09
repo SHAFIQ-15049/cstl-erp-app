@@ -112,8 +112,6 @@ public class PayrollService {
 
         MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryId);
         MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtlRepository.getOne(monthlySalaryDtlId);
-        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
-        int totalDays = attendanceSummaryDTOS.size();
         assignFine(monthlySalaryDtl);
         assignAdvance(monthlySalaryDtl);
         assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
