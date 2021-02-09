@@ -3,6 +3,7 @@ package software.cstl.service.mediators;
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
@@ -25,7 +26,7 @@ import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 @Transactional
 @AllArgsConstructor
 public class PayrollService {
@@ -78,20 +79,41 @@ public class PayrollService {
         return monthlySalary;
     }
 
-    public void createMonthlySalaries(MonthlySalary monthlySalary){
-        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
+    public void createMonthlySalaries(MonthlySalary monthlySalaryParam){
+        regenerateMonthlySalaries(monthlySalaryParam);
+        /*monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
             assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
         }
         monthlySalary.status(SalaryExecutionStatus.DONE);
-        monthlySalaryRepository.save(monthlySalary);
+        monthlySalaryRepository.save(monthlySalary);*/
     }
 
     public void regenerateMonthlySalaries(MonthlySalary monthlySalaryParam){
         List<MonthlySalary> monthlySalaries = monthlySalaryRepository.findAllByYearAndMonth(monthlySalaryParam.getYear(), monthlySalaryParam.getMonth());
-        for(MonthlySalary monthlySalary: monthlySalaries){
+        monthlySalaries.parallelStream().forEach(monthlySalary -> {
+            monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
+            monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
+            monthlySalary.setMonthlySalaryDtls(new HashSet<>());
+            monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
+
+            MonthlySalary finalMonthlySalary = monthlySalary;
+            monthlySalary.getMonthlySalaryDtls().parallelStream().forEach((monthlySalaryDtl -> {
+                assignFine(monthlySalaryDtl);
+                assignAdvance(monthlySalaryDtl);
+                assignSalaryAndAllowances(finalMonthlySalary, monthlySalaryDtl);
+            }));
+//            for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
+//                assignFine(monthlySalaryDtl);
+//                assignAdvance(monthlySalaryDtl);
+//                assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
+//            }
+            monthlySalary.status(SalaryExecutionStatus.DONE);
+            monthlySalaryRepository.save(monthlySalary);
+        });
+/*        for(MonthlySalary monthlySalary: monthlySalaries){
             monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
             monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
             monthlySalary.setMonthlySalaryDtls(new HashSet<>());
@@ -104,7 +126,7 @@ public class PayrollService {
             }
             monthlySalary.status(SalaryExecutionStatus.DONE);
             monthlySalaryRepository.save(monthlySalary);
-        }
+        }*/
 
     }
 
