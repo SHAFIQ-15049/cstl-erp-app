@@ -27,6 +27,8 @@ public final class AuthoritiesConstants {
 
     public static final String LEAVE_MANAGER = "ROLE_LEAVE_MANAGER";
 
+    public static final String LEAVE_USER = "ROLE_LEAVE_USER";
+
     private AuthoritiesConstants() {
     }
 }

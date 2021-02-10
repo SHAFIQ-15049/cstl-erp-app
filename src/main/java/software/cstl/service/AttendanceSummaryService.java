@@ -9,6 +9,7 @@ import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.enumeration.ActiveStatus;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
+import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
@@ -45,7 +46,8 @@ public class AttendanceSummaryService {
         log.debug("Request to update Attendance Summaries : {}", attendanceSummaryDTOs);
         for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOs) {
             Optional<Employee> employee = employeeService.findOne(attendanceSummaryDTO.getEmployeeId());
-            if (employee.isPresent() && attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
+            if (employee.isPresent() && employee.get().getStatus().equals(EmployeeStatus.ACTIVE) &&
+                attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
                 List<Attendance> attendances = attendanceService.findAll(employee.get(), attendanceSummaryDTO.getInTime(), attendanceSummaryDTO.getOutTime());
                 for (Attendance attendance : attendances) {
                     attendance.setMarkedAs(attendanceSummaryDTO.getAttendanceMarkedAs());

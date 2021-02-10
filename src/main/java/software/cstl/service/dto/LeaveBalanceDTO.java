@@ -27,6 +27,21 @@ public class LeaveBalanceDTO implements Serializable {
 
     private List<LeaveApplication> acceptedLeaveApplications;
 
+    public LeaveBalanceDTO() {
+    }
+
+    public LeaveBalanceDTO(Long id, double totalDays, double remainingDays, Long employeeId, String employeeName, LocalDate employeeJoiningDate, Long leaveTypeId, String leaveTypeName, List<LeaveApplication> acceptedLeaveApplications) {
+        this.id = id;
+        this.totalDays = totalDays;
+        this.remainingDays = remainingDays;
+        this.employeeId = employeeId;
+        this.employeeName = employeeName;
+        this.employeeJoiningDate = employeeJoiningDate;
+        this.leaveTypeId = leaveTypeId;
+        this.leaveTypeName = leaveTypeName;
+        this.acceptedLeaveApplications = acceptedLeaveApplications;
+    }
+
     public Long getId() {
         return id;
     }

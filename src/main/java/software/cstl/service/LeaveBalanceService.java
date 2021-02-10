@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
 import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
+import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.domain.enumeration.LeaveTypeName;
 import software.cstl.service.dto.LeaveBalanceDTO;
@@ -46,16 +47,16 @@ public class LeaveBalanceService {
         this.weekendDateMapService = weekendDateMapService;
     }
 
-    public List<LeaveBalanceDTO> calculate(Long employeeId) {
+    public List<LeaveBalanceDTO> getLeaveBalances(Long employeeId) {
 
         List<LeaveBalanceDTO> leaveBalanceDTOs = new ArrayList<>();
         Optional<Employee> employee = employeeService.findOne(employeeId);
 
-        if (employee.isPresent()) {
+        if (employee.isPresent() && employee.get().getStatus().equals(EmployeeStatus.ACTIVE)) {
             List<LeaveType> leaveTypes = leaveTypeService.getAll();
 
             for (LeaveType leaveType : leaveTypes) {
-                LeaveBalanceDTO leaveBalanceDTO = calculate(employeeId, leaveType.getId());
+                LeaveBalanceDTO leaveBalanceDTO = getLeaveBalance(employeeId, leaveType.getId());
                 leaveBalanceDTOs.add(leaveBalanceDTO);
             }
         }
@@ -63,21 +64,22 @@ public class LeaveBalanceService {
         return leaveBalanceDTOs;
     }
 
-    public LeaveBalanceDTO calculate(Long employeeId, Long leaveTypeId) {
+    public LeaveBalanceDTO getLeaveBalance(Long employeeId, Long leaveTypeId) {
 
         Optional<Employee> employee = employeeService.findOne(employeeId);
         Optional<LeaveType> leaveType = leaveTypeService.findOne(leaveTypeId);
 
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
 
-        if (employee.isPresent() && leaveType.isPresent()) {
+        if (employee.isPresent() && employee.get().getStatus().equals(EmployeeStatus.ACTIVE) && leaveType.isPresent()) {
+
             LocalDate startDate;
             LocalDate endDate;
 
             if(leaveType.get().getName().equals(LeaveTypeName.EARNED_LEAVE)) {
                 double remainingEarnedLeave = 0;
                 List<LeaveApplication> acceptedLeaveApplications = new ArrayList<>();
-                int numberOfYearPassedAfterJoining = getNumberOfYearsPassedAfterJoining(employee.get().getJoiningDate());
+                int numberOfYearPassedAfterJoining = getNumberOfYearsPassedAfterJoining(employee.get().getId());
                 for(int i = 1; i <= numberOfYearPassedAfterJoining; i++) {
                     startDate = employee.get().getJoiningDate().plusYears(i);
                     endDate = startDate.plusYears(1).minusDays(1);
@@ -132,21 +134,28 @@ public class LeaveBalanceService {
         return leaveBalanceDTO;
     }
 
-    private int getNumberOfYearsPassedAfterJoining(LocalDate employeeJoiningDate) {
-        LocalDate today = LocalDate.now();
+    private int getNumberOfYearsPassedAfterJoining(Long employeeId) {
 
-        LocalDate startDate = employeeJoiningDate;
-        LocalDate endDate = startDate.plusYears(1).minusDays(1);
+        Optional<Employee> employee = employeeService.findOne(employeeId);
 
-        int totalYear = 0;
+        if(employee.isPresent()) {
 
-        while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
+            LocalDate today = LocalDate.now();
 
-            totalYear = totalYear + 1;
-            startDate = startDate.plusYears(1);
-            endDate = startDate.plusYears(1);
+            LocalDate startDate = employee.get().getJoiningDate();
+            LocalDate endDate = startDate.plusYears(1).minusDays(1);
+
+            int totalYear = 0;
+
+            while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
+                totalYear = totalYear + 1;
+                startDate = startDate.plusYears(1);
+                endDate = startDate.plusYears(1);
+            }
+
+            return totalYear;
         }
 
-        return totalYear;
+        return -1;
     }
 }

@@ -68,13 +68,17 @@ public class LeaveApplicationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leave-applications")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_MANAGER + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_USER + "\")")
     public ResponseEntity<LeaveApplication> createLeaveApplication(@Valid @RequestBody LeaveApplication leaveApplication) throws URISyntaxException {
         log.debug("REST request to save LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.calculate(leaveApplication.getApplicant().getId(), leaveType.getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }
@@ -94,13 +98,17 @@ public class LeaveApplicationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leave-applications")
+    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_MANAGER + "\")" +
+        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_USER + "\")")
     public ResponseEntity<LeaveApplication> updateLeaveApplication(@Valid @RequestBody LeaveApplication leaveApplication) throws URISyntaxException {
         log.debug("REST request to update LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.calculate(leaveApplication.getApplicant().getId(), leaveType.getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }
