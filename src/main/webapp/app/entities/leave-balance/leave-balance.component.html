@@ -23,6 +23,9 @@
                                 *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
                     </select>
 
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Year</span>
+                    </div>
                     <select class="form-control" name="selectedYear"
                             [(ngModel)]="selectedYear" required>
                         <option [ngValue]="" selected></option>
