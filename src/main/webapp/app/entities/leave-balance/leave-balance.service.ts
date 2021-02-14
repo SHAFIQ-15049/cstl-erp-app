@@ -19,8 +19,8 @@ export class LeaveBalanceService {
     return this.http.get<ILeaveBalance>(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }
 
-  findByEmployeeId(employeeId: number): Observable<EntityArrayResponseType> {
-    return this.http.get<ILeaveBalance[]>(`${this.resourceUrl}/employee/${employeeId}`, { observe: 'response' });
+  findByEmployeeId(employeeId: number, year: number): Observable<EntityArrayResponseType> {
+    return this.http.get<ILeaveBalance[]>(`${this.resourceUrl}/employee/${employeeId}/year/${year}`, { observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {

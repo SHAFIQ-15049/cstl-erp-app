@@ -77,8 +77,14 @@ public class LeaveApplicationResource {
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
+            throw new BadRequestAlertException("From and to date must have same year.", ENTITY_NAME, "idexists");
+        }
+        if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
+            throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
+        }
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }
@@ -107,8 +113,14 @@ public class LeaveApplicationResource {
         if (leaveApplication.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
+        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
+            throw new BadRequestAlertException("From and to date must have same year.", ENTITY_NAME, "idexists");
+        }
+        if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
+            throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
+        }
         LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId());
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
         }

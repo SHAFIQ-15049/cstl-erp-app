@@ -47,7 +47,7 @@ public class LeaveBalanceService {
         this.weekendDateMapService = weekendDateMapService;
     }
 
-    public List<LeaveBalanceDTO> getLeaveBalances(Long employeeId) {
+    public List<LeaveBalanceDTO> getLeaveBalances(Long employeeId, int year) {
 
         List<LeaveBalanceDTO> leaveBalanceDTOs = new ArrayList<>();
         Optional<Employee> employee = employeeService.findOne(employeeId);
@@ -56,7 +56,7 @@ public class LeaveBalanceService {
             List<LeaveType> leaveTypes = leaveTypeService.getAll();
 
             for (LeaveType leaveType : leaveTypes) {
-                LeaveBalanceDTO leaveBalanceDTO = getLeaveBalance(employeeId, leaveType.getId());
+                LeaveBalanceDTO leaveBalanceDTO = getLeaveBalance(employeeId, leaveType.getId(), year);
                 leaveBalanceDTOs.add(leaveBalanceDTO);
             }
         }
@@ -64,7 +64,7 @@ public class LeaveBalanceService {
         return leaveBalanceDTOs;
     }
 
-    public LeaveBalanceDTO getLeaveBalance(Long employeeId, Long leaveTypeId) {
+    public LeaveBalanceDTO getLeaveBalance(Long employeeId, Long leaveTypeId, int year) {
 
         Optional<Employee> employee = employeeService.findOne(employeeId);
         Optional<LeaveType> leaveType = leaveTypeService.findOne(leaveTypeId);
@@ -94,9 +94,8 @@ public class LeaveBalanceService {
                 leaveBalanceDTO = getLeaveBalanceDTO(employee.get(), leaveType.get(), remainingEarnedLeave, numberOfTotalAcceptedLeave, acceptedLeaveApplications);
             }
             else {
-                LocalDate localDate = LocalDate.now();
-                startDate = LocalDate.of(localDate.getYear(), Month.JANUARY, 1);
-                endDate = LocalDate.of(localDate.getYear(), Month.DECEMBER, 31);
+                startDate = LocalDate.of(year, Month.JANUARY, 1);
+                endDate = LocalDate.of(year, Month.DECEMBER, 31);
                 List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee.get(), leaveType.get(), startDate, endDate, LeaveApplicationStatus.ACCEPTED);
                 double numberOfTotalAcceptedLeave = leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size();
                 leaveBalanceDTO = getLeaveBalanceDTO(employee.get(), leaveType.get(), numberOfTotalAcceptedLeave, acceptedLeaveApplications);

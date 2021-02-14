@@ -24,9 +24,9 @@ public class LeaveBalanceResource {
         this.leaveBalanceService = leaveBalanceService;
     }
 
-    @GetMapping("/leave-balances/employee/{employeeId}")
-    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable Long employeeId) {
-        log.debug("REST request to get LeaveBalance : {}", employeeId);
-        return ResponseEntity.ok().body(leaveBalanceService.calculate(employeeId));
+    @GetMapping("/leave-balances/employee/{employeeId}/year/{year}")
+    public ResponseEntity<List<LeaveBalanceDTO>> getLeaveBalance(@PathVariable Long employeeId, @PathVariable int year) {
+        log.debug("REST request to get LeaveBalance : {} {}", employeeId, year);
+        return ResponseEntity.ok().body(leaveBalanceService.getLeaveBalances(employeeId, year));
     }
 }

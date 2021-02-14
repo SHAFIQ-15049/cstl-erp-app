@@ -23,6 +23,13 @@
                                 *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
                     </select>
 
+                    <select class="form-control" name="selectedYear"
+                            [(ngModel)]="selectedYear" required>
+                        <option [ngValue]="" selected></option>
+                        <option [ngValue]="yearOption.id"
+                                *ngFor="let yearOption of years;">{{ yearOption.name }}</option>
+                    </select>
+
                     <button type="submit" class="btn btn-info" (click)="loadAll()">
                         <fa-icon icon="search"></fa-icon>
                     </button>
