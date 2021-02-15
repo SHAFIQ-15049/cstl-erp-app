@@ -80,9 +80,11 @@ export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements On
             this.updateForm(leaveApplication);
 
             if (this.employees) {
-              this.leaveBalanceService.findByEmployeeId(this.employees[0].id!).subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
-                this.leaveBalances = res1.body!;
-              });
+              this.leaveBalanceService
+                .findByEmployeeId(this.employees[0].id!, new Date().getFullYear())
+                .subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+                  this.leaveBalances = res1.body!;
+                });
             }
           });
       });

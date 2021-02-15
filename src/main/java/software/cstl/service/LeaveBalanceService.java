@@ -10,7 +10,6 @@ import software.cstl.domain.LeaveType;
 import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.GenderType;
 import software.cstl.domain.enumeration.LeaveApplicationStatus;
-import software.cstl.domain.enumeration.LeaveTypeName;
 import software.cstl.service.dto.LeaveBalanceDTO;
 
 import java.math.BigDecimal;
@@ -62,10 +61,10 @@ public class LeaveBalanceService {
                 LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
                 switch (leaveType.getName()) {
                     case EARNED_LEAVE:
-                        leaveBalanceDTO = getEarnedLeaveBalance(employee.get(), leaveType);
+                        leaveBalanceDTO = getEarnedLeaveBalance(employee.get(), leaveType, year);
                         break;
                     case MATERNITY_LEAVE:
-                        leaveBalanceDTO = getMaternityLeaveBalance(employee.get(), leaveType);
+                        leaveBalanceDTO = getMaternityLeaveBalance(employee.get(), leaveType, year);
                         break;
                     default:
                         leaveBalanceDTO = getDefaultLeaveBalance(employee.get(), leaveType, year);
@@ -76,14 +75,14 @@ public class LeaveBalanceService {
         return leaveBalanceDTOs;
     }
 
-    public LeaveBalanceDTO getEarnedLeaveBalance(Employee employee, LeaveType leaveType) {
+    public LeaveBalanceDTO getEarnedLeaveBalance(Employee employee, LeaveType leaveType, int year) {
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
 
         BigDecimal remaining = BigDecimal.ZERO;
         List<LeaveApplication> acceptedLeaveApplications = new ArrayList<>();
-        int numberOfYearPassedAfterJoining = getNumberOfYearsPassedAfterJoining(employee);
+        int numberOfYearPassedAfterJoining = getNumberOfYearsPassedFromJoiningDate(employee, year);
 
-        for (int i = 1; i <= numberOfYearPassedAfterJoining; i++) {
+        for (int i = 0; i < numberOfYearPassedAfterJoining; i++) {
             LocalDate startDate = employee.getJoiningDate().plusYears(i);
             LocalDate endDate = startDate.plusYears(1).minusDays(1);
             BigDecimal totalDays = BigDecimal.valueOf(DAYS.between(startDate, endDate));
@@ -94,7 +93,7 @@ public class LeaveBalanceService {
             remaining = remaining.add((totalDays.subtract(numberOfWeekends).subtract(numberOfHolidays).subtract(numberOfAcceptedLeave)).divide(BigDecimal.valueOf(18), 3, RoundingMode.CEILING));
         }
         BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
-        remaining = remaining.compareTo(BigDecimal.valueOf(40)) >= 1 ? BigDecimal.valueOf(40) : remaining;
+        remaining = remaining.compareTo(BigDecimal.valueOf(40)) > 0 ? BigDecimal.valueOf(40) : remaining;
         leaveBalanceDTO = new LeaveBalanceDTO(leaveType.getId(), remaining,
             remaining.subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
             employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
@@ -102,32 +101,74 @@ public class LeaveBalanceService {
         return leaveBalanceDTO;
     }
 
-    public LeaveBalanceDTO getMaternityLeaveBalance(Employee employee, LeaveType leaveType) {
-        LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
-        if (employee.getPersonalInfo().getGender().equals(GenderType.FEMALE)) {
-            LocalDate startDate = employee.getJoiningDate();
-            LocalDate endDate = LocalDate.now();
-            if (startDate.plusMonths(6).isBefore(endDate)) {
-                List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType, startDate, endDate, LeaveApplicationStatus.ACCEPTED);
-                BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
-                leaveBalanceDTO = new LeaveBalanceDTO(leaveType.getId(), BigDecimal.valueOf(leaveType.getTotalDays()),
-                    BigDecimal.valueOf(leaveType.getTotalDays()).subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
-                    employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
-            }
-        }
-        return leaveBalanceDTO;
-    }
-
-    public LeaveBalanceDTO getDefaultLeaveBalance(Employee employee, LeaveType leaveType, int year) {
+    public LeaveBalanceDTO getMaternityLeaveBalance(Employee employee, LeaveType leaveType, int year) {
         LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
         LocalDate startDate = LocalDate.of(year, Month.JANUARY, 1);
         LocalDate endDate = LocalDate.of(year, Month.DECEMBER, 31);
+
+        if (startDate.isBefore(employee.getJoiningDate()) && !(employee.getJoiningDate().getYear() == startDate.getYear())) {
+            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
+                BigDecimal.ZERO, employee.getId(), employee.getName(),
+                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
+        }
+
+        if (!LocalDate.now().isAfter(employee.getJoiningDate().plusMonths(6))) {
+            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
+                BigDecimal.ZERO, employee.getId(), employee.getName(),
+                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
+        }
+
+        if(employee.getPersonalInfo().getGender() == null || employee.getPersonalInfo().getGender().equals(GenderType.MALE)) {
+            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
+                BigDecimal.ZERO, employee.getId(), employee.getName(),
+                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
+        }
+
         List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType, startDate, endDate, LeaveApplicationStatus.ACCEPTED);
         BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
         leaveBalanceDTO = new LeaveBalanceDTO(leaveType.getId(), BigDecimal.valueOf(leaveType.getTotalDays()),
             BigDecimal.valueOf(leaveType.getTotalDays()).subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
             employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
+
         return leaveBalanceDTO;
+    }
+
+    public LeaveBalanceDTO getDefaultLeaveBalance(Employee employee, LeaveType leaveType, int year) {
+        LocalDate startDate = LocalDate.of(year, Month.JANUARY, 1);
+        LocalDate endDate = LocalDate.of(year, Month.DECEMBER, 31);
+        if (startDate.isBefore(employee.getJoiningDate()) && !(employee.getJoiningDate().getYear() == startDate.getYear())) {
+            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
+                BigDecimal.ZERO, employee.getId(), employee.getName(),
+                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
+        }
+
+        List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType, startDate, endDate, LeaveApplicationStatus.ACCEPTED);
+        BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
+        return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.valueOf(leaveType.getTotalDays()),
+            BigDecimal.valueOf(leaveType.getTotalDays()).subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
+            employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
+    }
+
+    private int getNumberOfYearsPassedFromJoiningDate(Employee employee, int year) {
+
+        LocalDate today = LocalDate.now();
+
+        LocalDate startDate = employee.getJoiningDate();
+        LocalDate endDate = LocalDate.of(year, startDate.getMonth(), startDate.getDayOfMonth()).plusYears(1).minusDays(1);
+
+        if(startDate.isAfter(endDate))
+            return 0;
+
+        int totalYear = 0;
+
+        while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
+            totalYear = totalYear + 1;
+            startDate = startDate.plusYears(1);
+            endDate = startDate.plusYears(1);
+        }
+
+        return totalYear;
+
     }
 
     private int getNumberOfYearsPassedAfterJoining(Employee employee) {
@@ -138,6 +179,10 @@ public class LeaveBalanceService {
         LocalDate endDate = startDate.plusYears(1).minusDays(1);
 
         int totalYear = 0;
+
+        if (!today.isAfter(startDate)) {
+            return totalYear;
+        }
 
         while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
             totalYear = totalYear + 1;

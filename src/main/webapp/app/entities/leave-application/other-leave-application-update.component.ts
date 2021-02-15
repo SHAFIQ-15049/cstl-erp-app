@@ -153,7 +153,7 @@ export class OtherLeaveApplicationUpdateComponent implements OnInit {
 
     this.editForm.get('applicant')!.valueChanges.subscribe(() => {
       this.leaveBalanceService
-        .findByEmployeeId(this.editForm.get('applicant')!.value.id)
+        .findByEmployeeId(this.editForm.get('applicant')!.value.id, this.editForm.get('from')!.value.getFullYear())
         .subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
           this.leaveBalances = res1.body!;
         });
