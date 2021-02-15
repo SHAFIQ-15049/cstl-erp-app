@@ -3,6 +3,7 @@ package software.cstl.service.dto;
 import software.cstl.domain.LeaveApplication;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class LeaveBalanceDTO implements Serializable {
 
     private Long id;
 
-    private double totalDays;
+    private BigDecimal totalDays;
 
-    private double remainingDays;
+    private BigDecimal remainingDays;
 
 
     private Long employeeId;
@@ -30,7 +31,7 @@ public class LeaveBalanceDTO implements Serializable {
     public LeaveBalanceDTO() {
     }
 
-    public LeaveBalanceDTO(Long id, double totalDays, double remainingDays, Long employeeId, String employeeName, LocalDate employeeJoiningDate, Long leaveTypeId, String leaveTypeName, List<LeaveApplication> acceptedLeaveApplications) {
+    public LeaveBalanceDTO(Long id, BigDecimal totalDays, BigDecimal remainingDays, Long employeeId, String employeeName, LocalDate employeeJoiningDate, Long leaveTypeId, String leaveTypeName, List<LeaveApplication> acceptedLeaveApplications) {
         this.id = id;
         this.totalDays = totalDays;
         this.remainingDays = remainingDays;
@@ -50,19 +51,19 @@ public class LeaveBalanceDTO implements Serializable {
         this.id = id;
     }
 
-    public double getTotalDays() {
+    public BigDecimal getTotalDays() {
         return totalDays;
     }
 
-    public void setTotalDays(double totalDays) {
+    public void setTotalDays(BigDecimal totalDays) {
         this.totalDays = totalDays;
     }
 
-    public double getRemainingDays() {
+    public BigDecimal getRemainingDays() {
         return remainingDays;
     }
 
-    public void setRemainingDays(double remainingDays) {
+    public void setRemainingDays(BigDecimal remainingDays) {
         this.remainingDays = remainingDays;
     }
 

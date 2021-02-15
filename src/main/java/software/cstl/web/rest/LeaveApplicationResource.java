@@ -83,11 +83,11 @@ public class LeaveApplicationResource {
         if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
             throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
         }
-        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
+        /*LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
         LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
-        }
+        }*/
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -119,11 +119,11 @@ public class LeaveApplicationResource {
         if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
             throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
         }
-        LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
+        /*LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
         LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
         if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
             throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
-        }
+        }*/
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, leaveApplication.getId().toString()))
