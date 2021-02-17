@@ -46,6 +46,12 @@ public class CodeNodeErpUtils {
         return nf.format(value).replace("$","");
     }
 
+    public static String currencyWithChosenLocalisationInBangla(BigDecimal value) {
+        NumberFormat nf = NumberFormat.getCurrencyInstance();
+        String currencyValue =  nf.format(value).replace("$","");
+        return getDigitBanglaFromEnglish(currencyValue);
+    }
+
     public static int getTotalDayOccurrenceOfWeekDay(int year, MonthType monthType, WeekDay weekDay){
 
         int weekDayOrdinalValue = getWeekDayOrdinalValue(weekDay); // we need this ordinal value as we are not using java standard week day enum

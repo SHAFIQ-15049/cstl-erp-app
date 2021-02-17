@@ -2,6 +2,7 @@ package software.cstl.service.dto.salary;
 
 
 public class SalaryReportDto {
+    private Integer serial;
     private EmployeeInfoDto employeeInfoDto;
     private String grade;
     private SalaryDetailsDto salaryDetailsDto;
@@ -24,6 +25,14 @@ public class SalaryReportDto {
     private String totalSalary;
 
     public SalaryReportDto() {
+    }
+
+    public Integer getSerial() {
+        return serial;
+    }
+
+    public void setSerial(Integer serial) {
+        this.serial = serial;
     }
 
     public EmployeeInfoDto getEmployeeInfoDto() {

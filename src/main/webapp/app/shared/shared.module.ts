@@ -7,6 +7,7 @@ import { HasAnyAuthorityDirective } from './auth/has-any-authority.directive';
 import { DivisionFilterPipe } from './pipes/division-filter.pipe';
 import { DistrictFilterPipe } from './pipes/district-filter.pipe';
 import { GradeFilterPipe } from './pipes/grade-filter.pipe';
+import { DesignationFilterPipe } from 'app/shared/pipes/designation-filter.pipe';
 
 @NgModule({
   imports: [CodeNodeErpSharedLibsModule],
@@ -18,6 +19,7 @@ import { GradeFilterPipe } from './pipes/grade-filter.pipe';
     DivisionFilterPipe,
     DistrictFilterPipe,
     GradeFilterPipe,
+    DesignationFilterPipe,
   ],
   entryComponents: [LoginModalComponent],
   exports: [
@@ -29,6 +31,7 @@ import { GradeFilterPipe } from './pipes/grade-filter.pipe';
     DivisionFilterPipe,
     DistrictFilterPipe,
     GradeFilterPipe,
+    DesignationFilterPipe,
   ],
 })
 export class CodeNodeErpSharedModule {}

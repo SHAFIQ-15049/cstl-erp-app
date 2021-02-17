@@ -18,4 +18,5 @@ public interface MonthlySalaryRepository extends JpaRepository<MonthlySalary, Lo
     MonthlySalary findMonthlySalaryByYearAndMonthAndDesignation(Integer year, MonthType month, Designation designation);
 
     List<MonthlySalary> findAllByYearAndMonth(Integer year, MonthType month);
+
 }
