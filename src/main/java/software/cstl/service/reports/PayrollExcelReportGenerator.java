@@ -16,6 +16,8 @@ import software.cstl.service.dto.salary.SalaryReportDto;
 import software.cstl.utils.CodeNodeErpUtils;
 
 import java.io.ByteArrayInputStream;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,6 +40,10 @@ public class PayrollExcelReportGenerator {
 
     public ByteArrayInputStream createReport(Integer year, MonthType month, Long departmentId, Long designationId){
 
+        YearMonth yearMonth = YearMonth.of(year, month.ordinal()+1);
+        LocalDate initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
+
         String departmentName = departmentId!=null? departmentRepository.getOne(departmentId).getName(): "";
 
         List<MonthlySalaryDtl> monthlySalaryDtls = new ArrayList<>();
@@ -53,6 +59,7 @@ public class PayrollExcelReportGenerator {
 
         for(int i=0; i<monthlySalaryDtls.size(); i++){
             MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtls.get(i);
+
 
             SalaryReportDto salaryReportDto = new SalaryReportDto();
             salaryReportDto.setSerial(i+1);
@@ -75,6 +82,7 @@ public class PayrollExcelReportGenerator {
             salaryReportDto.setMainSalary(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getBasic()));
             salaryReportDto.setHouseRent(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getHouseRent()));
             salaryReportDto.setMedicalAllowance(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getMedicalAllowance()));
+
 
 
             salaryReportDtoList.add(salaryReportDto);
