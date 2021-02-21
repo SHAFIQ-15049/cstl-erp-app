@@ -2,6 +2,9 @@ package software.cstl.service.mediators;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+
+import org.springframework.context.annotation.Lazy;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
@@ -11,16 +14,20 @@ import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
 import software.cstl.service.AttendanceSummaryService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
+import software.cstl.utils.CodeNodeErpUtils;
 
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.YearMonth;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
-@Service
+@Component
 @Transactional
 @AllArgsConstructor
 public class PayrollService {
@@ -38,14 +45,28 @@ public class PayrollService {
     private final EmployeeSalaryRepository employeeSalaryRepository;
     private final PartialSalaryRepository partialSalaryRepository;
     private final AttendanceSummaryService attendanceSummaryService;
+    private final WeekendRepository weekendRepository;
+    private final LeaveApplicationRepository leaveApplicationRepository;
+    private final HolidayRepository holidayRepository;
 
 
     public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary){
-        monthlySalary
-            .status(SalaryExecutionStatus.NOT_DONE);
-        getEmptyMonthSalaryDtls(monthlySalary);
-        return monthlySalaryRepository.save(monthlySalary);
+        List<Designation> designations = designationRepository.findAll();
+        List<MonthlySalary> monthlySalaries = new ArrayList<>();
+        for(Designation designation: designations){
+            if(!employeeExtRepository.existsAllByDesignationAndStatus(designation, EmployeeStatus.ACTIVE))
+                continue;
+            MonthlySalary designationBasedMonthlySalary = monthlySalary;
+            designationBasedMonthlySalary.setDesignation(designation);
+            designationBasedMonthlySalary.status(SalaryExecutionStatus.NOT_DONE);
+            getEmptyMonthSalaryDtls(designationBasedMonthlySalary);
+            monthlySalaryRepository.save(designationBasedMonthlySalary);
+            monthlySalaries.add(designationBasedMonthlySalary);
+        }
+        return monthlySalaries.get(0);
     }
+
+
 
     private MonthlySalary getEmptyMonthSalaryDtls(MonthlySalary monthlySalary){
         List<Employee> employees = employeeExtRepository.findAllByDesignationAndStatus(monthlySalary.getDesignation(), EmployeeStatus.ACTIVE);
@@ -59,75 +80,124 @@ public class PayrollService {
         return monthlySalary;
     }
 
-    public void createMonthlySalaries(MonthlySalary monthlySalary){
-        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-        List<Attendance> totalAttendance = attendanceRepository.findAllByAttendanceTimeBetween(monthlySalary.getFromDate(), monthlySalary.getToDate());
-        Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
-            .collect(Collectors.toSet());
-        int totalDays = attendanceDistinctDays.size();
+
+    public void createMonthlySalaries(MonthlySalary monthlySalaryParam){
+        regenerateMonthlySalaries(monthlySalaryParam);
+        /*monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
         for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
             assignFine(monthlySalaryDtl);
             assignAdvance(monthlySalaryDtl);
-            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
         }
         monthlySalary.status(SalaryExecutionStatus.DONE);
-        monthlySalaryRepository.save(monthlySalary);
+        monthlySalaryRepository.save(monthlySalary);*/
     }
 
-    public void regenerateMonthlySalaries(MonthlySalary monthlySalary){
-        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-        monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
-        monthlySalary.setMonthlySalaryDtls(new HashSet<>());
-        monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
 
-        List<Attendance> totalAttendance = attendanceRepository.findAllByAttendanceTimeBetween(monthlySalary.getFromDate(), monthlySalary.getToDate());
-        Set<String> attendanceDistinctDays = totalAttendance.stream()
-            .map(a-> a.getAttendanceTime().atZone(ZoneId.systemDefault()).toLocalDate().format(DateTimeFormatter.ofPattern("dd-MM-yy")))
-            .collect(Collectors.toSet());
-        int totalDays = attendanceDistinctDays.size();
-        for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-            assignFine(monthlySalaryDtl);
-            assignAdvance(monthlySalaryDtl);
-            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
-        }
-        monthlySalary.status(SalaryExecutionStatus.DONE);
-        monthlySalaryRepository.save(monthlySalary);
+    public void regenerateMonthlySalaries(MonthlySalary monthlySalaryParam){
+        List<MonthlySalary> monthlySalaries = monthlySalaryRepository.findAllByYearAndMonth(monthlySalaryParam.getYear(), monthlySalaryParam.getMonth());
+        monthlySalaries.parallelStream().forEach(monthlySalary -> {
+            monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
+            monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
+            monthlySalary.setMonthlySalaryDtls(new HashSet<>());
+            monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
+
+            MonthlySalary finalMonthlySalary = monthlySalary;
+            monthlySalary.getMonthlySalaryDtls().parallelStream().forEach((monthlySalaryDtl -> {
+                assignFine(monthlySalaryDtl);
+                assignAdvance(monthlySalaryDtl);
+                assignSalaryAndAllowances(finalMonthlySalary, monthlySalaryDtl);
+            }));
+//            for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
+//                assignFine(monthlySalaryDtl);
+//                assignAdvance(monthlySalaryDtl);
+//                assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
+//            }
+            monthlySalary.status(SalaryExecutionStatus.DONE);
+            monthlySalaryRepository.save(monthlySalary);
+        });
+/*        for(MonthlySalary monthlySalary: monthlySalaries){
+            monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
+            monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
+            monthlySalary.setMonthlySalaryDtls(new HashSet<>());
+            monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
+
+            for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
+                assignFine(monthlySalaryDtl);
+                assignAdvance(monthlySalaryDtl);
+                assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
+            }
+            monthlySalary.status(SalaryExecutionStatus.DONE);
+            monthlySalaryRepository.save(monthlySalary);
+        }*/
+
+
     }
 
     public MonthlySalaryDtl regenerateMonthlySalaryForAnEmployee(Long monthlySalaryId, Long monthlySalaryDtlId){
+
         MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryId);
         MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtlRepository.getOne(monthlySalaryDtlId);
-        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate());
-        int totalDays = attendanceSummaryDTOS.size();
         assignFine(monthlySalaryDtl);
         assignAdvance(monthlySalaryDtl);
-        assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl, totalDays);
+        assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
         return monthlySalaryDtlRepository.save(monthlySalaryDtl);
     }
 
-    private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl, int totalDays){
+    private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl){
+
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
         Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
-        Instant fromDateTime = partialSalary.isPresent()?partialSalary.get().getToDate().plus(1, ChronoUnit.MINUTES) : monthlySalary.getFromDate();
-        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),monthlySalary.getFromDate().atZone(ZoneId.systemDefault()).toLocalDate(), monthlySalary.getToDate().atZone(ZoneId.systemDefault()).toLocalDate() );
-        List<Attendance> employeeAttendance = attendanceRepository.findAllByEmployeeAndAttendanceTimeBetween(monthlySalaryDtl.getEmployee(), fromDateTime, monthlySalary.getToDate());
-
 
         BigDecimal gross, basic, houseRent, medicalAllowance, convinceAllowance, foodAllowance;
         gross = basic = houseRent = medicalAllowance = foodAllowance = convinceAllowance = BigDecimal.ZERO;
 
-        BigDecimal totalMonthDays = new BigDecimal(totalDays);
 
-        for(AttendanceSummaryDTO attendance: attendanceSummaryDTOS){
-            EmployeeSalary activeSalaryForTheDay = employeeSalaryRepository.getOne(attendance.getEmployeeSalaryId());
-            gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays));
-            basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays));
-            houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays));
-            medicalAllowance = medicalAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getMedicalAllowance(), defaultAllowance.getMedicalAllowance()).divide(totalMonthDays));
-            foodAllowance = foodAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getFoodAllowance(), defaultAllowance.getFoodAllowance()).divide(totalMonthDays));
-            convinceAllowance = convinceAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getConvinceAllowance(), defaultAllowance.getConvinceAllowance()).divide(totalMonthDays));
+        YearMonth yearMonth = YearMonth.of(monthlySalary.getYear(), monthlySalary.getMonth().ordinal()+1);
+        BigDecimal totalMonthDays = new BigDecimal(yearMonth.lengthOfMonth());
+
+        // remove weekends from total working days
+        List<Weekend> weekends = weekendRepository.findAllByStatus(WeekendStatus.ACTIVE);
+        List<Integer> weekendsInOrdinal = new ArrayList<>();
+        for(Weekend weekend: weekends){
+            weekendsInOrdinal.add(CodeNodeErpUtils.getWeekDayOrdinalValue(weekend.getDay()));
         }
+
+        LocalDate initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
+        LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
+
+        while(!initialDay.isAfter(lastDay)){
+            Boolean isWeekend = weekendsInOrdinal.contains(initialDay.getDayOfWeek().getValue());
+            AttendanceSummaryDTO attendance = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),initialDay, initialDay )
+                .stream()
+                .filter(a-> a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R))
+                .findFirst().orElse(null);
+
+            if(attendance!=null){
+                EmployeeSalary activeSalaryForTheDay = employeeSalaryRepository.getOne(attendance.getEmployeeSalaryId());
+                gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays, RoundingMode.HALF_UP));
+                basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays, RoundingMode.HALF_UP));
+                houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays, RoundingMode.HALF_UP));
+                medicalAllowance = medicalAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getMedicalAllowance(), defaultAllowance.getMedicalAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+                foodAllowance = foodAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getFoodAllowance(), defaultAllowance.getFoodAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+                convinceAllowance = convinceAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getConvinceAllowance(), defaultAllowance.getConvinceAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+
+            }
+            else if(isWeekend || holidayRepository.existsAllByFromLessThanEqualAndToGreaterThanEqual(initialDay, initialDay) || leaveApplicationRepository.existsAllByStatusAndFromLessThanEqualAndToGreaterThanEqual(LeaveApplicationStatus.ACCEPTED, initialDay, initialDay)){
+                Instant initialDateInstant = initialDay.atStartOfDay(ZoneId.systemDefault()).toInstant();
+                EmployeeSalary activeSalaryForTheDay = employeeSalaryRepository.findBySalaryStartDateIsLessThanEqualAndSalaryEndDateGreaterThanEqual(initialDateInstant, initialDateInstant);
+                gross = gross.add(activeSalaryForTheDay.getGross().divide(totalMonthDays, RoundingMode.HALF_UP));
+                basic = basic.add(activeSalaryForTheDay.getBasic().divide(totalMonthDays, RoundingMode.HALF_UP));
+                houseRent = houseRent.add(activeSalaryForTheDay.getHouseRent().divide(totalMonthDays, RoundingMode.HALF_UP));
+                medicalAllowance = medicalAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getMedicalAllowance(), defaultAllowance.getMedicalAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+                foodAllowance = foodAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getFoodAllowance(), defaultAllowance.getFoodAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+                convinceAllowance = convinceAllowance.add(ObjectUtils.defaultIfNull(activeSalaryForTheDay.getConvinceAllowance(), defaultAllowance.getConvinceAllowance()).divide(totalMonthDays, RoundingMode.HALF_UP));
+
+            }
+
+            initialDay = initialDay.plusDays(1);
+        }
+
 
         monthlySalaryDtl.setType(partialSalary.isPresent()? PayrollGenerationType.PARTIAL: PayrollGenerationType.FULL);
         monthlySalaryDtl.setGross(gross.subtract(monthlySalaryDtl.getFine()).subtract(monthlySalaryDtl.getAdvance()));
@@ -140,6 +210,8 @@ public class PayrollService {
         monthlySalaryDtl.setExecutedOn(Instant.now());
 
     }
+
+
 
     public PartialSalary assignPartialSalaryAndAllowances(PartialSalary partialSalary){
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);

@@ -58,10 +58,10 @@
     <changeSet author="kawsu (generated)" id="1612017938437-15">
         <dropColumn columnName="attendance_data_upload_id" tableName="attendance"/>
     </changeSet>
-    <changeSet author="kawsu (generated)" id="1612017938437-16">
+<!--    <changeSet author="kawsu (generated)" id="1612017938437-16">
         <dropColumn columnName="duty_leave_applied" tableName="attendance"/>
     </changeSet>
     <changeSet author="kawsu (generated)" id="1612017938437-1">
         <dropNotNullConstraint columnDataType="varchar(255)" columnName="marked_as" tableName="attendance"/>
-    </changeSet>
+    </changeSet>-->
 </databaseChangeLog>

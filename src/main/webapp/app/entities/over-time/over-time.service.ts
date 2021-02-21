@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { from, Observable } from 'rxjs';
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
 
@@ -45,29 +45,17 @@ export class OverTimeService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  generateOverTimes(
-    year?: number,
-    month?: MonthType,
-    designationId?: number,
-    fromDate?: string,
-    toDate?: string
-  ): Observable<EntityArrayResponseType> {
+  generateOverTimes(year?: number, month?: MonthType, designationId?: number): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IOverTime[]>(`${this.resourceUrl}/generate-over-time/${year}/${month}/${designationId}/${fromDate}/${toDate}`, {
+      .get<IOverTime[]>(`${this.resourceUrl}/generate-over-time/${year}/${month}/${designationId}`, {
         observe: 'response',
       })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  regenerateOverTimes(
-    year?: number,
-    month?: MonthType,
-    designationId?: number,
-    fromDate?: string,
-    toDate?: string
-  ): Observable<EntityArrayResponseType> {
+  regenerateOverTimes(year?: number, month?: MonthType, designationId?: number): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IOverTime[]>(`${this.resourceUrl}/regenerate-over-time/${year}/${month}/${designationId}/${fromDate}/${toDate}`, {
+      .get<IOverTime[]>(`${this.resourceUrl}/regenerate-over-time/${year}/${month}/${designationId}`, {
         observe: 'response',
       })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));

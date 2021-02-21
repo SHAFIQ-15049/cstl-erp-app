@@ -1,7 +1,7 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <div *ngIf="monthlySalaryDtl">
-            <h2><span>Monthly Salary Dtl</span> {{ monthlySalaryDtl.id }}</h2>
+            <h2><span>Monthly Salary Detail of Employee</span> <b>{{ monthlySalaryDtl?.employee?.name! }}</b></h2>
 
             <hr>
 
@@ -70,28 +70,10 @@
                 </dd>
                 <dt><span>Executed On</span></dt>
                 <dd>
-                    <span>{{ monthlySalaryDtl.executedOn }}</span>
+                    <span>{{ monthlySalaryDtl.executedOn | date: 'dd-MMM-yyyy' }}</span>
                 </dd>
-                <dt><span>Executed By</span></dt>
-                <dd>
-                    <span>{{ monthlySalaryDtl.executedBy }}</span>
-                </dd>
-                <dt><span>Note</span></dt>
-                <dd>
-                    <span>{{ monthlySalaryDtl.note }}</span>
-                </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="monthlySalaryDtl.employee">
-                        <a [routerLink]="['/employee', monthlySalaryDtl.employee?.id, 'view']">{{ monthlySalaryDtl.employee?.name }}</a>
-                    </div>
-                </dd>
-                <dt><span>Monthly Salary</span></dt>
-                <dd>
-                    <div *ngIf="monthlySalaryDtl.monthlySalary">
-                        <a [routerLink]="['/monthly-salary', monthlySalaryDtl.monthlySalary?.id, 'view']">{{ monthlySalaryDtl.monthlySalary?.id }}</a>
-                    </div>
-                </dd>
+
+
             </dl>
 
             <button type="submit"
@@ -101,7 +83,7 @@
             </button>
 
             <button type="button"
-                    [routerLink]="['/monthly-salary-dtl', monthlySalaryDtl.id, 'edit']"
+                    [routerLink]="['../../../monthly-salary-dtl', monthlySalaryDtl.id, 'edit']"
                     class="btn btn-primary">
                 <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
             </button>

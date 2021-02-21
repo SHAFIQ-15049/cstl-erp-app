@@ -2,6 +2,7 @@
 <div class="form-row align-items-end" >
     <div class="col-md-12">
         <jhi-alert></jhi-alert>
+        <jhi-alert-error></jhi-alert-error>
     </div>
     <div class="form-group col-md-2">
         <label class="form-control-label" for="field_year">Year</label>
@@ -33,19 +34,7 @@
             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
         </select>
     </div>
-    <div class="form-group col-md-2">
-        <label class="form-control-label" for="field_fromDate">From Date</label>
-        <div class="d-flex">
-            <input id="field_fromDate" [(ngModel)]="fromDate" type="datetime-local" class="form-control" name="fromDate"  placeholder="YYYY-MM-DD HH:mm"/>
-        </div>
-    </div>
 
-    <div class="form-group col-md-2">
-        <label class="form-control-label" for="field_toDate">To Date</label>
-        <div class="d-flex">
-            <input id="field_toDate" [(ngModel)]="toDate" type="datetime-local" class="form-control" name="toDate"  placeholder="YYYY-MM-DD HH:mm"/>
-        </div>
-    </div>
 
     <div class="form-group col-md-2" style="align-items: end;">
         <button class="btn btn-secondary" (click)="navigate()">Fetch</button>

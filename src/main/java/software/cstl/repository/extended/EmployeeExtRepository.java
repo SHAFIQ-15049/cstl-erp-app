@@ -1,5 +1,6 @@
 package software.cstl.repository.extended;
 
+import software.cstl.domain.Department;
 import software.cstl.domain.Designation;
 import software.cstl.domain.Employee;
 import software.cstl.domain.enumeration.EmployeeStatus;
@@ -14,4 +15,8 @@ public interface EmployeeExtRepository extends EmployeeRepository {
     List<Employee> findAllByDesignation_IdAndStatus(Long designationId, EmployeeStatus status);
 
     List<Employee> findAllByDesignationAndStatusAndType(Designation designation, EmployeeStatus status, EmployeeType type);
+
+    List<Employee> findAllByStatus(EmployeeStatus status);
+
+    Boolean existsAllByDesignationAndStatus(Designation designation, EmployeeStatus status);
 }

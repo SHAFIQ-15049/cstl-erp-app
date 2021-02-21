@@ -26,4 +26,6 @@ public interface EmployeeSalaryRepository extends JpaRepository<EmployeeSalary, 
 
     List<EmployeeSalary> findAllByStatusAndSalaryEndDateIsBefore(ActiveStatus status, Instant dateTime);
 
+    EmployeeSalary findBySalaryStartDateIsLessThanEqualAndSalaryEndDateGreaterThanEqual(Instant startDate, Instant endDate);
+
 }

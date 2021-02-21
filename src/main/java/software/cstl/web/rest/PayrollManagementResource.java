@@ -4,6 +4,8 @@ import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import software.cstl.domain.MonthlySalary;
@@ -22,11 +24,10 @@ import java.util.Optional;
 @RequestMapping("/api/payroll-management")
 public class PayrollManagementResource {
 
-    private final Logger log = LoggerFactory.getLogger(PayrollManagementResource.class);
 
     private final PayrollService payrollService;
 
-    public PayrollManagementResource(PayrollService payrollService) {
+    public PayrollManagementResource( PayrollService payrollService) {
         this.payrollService = payrollService;
     }
 
