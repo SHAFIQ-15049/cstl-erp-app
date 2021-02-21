@@ -167,13 +167,14 @@ public class PayrollService {
 
         LocalDate initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
         LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
+        Map<LocalDate, AttendanceSummaryDTO> attendanceMap = new HashMap<>();
 
+        for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),initialDay, lastDay )){
+            attendanceMap.put(attendanceSummaryDTO.getAttendanceDate(), attendanceSummaryDTO);
+        }
         while(!initialDay.isAfter(lastDay)){
             Boolean isWeekend = weekendsInOrdinal.contains(initialDay.getDayOfWeek().getValue());
-            AttendanceSummaryDTO attendance = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),initialDay, initialDay )
-                .stream()
-                .filter(a-> a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R))
-                .findFirst().orElse(null);
+            AttendanceSummaryDTO attendance = attendanceMap.containsKey(initialDay)? attendanceMap.get(initialDay): null;
 
             if(attendance!=null){
                 EmployeeSalary activeSalaryForTheDay = employeeSalaryRepository.getOne(attendance.getEmployeeSalaryId());
