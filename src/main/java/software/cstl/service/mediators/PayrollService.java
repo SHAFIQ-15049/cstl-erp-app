@@ -50,13 +50,15 @@ public class PayrollService {
     private final HolidayRepository holidayRepository;
 
 
-    public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary){
+    public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary) throws CloneNotSupportedException {
         List<Designation> designations = designationRepository.findAll();
         List<MonthlySalary> monthlySalaries = new ArrayList<>();
         for(Designation designation: designations){
             if(!employeeExtRepository.existsAllByDesignationAndStatus(designation, EmployeeStatus.ACTIVE))
                 continue;
-            MonthlySalary designationBasedMonthlySalary = monthlySalary;
+            MonthlySalary designationBasedMonthlySalary = new MonthlySalary();
+            designationBasedMonthlySalary.setYear(monthlySalary.getYear());
+            designationBasedMonthlySalary.setMonth(monthlySalary.getMonth());
             designationBasedMonthlySalary.setDesignation(designation);
             designationBasedMonthlySalary.status(SalaryExecutionStatus.NOT_DONE);
             getEmptyMonthSalaryDtls(designationBasedMonthlySalary);

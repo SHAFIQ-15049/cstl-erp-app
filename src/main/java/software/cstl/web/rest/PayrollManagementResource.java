@@ -35,7 +35,7 @@ public class PayrollManagementResource {
     * GET generateEmptySalaries
     */
     @PostMapping("/generate-empty-salaries")
-    public ResponseEntity<MonthlySalary> generateEmptySalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException {
+    public ResponseEntity<MonthlySalary> generateEmptySalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException, CloneNotSupportedException {
         monthlySalary = payrollService.createEmptyMonthlySalaries(monthlySalary);
         return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
             .body(monthlySalary);
