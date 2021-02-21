@@ -6,52 +6,53 @@
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_name">Name</label>
-                    <input type="text" class="form-control" name="name" id="field_name"
-                           formControlName="name"/>
-                    <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('name')?.errors?.required">
-                        This field is required.
-                        </small>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly/>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_totalDays">Total Days (in days)</label>
-                    <input type="number" class="form-control" name="totalDays" id="field_totalDays"
-                           formControlName="totalDays"/>
-                    <div *ngIf="editForm.get('totalDays')!.invalid && (editForm.get('totalDays')!.dirty || editForm.get('totalDays')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('totalDays')?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('totalDays')?.errors?.number">
-                            This field should be a number.
-                        </small>
+                <div class="row">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_name">Name</label>
+                            <select class="form-control" name="name" formControlName="name" id="field_name">
+                                <option value="CASUAL_LEAVE">CASUAL_LEAVE</option>
+                                <option value="MEDICAL_LEAVE">MEDICAL_LEAVE</option>
+                                <option value="EARNED_LEAVE">EARNED_LEAVE</option>
+                                <option value="MATERNITY_LEAVE">MATERNITY_LEAVE</option>
+                                <option value="DUTY_LEAVE">DUTY_LEAVE</option>
+                            </select>
+                            <div
+                                *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('name')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_maxValidity">Max Validity (in years)</label>
-                    <input type="number" class="form-control" name="maxValidity" id="field_maxValidity"
-                           formControlName="maxValidity"/>
-                    <div *ngIf="editForm.get('maxValidity')!.invalid && (editForm.get('maxValidity')!.dirty || editForm.get('maxValidity')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('maxValidity')?.errors?.required">
-                        This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                            [hidden]="!editForm.get('maxValidity')?.errors?.number">
-                            This field should be a number.
-                        </small>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_totalDays">Total Days</label>
+                            <input type="number" class="form-control" name="totalDays" id="field_totalDays"
+                                   formControlName="totalDays"/>
+                            <div
+                                *ngIf="editForm.get('totalDays')!.invalid && (editForm.get('totalDays')!.dirty || editForm.get('totalDays')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('totalDays')?.errors?.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger"
+                                       [hidden]="!editForm.get('totalDays')?.errors?.number">
+                                    This field should be a number.
+                                </small>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -61,7 +62,8 @@
                     <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
                 </button>
 
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                        class="btn btn-primary">
                     <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
                 </button>
             </div>

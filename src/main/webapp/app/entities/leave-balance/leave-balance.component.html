@@ -8,7 +8,7 @@
     <jhi-alert></jhi-alert>
 
     <div class="row">
-        <div class="col-md-5">
+        <div class="col-md-7">
             <form>
                 <h4>Filter by Employee</h4>
 
@@ -21,6 +21,16 @@
                         <option [ngValue]="" selected></option>
                         <option [ngValue]="employeeOption.id"
                                 *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
+                    </select>
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Year</span>
+                    </div>
+                    <select class="form-control" name="selectedYear"
+                            [(ngModel)]="selectedYear" required>
+                        <option [ngValue]="" selected></option>
+                        <option [ngValue]="yearOption.id"
+                                *ngFor="let yearOption of years;">{{ yearOption.name }}</option>
                     </select>
 
                     <button type="submit" class="btn btn-info" (click)="loadAll()">

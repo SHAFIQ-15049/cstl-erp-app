@@ -6,7 +6,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Weekend;
-import software.cstl.domain.enumeration.WeekDay;
 import software.cstl.service.dto.WeekendDateMapDTO;
 
 import java.time.DayOfWeek;
@@ -68,8 +67,7 @@ public class WeekendDateMapService {
             for(Weekend weekend: weekends) {
                 if (day.equalsIgnoreCase(weekend.getDay().toString().trim().toUpperCase())) {
                     serial = serial + 1;
-                    WeekendDateMapDTO weekendDateMapDTO = getDateMapDTO(serial, startDate, weekend.getId(), weekend.getDay());
-                    weekendDateMapDTOS.add(weekendDateMapDTO);
+                    weekendDateMapDTOS.add(new WeekendDateMapDTO(serial, startDate, weekend.getId(), weekend.getDay()));
                 }
             }
             startDate = startDate.plusDays(1);
@@ -126,14 +124,5 @@ public class WeekendDateMapService {
     public int getTotalNumberOfWeekends(int year) {
         log.debug("Request to get count of total weekends : {}", year);
         return getWeekendDateMapDTOs(year).size();
-    }
-
-    private WeekendDateMapDTO getDateMapDTO(Long serialNo, LocalDate startDate, Long weekendId, WeekDay weekDay) {
-        WeekendDateMapDTO weekendDateMapDTO = new WeekendDateMapDTO();
-        weekendDateMapDTO.setSerialNo(serialNo);
-        weekendDateMapDTO.setWeekendDate(startDate);
-        weekendDateMapDTO.setWeekendId(weekendId);
-        weekendDateMapDTO.setWeekendDay(weekDay);
-        return weekendDateMapDTO;
     }
 }

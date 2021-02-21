@@ -40,15 +40,9 @@ describe('LeaveType e2e test', () => {
 
     await leaveTypeComponentsPage.clickOnCreateButton();
 
-    await promise.all([
-      leaveTypeUpdatePage.setNameInput('name'),
-      leaveTypeUpdatePage.setTotalDaysInput('5'),
-      leaveTypeUpdatePage.setMaxValidityInput('5'),
-    ]);
+    await promise.all([leaveTypeUpdatePage.nameSelectLastOption(), leaveTypeUpdatePage.setTotalDaysInput('5')]);
 
-    expect(await leaveTypeUpdatePage.getNameInput()).to.eq('name', 'Expected Name value to be equals to name');
     expect(await leaveTypeUpdatePage.getTotalDaysInput()).to.eq('5', 'Expected totalDays value to be equals to 5');
-    expect(await leaveTypeUpdatePage.getMaxValidityInput()).to.eq('5', 'Expected maxValidity value to be equals to 5');
 
     await leaveTypeUpdatePage.save();
     expect(await leaveTypeUpdatePage.getSaveButton().isPresent(), 'Expected save button disappear').to.be.false;

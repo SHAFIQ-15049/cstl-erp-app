@@ -1,11 +1,11 @@
-id;name;total_days;max_validity
-1;salmon leading-edge;23696;83773
-2;Balboa US Dollar Web;37368;35380
-3;blue Borders override;84597;88332
-4;back-end;90102;12702
-5;index;80013;68675
-6;bypassing synergy;6907;93544
-7;brand systems Checking Account;5121;14060
-8;Profit-focused;24315;54705
-9;Auto Loan Account Refined Strategist;48053;74233
-10;Persistent Auto Loan Account Multi-lateral;70692;75723
+id;name;total_days
+1;MEDICAL_LEAVE;83773
+2;MEDICAL_LEAVE;35380
+3;DUTY_LEAVE;88332
+4;DUTY_LEAVE;12702
+5;DUTY_LEAVE;68675
+6;CASUAL_LEAVE;93544
+7;CASUAL_LEAVE;14060
+8;MEDICAL_LEAVE;54705
+9;EARNED_LEAVE;74233
+10;MATERNITY_LEAVE;75723

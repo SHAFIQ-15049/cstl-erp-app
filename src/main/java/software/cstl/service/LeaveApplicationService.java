@@ -12,8 +12,10 @@ import software.cstl.domain.LeaveType;
 import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.repository.LeaveApplicationRepository;
 import software.cstl.repository.LeaveTypeRepository;
+import software.cstl.service.dto.LeaveApplicationDetailDateMapDTO;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -82,15 +84,72 @@ public class LeaveApplicationService {
         leaveApplicationRepository.deleteById(id);
     }
 
+    /**
+     * Get all the leaveApplications by employee, leaveType, fromDate, toDate, leaveStatus.
+     *
+     * @param employee the employee.
+     * @param leaveType the leaveType.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @param leaveApplicationStatus the leaveApplicationStatus.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LeaveType leaveType, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
         return leaveApplicationRepository.findByApplicantEqualsAndLeaveTypeEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, leaveType, fromDate, toDate, leaveApplicationStatus);
     }
 
+    /**
+     * Get all the leaveApplications by employee, fromDate, toDate, leaveStatus.
+     *
+     * @param employee the employee.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @param leaveApplicationStatus the leaveApplicationStatus.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
         return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, fromDate, toDate, leaveApplicationStatus);
     }
 
+    /**
+     * Get all the leaveApplications by employee, fromDate, toDate.
+     *
+     * @param employee the employee.
+     * @param fromDate the fromDate.
+     * @param toDate the toDate.
+     * @return the entity.
+     */
     public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
         return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(employee, fromDate, toDate);
+    }
+
+    /**
+     * Get all the leaveApplicationDetailDateMapDTO by leaveApplications.
+     *
+     * @param leaveApplications the leaveApplications.
+     * @return the entity.
+     */
+    public List<LeaveApplicationDetailDateMapDTO> getLeaveApplicationDetailDateMapDto(List<LeaveApplication> leaveApplications) {
+        List<LeaveApplicationDetailDateMapDTO> leaveApplicationDetailDateMapDTOS = new ArrayList<>();
+        int counter = 0;
+        for(LeaveApplication leaveApplication: leaveApplications) {
+            counter = counter + 1;
+            LocalDate startDate = leaveApplication.getFrom();
+            LocalDate endDate = leaveApplication.getTo().plusDays(1);
+            while(startDate.isBefore(endDate)) {
+                LeaveApplicationDetailDateMapDTO leaveApplicationDetailDateMapDto = getLeaveApplicationDetailDateMapDTO (counter, leaveApplication, startDate);
+                startDate = startDate.plusDays(1);
+                leaveApplicationDetailDateMapDTOS.add(leaveApplicationDetailDateMapDto);
+            }
+        }
+        return leaveApplicationDetailDateMapDTOS;
+    }
+
+    private LeaveApplicationDetailDateMapDTO getLeaveApplicationDetailDateMapDTO(int counter, LeaveApplication leaveApplication, LocalDate startDate) {
+        LeaveApplicationDetailDateMapDTO leaveApplicationDetailDateMapDto = new LeaveApplicationDetailDateMapDTO();
+        leaveApplicationDetailDateMapDto.setId(Long.parseLong(counter + ""));
+        leaveApplicationDetailDateMapDto.setLeaveAppliedDate(startDate);
+        leaveApplicationDetailDateMapDto.setLeaveApplicationId(leaveApplication.getId());
+        return leaveApplicationDetailDateMapDto;
     }
 }

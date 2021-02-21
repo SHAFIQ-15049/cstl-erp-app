@@ -45,7 +45,7 @@ export const leaveApplicationRoute: Routes = [
     path: '',
     component: LeaveApplicationComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER, Authority.LEAVE_USER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -57,7 +57,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER, Authority.LEAVE_USER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -69,7 +69,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER, Authority.LEAVE_USER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -81,7 +81,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER, Authority.LEAVE_USER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -90,7 +90,7 @@ export const leaveApplicationRoute: Routes = [
     path: 'review-first-authority',
     component: LeaveApplicationReviewFirstAuthorityComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -99,7 +99,7 @@ export const leaveApplicationRoute: Routes = [
     path: 'review-second-authority',
     component: LeaveApplicationReviewSecondAuthorityComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -111,7 +111,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -123,7 +123,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -135,7 +135,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],
@@ -147,7 +147,7 @@ export const leaveApplicationRoute: Routes = [
       leaveApplication: LeaveApplicationResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveApplications',
     },
     canActivate: [UserRouteAccessService],

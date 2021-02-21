@@ -1,10 +1,11 @@
+import { LeaveTypeName } from 'app/shared/model/enumerations/leave-type-name.model';
+
 export interface ILeaveType {
   id?: number;
-  name?: string;
+  name?: LeaveTypeName;
   totalDays?: number;
-  maxValidity?: number;
 }
 
 export class LeaveType implements ILeaveType {
-  constructor(public id?: number, public name?: string, public totalDays?: number, public maxValidity?: number) {}
+  constructor(public id?: number, public name?: LeaveTypeName, public totalDays?: number) {}
 }

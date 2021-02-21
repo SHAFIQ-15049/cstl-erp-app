@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpResponse } from '@angular/common/http';
-import { Resolve, ActivatedRouteSnapshot, Routes, Router } from '@angular/router';
-import { Observable, of, EMPTY } from 'rxjs';
+import { ActivatedRouteSnapshot, Resolve, Router, Routes } from '@angular/router';
+import { EMPTY, Observable, of } from 'rxjs';
 import { flatMap } from 'rxjs/operators';
 
 import { Authority } from 'app/shared/constants/authority.constants';
@@ -39,7 +39,7 @@ export const leaveTypeRoute: Routes = [
     path: '',
     component: LeaveTypeComponent,
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -51,7 +51,7 @@ export const leaveTypeRoute: Routes = [
       leaveType: LeaveTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN, Authority.LEAVE_MANAGER],
       pageTitle: 'LeaveTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -63,7 +63,7 @@ export const leaveTypeRoute: Routes = [
       leaveType: LeaveTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN],
       pageTitle: 'LeaveTypes',
     },
     canActivate: [UserRouteAccessService],
@@ -75,7 +75,7 @@ export const leaveTypeRoute: Routes = [
       leaveType: LeaveTypeResolve,
     },
     data: {
-      authorities: [Authority.USER],
+      authorities: [Authority.ADMIN, Authority.LEAVE_ADMIN],
       pageTitle: 'LeaveTypes',
     },
     canActivate: [UserRouteAccessService],

@@ -10,6 +10,8 @@ import { EmployeeService } from 'app/entities/employee/employee.service';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 import { LeaveBalanceDetailComponent } from 'app/entities/leave-balance/leave-balance-detail.component';
+import { IConstant } from 'app/shared/model/constant.model';
+import { YEARS } from 'app/shared/constants/common.constants';
 
 @Component({
   selector: 'jhi-leave-balance',
@@ -21,6 +23,9 @@ export class LeaveBalanceComponent implements OnInit, OnDestroy {
   employeeId?: number;
   eventSubscriber?: Subscription;
 
+  years: IConstant[] = [];
+  selectedYear?: number;
+
   constructor(
     protected leaveBalanceService: LeaveBalanceService,
     protected employeeService: EmployeeService,
@@ -29,14 +34,15 @@ export class LeaveBalanceComponent implements OnInit, OnDestroy {
   ) {}
 
   loadAll(): void {
-    if (this.employeeId) {
+    if (this.employeeId && this.selectedYear) {
       this.leaveBalanceService
-        .findByEmployeeId(this.employeeId)
+        .findByEmployeeId(this.employeeId, this.selectedYear)
         .subscribe((res: HttpResponse<ILeaveBalance[]>) => (this.leaveBalances = res.body || []));
     }
   }
 
   ngOnInit(): void {
+    this.years = YEARS(2000, new Date().getFullYear());
     this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     this.registerChangeInLeaveBalances();
   }

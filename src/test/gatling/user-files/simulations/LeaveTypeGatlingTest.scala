@@ -67,9 +67,8 @@ class LeaveTypeGatlingTest extends Simulation {
             .headers(headers_http_authenticated)
             .body(StringBody("""{
                 "id":null
-                , "name":"SAMPLE_TEXT"
+                , "name":"CASUAL_LEAVE"
                 , "totalDays":"0"
-                , "maxValidity":"0"
                 }""")).asJson
             .check(status.is(201))
             .check(headerRegex("Location", "(.*)").saveAs("new_leaveType_url"))).exitHereIfFailed

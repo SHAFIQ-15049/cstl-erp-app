@@ -4,7 +4,7 @@ import io.github.jhipster.service.Criteria;
 import io.github.jhipster.service.filter.Filter;
 import io.github.jhipster.service.filter.IntegerFilter;
 import io.github.jhipster.service.filter.LongFilter;
-import io.github.jhipster.service.filter.StringFilter;
+import software.cstl.domain.enumeration.LeaveTypeName;
 
 import java.io.Serializable;
 import java.util.Objects;
@@ -19,16 +19,32 @@ import java.util.Objects;
  * fix type specific filters.
  */
 public class LeaveTypeCriteria implements Serializable, Criteria {
+    /**
+     * Class for filtering LeaveTypeName
+     */
+    public static class LeaveTypeNameFilter extends Filter<LeaveTypeName> {
+
+        public LeaveTypeNameFilter() {
+        }
+
+        public LeaveTypeNameFilter(LeaveTypeNameFilter filter) {
+            super(filter);
+        }
+
+        @Override
+        public LeaveTypeNameFilter copy() {
+            return new LeaveTypeNameFilter(this);
+        }
+
+    }
 
     private static final long serialVersionUID = 1L;
 
     private LongFilter id;
 
-    private StringFilter name;
+    private LeaveTypeNameFilter name;
 
     private IntegerFilter totalDays;
-
-    private IntegerFilter maxValidity;
 
     public LeaveTypeCriteria() {
     }
@@ -37,7 +53,6 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.name = other.name == null ? null : other.name.copy();
         this.totalDays = other.totalDays == null ? null : other.totalDays.copy();
-        this.maxValidity = other.maxValidity == null ? null : other.maxValidity.copy();
     }
 
     @Override
@@ -53,11 +68,11 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public StringFilter getName() {
+    public LeaveTypeNameFilter getName() {
         return name;
     }
 
-    public void setName(StringFilter name) {
+    public void setName(LeaveTypeNameFilter name) {
         this.name = name;
     }
 
@@ -67,14 +82,6 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
 
     public void setTotalDays(IntegerFilter totalDays) {
         this.totalDays = totalDays;
-    }
-
-    public IntegerFilter getMaxValidity() {
-        return maxValidity;
-    }
-
-    public void setMaxValidity(IntegerFilter maxValidity) {
-        this.maxValidity = maxValidity;
     }
 
 
@@ -90,8 +97,7 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         return
             Objects.equals(id, that.id) &&
             Objects.equals(name, that.name) &&
-            Objects.equals(totalDays, that.totalDays) &&
-            Objects.equals(maxValidity, that.maxValidity);
+            Objects.equals(totalDays, that.totalDays);
     }
 
     @Override
@@ -99,8 +105,7 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         return Objects.hash(
         id,
         name,
-        totalDays,
-        maxValidity
+        totalDays
         );
     }
 
@@ -111,7 +116,6 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
                 (id != null ? "id=" + id + ", " : "") +
                 (name != null ? "name=" + name + ", " : "") +
                 (totalDays != null ? "totalDays=" + totalDays + ", " : "") +
-                (maxValidity != null ? "maxValidity=" + maxValidity + ", " : "") +
             "}";
     }
 

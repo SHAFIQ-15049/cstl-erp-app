@@ -2,6 +2,7 @@ package software.cstl.service.mediators;
 
 import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
+
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
@@ -79,6 +80,7 @@ public class PayrollService {
         return monthlySalary;
     }
 
+
     public void createMonthlySalaries(MonthlySalary monthlySalaryParam){
         regenerateMonthlySalaries(monthlySalaryParam);
         /*monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
@@ -90,6 +92,7 @@ public class PayrollService {
         monthlySalary.status(SalaryExecutionStatus.DONE);
         monthlySalaryRepository.save(monthlySalary);*/
     }
+
 
     public void regenerateMonthlySalaries(MonthlySalary monthlySalaryParam){
         List<MonthlySalary> monthlySalaries = monthlySalaryRepository.findAllByYearAndMonth(monthlySalaryParam.getYear(), monthlySalaryParam.getMonth());
@@ -127,6 +130,7 @@ public class PayrollService {
             monthlySalary.status(SalaryExecutionStatus.DONE);
             monthlySalaryRepository.save(monthlySalary);
         }*/
+
 
     }
 

@@ -2,6 +2,7 @@ import { getTestBed, TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { ILeaveType, LeaveType } from 'app/shared/model/leave-type.model';
+import { LeaveTypeName } from 'app/shared/model/enumerations/leave-type-name.model';
 
 describe('Service Tests', () => {
   describe('LeaveType Service', () => {
@@ -20,7 +21,7 @@ describe('Service Tests', () => {
       service = injector.get(LeaveTypeService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new LeaveType(0, 'AAAAAAA', 0, 0);
+      elemDefault = new LeaveType(0, LeaveTypeName.CASUAL_LEAVE, 0);
     });
 
     describe('Service methods', () => {
@@ -56,7 +57,6 @@ describe('Service Tests', () => {
           {
             name: 'BBBBBB',
             totalDays: 1,
-            maxValidity: 1,
           },
           elemDefault
         );
@@ -75,7 +75,6 @@ describe('Service Tests', () => {
           {
             name: 'BBBBBB',
             totalDays: 1,
-            maxValidity: 1,
           },
           elemDefault
         );

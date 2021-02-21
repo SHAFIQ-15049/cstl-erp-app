@@ -1,116 +1,197 @@
 <div class="row justify-content-center">
     <div class="col-8">
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
-            <h2 id="jhi-leave-application-heading">Create or edit a Leave Application</h2>
+            <h2 id="jhi-leave-application-heading">Create or edit a Other Leave Application</h2>
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
-                <div class="form-group" [hidden]="!editForm.get('id')!.value">
-                    <label for="id">ID</label>
-                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                            <label for="id">ID</label>
+                            <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly/>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_leaveType">Leave Type</label>
-                    <select class="form-control" id="field_leaveType" name="leaveType" formControlName="leaveType">
-                        <option *ngIf="!editForm.get('leaveType')!.value" [ngValue]="null" selected></option>
-                        <option [ngValue]="leaveTypeOption.id === editForm.get('leaveType')!.value?.id ? editForm.get('leaveType')!.value : leaveTypeOption" *ngFor="let leaveTypeOption of leavetypes; trackBy: trackById">{{ leaveTypeOption.name }}</option>
-                    </select>
-                </div>
-                <div *ngIf="editForm.get('leaveType')!.invalid && (editForm.get('leaveType')!.dirty || editForm.get('leaveType')!.touched)">
-                    <small class="form-text text-danger"
-                           *ngIf="editForm.get('leaveType')?.errors?.required">
-                        This field is required.
-                    </small>
+                <div class="row">
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_applicant">Applicant</label>
+                            <select class="form-control" id="field_applicant" name="applicant"
+                                    formControlName="applicant">
+                                <option *ngIf="!editForm.get('applicant')!.value" [ngValue]="null" selected></option>
+                                <option
+                                    [ngValue]="employeeOption.id === editForm.get('applicant')!.value?.id ? editForm.get('applicant')!.value : employeeOption"
+                                    *ngFor="let employeeOption of employees; trackBy: trackById">{{ employeeOption.name }}</option>
+                            </select>
+                        </div>
+                        <div
+                            *ngIf="editForm.get('applicant')!.invalid && (editForm.get('applicant')!.dirty || editForm.get('applicant')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('applicant')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_leaveType">Leave Type</label>
+                            <select class="form-control" id="field_leaveType" name="leaveType"
+                                    formControlName="leaveType">
+                                <option *ngIf="!editForm.get('leaveType')!.value" [ngValue]="null" selected></option>
+                                <option
+                                    [ngValue]="leaveTypeOption.id === editForm.get('leaveType')!.value?.id ? editForm.get('leaveType')!.value : leaveTypeOption"
+                                    *ngFor="let leaveTypeOption of leavetypes; trackBy: trackById">{{ leaveTypeOption.name }}</option>
+                            </select>
+                        </div>
+                        <div
+                            *ngIf="editForm.get('leaveType')!.invalid && (editForm.get('leaveType')!.dirty || editForm.get('leaveType')!.touched)">
+                            <small class="form-text text-danger"
+                                   *ngIf="editForm.get('leaveType')?.errors?.required">
+                                This field is required.
+                            </small>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_from">From</label>
-                    <div class="input-group">
-                        <input id="field_from" type="text" class="form-control" name="from" ngbDatepicker #fromDp="ngbDatepicker" formControlName="from"/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="fromDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_from">From</label>
+                            <div class="input-group">
+                                <input id="field_from" type="text" class="form-control" name="from" ngbDatepicker
+                                       #fromDp="ngbDatepicker" formControlName="from"/>
+                                <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="fromDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
                         </span>
+                            </div>
+                            <div
+                                *ngIf="editForm.get('from')!.invalid && (editForm.get('from')!.dirty || editForm.get('from')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('from')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf="editForm.get('from')!.invalid && (editForm.get('from')!.dirty || editForm.get('from')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('from')?.errors?.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_to">To</label>
-                    <div class="input-group">
-                        <input id="field_to" type="text" class="form-control" name="to" ngbDatepicker #toDp="ngbDatepicker" formControlName="to"/>
-                        <span class="input-group-append">
-                            <button type="button" class="btn btn-secondary" (click)="toDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_to">To</label>
+                            <div class="input-group">
+                                <input id="field_to" type="text" class="form-control" name="to" ngbDatepicker
+                                       #toDp="ngbDatepicker" formControlName="to"/>
+                                <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="toDp.toggle()"><fa-icon
+                                icon="calendar-alt"></fa-icon></button>
                         </span>
+                            </div>
+                            <div
+                                *ngIf="editForm.get('to')!.invalid && (editForm.get('to')!.dirty || editForm.get('to')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('to')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
                     </div>
-                    <div *ngIf="editForm.get('to')!.invalid && (editForm.get('to')!.dirty || editForm.get('to')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('to')?.errors?.required">
-                            This field is required.
-                        </small>
-                    </div>
-                </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_totalDays">Total Days</label>
-                    <input type="number" class="form-control" name="totalDays" id="field_totalDays"
-                           formControlName="totalDays"/>
-                    <div *ngIf="editForm.get('totalDays')!.invalid && (editForm.get('totalDays')!.dirty || editForm.get('totalDays')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('totalDays')?.errors?.required">
-                            This field is required.
-                        </small>
-                        <small class="form-text text-danger"
-                               [hidden]="!editForm.get('totalDays')?.errors?.number">
-                            This field should be a number.
-                        </small>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="form-control-label" for="field_reason">Reason</label>
-                    <input type="text" class="form-control" name="reason" id="field_reason"
-                           formControlName="reason"/>
-                    <div *ngIf="editForm.get('reason')!.invalid && (editForm.get('reason')!.dirty || editForm.get('reason')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('reason')?.errors?.required">
-                            This field is required.
-                        </small>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_totalDays">Total Days</label>
+                            <input type="number" class="form-control" name="totalDays" id="field_totalDays"
+                                   formControlName="totalDays"/>
+                            <div
+                                *ngIf="editForm.get('totalDays')!.invalid && (editForm.get('totalDays')!.dirty || editForm.get('totalDays')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('totalDays')?.errors?.required">
+                                    This field is required.
+                                </small>
+                                <small class="form-text text-danger"
+                                       [hidden]="!editForm.get('totalDays')?.errors?.number">
+                                    This field should be a number.
+                                </small>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_status">Status</label>
-                    <select class="form-control" name="status" formControlName="status" id="field_status">
-                        <option value="APPLIED">APPLIED</option>
-                        <option value="ACCEPTED_BY_FIRST_AUTHORITY">ACCEPTED_BY_FIRST_AUTHORITY</option>
-                        <option value="REJECTED_BY_FIRST_AUTHORITY">REJECTED_BY_FIRST_AUTHORITY</option>
-                    </select>
-                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
-                        <small class="form-text text-danger"
-                               *ngIf="editForm.get('status')?.errors?.required">
-                            This field is required.
-                        </small>
+                <div class="row">
+                    <div class="col-8">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_reason">Reason</label>
+                            <input type="text" class="form-control" name="reason" id="field_reason"
+                                   formControlName="reason"/>
+                            <div
+                                *ngIf="editForm.get('reason')!.invalid && (editForm.get('reason')!.dirty || editForm.get('reason')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('reason')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-4">
+                        <div class="form-group">
+                            <label class="form-control-label" for="field_status">Status</label>
+                            <select class="form-control" name="status" formControlName="status" id="field_status">
+                                <option value="APPLIED">APPLIED</option>
+                                <option value="ACCEPTED_BY_FIRST_AUTHORITY">ACCEPTED_BY_FIRST_AUTHORITY</option>
+                                <option value="REJECTED_BY_FIRST_AUTHORITY">REJECTED_BY_FIRST_AUTHORITY</option>
+                            </select>
+                            <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                                <small class="form-text text-danger"
+                                       *ngIf="editForm.get('status')?.errors?.required">
+                                    This field is required.
+                                </small>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-            </div>
+                <div>
+                    <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                        <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                    </button>
 
-            <div>
-                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
-                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
-                </button>
-
-                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
-                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
-                </button>
+                    <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving"
+                            class="btn btn-primary">
+                        <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                    </button>
+                </div>
             </div>
         </form>
+    </div>
+</div>
+
+
+<br>
+
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div class="table-responsive">
+            <table class="table table-striped">
+                <thead>
+                <tr>
+                    <th scope="col"><span>Type</span></th>
+                    <th scope="col"><span>Total</span></th>
+                    <th scope="col"><span>Balance</span></th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let leaveBalance of leaveBalances;">
+                    <td>{{ leaveBalance.leaveTypeName }}</td>
+                    <td>{{ leaveBalance.totalDays }}</td>
+                    <td>{{ leaveBalance.remainingDays }}</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

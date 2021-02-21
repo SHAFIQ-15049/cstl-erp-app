@@ -2,6 +2,7 @@ package software.cstl.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
+import software.cstl.domain.enumeration.LeaveTypeName;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -22,16 +23,13 @@ public class LeaveType implements Serializable {
     private Long id;
 
     @NotNull
+    @Enumerated(EnumType.STRING)
     @Column(name = "name", nullable = false)
-    private String name;
+    private LeaveTypeName name;
 
     @NotNull
     @Column(name = "total_days", nullable = false)
     private Integer totalDays;
-
-    @NotNull
-    @Column(name = "max_validity", nullable = false)
-    private Integer maxValidity;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -42,16 +40,16 @@ public class LeaveType implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
+    public LeaveTypeName getName() {
         return name;
     }
 
-    public LeaveType name(String name) {
+    public LeaveType name(LeaveTypeName name) {
         this.name = name;
         return this;
     }
 
-    public void setName(String name) {
+    public void setName(LeaveTypeName name) {
         this.name = name;
     }
 
@@ -66,19 +64,6 @@ public class LeaveType implements Serializable {
 
     public void setTotalDays(Integer totalDays) {
         this.totalDays = totalDays;
-    }
-
-    public Integer getMaxValidity() {
-        return maxValidity;
-    }
-
-    public LeaveType maxValidity(Integer maxValidity) {
-        this.maxValidity = maxValidity;
-        return this;
-    }
-
-    public void setMaxValidity(Integer maxValidity) {
-        this.maxValidity = maxValidity;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
@@ -105,7 +90,6 @@ public class LeaveType implements Serializable {
             "id=" + getId() +
             ", name='" + getName() + "'" +
             ", totalDays=" + getTotalDays() +
-            ", maxValidity=" + getMaxValidity() +
             "}";
     }
 }

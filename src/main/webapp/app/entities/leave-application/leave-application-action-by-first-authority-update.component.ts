@@ -13,8 +13,12 @@ import { ILeaveType } from 'app/shared/model/leave-type.model';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/user/account.model';
+import { IEmployee } from 'app/shared/model/employee.model';
+import { ILeaveBalance } from 'app/shared/model/leave-balance.model';
+import { EmployeeService } from 'app/entities/employee/employee.service';
+import { LeaveBalanceService } from 'app/entities/leave-balance/leave-balance.service';
 
-type SelectableEntity = IUser | ILeaveType;
+type SelectableEntity = IUser | ILeaveType | IEmployee;
 
 @Component({
   selector: 'jhi-leave-application-action-by-first-authority-update',
@@ -24,6 +28,9 @@ export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements On
   isSaving = false;
   users: IUser[] = [];
   leavetypes: ILeaveType[] = [];
+  leaveBalances: ILeaveBalance[] = [];
+
+  employees: IEmployee[] = [];
   fromDp: any;
   toDp: any;
   currentUser: Account | null = null;
@@ -45,6 +52,8 @@ export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements On
     protected leaveApplicationService: LeaveApplicationService,
     protected userService: UserService,
     protected leaveTypeService: LeaveTypeService,
+    protected employeeService: EmployeeService,
+    protected leaveBalanceService: LeaveBalanceService,
     protected activatedRoute: ActivatedRoute,
     protected accountService: AccountService,
     private fb: FormBuilder
@@ -53,13 +62,32 @@ export class LeaveApplicationActionByFirstAuthorityUpdateComponent implements On
   ngOnInit(): void {
     this.accountService.identity().subscribe(currentUser => {
       this.currentUser = currentUser;
-    });
-    this.activatedRoute.data.subscribe(({ leaveApplication }) => {
-      this.updateForm(leaveApplication);
 
-      this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
+      this.activatedRoute.data.subscribe(({ leaveApplication }) => {
+        this.updateForm(leaveApplication);
 
-      this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
+        this.userService.query().subscribe((res: HttpResponse<IUser[]>) => (this.users = res.body || []));
+
+        this.leaveTypeService.query().subscribe((res: HttpResponse<ILeaveType[]>) => (this.leavetypes = res.body || []));
+
+        this.employeeService
+          .query({
+            'id.equals': leaveApplication.applicant.id,
+          })
+          .subscribe((res: HttpResponse<IEmployee[]>) => {
+            this.employees = res.body || [];
+
+            this.updateForm(leaveApplication);
+
+            if (this.employees) {
+              this.leaveBalanceService
+                .findByEmployeeId(this.employees[0].id!, new Date().getFullYear())
+                .subscribe((res1: HttpResponse<ILeaveBalance[]>) => {
+                  this.leaveBalances = res1.body!;
+                });
+            }
+          });
+      });
     });
   }
 

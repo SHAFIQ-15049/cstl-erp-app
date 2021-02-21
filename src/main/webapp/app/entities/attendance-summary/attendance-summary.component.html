@@ -76,11 +76,13 @@
                 <th scope="col"><span>Sl.</span></th>
                 <th scope="col"><span>Department</span></th>
                 <th scope="col"><span>Employee</span></th>
+                <th scope="col"><span>Date</span></th>
                 <th scope="col"><span>Id (Machine)</span></th>
                 <th scope="col"><span>In</span></th>
                 <th scope="col"><span>Out</span></th>
                 <th scope="col"><span>Diff</span></th>
                 <th scope="col"><span>OverTime</span></th>
+                <th scope="col"><span>Status</span></th>
                 <th scope="col"><span>MarkedAs</span></th>
             </tr>
             </thead>
@@ -97,6 +99,7 @@
                         {{ attendanceSummary.employeeName }}
                     </div>
                 </td>
+                <td>{{ attendanceSummary.attendanceDate }}</td>
                 <td>
                     <div *ngIf="attendanceSummary.employeeId">
                         {{ attendanceSummary.employeeMachineId }}
@@ -106,6 +109,11 @@
                 <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
                 <td>{{ attendanceSummary.diff }}</td>
                 <td>{{ attendanceSummary.overTime }}</td>
+                <td><button class="btn btn-success btn-sm" *ngIf="attendanceSummary.attendanceStatus==='Present'">{{ attendanceSummary.attendanceStatus }}
+                    </button>
+                    <button class="btn btn-danger btn-sm" *ngIf="attendanceSummary.attendanceStatus==='Absent'">{{ attendanceSummary.attendanceStatus }}
+                    </button>
+                </td>
                 <td>
                     <select class="form-control" name="markedAs" id="field_markedAs"
                             [(ngModel)]="attendanceSummary.attendanceMarkedAs">
@@ -119,25 +127,24 @@
             </tr>
             </tbody>
         </table>
+    </div>
 
-
-        <div class="row">
-            <div class="col-3">
-                <select class="form-control" name="bulk_markedType"
-                        [(ngModel)]="bulkMarkedType" (ngModelChange)="updateBulkMarkedAs()">
-                    <option value="R">Regular</option>
-                    <option value="WR">Weekend/Regular</option>
-                    <option value="HR">Holiday/Regular</option>
-                    <option value="WO">Weekend/Overtime</option>
-                    <option value="HO">Holiday/Overtime</option>
-                </select>
-            </div>
-            <div class="col-9">
-                <button style="float: right" type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
-                        class="btn btn-success">
-                    <span class="d-none d-md-inline">Update</span>
-                </button>
-            </div>
+    <div class="row" *ngIf="attendanceSummaries && attendanceSummaries.length > 0">
+        <div class="col-3">
+            <select class="form-control" name="bulk_markedType"
+                    [(ngModel)]="bulkMarkedType" (ngModelChange)="updateBulkMarkedAs()">
+                <option value="R">Regular</option>
+                <option value="WR">Weekend/Regular</option>
+                <option value="HR">Holiday/Regular</option>
+                <option value="WO">Weekend/Overtime</option>
+                <option value="HO">Holiday/Overtime</option>
+            </select>
+        </div>
+        <div class="col-9">
+            <button type="button" [disabled]="isSaving" (click)="updateMarkedAs()"
+                    class="btn btn-success">
+                <span class="d-none d-md-inline">Update</span>
+            </button>
         </div>
     </div>
 </div>

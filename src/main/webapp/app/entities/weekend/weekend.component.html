@@ -32,7 +32,12 @@
                 <tr *ngFor="let weekend of weekends ;trackBy: trackId">
                     <td><a [routerLink]="['/weekend', weekend.id, 'view']">{{ weekend.id }}</a></td>
                     <td>{{ weekend.day }}</td>
-                    <td>{{ weekend.status }}</td>
+                    <td>
+                        <button class="btn btn-success btn-sm" *ngIf="weekend.status==='ACTIVE'">{{ weekend.status }}
+                        </button>
+                        <button class="btn btn-danger btn-sm" *ngIf="weekend.status==='INACTIVE'">{{ weekend.status }}
+                        </button>
+                    </td>
                     <td class="text-right">
                         <div class="btn-group">
                             <button type="submit"

@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
+import software.cstl.domain.enumeration.ActiveStatus;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.repository.AttendanceRepository;
@@ -112,7 +113,7 @@ public class AttendanceService {
      * @return the list of entities.
      */
     public List<Attendance> findAll(Employee employee, Instant from, Instant to) {
-        return attendanceRepository.getALlByEmployeeEqualsAndAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(employee, from, to);
+        return attendanceRepository.findAllByEmployeeAndAttendanceTimeBetween(employee, from, to);
     }
 
     /**
@@ -123,7 +124,7 @@ public class AttendanceService {
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to) {
-        return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqual(from, to);
+        return attendanceRepository.findAllByAttendanceTimeBetween(from, to);
     }
 
     /**
@@ -135,7 +136,7 @@ public class AttendanceService {
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to, AttendanceMarkedAs attendanceMarkedAs) {
-        return attendanceRepository.getAllByAttendanceTimeIsGreaterThanEqualAndAttendanceTimeIsLessThanEqualAndMarkedAsEquals(from, to, attendanceMarkedAs);
+        return attendanceRepository.findAllByMarkedAsAndAttendanceTimeBetween(attendanceMarkedAs, from, to);
     }
 
     /**
@@ -145,17 +146,15 @@ public class AttendanceService {
      */
     public Attendance manualSave(Attendance attendance) {
         log.debug("Request to save Attendance : {}", attendance);
-        List<Employee> employees = employeeService.getAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
-
-        Attendance result = prepareAttendanceData(employees, employeeSalaries, attendance);
+        Attendance result = build(employeeSalaries, attendance);
         return save(result);
     }
 
-    private Attendance prepareAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, Attendance attendance) {
-        EmployeeSalary employeeSalary = getEmployeeSalary(employeeSalaries, attendance.getEmployee());
-        return getAttendance(employeeSalary, attendance.getEmployee().getAttendanceMachineId(), attendance.getEmployee(), attendance.getMachineNo(), attendance.getAttendanceTime());
-
+    private Attendance build(List<EmployeeSalary> employeeSalaries, Attendance attendance) {
+        EmployeeSalary employeeSalary = findActiveEmployeeSalary(employeeSalaries, attendance.getEmployee());
+        return build(employeeSalary, attendance.getEmployee().getAttendanceMachineId(),
+            attendance.getEmployee(), attendance.getMachineNo(), attendance.getAttendanceTime());
     }
 
     /**
@@ -173,7 +172,7 @@ public class AttendanceService {
         List<Attendance> attendances = new ArrayList<>();
 
         for (String line : lines) {
-            Attendance attendance = splitAndValidateContentAndPrepareAttendanceData(employees, employeeSalaries, line);
+            Attendance attendance = splitAndValidateContentAndBuildAttendanceData(employees, employeeSalaries, line);
             if (attendance != null) {
                 attendances.add(attendance);
             }
@@ -181,17 +180,20 @@ public class AttendanceService {
         return save(attendances);
     }
 
-    private Attendance splitAndValidateContentAndPrepareAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
+    private Attendance splitAndValidateContentAndBuildAttendanceData(List<Employee> employees, List<EmployeeSalary> employeeSalaries, String line) {
         EmployeeSalary candidateSalary;
         Employee employee;
+
         String[] data = commonService.getStringArrayBySeparatingStringContentUsingSeparator(line, ",");
         String machineCode = data[0];
         String employeeMachineId = data[1];
         String attendanceDate = data[2];
         String attendanceTime = data[3];
-        employee = validateAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
+
+        employee = validateEmployeeAttendanceMachineIdWithEmployeeRecord(employees, employeeMachineId);
+
         if (employee != null) {
-            candidateSalary = getEmployeeSalary(employeeSalaries, employee);
+            candidateSalary = findActiveEmployeeSalary(employeeSalaries, employee);
 
             String year = attendanceDate.substring(0, 4);
             String month = attendanceDate.substring(4, 6);
@@ -205,14 +207,16 @@ public class AttendanceService {
             Instant instant = Instant.parse(instantText);
             ZoneOffset zoneOffset = ZoneId.systemDefault().getRules().getOffset(instant);
             instant = instant.minusSeconds(zoneOffset.getTotalSeconds());
-            return getAttendance(candidateSalary, employeeMachineId, employee, machineCode, instant);
+
+            return build(candidateSalary, employeeMachineId, employee, machineCode, instant);
+
         } else {
             log.debug("ERROR! Employee or employee salary information is missing {} ", line);
             return null;
         }
     }
 
-    private Attendance getAttendance(EmployeeSalary employeeSalary, String employeeMachineId, Employee employee, String machineCode, Instant instant) {
+    private Attendance build(EmployeeSalary employeeSalary, String employeeMachineId, Employee employee, String machineCode, Instant instant) {
         Attendance attendance = new Attendance();
         attendance.setEmployeeMachineId(employeeMachineId);
         attendance.setMachineNo(machineCode);
@@ -230,16 +234,16 @@ public class AttendanceService {
         return attendance;
     }
 
-    private EmployeeSalary getEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee employee) {
+    private EmployeeSalary findActiveEmployeeSalary(List<EmployeeSalary> employeeSalaries, Employee employee) {
         for (EmployeeSalary employeeSalary : employeeSalaries) {
-            if (employeeSalary.getEmployee().equals(employee)) {
+            if (employeeSalary.getEmployee().equals(employee) && employeeSalary.getStatus().equals(ActiveStatus.ACTIVE)) {
                 return employeeSalary;
             }
         }
         return null;
     }
 
-    private Employee validateAttendanceMachineIdWithEmployeeRecord(List<Employee> employees, String employeeMachineId) {
+    private Employee validateEmployeeAttendanceMachineIdWithEmployeeRecord(List<Employee> employees, String employeeMachineId) {
         for (Employee employee : employees) {
             if (employee.getAttendanceMachineId().equals(employeeMachineId)) {
                 return employee;

@@ -56,7 +56,7 @@ public class DutyLeaveService {
         LeaveType leaveType = new LeaveType();
 
         for(LeaveType leaveType1: leaveTypes) {
-            if(leaveType1.getName().contains("Duty")) {
+            if(leaveType1.getName().name().contains("Duty")) {
                 leaveType = leaveType1;
             }
         }
