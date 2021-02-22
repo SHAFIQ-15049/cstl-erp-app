@@ -27,6 +27,7 @@ spring:
     password:
     hikari:
       auto-commit: false
+    initialization-mode: embedded
   jackson:
     serialization:
       write-durations-as-timestamps: false
@@ -35,7 +36,7 @@ spring:
     open-in-view: false
     show-sql: false
     hibernate:
-      ddl-auto: none
+      ddl-auto: create-drop
       naming:
         physical-strategy: org.springframework.boot.orm.jpa.hibernate.SpringPhysicalNamingStrategy
         implicit-strategy: org.springframework.boot.orm.jpa.hibernate.SpringImplicitNamingStrategy
@@ -45,10 +46,12 @@ spring:
       hibernate.cache.use_second_level_cache: false
       hibernate.cache.use_query_cache: false
       hibernate.generate_statistics: false
-      hibernate.hbm2ddl.auto: validate
+      #      hibernate.hbm2ddl.auto: validate
       hibernate.jdbc.time_zone: UTC
+      hibernate.default-schema: CodeNodeERP
   liquibase:
     contexts: test
+    enabled: false
   mail:
     host: localhost
   main:
