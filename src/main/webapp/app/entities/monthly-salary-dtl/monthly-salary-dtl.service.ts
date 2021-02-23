@@ -51,7 +51,6 @@ export class MonthlySalaryDtlService {
   public convertDateFromClient(monthlySalaryDtl: IMonthlySalaryDtl): IMonthlySalaryDtl {
     const copy: IMonthlySalaryDtl = Object.assign({}, monthlySalaryDtl, {
       executedOn: monthlySalaryDtl.executedOn && monthlySalaryDtl.executedOn.isValid() ? monthlySalaryDtl.executedOn.toJSON() : undefined,
-      executedBy: monthlySalaryDtl.executedBy && monthlySalaryDtl.executedBy.isValid() ? monthlySalaryDtl.executedBy.toJSON() : undefined,
     });
     return copy;
   }
@@ -59,7 +58,6 @@ export class MonthlySalaryDtlService {
   public convertDateFromServer(res: EntityResponseType): EntityResponseType {
     if (res.body) {
       res.body.executedOn = res.body.executedOn ? moment(res.body.executedOn) : undefined;
-      res.body.executedBy = res.body.executedBy ? moment(res.body.executedBy) : undefined;
     }
     return res;
   }
@@ -68,7 +66,6 @@ export class MonthlySalaryDtlService {
     if (res.body) {
       res.body.forEach((monthlySalaryDtl: IMonthlySalaryDtl) => {
         monthlySalaryDtl.executedOn = monthlySalaryDtl.executedOn ? moment(monthlySalaryDtl.executedOn) : undefined;
-        monthlySalaryDtl.executedBy = monthlySalaryDtl.executedBy ? moment(monthlySalaryDtl.executedBy) : undefined;
       });
     }
     return res;

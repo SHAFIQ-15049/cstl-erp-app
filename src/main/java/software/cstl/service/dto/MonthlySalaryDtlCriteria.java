@@ -92,13 +92,49 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
 
     private BigDecimalFilter advance;
 
+    private IntegerFilter totalWorkingDays;
+
+    private IntegerFilter regularLeave;
+
+    private IntegerFilter sickLeave;
+
+    private IntegerFilter compensationLeave;
+
+    private IntegerFilter festivalLeave;
+
+    private IntegerFilter weeklyLeave;
+
+    private IntegerFilter present;
+
+    private IntegerFilter absent;
+
+    private IntegerFilter totalMonthDays;
+
+    private DoubleFilter overTimeHour;
+
+    private BigDecimalFilter overTimeSalaryHourly;
+
+    private BigDecimalFilter overTimeSalary;
+
+    private BigDecimalFilter presentBonus;
+
+    private BigDecimalFilter absentFine;
+
+    private BigDecimalFilter stampPrice;
+
+    private BigDecimalFilter tax;
+
+    private BigDecimalFilter others;
+
+    private BigDecimalFilter totalPayable;
+
     private SalaryExecutionStatusFilter status;
 
     private PayrollGenerationTypeFilter type;
 
     private InstantFilter executedOn;
 
-    private InstantFilter executedBy;
+    private StringFilter executedBy;
 
     private LongFilter employeeId;
 
@@ -122,6 +158,24 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.foodAllowancePercent = other.foodAllowancePercent == null ? null : other.foodAllowancePercent.copy();
         this.fine = other.fine == null ? null : other.fine.copy();
         this.advance = other.advance == null ? null : other.advance.copy();
+        this.totalWorkingDays = other.totalWorkingDays == null ? null : other.totalWorkingDays.copy();
+        this.regularLeave = other.regularLeave == null ? null : other.regularLeave.copy();
+        this.sickLeave = other.sickLeave == null ? null : other.sickLeave.copy();
+        this.compensationLeave = other.compensationLeave == null ? null : other.compensationLeave.copy();
+        this.festivalLeave = other.festivalLeave == null ? null : other.festivalLeave.copy();
+        this.weeklyLeave = other.weeklyLeave == null ? null : other.weeklyLeave.copy();
+        this.present = other.present == null ? null : other.present.copy();
+        this.absent = other.absent == null ? null : other.absent.copy();
+        this.totalMonthDays = other.totalMonthDays == null ? null : other.totalMonthDays.copy();
+        this.overTimeHour = other.overTimeHour == null ? null : other.overTimeHour.copy();
+        this.overTimeSalaryHourly = other.overTimeSalaryHourly == null ? null : other.overTimeSalaryHourly.copy();
+        this.overTimeSalary = other.overTimeSalary == null ? null : other.overTimeSalary.copy();
+        this.presentBonus = other.presentBonus == null ? null : other.presentBonus.copy();
+        this.absentFine = other.absentFine == null ? null : other.absentFine.copy();
+        this.stampPrice = other.stampPrice == null ? null : other.stampPrice.copy();
+        this.tax = other.tax == null ? null : other.tax.copy();
+        this.others = other.others == null ? null : other.others.copy();
+        this.totalPayable = other.totalPayable == null ? null : other.totalPayable.copy();
         this.status = other.status == null ? null : other.status.copy();
         this.type = other.type == null ? null : other.type.copy();
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
@@ -247,6 +301,150 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.advance = advance;
     }
 
+    public IntegerFilter getTotalWorkingDays() {
+        return totalWorkingDays;
+    }
+
+    public void setTotalWorkingDays(IntegerFilter totalWorkingDays) {
+        this.totalWorkingDays = totalWorkingDays;
+    }
+
+    public IntegerFilter getRegularLeave() {
+        return regularLeave;
+    }
+
+    public void setRegularLeave(IntegerFilter regularLeave) {
+        this.regularLeave = regularLeave;
+    }
+
+    public IntegerFilter getSickLeave() {
+        return sickLeave;
+    }
+
+    public void setSickLeave(IntegerFilter sickLeave) {
+        this.sickLeave = sickLeave;
+    }
+
+    public IntegerFilter getCompensationLeave() {
+        return compensationLeave;
+    }
+
+    public void setCompensationLeave(IntegerFilter compensationLeave) {
+        this.compensationLeave = compensationLeave;
+    }
+
+    public IntegerFilter getFestivalLeave() {
+        return festivalLeave;
+    }
+
+    public void setFestivalLeave(IntegerFilter festivalLeave) {
+        this.festivalLeave = festivalLeave;
+    }
+
+    public IntegerFilter getWeeklyLeave() {
+        return weeklyLeave;
+    }
+
+    public void setWeeklyLeave(IntegerFilter weeklyLeave) {
+        this.weeklyLeave = weeklyLeave;
+    }
+
+    public IntegerFilter getPresent() {
+        return present;
+    }
+
+    public void setPresent(IntegerFilter present) {
+        this.present = present;
+    }
+
+    public IntegerFilter getAbsent() {
+        return absent;
+    }
+
+    public void setAbsent(IntegerFilter absent) {
+        this.absent = absent;
+    }
+
+    public IntegerFilter getTotalMonthDays() {
+        return totalMonthDays;
+    }
+
+    public void setTotalMonthDays(IntegerFilter totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
+    }
+
+    public DoubleFilter getOverTimeHour() {
+        return overTimeHour;
+    }
+
+    public void setOverTimeHour(DoubleFilter overTimeHour) {
+        this.overTimeHour = overTimeHour;
+    }
+
+    public BigDecimalFilter getOverTimeSalaryHourly() {
+        return overTimeSalaryHourly;
+    }
+
+    public void setOverTimeSalaryHourly(BigDecimalFilter overTimeSalaryHourly) {
+        this.overTimeSalaryHourly = overTimeSalaryHourly;
+    }
+
+    public BigDecimalFilter getOverTimeSalary() {
+        return overTimeSalary;
+    }
+
+    public void setOverTimeSalary(BigDecimalFilter overTimeSalary) {
+        this.overTimeSalary = overTimeSalary;
+    }
+
+    public BigDecimalFilter getPresentBonus() {
+        return presentBonus;
+    }
+
+    public void setPresentBonus(BigDecimalFilter presentBonus) {
+        this.presentBonus = presentBonus;
+    }
+
+    public BigDecimalFilter getAbsentFine() {
+        return absentFine;
+    }
+
+    public void setAbsentFine(BigDecimalFilter absentFine) {
+        this.absentFine = absentFine;
+    }
+
+    public BigDecimalFilter getStampPrice() {
+        return stampPrice;
+    }
+
+    public void setStampPrice(BigDecimalFilter stampPrice) {
+        this.stampPrice = stampPrice;
+    }
+
+    public BigDecimalFilter getTax() {
+        return tax;
+    }
+
+    public void setTax(BigDecimalFilter tax) {
+        this.tax = tax;
+    }
+
+    public BigDecimalFilter getOthers() {
+        return others;
+    }
+
+    public void setOthers(BigDecimalFilter others) {
+        this.others = others;
+    }
+
+    public BigDecimalFilter getTotalPayable() {
+        return totalPayable;
+    }
+
+    public void setTotalPayable(BigDecimalFilter totalPayable) {
+        this.totalPayable = totalPayable;
+    }
+
     public SalaryExecutionStatusFilter getStatus() {
         return status;
     }
@@ -271,11 +469,11 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         this.executedOn = executedOn;
     }
 
-    public InstantFilter getExecutedBy() {
+    public StringFilter getExecutedBy() {
         return executedBy;
     }
 
-    public void setExecutedBy(InstantFilter executedBy) {
+    public void setExecutedBy(StringFilter executedBy) {
         this.executedBy = executedBy;
     }
 
@@ -320,6 +518,24 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
             Objects.equals(foodAllowancePercent, that.foodAllowancePercent) &&
             Objects.equals(fine, that.fine) &&
             Objects.equals(advance, that.advance) &&
+            Objects.equals(totalWorkingDays, that.totalWorkingDays) &&
+            Objects.equals(regularLeave, that.regularLeave) &&
+            Objects.equals(sickLeave, that.sickLeave) &&
+            Objects.equals(compensationLeave, that.compensationLeave) &&
+            Objects.equals(festivalLeave, that.festivalLeave) &&
+            Objects.equals(weeklyLeave, that.weeklyLeave) &&
+            Objects.equals(present, that.present) &&
+            Objects.equals(absent, that.absent) &&
+            Objects.equals(totalMonthDays, that.totalMonthDays) &&
+            Objects.equals(overTimeHour, that.overTimeHour) &&
+            Objects.equals(overTimeSalaryHourly, that.overTimeSalaryHourly) &&
+            Objects.equals(overTimeSalary, that.overTimeSalary) &&
+            Objects.equals(presentBonus, that.presentBonus) &&
+            Objects.equals(absentFine, that.absentFine) &&
+            Objects.equals(stampPrice, that.stampPrice) &&
+            Objects.equals(tax, that.tax) &&
+            Objects.equals(others, that.others) &&
+            Objects.equals(totalPayable, that.totalPayable) &&
             Objects.equals(status, that.status) &&
             Objects.equals(type, that.type) &&
             Objects.equals(executedOn, that.executedOn) &&
@@ -345,6 +561,24 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
         foodAllowancePercent,
         fine,
         advance,
+        totalWorkingDays,
+        regularLeave,
+        sickLeave,
+        compensationLeave,
+        festivalLeave,
+        weeklyLeave,
+        present,
+        absent,
+        totalMonthDays,
+        overTimeHour,
+        overTimeSalaryHourly,
+        overTimeSalary,
+        presentBonus,
+        absentFine,
+        stampPrice,
+        tax,
+        others,
+        totalPayable,
         status,
         type,
         executedOn,
@@ -372,6 +606,24 @@ public class MonthlySalaryDtlCriteria implements Serializable, Criteria {
                 (foodAllowancePercent != null ? "foodAllowancePercent=" + foodAllowancePercent + ", " : "") +
                 (fine != null ? "fine=" + fine + ", " : "") +
                 (advance != null ? "advance=" + advance + ", " : "") +
+                (totalWorkingDays != null ? "totalWorkingDays=" + totalWorkingDays + ", " : "") +
+                (regularLeave != null ? "regularLeave=" + regularLeave + ", " : "") +
+                (sickLeave != null ? "sickLeave=" + sickLeave + ", " : "") +
+                (compensationLeave != null ? "compensationLeave=" + compensationLeave + ", " : "") +
+                (festivalLeave != null ? "festivalLeave=" + festivalLeave + ", " : "") +
+                (weeklyLeave != null ? "weeklyLeave=" + weeklyLeave + ", " : "") +
+                (present != null ? "present=" + present + ", " : "") +
+                (absent != null ? "absent=" + absent + ", " : "") +
+                (totalMonthDays != null ? "totalMonthDays=" + totalMonthDays + ", " : "") +
+                (overTimeHour != null ? "overTimeHour=" + overTimeHour + ", " : "") +
+                (overTimeSalaryHourly != null ? "overTimeSalaryHourly=" + overTimeSalaryHourly + ", " : "") +
+                (overTimeSalary != null ? "overTimeSalary=" + overTimeSalary + ", " : "") +
+                (presentBonus != null ? "presentBonus=" + presentBonus + ", " : "") +
+                (absentFine != null ? "absentFine=" + absentFine + ", " : "") +
+                (stampPrice != null ? "stampPrice=" + stampPrice + ", " : "") +
+                (tax != null ? "tax=" + tax + ", " : "") +
+                (others != null ? "others=" + others + ", " : "") +
+                (totalPayable != null ? "totalPayable=" + totalPayable + ", " : "") +
                 (status != null ? "status=" + status + ", " : "") +
                 (type != null ? "type=" + type + ", " : "") +
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +

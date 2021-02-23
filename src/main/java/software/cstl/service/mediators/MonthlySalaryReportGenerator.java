@@ -267,7 +267,7 @@ public class MonthlySalaryReportGenerator {
         // overtime
         PdfPTable overtimeMainTable = new PdfPTable(1);
 
-        OverTime overTime = overTimeRepository.findByYearAndMonthAndEmployee(monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth(), monthlySalaryDtl.getEmployee());
+        OverTime overTime = overTimeRepository.findByYearAndMonthAndEmployee(monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth(), monthlySalaryDtl.getEmployee()).get();
 
         PdfPTable overtimeInnerTable = new PdfPTable(3);
         cell = new PdfPCell();

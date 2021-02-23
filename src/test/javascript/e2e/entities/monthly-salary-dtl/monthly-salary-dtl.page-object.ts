@@ -42,6 +42,24 @@ export class MonthlySalaryDtlUpdatePage {
   foodAllowancePercentInput = element(by.id('field_foodAllowancePercent'));
   fineInput = element(by.id('field_fine'));
   advanceInput = element(by.id('field_advance'));
+  totalWorkingDaysInput = element(by.id('field_totalWorkingDays'));
+  regularLeaveInput = element(by.id('field_regularLeave'));
+  sickLeaveInput = element(by.id('field_sickLeave'));
+  compensationLeaveInput = element(by.id('field_compensationLeave'));
+  festivalLeaveInput = element(by.id('field_festivalLeave'));
+  weeklyLeaveInput = element(by.id('field_weeklyLeave'));
+  presentInput = element(by.id('field_present'));
+  absentInput = element(by.id('field_absent'));
+  totalMonthDaysInput = element(by.id('field_totalMonthDays'));
+  overTimeHourInput = element(by.id('field_overTimeHour'));
+  overTimeSalaryHourlyInput = element(by.id('field_overTimeSalaryHourly'));
+  overTimeSalaryInput = element(by.id('field_overTimeSalary'));
+  presentBonusInput = element(by.id('field_presentBonus'));
+  absentFineInput = element(by.id('field_absentFine'));
+  stampPriceInput = element(by.id('field_stampPrice'));
+  taxInput = element(by.id('field_tax'));
+  othersInput = element(by.id('field_others'));
+  totalPayableInput = element(by.id('field_totalPayable'));
   statusSelect = element(by.id('field_status'));
   typeSelect = element(by.id('field_type'));
   executedOnInput = element(by.id('field_executedOn'));
@@ -157,6 +175,150 @@ export class MonthlySalaryDtlUpdatePage {
 
   async getAdvanceInput(): Promise<string> {
     return await this.advanceInput.getAttribute('value');
+  }
+
+  async setTotalWorkingDaysInput(totalWorkingDays: string): Promise<void> {
+    await this.totalWorkingDaysInput.sendKeys(totalWorkingDays);
+  }
+
+  async getTotalWorkingDaysInput(): Promise<string> {
+    return await this.totalWorkingDaysInput.getAttribute('value');
+  }
+
+  async setRegularLeaveInput(regularLeave: string): Promise<void> {
+    await this.regularLeaveInput.sendKeys(regularLeave);
+  }
+
+  async getRegularLeaveInput(): Promise<string> {
+    return await this.regularLeaveInput.getAttribute('value');
+  }
+
+  async setSickLeaveInput(sickLeave: string): Promise<void> {
+    await this.sickLeaveInput.sendKeys(sickLeave);
+  }
+
+  async getSickLeaveInput(): Promise<string> {
+    return await this.sickLeaveInput.getAttribute('value');
+  }
+
+  async setCompensationLeaveInput(compensationLeave: string): Promise<void> {
+    await this.compensationLeaveInput.sendKeys(compensationLeave);
+  }
+
+  async getCompensationLeaveInput(): Promise<string> {
+    return await this.compensationLeaveInput.getAttribute('value');
+  }
+
+  async setFestivalLeaveInput(festivalLeave: string): Promise<void> {
+    await this.festivalLeaveInput.sendKeys(festivalLeave);
+  }
+
+  async getFestivalLeaveInput(): Promise<string> {
+    return await this.festivalLeaveInput.getAttribute('value');
+  }
+
+  async setWeeklyLeaveInput(weeklyLeave: string): Promise<void> {
+    await this.weeklyLeaveInput.sendKeys(weeklyLeave);
+  }
+
+  async getWeeklyLeaveInput(): Promise<string> {
+    return await this.weeklyLeaveInput.getAttribute('value');
+  }
+
+  async setPresentInput(present: string): Promise<void> {
+    await this.presentInput.sendKeys(present);
+  }
+
+  async getPresentInput(): Promise<string> {
+    return await this.presentInput.getAttribute('value');
+  }
+
+  async setAbsentInput(absent: string): Promise<void> {
+    await this.absentInput.sendKeys(absent);
+  }
+
+  async getAbsentInput(): Promise<string> {
+    return await this.absentInput.getAttribute('value');
+  }
+
+  async setTotalMonthDaysInput(totalMonthDays: string): Promise<void> {
+    await this.totalMonthDaysInput.sendKeys(totalMonthDays);
+  }
+
+  async getTotalMonthDaysInput(): Promise<string> {
+    return await this.totalMonthDaysInput.getAttribute('value');
+  }
+
+  async setOverTimeHourInput(overTimeHour: string): Promise<void> {
+    await this.overTimeHourInput.sendKeys(overTimeHour);
+  }
+
+  async getOverTimeHourInput(): Promise<string> {
+    return await this.overTimeHourInput.getAttribute('value');
+  }
+
+  async setOverTimeSalaryHourlyInput(overTimeSalaryHourly: string): Promise<void> {
+    await this.overTimeSalaryHourlyInput.sendKeys(overTimeSalaryHourly);
+  }
+
+  async getOverTimeSalaryHourlyInput(): Promise<string> {
+    return await this.overTimeSalaryHourlyInput.getAttribute('value');
+  }
+
+  async setOverTimeSalaryInput(overTimeSalary: string): Promise<void> {
+    await this.overTimeSalaryInput.sendKeys(overTimeSalary);
+  }
+
+  async getOverTimeSalaryInput(): Promise<string> {
+    return await this.overTimeSalaryInput.getAttribute('value');
+  }
+
+  async setPresentBonusInput(presentBonus: string): Promise<void> {
+    await this.presentBonusInput.sendKeys(presentBonus);
+  }
+
+  async getPresentBonusInput(): Promise<string> {
+    return await this.presentBonusInput.getAttribute('value');
+  }
+
+  async setAbsentFineInput(absentFine: string): Promise<void> {
+    await this.absentFineInput.sendKeys(absentFine);
+  }
+
+  async getAbsentFineInput(): Promise<string> {
+    return await this.absentFineInput.getAttribute('value');
+  }
+
+  async setStampPriceInput(stampPrice: string): Promise<void> {
+    await this.stampPriceInput.sendKeys(stampPrice);
+  }
+
+  async getStampPriceInput(): Promise<string> {
+    return await this.stampPriceInput.getAttribute('value');
+  }
+
+  async setTaxInput(tax: string): Promise<void> {
+    await this.taxInput.sendKeys(tax);
+  }
+
+  async getTaxInput(): Promise<string> {
+    return await this.taxInput.getAttribute('value');
+  }
+
+  async setOthersInput(others: string): Promise<void> {
+    await this.othersInput.sendKeys(others);
+  }
+
+  async getOthersInput(): Promise<string> {
+    return await this.othersInput.getAttribute('value');
+  }
+
+  async setTotalPayableInput(totalPayable: string): Promise<void> {
+    await this.totalPayableInput.sendKeys(totalPayable);
+  }
+
+  async getTotalPayableInput(): Promise<string> {
+    return await this.totalPayableInput.getAttribute('value');
   }
 
   async setStatusSelect(status: string): Promise<void> {

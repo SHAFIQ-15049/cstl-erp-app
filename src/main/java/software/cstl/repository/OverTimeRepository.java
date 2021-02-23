@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
 import software.cstl.domain.enumeration.MonthType;
 
+import java.util.Optional;
+
 /**
  * Spring Data  repository for the OverTime entity.
  */
@@ -15,5 +17,5 @@ import software.cstl.domain.enumeration.MonthType;
 public interface OverTimeRepository extends JpaRepository<OverTime, Long>, JpaSpecificationExecutor<OverTime> {
     void deleteOverTimeByYearAndMonthAndDesignation_Id(Integer year, MonthType monthType, Long designationid);
 
-    OverTime findByYearAndMonthAndEmployee(Integer year, MonthType monthType, Employee employee);
+    Optional<OverTime> findByYearAndMonthAndEmployee(Integer year, MonthType monthType, Employee employee);
 }
