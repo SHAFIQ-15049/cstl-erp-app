@@ -6,13 +6,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Lazy;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import software.cstl.domain.MonthlySalary;
 import software.cstl.domain.MonthlySalaryDtl;
 import software.cstl.domain.enumeration.MonthType;
 import software.cstl.service.mediators.PayrollService;
+import software.cstl.service.reports.PayrollExcelReportGenerator;
 
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.Optional;
@@ -26,9 +32,11 @@ public class PayrollManagementResource {
 
 
     private final PayrollService payrollService;
+    private final PayrollExcelReportGenerator payrollExcelReportGenerator;
 
-    public PayrollManagementResource( PayrollService payrollService) {
+    public PayrollManagementResource(PayrollService payrollService, PayrollExcelReportGenerator payrollExcelReportGenerator) {
         this.payrollService = payrollService;
+        this.payrollExcelReportGenerator = payrollExcelReportGenerator;
     }
 
     /**
@@ -60,5 +68,35 @@ public class PayrollManagementResource {
         MonthlySalaryDtl monthlySalaryDtl = payrollService.regenerateMonthlySalaryForAnEmployee(monthlySalaryId, monthlySalaryDtlId);
         return ResponseUtil.wrapOrNotFound(Optional.of(monthlySalaryDtl));
    }
+
+   @GetMapping("/report/{year}/{month}/{departmentId}/{designationId}")
+   public ResponseEntity<InputStreamResource> generatePayrollReport(@PathVariable("year") Integer year,
+                                                                    @PathVariable("month") MonthType month,
+                                                                    @PathVariable("departmentId") Long departmentId,
+                                                                    @PathVariable("designationId") Long designationId) throws IOException {
+       ByteArrayInputStream bis = payrollExcelReportGenerator.createReport(year, month, departmentId, designationId);
+       HttpHeaders headers = new HttpHeaders();
+       headers.add("Content-Disposition","inline");
+       return ResponseEntity
+           .ok()
+           .headers(headers)
+           .contentType(MediaType.APPLICATION_OCTET_STREAM)
+           .body(new InputStreamResource(bis));
+   }
+
+
+    @GetMapping("/report/{year}/{month}/{departmentId}")
+    public ResponseEntity<InputStreamResource> generatePayrollReport(@PathVariable("year") Integer year,
+                                                                     @PathVariable("month") MonthType month,
+                                                                     @PathVariable("departmentId") Long departmentId) throws IOException {
+        ByteArrayInputStream bis = payrollExcelReportGenerator.createReport(year, month, departmentId, null);
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition","inline");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_OCTET_STREAM)
+            .body(new InputStreamResource(bis));
+    }
 
 }

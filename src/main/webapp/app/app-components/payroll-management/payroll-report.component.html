@@ -12,6 +12,7 @@
     <div class="form-group col-md-2">
         <label class="form-control-label" for="field_month">Month</label>
         <select class="form-control" name="month"  id="field_month" [(ngModel)]="selectedMonth">
+            <option value="undefined">Select Month</option>
             <option value="JANUARY">JANUARY</option>
             <option value="FEBRUARY">FEBRUARY</option>
             <option value="MARCH">MARCH</option>
@@ -38,14 +39,11 @@
     <div class="form-group col-md-2">
         <label class="form-control-label" for="field_designation">Designation</label>
         <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignationId" >
-            <option></option>
+            <option [ngValue]="undefined">Select Designation</option>
             <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations ">{{designationOption.name}}</option>
         </select>
     </div>
-</div>
-
-<div class="row">
-    <div class="col-md-12">
+    <div class="form-group col-md-2">
         <button class="btn btn-secondary">Generate Excel Reports</button>
     </div>
 </div>
