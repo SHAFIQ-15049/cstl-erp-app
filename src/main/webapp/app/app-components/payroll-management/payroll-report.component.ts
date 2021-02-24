@@ -7,6 +7,7 @@ import { DepartmentService } from 'app/entities/department/department.service';
 import { JhiAlertService } from 'ng-jhipster';
 import { DesignationService } from 'app/entities/designation/designation.service';
 import { forkJoin } from 'rxjs';
+import { PayrollManagementService } from 'app/app-components/payroll-management/payroll-management.service';
 
 @Component({
   selector: 'jhi-payroll-report',
@@ -26,7 +27,8 @@ export class PayrollReportComponent implements OnInit {
     private monthlySalaryDtlService: MonthlySalaryDtlService,
     private departmentService: DepartmentService,
     private jhiAlertService: JhiAlertService,
-    private designationService: DesignationService
+    private designationService: DesignationService,
+    private payrollManagementService: PayrollManagementService
   ) {}
 
   ngOnInit(): void {
@@ -45,5 +47,18 @@ export class PayrollReportComponent implements OnInit {
       year -= 1;
       this.years.push(year);
     }
+  }
+
+  downloadReport(): void {
+    this.payrollManagementService
+      .downloadReport(this.selectedYear!, this.selectedMonth!, this.selectedDepartmentId!, this.selectedDesignationId!)
+      .subscribe(data => {
+        const blob: any = new Blob([data], { type: 'application/octet-stream' });
+        const downloadURL = window.URL.createObjectURL(data);
+        const link = document.createElement('a');
+        link.href = downloadURL;
+        link.download = 'salary-report.xls';
+        link.click();
+      });
   }
 }

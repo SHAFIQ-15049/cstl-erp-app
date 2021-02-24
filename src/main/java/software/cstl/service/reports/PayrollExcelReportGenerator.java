@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.MonthlySalaryDtl;
@@ -25,7 +26,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Component
 @Transactional(readOnly = true)
 @AllArgsConstructor
 public class PayrollExcelReportGenerator {
@@ -47,9 +48,9 @@ public class PayrollExcelReportGenerator {
         LocalDate initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
         LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
 
-        String departmentName = departmentId!=null? departmentRepository.getOne(departmentId).getName(): "";
-        String startDate = initialDay.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
-        String endDate = lastDay.format(DateTimeFormatter.ofPattern("dd-MMM-yyyy"));
+        String departmentName = departmentId!=null? departmentRepository.getOne(departmentId).getNameInBangla(): "";
+        String startDate = initialDay.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+        String endDate = lastDay.format(DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
         List<MonthlySalaryDtl> monthlySalaryDtls = new ArrayList<>();
         if(departmentId!=null && designationId!=null){
@@ -72,7 +73,7 @@ public class PayrollExcelReportGenerator {
             employeeInfoDto.setName(ObjectUtils.defaultIfNull(monthlySalaryDtl.getEmployee().getPersonalInfo().getBanglaName(),monthlySalaryDtl.getEmployee().getName()));
             employeeInfoDto.setDesignation(monthlySalaryDtl.getEmployee().getDesignation().getNameInBangla());
             employeeInfoDto.setEmployeeId(monthlySalaryDtl.getEmployee().getLocalId());
-            employeeInfoDto.setJoiningDate(monthlySalaryDtl.getEmployee().getJoiningDate().format(DateTimeFormatter.ofPattern("dd-MMM-yyyy")));
+            employeeInfoDto.setJoiningDate(monthlySalaryDtl.getEmployee().getJoiningDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
             salaryReportDto.setEmployeeInfoDto(employeeInfoDto);
 
             salaryReportDto.setGrade(ObjectUtils.defaultIfNull(monthlySalaryDtl.getEmployee().getGrade().getName(),""));
@@ -100,7 +101,7 @@ public class PayrollExcelReportGenerator {
             salaryReportDto.setTotalWorkingDays(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getTotalMonthDays().toString()));
             salaryReportDto.setOvertimeHour(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getOverTimeHour().toString()));
             salaryReportDto.setOverTimePerHour(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getOverTimeSalaryHourly()));
-            salaryReportDto.setTotalOverTimeSalary(CodeNodeErpUtils.currencyWithChosenLocalisation(monthlySalaryDtl.getOverTimeSalary()));
+            salaryReportDto.setTotalOverTimeSalary(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getOverTimeSalary()));
             salaryReportDto.setAttendanceBonus(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getPresentBonus()));
             salaryReportDto.setStamp(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getStampPrice()));
             salaryReportDto.setAdvance(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getAdvance()));
@@ -113,8 +114,8 @@ public class PayrollExcelReportGenerator {
         InputStream is = PayrollExcelReportGenerator.class.getResourceAsStream("/templates/jxls/PayrollReport.xls");
         Context context = new Context();
         context.putVar("department", departmentName);
-        context.putVar("startDate", startDate);
-        context.putVar("endDate", endDate);
+        context.putVar("startDate", CodeNodeErpUtils.getDigitBanglaFromEnglish(startDate));
+        context.putVar("endDate", CodeNodeErpUtils.getDigitBanglaFromEnglish(endDate));
         context.putVar("salaryReport", salaryReportDtoList);
         jxlsHelper.processTemplate(is, bis, context);
         return new ByteArrayInputStream(bis.toByteArray());
