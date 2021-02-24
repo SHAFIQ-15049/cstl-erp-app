@@ -124,6 +124,60 @@ public class MonthlySalaryDtlQueryService extends QueryService<MonthlySalaryDtl>
             if (criteria.getAdvance() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAdvance(), MonthlySalaryDtl_.advance));
             }
+            if (criteria.getTotalWorkingDays() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalWorkingDays(), MonthlySalaryDtl_.totalWorkingDays));
+            }
+            if (criteria.getRegularLeave() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getRegularLeave(), MonthlySalaryDtl_.regularLeave));
+            }
+            if (criteria.getSickLeave() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSickLeave(), MonthlySalaryDtl_.sickLeave));
+            }
+            if (criteria.getCompensationLeave() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getCompensationLeave(), MonthlySalaryDtl_.compensationLeave));
+            }
+            if (criteria.getFestivalLeave() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getFestivalLeave(), MonthlySalaryDtl_.festivalLeave));
+            }
+            if (criteria.getWeeklyLeave() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getWeeklyLeave(), MonthlySalaryDtl_.weeklyLeave));
+            }
+            if (criteria.getPresent() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPresent(), MonthlySalaryDtl_.present));
+            }
+            if (criteria.getAbsent() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAbsent(), MonthlySalaryDtl_.absent));
+            }
+            if (criteria.getTotalMonthDays() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalMonthDays(), MonthlySalaryDtl_.totalMonthDays));
+            }
+            if (criteria.getOverTimeHour() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOverTimeHour(), MonthlySalaryDtl_.overTimeHour));
+            }
+            if (criteria.getOverTimeSalaryHourly() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOverTimeSalaryHourly(), MonthlySalaryDtl_.overTimeSalaryHourly));
+            }
+            if (criteria.getOverTimeSalary() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOverTimeSalary(), MonthlySalaryDtl_.overTimeSalary));
+            }
+            if (criteria.getPresentBonus() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getPresentBonus(), MonthlySalaryDtl_.presentBonus));
+            }
+            if (criteria.getAbsentFine() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getAbsentFine(), MonthlySalaryDtl_.absentFine));
+            }
+            if (criteria.getStampPrice() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getStampPrice(), MonthlySalaryDtl_.stampPrice));
+            }
+            if (criteria.getTax() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTax(), MonthlySalaryDtl_.tax));
+            }
+            if (criteria.getOthers() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getOthers(), MonthlySalaryDtl_.others));
+            }
+            if (criteria.getTotalPayable() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getTotalPayable(), MonthlySalaryDtl_.totalPayable));
+            }
             if (criteria.getStatus() != null) {
                 specification = specification.and(buildSpecification(criteria.getStatus(), MonthlySalaryDtl_.status));
             }
@@ -134,7 +188,7 @@ public class MonthlySalaryDtlQueryService extends QueryService<MonthlySalaryDtl>
                 specification = specification.and(buildRangeSpecification(criteria.getExecutedOn(), MonthlySalaryDtl_.executedOn));
             }
             if (criteria.getExecutedBy() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getExecutedBy(), MonthlySalaryDtl_.executedBy));
+                specification = specification.and(buildStringSpecification(criteria.getExecutedBy(), MonthlySalaryDtl_.executedBy));
             }
             if (criteria.getEmployeeId() != null) {
                 specification = specification.and(buildSpecification(criteria.getEmployeeId(),

@@ -37,7 +37,8 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
     this.activatedRoute.parent?.url.subscribe(res => {
       this.parentRoute = res[res.length - 1].path;
     });
-    super.ngOnInit();
+    this.handleNavigation();
+    this.registerChangeInEducationalInfos();
   }
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -90,9 +91,23 @@ export class EducationalInfoExtComponent extends EducationalInfoComponent implem
     ).subscribe();
   }
 
+  registerChangeInEducationalInfos(): void {
+    this.eventSubscriber = this.eventManager.subscribe('educationalInfoListModification', () => this.loadPage());
+  }
+
   protected onSuccess(data: IEducationalInfo[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
+    if (navigate) {
+      this.router.navigate(['educational-info'], {
+        queryParams: {
+          page: this.page,
+          size: this.itemsPerPage,
+          sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+          employeeId: this.employeeId,
+        },
+      });
+    }
     this.educationalInfos = data || [];
     this.ngbPaginationPage = this.page;
   }

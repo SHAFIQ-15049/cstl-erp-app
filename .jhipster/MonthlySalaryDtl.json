@@ -54,6 +54,78 @@
       "fieldType": "BigDecimal"
     },
     {
+      "fieldName": "totalWorkingDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "regularLeave",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "sickLeave",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "compensationLeave",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "festivalLeave",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "weeklyLeave",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "present",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "absent",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "totalMonthDays",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "overTimeHour",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "overTimeSalaryHourly",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "overTimeSalary",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "presentBonus",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "absentFine",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "stampPrice",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "tax",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "others",
+      "fieldType": "BigDecimal"
+    },
+    {
+      "fieldName": "totalPayable",
+      "fieldType": "BigDecimal"
+    },
+    {
       "fieldName": "status",
       "fieldType": "SalaryExecutionStatus",
       "fieldValues": "DONE,NOT_DONE"
@@ -69,7 +141,7 @@
     },
     {
       "fieldName": "executedBy",
-      "fieldType": "Instant"
+      "fieldType": "String"
     },
     {
       "fieldName": "note",

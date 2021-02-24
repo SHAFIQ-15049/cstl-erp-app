@@ -112,11 +112,12 @@ export class EmployeeSalaryComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/employee-salary'], {
+      this.router.navigate(['employee-salary'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
           sort: this.predicate + ',' + (this.ascending ? 'asc' : 'desc'),
+          employeeId: this.employeeId,
         },
       });
     }
