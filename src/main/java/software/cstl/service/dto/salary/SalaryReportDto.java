@@ -16,15 +16,78 @@ public class SalaryReportDto {
     private String earnedLeave;
     private String compensationLeave;
     private String festivalLeave;
+    private String weeklyLeave;
     private String present;
     private String absent;
+    private String totalProvidedLeave;
     private String totalWorkingDays;
     private String overtimeHour;
-    private String overTimeAllowance;
+    private String overTimePerHour;
     private String totalOverTimeSalary;
     private String totalSalary;
+    private String attendanceBonus;
+    private String stamp;
+    private String advance;
+    private String fine;
+    private String totalPayable;
 
     public SalaryReportDto() {
+    }
+
+    public String getTotalProvidedLeave() {
+        return totalProvidedLeave;
+    }
+
+    public void setTotalProvidedLeave(String totalProvidedLeave) {
+        this.totalProvidedLeave = totalProvidedLeave;
+    }
+
+    public String getWeeklyLeave() {
+        return weeklyLeave;
+    }
+
+    public void setWeeklyLeave(String weeklyLeave) {
+        this.weeklyLeave = weeklyLeave;
+    }
+
+    public String getAttendanceBonus() {
+        return attendanceBonus;
+    }
+
+    public void setAttendanceBonus(String attendanceBonus) {
+        this.attendanceBonus = attendanceBonus;
+    }
+
+    public String getStamp() {
+        return stamp;
+    }
+
+    public void setStamp(String stamp) {
+        this.stamp = stamp;
+    }
+
+    public String getAdvance() {
+        return advance;
+    }
+
+    public void setAdvance(String advance) {
+        this.advance = advance;
+    }
+
+    public String getFine() {
+        return fine;
+    }
+
+    public void setFine(String fine) {
+        this.fine = fine;
+    }
+
+    public String getTotalPayable() {
+        return totalPayable;
+    }
+
+    public void setTotalPayable(String totalPayable) {
+        this.totalPayable = totalPayable;
     }
 
     public Integer getSerial() {
@@ -171,12 +234,12 @@ public class SalaryReportDto {
         this.overtimeHour = overtimeHour;
     }
 
-    public String getOverTimeAllowance() {
-        return overTimeAllowance;
+    public String getOverTimePerHour() {
+        return overTimePerHour;
     }
 
-    public void setOverTimeAllowance(String overTimeAllowance) {
-        this.overTimeAllowance = overTimeAllowance;
+    public void setOverTimePerHour(String overTimePerHour) {
+        this.overTimePerHour = overTimePerHour;
     }
 
     public String getTotalOverTimeSalary() {

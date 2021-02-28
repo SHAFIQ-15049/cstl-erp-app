@@ -57,10 +57,28 @@ describe('MonthlySalaryDtl e2e test', () => {
       monthlySalaryDtlUpdatePage.setFoodAllowancePercentInput('5'),
       monthlySalaryDtlUpdatePage.setFineInput('5'),
       monthlySalaryDtlUpdatePage.setAdvanceInput('5'),
+      monthlySalaryDtlUpdatePage.setTotalWorkingDaysInput('5'),
+      monthlySalaryDtlUpdatePage.setRegularLeaveInput('5'),
+      monthlySalaryDtlUpdatePage.setSickLeaveInput('5'),
+      monthlySalaryDtlUpdatePage.setCompensationLeaveInput('5'),
+      monthlySalaryDtlUpdatePage.setFestivalLeaveInput('5'),
+      monthlySalaryDtlUpdatePage.setWeeklyLeaveInput('5'),
+      monthlySalaryDtlUpdatePage.setPresentInput('5'),
+      monthlySalaryDtlUpdatePage.setAbsentInput('5'),
+      monthlySalaryDtlUpdatePage.setTotalMonthDaysInput('5'),
+      monthlySalaryDtlUpdatePage.setOverTimeHourInput('5'),
+      monthlySalaryDtlUpdatePage.setOverTimeSalaryHourlyInput('5'),
+      monthlySalaryDtlUpdatePage.setOverTimeSalaryInput('5'),
+      monthlySalaryDtlUpdatePage.setPresentBonusInput('5'),
+      monthlySalaryDtlUpdatePage.setAbsentFineInput('5'),
+      monthlySalaryDtlUpdatePage.setStampPriceInput('5'),
+      monthlySalaryDtlUpdatePage.setTaxInput('5'),
+      monthlySalaryDtlUpdatePage.setOthersInput('5'),
+      monthlySalaryDtlUpdatePage.setTotalPayableInput('5'),
       monthlySalaryDtlUpdatePage.statusSelectLastOption(),
       monthlySalaryDtlUpdatePage.typeSelectLastOption(),
       monthlySalaryDtlUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
-      monthlySalaryDtlUpdatePage.setExecutedByInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
+      monthlySalaryDtlUpdatePage.setExecutedByInput('executedBy'),
       monthlySalaryDtlUpdatePage.setNoteInput('note'),
       monthlySalaryDtlUpdatePage.employeeSelectLastOption(),
       monthlySalaryDtlUpdatePage.monthlySalarySelectLastOption(),
@@ -88,13 +106,34 @@ describe('MonthlySalaryDtl e2e test', () => {
     );
     expect(await monthlySalaryDtlUpdatePage.getFineInput()).to.eq('5', 'Expected fine value to be equals to 5');
     expect(await monthlySalaryDtlUpdatePage.getAdvanceInput()).to.eq('5', 'Expected advance value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getTotalWorkingDaysInput()).to.eq('5', 'Expected totalWorkingDays value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getRegularLeaveInput()).to.eq('5', 'Expected regularLeave value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getSickLeaveInput()).to.eq('5', 'Expected sickLeave value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getCompensationLeaveInput()).to.eq('5', 'Expected compensationLeave value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getFestivalLeaveInput()).to.eq('5', 'Expected festivalLeave value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getWeeklyLeaveInput()).to.eq('5', 'Expected weeklyLeave value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getPresentInput()).to.eq('5', 'Expected present value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getAbsentInput()).to.eq('5', 'Expected absent value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getTotalMonthDaysInput()).to.eq('5', 'Expected totalMonthDays value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getOverTimeHourInput()).to.eq('5', 'Expected overTimeHour value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getOverTimeSalaryHourlyInput()).to.eq(
+      '5',
+      'Expected overTimeSalaryHourly value to be equals to 5'
+    );
+    expect(await monthlySalaryDtlUpdatePage.getOverTimeSalaryInput()).to.eq('5', 'Expected overTimeSalary value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getPresentBonusInput()).to.eq('5', 'Expected presentBonus value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getAbsentFineInput()).to.eq('5', 'Expected absentFine value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getStampPriceInput()).to.eq('5', 'Expected stampPrice value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getTaxInput()).to.eq('5', 'Expected tax value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getOthersInput()).to.eq('5', 'Expected others value to be equals to 5');
+    expect(await monthlySalaryDtlUpdatePage.getTotalPayableInput()).to.eq('5', 'Expected totalPayable value to be equals to 5');
     expect(await monthlySalaryDtlUpdatePage.getExecutedOnInput()).to.contain(
       '2001-01-01T02:30',
       'Expected executedOn value to be equals to 2000-12-31'
     );
-    expect(await monthlySalaryDtlUpdatePage.getExecutedByInput()).to.contain(
-      '2001-01-01T02:30',
-      'Expected executedBy value to be equals to 2000-12-31'
+    expect(await monthlySalaryDtlUpdatePage.getExecutedByInput()).to.eq(
+      'executedBy',
+      'Expected ExecutedBy value to be equals to executedBy'
     );
     expect(await monthlySalaryDtlUpdatePage.getNoteInput()).to.eq('note', 'Expected Note value to be equals to note');
 

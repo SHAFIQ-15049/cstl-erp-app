@@ -41,10 +41,28 @@ describe('Service Tests', () => {
         0,
         0,
         0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
         SalaryExecutionStatus.DONE,
         PayrollGenerationType.FULL,
         currentDate,
-        currentDate,
+        'AAAAAAA',
         'AAAAAAA'
       );
     });
@@ -54,7 +72,6 @@ describe('Service Tests', () => {
         const returnedFromService = Object.assign(
           {
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -71,7 +88,6 @@ describe('Service Tests', () => {
           {
             id: 0,
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
           },
           elemDefault
         );
@@ -79,7 +95,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -107,10 +122,28 @@ describe('Service Tests', () => {
             foodAllowancePercent: 1,
             fine: 1,
             advance: 1,
+            totalWorkingDays: 1,
+            regularLeave: 1,
+            sickLeave: 1,
+            compensationLeave: 1,
+            festivalLeave: 1,
+            weeklyLeave: 1,
+            present: 1,
+            absent: 1,
+            totalMonthDays: 1,
+            overTimeHour: 1,
+            overTimeSalaryHourly: 1,
+            overTimeSalary: 1,
+            presentBonus: 1,
+            absentFine: 1,
+            stampPrice: 1,
+            tax: 1,
+            others: 1,
+            totalPayable: 1,
             status: 'BBBBBB',
             type: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
             note: 'BBBBBB',
           },
           elemDefault
@@ -119,7 +152,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );
@@ -147,10 +179,28 @@ describe('Service Tests', () => {
             foodAllowancePercent: 1,
             fine: 1,
             advance: 1,
+            totalWorkingDays: 1,
+            regularLeave: 1,
+            sickLeave: 1,
+            compensationLeave: 1,
+            festivalLeave: 1,
+            weeklyLeave: 1,
+            present: 1,
+            absent: 1,
+            totalMonthDays: 1,
+            overTimeHour: 1,
+            overTimeSalaryHourly: 1,
+            overTimeSalary: 1,
+            presentBonus: 1,
+            absentFine: 1,
+            stampPrice: 1,
+            tax: 1,
+            others: 1,
+            totalPayable: 1,
             status: 'BBBBBB',
             type: 'BBBBBB',
             executedOn: currentDate.format(DATE_TIME_FORMAT),
-            executedBy: currentDate.format(DATE_TIME_FORMAT),
+            executedBy: 'BBBBBB',
             note: 'BBBBBB',
           },
           elemDefault
@@ -159,7 +209,6 @@ describe('Service Tests', () => {
         const expected = Object.assign(
           {
             executedOn: currentDate,
-            executedBy: currentDate,
           },
           returnedFromService
         );

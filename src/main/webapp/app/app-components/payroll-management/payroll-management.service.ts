@@ -43,6 +43,14 @@ export class PayrollManagementService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
+  downloadReport(year: number, month: MonthType, departmentId: number, designationId: number): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/report/${year}/${month}/${departmentId}/${designationId}`, { responseType: 'blob' });
+  }
+
+  downloadReportWithoutDesignation(year: number, month: MonthType, departmentId: number): Observable<any> {
+    return this.http.get(`${this.resourceUrl}/report/${year}/${month}/${departmentId}`, { responseType: 'blob' });
+  }
+
   regenerateEmployeeSalary(monthlySalaryId?: number, monthlySalaryDtlId?: number): Observable<HttpResponse<MonthlySalaryDtl>> {
     return this.http
       .get<IMonthlySalaryDtl>(

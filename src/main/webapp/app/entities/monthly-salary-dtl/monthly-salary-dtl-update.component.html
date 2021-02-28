@@ -90,6 +90,114 @@
                 </div>
 
                 <div class="form-group">
+                    <label class="form-control-label" for="field_totalWorkingDays">Total Working Days</label>
+                    <input type="number" class="form-control" name="totalWorkingDays" id="field_totalWorkingDays"
+                           formControlName="totalWorkingDays"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_regularLeave">Regular Leave</label>
+                    <input type="number" class="form-control" name="regularLeave" id="field_regularLeave"
+                           formControlName="regularLeave"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sickLeave">Sick Leave</label>
+                    <input type="number" class="form-control" name="sickLeave" id="field_sickLeave"
+                           formControlName="sickLeave"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_compensationLeave">Compensation Leave</label>
+                    <input type="number" class="form-control" name="compensationLeave" id="field_compensationLeave"
+                           formControlName="compensationLeave"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_festivalLeave">Festival Leave</label>
+                    <input type="number" class="form-control" name="festivalLeave" id="field_festivalLeave"
+                           formControlName="festivalLeave"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_weeklyLeave">Weekly Leave</label>
+                    <input type="number" class="form-control" name="weeklyLeave" id="field_weeklyLeave"
+                           formControlName="weeklyLeave"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_present">Present</label>
+                    <input type="number" class="form-control" name="present" id="field_present"
+                           formControlName="present"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_absent">Absent</label>
+                    <input type="number" class="form-control" name="absent" id="field_absent"
+                           formControlName="absent"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalMonthDays">Total Month Days</label>
+                    <input type="number" class="form-control" name="totalMonthDays" id="field_totalMonthDays"
+                           formControlName="totalMonthDays"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_overTimeHour">Over Time Hour</label>
+                    <input type="number" class="form-control" name="overTimeHour" id="field_overTimeHour"
+                           formControlName="overTimeHour"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_overTimeSalaryHourly">Over Time Salary Hourly</label>
+                    <input type="number" class="form-control" name="overTimeSalaryHourly" id="field_overTimeSalaryHourly"
+                           formControlName="overTimeSalaryHourly"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_overTimeSalary">Over Time Salary</label>
+                    <input type="number" class="form-control" name="overTimeSalary" id="field_overTimeSalary"
+                           formControlName="overTimeSalary"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_presentBonus">Present Bonus</label>
+                    <input type="number" class="form-control" name="presentBonus" id="field_presentBonus"
+                           formControlName="presentBonus"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_absentFine">Absent Fine</label>
+                    <input type="number" class="form-control" name="absentFine" id="field_absentFine"
+                           formControlName="absentFine"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_stampPrice">Stamp Price</label>
+                    <input type="number" class="form-control" name="stampPrice" id="field_stampPrice"
+                           formControlName="stampPrice"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_tax">Tax</label>
+                    <input type="number" class="form-control" name="tax" id="field_tax"
+                           formControlName="tax"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_others">Others</label>
+                    <input type="number" class="form-control" name="others" id="field_others"
+                           formControlName="others"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_totalPayable">Total Payable</label>
+                    <input type="number" class="form-control" name="totalPayable" id="field_totalPayable"
+                           formControlName="totalPayable"/>
+                </div>
+
+                <div class="form-group">
                     <label class="form-control-label" for="field_status">Status</label>
                     <select class="form-control" name="status" formControlName="status" id="field_status">
                         <option value="DONE">DONE</option>
@@ -114,9 +222,8 @@
 
                 <div class="form-group">
                     <label class="form-control-label" for="field_executedBy">Executed By</label>
-                    <div class="d-flex">
-                        <input id="field_executedBy" type="datetime-local" class="form-control" name="executedBy" formControlName="executedBy" placeholder="YYYY-MM-DD HH:mm"/>
-                    </div>
+                    <input type="text" class="form-control" name="executedBy" id="field_executedBy"
+                           formControlName="executedBy"/>
                 </div>
 
                 <div class="form-group">

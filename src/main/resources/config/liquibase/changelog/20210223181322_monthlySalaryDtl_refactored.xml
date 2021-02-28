@@ -1,0 +1,94 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1614104011323-1">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="absent" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-2">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="absent_fine" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-3">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="compensation_leave" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-4">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="festival_leave" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-5">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="others" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-6">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="over_time_hour" type="double precision"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-7">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="over_time_salary" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-8">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="over_time_salary_hourly" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-9">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="present" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-10">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="present_bonus" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-11">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="regular_leave" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-12">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="sick_leave" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-13">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="stamp_price" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-14">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="tax" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-15">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="total_month_days" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-16">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="total_payable" type="decimal(21, 2)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-17">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="total_working_days" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614104011323-18">
+        <addColumn tableName="monthly_salary_dtl">
+            <column name="weekly_leave" type="integer"/>
+        </addColumn>
+    </changeSet>
+
+</databaseChangeLog>

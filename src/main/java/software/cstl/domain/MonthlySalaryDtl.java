@@ -70,6 +70,60 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     @Column(name = "advance", precision = 21, scale = 2)
     private BigDecimal advance;
 
+    @Column(name = "total_working_days")
+    private Integer totalWorkingDays;
+
+    @Column(name = "regular_leave")
+    private Integer regularLeave;
+
+    @Column(name = "sick_leave")
+    private Integer sickLeave;
+
+    @Column(name = "compensation_leave")
+    private Integer compensationLeave;
+
+    @Column(name = "festival_leave")
+    private Integer festivalLeave;
+
+    @Column(name = "weekly_leave")
+    private Integer weeklyLeave;
+
+    @Column(name = "present")
+    private Integer present;
+
+    @Column(name = "absent")
+    private Integer absent;
+
+    @Column(name = "total_month_days")
+    private Integer totalMonthDays;
+
+    @Column(name = "over_time_hour")
+    private Double overTimeHour;
+
+    @Column(name = "over_time_salary_hourly", precision = 21, scale = 2)
+    private BigDecimal overTimeSalaryHourly;
+
+    @Column(name = "over_time_salary", precision = 21, scale = 2)
+    private BigDecimal overTimeSalary;
+
+    @Column(name = "present_bonus", precision = 21, scale = 2)
+    private BigDecimal presentBonus;
+
+    @Column(name = "absent_fine", precision = 21, scale = 2)
+    private BigDecimal absentFine;
+
+    @Column(name = "stamp_price", precision = 21, scale = 2)
+    private BigDecimal stampPrice;
+
+    @Column(name = "tax", precision = 21, scale = 2)
+    private BigDecimal tax;
+
+    @Column(name = "others", precision = 21, scale = 2)
+    private BigDecimal others;
+
+    @Column(name = "total_payable", precision = 21, scale = 2)
+    private BigDecimal totalPayable;
+
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private SalaryExecutionStatus status;
@@ -82,7 +136,7 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     private Instant executedOn;
 
     @Column(name = "executed_by")
-    private Instant executedBy;
+    private String executedBy;
 
     @Lob
     @Column(name = "note")
@@ -93,7 +147,6 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
     private Employee employee;
 
     @ManyToOne
-    @JoinColumn(name = "monthly_salary_id")
     @JsonIgnoreProperties(value = "monthlySalaryDtls", allowSetters = true)
     private MonthlySalary monthlySalary;
 
@@ -275,6 +328,240 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
         this.advance = advance;
     }
 
+    public Integer getTotalWorkingDays() {
+        return totalWorkingDays;
+    }
+
+    public MonthlySalaryDtl totalWorkingDays(Integer totalWorkingDays) {
+        this.totalWorkingDays = totalWorkingDays;
+        return this;
+    }
+
+    public void setTotalWorkingDays(Integer totalWorkingDays) {
+        this.totalWorkingDays = totalWorkingDays;
+    }
+
+    public Integer getRegularLeave() {
+        return regularLeave;
+    }
+
+    public MonthlySalaryDtl regularLeave(Integer regularLeave) {
+        this.regularLeave = regularLeave;
+        return this;
+    }
+
+    public void setRegularLeave(Integer regularLeave) {
+        this.regularLeave = regularLeave;
+    }
+
+    public Integer getSickLeave() {
+        return sickLeave;
+    }
+
+    public MonthlySalaryDtl sickLeave(Integer sickLeave) {
+        this.sickLeave = sickLeave;
+        return this;
+    }
+
+    public void setSickLeave(Integer sickLeave) {
+        this.sickLeave = sickLeave;
+    }
+
+    public Integer getCompensationLeave() {
+        return compensationLeave;
+    }
+
+    public MonthlySalaryDtl compensationLeave(Integer compensationLeave) {
+        this.compensationLeave = compensationLeave;
+        return this;
+    }
+
+    public void setCompensationLeave(Integer compensationLeave) {
+        this.compensationLeave = compensationLeave;
+    }
+
+    public Integer getFestivalLeave() {
+        return festivalLeave;
+    }
+
+    public MonthlySalaryDtl festivalLeave(Integer festivalLeave) {
+        this.festivalLeave = festivalLeave;
+        return this;
+    }
+
+    public void setFestivalLeave(Integer festivalLeave) {
+        this.festivalLeave = festivalLeave;
+    }
+
+    public Integer getWeeklyLeave() {
+        return weeklyLeave;
+    }
+
+    public MonthlySalaryDtl weeklyLeave(Integer weeklyLeave) {
+        this.weeklyLeave = weeklyLeave;
+        return this;
+    }
+
+    public void setWeeklyLeave(Integer weeklyLeave) {
+        this.weeklyLeave = weeklyLeave;
+    }
+
+    public Integer getPresent() {
+        return present;
+    }
+
+    public MonthlySalaryDtl present(Integer present) {
+        this.present = present;
+        return this;
+    }
+
+    public void setPresent(Integer present) {
+        this.present = present;
+    }
+
+    public Integer getAbsent() {
+        return absent;
+    }
+
+    public MonthlySalaryDtl absent(Integer absent) {
+        this.absent = absent;
+        return this;
+    }
+
+    public void setAbsent(Integer absent) {
+        this.absent = absent;
+    }
+
+    public Integer getTotalMonthDays() {
+        return totalMonthDays;
+    }
+
+    public MonthlySalaryDtl totalMonthDays(Integer totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
+        return this;
+    }
+
+    public void setTotalMonthDays(Integer totalMonthDays) {
+        this.totalMonthDays = totalMonthDays;
+    }
+
+    public Double getOverTimeHour() {
+        return overTimeHour;
+    }
+
+    public MonthlySalaryDtl overTimeHour(Double overTimeHour) {
+        this.overTimeHour = overTimeHour;
+        return this;
+    }
+
+    public void setOverTimeHour(Double overTimeHour) {
+        this.overTimeHour = overTimeHour;
+    }
+
+    public BigDecimal getOverTimeSalaryHourly() {
+        return overTimeSalaryHourly;
+    }
+
+    public MonthlySalaryDtl overTimeSalaryHourly(BigDecimal overTimeSalaryHourly) {
+        this.overTimeSalaryHourly = overTimeSalaryHourly;
+        return this;
+    }
+
+    public void setOverTimeSalaryHourly(BigDecimal overTimeSalaryHourly) {
+        this.overTimeSalaryHourly = overTimeSalaryHourly;
+    }
+
+    public BigDecimal getOverTimeSalary() {
+        return overTimeSalary;
+    }
+
+    public MonthlySalaryDtl overTimeSalary(BigDecimal overTimeSalary) {
+        this.overTimeSalary = overTimeSalary;
+        return this;
+    }
+
+    public void setOverTimeSalary(BigDecimal overTimeSalary) {
+        this.overTimeSalary = overTimeSalary;
+    }
+
+    public BigDecimal getPresentBonus() {
+        return presentBonus;
+    }
+
+    public MonthlySalaryDtl presentBonus(BigDecimal presentBonus) {
+        this.presentBonus = presentBonus;
+        return this;
+    }
+
+    public void setPresentBonus(BigDecimal presentBonus) {
+        this.presentBonus = presentBonus;
+    }
+
+    public BigDecimal getAbsentFine() {
+        return absentFine;
+    }
+
+    public MonthlySalaryDtl absentFine(BigDecimal absentFine) {
+        this.absentFine = absentFine;
+        return this;
+    }
+
+    public void setAbsentFine(BigDecimal absentFine) {
+        this.absentFine = absentFine;
+    }
+
+    public BigDecimal getStampPrice() {
+        return stampPrice;
+    }
+
+    public MonthlySalaryDtl stampPrice(BigDecimal stampPrice) {
+        this.stampPrice = stampPrice;
+        return this;
+    }
+
+    public void setStampPrice(BigDecimal stampPrice) {
+        this.stampPrice = stampPrice;
+    }
+
+    public BigDecimal getTax() {
+        return tax;
+    }
+
+    public MonthlySalaryDtl tax(BigDecimal tax) {
+        this.tax = tax;
+        return this;
+    }
+
+    public void setTax(BigDecimal tax) {
+        this.tax = tax;
+    }
+
+    public BigDecimal getOthers() {
+        return others;
+    }
+
+    public MonthlySalaryDtl others(BigDecimal others) {
+        this.others = others;
+        return this;
+    }
+
+    public void setOthers(BigDecimal others) {
+        this.others = others;
+    }
+
+    public BigDecimal getTotalPayable() {
+        return totalPayable;
+    }
+
+    public MonthlySalaryDtl totalPayable(BigDecimal totalPayable) {
+        this.totalPayable = totalPayable;
+        return this;
+    }
+
+    public void setTotalPayable(BigDecimal totalPayable) {
+        this.totalPayable = totalPayable;
+    }
+
     public SalaryExecutionStatus getStatus() {
         return status;
     }
@@ -314,16 +601,16 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
         this.executedOn = executedOn;
     }
 
-    public Instant getExecutedBy() {
+    public String getExecutedBy() {
         return executedBy;
     }
 
-    public MonthlySalaryDtl executedBy(Instant executedBy) {
+    public MonthlySalaryDtl executedBy(String executedBy) {
         this.executedBy = executedBy;
         return this;
     }
 
-    public void setExecutedBy(Instant executedBy) {
+    public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
     }
 
@@ -401,6 +688,24 @@ public class MonthlySalaryDtl extends AbstractAuditingEntity implements Serializ
             ", foodAllowancePercent=" + getFoodAllowancePercent() +
             ", fine=" + getFine() +
             ", advance=" + getAdvance() +
+            ", totalWorkingDays=" + getTotalWorkingDays() +
+            ", regularLeave=" + getRegularLeave() +
+            ", sickLeave=" + getSickLeave() +
+            ", compensationLeave=" + getCompensationLeave() +
+            ", festivalLeave=" + getFestivalLeave() +
+            ", weeklyLeave=" + getWeeklyLeave() +
+            ", present=" + getPresent() +
+            ", absent=" + getAbsent() +
+            ", totalMonthDays=" + getTotalMonthDays() +
+            ", overTimeHour=" + getOverTimeHour() +
+            ", overTimeSalaryHourly=" + getOverTimeSalaryHourly() +
+            ", overTimeSalary=" + getOverTimeSalary() +
+            ", presentBonus=" + getPresentBonus() +
+            ", absentFine=" + getAbsentFine() +
+            ", stampPrice=" + getStampPrice() +
+            ", tax=" + getTax() +
+            ", others=" + getOthers() +
+            ", totalPayable=" + getTotalPayable() +
             ", status='" + getStatus() + "'" +
             ", type='" + getType() + "'" +
             ", executedOn='" + getExecutedOn() + "'" +
