@@ -28,9 +28,6 @@
 
     </changeSet>
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
-    <changeSet author="kawsu (generated)" id="1612504861098-1">
-        <dropColumn columnName="max_validity" tableName="leave_type"/>
-    </changeSet>
     <!--
         Load sample data generated with Faker.js
         - This data can be easily edited using a CSV editor (or even MS Excel) and
