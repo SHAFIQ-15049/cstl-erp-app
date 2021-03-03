@@ -4,7 +4,7 @@
     </a>
 
     <a class="navbar-brand logo" routerLink="/">
-        <span class="navbar-title" (click)="sidebarHide()">CodeNodeERP</span> <span
+        <span class="navbar-title" (click)="sidebarHide()" style="margin-left: 20px;">CodeNodeERP</span> <span
         class="navbar-version">{{ version }}</span>
     </a>
     <a class="navbar-toggler d-lg-none" href="javascript:void(0);" data-toggle="collapse"
@@ -476,13 +476,13 @@
                             <span>Sign in</span>
                         </a>
                     </li>
-                    <li *ngSwitchCase="false">
-                        <a class="dropdown-item" routerLink="account/register" routerLinkActive="active"
-                           (click)="collapseNavbar()">
-                            <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>
-                            <span>Register</span>
-                        </a>
-                    </li>
+<!--                    <li *ngSwitchCase="false">-->
+<!--                        <a class="dropdown-item" routerLink="account/register" routerLinkActive="active"-->
+<!--                           (click)="collapseNavbar()">-->
+<!--                            <fa-icon icon="user-plus" [fixedWidth]="true"></fa-icon>-->
+<!--                            <span>Register</span>-->
+<!--                        </a>-->
+<!--                    </li>-->
                 </ul>
             </li>
         </ul>
