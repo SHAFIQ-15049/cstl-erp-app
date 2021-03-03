@@ -230,15 +230,15 @@ entity DefaultAllowance (default_allowance){
 
 
 entity EmployeeSalary (employee_salary){
-  gross BigDecimal,
-  incrementAmount BigDecimal,
+  gross BigDecimal required,
+  incrementAmount BigDecimal required,
   incrementPercentage BigDecimal,
-  salaryStartDate Instant,
-  salaryEndDate Instant,
+  salaryStartDate Instant required,
+  salaryEndDate Instant required,
   nextIncrementDate Instant,
-  basic BigDecimal,
+  basic BigDecimal required,
   basicPercent BigDecimal,
-  houseRent BigDecimal,
+  houseRent BigDecimal required,
   houseRentPercent BigDecimal,
   totalAllowance BigDecimal,
   medicalAllowance BigDecimal,
@@ -256,7 +256,7 @@ entity EmployeeSalary (employee_salary){
   insurancePercent BigDecimal,
   insuranceDescription TextBlob,
   insuranceProcessType InsuranceProcessType,
-  status ActiveStatus
+  status ActiveStatus required
 }
 
 

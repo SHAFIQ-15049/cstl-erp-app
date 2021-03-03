@@ -3,11 +3,17 @@
   "fields": [
     {
       "fieldName": "gross",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "incrementAmount",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "incrementPercentage",
@@ -15,11 +21,17 @@
     },
     {
       "fieldName": "salaryStartDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "salaryEndDate",
-      "fieldType": "Instant"
+      "fieldType": "Instant",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "nextIncrementDate",
@@ -27,7 +39,10 @@
     },
     {
       "fieldName": "basic",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "basicPercent",
@@ -35,7 +50,10 @@
     },
     {
       "fieldName": "houseRent",
-      "fieldType": "BigDecimal"
+      "fieldType": "BigDecimal",
+      "fieldValidateRules": [
+        "required"
+      ]
     },
     {
       "fieldName": "houseRentPercent",
@@ -113,7 +131,10 @@
     {
       "fieldName": "status",
       "fieldType": "ActiveStatus",
-      "fieldValues": "ACTIVE,NOT_ACTIVE"
+      "fieldValues": "ACTIVE,NOT_ACTIVE",
+      "fieldValidateRules": [
+        "required"
+      ]
     }
   ],
   "relationships": [

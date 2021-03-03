@@ -16,30 +16,61 @@
 
             <div>
                 <jhi-alert-error></jhi-alert-error>
-
                 <div class="row justify-content-center">
-                    <div class="form-group col-md-12">
-                        <label class="form-control-label" for="field_gross">Gross</label>
-                        <input type="number" class="form-control" name="gross" (ngModelChange)="extractGross()" id="field_gross"
-                               formControlName="gross"/>
-                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_incrementAmount">Increment Amount</label>
-                        <input type="number" class="form-control" name="incrementAmount" id="field_incrementAmount"
-                               formControlName="incrementAmount"/>
-                    </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_incrementPercentage">Increment Percentage</label>
-                        <input type="number" class="form-control" name="incrementPercentage" id="field_incrementPercentage"
-                               formControlName="incrementPercentage"/>
+                <div class="form-group col-md-12">
+                    <label class="form-control-label" for="field_gross">Gross</label>
+                    <input type="number" class="form-control" name="gross" id="field_gross"
+                           formControlName="gross"/>
+                    <div *ngIf="editForm.get('gross')!.invalid && (editForm.get('gross')!.dirty || editForm.get('gross')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('gross')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('gross')?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_incrementAmount">Increment Amount</label>
+                    <input type="number" class="form-control" name="incrementAmount" id="field_incrementAmount"
+                           formControlName="incrementAmount"/>
+                    <div *ngIf="editForm.get('incrementAmount')!.invalid && (editForm.get('incrementAmount')!.dirty || editForm.get('incrementAmount')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('incrementAmount')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('incrementAmount')?.errors?.number">
+                            This field should be a number.
+                        </small>
+                    </div>
+                </div>
+
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_incrementPercentage">Increment Percentage</label>
+                    <input type="number" class="form-control" name="incrementPercentage" id="field_incrementPercentage"
+                           formControlName="incrementPercentage"/>
+                </div>
 
                 <div class="form-group col-md-6">
                     <label class="form-control-label" for="field_salaryStartDate">Salary Start Date</label>
                     <div class="d-flex">
                         <input id="field_salaryStartDate" type="datetime-local" class="form-control" name="salaryStartDate" formControlName="salaryStartDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('salaryStartDate')!.invalid && (editForm.get('salaryStartDate')!.dirty || editForm.get('salaryStartDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('salaryStartDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('salaryStartDate')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
                     </div>
                 </div>
 
@@ -47,6 +78,16 @@
                     <label class="form-control-label" for="field_salaryEndDate">Salary End Date</label>
                     <div class="d-flex">
                         <input id="field_salaryEndDate" type="datetime-local" class="form-control" name="salaryEndDate" formControlName="salaryEndDate" placeholder="YYYY-MM-DD HH:mm"/>
+                    </div>
+                    <div *ngIf="editForm.get('salaryEndDate')!.invalid && (editForm.get('salaryEndDate')!.dirty || editForm.get('salaryEndDate')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('salaryEndDate')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('salaryEndDate')?.errors?.ZonedDateTimelocal">
+                            This field should be a date and time.
+                        </small>
                     </div>
                 </div>
 
@@ -57,11 +98,21 @@
                     </div>
                 </div>
 
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_basic">Basic</label>
-                        <input type="number" class="form-control" name="basic" id="field_basic"
-                               formControlName="basic"/>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_basic">Basic</label>
+                    <input type="number" class="form-control" name="basic" id="field_basic"
+                           formControlName="basic"/>
+                    <div *ngIf="editForm.get('basic')!.invalid && (editForm.get('basic')!.dirty || editForm.get('basic')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('basic')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('basic')?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
+                </div>
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_basicPercent">Basic Percent</label>
@@ -69,12 +120,21 @@
                                formControlName="basicPercent"/>
                     </div>
 
-
-                    <div class="form-group col-md-6">
-                        <label class="form-control-label" for="field_houseRent">House Rent</label>
-                        <input type="number" class="form-control" name="houseRent" id="field_houseRent"
-                               formControlName="houseRent"/>
+                <div class="form-group col-md-6">
+                    <label class="form-control-label" for="field_houseRent">House Rent</label>
+                    <input type="number" class="form-control" name="houseRent" id="field_houseRent"
+                           formControlName="houseRent"/>
+                    <div *ngIf="editForm.get('houseRent')!.invalid && (editForm.get('houseRent')!.dirty || editForm.get('houseRent')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('houseRent')?.errors?.required">
+                        This field is required.
+                        </small>
+                        <small class="form-text text-danger"
+                            [hidden]="!editForm.get('houseRent')?.errors?.number">
+                            This field should be a number.
+                        </small>
                     </div>
+                </div>
 
                     <div class="form-group col-md-6">
                         <label class="form-control-label" for="field_houseRentPercent">House Rent Percent</label>
@@ -190,7 +250,14 @@
                         <option value="ACTIVE">ACTIVE</option>
                         <option value="NOT_ACTIVE">NOT_ACTIVE</option>
                     </select>
+                    <div *ngIf="editForm.get('status')!.invalid && (editForm.get('status')!.dirty || editForm.get('status')!.touched)">
+                        <small class="form-text text-danger"
+                               *ngIf="editForm.get('status')?.errors?.required">
+                        This field is required.
+                        </small>
+                    </div>
                 </div>
+
 
             </div>
 

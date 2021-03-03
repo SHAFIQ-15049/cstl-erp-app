@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -56,7 +57,7 @@ public class EmployeeSalaryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/employee-salaries")
-    public ResponseEntity<EmployeeSalary> createEmployeeSalary(@RequestBody EmployeeSalary employeeSalary) throws URISyntaxException {
+    public ResponseEntity<EmployeeSalary> createEmployeeSalary(@Valid @RequestBody EmployeeSalary employeeSalary) throws URISyntaxException {
         log.debug("REST request to save EmployeeSalary : {}", employeeSalary);
         if (employeeSalary.getId() != null) {
             throw new BadRequestAlertException("A new employeeSalary cannot already have an ID", ENTITY_NAME, "idexists");
@@ -77,7 +78,7 @@ public class EmployeeSalaryResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/employee-salaries")
-    public ResponseEntity<EmployeeSalary> updateEmployeeSalary(@RequestBody EmployeeSalary employeeSalary) throws URISyntaxException {
+    public ResponseEntity<EmployeeSalary> updateEmployeeSalary(@Valid @RequestBody EmployeeSalary employeeSalary) throws URISyntaxException {
         log.debug("REST request to update EmployeeSalary : {}", employeeSalary);
         if (employeeSalary.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
