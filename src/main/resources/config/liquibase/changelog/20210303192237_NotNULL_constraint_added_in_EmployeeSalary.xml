@@ -1,0 +1,24 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1614799369909-1">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="basic" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-2">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="gross" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-3">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="house_rent" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-4">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="increment_amount" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-5">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_end_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-6">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_start_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1614799369909-7">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="status" tableName="employee_salary" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

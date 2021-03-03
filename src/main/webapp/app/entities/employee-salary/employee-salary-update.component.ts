@@ -31,15 +31,15 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
-    gross: [],
-    incrementAmount: [],
+    gross: [null, [Validators.required]],
+    incrementAmount: [null, [Validators.required]],
     incrementPercentage: [],
-    salaryStartDate: [],
-    salaryEndDate: [],
+    salaryStartDate: [null, [Validators.required]],
+    salaryEndDate: [null, [Validators.required]],
     nextIncrementDate: [],
-    basic: [],
+    basic: [null, [Validators.required]],
     basicPercent: [],
-    houseRent: [],
+    houseRent: [null, [Validators.required]],
     houseRentPercent: [],
     totalAllowance: [],
     medicalAllowance: [],
@@ -57,7 +57,7 @@ export class EmployeeSalaryUpdateComponent implements OnInit {
     insurancePercent: [],
     insuranceDescription: [],
     insuranceProcessType: [],
-    status: [],
+    status: [null, [Validators.required]],
     employee: [],
   });
 

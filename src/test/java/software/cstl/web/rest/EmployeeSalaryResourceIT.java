@@ -302,6 +302,139 @@ public class EmployeeSalaryResourceIT {
 
     @Test
     @Transactional
+    public void checkGrossIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setGross(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkIncrementAmountIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setIncrementAmount(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkSalaryStartDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setSalaryStartDate(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkSalaryEndDateIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setSalaryEndDate(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkBasicIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setBasic(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkHouseRentIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setHouseRent(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
+    public void checkStatusIsRequired() throws Exception {
+        int databaseSizeBeforeTest = employeeSalaryRepository.findAll().size();
+        // set the field null
+        employeeSalary.setStatus(null);
+
+        // Create the EmployeeSalary, which fails.
+
+
+        restEmployeeSalaryMockMvc.perform(post("/api/employee-salaries")
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(TestUtil.convertObjectToJsonBytes(employeeSalary)))
+            .andExpect(status().isBadRequest());
+
+        List<EmployeeSalary> employeeSalaryList = employeeSalaryRepository.findAll();
+        assertThat(employeeSalaryList).hasSize(databaseSizeBeforeTest);
+    }
+
+    @Test
+    @Transactional
     public void getAllEmployeeSalaries() throws Exception {
         // Initialize the database
         employeeSalaryRepository.saveAndFlush(employeeSalary);

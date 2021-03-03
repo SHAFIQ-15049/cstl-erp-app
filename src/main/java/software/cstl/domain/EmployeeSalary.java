@@ -5,6 +5,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -28,31 +29,37 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "gross", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "gross", precision = 21, scale = 2, nullable = false)
     private BigDecimal gross;
 
-    @Column(name = "increment_amount", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "increment_amount", precision = 21, scale = 2, nullable = false)
     private BigDecimal incrementAmount;
 
     @Column(name = "increment_percentage", precision = 21, scale = 2)
     private BigDecimal incrementPercentage;
 
-    @Column(name = "salary_start_date")
+    @NotNull
+    @Column(name = "salary_start_date", nullable = false)
     private Instant salaryStartDate;
 
-    @Column(name = "salary_end_date")
+    @NotNull
+    @Column(name = "salary_end_date", nullable = false)
     private Instant salaryEndDate;
 
     @Column(name = "next_increment_date")
     private Instant nextIncrementDate;
 
-    @Column(name = "basic", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "basic", precision = 21, scale = 2, nullable = false)
     private BigDecimal basic;
 
     @Column(name = "basic_percent", precision = 21, scale = 2)
     private BigDecimal basicPercent;
 
-    @Column(name = "house_rent", precision = 21, scale = 2)
+    @NotNull
+    @Column(name = "house_rent", precision = 21, scale = 2, nullable = false)
     private BigDecimal houseRent;
 
     @Column(name = "house_rent_percent", precision = 21, scale = 2)
@@ -111,8 +118,9 @@ public class EmployeeSalary extends AbstractAuditingEntity implements Serializab
     @Column(name = "insurance_process_type")
     private InsuranceProcessType insuranceProcessType;
 
+    @NotNull
     @Enumerated(EnumType.STRING)
-    @Column(name = "status")
+    @Column(name = "status", nullable = false)
     private ActiveStatus status;
 
     @ManyToOne
