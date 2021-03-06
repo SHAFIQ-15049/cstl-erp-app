@@ -37,7 +37,7 @@ export class ThanaUpdateComponent implements OnInit {
     this.activatedRoute.data.subscribe(({ thana }) => {
       this.updateForm(thana);
 
-      this.districtService.query().subscribe((res: HttpResponse<IDistrict[]>) => (this.districts = res.body || []));
+      this.districtService.query({ size: 10000 }).subscribe((res: HttpResponse<IDistrict[]>) => (this.districts = res.body || []));
     });
   }
 
