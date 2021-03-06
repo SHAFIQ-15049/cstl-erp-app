@@ -6,6 +6,8 @@ import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
 import com.itextpdf.text.pdf.languages.IndicLigaturizer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +29,8 @@ public class IdCardGeneratorService {
     Font headFontBold = FontFactory.getFont(FontFactory.HELVETICA_BOLD, 3);
     Font headFont = FontFactory.getFont(FontFactory.HELVETICA, 3);
 
+    private final Logger log = LoggerFactory.getLogger(IdCardGeneratorService.class);
+
     private final EmployeeExtService employeeExtService;
 
     public IdCardGeneratorService(EmployeeExtService employeeExtService) {
@@ -36,6 +40,9 @@ public class IdCardGeneratorService {
     public ByteArrayInputStream generateIdCard(Long employeeId) throws DocumentException, IOException {
 
         Employee employee = employeeExtService.findOne(employeeId).get();
+
+        log.debug("employee---------"+employee);
+
         Rectangle pageSize = new Rectangle(225f, 327f);
 
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -97,10 +104,22 @@ public class IdCardGeneratorService {
         float[] columnSize = {25f, 75f};
         PdfPTable infoTable = new PdfPTable(columnSize);
         infoTable.setWidthPercentage(100);
-        PdfPCell infoCell = new PdfPCell(new Paragraph("Name", headFont));
 
+
+
+        PdfPCell infoCell = new PdfPCell(new Paragraph("Name", headFont));
+        infoCell.setPaddingBottom(-.2f);
         infoCell.setBorder(Rectangle.NO_BORDER);
         infoTable.addCell(infoCell);
+
+
+        infoCell = new PdfPCell(new Paragraph(": "+ employee.getName(), headFont));
+        infoCell.setPaddingBottom(-.2f);
+        infoCell.setBorder(Rectangle.NO_BORDER);
+        infoTable.addCell(infoCell);
+
+//        infoCell.setBorder(Rectangle.NO_BORDER);
+//        infoTable.addCell(infoCell);
 
         byte[] bytes = employee.getPersonalInfo().getBanglaName().getBytes(StandardCharsets.US_ASCII);
         StringBuilder sb = new StringBuilder();
@@ -110,12 +129,11 @@ public class IdCardGeneratorService {
 
         IndicLigaturizer indicLigaturizer;
 
-        BaseFont base = BaseFont.createFont("D://kalpurush.ttf", BaseFont.IDENTITY_H, BaseFont.EMBEDDED);
-        Font font = new Font(base, 11f, Font.BOLD);
-        infoCell = new PdfPCell(new Paragraph(": "+  employee.getPersonalInfo().getBanglaName(), headFont));
 
-        infoCell.setBorder(Rectangle.NO_BORDER);
-        infoTable.addCell(infoCell);
+//        infoCell = new PdfPCell(new Paragraph(": "+  employee.getPersonalInfo().getBanglaName(), headFont));
+//
+//        infoCell.setBorder(Rectangle.NO_BORDER);
+//        infoTable.addCell(infoCell);
 
         infoCell = new PdfPCell(new Paragraph("Code", headFont));
         infoCell.setPaddingBottom(-.2f);
@@ -258,6 +276,8 @@ public class IdCardGeneratorService {
         backFooter.addCell(cell);
         document.add(backFooter);
         document.close();
+
+
         return new ByteArrayInputStream(out.toByteArray());
     }
 }
