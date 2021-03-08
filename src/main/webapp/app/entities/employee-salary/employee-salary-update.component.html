@@ -21,7 +21,7 @@
 
                 <div class="form-group col-md-12">
                     <label class="form-control-label" for="field_gross">Gross</label>
-                    <input type="number" class="form-control" name="gross" id="field_gross"
+                    <input type="number" class="form-control" (ngModelChange)="extractGross()" name="gross" id="field_gross"
                            formControlName="gross"/>
                     <div *ngIf="editForm.get('gross')!.invalid && (editForm.get('gross')!.dirty || editForm.get('gross')!.touched)">
                         <small class="form-text text-danger"
