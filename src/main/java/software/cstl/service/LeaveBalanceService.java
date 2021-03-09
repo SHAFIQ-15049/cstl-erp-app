@@ -11,11 +11,14 @@ import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.GenderType;
 import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.service.dto.LeaveBalanceDTO;
+import software.cstl.web.rest.errors.BadRequestAlertException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -106,6 +109,12 @@ public class LeaveBalanceService {
         LocalDate startDate = LocalDate.of(year, Month.JANUARY, 1);
         LocalDate endDate = LocalDate.of(year, Month.DECEMBER, 31);
 
+        if(employee.getPersonalInfo().getGender() == null || employee.getPersonalInfo().getGender().equals(GenderType.MALE)) {
+            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
+                BigDecimal.ZERO, employee.getId(), employee.getName(),
+                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
+        }
+
         if (startDate.isBefore(employee.getJoiningDate()) && !(employee.getJoiningDate().getYear() == startDate.getYear())) {
             return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
                 BigDecimal.ZERO, employee.getId(), employee.getName(),
@@ -113,12 +122,6 @@ public class LeaveBalanceService {
         }
 
         if (!LocalDate.now().isAfter(employee.getJoiningDate().plusMonths(6))) {
-            return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
-                BigDecimal.ZERO, employee.getId(), employee.getName(),
-                employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
-        }
-
-        if(employee.getPersonalInfo().getGender() == null || employee.getPersonalInfo().getGender().equals(GenderType.MALE)) {
             return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.ZERO,
                 BigDecimal.ZERO, employee.getId(), employee.getName(),
                 employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), new ArrayList<>());
@@ -150,46 +153,8 @@ public class LeaveBalanceService {
     }
 
     private int getNumberOfYearsPassedFromJoiningDate(Employee employee, int year) {
-
-        LocalDate today = LocalDate.now();
-
         LocalDate startDate = employee.getJoiningDate();
-        LocalDate endDate = LocalDate.of(year, startDate.getMonth(), startDate.getDayOfMonth()).plusYears(1).minusDays(1);
-
-        if(startDate.isAfter(endDate))
-            return 0;
-
-        int totalYear = 0;
-
-        while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
-            totalYear = totalYear + 1;
-            startDate = startDate.plusYears(1);
-            endDate = startDate.plusYears(1);
-        }
-
-        return totalYear;
-
-    }
-
-    private int getNumberOfYearsPassedAfterJoining(Employee employee) {
-
-        LocalDate today = LocalDate.now();
-
-        LocalDate startDate = employee.getJoiningDate();
-        LocalDate endDate = startDate.plusYears(1).minusDays(1);
-
-        int totalYear = 0;
-
-        if (!today.isAfter(startDate)) {
-            return totalYear;
-        }
-
-        while (!(today.isAfter(startDate) && today.isBefore(endDate))) {
-            totalYear = totalYear + 1;
-            startDate = startDate.plusYears(1);
-            endDate = startDate.plusYears(1);
-        }
-
-        return totalYear;
+        LocalDate endDate = LocalDate.of(year, startDate.getMonth(), startDate.getDayOfMonth());
+        return Period.between(startDate, endDate).getYears();
     }
 }
