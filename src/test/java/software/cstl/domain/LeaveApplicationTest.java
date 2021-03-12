@@ -1,9 +1,8 @@
 package software.cstl.domain;
 
 import org.junit.jupiter.api.Test;
-import software.cstl.web.rest.TestUtil;
-
 import static org.assertj.core.api.Assertions.assertThat;
+import software.cstl.web.rest.TestUtil;
 
 public class LeaveApplicationTest {
 

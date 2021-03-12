@@ -1,5 +1,11 @@
 package software.cstl.web.rest;
 
+import software.cstl.domain.LeaveApplication;
+import software.cstl.service.LeaveApplicationService;
+import software.cstl.web.rest.errors.BadRequestAlertException;
+import software.cstl.service.dto.LeaveApplicationCriteria;
+import software.cstl.service.LeaveApplicationQueryService;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -9,20 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import software.cstl.domain.LeaveApplication;
-import software.cstl.domain.LeaveType;
-import software.cstl.repository.LeaveTypeRepository;
-import software.cstl.security.AuthoritiesConstants;
-import software.cstl.service.LeaveApplicationQueryService;
-import software.cstl.service.LeaveApplicationService;
-import software.cstl.service.LeaveBalanceService;
-import software.cstl.service.dto.LeaveApplicationCriteria;
-import software.cstl.service.dto.LeaveBalanceDTO;
-import software.cstl.web.rest.errors.BadRequestAlertException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -48,16 +44,9 @@ public class LeaveApplicationResource {
 
     private final LeaveApplicationQueryService leaveApplicationQueryService;
 
-    private final LeaveTypeRepository leaveTypeRepository;
-
-    private final LeaveBalanceService leaveBalanceService;
-
-    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService,
-                                    LeaveTypeRepository leaveTypeRepository, LeaveBalanceService leaveBalanceService) {
+    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService) {
         this.leaveApplicationService = leaveApplicationService;
         this.leaveApplicationQueryService = leaveApplicationQueryService;
-        this.leaveTypeRepository = leaveTypeRepository;
-        this.leaveBalanceService = leaveBalanceService;
     }
 
     /**
@@ -68,26 +57,11 @@ public class LeaveApplicationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leave-applications")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_MANAGER + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_USER + "\")")
     public ResponseEntity<LeaveApplication> createLeaveApplication(@Valid @RequestBody LeaveApplication leaveApplication) throws URISyntaxException {
         log.debug("REST request to save LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
-        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
-            throw new BadRequestAlertException("From and to date must have same year.", ENTITY_NAME, "idexists");
-        }
-        if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
-            throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
-        }
-        /*LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
-        if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
-            throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
-        }*/
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
@@ -104,26 +78,11 @@ public class LeaveApplicationResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leave-applications")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_MANAGER + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_USER + "\")")
     public ResponseEntity<LeaveApplication> updateLeaveApplication(@Valid @RequestBody LeaveApplication leaveApplication) throws URISyntaxException {
         log.debug("REST request to update LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
-        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
-            throw new BadRequestAlertException("From and to date must have same year.", ENTITY_NAME, "idexists");
-        }
-        if(!leaveApplication.getFrom().isBefore(leaveApplication.getTo())) {
-            throw new BadRequestAlertException("From date must be before to date", ENTITY_NAME, "idexists");
-        }
-        /*LeaveType leaveType = leaveTypeRepository.getOne(leaveApplication.getLeaveType().getId());
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getLeaveBalance(leaveApplication.getApplicant().getId(), leaveType.getId(), leaveApplication.getFrom().getYear());
-        if(leaveBalanceDTO.getTotalDays() < leaveApplication.getTotalDays()) {
-            throw new BadRequestAlertException("Leave Max Days Exceeded.", ENTITY_NAME, "idexists");
-        }*/
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, leaveApplication.getId().toString()))
@@ -177,7 +136,6 @@ public class LeaveApplicationResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/leave-applications/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteLeaveApplication(@PathVariable Long id) {
         log.debug("REST request to delete LeaveApplication : {}", id);
         leaveApplicationService.delete(id);

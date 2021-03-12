@@ -129,10 +129,9 @@ public class LeaveBalanceService {
 
         List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType, startDate, endDate, LeaveApplicationStatus.ACCEPTED);
         BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
-        leaveBalanceDTO = new LeaveBalanceDTO(leaveType.getId(), BigDecimal.valueOf(leaveType.getTotalDays()),
-            BigDecimal.valueOf(leaveType.getTotalDays()).subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
+        leaveBalanceDTO = new LeaveBalanceDTO(leaveType.getId(), leaveType.getTotalDays(),
+            leaveType.getTotalDays().subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
             employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
-
         return leaveBalanceDTO;
     }
 
@@ -147,8 +146,8 @@ public class LeaveBalanceService {
 
         List<LeaveApplication> acceptedLeaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType, startDate, endDate, LeaveApplicationStatus.ACCEPTED);
         BigDecimal numberOfTotalAcceptedLeave = BigDecimal.valueOf(leaveApplicationService.getLeaveApplicationDetailDateMapDto(acceptedLeaveApplications).size());
-        return new LeaveBalanceDTO(leaveType.getId(), BigDecimal.valueOf(leaveType.getTotalDays()),
-            BigDecimal.valueOf(leaveType.getTotalDays()).subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
+        return new LeaveBalanceDTO(leaveType.getId(), leaveType.getTotalDays(),
+            leaveType.getTotalDays().subtract(numberOfTotalAcceptedLeave), employee.getId(), employee.getName(),
             employee.getJoiningDate(), leaveType.getId(), leaveType.getName().name(), acceptedLeaveApplications);
     }
 

@@ -1,6 +1,9 @@
 package software.cstl.service;
 
-import io.github.jhipster.service.QueryService;
+import java.util.List;
+
+import javax.persistence.criteria.JoinType;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -8,12 +11,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import software.cstl.domain.*;
+
+import io.github.jhipster.service.QueryService;
+
+import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.*; // for static metamodels
 import software.cstl.repository.LeaveApplicationRepository;
 import software.cstl.service.dto.LeaveApplicationCriteria;
-
-import javax.persistence.criteria.JoinType;
-import java.util.List;
 
 /**
  * Service for executing complex queries for {@link LeaveApplication} entities in the database.

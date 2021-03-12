@@ -2,11 +2,14 @@ package software.cstl.domain;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import software.cstl.domain.enumeration.LeaveTypeName;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
+
+import software.cstl.domain.enumeration.LeaveTypeName;
 
 /**
  * A LeaveType.
@@ -28,8 +31,8 @@ public class LeaveType implements Serializable {
     private LeaveTypeName name;
 
     @NotNull
-    @Column(name = "total_days", nullable = false)
-    private Integer totalDays;
+    @Column(name = "total_days", precision = 21, scale = 2, nullable = false)
+    private BigDecimal totalDays;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -53,16 +56,16 @@ public class LeaveType implements Serializable {
         this.name = name;
     }
 
-    public Integer getTotalDays() {
+    public BigDecimal getTotalDays() {
         return totalDays;
     }
 
-    public LeaveType totalDays(Integer totalDays) {
+    public LeaveType totalDays(BigDecimal totalDays) {
         this.totalDays = totalDays;
         return this;
     }
 
-    public void setTotalDays(Integer totalDays) {
+    public void setTotalDays(BigDecimal totalDays) {
         this.totalDays = totalDays;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

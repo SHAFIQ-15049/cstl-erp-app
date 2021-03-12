@@ -1,7 +1,11 @@
-import { browser, ExpectedConditions as ec } from 'protractor';
+import { browser, ExpectedConditions as ec /* , promise */ } from 'protractor';
 import { NavBarPage, SignInPage } from '../../page-objects/jhi-page-objects';
 
-import { LeaveApplicationComponentsPage, LeaveApplicationUpdatePage } from './leave-application.page-object';
+import {
+  LeaveApplicationComponentsPage,
+  /* LeaveApplicationDeleteDialog, */
+  LeaveApplicationUpdatePage,
+} from './leave-application.page-object';
 
 const expect = chai.expect;
 

@@ -9,6 +9,7 @@ import software.cstl.domain.enumeration.LeaveApplicationStatus;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.DutyLeaveDTO;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -72,7 +73,7 @@ public class DutyLeaveService {
                     leaveApplication.applicant(employee.get());
                     leaveApplication.from(dutyLeaveDTO.getFromDate());
                     leaveApplication.to(dutyLeaveDTO.getToDate());
-                    leaveApplication.totalDays(1);
+                    leaveApplication.totalDays(BigDecimal.ONE);
                     leaveApplication.appliedBy(user.get());
                     leaveApplication.setReason("Duty Leave");
                     leaveApplication.setStatus(LeaveApplicationStatus.ACCEPTED_BY_FIRST_AUTHORITY);

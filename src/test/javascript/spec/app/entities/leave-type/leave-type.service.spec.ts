@@ -1,4 +1,4 @@
-import { getTestBed, TestBed } from '@angular/core/testing';
+import { TestBed, getTestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { LeaveTypeService } from 'app/entities/leave-type/leave-type.service';
 import { ILeaveType, LeaveType } from 'app/shared/model/leave-type.model';

@@ -1,5 +1,15 @@
 package software.cstl.web.rest;
 
+import software.cstl.CodeNodeErpApp;
+import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.User;
+import software.cstl.domain.LeaveType;
+import software.cstl.domain.Employee;
+import software.cstl.repository.LeaveApplicationRepository;
+import software.cstl.service.LeaveApplicationService;
+import software.cstl.service.dto.LeaveApplicationCriteria;
+import software.cstl.service.LeaveApplicationQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +19,8 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import software.cstl.CodeNodeErpApp;
-import software.cstl.domain.Employee;
-import software.cstl.domain.LeaveApplication;
-import software.cstl.domain.LeaveType;
-import software.cstl.domain.User;
-import software.cstl.domain.enumeration.LeaveApplicationStatus;
-import software.cstl.repository.LeaveApplicationRepository;
-import software.cstl.service.LeaveApplicationQueryService;
-import software.cstl.service.LeaveApplicationService;
-
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -28,6 +29,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
 /**
  * Integration tests for the {@link LeaveApplicationResource} REST controller.
  */
@@ -44,9 +47,9 @@ public class LeaveApplicationResourceIT {
     private static final LocalDate UPDATED_TO = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_TO = LocalDate.ofEpochDay(-1L);
 
-    private static final Integer DEFAULT_TOTAL_DAYS = 1;
-    private static final Integer UPDATED_TOTAL_DAYS = 2;
-    private static final Integer SMALLER_TOTAL_DAYS = 1 - 1;
+    private static final BigDecimal DEFAULT_TOTAL_DAYS = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_DAYS = new BigDecimal(2);
+    private static final BigDecimal SMALLER_TOTAL_DAYS = new BigDecimal(1 - 1);
 
     private static final LeaveApplicationStatus DEFAULT_STATUS = LeaveApplicationStatus.APPLIED;
     private static final LeaveApplicationStatus UPDATED_STATUS = LeaveApplicationStatus.ACCEPTED_BY_FIRST_AUTHORITY;
@@ -306,11 +309,11 @@ public class LeaveApplicationResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveApplication.getId().intValue())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)))
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)));
     }
-
+    
     @Test
     @Transactional
     public void getLeaveApplication() throws Exception {
@@ -324,7 +327,7 @@ public class LeaveApplicationResourceIT {
             .andExpect(jsonPath("$.id").value(leaveApplication.getId().intValue()))
             .andExpect(jsonPath("$.from").value(DEFAULT_FROM.toString()))
             .andExpect(jsonPath("$.to").value(DEFAULT_TO.toString()))
-            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS))
+            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS.intValue()))
             .andExpect(jsonPath("$.status").value(DEFAULT_STATUS.toString()))
             .andExpect(jsonPath("$.reason").value(DEFAULT_REASON));
     }
@@ -871,7 +874,7 @@ public class LeaveApplicationResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveApplication.getId().intValue())))
             .andExpect(jsonPath("$.[*].from").value(hasItem(DEFAULT_FROM.toString())))
             .andExpect(jsonPath("$.[*].to").value(hasItem(DEFAULT_TO.toString())))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)))
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS.intValue())))
             .andExpect(jsonPath("$.[*].status").value(hasItem(DEFAULT_STATUS.toString())))
             .andExpect(jsonPath("$.[*].reason").value(hasItem(DEFAULT_REASON)));
 

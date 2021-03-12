@@ -49,7 +49,7 @@
     },
     {
       "fieldName": "totalDays",
-      "fieldType": "Integer",
+      "fieldType": "BigDecimal",
       "fieldValidateRules": ["required"]
     },
     {

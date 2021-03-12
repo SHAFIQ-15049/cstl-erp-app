@@ -1,5 +1,12 @@
 package software.cstl.web.rest;
 
+import software.cstl.CodeNodeErpApp;
+import software.cstl.domain.LeaveType;
+import software.cstl.repository.LeaveTypeRepository;
+import software.cstl.service.LeaveTypeService;
+import software.cstl.service.dto.LeaveTypeCriteria;
+import software.cstl.service.LeaveTypeQueryService;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,20 +16,16 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.transaction.annotation.Transactional;
-import software.cstl.CodeNodeErpApp;
-import software.cstl.domain.LeaveType;
-import software.cstl.domain.enumeration.LeaveTypeName;
-import software.cstl.repository.LeaveTypeRepository;
-import software.cstl.service.LeaveTypeQueryService;
-import software.cstl.service.LeaveTypeService;
-
 import javax.persistence.EntityManager;
+import java.math.BigDecimal;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import software.cstl.domain.enumeration.LeaveTypeName;
 /**
  * Integration tests for the {@link LeaveTypeResource} REST controller.
  */
@@ -34,9 +37,9 @@ public class LeaveTypeResourceIT {
     private static final LeaveTypeName DEFAULT_NAME = LeaveTypeName.CASUAL_LEAVE;
     private static final LeaveTypeName UPDATED_NAME = LeaveTypeName.MEDICAL_LEAVE;
 
-    private static final Integer DEFAULT_TOTAL_DAYS = 1;
-    private static final Integer UPDATED_TOTAL_DAYS = 2;
-    private static final Integer SMALLER_TOTAL_DAYS = 1 - 1;
+    private static final BigDecimal DEFAULT_TOTAL_DAYS = new BigDecimal(1);
+    private static final BigDecimal UPDATED_TOTAL_DAYS = new BigDecimal(2);
+    private static final BigDecimal SMALLER_TOTAL_DAYS = new BigDecimal(1 - 1);
 
     @Autowired
     private LeaveTypeRepository leaveTypeRepository;
@@ -173,9 +176,9 @@ public class LeaveTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)));
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS.intValue())));
     }
-
+    
     @Test
     @Transactional
     public void getLeaveType() throws Exception {
@@ -188,7 +191,7 @@ public class LeaveTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(leaveType.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME.toString()))
-            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS));
+            .andExpect(jsonPath("$.totalDays").value(DEFAULT_TOTAL_DAYS.intValue()));
     }
 
 
@@ -376,7 +379,7 @@ public class LeaveTypeResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(leaveType.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME.toString())))
-            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS)));
+            .andExpect(jsonPath("$.[*].totalDays").value(hasItem(DEFAULT_TOTAL_DAYS.intValue())));
 
         // Check, that the count call also returns 1
         restLeaveTypeMockMvc.perform(get("/api/leave-types/count?sort=id,desc&" + filter))

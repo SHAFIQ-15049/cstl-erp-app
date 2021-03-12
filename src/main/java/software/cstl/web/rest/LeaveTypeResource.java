@@ -1,5 +1,11 @@
 package software.cstl.web.rest;
 
+import software.cstl.domain.LeaveType;
+import software.cstl.service.LeaveTypeService;
+import software.cstl.web.rest.errors.BadRequestAlertException;
+import software.cstl.service.dto.LeaveTypeCriteria;
+import software.cstl.service.LeaveTypeQueryService;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
@@ -9,16 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-import software.cstl.domain.LeaveType;
-import software.cstl.security.AuthoritiesConstants;
-import software.cstl.service.LeaveTypeQueryService;
-import software.cstl.service.LeaveTypeService;
-import software.cstl.service.dto.LeaveTypeCriteria;
-import software.cstl.web.rest.errors.BadRequestAlertException;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.net.URI;
@@ -57,8 +57,6 @@ public class LeaveTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/leave-types")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")")
     public ResponseEntity<LeaveType> createLeaveType(@Valid @RequestBody LeaveType leaveType) throws URISyntaxException {
         log.debug("REST request to save LeaveType : {}", leaveType);
         if (leaveType.getId() != null) {
@@ -80,8 +78,6 @@ public class LeaveTypeResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/leave-types")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.LEAVE_ADMIN + "\")")
     public ResponseEntity<LeaveType> updateLeaveType(@Valid @RequestBody LeaveType leaveType) throws URISyntaxException {
         log.debug("REST request to update LeaveType : {}", leaveType);
         if (leaveType.getId() == null) {
@@ -140,7 +136,6 @@ public class LeaveTypeResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/leave-types/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteLeaveType(@PathVariable Long id) {
         log.debug("REST request to delete LeaveType : {}", id);
         leaveTypeService.delete(id);

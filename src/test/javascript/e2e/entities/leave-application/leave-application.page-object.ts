@@ -1,4 +1,4 @@
-import { by, element, ElementFinder } from 'protractor';
+import { element, by, ElementFinder } from 'protractor';
 
 export class LeaveApplicationComponentsPage {
   createButton = element(by.id('jh-create-entity'));

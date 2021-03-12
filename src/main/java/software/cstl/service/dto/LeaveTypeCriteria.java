@@ -1,13 +1,17 @@
 package software.cstl.service.dto;
 
-import io.github.jhipster.service.Criteria;
-import io.github.jhipster.service.filter.Filter;
-import io.github.jhipster.service.filter.IntegerFilter;
-import io.github.jhipster.service.filter.LongFilter;
-import software.cstl.domain.enumeration.LeaveTypeName;
-
 import java.io.Serializable;
 import java.util.Objects;
+import io.github.jhipster.service.Criteria;
+import software.cstl.domain.enumeration.LeaveTypeName;
+import io.github.jhipster.service.filter.BooleanFilter;
+import io.github.jhipster.service.filter.DoubleFilter;
+import io.github.jhipster.service.filter.Filter;
+import io.github.jhipster.service.filter.FloatFilter;
+import io.github.jhipster.service.filter.IntegerFilter;
+import io.github.jhipster.service.filter.LongFilter;
+import io.github.jhipster.service.filter.StringFilter;
+import io.github.jhipster.service.filter.BigDecimalFilter;
 
 /**
  * Criteria class for the {@link software.cstl.domain.LeaveType} entity. This class is used
@@ -44,7 +48,7 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
 
     private LeaveTypeNameFilter name;
 
-    private IntegerFilter totalDays;
+    private BigDecimalFilter totalDays;
 
     public LeaveTypeCriteria() {
     }
@@ -76,11 +80,11 @@ public class LeaveTypeCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
-    public IntegerFilter getTotalDays() {
+    public BigDecimalFilter getTotalDays() {
         return totalDays;
     }
 
-    public void setTotalDays(IntegerFilter totalDays) {
+    public void setTotalDays(BigDecimalFilter totalDays) {
         this.totalDays = totalDays;
     }
 

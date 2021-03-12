@@ -3,12 +3,15 @@ package software.cstl.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import software.cstl.domain.enumeration.LeaveApplicationStatus;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.*;
+
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDate;
+
+import software.cstl.domain.enumeration.LeaveApplicationStatus;
 
 /**
  * A LeaveApplication.
@@ -33,8 +36,8 @@ public class LeaveApplication implements Serializable {
     private LocalDate to;
 
     @NotNull
-    @Column(name = "total_days", nullable = false)
-    private Integer totalDays;
+    @Column(name = "total_days", precision = 21, scale = 2, nullable = false)
+    private BigDecimal totalDays;
 
     @NotNull
     @Enumerated(EnumType.STRING)
@@ -99,16 +102,16 @@ public class LeaveApplication implements Serializable {
         this.to = to;
     }
 
-    public Integer getTotalDays() {
+    public BigDecimal getTotalDays() {
         return totalDays;
     }
 
-    public LeaveApplication totalDays(Integer totalDays) {
+    public LeaveApplication totalDays(BigDecimal totalDays) {
         this.totalDays = totalDays;
         return this;
     }
 
-    public void setTotalDays(Integer totalDays) {
+    public void setTotalDays(BigDecimal totalDays) {
         this.totalDays = totalDays;
     }
 
