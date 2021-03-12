@@ -244,9 +244,13 @@ public class AttendanceService {
     }
 
     private Employee validateEmployeeAttendanceMachineIdWithEmployeeRecord(List<Employee> employees, String employeeMachineId) {
+        log.debug("employee------machine id:"+employeeMachineId);
         for (Employee employee : employees) {
-            if (employee.getAttendanceMachineId().equals(employeeMachineId)) {
-                return employee;
+            if(employee.getAttendanceMachineId()!=null) {
+
+                if (employee.getAttendanceMachineId().equals(employeeMachineId)) {
+                    return employee;
+                }
             }
         }
         return null;
