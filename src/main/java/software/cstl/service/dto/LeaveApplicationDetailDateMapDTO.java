@@ -12,6 +12,15 @@ public class LeaveApplicationDetailDateMapDTO implements Serializable {
 
     private Long leaveApplicationId;
 
+    public LeaveApplicationDetailDateMapDTO() {
+    }
+
+    public LeaveApplicationDetailDateMapDTO(Long id, LocalDate leaveAppliedDate, Long leaveApplicationId) {
+        this.id = id;
+        this.leaveAppliedDate = leaveAppliedDate;
+        this.leaveApplicationId = leaveApplicationId;
+    }
+
     public Long getId() {
         return id;
     }

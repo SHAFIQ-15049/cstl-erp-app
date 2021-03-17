@@ -2,6 +2,8 @@ package software.cstl.web.rest;
 
 import software.cstl.domain.LeaveApplication;
 import software.cstl.service.LeaveApplicationService;
+import software.cstl.service.LeaveBalanceService;
+import software.cstl.service.dto.LeaveBalanceDTO;
 import software.cstl.web.rest.errors.BadRequestAlertException;
 import software.cstl.service.dto.LeaveApplicationCriteria;
 import software.cstl.service.LeaveApplicationQueryService;
@@ -21,8 +23,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,9 +49,12 @@ public class LeaveApplicationResource {
 
     private final LeaveApplicationQueryService leaveApplicationQueryService;
 
-    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService) {
+    private final LeaveBalanceService leaveBalanceService;
+
+    public LeaveApplicationResource(LeaveApplicationService leaveApplicationService, LeaveApplicationQueryService leaveApplicationQueryService, LeaveBalanceService leaveBalanceService) {
         this.leaveApplicationService = leaveApplicationService;
         this.leaveApplicationQueryService = leaveApplicationQueryService;
+        this.leaveBalanceService = leaveBalanceService;
     }
 
     /**
@@ -62,6 +70,19 @@ public class LeaveApplicationResource {
         if (leaveApplication.getId() != null) {
             throw new BadRequestAlertException("A new leaveApplication cannot already have an ID", ENTITY_NAME, "idexists");
         }
+        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
+            throw new BadRequestAlertException("From and to year should be same", ENTITY_NAME, "idexists");
+        }
+        if(leaveApplication.getFrom().isAfter(leaveApplication.getTo())) {
+            throw new BadRequestAlertException("Please check from and to date again.", ENTITY_NAME, "idexists");
+        }
+        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getEarnedLeaveBalance(leaveApplication.getApplicant(), leaveApplication.getLeaveType(), leaveApplication.getFrom().getYear());
+        long l1 = ChronoUnit.DAYS.between(leaveApplication.getFrom(), leaveApplication.getTo()) + 1;
+        BigDecimal diff = BigDecimal.valueOf(l1);
+        if(leaveBalanceDTO.getRemainingDays().compareTo(diff) < 0) {
+            throw new BadRequestAlertException("Balance exceed", ENTITY_NAME, "idexists");
+        }
+
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.created(new URI("/api/leave-applications/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))

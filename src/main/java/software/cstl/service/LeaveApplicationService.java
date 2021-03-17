@@ -30,12 +30,8 @@ public class LeaveApplicationService {
 
     private final LeaveApplicationRepository leaveApplicationRepository;
 
-    private final LeaveTypeRepository leaveTypeRepository;
-
-    public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository, LeaveTypeRepository leaveTypeRepository) {
+    public LeaveApplicationService(LeaveApplicationRepository leaveApplicationRepository) {
         this.leaveApplicationRepository = leaveApplicationRepository;
-        this.leaveTypeRepository = leaveTypeRepository;
-
     }
 
     /**
@@ -99,31 +95,6 @@ public class LeaveApplicationService {
     }
 
     /**
-     * Get all the leaveApplications by employee, fromDate, toDate, leaveStatus.
-     *
-     * @param employee the employee.
-     * @param fromDate the fromDate.
-     * @param toDate the toDate.
-     * @param leaveApplicationStatus the leaveApplicationStatus.
-     * @return the entity.
-     */
-    public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate, LeaveApplicationStatus leaveApplicationStatus) {
-        return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(employee, fromDate, toDate, leaveApplicationStatus);
-    }
-
-    /**
-     * Get all the leaveApplications by employee, fromDate, toDate.
-     *
-     * @param employee the employee.
-     * @param fromDate the fromDate.
-     * @param toDate the toDate.
-     * @return the entity.
-     */
-    public List<LeaveApplication> getLeaveApplications(Employee employee, LocalDate fromDate, LocalDate toDate) {
-        return leaveApplicationRepository.findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(employee, fromDate, toDate);
-    }
-
-    /**
      * Get all the leaveApplicationDetailDateMapDTO by leaveApplications.
      *
      * @param leaveApplications the leaveApplications.
@@ -137,19 +108,11 @@ public class LeaveApplicationService {
             LocalDate startDate = leaveApplication.getFrom();
             LocalDate endDate = leaveApplication.getTo().plusDays(1);
             while(startDate.isBefore(endDate)) {
-                LeaveApplicationDetailDateMapDTO leaveApplicationDetailDateMapDto = getLeaveApplicationDetailDateMapDTO (counter, leaveApplication, startDate);
+                LeaveApplicationDetailDateMapDTO leaveApplicationDetailDateMapDto = new LeaveApplicationDetailDateMapDTO((long) counter, startDate, leaveApplication.getId());
                 startDate = startDate.plusDays(1);
                 leaveApplicationDetailDateMapDTOS.add(leaveApplicationDetailDateMapDto);
             }
         }
         return leaveApplicationDetailDateMapDTOS;
-    }
-
-    private LeaveApplicationDetailDateMapDTO getLeaveApplicationDetailDateMapDTO(int counter, LeaveApplication leaveApplication, LocalDate startDate) {
-        LeaveApplicationDetailDateMapDTO leaveApplicationDetailDateMapDto = new LeaveApplicationDetailDateMapDTO();
-        leaveApplicationDetailDateMapDto.setId(Long.parseLong(counter + ""));
-        leaveApplicationDetailDateMapDto.setLeaveAppliedDate(startDate);
-        leaveApplicationDetailDateMapDto.setLeaveApplicationId(leaveApplication.getId());
-        return leaveApplicationDetailDateMapDto;
     }
 }
