@@ -27,9 +27,13 @@ import java.math.BigDecimal;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
 
 /**
  * REST controller for managing {@link software.cstl.domain.LeaveApplication}.
@@ -76,10 +80,19 @@ public class LeaveApplicationResource {
         if(leaveApplication.getFrom().isAfter(leaveApplication.getTo())) {
             throw new BadRequestAlertException("Please check from and to date again.", ENTITY_NAME, "idexists");
         }
-        LeaveBalanceDTO leaveBalanceDTO = leaveBalanceService.getEarnedLeaveBalance(leaveApplication.getApplicant(), leaveApplication.getLeaveType(), leaveApplication.getFrom().getYear());
+
+        LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
+            leaveApplication.getApplicant().getJoiningDate().getDayOfMonth());
+
+        int year = leaveApplication.getFrom().getYear();
+        if(date.isAfter(leaveApplication.getFrom())) {
+            year = leaveApplication.getFrom().getYear() - 1;
+        }
+        List<LeaveBalanceDTO> leaveBalanceDTOs = leaveBalanceService.getLeaveBalances(leaveApplication.getApplicant().getId(), year)
+            .stream().filter(val -> val.getLeaveTypeId().equals(leaveApplication.getLeaveType().getId())).collect(Collectors.toList());
         long l1 = ChronoUnit.DAYS.between(leaveApplication.getFrom(), leaveApplication.getTo()) + 1;
         BigDecimal diff = BigDecimal.valueOf(l1);
-        if(leaveBalanceDTO.getRemainingDays().compareTo(diff) < 0) {
+        if(leaveBalanceDTOs.get(0).getRemainingDays().compareTo(diff) < 0) {
             throw new BadRequestAlertException("Balance exceed", ENTITY_NAME, "idexists");
         }
 
@@ -103,6 +116,27 @@ public class LeaveApplicationResource {
         log.debug("REST request to update LeaveApplication : {}", leaveApplication);
         if (leaveApplication.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
+        }
+        if(leaveApplication.getFrom().getYear() != leaveApplication.getTo().getYear()) {
+            throw new BadRequestAlertException("From and to year should be same", ENTITY_NAME, "idexists");
+        }
+        if(leaveApplication.getFrom().isAfter(leaveApplication.getTo())) {
+            throw new BadRequestAlertException("Please check from and to date again.", ENTITY_NAME, "idexists");
+        }
+
+        LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
+            leaveApplication.getApplicant().getJoiningDate().getDayOfMonth());
+
+        int year = leaveApplication.getFrom().getYear();
+        if(date.isAfter(leaveApplication.getFrom())) {
+            year = leaveApplication.getFrom().getYear() - 1;
+        }
+        List<LeaveBalanceDTO> leaveBalanceDTOs = leaveBalanceService.getLeaveBalances(leaveApplication.getApplicant().getId(), year)
+            .stream().filter(val -> val.getLeaveTypeId().equals(leaveApplication.getLeaveType().getId())).collect(Collectors.toList());
+        long l1 = ChronoUnit.DAYS.between(leaveApplication.getFrom(), leaveApplication.getTo()) + 1;
+        BigDecimal diff = BigDecimal.valueOf(l1);
+        if(leaveBalanceDTOs.get(0).getRemainingDays().compareTo(diff) < 0) {
+            throw new BadRequestAlertException("Balance exceed", ENTITY_NAME, "idexists");
         }
         LeaveApplication result = leaveApplicationService.save(leaveApplication);
         return ResponseEntity.ok()
