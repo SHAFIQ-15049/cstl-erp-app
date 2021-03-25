@@ -12,6 +12,7 @@
         Added the entity LeaveType.
     -->
     <changeSet id="20201226040037-1" author="jhipster">
+        <validCheckSum>8:cf076008d989bac872202d8c5dae165c</validCheckSum>
         <createTable tableName="leave_type">
             <column name="id" type="bigint" autoIncrement="${autoIncrement}">
                 <constraints primaryKey="true" nullable="false"/>
