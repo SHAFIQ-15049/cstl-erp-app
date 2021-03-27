@@ -2,21 +2,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { IEmployee } from 'app/shared/model/employee.model';
+import { IIdCardManagement } from 'app/shared/model/id-card-management.model';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
-import { EmployeeService } from './employee.service';
-import { EmployeeDeleteDialogComponent } from './employee-delete-dialog.component';
+import { IdCardManagementService } from './id-card-management.service';
+import { IdCardManagementDeleteDialogComponent } from './id-card-management-delete-dialog.component';
 
 @Component({
-  selector: 'jhi-employee',
-  templateUrl: './employee.component.html',
+  selector: 'jhi-id-card-management',
+  templateUrl: './id-card-management.component.html',
 })
-export class EmployeeComponent implements OnInit, OnDestroy {
-  employees?: IEmployee[];
+export class IdCardManagementComponent implements OnInit, OnDestroy {
+  idCardManagements?: IIdCardManagement[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -26,9 +26,8 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   ngbPaginationPage = 1;
 
   constructor(
-    protected employeeService: EmployeeService,
+    protected idCardManagementService: IdCardManagementService,
     protected activatedRoute: ActivatedRoute,
-    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
@@ -37,21 +36,21 @@ export class EmployeeComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.employeeService
+    this.idCardManagementService
       .query({
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
       })
       .subscribe(
-        (res: HttpResponse<IEmployee[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        (res: HttpResponse<IIdCardManagement[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
         () => this.onError()
       );
   }
 
   ngOnInit(): void {
     this.handleNavigation();
-    this.registerChangeInEmployees();
+    this.registerChangeInIdCardManagements();
   }
 
   protected handleNavigation(): void {
@@ -75,26 +74,18 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackId(index: number, item: IEmployee): number {
+  trackId(index: number, item: IIdCardManagement): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
   }
 
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
+  registerChangeInIdCardManagements(): void {
+    this.eventSubscriber = this.eventManager.subscribe('idCardManagementListModification', () => this.loadPage());
   }
 
-  openFile(contentType = '', base64String: string): void {
-    return this.dataUtils.openFile(contentType, base64String);
-  }
-
-  registerChangeInEmployees(): void {
-    //this.eventSubscriber = this.eventManager.subscribe('employeeListModification', () => this.loadPage());
-  }
-
-  delete(employee: IEmployee): void {
-    const modalRef = this.modalService.open(EmployeeDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.employee = employee;
+  delete(idCardManagement: IIdCardManagement): void {
+    const modalRef = this.modalService.open(IdCardManagementDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.idCardManagement = idCardManagement;
   }
 
   sort(): string[] {
@@ -105,11 +96,11 @@ export class EmployeeComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected onSuccess(data: IEmployee[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+  protected onSuccess(data: IIdCardManagement[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/employee'], {
+      this.router.navigate(['/id-card-management'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
@@ -117,7 +108,7 @@ export class EmployeeComponent implements OnInit, OnDestroy {
         },
       });
     }
-    this.employees = data || [];
+    this.idCardManagements = data || [];
     this.ngbPaginationPage = this.page;
   }
 

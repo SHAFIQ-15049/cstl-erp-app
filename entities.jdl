@@ -152,6 +152,14 @@ entity JobHistory (job_history){
     totalExperience Double
 }
 
+entity IdCardManagement{
+    //employee
+    cardNo String,
+    issueDate LocalDate,
+    ticketNo String,
+    validTill LocalDate
+}
+
 entity ServiceHistory (service_history){
     //department
     //designation
@@ -502,6 +510,7 @@ relationship ManyToOne{
     Employee{grade(name)} to Grade,
     Employee{designation(name)} to Designation,
     Employee{line(name)} to Line,
+    IdCardManagement{employee(name)} to Employee,
     Line{department(name)} to Department,
     District{division(name)} to Division,
     Thana{district(name)} to District,
@@ -544,6 +553,6 @@ relationship OneToOne{
     PersonalInfo{employee(name)} to Employee{personalInfo},
 }
 
-service Company, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine,  Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
-filter Company, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
-paginate Company, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination
+service Company, IdCardManagement, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine,  Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory with serviceClass
+filter Company, IdCardManagement, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount, JobHistory, ServiceHistory
+paginate Company, IdCardManagement, OverTime, MonthlySalary, PartialSalary, FestivalAllowancePayment, FestivalAllowancePaymentDtl, MonthlySalaryDtl, DefaultAllowance, EmployeeSalary, FestivalAllowanceTimeLine, Line, Fine, FinePaymentHistory, Advance, AdvancePaymentHistory, Department, Designation, Grade, Employee, PersonalInfo, Division, District, Thana, Address, EducationalInfo, Training, EmployeeAccount,JobHistory, ServiceHistory with pagination

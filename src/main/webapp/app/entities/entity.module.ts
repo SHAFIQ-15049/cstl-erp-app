@@ -181,6 +181,10 @@ import { RouterModule } from '@angular/router';
         path: 'weekend-date-map',
         loadChildren: () => import('./weekend-date-map/weekend-date-map.module').then(m => m.CodeNodeErpWeekendDateMapModule),
       },
+      {
+        path: 'id-card-management',
+        loadChildren: () => import('./id-card-management/id-card-management.module').then(m => m.CodeNodeErpIdCardManagementModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],
