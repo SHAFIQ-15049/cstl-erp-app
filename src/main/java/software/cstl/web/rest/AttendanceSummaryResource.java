@@ -46,10 +46,10 @@ public class AttendanceSummaryResource {
             .body(results);
     }
 
-    @GetMapping("/attendance-summaries/departmentId/{departmentId}/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}")
-    public List<AttendanceSummaryDTO> getAllAttendanceSummaries(@PathVariable Long departmentId, @PathVariable Long employeeId, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String markedAs) {
+    @GetMapping("/attendance-summaries/departmentId/{departmentId}/empId/{empId}/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}")
+    public List<AttendanceSummaryDTO> getAllAttendanceSummaries(@PathVariable Long departmentId, @PathVariable String empId, @PathVariable Long employeeId, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String markedAs) {
         log.debug("REST request to get all AttendanceSummaries");
-        return attendanceSummaryService.findAll(departmentId, employeeId, fromDate, toDate, AttendanceMarkedAs.lookup(markedAs));
+        return attendanceSummaryService.findAll(departmentId, empId, employeeId, fromDate, toDate, AttendanceMarkedAs.lookup(markedAs));
     }
 
     @GetMapping("/attendance-summaries/fromDate/{fromDate}/toDate/{toDate}")

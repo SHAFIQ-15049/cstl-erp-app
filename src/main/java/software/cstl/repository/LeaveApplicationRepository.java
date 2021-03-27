@@ -27,10 +27,6 @@ public interface LeaveApplicationRepository extends JpaRepository<LeaveApplicati
 
     List<LeaveApplication> findByApplicantEqualsAndLeaveTypeEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(Employee applicant, LeaveType leaveType, LocalDate from, LocalDate to, LeaveApplicationStatus leaveApplicationStatus);
 
-    List<LeaveApplication> findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqualAndStatus(Employee applicant, LocalDate from, LocalDate to, LeaveApplicationStatus leaveApplicationStatus);
-
-    List<LeaveApplication> findByApplicantEqualsAndFromIsGreaterThanEqualAndToLessThanEqual(Employee applicant, LocalDate from, LocalDate to);
-
     Boolean existsAllByStatusAndFromLessThanEqualAndToGreaterThanEqual(LeaveApplicationStatus status, LocalDate from, LocalDate to);
 
     @Query("select l from LeaveApplication  l where ?1<=l.to and ?2>=l.from ")

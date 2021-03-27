@@ -29,6 +29,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   employeeId = -1;
   markedType = 'null';
   departmentId = -1;
+  empId?: string;
 
   bulkMarkedType?: AttendanceMarkedAs;
 
@@ -55,9 +56,13 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   loadAll(): void {
     if (this.canLoad()) {
       this.attendanceSummaries = [];
+      if (!this.empId) {
+        this.empId = '-1';
+      }
       this.attendanceSummaryService
         .findByDepartmentIdAndEmployeeIdAndFromAndToDate(
           this.departmentId,
+          this.empId,
           this.employeeId,
           this.fromDate,
           this.toDate,

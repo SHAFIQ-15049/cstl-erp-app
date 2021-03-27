@@ -13,6 +13,7 @@ export interface IAttendanceSummary {
   departmentId?: number;
   departmentName?: string;
   employeeId?: number;
+  empId?: string;
   employeeName?: number;
   employeeMachineId?: number;
   employeeSalaryId?: number;
@@ -32,6 +33,7 @@ export class AttendanceSummary implements IAttendanceSummary {
     public departmentId?: number,
     public departmentName?: string,
     public employeeId?: number,
+    public empId?: string,
     public employeeName?: number,
     public employeeMachineId?: number,
     public employeeSalaryId?: number,

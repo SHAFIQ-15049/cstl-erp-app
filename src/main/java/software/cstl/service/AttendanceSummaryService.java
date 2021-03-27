@@ -72,10 +72,11 @@ public class AttendanceSummaryService {
     }
 
     @Transactional(readOnly = true)
-    public List<AttendanceSummaryDTO> findAll(Long departmentId, Long employeeId, LocalDate fromDate, LocalDate toDate, AttendanceMarkedAs attendanceMarkedAs) {
+    public List<AttendanceSummaryDTO> findAll(Long departmentId, String empId, Long employeeId, LocalDate fromDate, LocalDate toDate, AttendanceMarkedAs attendanceMarkedAs) {
         log.debug("Request to get all AttendanceSummaries {} {} {} {}", employeeId, fromDate, toDate, attendanceMarkedAs);
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = findAll(fromDate, toDate);
-        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificDepartment = filterByDepartment(departmentId, attendanceSummaryDTOs);
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmpId = filterByEmpId(empId, attendanceSummaryDTOs);
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificDepartment = filterByDepartment(departmentId, attendanceSummaryDTOsSpecificEmpId);
         List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmployee = filterByEmployee(employeeId, attendanceSummaryDTOsSpecificDepartment);
         return filterByEmployeeAndMarkedAs(attendanceMarkedAs, attendanceSummaryDTOsSpecificEmployee);
     }
@@ -99,6 +100,20 @@ public class AttendanceSummaryService {
             attendanceSummaryDTOsSpecificEmployeeAndMarkedAs = attendanceSummaryDTOsSpecificEmployee;
         }
         return attendanceSummaryDTOsSpecificEmployeeAndMarkedAs;
+    }
+
+    private List<AttendanceSummaryDTO> filterByEmpId(String empId, List<AttendanceSummaryDTO> attendanceSummaryDTOs) {
+        List<AttendanceSummaryDTO> attendanceSummaryDTOsSpecificEmpId = new ArrayList<>();
+        if (!empId.equals("-1")) {
+            for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOs) {
+                if (attendanceSummaryDTO.getEmpId().equals(empId)) {
+                    attendanceSummaryDTOsSpecificEmpId.add(attendanceSummaryDTO);
+                }
+            }
+        } else {
+            attendanceSummaryDTOsSpecificEmpId = attendanceSummaryDTOs;
+        }
+        return attendanceSummaryDTOsSpecificEmpId;
     }
 
     private List<AttendanceSummaryDTO> filterByDepartment(Long departmentId, List<AttendanceSummaryDTO> attendanceSummaryDTOs) {
@@ -215,6 +230,7 @@ public class AttendanceSummaryService {
                 attendanceSummaryDTO.setDepartmentId(employee.getDepartment().getId());
                 attendanceSummaryDTO.setDepartmentName(employee.getDepartment().getName());
                 attendanceSummaryDTO.setEmployeeId(employee.getId());
+                attendanceSummaryDTO.setEmpId(employee.getEmpId());
                 attendanceSummaryDTO.setEmployeeName(employee.getName());
                 attendanceSummaryDTO.setEmployeeMachineId(employee.getAttendanceMachineId());
                 attendanceSummaryDTO.setAttendanceDate(searchingDate);

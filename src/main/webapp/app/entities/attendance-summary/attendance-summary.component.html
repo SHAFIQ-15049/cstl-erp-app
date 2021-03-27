@@ -23,6 +23,11 @@
                                 *ngFor="let departmentOption of departments;">{{ departmentOption.name }}</option>
                     </select>
                     <div class="input-group-prepend">
+                        <span class="input-group-text">Id</span>
+                    </div>
+                    <input type="text" class="form-control" name="empId" [(ngModel)]="empId"
+                           required/>
+                    <div class="input-group-prepend">
                         <span class="input-group-text">Employee</span>
                     </div>
                     <select class="form-control" name="employee"
@@ -75,6 +80,7 @@
             <tr>
                 <th scope="col"><span>Sl.</span></th>
                 <th scope="col"><span>Department</span></th>
+                <th scope="col"><span>Id</span></th>
                 <th scope="col"><span>Employee</span></th>
                 <th scope="col"><span>Date</span></th>
                 <th scope="col"><span>Id (Machine)</span></th>
@@ -92,6 +98,11 @@
                 <td>
                     <div *ngIf="attendanceSummary.departmentId">
                         {{ attendanceSummary.departmentName }}
+                    </div>
+                </td>
+                <td>
+                    <div *ngIf="attendanceSummary.empId">
+                        {{ attendanceSummary.empId }}
                     </div>
                 </td>
                 <td>

@@ -30,6 +30,8 @@ public class AttendanceSummaryDTO implements Serializable {
 
     private Long employeeId;
 
+    private String empId;
+
     private String employeeName;
 
     private String employeeMachineId;
@@ -118,6 +120,14 @@ public class AttendanceSummaryDTO implements Serializable {
 
     public void setAttendanceMarkedAs(AttendanceMarkedAs attendanceMarkedAs) {
         this.attendanceMarkedAs = attendanceMarkedAs;
+    }
+
+    public String getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(String empId) {
+        this.empId = empId;
     }
 
     public LeaveAppliedStatus getLeaveAppliedStatus() {

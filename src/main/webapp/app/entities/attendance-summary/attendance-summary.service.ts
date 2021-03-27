@@ -41,6 +41,7 @@ export class AttendanceSummaryService {
 
   findByDepartmentIdAndEmployeeIdAndFromAndToDate(
     departmentId: number,
+    empId: string,
     employeeId: number,
     fromDate: string,
     toDate: string,
@@ -48,7 +49,7 @@ export class AttendanceSummaryService {
   ): Observable<EntityArrayResponseType> {
     return this.http
       .get<IAttendanceSummary[]>(
-        `${this.resourceUrl}/departmentId/${departmentId}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}/markedAs/${markedAs}`,
+        `${this.resourceUrl}/departmentId/${departmentId}/empId/${empId}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}/markedAs/${markedAs}`,
         {
           observe: 'response',
         }
