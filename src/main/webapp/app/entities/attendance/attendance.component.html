@@ -64,7 +64,7 @@
                         <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
                     </div>
                 </td>
-                <td>{{ attendance.employee.empId }}</td>
+                <td>{{ attendance.employee?.empId }}</td>
                 <td>{{ attendance.machineNo }}</td>
                 <td>{{ attendance.attendanceTime | date:"medium":"+0000" }}</td>
                 <td class="text-right">
