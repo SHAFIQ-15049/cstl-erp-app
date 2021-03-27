@@ -1,5 +1,4 @@
 import { Moment } from 'moment';
-import { ILeaveApplication } from 'app/shared/model/leave-application.model';
 
 export interface ILeaveBalance {
   id?: number;
@@ -10,7 +9,6 @@ export interface ILeaveBalance {
   employeeJoiningDate?: Moment;
   leaveTypeId?: number;
   leaveTypeName?: string;
-  acceptedLeaveApplications?: ILeaveApplication[];
 }
 
 export class LeaveBalance implements ILeaveBalance {
@@ -22,7 +20,6 @@ export class LeaveBalance implements ILeaveBalance {
     public employeeName?: string,
     public employeeJoiningDate?: Moment,
     public leaveTypeId?: number,
-    public leaveTypeName?: string,
-    public acceptedLeaveApplications?: ILeaveApplication[]
+    public leaveTypeName?: string
   ) {}
 }

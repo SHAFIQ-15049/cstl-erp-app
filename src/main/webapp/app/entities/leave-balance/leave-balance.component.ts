@@ -61,9 +61,4 @@ export class LeaveBalanceComponent implements OnInit, OnDestroy {
   registerChangeInLeaveBalances(): void {
     this.eventSubscriber = this.eventManager.subscribe('leaveBalanceListModification', () => this.loadAll());
   }
-
-  showDetail(acceptedLeaveApplications?: ILeaveApplication[]): void {
-    const modalRef = this.modalService.open(LeaveBalanceDetailComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.leaveApplications = acceptedLeaveApplications;
-  }
 }

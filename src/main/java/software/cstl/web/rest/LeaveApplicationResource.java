@@ -1,6 +1,8 @@
 package software.cstl.web.rest;
 
 import software.cstl.domain.LeaveApplication;
+import software.cstl.domain.LeaveType;
+import software.cstl.domain.enumeration.LeaveTypeName;
 import software.cstl.service.LeaveApplicationService;
 import software.cstl.service.LeaveBalanceService;
 import software.cstl.service.dto.LeaveBalanceDTO;
@@ -80,14 +82,16 @@ public class LeaveApplicationResource {
         if(leaveApplication.getFrom().isAfter(leaveApplication.getTo())) {
             throw new BadRequestAlertException("Please check from and to date again.", ENTITY_NAME, "idexists");
         }
-
-        LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
-            leaveApplication.getApplicant().getJoiningDate().getDayOfMonth());
-
         int year = leaveApplication.getFrom().getYear();
-        if(date.isAfter(leaveApplication.getFrom())) {
-            year = leaveApplication.getFrom().getYear() - 1;
+
+        if(leaveApplication.getLeaveType().getName().equals(LeaveTypeName.EARNED_LEAVE)) {
+            LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
+                leaveApplication.getApplicant().getJoiningDate().getDayOfMonth()).minusDays(1);
+            if(date.isAfter(leaveApplication.getFrom())) {
+                year = leaveApplication.getFrom().getYear() - 1;
+            }
         }
+
         List<LeaveBalanceDTO> leaveBalanceDTOs = leaveBalanceService.getLeaveBalances(leaveApplication.getApplicant().getId(), year)
             .stream().filter(val -> val.getLeaveTypeId().equals(leaveApplication.getLeaveType().getId())).collect(Collectors.toList());
         long l1 = ChronoUnit.DAYS.between(leaveApplication.getFrom(), leaveApplication.getTo()) + 1;
@@ -123,14 +127,16 @@ public class LeaveApplicationResource {
         if(leaveApplication.getFrom().isAfter(leaveApplication.getTo())) {
             throw new BadRequestAlertException("Please check from and to date again.", ENTITY_NAME, "idexists");
         }
-
-        LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
-            leaveApplication.getApplicant().getJoiningDate().getDayOfMonth());
-
         int year = leaveApplication.getFrom().getYear();
-        if(date.isAfter(leaveApplication.getFrom())) {
-            year = leaveApplication.getFrom().getYear() - 1;
+
+        if(leaveApplication.getLeaveType().getName().equals(LeaveTypeName.EARNED_LEAVE)) {
+            LocalDate date = LocalDate.of(leaveApplication.getFrom().getYear(), leaveApplication.getApplicant().getJoiningDate().getMonthValue(),
+                leaveApplication.getApplicant().getJoiningDate().getDayOfMonth()).minusDays(1);
+            if(date.isAfter(leaveApplication.getFrom())) {
+                year = leaveApplication.getFrom().getYear() - 1;
+            }
         }
+
         List<LeaveBalanceDTO> leaveBalanceDTOs = leaveBalanceService.getLeaveBalances(leaveApplication.getApplicant().getId(), year)
             .stream().filter(val -> val.getLeaveTypeId().equals(leaveApplication.getLeaveType().getId())).collect(Collectors.toList());
         long l1 = ChronoUnit.DAYS.between(leaveApplication.getFrom(), leaveApplication.getTo()) + 1;

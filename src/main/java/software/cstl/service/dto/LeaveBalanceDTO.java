@@ -26,12 +26,10 @@ public class LeaveBalanceDTO implements Serializable {
 
     private String leaveTypeName;
 
-    private List<LeaveApplication> acceptedLeaveApplications;
-
     public LeaveBalanceDTO() {
     }
 
-    public LeaveBalanceDTO(Long id, BigDecimal totalDays, BigDecimal remainingDays, Long employeeId, String employeeName, LocalDate employeeJoiningDate, Long leaveTypeId, String leaveTypeName, List<LeaveApplication> acceptedLeaveApplications) {
+    public LeaveBalanceDTO(Long id, BigDecimal totalDays, BigDecimal remainingDays, Long employeeId, String employeeName, LocalDate employeeJoiningDate, Long leaveTypeId, String leaveTypeName) {
         this.id = id;
         this.totalDays = totalDays;
         this.remainingDays = remainingDays;
@@ -40,7 +38,6 @@ public class LeaveBalanceDTO implements Serializable {
         this.employeeJoiningDate = employeeJoiningDate;
         this.leaveTypeId = leaveTypeId;
         this.leaveTypeName = leaveTypeName;
-        this.acceptedLeaveApplications = acceptedLeaveApplications;
     }
 
     public Long getId() {
@@ -105,14 +102,6 @@ public class LeaveBalanceDTO implements Serializable {
 
     public void setLeaveTypeName(String leaveTypeName) {
         this.leaveTypeName = leaveTypeName;
-    }
-
-    public List<LeaveApplication> getAcceptedLeaveApplications() {
-        return acceptedLeaveApplications;
-    }
-
-    public void setAcceptedLeaveApplications(List<LeaveApplication> acceptedLeaveApplications) {
-        this.acceptedLeaveApplications = acceptedLeaveApplications;
     }
 
     @Override
