@@ -41,7 +41,7 @@
                 <th scope="col" jhiSortBy="employee.name"><span>Employee</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
-                <th scope="col" jhiSortBy="employee.localId"><span>Employee ID</span>
+                <th scope="col" jhiSortBy="employee.empId"><span>Employee ID</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
 <!--                <th scope="col" jhiSortBy="employeeMachineId"><span>Employee Machine Id</span>-->
@@ -64,7 +64,7 @@
                         <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
                     </div>
                 </td>
-                <td>{{ attendance.employeeMachineId }}</td>
+                <td>{{ attendance.employee.empId }}</td>
                 <td>{{ attendance.machineNo }}</td>
                 <td>{{ attendance.attendanceTime | date:"medium":"+0000" }}</td>
                 <td class="text-right">
