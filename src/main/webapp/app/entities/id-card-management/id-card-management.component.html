@@ -38,6 +38,10 @@
 
                     <td class="text-right">
                         <div class="btn-group">
+                            <button class="btn btn-warning btn-sm" (click)="downloadIdCard(idCardManagement.id!)">
+                                <fa-icon icon="download"></fa-icon>
+                                    <span class="d-none d-md-inline">Download</span>
+                            </button>
                             <button type="submit"
                                     [routerLink]="['../../id-card-management', idCardManagement.id, 'view']"
                                     class="btn btn-info btn-sm">

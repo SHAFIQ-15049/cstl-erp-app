@@ -48,7 +48,7 @@ public class EmployeeExtResource extends EmployeeResource {
     }
 
     @GetMapping(value = "/employees/id-card/{employeeId}", produces = APPLICATION_PDF_VALUE)
-    public ResponseEntity<InputStreamResource> generateIdCard(@PathVariable Long employeeId) throws DocumentException, IOException {
+    public ResponseEntity<InputStreamResource> generateIdCard(@PathVariable Long employeeId) throws DocumentException, IOException, com.lowagie.text.DocumentException {
         ByteArrayInputStream bis = idCardGeneratorService.generateIdCard(employeeId);
         HttpHeaders headers = new HttpHeaders();
         headers.add("Content-Disposition", "inline; filename=id-card.pdf");

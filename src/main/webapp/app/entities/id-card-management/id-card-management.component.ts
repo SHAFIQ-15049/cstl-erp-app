@@ -10,6 +10,8 @@ import { IIdCardManagement } from 'app/shared/model/id-card-management.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { IdCardManagementService } from './id-card-management.service';
 import { IdCardManagementDeleteDialogComponent } from './id-card-management-delete-dialog.component';
+import { EmployeeService } from 'app/entities/employee/employee.service';
+import { EmployeeExtService } from 'app/app-components/employee-ext/employee-ext.service';
 
 @Component({
   selector: 'jhi-id-card-management',
@@ -32,7 +34,8 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
     protected activatedRoute: ActivatedRoute,
     protected router: Router,
     protected eventManager: JhiEventManager,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected employeeService: EmployeeExtService
   ) {}
 
   loadPage(page?: number, dontNavigate?: boolean): void {
@@ -104,7 +107,8 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['./id-card-management', this.employeeId], {
+      this.router.navigate(['../../id-card-management', this.employeeId], {
+        relativeTo: this.activatedRoute, //this is a must
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
@@ -118,5 +122,16 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
+  }
+
+  public downloadIdCard(id: number): void {
+    this.employeeService.downloadIdCard(id).subscribe(data => {
+      const file = new Blob([data], { type: 'application/octet-stream' });
+      const pdfData = URL.createObjectURL(file);
+      const link = document.createElement('a');
+      link.href = pdfData;
+      link.download = 'id-card.xls';
+      link.click();
+    });
   }
 }
