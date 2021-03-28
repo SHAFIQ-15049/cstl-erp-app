@@ -1,6 +1,7 @@
 {
   "rulesDirectory": ["node_modules/codelyzer"],
   "rules": {
+    "no-console": false,
     "directive-selector": [true, "attribute", "jhi", "camelCase"],
     "component-selector": [true, "element", "jhi", "kebab-case"],
     "no-inputs-metadata-property": true,

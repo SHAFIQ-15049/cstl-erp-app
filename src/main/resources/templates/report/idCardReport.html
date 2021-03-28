@@ -1,0 +1,38 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+    <style>
+        @import url("Siyamrupali.ttf");
+
+        .bengaliFont{
+            font-family: "Siyamrupali";
+        }
+    </style>
+</head>
+<body class="bengaliFont">
+<table style="width:50%">
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td>কার্ড নং</td>
+                    <td>: VALKDJF234</td>
+                </tr>
+                <tr>
+                    <td>ইস্যু তারিখ</td>
+                    <td>: ১২/০৩/২০২১</td>
+                </tr>
+                <tr>
+                    <td>টিকেট নং</td>
+                    <td>০০২৩৪২৪৩৫</td>
+                </tr>
+            </table>
+        </td>
+        <td>
+            <img th:src="@{photo}"  style="width:500px;height:600px;"/>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

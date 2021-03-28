@@ -10,8 +10,8 @@ import { IEmployee } from 'app/shared/model/employee.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { EmployeeExtService } from './employee-ext.service';
 import { EmployeeExtDeleteDialogComponent } from './employee-ext-delete-dialog.component';
-import {StateStorageService} from "app/core/auth/state-storage.service";
-import {EmployeeComponent} from "app/entities/employee/employee.component";
+import { StateStorageService } from 'app/core/auth/state-storage.service';
+import { EmployeeComponent } from 'app/entities/employee/employee.component';
 
 @Component({
   selector: 'jhi-employee',
@@ -39,7 +39,11 @@ export class EmployeeExtComponent extends EmployeeComponent implements OnInit, O
     super(employeeService, activatedRoute, dataUtils, router, eventManager, modalService);
   }
 
-
+  registerChangeInEmployees(): void {
+    this.eventSubscriber = this.eventManager.subscribe('employeeListModification', () => {
+      this.loadPage();
+    });
+  }
 
   ngOnInit(): void {
     // storing the url in the session, it will help in return from employee detail to employee list (with url parameters)
@@ -48,6 +52,4 @@ export class EmployeeExtComponent extends EmployeeComponent implements OnInit, O
     this.handleNavigation();
     this.registerChangeInEmployees();
   }
-
-
 }

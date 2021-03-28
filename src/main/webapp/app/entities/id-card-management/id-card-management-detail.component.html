@@ -1,0 +1,42 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="idCardManagement">
+            <h2><span>Id Card Management</span> {{ idCardManagement.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Card No</span></dt>
+                <dd>
+                    <span>{{ idCardManagement.cardNo }}</span>
+                </dd>
+                <dt><span>Issue Date</span></dt>
+                <dd>
+                    <span>{{ idCardManagement.issueDate | date: 'dd-MM-yyyy' }}</span>
+                </dd>
+                <dt><span>Ticket No</span></dt>
+                <dd>
+                    <span>{{ idCardManagement.ticketNo }}</span>
+                </dd>
+                <dt><span>Valid Till</span></dt>
+                <dd>
+                    <span>{{ idCardManagement.validTill | date: 'dd-MM-yyyy' }}</span>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/id-card-management', idCardManagement.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

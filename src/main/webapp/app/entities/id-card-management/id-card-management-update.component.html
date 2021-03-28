@@ -1,0 +1,59 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-id-card-management-heading">Create or edit a Id Card Management</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cardNo">Card No</label>
+                    <input type="text" class="form-control" name="cardNo" id="field_cardNo"
+                           formControlName="cardNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_issueDate">Issue Date</label>
+                    <div class="input-group">
+                        <input id="field_issueDate" type="text" class="form-control" name="issueDate" ngbDatepicker #issueDateDp="ngbDatepicker" formControlName="issueDate"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="issueDateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_ticketNo">Ticket No</label>
+                    <input type="text" class="form-control" name="ticketNo" id="field_ticketNo"
+                           formControlName="ticketNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_validTill">Valid Till</label>
+                    <div class="input-group">
+                        <input id="field_validTill" type="text" class="form-control" name="validTill" ngbDatepicker #validTillDp="ngbDatepicker" formControlName="validTill"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="validTillDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

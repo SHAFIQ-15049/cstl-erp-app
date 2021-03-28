@@ -27,7 +27,7 @@ const LAYOUT_ROUTES = [navbarRoute, ...errorRoute];
         },
         ...LAYOUT_ROUTES,
       ],
-      { enableTracing: false, onSameUrlNavigation: 'reload' }
+      { enableTracing: true, onSameUrlNavigation: 'reload' }
     ),
   ],
   exports: [RouterModule],
