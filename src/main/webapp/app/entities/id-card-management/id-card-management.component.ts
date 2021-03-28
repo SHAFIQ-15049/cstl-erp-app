@@ -25,6 +25,8 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  employeeId!: number;
+
   constructor(
     protected idCardManagementService: IdCardManagementService,
     protected activatedRoute: ActivatedRoute,
@@ -38,6 +40,7 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
 
     this.idCardManagementService
       .query({
+        'employeeId.equals': this.employeeId,
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
@@ -60,6 +63,7 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
       const sort = (params.get('sort') ?? data['defaultSort']).split(',');
       const predicate = sort[0];
       const ascending = sort[1] === 'asc';
+      this.employeeId = +this.activatedRoute.snapshot.params['employeeId'];
       if (pageNumber !== this.page || predicate !== this.predicate || ascending !== this.ascending) {
         this.predicate = predicate;
         this.ascending = ascending;
@@ -100,7 +104,7 @@ export class IdCardManagementComponent implements OnInit, OnDestroy {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/id-card-management'], {
+      this.router.navigate(['./id-card-management', this.employeeId], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,

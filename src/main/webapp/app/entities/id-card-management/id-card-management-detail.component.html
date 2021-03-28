@@ -14,7 +14,7 @@
                 </dd>
                 <dt><span>Issue Date</span></dt>
                 <dd>
-                    <span>{{ idCardManagement.issueDate }}</span>
+                    <span>{{ idCardManagement.issueDate | date: 'dd-MM-yyyy' }}</span>
                 </dd>
                 <dt><span>Ticket No</span></dt>
                 <dd>
@@ -22,13 +22,7 @@
                 </dd>
                 <dt><span>Valid Till</span></dt>
                 <dd>
-                    <span>{{ idCardManagement.validTill }}</span>
-                </dd>
-                <dt><span>Employee</span></dt>
-                <dd>
-                    <div *ngIf="idCardManagement.employee">
-                        <a [routerLink]="['/employee', idCardManagement.employee?.id, 'view']">{{ idCardManagement.employee?.name }}</a>
-                    </div>
+                    <span>{{ idCardManagement.validTill | date: 'dd-MM-yyyy' }}</span>
                 </dd>
             </dl>
 

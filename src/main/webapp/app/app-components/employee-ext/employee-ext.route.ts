@@ -96,6 +96,11 @@ export const employeeExtRoute: Routes = [
         canActivate: [UserRouteAccessService],
       },
       {
+        path: 'id-card-management',
+        loadChildren: () =>
+          import('../../entities/id-card-management/id-card-management.module').then(m => m.CodeNodeErpIdCardManagementModule),
+      },
+      {
         path: 'employee-salary',
         loadChildren: () => import('../../entities/employee-salary/employee-salary.module').then(m => m.CodeNodeErpEmployeeSalaryModule),
       },

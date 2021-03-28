@@ -37,11 +37,11 @@ export class EmployeeExtDetailComponent extends EmployeeDetailComponent implemen
       this.employee = employee;
       this.employeeId = this.employee?.id;
       this.employeeService.storeEmployeeId(this.employee?.id!);
-      if (this.employee?.localId) {
+      /*      if (this.employee?.localId) {
         this.userService.find(this.employee.localId).subscribe(res => {
           this.user = res;
         });
-      }
+      }*/
     });
   }
 

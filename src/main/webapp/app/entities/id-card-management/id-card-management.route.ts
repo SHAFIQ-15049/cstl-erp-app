@@ -46,6 +46,16 @@ export const idCardManagementRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
+    path: ':employeeId',
+    component: IdCardManagementComponent,
+    data: {
+      authorities: [Authority.USER],
+      defaultSort: 'id,desc',
+      pageTitle: 'IdCardManagements',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
     path: ':id/view',
     component: IdCardManagementDetailComponent,
     resolve: {
@@ -59,6 +69,18 @@ export const idCardManagementRoute: Routes = [
   },
   {
     path: 'new',
+    component: IdCardManagementUpdateComponent,
+    resolve: {
+      idCardManagement: IdCardManagementResolve,
+    },
+    data: {
+      authorities: [Authority.USER],
+      pageTitle: 'IdCardManagements',
+    },
+    canActivate: [UserRouteAccessService],
+  },
+  {
+    path: 'new/:employeeId',
     component: IdCardManagementUpdateComponent,
     resolve: {
       idCardManagement: IdCardManagementResolve,

@@ -19,6 +19,7 @@ export class IdCardManagementUpdateComponent implements OnInit {
   employees: IEmployee[] = [];
   issueDateDp: any;
   validTillDp: any;
+  employeeId!: number;
 
   editForm = this.fb.group({
     id: [],
@@ -38,8 +39,15 @@ export class IdCardManagementUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ idCardManagement }) => {
-      this.updateForm(idCardManagement);
-
+      this.employeeId = +this.activatedRoute.snapshot.params['employeeId'];
+      if (this.employeeId) {
+        this.employeeService.find(this.employeeId).subscribe(employee => {
+          idCardManagement.employee = employee.body;
+          this.updateForm(idCardManagement);
+        });
+      } else {
+        this.updateForm(idCardManagement);
+      }
       this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
     });
   }
