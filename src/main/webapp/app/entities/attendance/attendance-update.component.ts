@@ -36,6 +36,7 @@ export class AttendanceUpdateComponent implements OnInit {
   designations: IDesignation[] = [];
   lines: ILine[] = [];
   grades: IGrade[] = [];
+  empId?: string;
 
   editForm = this.fb.group({
     id: [],
@@ -162,5 +163,16 @@ export class AttendanceUpdateComponent implements OnInit {
 
   trackById(index: number, item: SelectableEntity): any {
     return item.id;
+  }
+
+  searchByEmpId(): void {
+    for (let i = 0; i < this.employees.length; i++) {
+      if (this.empId === this.employees[i].empId) {
+        this.editForm.patchValue({
+          employee: this.employees[i],
+        });
+        break;
+      }
+    }
   }
 }

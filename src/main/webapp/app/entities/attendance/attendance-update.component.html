@@ -3,6 +3,24 @@
         <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
             <h2 id="jhi-attendance-heading">Create or edit a Attendance</h2>
 
+            <div class="row">
+                <div class="col-md-6">
+                    <form>
+                        <div class="input-group mb-3">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text">EmployeeId</span>
+                            </div>
+                            <input type="text" class="form-control" name="empId" [(ngModel)]="empId"/>
+
+                            <button type="submit" class="btn btn-info" (click)="searchByEmpId()">
+                                <fa-icon icon="search"></fa-icon>
+                            </button>
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+
             <div>
                 <jhi-alert-error></jhi-alert-error>
 
