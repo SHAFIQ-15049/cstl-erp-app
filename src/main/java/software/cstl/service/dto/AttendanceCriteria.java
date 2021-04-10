@@ -41,6 +41,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         }
 
     }
+
     /**
      * Class for filtering LeaveAppliedStatus
      */
@@ -59,6 +60,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         }
 
     }
+
     /**
      * Class for filtering EmployeeCategory
      */
@@ -77,6 +79,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         }
 
     }
+
     /**
      * Class for filtering EmployeeType
      */
@@ -118,6 +121,8 @@ public class AttendanceCriteria implements Serializable, Criteria {
 
     private LongFilter employeeSalaryId;
 
+    private StringFilter empId;
+
     private LongFilter departmentId;
 
     private LongFilter designationId;
@@ -139,6 +144,7 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.employeeCategory = other.employeeCategory == null ? null : other.employeeCategory.copy();
         this.employeeType = other.employeeType == null ? null : other.employeeType.copy();
         this.employeeId = other.employeeId == null ? null : other.employeeId.copy();
+        this.empId = other.empId == null ? null : other.empId.copy();
         this.employeeSalaryId = other.employeeSalaryId == null ? null : other.employeeSalaryId.copy();
         this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
         this.designationId = other.designationId == null ? null : other.designationId.copy();
@@ -263,6 +269,13 @@ public class AttendanceCriteria implements Serializable, Criteria {
         this.gradeId = gradeId;
     }
 
+    public StringFilter getEmpId() {
+        return empId;
+    }
+
+    public void setEmpId(StringFilter empId) {
+        this.empId = empId;
+    }
 
     @Override
     public boolean equals(Object o) {
@@ -275,38 +288,40 @@ public class AttendanceCriteria implements Serializable, Criteria {
         final AttendanceCriteria that = (AttendanceCriteria) o;
         return
             Objects.equals(id, that.id) &&
-            Objects.equals(attendanceTime, that.attendanceTime) &&
-            Objects.equals(machineNo, that.machineNo) &&
-            Objects.equals(markedAs, that.markedAs) &&
-            Objects.equals(leaveApplied, that.leaveApplied) &&
-            Objects.equals(employeeMachineId, that.employeeMachineId) &&
-            Objects.equals(employeeCategory, that.employeeCategory) &&
-            Objects.equals(employeeType, that.employeeType) &&
-            Objects.equals(employeeId, that.employeeId) &&
-            Objects.equals(employeeSalaryId, that.employeeSalaryId) &&
-            Objects.equals(departmentId, that.departmentId) &&
-            Objects.equals(designationId, that.designationId) &&
-            Objects.equals(lineId, that.lineId) &&
-            Objects.equals(gradeId, that.gradeId);
+                Objects.equals(attendanceTime, that.attendanceTime) &&
+                Objects.equals(machineNo, that.machineNo) &&
+                Objects.equals(markedAs, that.markedAs) &&
+                Objects.equals(leaveApplied, that.leaveApplied) &&
+                Objects.equals(employeeMachineId, that.employeeMachineId) &&
+                Objects.equals(employeeCategory, that.employeeCategory) &&
+                Objects.equals(employeeType, that.employeeType) &&
+                Objects.equals(employeeId, that.employeeId) &&
+                Objects.equals(empId, that.empId) &&
+                Objects.equals(employeeSalaryId, that.employeeSalaryId) &&
+                Objects.equals(departmentId, that.departmentId) &&
+                Objects.equals(designationId, that.designationId) &&
+                Objects.equals(lineId, that.lineId) &&
+                Objects.equals(gradeId, that.gradeId);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(
-        id,
-        attendanceTime,
-        machineNo,
-        markedAs,
-        leaveApplied,
-        employeeMachineId,
-        employeeCategory,
-        employeeType,
-        employeeId,
-        employeeSalaryId,
-        departmentId,
-        designationId,
-        lineId,
-        gradeId
+            id,
+            attendanceTime,
+            machineNo,
+            markedAs,
+            leaveApplied,
+            employeeMachineId,
+            employeeCategory,
+            employeeType,
+            employeeId,
+            empId,
+            employeeSalaryId,
+            departmentId,
+            designationId,
+            lineId,
+            gradeId
         );
     }
 
@@ -314,20 +329,21 @@ public class AttendanceCriteria implements Serializable, Criteria {
     @Override
     public String toString() {
         return "AttendanceCriteria{" +
-                (id != null ? "id=" + id + ", " : "") +
-                (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
-                (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
-                (markedAs != null ? "markedAs=" + markedAs + ", " : "") +
-                (leaveApplied != null ? "leaveApplied=" + leaveApplied + ", " : "") +
-                (employeeMachineId != null ? "employeeMachineId=" + employeeMachineId + ", " : "") +
-                (employeeCategory != null ? "employeeCategory=" + employeeCategory + ", " : "") +
-                (employeeType != null ? "employeeType=" + employeeType + ", " : "") +
-                (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
-                (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +
-                (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
-                (designationId != null ? "designationId=" + designationId + ", " : "") +
-                (lineId != null ? "lineId=" + lineId + ", " : "") +
-                (gradeId != null ? "gradeId=" + gradeId + ", " : "") +
+            (id != null ? "id=" + id + ", " : "") +
+            (attendanceTime != null ? "attendanceTime=" + attendanceTime + ", " : "") +
+            (machineNo != null ? "machineNo=" + machineNo + ", " : "") +
+            (markedAs != null ? "markedAs=" + markedAs + ", " : "") +
+            (leaveApplied != null ? "leaveApplied=" + leaveApplied + ", " : "") +
+            (employeeMachineId != null ? "employeeMachineId=" + employeeMachineId + ", " : "") +
+            (employeeCategory != null ? "employeeCategory=" + employeeCategory + ", " : "") +
+            (employeeType != null ? "employeeType=" + employeeType + ", " : "") +
+            (employeeId != null ? "employeeId=" + employeeId + ", " : "") +
+            (empId != null ? "empId=" + empId + ", " : "") +
+            (employeeSalaryId != null ? "employeeSalaryId=" + employeeSalaryId + ", " : "") +
+            (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
+            (designationId != null ? "designationId=" + designationId + ", " : "") +
+            (lineId != null ? "lineId=" + lineId + ", " : "") +
+            (gradeId != null ? "gradeId=" + gradeId + ", " : "") +
             "}";
     }
 

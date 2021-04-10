@@ -27,6 +27,38 @@
 
     <jhi-alert></jhi-alert>
 
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <h4>Filter by date</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">from</span>
+                    </div>
+                    <input type="datetime-local" class="form-control" name="start" [(ngModel)]="fromDateTime"
+                           required/>
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">To</span>
+                    </div>
+                    <input type="datetime-local" class="form-control" name="end" [(ngModel)]="toDateTime"
+                           required/>
+
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">EmployeeId</span>
+                    </div>
+                    <input type="text" class="form-control" name="empId" [(ngModel)]="empId"/>
+
+                    <button type="submit" class="btn btn-info" (click)="loadPage()">
+                        <fa-icon icon="search"></fa-icon>
+                    </button>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="alert alert-warning" id="no-result" *ngIf="attendances?.length === 0">
         <span>No attendances found</span>
     </div>
@@ -38,15 +70,12 @@
                 <th scope="col" jhiSortBy="id"><span>ID</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
+                <th scope="col" jhiSortBy="employee.empId"><span>Employee Id</span>
+                    <fa-icon icon="sort"></fa-icon>
+                </th>
                 <th scope="col" jhiSortBy="employee.name"><span>Employee</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
-                <th scope="col" jhiSortBy="employee.empId"><span>Employee ID</span>
-                    <fa-icon icon="sort"></fa-icon>
-                </th>
-<!--                <th scope="col" jhiSortBy="employeeMachineId"><span>Employee Machine Id</span>-->
-<!--                    <fa-icon icon="sort"></fa-icon>-->
-<!--                </th>-->
                 <th scope="col" jhiSortBy="machineNo"><span>Machine No</span>
                     <fa-icon icon="sort"></fa-icon>
                 </th>
@@ -59,12 +88,12 @@
             <tbody>
             <tr *ngFor="let attendance of attendances ;trackBy: trackId">
                 <td><a [routerLink]="['/attendance', attendance.id, 'view']">{{ attendance.id }}</a></td>
+                <td>{{ attendance.employee?.empId }}</td>
                 <td>
                     <div *ngIf="attendance.employee">
                         <a [routerLink]="['/employee', attendance.employee?.id, 'view']">{{ attendance.employee?.name }}</a>
                     </div>
                 </td>
-                <td>{{ attendance.employee?.empId }}</td>
                 <td>{{ attendance.machineNo }}</td>
                 <td>{{ attendance.attendanceTime | date:"medium":"+0000" }}</td>
                 <td class="text-right">

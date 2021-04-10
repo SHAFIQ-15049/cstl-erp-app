@@ -10,6 +10,10 @@ import { IAttendance } from 'app/shared/model/attendance.model';
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
 import { AttendanceService } from './attendance.service';
 import { AttendanceDeleteDialogComponent } from './attendance-delete-dialog.component';
+import { DatePipe } from '@angular/common';
+import { Moment } from 'moment';
+import * as moment from 'moment';
+import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 @Component({
   selector: 'jhi-attendance',
@@ -25,6 +29,10 @@ export class AttendanceComponent implements OnInit, OnDestroy {
   ascending!: boolean;
   ngbPaginationPage = 1;
 
+  fromDateTime?: string;
+  toDateTime?: string;
+  empId?: string;
+
   constructor(
     protected attendanceService: AttendanceService,
     protected activatedRoute: ActivatedRoute,
@@ -33,22 +41,65 @@ export class AttendanceComponent implements OnInit, OnDestroy {
     protected modalService: NgbModal
   ) {}
 
-  loadPage(page?: number, dontNavigate?: boolean): void {
-    const pageToLoad: number = page || this.page || 1;
+  private static today(): string {
+    return moment(new Date()).format('YYYY-MM-DDTHH:mm');
+  }
 
-    this.attendanceService
-      .query({
-        page: pageToLoad - 1,
-        size: this.itemsPerPage,
-        sort: this.sort(),
-      })
-      .subscribe(
-        (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
-        () => this.onError()
-      );
+  canLoad(): boolean {
+    return this.fromDateTime !== undefined && this.toDateTime !== undefined;
+  }
+
+  loadPage(page?: number, dontNavigate?: boolean): void {
+    if (this.canLoad() && this.empId) {
+      const pageToLoad: number = page || this.page || 1;
+
+      this.attendanceService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'attendanceTime.greaterOrEqualThan': this.fromDateTime + ':00Z',
+          'attendanceTime.lessOrEqualThan': this.toDateTime + ':00Z',
+          'empId.equals': this.empId,
+        })
+        .subscribe(
+          (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    } else if (this.canLoad()) {
+      const pageToLoad: number = page || this.page || 1;
+
+      this.attendanceService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+          'attendanceTime.greaterOrEqualThan': this.fromDateTime + ':00Z',
+          'attendanceTime.lessOrEqualThan': this.toDateTime + ':00Z',
+        })
+        .subscribe(
+          (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    } else {
+      const pageToLoad: number = page || this.page || 1;
+
+      this.attendanceService
+        .query({
+          page: pageToLoad - 1,
+          size: this.itemsPerPage,
+          sort: this.sort(),
+        })
+        .subscribe(
+          (res: HttpResponse<IAttendance[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+          () => this.onError()
+        );
+    }
   }
 
   ngOnInit(): void {
+    this.toDateTime = AttendanceComponent.today();
+    this.fromDateTime = AttendanceComponent.today();
     this.handleNavigation();
     this.registerChangeInAttendances();
   }
