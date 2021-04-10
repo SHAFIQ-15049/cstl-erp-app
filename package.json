@@ -22,6 +22,7 @@
     "@ng-bootstrap/ng-bootstrap": "8.0.0",
     "@ngx-translate/core": "12.1.2",
     "@ngx-translate/http-loader": "5.0.0",
+    "@types/jquery": "^3.5.5",
     "bootstrap": "4.5.0",
     "moment": "2.27.0",
     "ng-jhipster": "0.15.0",

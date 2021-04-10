@@ -126,4 +126,20 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   protected onSaveError(): void {
     this.isSaving = false;
   }
+
+  public download(): void {
+    if (this.canLoad()) {
+      if (!this.empId) {
+        this.empId = '-1';
+      }
+      this.attendanceSummaryService.downloadAttendanceSummary(
+        this.departmentId,
+        this.empId,
+        this.employeeId,
+        this.fromDate,
+        this.toDate,
+        this.markedType.toString()
+      );
+    }
+  }
 }

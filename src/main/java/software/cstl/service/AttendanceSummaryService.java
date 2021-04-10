@@ -13,6 +13,7 @@ import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
+import java.io.ByteArrayInputStream;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -338,5 +339,4 @@ public class AttendanceSummaryService {
         }
         return null;
     }
-
 }

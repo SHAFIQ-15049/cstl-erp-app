@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IAttendanceSummary } from 'app/shared/model/attendance-summary.model';
+import { ReportUtil } from 'app/shared/util/report-util';
 
 type EntityResponseType = HttpResponse<IAttendanceSummary>;
 type EntityArrayResponseType = HttpResponse<IAttendanceSummary[]>;
@@ -55,6 +56,26 @@ export class AttendanceSummaryService {
         }
       )
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
+  }
+
+  downloadAttendanceSummary(
+    departmentId: number,
+    empId: string,
+    employeeId: number,
+    fromDate: string,
+    toDate: string,
+    markedAs: string
+  ): any {
+    return this.http
+      .get(
+        `${this.resourceUrl}/report/departmentId/${departmentId}/empId/${empId}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}/markedAs/${markedAs}`,
+        {
+          responseType: 'blob',
+        }
+      )
+      .subscribe((data: any) => {
+        ReportUtil.writeFileContent(data, 'application/pdf', `Attendance Summary`);
+      });
   }
 
   findByFromAndToDate(fromDate: string, toDate: string): Observable<EntityArrayResponseType> {

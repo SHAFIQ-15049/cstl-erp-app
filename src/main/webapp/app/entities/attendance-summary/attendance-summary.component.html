@@ -8,6 +8,17 @@
     <jhi-alert></jhi-alert>
 
     <div class="row">
+        <div class="col-12">
+            <div style="float: right">
+                <button class="btn btn-success" (click)="download()">
+                    <fa-icon icon="download"></fa-icon>
+                    Download
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
         <div class="col-md-12">
             <form>
                 <h4>Filter by date</h4>
@@ -120,9 +131,12 @@
                 <td>{{ attendanceSummary.outTime | date:"medium":"+0000" }}</td>
                 <td>{{ attendanceSummary.diff }}</td>
                 <td>{{ attendanceSummary.overTime }}</td>
-                <td><button class="btn btn-success btn-sm" *ngIf="attendanceSummary.attendanceStatus==='Present'">{{ attendanceSummary.attendanceStatus }}
+                <td>
+                    <button class="btn btn-success btn-sm"
+                            *ngIf="attendanceSummary.attendanceStatus==='Present'">{{ attendanceSummary.attendanceStatus }}
                     </button>
-                    <button class="btn btn-danger btn-sm" *ngIf="attendanceSummary.attendanceStatus==='Absent'">{{ attendanceSummary.attendanceStatus }}
+                    <button class="btn btn-danger btn-sm"
+                            *ngIf="attendanceSummary.attendanceStatus==='Absent'">{{ attendanceSummary.attendanceStatus }}
                     </button>
                 </td>
                 <td>
