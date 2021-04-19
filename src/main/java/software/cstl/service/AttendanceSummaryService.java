@@ -268,6 +268,7 @@ public class AttendanceSummaryService {
         attendanceSummaryDTO.setDepartmentName(attendance.getDepartment().getName());
         attendanceSummaryDTO.setEmployeeId(attendance.getEmployee().getId());
         attendanceSummaryDTO.setEmployeeName(attendance.getEmployee().getName());
+        attendanceSummaryDTO.setEmpId(attendance.getEmployee().getEmpId());
         attendanceSummaryDTO.setEmployeeMachineId(attendance.getEmployee().getAttendanceMachineId());
         attendanceSummaryDTO.setEmployeeSalaryId(attendance.getEmployeeSalary() == null ? null :
             attendance.getEmployeeSalary().getId());
