@@ -41,9 +41,9 @@
     },
     {
       "relationshipType": "many-to-one",
-      "otherEntityName": "designation",
+      "otherEntityName": "department",
       "otherEntityRelationshipName": "monthlySalary",
-      "relationshipName": "designation",
+      "relationshipName": "department",
       "otherEntityField": "name"
     }
   ],

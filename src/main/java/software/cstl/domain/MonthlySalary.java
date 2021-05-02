@@ -21,7 +21,7 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
 @Entity
 @Table(
     name = "monthly_salary",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status","designation_id"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status","department_id"})
 )
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class MonthlySalary extends AbstractAuditingEntity implements Serializable {
@@ -61,7 +61,7 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
 
     @ManyToOne
     @JsonIgnoreProperties(value = "monthlySalaries", allowSetters = true)
-    private Designation designation;
+    private Department department;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -188,17 +188,17 @@ public class MonthlySalary extends AbstractAuditingEntity implements Serializabl
         this.monthlySalaryDtls = monthlySalaryDtls;
     }
 
-    public Designation getDesignation() {
-        return designation;
+    public Department getDepartment() {
+        return department;
     }
 
-    public MonthlySalary designation(Designation designation) {
-        this.designation = designation;
+    public MonthlySalary department(Department department) {
+        this.department = department;
         return this;
     }
 
-    public void setDesignation(Designation designation) {
-        this.designation = designation;
+    public void setDepartment(Department department) {
+        this.department = department;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

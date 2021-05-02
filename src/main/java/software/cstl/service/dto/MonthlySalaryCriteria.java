@@ -81,7 +81,7 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
 
     private LongFilter monthlySalaryDtlId;
 
-    private LongFilter designationId;
+    private LongFilter departmentId;
 
     public MonthlySalaryCriteria() {
     }
@@ -96,7 +96,7 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         this.executedOn = other.executedOn == null ? null : other.executedOn.copy();
         this.executedBy = other.executedBy == null ? null : other.executedBy.copy();
         this.monthlySalaryDtlId = other.monthlySalaryDtlId == null ? null : other.monthlySalaryDtlId.copy();
-        this.designationId = other.designationId == null ? null : other.designationId.copy();
+        this.departmentId = other.departmentId == null ? null : other.departmentId.copy();
     }
 
     @Override
@@ -176,12 +176,12 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         this.monthlySalaryDtlId = monthlySalaryDtlId;
     }
 
-    public LongFilter getDesignationId() {
-        return designationId;
+    public LongFilter getDepartmentId() {
+        return departmentId;
     }
 
-    public void setDesignationId(LongFilter designationId) {
-        this.designationId = designationId;
+    public void setDepartmentId(LongFilter departmentId) {
+        this.departmentId = departmentId;
     }
 
 
@@ -204,7 +204,7 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
             Objects.equals(executedOn, that.executedOn) &&
             Objects.equals(executedBy, that.executedBy) &&
             Objects.equals(monthlySalaryDtlId, that.monthlySalaryDtlId) &&
-            Objects.equals(designationId, that.designationId);
+            Objects.equals(departmentId, that.departmentId);
     }
 
     @Override
@@ -219,7 +219,7 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
         executedOn,
         executedBy,
         monthlySalaryDtlId,
-        designationId
+        departmentId
         );
     }
 
@@ -236,7 +236,7 @@ public class MonthlySalaryCriteria implements Serializable, Criteria {
                 (executedOn != null ? "executedOn=" + executedOn + ", " : "") +
                 (executedBy != null ? "executedBy=" + executedBy + ", " : "") +
                 (monthlySalaryDtlId != null ? "monthlySalaryDtlId=" + monthlySalaryDtlId + ", " : "") +
-                (designationId != null ? "designationId=" + designationId + ", " : "") +
+                (departmentId != null ? "departmentId=" + departmentId + ", " : "") +
             "}";
     }
 

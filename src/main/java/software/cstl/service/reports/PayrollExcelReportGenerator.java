@@ -5,7 +5,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.MonthlySalaryDtl;
 import software.cstl.domain.enumeration.MonthType;
@@ -54,11 +53,11 @@ public class PayrollExcelReportGenerator {
 
         List<MonthlySalaryDtl> monthlySalaryDtls = new ArrayList<>();
         if(departmentId!=null && designationId!=null){
-            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Designation_IdAndEmployee_Department_Id(year, month, departmentId, designationId);
+            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_IdAndEmployee_Designation_id(year, month, departmentId, designationId);
         }else if(departmentId!=null && designationId==null){
             monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndEmployee_Department_Id(year, month, departmentId);
         }else if(departmentId==null && designationId!=null){
-            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Designation_Id(year, month, designationId);
+            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_Id(year, month, designationId);
         }
 
         List<SalaryReportDto> salaryReportDtoList = new ArrayList<>();

@@ -89,7 +89,7 @@ public class PayrollService {
             MonthlySalary designationBasedMonthlySalary = new MonthlySalary();
             designationBasedMonthlySalary.setYear(monthlySalary.getYear());
             designationBasedMonthlySalary.setMonth(monthlySalary.getMonth());
-            designationBasedMonthlySalary.setDesignation(designation);
+            //designationBasedMonthlySalary.setDesignation(designation);
             designationBasedMonthlySalary.setStatus(SalaryExecutionStatus.NOT_DONE);
             getEmptyMonthSalaryDtls(designationBasedMonthlySalary);
             designationBasedMonthlySalary =  monthlySalaryRepository.save(designationBasedMonthlySalary);
@@ -101,7 +101,8 @@ public class PayrollService {
 
 
     private MonthlySalary getEmptyMonthSalaryDtls(MonthlySalary monthlySalary){
-        List<Employee> employees = employeeExtRepository.findAllByDesignationAndStatus(monthlySalary.getDesignation(), EmployeeStatus.ACTIVE);
+        // todo change here
+        List<Employee> employees  = null;   //= employeeExtRepository.findAllByDesignationAndStatus(monthlySalary.getDesignation(), EmployeeStatus.ACTIVE);
 
         for(Employee employee: employees){
             MonthlySalaryDtl monthlySalaryDtl = new MonthlySalaryDtl();

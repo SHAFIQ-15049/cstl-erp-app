@@ -51,7 +51,7 @@ describe('MonthlySalary e2e test', () => {
       monthlySalaryUpdatePage.statusSelectLastOption(),
       monthlySalaryUpdatePage.setExecutedOnInput('01/01/2001' + protractor.Key.TAB + '02:30AM'),
       monthlySalaryUpdatePage.setExecutedByInput('executedBy'),
-      monthlySalaryUpdatePage.designationSelectLastOption(),
+      monthlySalaryUpdatePage.departmentSelectLastOption(),
     ]);
 
     expect(await monthlySalaryUpdatePage.getYearInput()).to.eq('5', 'Expected year value to be equals to 5');

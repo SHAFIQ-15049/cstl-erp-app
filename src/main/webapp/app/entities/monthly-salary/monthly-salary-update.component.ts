@@ -9,8 +9,8 @@ import { DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 
 import { IMonthlySalary, MonthlySalary } from 'app/shared/model/monthly-salary.model';
 import { MonthlySalaryService } from './monthly-salary.service';
-import { IDesignation } from 'app/shared/model/designation.model';
-import { DesignationService } from 'app/entities/designation/designation.service';
+import { IDepartment } from 'app/shared/model/department.model';
+import { DepartmentService } from 'app/entities/department/department.service';
 
 @Component({
   selector: 'jhi-monthly-salary-update',
@@ -18,7 +18,7 @@ import { DesignationService } from 'app/entities/designation/designation.service
 })
 export class MonthlySalaryUpdateComponent implements OnInit {
   isSaving = false;
-  designations: IDesignation[] = [];
+  departments: IDepartment[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -29,12 +29,12 @@ export class MonthlySalaryUpdateComponent implements OnInit {
     status: [],
     executedOn: [],
     executedBy: [],
-    designation: [],
+    department: [],
   });
 
   constructor(
     protected monthlySalaryService: MonthlySalaryService,
-    protected designationService: DesignationService,
+    protected departmentService: DepartmentService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -50,7 +50,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
 
       this.updateForm(monthlySalary);
 
-      this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+      this.departmentService.query().subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
     });
   }
 
@@ -64,7 +64,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       status: monthlySalary.status,
       executedOn: monthlySalary.executedOn ? monthlySalary.executedOn.format(DATE_TIME_FORMAT) : null,
       executedBy: monthlySalary.executedBy,
-      designation: monthlySalary.designation,
+      department: monthlySalary.department,
     });
   }
 
@@ -93,7 +93,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
       status: this.editForm.get(['status'])!.value,
       executedOn: this.editForm.get(['executedOn'])!.value ? moment(this.editForm.get(['executedOn'])!.value, DATE_TIME_FORMAT) : undefined,
       executedBy: this.editForm.get(['executedBy'])!.value,
-      designation: this.editForm.get(['designation'])!.value,
+      department: this.editForm.get(['department'])!.value,
     };
   }
 
@@ -113,7 +113,7 @@ export class MonthlySalaryUpdateComponent implements OnInit {
     this.isSaving = false;
   }
 
-  trackById(index: number, item: IDesignation): any {
+  trackById(index: number, item: IDepartment): any {
     return item.id;
   }
 }
