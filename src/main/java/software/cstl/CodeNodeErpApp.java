@@ -1,5 +1,7 @@
 package software.cstl;
 
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.ComponentScans;
 import software.cstl.config.ApplicationProperties;
 
 import io.github.jhipster.config.DefaultProfileUtil;
@@ -22,6 +24,7 @@ import java.util.Collection;
 
 @SpringBootApplication
 @EnableConfigurationProperties({LiquibaseProperties.class, ApplicationProperties.class})
+@ComponentScan({"software.cstl","software.cstl.service.mediators"})
 public class CodeNodeErpApp {
 
     private static final Logger log = LoggerFactory.getLogger(CodeNodeErpApp.class);

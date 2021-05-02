@@ -1,6 +1,8 @@
 package software.cstl.service.mediators;
 
 import lombok.AllArgsConstructor;
+import org.apache.commons.collections4.ListUtils;
+import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.ObjectUtils;
 
 import org.springframework.context.annotation.Lazy;
@@ -23,6 +25,7 @@ import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 
 @Component
@@ -87,9 +90,9 @@ public class PayrollService {
             designationBasedMonthlySalary.setYear(monthlySalary.getYear());
             designationBasedMonthlySalary.setMonth(monthlySalary.getMonth());
             designationBasedMonthlySalary.setDesignation(designation);
-            designationBasedMonthlySalary.status(SalaryExecutionStatus.NOT_DONE);
+            designationBasedMonthlySalary.setStatus(SalaryExecutionStatus.NOT_DONE);
             getEmptyMonthSalaryDtls(designationBasedMonthlySalary);
-            monthlySalaryRepository.save(designationBasedMonthlySalary);
+            designationBasedMonthlySalary =  monthlySalaryRepository.save(designationBasedMonthlySalary);
             monthlySalaries.add(designationBasedMonthlySalary);
         }
         return monthlySalaries.get(0);
@@ -162,8 +165,16 @@ public class PayrollService {
         this.totalMonthDays = yearMonth.lengthOfMonth();
         this.initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
         this.lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
-        this.totalWorkingDays = attendanceSummaryService.findAll(this.initialDay, this.lastDay)
-            .stream().filter(a-> a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
+        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(this.initialDay, this.lastDay);
+
+        if(attendanceSummaryDTOS.isEmpty())
+            this.totalWorkingDays = 0;
+        else{
+            this.totalWorkingDays =  attendanceSummaryDTOS
+                .stream()
+                .filter(a-> a!=null && a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
+        }
+
         this.totalWeekLeave = weekendDateMapService.getWeekendDateMapDTOs(this.initialDay, this.lastDay).size();
         this.holidays = holidayRepository.getOverLappingHolidays(initialDay, lastDay);
         this.totalHolidays = 0;

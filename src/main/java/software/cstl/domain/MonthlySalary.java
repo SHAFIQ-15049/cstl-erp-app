@@ -21,7 +21,7 @@ import software.cstl.domain.enumeration.SalaryExecutionStatus;
 @Entity
 @Table(
     name = "monthly_salary",
-    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status"})
+    uniqueConstraints = @UniqueConstraint(columnNames = {"year","month","status","designation_id"})
 )
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class MonthlySalary extends AbstractAuditingEntity implements Serializable {

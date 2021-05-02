@@ -106,7 +106,7 @@ export class PayrollManagementComponent implements OnInit {
       this.monthlySalaryService
         .query({
           'year.equals': this.selectedYear,
-          'designationId.equals': this.selectedDesignation.id,
+          'designationId.equals': this.selectedDesignationId,
           'month.equals': this.selectedMonth.valueOf(),
         })
         .subscribe(res => {
