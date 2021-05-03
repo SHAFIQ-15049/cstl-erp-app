@@ -14,6 +14,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface MonthlySalaryDtlRepository extends JpaRepository<MonthlySalaryDtl, Long>, JpaSpecificationExecutor<MonthlySalaryDtl> {
+
+    List<MonthlySalaryDtl> findAllByMonthlySalary_Id(Long monthlySalaryId);
+
     List<MonthlySalaryDtl> findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_IdAndEmployee_Designation_id(Integer year, MonthType monthType, Long departmentId, Long designationId);
 
     List<MonthlySalaryDtl> findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_Id(Integer year, MonthType monthType, Long departmentId);

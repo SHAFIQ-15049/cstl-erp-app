@@ -19,6 +19,7 @@ import software.cstl.service.WeekendDateMapService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 import software.cstl.utils.CodeNodeErpUtils;
 
+import javax.validation.ValidationException;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
@@ -80,30 +81,18 @@ public class PayrollService {
         this.weekendDateMapService = weekendDateMapService;
     }
 
-    public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary) throws CloneNotSupportedException {
-        List<Designation> designations = designationRepository.findAll();
-        List<MonthlySalary> monthlySalaries = new ArrayList<>();
-        for(Designation designation: designations){
-            if(!employeeExtRepository.existsAllByDesignationAndStatus(designation, EmployeeStatus.ACTIVE))
-                continue;
-            MonthlySalary designationBasedMonthlySalary = new MonthlySalary();
-            designationBasedMonthlySalary.setYear(monthlySalary.getYear());
-            designationBasedMonthlySalary.setMonth(monthlySalary.getMonth());
-            //designationBasedMonthlySalary.setDesignation(designation);
-            designationBasedMonthlySalary.setStatus(SalaryExecutionStatus.NOT_DONE);
-            getEmptyMonthSalaryDtls(designationBasedMonthlySalary);
-            designationBasedMonthlySalary =  monthlySalaryRepository.save(designationBasedMonthlySalary);
-            monthlySalaries.add(designationBasedMonthlySalary);
-        }
-        return monthlySalaries.get(0);
+    public MonthlySalary createEmptyMonthlySalaries(MonthlySalary monthlySalary) throws CloneNotSupportedException, ValidationException {
+        if(monthlySalaryRepository.existsByYearAndMonthAndDepartmentAndStatus(monthlySalary.getYear(), monthlySalary.getMonth(), monthlySalary.getDepartment(), SalaryExecutionStatus.DONE))
+            throw new ValidationException("Monthly salary already generated");
+        monthlySalary.setStatus(SalaryExecutionStatus.NOT_DONE);
+        getEmptyMonthSalaryDtls(monthlySalary);
+        return monthlySalaryRepository.save(monthlySalary);
     }
 
 
 
     private MonthlySalary getEmptyMonthSalaryDtls(MonthlySalary monthlySalary){
-        // todo change here
-        List<Employee> employees  = null;   //= employeeExtRepository.findAllByDesignationAndStatus(monthlySalary.getDesignation(), EmployeeStatus.ACTIVE);
-
+        List<Employee> employees  = employeeExtRepository.findAllByDepartment_IdAndStatus(monthlySalary.getDepartment().getId(), EmployeeStatus.ACTIVE);
         for(Employee employee: employees){
             MonthlySalaryDtl monthlySalaryDtl = new MonthlySalaryDtl();
             monthlySalaryDtl.employee(employee)
@@ -115,50 +104,36 @@ public class PayrollService {
 
 
     public void createMonthlySalaries(MonthlySalary monthlySalaryParam){
-        regenerateMonthlySalaries(monthlySalaryParam);
+        initializeGlobalValuesForAMonth(monthlySalaryParam);
+        MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryParam.getId());
+        List<MonthlySalaryDtl> monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_Id(monthlySalary.getId());
+        monthlySalaryDtls.parallelStream().forEach((monthlySalaryDtl -> {
+            assignFine(monthlySalaryDtl);
+            assignAdvance(monthlySalaryDtl);
+            assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
+        }));
+        monthlySalary.status(SalaryExecutionStatus.DONE);
+        monthlySalaryRepository.save(monthlySalary);
     }
 
 
     public void regenerateMonthlySalaries(MonthlySalary monthlySalaryParam){
-        List<MonthlySalary> monthlySalaries = monthlySalaryRepository.findAllByYearAndMonth(monthlySalaryParam.getYear(), monthlySalaryParam.getMonth());
         initializeGlobalValuesForAMonth(monthlySalaryParam);
 
-        monthlySalaries.parallelStream().forEach(monthlySalary -> {
-            monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-            monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
-            monthlySalary.setMonthlySalaryDtls(new HashSet<>());
-            monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
+        MonthlySalary monthlySalary = monthlySalaryParam;
+        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
+        monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
+        monthlySalary.setMonthlySalaryDtls(new HashSet<>());
+        monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
 
-            MonthlySalary finalMonthlySalary = monthlySalary;
-            monthlySalary.getMonthlySalaryDtls().parallelStream().forEach((monthlySalaryDtl -> {
-                assignFine(monthlySalaryDtl);
-                assignAdvance(monthlySalaryDtl);
-                assignSalaryAndAllowances(finalMonthlySalary, monthlySalaryDtl);
-            }));
-//            for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-//                assignFine(monthlySalaryDtl);
-//                assignAdvance(monthlySalaryDtl);
-//                assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
-//            }
-            monthlySalary.status(SalaryExecutionStatus.DONE);
-            monthlySalaryRepository.save(monthlySalary);
-        });
-/*        for(MonthlySalary monthlySalary: monthlySalaries){
-            monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-            monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
-            monthlySalary.setMonthlySalaryDtls(new HashSet<>());
-            monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
-
-            for(MonthlySalaryDtl monthlySalaryDtl: monthlySalary.getMonthlySalaryDtls()){
-                assignFine(monthlySalaryDtl);
-                assignAdvance(monthlySalaryDtl);
-                assignSalaryAndAllowances(monthlySalary, monthlySalaryDtl);
-            }
-            monthlySalary.status(SalaryExecutionStatus.DONE);
-            monthlySalaryRepository.save(monthlySalary);
-        }*/
-
-
+        MonthlySalary finalMonthlySalary = monthlySalary;
+        monthlySalary.getMonthlySalaryDtls().parallelStream().forEach((monthlySalaryDtl -> {
+            assignFine(monthlySalaryDtl);
+            assignAdvance(monthlySalaryDtl);
+            assignSalaryAndAllowances(finalMonthlySalary, monthlySalaryDtl);
+        }));
+        monthlySalary.status(SalaryExecutionStatus.DONE);
+        monthlySalaryRepository.save(monthlySalary);
     }
 
     private void initializeGlobalValuesForAMonth(MonthlySalary monthlySalaryParam) {
@@ -173,7 +148,7 @@ public class PayrollService {
         else{
             this.totalWorkingDays =  attendanceSummaryDTOS
                 .stream()
-                .filter(a-> a!=null && a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
+                .filter(a-> a.getAttendanceMarkedAs()!=null && a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
         }
 
         this.totalWeekLeave = weekendDateMapService.getWeekendDateMapDTOs(this.initialDay, this.lastDay).size();
@@ -206,7 +181,7 @@ public class PayrollService {
     private void assignSalaryAndAllowances(MonthlySalary monthlySalary, MonthlySalaryDtl monthlySalaryDtl){
 
         DefaultAllowance defaultAllowance = defaultAllowanceRepository.findDefaultAllowanceByStatus(ActiveStatus.ACTIVE);
-        Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
+        //Optional<PartialSalary> partialSalary = partialSalaryRepository.findByEmployeeAndYearAndMonth(monthlySalaryDtl.getEmployee(), monthlySalary.getYear(), monthlySalary.getMonth());
 
         BigDecimal gross, basic, houseRent, medicalAllowance, convinceAllowance, foodAllowance;
         gross = basic = houseRent = medicalAllowance = foodAllowance = convinceAllowance = BigDecimal.ZERO;
@@ -226,7 +201,6 @@ public class PayrollService {
         LocalDate lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
         Map<LocalDate, AttendanceSummaryDTO> attendanceMap = new HashMap<>();
 
-        List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),initialDay, lastDay );
 
         for(AttendanceSummaryDTO attendanceSummaryDTO: attendanceSummaryService.findAll(monthlySalaryDtl.getEmployee().getId(),initialDay, lastDay )){
             attendanceMap.put(attendanceSummaryDTO.getAttendanceDate(), attendanceSummaryDTO);
@@ -292,7 +266,7 @@ public class PayrollService {
         monthlySalaryDtl.setAbsent(this.totalWorkingDays-attendanceMap.size());
         monthlySalaryDtl.setPresentBonus(monthlySalaryDtl.getAbsent()>0 ? BigDecimal.ZERO:  new BigDecimal(150) );
         monthlySalaryDtl.setStampPrice(BigDecimal.ZERO);
-        monthlySalaryDtl.setType(partialSalary.isPresent()? PayrollGenerationType.PARTIAL: PayrollGenerationType.FULL);
+        monthlySalaryDtl.setType(PayrollGenerationType.FULL);
         monthlySalaryDtl.setGross(gross.subtract(monthlySalaryDtl.getFine()).subtract(monthlySalaryDtl.getAdvance()));
         monthlySalaryDtl.setTotalPayable(monthlySalaryDtl.getGross().add(monthlySalaryDtl.getPresentBonus()).add(monthlySalaryDtl.getStampPrice()));
         monthlySalaryDtl.setBasic(basic);
@@ -353,12 +327,12 @@ public class PayrollService {
         Integer year = monthlySalaryDtl.getMonthlySalary().getYear();
         MonthType monthType = monthlySalaryDtl.getMonthlySalary().getMonth();
         monthlySalaryDtl.setFine(BigDecimal.ZERO);
-        if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
-            Fine fine = fineRepository.findFineByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID));  // if exists, then we fetch the fine
+        if(fineRepository.existsByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
+            Fine fine = fineRepository.findFineByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList( PaymentStatus.PAID));  // if exists, then we fetch the fine
             monthlySalaryDtl.setFine(fine.getAmount());
         }
-        else if(fineRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
-            Fine fine = fineRepository.findFineByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
+        else if(fineRepository.existsByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
+            Fine fine = fineRepository.findFineByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
 
             // create fine payment history
             if(!finePaymentHistoryRepository.existsByFineAndYearAndMonthType(fine, year, monthType)){
@@ -399,12 +373,12 @@ public class PayrollService {
         Integer year = monthlySalaryDtl.getMonthlySalary().getYear();
         MonthType monthType = monthlySalaryDtl.getMonthlySalary().getMonth();
         monthlySalaryDtl.setAdvance(BigDecimal.ZERO);
-        if(advanceRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
-            Advance advance = advanceRepository.findByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.PAID));
+        if(advanceRepository.existsByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList( PaymentStatus.PAID))) {  // check whether fine exists
+            Advance advance = advanceRepository.findByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList(PaymentStatus.PAID));
             monthlySalaryDtl.setAdvance(advance.getAmount());
         }
-        else if(advanceRepository.existsByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
-            Advance advance = advanceRepository.findByEmployeeAndPaymentStatusIn(monthlySalaryDtl.getEmployee(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
+        else if(advanceRepository.existsByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList(PaymentStatus.IN_PROGRESS, PaymentStatus.NOT_PAID))){  // check whether fine exists
+            Advance advance = advanceRepository.findByEmployee_IdAndPaymentStatusIn(monthlySalaryDtl.getEmployee().getId(), Arrays.asList(PaymentStatus.NOT_PAID, PaymentStatus.IN_PROGRESS));  // if exists, then we fetch the fine
 
             // create advance payment history
             if(!advancePaymentHistoryRepository.existsByAdvanceAndYearAndMonthType(advance, year, monthType)){

@@ -17,6 +17,8 @@ import { PayrollManagementService } from 'app/app-components/payroll-management/
 import { ActivatedRoute, ActivatedRouteSnapshot, Data, ParamMap, Router } from '@angular/router';
 import { DATE_FORMAT, DATE_TIME_FORMAT } from 'app/shared/constants/input.constants';
 import * as moment from 'moment';
+import { IDepartment } from 'app/shared/model/department.model';
+import { DepartmentService } from 'app/entities/department/department.service';
 
 @Component({
   selector: 'jhi-payroll-management',
@@ -26,9 +28,9 @@ import * as moment from 'moment';
 export class PayrollManagementComponent implements OnInit {
   years: number[] = [];
   selectedYear?: number;
-  designations: IDesignation[] = [];
-  selectedDesignation?: IDesignation;
-  selectedDesignationId?: number;
+  departments: IDepartment[] = [];
+  selectedDepartmentId?: number;
+  selectedDepartment?: IDepartment;
   monthlySalary!: IMonthlySalary;
   monthlySalaryDtls: IMonthlySalaryDtl[] = [];
   selectedMonth?: MonthType;
@@ -39,7 +41,7 @@ export class PayrollManagementComponent implements OnInit {
   showMonthlySalaryDtl = false;
 
   constructor(
-    private designationService: DesignationService,
+    private departmentService: DepartmentService,
     private monthlySalaryService: MonthlySalaryService,
     private monthlySalaryDtlService: MonthlySalaryDtlService,
     private jhiAlertService: JhiAlertService,
@@ -52,19 +54,15 @@ export class PayrollManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.configureYears();
-    this.designationService
-      .query({
-        size: 2000,
-      })
-      .subscribe(res => {
-        this.designations = res.body!;
-      });
+    this.departmentService.query({ size: 20000 }).subscribe(res => {
+      this.departments = res.body!;
+    });
     this.handleNavigation();
   }
 
-  public designationIdChanged(): void {
-    this.designationService.find(this.selectedDesignationId!).subscribe(res => {
-      this.selectedDesignation = res.body!;
+  public departmentIdChanged(): void {
+    this.departmentService.find(this.selectedDepartmentId!).subscribe(res => {
+      this.selectedDepartment = res.body!;
     });
   }
 
@@ -72,10 +70,10 @@ export class PayrollManagementComponent implements OnInit {
     this.activatedRoute.params.subscribe(params => {
       this.selectedYear = +params['selectedYear'];
       this.selectedMonth = params['selectedMonth'];
-      this.selectedDesignationId = +params['selectedDesignationId'];
-      if (this.selectedDesignationId) {
-        this.designationService.find(this.selectedDesignationId).subscribe(res => {
-          this.selectedDesignation = res.body!;
+      this.selectedDepartmentId = +params['selectedDepartmentId'];
+      if (this.selectedDepartmentId) {
+        this.departmentService.find(this.selectedDepartmentId).subscribe(res => {
+          this.selectedDepartment = res.body!;
           this.fetch();
         });
       }
@@ -93,20 +91,20 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   navigate(): void {
-    if (this.selectedYear && this.selectedDesignation && this.selectedMonth) {
-      this.selectedDesignationId = this.selectedDesignation.id;
-      this.router.navigate(['/payroll-management', this.selectedYear, this.selectedMonth, this.selectedDesignationId]).then(() => {
+    if (this.selectedYear && this.selectedDepartment && this.selectedMonth) {
+      this.selectedDepartmentId = this.selectedDepartment.id;
+      this.router.navigate(['/payroll-management', this.selectedYear, this.selectedMonth, this.selectedDepartmentId]).then(() => {
         this.fetch();
       });
     }
   }
 
   fetch(): void {
-    if (this.selectedYear && this.selectedDesignation && this.selectedMonth) {
+    if (this.selectedYear && this.selectedDepartment && this.selectedMonth) {
       this.monthlySalaryService
         .query({
           'year.equals': this.selectedYear,
-          'designationId.equals': this.selectedDesignationId,
+          'departmentId.equals': this.selectedDepartmentId,
           'month.equals': this.selectedMonth.valueOf(),
         })
         .subscribe(res => {
@@ -121,7 +119,7 @@ export class PayrollManagementComponent implements OnInit {
             this.showMonthlySalaryDtl = false;
             const monthlySalary = new MonthlySalary();
             monthlySalary.year = this.selectedYear;
-            monthlySalary.designation = this.selectedDesignation;
+            monthlySalary.department = this.selectedDepartment;
             monthlySalary.month = this.selectedMonth;
             this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe(response => {
               this.fetchExistingData();
@@ -153,7 +151,7 @@ export class PayrollManagementComponent implements OnInit {
     this.monthlySalaryService
       .query({
         'year.equals': this.selectedYear,
-        'designationId.equals': this.selectedDesignation?.id!,
+        'departmentId.equals': this.selectedDepartment?.id!,
         'month.equals': this.selectedMonth,
       })
       .subscribe(res => {

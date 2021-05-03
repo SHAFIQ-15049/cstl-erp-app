@@ -17,6 +17,7 @@ import software.cstl.domain.enumeration.MonthType;
 import software.cstl.service.mediators.PayrollService;
 import software.cstl.service.reports.PayrollExcelReportGenerator;
 
+import javax.xml.bind.ValidationException;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.net.URI;
@@ -43,10 +44,21 @@ public class PayrollManagementResource {
     * GET generateEmptySalaries
     */
     @PostMapping("/generate-empty-salaries")
-    public ResponseEntity<MonthlySalary> generateEmptySalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException, CloneNotSupportedException {
-        monthlySalary = payrollService.createEmptyMonthlySalaries(monthlySalary);
-        return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
-            .body(monthlySalary);
+    public ResponseEntity<MonthlySalary> generateEmptySalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException, CloneNotSupportedException, ValidationException {
+        try{
+            monthlySalary = payrollService.createEmptyMonthlySalaries(monthlySalary);
+            return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
+                .body(monthlySalary);
+        }catch (javax.validation.ValidationException e){
+            return ResponseEntity.noContent()
+                .headers(HeaderUtil.createFailureAlert("Payroll Management", false, "", "","Monthly Salary Already Generated"))
+                .build();
+        }catch (Exception e){
+            return ResponseEntity.noContent()
+                .headers(HeaderUtil.createFailureAlert("Payroll Management", false, "", "","Error in creating empty records."))
+                .build();
+        }
+
     }
 
     @PutMapping("/generate-salaries")

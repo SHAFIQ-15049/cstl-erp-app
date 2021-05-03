@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface FineRepository extends JpaRepository<Fine, Long>, JpaSpecificationExecutor<Fine> {
-    Fine findFineByEmployeeAndPaymentStatusIn(Employee employee, List<PaymentStatus> paymentStatusList);
+    Fine findFineByEmployee_IdAndPaymentStatusIn(Long employeeId, List<PaymentStatus> paymentStatusList);
 
-    Boolean existsByEmployeeAndPaymentStatusIn(Employee employee, List<PaymentStatus> paymentStatusList);
+    Boolean existsByEmployee_IdAndPaymentStatusIn(Long employeeId, List<PaymentStatus> paymentStatusList);
 }

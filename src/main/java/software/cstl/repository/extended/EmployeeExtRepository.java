@@ -10,6 +10,9 @@ import software.cstl.repository.EmployeeRepository;
 import java.util.List;
 
 public interface EmployeeExtRepository extends EmployeeRepository {
+
+    List<Employee> findAllByDepartment_IdAndStatus(Long departmentId, EmployeeStatus status);
+
     List<Employee> findAllByDesignationAndStatus(Designation designation, EmployeeStatus status);
 
     List<Employee> findAllByDesignation_IdAndStatus(Long designationId, EmployeeStatus status);

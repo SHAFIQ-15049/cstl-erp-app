@@ -9,7 +9,7 @@
         <span>No monthlySalaryDtls found</span>
     </div>
 
-    <div class="table-responsive" id="entities" *ngIf="monthlySalaryDtls && monthlySalaryDtls.length > 0">
+    <div class="table-responsive" id="entities" *ngIf="monthlySalaryDtls && monthlySalaryDtls.length > 0" style="font-size: small;">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
                 <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" [callback]="loadPage.bind(this)">
