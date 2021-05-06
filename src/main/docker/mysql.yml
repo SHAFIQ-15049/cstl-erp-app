@@ -2,8 +2,8 @@ version: '2'
 services:
   codenodeerp-mysql:
     image: mysql:8.0.20
-    # volumes:
-    #     - ~/volumes/jhipster/CodeNodeERP/mysql/:/var/lib/mysql/
+    volumes:
+      - ~/volumes/jhipster/CodeNodeERP/mysql/:/var/lib/mysql/
     environment:
       - MYSQL_USER=root
       - MYSQL_ALLOW_EMPTY_PASSWORD=yes

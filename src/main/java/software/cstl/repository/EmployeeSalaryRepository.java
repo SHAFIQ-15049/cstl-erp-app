@@ -28,4 +28,7 @@ public interface EmployeeSalaryRepository extends JpaRepository<EmployeeSalary, 
 
     EmployeeSalary findBySalaryStartDateIsLessThanEqualAndSalaryEndDateGreaterThanEqual(Instant startDate, Instant endDate);
 
+    EmployeeSalary findByEmployee_IdAndSalaryStartDateIsLessThanEqualAndSalaryEndDateGreaterThanEqual(Long employeeId, Instant startDate, Instant endDate);
+
+
 }
