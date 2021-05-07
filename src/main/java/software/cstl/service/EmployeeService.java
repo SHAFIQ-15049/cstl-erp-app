@@ -104,7 +104,7 @@ public class EmployeeService {
         employeeRepository.deleteById(id);
     }
 
-    public List<Employee> getAll() {
+    public List<Employee> findAll() {
         return employeeRepository.findAll();
     }
 }

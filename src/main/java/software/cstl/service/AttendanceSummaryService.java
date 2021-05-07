@@ -13,7 +13,6 @@ import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.LeaveAppliedStatus;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 
-import java.io.ByteArrayInputStream;
 import java.time.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +179,7 @@ public class AttendanceSummaryService {
         Instant to = Instant.parse(toInstantText);
 
         List<Attendance> attendances = attendanceService.findAll(from, to);
-        List<Employee> employees = employeeService.getAll();
+        List<Employee> employees = employeeService.findAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAll();
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = new ArrayList<>();
         List<AttendanceSummaryDTO> distinctAttendances = new ArrayList<>();

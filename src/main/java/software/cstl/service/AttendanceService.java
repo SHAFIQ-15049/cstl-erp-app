@@ -163,7 +163,7 @@ public class AttendanceService {
      * @param attendanceDataUploadDTO the entity where attendance data needs to process and then save.
      */
     public List<Attendance> bulkSave(AttendanceDataUploadDTO attendanceDataUploadDTO) {
-        List<Employee> employees = employeeService.getAll();
+        List<Employee> employees = employeeService.findAll();
         List<EmployeeSalary> employeeSalaries = employeeSalaryService.getAllByActiveStatus();
 
         String fileContents = commonService.getByteArrayToString(attendanceDataUploadDTO.getFileUpload());
