@@ -14,5 +14,4 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface WeekendRepository extends JpaRepository<Weekend, Long>, JpaSpecificationExecutor<Weekend> {
-    List<Weekend> findAllByStatus(WeekendStatus weekendStatus);
 }

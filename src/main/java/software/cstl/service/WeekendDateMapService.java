@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Weekend;
+import software.cstl.domain.enumeration.WeekendStatus;
 import software.cstl.service.dto.WeekendDateMapDTO;
 
 import java.time.DayOfWeek;
@@ -54,7 +55,7 @@ public class WeekendDateMapService {
     public List<WeekendDateMapDTO> getWeekendDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
         log.debug("Request to get WeekendDateMapDTO : {} {}", fromDate, toDate);
 
-        List<Weekend> weekends = weekendService.getActiveWeekends();
+        List<Weekend> weekends = weekendService.findAll(WeekendStatus.ACTIVE);
         List<WeekendDateMapDTO> weekendDateMapDTOS = new ArrayList<>();
 
         LocalDate startDate = fromDate;

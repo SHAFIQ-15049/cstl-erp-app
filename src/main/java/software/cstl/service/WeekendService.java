@@ -77,15 +77,25 @@ public class WeekendService {
     }
 
     /**
-     * Get active weekend.
+     * Get List of Weekends.
      *
      * @return the entity.
      */
-    public List<Weekend> getActiveWeekends() {
-        log.debug("Request to get all active Weekends");
-        return weekendRepository.findAll()
+    public List<Weekend> findAll() {
+        log.debug("Request to find all Weekends");
+        return weekendRepository.findAll();
+    }
+
+    /**
+     * Get active weekends.
+     *
+     * @return the entity.
+     */
+    public List<Weekend> findAll(WeekendStatus weekendStatus) {
+        log.debug("Request to find all active Weekends");
+        return findAll()
             .stream()
-            .filter(weekend -> weekend.getStatus().equals(WeekendStatus.ACTIVE))
+            .filter(weekend -> weekend.getStatus().equals(weekendStatus))
             .collect(Collectors.toList());
     }
 }

@@ -14,6 +14,7 @@ import software.cstl.repository.extended.EmployeeExtRepository;
 import software.cstl.security.SecurityUtils;
 import software.cstl.service.AttendanceSummaryService;
 import software.cstl.service.WeekendDateMapService;
+import software.cstl.service.WeekendService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
 import software.cstl.utils.CodeNodeErpUtils;
 
@@ -50,13 +51,13 @@ public class PayrollService {
     private final EmployeeSalaryRepository employeeSalaryRepository;
     private final PartialSalaryRepository partialSalaryRepository;
     private final AttendanceSummaryService attendanceSummaryService;
-    private final WeekendRepository weekendRepository;
+    private final WeekendService weekendService;
     private final LeaveApplicationRepository leaveApplicationRepository;
     private final HolidayRepository holidayRepository;
     private final WeekendDateMapService weekendDateMapService;
     private final OverTimeRepository overTimeRepository;
 
-    public PayrollService(OverTimeRepository overTimeRepository, MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryDtlRepository monthlySalaryDtlRepository, DesignationRepository designationRepository, EmployeeExtRepository employeeExtRepository, DefaultAllowanceRepository defaultAllowanceRepository, FineRepository fineRepository, FinePaymentHistoryRepository finePaymentHistoryRepository, AdvanceRepository advanceRepository, AdvancePaymentHistoryRepository advancePaymentHistoryRepository, AttendanceRepository attendanceRepository, EmployeeSalaryRepository employeeSalaryRepository, PartialSalaryRepository partialSalaryRepository, AttendanceSummaryService attendanceSummaryService, WeekendRepository weekendRepository, LeaveApplicationRepository leaveApplicationRepository, HolidayRepository holidayRepository, WeekendDateMapService weekendDateMapService) {
+    public PayrollService(OverTimeRepository overTimeRepository, MonthlySalaryRepository monthlySalaryRepository, MonthlySalaryDtlRepository monthlySalaryDtlRepository, DesignationRepository designationRepository, EmployeeExtRepository employeeExtRepository, DefaultAllowanceRepository defaultAllowanceRepository, FineRepository fineRepository, FinePaymentHistoryRepository finePaymentHistoryRepository, AdvanceRepository advanceRepository, AdvancePaymentHistoryRepository advancePaymentHistoryRepository, AttendanceRepository attendanceRepository, EmployeeSalaryRepository employeeSalaryRepository, PartialSalaryRepository partialSalaryRepository, AttendanceSummaryService attendanceSummaryService, WeekendService weekendService, LeaveApplicationRepository leaveApplicationRepository, HolidayRepository holidayRepository, WeekendDateMapService weekendDateMapService) {
         this.overTimeRepository = overTimeRepository;
         this.monthlySalaryRepository = monthlySalaryRepository;
         this.monthlySalaryDtlRepository = monthlySalaryDtlRepository;
@@ -71,7 +72,7 @@ public class PayrollService {
         this.employeeSalaryRepository = employeeSalaryRepository;
         this.partialSalaryRepository = partialSalaryRepository;
         this.attendanceSummaryService = attendanceSummaryService;
-        this.weekendRepository = weekendRepository;
+        this.weekendService = weekendService;
         this.leaveApplicationRepository = leaveApplicationRepository;
         this.holidayRepository = holidayRepository;
         this.weekendDateMapService = weekendDateMapService;
@@ -204,7 +205,7 @@ public class PayrollService {
         BigDecimal totalMonthDays = new BigDecimal(yearMonth.lengthOfMonth());
 
         // remove weekends from total working days
-        List<Weekend> weekends = weekendRepository.findAllByStatus(WeekendStatus.ACTIVE);
+        List<Weekend> weekends = weekendService.findAll(WeekendStatus.ACTIVE);
         List<Integer> weekendsInOrdinal = new ArrayList<>();
         for(Weekend weekend: weekends){
             weekendsInOrdinal.add(CodeNodeErpUtils.getWeekDayOrdinalValue(weekend.getDay()));
