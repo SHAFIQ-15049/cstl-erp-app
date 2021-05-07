@@ -1,11 +1,8 @@
 package software.cstl.service.mediators;
 
-import lombok.AllArgsConstructor;
 import org.apache.commons.lang3.ObjectUtils;
 
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.*;
 import software.cstl.domain.enumeration.*;
@@ -21,8 +18,6 @@ import software.cstl.utils.CodeNodeErpUtils;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.*;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -165,7 +160,7 @@ public class PayrollService {
         this.lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
         this.totalWorkingDays = attendanceSummaryService.findAll(this.initialDay, this.lastDay)
             .stream().filter(a-> a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
-        this.totalWeekLeave = weekendDateMapService.getWeekendDateMapDTOs(this.initialDay, this.lastDay).size();
+        this.totalWeekLeave = weekendDateMapService.findAllWeekendDateMapDTOs(this.initialDay, this.lastDay).size();
         this.holidays = holidayRepository.getOverLappingHolidays(initialDay, lastDay);
         this.totalHolidays = 0;
         for(Holiday holiday: holidays){

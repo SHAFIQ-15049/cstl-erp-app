@@ -1,6 +1,5 @@
 package software.cstl.service;
 
-import net.sf.cglib.core.Local;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -8,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
 import software.cstl.domain.LeaveApplication;
 import software.cstl.domain.LeaveType;
-import software.cstl.domain.Weekend;
 import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.GenderType;
 import software.cstl.domain.enumeration.LeaveApplicationStatus;
@@ -16,14 +14,11 @@ import software.cstl.service.dto.HolidayDateMapDTO;
 import software.cstl.service.dto.LeaveApplicationDetailDateMapDTO;
 import software.cstl.service.dto.LeaveBalanceDTO;
 import software.cstl.service.dto.WeekendDateMapDTO;
-import software.cstl.web.rest.errors.BadRequestAlertException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
-import java.time.Duration;
 import java.time.LocalDate;
 import java.time.Month;
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -102,7 +97,7 @@ public class LeaveBalanceService {
                 lastYearStartDate, lastYearEndDate, LeaveApplicationStatus.ACCEPTED);
             List<LeaveApplicationDetailDateMapDTO> acceptedLeaveApplications = leaveApplicationService.getLeaveApplicationDetailDateMapDto(leaveApplications);
             List<HolidayDateMapDTO> holidayDateMapDTOs = holidayService.getHolidayDateMapDTOs(lastYearStartDate, lastYearEndDate);
-            List<WeekendDateMapDTO> weekendDateMapDTOs = weekendDateMapService.getWeekendDateMapDTOs(lastYearStartDate, lastYearEndDate);
+            List<WeekendDateMapDTO> weekendDateMapDTOs = weekendDateMapService.findAllWeekendDateMapDTOs(lastYearStartDate, lastYearEndDate);
             BigDecimal totalDays = BigDecimal.valueOf(DAYS.between(lastYearStartDate, lastYearEndDate)).add(BigDecimal.ONE);
 
             BigDecimal result = totalEarnedLeave.add(totalDays

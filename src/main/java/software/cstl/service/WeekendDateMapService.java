@@ -42,7 +42,7 @@ public class WeekendDateMapService {
     public List<WeekendDateMapDTO> findAll(Pageable pageable) {
         log.debug("Request to get all WeekendDateMaps of current year");
         LocalDate currentDate = LocalDate.now();
-        return getWeekendDateMapDTOs(currentDate.getYear());
+        return findAllWeekendDateMapDTOs(currentDate.getYear());
     }
 
     /**
@@ -52,7 +52,7 @@ public class WeekendDateMapService {
      * @param toDate the end date.
      * @return the WeekendDateMapDTO DTOs.
      */
-    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
+    public List<WeekendDateMapDTO> findAllWeekendDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
         log.debug("Request to get WeekendDateMapDTO : {} {}", fromDate, toDate);
 
         List<Weekend> weekends = weekendService.findAll(WeekendStatus.ACTIVE);
@@ -84,11 +84,11 @@ public class WeekendDateMapService {
      * @param month the month.
      * @return the WeekendDateMapDTO DTOs.
      */
-    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(int year, Month month) {
+    public List<WeekendDateMapDTO> findAllWeekendDateMapDTOs(int year, Month month) {
         log.debug("Request to get WeekendDateMapDTO : {} {}", year, month);
         LocalDate startDateOfTheMonth = commonService.getFirstDayOfTheMonth(year, month);
         LocalDate lastDateOfTheMonth = commonService.getLastDayOfTheMonth(year, month);
-        return getWeekendDateMapDTOs(startDateOfTheMonth, lastDateOfTheMonth);
+        return findAllWeekendDateMapDTOs(startDateOfTheMonth, lastDateOfTheMonth);
     }
 
     /**
@@ -97,33 +97,10 @@ public class WeekendDateMapService {
      * @param year the year.
      * @return the WeekendDateMapDTO DTOs.
      */
-    public List<WeekendDateMapDTO> getWeekendDateMapDTOs(int year) {
+    public List<WeekendDateMapDTO> findAllWeekendDateMapDTOs(int year) {
         log.debug("Request to get WeekendDateMapDTO : {}", year);
         LocalDate startDateOfTheYear = commonService.getFirstDayOfTheYear(year);
         LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
-        return getWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
-    }
-
-    /**
-     * Get count of weekendDateMapDTO.
-     *
-     * @param year the year.
-     * @param month the month.
-     * @return the count.
-     */
-    public int getTotalNumberOfWeekends(int year, Month month) {
-        log.debug("Request to get count of total weekends : {} {}", year, month);
-        return getWeekendDateMapDTOs(year, month).size();
-    }
-
-    /**
-     * Get count of weekendDateMapDTO.
-     *
-     * @param year the year.
-     * @return the count.
-     */
-    public int getTotalNumberOfWeekends(int year) {
-        log.debug("Request to get count of total weekends : {}", year);
-        return getWeekendDateMapDTOs(year).size();
+        return findAllWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
     }
 }

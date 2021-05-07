@@ -49,7 +49,7 @@ public class WeekendDateMapResource {
     @GetMapping("/weekend-date-maps/year/{year}")
     public ResponseEntity<List<WeekendDateMapDTO>> getAllWeekendDateMaps(@PathVariable int year) {
         log.debug("REST request to get a page of WeekendDateMaps");
-        List<WeekendDateMapDTO> result = weekendDateMapService.getWeekendDateMapDTOs(year);
+        List<WeekendDateMapDTO> result = weekendDateMapService.findAllWeekendDateMapDTOs(year);
         return ResponseEntity.ok().body(result);
     }
 
@@ -63,7 +63,7 @@ public class WeekendDateMapResource {
     @GetMapping("/weekend-date-maps/year/{year}/month/{month}")
     public ResponseEntity<List<WeekendDateMapDTO>> getAllWeekendDateMaps(@PathVariable int year, @PathVariable int month) {
         log.debug("REST request to get a page of WeekendDateMaps");
-        List<WeekendDateMapDTO> result = weekendDateMapService.getWeekendDateMapDTOs(year, Month.of(month));
+        List<WeekendDateMapDTO> result = weekendDateMapService.findAllWeekendDateMapDTOs(year, Month.of(month));
         return ResponseEntity.ok().body(result);
     }
 }
