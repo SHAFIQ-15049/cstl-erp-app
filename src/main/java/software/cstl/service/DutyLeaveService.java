@@ -53,7 +53,7 @@ public class DutyLeaveService {
     public List<DutyLeaveDTO> save(List<DutyLeaveDTO> dutyLeaveDTOs) {
         log.debug("Request to save DutyLeave : {}", dutyLeaveDTOs);
 
-        List<LeaveType> leaveTypes = leaveTypeService.getAll();
+        List<LeaveType> leaveTypes = leaveTypeService.findAll();
         LeaveType leaveType = new LeaveType();
 
         for(LeaveType leaveType1: leaveTypes) {

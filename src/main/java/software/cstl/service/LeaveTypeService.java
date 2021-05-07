@@ -81,7 +81,7 @@ public class LeaveTypeService {
      *
      * @return the list of entities.
      */
-    public List<LeaveType> getAll() {
+    public List<LeaveType> findAll() {
         return leaveTypeRepository.findAll();
     }
 }

@@ -55,7 +55,7 @@ public class LeaveBalanceService {
         Optional<Employee> employee = employeeService.findOne(employeeId);
 
         if (employee.isPresent() && employee.get().getStatus().equals(EmployeeStatus.ACTIVE)) {
-            List<LeaveType> leaveTypes = leaveTypeService.getAll();
+            List<LeaveType> leaveTypes = leaveTypeService.findAll();
             for (LeaveType leaveType : leaveTypes) {
                 LeaveBalanceDTO leaveBalanceDTO = new LeaveBalanceDTO();
                 switch (leaveType.getName()) {
