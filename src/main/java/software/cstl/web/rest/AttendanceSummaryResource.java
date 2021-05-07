@@ -47,9 +47,6 @@ public class AttendanceSummaryResource {
     }
 
     @PutMapping("/attendance-summaries/marked-as")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
-        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<List<AttendanceSummaryDTO>> updateAttendanceSummaries(@RequestBody  List<AttendanceSummaryDTO> attendanceSummaryDTOs) throws URISyntaxException {
         log.debug("REST request to update attendance summaries : {}", attendanceSummaryDTOs);
         List<AttendanceSummaryDTO> results = attendanceSummaryService.update(attendanceSummaryDTOs);

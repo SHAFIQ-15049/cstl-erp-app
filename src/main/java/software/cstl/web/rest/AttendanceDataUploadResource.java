@@ -45,9 +45,6 @@ public class AttendanceDataUploadResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/attendance-data-uploads")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_ADMIN + "\")" +
-        " || hasAuthority(\"" + AuthoritiesConstants.ATTENDANCE_MANAGER + "\")")
     public ResponseEntity<AttendanceDataUploadDTO> createAttendanceDataUpload(@Valid @RequestBody AttendanceDataUploadDTO attendanceDataUploadDTO) throws URISyntaxException {
         log.debug("REST request to save AttendanceDataUpload : {}", attendanceDataUploadDTO);
         if (attendanceDataUploadDTO.getId() != null) {
