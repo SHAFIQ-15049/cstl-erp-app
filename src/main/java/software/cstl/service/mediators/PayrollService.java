@@ -122,6 +122,8 @@ public class PayrollService {
             log.debug("{} data processed among total {}", counter, monthlySalaryDtls.size());
         }
         monthlySalary.status(SalaryExecutionStatus.DONE);
+        monthlySalary.setFromDate(initialDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
+        monthlySalary.setToDate(lastDay.atStartOfDay(ZoneId.systemDefault()).toInstant());
         monthlySalaryRepository.save(monthlySalary);
         log.debug("Monthly salary generation success");
     }
@@ -151,16 +153,19 @@ public class PayrollService {
         this.totalMonthDays = yearMonth.lengthOfMonth();
         this.initialDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), 1);
         this.lastDay = LocalDate.of(yearMonth.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
-        
+
         List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(this.initialDay, this.lastDay);
         employeeMapAttendanceSummary = attendanceSummaryDTOS.stream()
             .collect(Collectors.groupingBy(AttendanceSummaryDTO::getEmployeeId));
         if(attendanceSummaryDTOS.isEmpty())
             this.totalWorkingDays = 0;
         else{
-            this.totalWorkingDays =  attendanceSummaryDTOS
-                .stream()
-                .filter(a-> a.getAttendanceMarkedAs()!=null && a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R)).collect(Collectors.toList()).size();
+            Set<LocalDate> attendanceDateSet =  attendanceSummaryDTOS
+                .parallelStream()
+                .filter(a-> a.getAttendanceMarkedAs()!=null && a.getAttendanceMarkedAs().equals(AttendanceMarkedAs.R))
+                .map(a-> a.getAttendanceDate())
+                .collect(Collectors.toSet());
+            totalWorkingDays = attendanceDateSet.size();
         }
 
         this.totalWeekLeave = weekendDateMapService.getWeekendDateMapDTOs(this.initialDay, this.lastDay).size();

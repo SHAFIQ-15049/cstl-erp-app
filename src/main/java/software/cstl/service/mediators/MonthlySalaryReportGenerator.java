@@ -99,7 +99,8 @@ public class MonthlySalaryReportGenerator {
             List<MonthlySalaryDtl> monthlySalaryDtlList = entry.getValue();
 
             for(MonthlySalaryDtl monthlySalaryDtl: monthlySalaryDtlList){
-                createSalaryDetailsTableBody(salaryDetailsTable, sequence, monthlySalaryDtl);
+                if(monthlySalaryDtl.getGross()!=null)
+                    createSalaryDetailsTableBody(salaryDetailsTable, sequence, monthlySalaryDtl);
             }
 
             document.add(salaryDetailsTable);

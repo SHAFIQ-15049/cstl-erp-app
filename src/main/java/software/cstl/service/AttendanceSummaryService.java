@@ -218,7 +218,7 @@ public class AttendanceSummaryService {
             boolean found = false;
             AttendanceSummaryDTO summaryDTO = null;
             for (AttendanceSummaryDTO attendanceSummaryDTO : distinctAttendances) {
-                if (employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId())) {
+                if (employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId()) && attendanceSummaryDTO.getAttendanceDate().equals(searchingDate)) {
                     found = true;
                     summaryDTO = attendanceSummaryDTO;
                     break;
