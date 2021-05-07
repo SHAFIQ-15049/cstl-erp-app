@@ -96,7 +96,7 @@ public class LeaveBalanceService {
             List<LeaveApplication> leaveApplications = leaveApplicationService.getLeaveApplications(employee, leaveType,
                 lastYearStartDate, lastYearEndDate, LeaveApplicationStatus.ACCEPTED);
             List<LeaveApplicationDetailDateMapDTO> acceptedLeaveApplications = leaveApplicationService.getLeaveApplicationDetailDateMapDto(leaveApplications);
-            List<HolidayDateMapDTO> holidayDateMapDTOs = holidayService.getHolidayDateMapDTOs(lastYearStartDate, lastYearEndDate);
+            List<HolidayDateMapDTO> holidayDateMapDTOs = holidayService.findAllHolidayDateMapDTOs(lastYearStartDate, lastYearEndDate);
             List<WeekendDateMapDTO> weekendDateMapDTOs = weekendDateMapService.findAllWeekendDateMapDTOs(lastYearStartDate, lastYearEndDate);
             BigDecimal totalDays = BigDecimal.valueOf(DAYS.between(lastYearStartDate, lastYearEndDate)).add(BigDecimal.ONE);
 

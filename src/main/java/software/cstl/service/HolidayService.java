@@ -86,8 +86,8 @@ public class HolidayService {
      *
      * @return the entities
      */
-    public List<Holiday> getAllHolidays() {
-        log.debug("Request to get all Holidays");
+    public List<Holiday> findAll() {
+        log.debug("Request to find all Holidays");
         return holidayRepository.findAll();
     }
 
@@ -98,9 +98,9 @@ public class HolidayService {
      * @param toDate an end date.
      * @return the entities
      */
-    public List<Holiday> getHolidays(LocalDate fromDate, LocalDate toDate) {
-        log.debug("Request to get Holidays: {} {}", fromDate, toDate);
-        return getAllHolidays()
+    public List<Holiday> findAll(LocalDate fromDate, LocalDate toDate) {
+        log.debug("Request to find Holidays: {} {}", fromDate, toDate);
+        return findAll()
             .stream()
             .filter(holiday
                 -> (fromDate.isAfter(holiday.getFrom()) || fromDate.isEqual(holiday.getFrom())) && (toDate.isBefore(holiday.getTo()) || toDate.isEqual(holiday.getFrom())))
@@ -114,10 +114,10 @@ public class HolidayService {
      * @param toDate an end date.
      * @return the holidayDateMapDTO DTO
      */
-    public List<HolidayDateMapDTO> getHolidayDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
-        log.debug("Request to get HolidayDateMapDTO: {} {}", fromDate, toDate);
+    public List<HolidayDateMapDTO> findAllHolidayDateMapDTOs(LocalDate fromDate, LocalDate toDate) {
+        log.debug("Request to find HolidayDateMapDTO: {} {}", fromDate, toDate);
 
-        List<Holiday> holidays = getHolidays(fromDate, toDate);
+        List<Holiday> holidays = findAll(fromDate, toDate);
         List<HolidayDateMapDTO> holidayDateMapDTOs = new ArrayList<>();
         long serial = 0L;
 
@@ -131,7 +131,6 @@ public class HolidayService {
                 startDate = startDate.plusDays(1);
             }
         }
-
         return holidayDateMapDTOs;
     }
 
@@ -142,11 +141,11 @@ public class HolidayService {
      * @param month the month.
      * @return the HolidayDateMapDTO DTOs.
      */
-    public List<HolidayDateMapDTO> getHolidayDateMapDTOs(int year, Month month) {
+    public List<HolidayDateMapDTO> findAllHolidayDateMapDTOs(int year, Month month) {
         log.debug("Request to get HolidayDateMapDTO : {} {}", year, month);
         LocalDate startDateOfTheMonth = commonService.getFirstDayOfTheMonth(year, month);
         LocalDate lastDateOfTheMonth = commonService.getLastDayOfTheMonth(year, month);
-        return getHolidayDateMapDTOs(startDateOfTheMonth, lastDateOfTheMonth);
+        return findAllHolidayDateMapDTOs(startDateOfTheMonth, lastDateOfTheMonth);
     }
 
     /**
@@ -155,33 +154,10 @@ public class HolidayService {
      * @param year the year.
      * @return the HolidayDateMapDTO DTOs.
      */
-    public List<HolidayDateMapDTO> getHolidayDateMapDTOs(int year) {
+    public List<HolidayDateMapDTO> findAllHolidayDateMapDTOs(int year) {
         log.debug("Request to get HolidayDateMapDTO : {}", year);
         LocalDate startDateOfTheYear = commonService.getFirstDayOfTheYear(year);
         LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
-        return getHolidayDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
-    }
-
-    /**
-     * Get count of holidayDateMapDTO.
-     *
-     * @param year the year.
-     * @param month the month.
-     * @return the HolidayDateMapDTO DTOs.
-     */
-    public int getTotalNumberOfHolidays(int year, Month month) {
-        log.debug("Request to get count of total holidays : {} {}", year, month);
-        return getHolidayDateMapDTOs(year, month).size();
-    }
-
-    /**
-     * Get count of holidayDateMapDTO.
-     *
-     * @param year the year.
-     * @return the HolidayDateMapDTO DTOs.
-     */
-    public int getTotalNumberOfHolidays(int year) {
-        log.debug("Request to get count of total holidays : {}", year);
-        return getHolidayDateMapDTOs(year).size();
+        return findAllHolidayDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
     }
 }

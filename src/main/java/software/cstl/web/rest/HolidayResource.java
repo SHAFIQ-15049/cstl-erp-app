@@ -57,9 +57,6 @@ public class HolidayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/holidays")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_MANAGER + "\")" )
     public ResponseEntity<Holiday> createHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to save Holiday : {}", holiday);
         if (holiday.getId() != null) {
@@ -81,9 +78,6 @@ public class HolidayResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/holidays")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_ADMIN + "\")" +
-        "|| hasAuthority(\"" + AuthoritiesConstants.HOLIDAY_MANAGER + "\")" )
     public ResponseEntity<Holiday> updateHoliday(@Valid @RequestBody Holiday holiday) throws URISyntaxException {
         log.debug("REST request to update Holiday : {}", holiday);
         if (holiday.getId() == null) {
@@ -142,7 +136,6 @@ public class HolidayResource {
      * @return the {@link ResponseEntity} with status {@code 204 (NO_CONTENT)}.
      */
     @DeleteMapping("/holidays/{id}")
-    @PreAuthorize("hasAuthority(\"" + AuthoritiesConstants.ADMIN + "\")")
     public ResponseEntity<Void> deleteHoliday(@PathVariable Long id) {
         log.debug("REST request to delete Holiday : {}", id);
         holidayService.delete(id);
