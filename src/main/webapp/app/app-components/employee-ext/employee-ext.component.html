@@ -19,6 +19,50 @@
     </div>
 
 
+
+    <div class="row">
+        <div class="col-md-12">
+            <form>
+                <h4>Filter by</h4>
+
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Department</span>
+                    </div>
+                    <select class="form-control" name="department"
+                            [(ngModel)]="departmentId" required>
+                        <option [ngValue]="-1" selected>Select All</option>
+                        <option [ngValue]="departmentOption.id"
+                                *ngFor="let departmentOption of departments;">{{ departmentOption.name }}</option>
+                    </select>
+                    <div>
+                        <button class="btn btn-primary" (click)="fetchByDept()">Fetch</button>
+                    </div>
+                    <div class="col-md-1">
+
+                    </div>
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">Id</span>
+                    </div>
+                    <input type="text" class="form-control" name="empId" [(ngModel)]="empId"
+                           required/>
+                    <div>
+                        <button class="btn btn-primary" (click)="fetch()">Fetch</button>
+                    </div>
+
+
+                    <div>
+                         <button class="btn btn-secondary" (click)="fetchAll()">Fetch All</button>
+                    </div>
+
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+
+
     <div class="table-responsive" id="entities" *ngIf="employees && employees.length > 0">
         <table class="table table-striped" aria-describedby="page-heading">
             <thead>
@@ -82,7 +126,7 @@
         </div>
 
         <div class="row justify-content-center">
-            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage($event)"></ngb-pagination>
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="ngbPaginationPage" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="fetch($event)"></ngb-pagination>
         </div>
     </div>
 </div>
