@@ -3,7 +3,7 @@ package software.cstl.web.rest;
 import software.cstl.CodeNodeErpApp;
 import software.cstl.domain.MonthlySalary;
 import software.cstl.domain.MonthlySalaryDtl;
-import software.cstl.domain.Designation;
+import software.cstl.domain.Department;
 import software.cstl.repository.MonthlySalaryRepository;
 import software.cstl.service.MonthlySalaryService;
 import software.cstl.service.dto.MonthlySalaryCriteria;
@@ -685,21 +685,21 @@ public class MonthlySalaryResourceIT {
 
     @Test
     @Transactional
-    public void getAllMonthlySalariesByDesignationIsEqualToSomething() throws Exception {
+    public void getAllMonthlySalariesByDepartmentIsEqualToSomething() throws Exception {
         // Initialize the database
         monthlySalaryRepository.saveAndFlush(monthlySalary);
-        Designation designation = DesignationResourceIT.createEntity(em);
-        em.persist(designation);
+        Department department = DepartmentResourceIT.createEntity(em);
+        em.persist(department);
         em.flush();
-        monthlySalary.setDesignation(designation);
+        monthlySalary.setDepartment(department);
         monthlySalaryRepository.saveAndFlush(monthlySalary);
-        Long designationId = designation.getId();
+        Long departmentId = department.getId();
 
-        // Get all the monthlySalaryList where designation equals to designationId
-        defaultMonthlySalaryShouldBeFound("designationId.equals=" + designationId);
+        // Get all the monthlySalaryList where department equals to departmentId
+        defaultMonthlySalaryShouldBeFound("departmentId.equals=" + departmentId);
 
-        // Get all the monthlySalaryList where designation equals to designationId + 1
-        defaultMonthlySalaryShouldNotBeFound("designationId.equals=" + (designationId + 1));
+        // Get all the monthlySalaryList where department equals to departmentId + 1
+        defaultMonthlySalaryShouldNotBeFound("departmentId.equals=" + (departmentId + 1));
     }
 
     /**

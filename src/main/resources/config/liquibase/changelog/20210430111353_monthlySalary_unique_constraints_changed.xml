@@ -1,0 +1,9 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="monju (generated)" id="1619781244450-1">
+        <addUniqueConstraint columnNames="year, month, status, designation_id" constraintName="unique_monthly_salary_year-month_designation_status" tableName="monthly_salary"/>
+    </changeSet>
+    <changeSet author="monju (generated)" id="1619781244450-2">
+        <dropUniqueConstraint constraintName="unique_monthly_salary_year_month_status" tableName="monthly_salary"/>
+    </changeSet>
+</databaseChangeLog>

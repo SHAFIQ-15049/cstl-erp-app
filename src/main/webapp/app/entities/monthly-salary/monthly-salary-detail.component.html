@@ -36,10 +36,10 @@
                 <dd>
                     <span>{{ monthlySalary.executedBy }}</span>
                 </dd>
-                <dt><span>Designation</span></dt>
+                <dt><span>Department</span></dt>
                 <dd>
-                    <div *ngIf="monthlySalary.designation">
-                        <a [routerLink]="['/designation', monthlySalary.designation?.id, 'view']">{{ monthlySalary.designation?.name }}</a>
+                    <div *ngIf="monthlySalary.department">
+                        <a [routerLink]="['/department', monthlySalary.department?.id, 'view']">{{ monthlySalary.department?.name }}</a>
                     </div>
                 </dd>
             </dl>

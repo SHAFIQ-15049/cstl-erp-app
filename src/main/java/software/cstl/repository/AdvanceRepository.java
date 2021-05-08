@@ -15,7 +15,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 @Repository
 public interface AdvanceRepository extends JpaRepository<Advance, Long>, JpaSpecificationExecutor<Advance> {
-    Boolean existsByEmployeeAndPaymentStatusIn(Employee employee, List<PaymentStatus> paymentStatusList);
+    Boolean existsByEmployee_IdAndPaymentStatusIn(Long employeeId, List<PaymentStatus> paymentStatusList);
 
-    Advance findByEmployeeAndPaymentStatusIn(Employee employee, List<PaymentStatus> paymentStatusList);
+    Advance findByEmployee_IdAndPaymentStatusIn(Long employeeId, List<PaymentStatus> paymentStatusList);
 }

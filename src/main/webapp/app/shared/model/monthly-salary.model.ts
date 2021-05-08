@@ -1,6 +1,6 @@
 import { Moment } from 'moment';
 import { IMonthlySalaryDtl } from 'app/shared/model/monthly-salary-dtl.model';
-import { IDesignation } from 'app/shared/model/designation.model';
+import { IDepartment } from 'app/shared/model/department.model';
 import { MonthType } from 'app/shared/model/enumerations/month-type.model';
 import { SalaryExecutionStatus } from 'app/shared/model/enumerations/salary-execution-status.model';
 
@@ -14,7 +14,7 @@ export interface IMonthlySalary {
   executedOn?: Moment;
   executedBy?: string;
   monthlySalaryDtls?: IMonthlySalaryDtl[];
-  designation?: IDesignation;
+  department?: IDepartment;
 }
 
 export class MonthlySalary implements IMonthlySalary {
@@ -28,6 +28,6 @@ export class MonthlySalary implements IMonthlySalary {
     public executedOn?: Moment,
     public executedBy?: string,
     public monthlySalaryDtls?: IMonthlySalaryDtl[],
-    public designation?: IDesignation
+    public department?: IDepartment
   ) {}
 }

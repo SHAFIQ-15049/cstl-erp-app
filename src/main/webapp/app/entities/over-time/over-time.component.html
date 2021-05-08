@@ -20,7 +20,11 @@
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
-
+    <div class="row" *ngIf="showLoader">
+        <div class="col-md-12" align="center">
+            <span><fa-icon icon="spinner" [pulse]="true" size="3x"></fa-icon></span>
+        </div>
+    </div>
 
     <div class="form-row align-items-end" >
         <div class="col-md-12">
@@ -46,13 +50,6 @@
                 <option value="OCTOBER">OCTOBER</option>
                 <option value="NOVEMBER">NOVEMBER</option>
                 <option value="DECEMBER">DECEMBER</option>
-            </select>
-        </div>
-        <div class="form-group col-md-2">
-            <label class="form-control-label" for="field_designation">Designation</label>
-            <select class="form-control" id="field_designation" name="designation" [(ngModel)]="selectedDesignationId" >
-                <option></option>
-                <option [ngValue]="designationOption.id" *ngFor="let designationOption of designations">{{designationOption.name}}</option>
             </select>
         </div>
 

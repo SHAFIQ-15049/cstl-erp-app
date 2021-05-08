@@ -523,7 +523,7 @@ relationship ManyToOne{
     ServiceHistory{department(name)} to Department,
     ServiceHistory{designation(name)} to Designation,
     ServiceHistory{grade(name)} to Grade,
-    MonthlySalary {designation(name)} to Designation,
+    MonthlySalary {department(name)} to Department,
     MonthlySalaryDtl {employee(name)} to Employee,
     FestivalAllowancePayment{designation(name)} to Designation,
     FestivalAllowancePaymentDtl {employee(name)} to Employee,

@@ -37,7 +37,7 @@ export class MonthlySalaryUpdatePage {
   executedOnInput = element(by.id('field_executedOn'));
   executedByInput = element(by.id('field_executedBy'));
 
-  designationSelect = element(by.id('field_designation'));
+  departmentSelect = element(by.id('field_department'));
 
   async getPageTitle(): Promise<string> {
     return this.pageTitle.getText();
@@ -107,20 +107,20 @@ export class MonthlySalaryUpdatePage {
     return await this.executedByInput.getAttribute('value');
   }
 
-  async designationSelectLastOption(): Promise<void> {
-    await this.designationSelect.all(by.tagName('option')).last().click();
+  async departmentSelectLastOption(): Promise<void> {
+    await this.departmentSelect.all(by.tagName('option')).last().click();
   }
 
-  async designationSelectOption(option: string): Promise<void> {
-    await this.designationSelect.sendKeys(option);
+  async departmentSelectOption(option: string): Promise<void> {
+    await this.departmentSelect.sendKeys(option);
   }
 
-  getDesignationSelect(): ElementFinder {
-    return this.designationSelect;
+  getDepartmentSelect(): ElementFinder {
+    return this.departmentSelect;
   }
 
-  async getDesignationSelectedOption(): Promise<string> {
-    return await this.designationSelect.element(by.css('option:checked')).getText();
+  async getDepartmentSelectedOption(): Promise<string> {
+    return await this.departmentSelect.element(by.css('option:checked')).getText();
   }
 
   async save(): Promise<void> {

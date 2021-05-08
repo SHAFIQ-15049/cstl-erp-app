@@ -2,6 +2,7 @@ package software.cstl.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Attendance;
@@ -217,7 +218,7 @@ public class AttendanceSummaryService {
             boolean found = false;
             AttendanceSummaryDTO summaryDTO = null;
             for (AttendanceSummaryDTO attendanceSummaryDTO : distinctAttendances) {
-                if (employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId())) {
+                if (employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId()) && attendanceSummaryDTO.getAttendanceDate().equals(searchingDate)) {
                     found = true;
                     summaryDTO = attendanceSummaryDTO;
                     break;

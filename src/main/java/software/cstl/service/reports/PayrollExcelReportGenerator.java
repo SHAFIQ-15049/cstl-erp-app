@@ -5,7 +5,6 @@ import org.apache.commons.lang3.ObjectUtils;
 import org.jxls.common.Context;
 import org.jxls.util.JxlsHelper;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.MonthlySalaryDtl;
 import software.cstl.domain.enumeration.MonthType;
@@ -54,11 +53,11 @@ public class PayrollExcelReportGenerator {
 
         List<MonthlySalaryDtl> monthlySalaryDtls = new ArrayList<>();
         if(departmentId!=null && designationId!=null){
-            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Designation_IdAndEmployee_Department_Id(year, month, departmentId, designationId);
+            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_IdAndEmployee_Designation_id(year, month, departmentId, designationId);
         }else if(departmentId!=null && designationId==null){
             monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndEmployee_Department_Id(year, month, departmentId);
         }else if(departmentId==null && designationId!=null){
-            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Designation_Id(year, month, designationId);
+            monthlySalaryDtls = monthlySalaryDtlRepository.findAllByMonthlySalary_YearAndMonthlySalary_MonthAndMonthlySalary_Department_Id(year, month, designationId);
         }
 
         List<SalaryReportDto> salaryReportDtoList = new ArrayList<>();
@@ -66,11 +65,13 @@ public class PayrollExcelReportGenerator {
         for(int i=0; i<monthlySalaryDtls.size(); i++){
             MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtls.get(i);
 
+            if(monthlySalaryDtl.getGross()==null)
+                continue;
             SalaryReportDto salaryReportDto = new SalaryReportDto();
             salaryReportDto.setSerial(i+1);
 
             EmployeeInfoDto employeeInfoDto = new EmployeeInfoDto();
-            employeeInfoDto.setName(ObjectUtils.defaultIfNull(monthlySalaryDtl.getEmployee().getPersonalInfo().getBanglaName(),monthlySalaryDtl.getEmployee().getName()));
+            employeeInfoDto.setName(monthlySalaryDtl.getEmployee().getPersonalInfo()==null?"No-Name": monthlySalaryDtl.getEmployee().getPersonalInfo().getBanglaName());
             employeeInfoDto.setDesignation(monthlySalaryDtl.getEmployee().getDesignation().getNameInBangla());
             employeeInfoDto.setEmployeeId(monthlySalaryDtl.getEmployee().getLocalId());
             employeeInfoDto.setJoiningDate(monthlySalaryDtl.getEmployee().getJoiningDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));
@@ -97,7 +98,8 @@ public class PayrollExcelReportGenerator {
             salaryReportDto.setWeeklyLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getWeeklyLeave().toString()));
             salaryReportDto.setPresent(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getPresent().toString()));
             salaryReportDto.setAbsent(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getAbsent().toString()));
-            salaryReportDto.setTotalProvidedLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish((salaryReportDto.getRegularLeave()+salaryReportDto.getSickLeave()+salaryReportDto.getEarnedLeave()+salaryReportDto.getFestivalLeave()+salaryReportDto.getWeeklyLeave()).toString()));
+            Integer totalProviddedLeave = (Integer.parseInt(salaryReportDto.getRegularLeave())+Integer.parseInt(salaryReportDto.getSickLeave())+Integer.parseInt(salaryReportDto.getEarnedLeave())+Integer.parseInt(salaryReportDto.getFestivalLeave())+Integer.parseInt(salaryReportDto.getWeeklyLeave()));
+            salaryReportDto.setTotalProvidedLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish(totalProviddedLeave.toString()));
             salaryReportDto.setTotalWorkingDays(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getTotalMonthDays().toString()));
             salaryReportDto.setOvertimeHour(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getOverTimeHour().toString()));
             salaryReportDto.setOverTimePerHour(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getOverTimeSalaryHourly()));
