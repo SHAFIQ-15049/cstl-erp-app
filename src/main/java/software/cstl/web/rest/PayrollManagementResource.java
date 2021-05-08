@@ -69,8 +69,8 @@ public class PayrollManagementResource {
     }
 
     @PutMapping("/re-generate-salaries")
-    public ResponseEntity<MonthlySalary> regenerateSalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException {
-        payrollService.regenerateMonthlySalaries(monthlySalary);
+    public ResponseEntity<MonthlySalary> regenerateSalaries(@RequestBody MonthlySalary monthlySalary) throws URISyntaxException, CloneNotSupportedException {
+        monthlySalary =  payrollService.regenerateMonthlySalaries(monthlySalary);
         return ResponseEntity.created(new URI("/api/monthly-salaries/" + monthlySalary.getId()))
             .body(monthlySalary);
     }

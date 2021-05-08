@@ -128,23 +128,22 @@ public class PayrollService {
     }
 
 
-    public void regenerateMonthlySalaries(MonthlySalary monthlySalaryParam){
-        initializeGlobalValuesForAMonth(monthlySalaryParam);
-
-        MonthlySalary monthlySalary = monthlySalaryParam;
-        monthlySalary = monthlySalaryRepository.getOne(monthlySalary.getId());
-        monthlySalaryDtlRepository.deleteInBatch(monthlySalary.getMonthlySalaryDtls());
-        monthlySalary.setMonthlySalaryDtls(new HashSet<>());
-        monthlySalary = getEmptyMonthSalaryDtls(monthlySalary);
-
-        MonthlySalary finalMonthlySalary = monthlySalary;
-        monthlySalary.getMonthlySalaryDtls().parallelStream().forEach((monthlySalaryDtl -> {
-            assignFine(monthlySalaryDtl);
-            assignAdvance(monthlySalaryDtl);
-            assignSalaryAndAllowances(finalMonthlySalary, monthlySalaryDtl);
-        }));
-        monthlySalary.status(SalaryExecutionStatus.DONE);
-        monthlySalaryRepository.save(monthlySalary);
+    public MonthlySalary regenerateMonthlySalaries(MonthlySalary monthlySalaryParam) throws CloneNotSupportedException {
+        monthlySalaryParam = monthlySalaryRepository.getOne(monthlySalaryParam.getId());
+        Set<MonthlySalaryDtl> monthlySalaryDtls = monthlySalaryParam.getMonthlySalaryDtls();
+        monthlySalaryDtlRepository.deleteAll(monthlySalaryDtls);
+        monthlySalaryDtlRepository.flush();;
+        monthlySalaryRepository.delete(monthlySalaryParam);
+        monthlySalaryRepository.flush();
+        MonthlySalary newMonthlySalary = new MonthlySalary();
+        newMonthlySalary.setMonth(monthlySalaryParam.getMonth());
+        newMonthlySalary.setDepartment(monthlySalaryParam.getDepartment());
+        newMonthlySalary.setYear(monthlySalaryParam.getYear());
+        newMonthlySalary.setFromDate(monthlySalaryParam.getFromDate());
+        newMonthlySalary.setToDate(monthlySalaryParam.getToDate());
+        newMonthlySalary =  createEmptyMonthlySalaries(newMonthlySalary);
+        createMonthlySalaries(newMonthlySalary);
+        return newMonthlySalary;
     }
 
     private void initializeGlobalValuesForAMonth(MonthlySalary monthlySalaryParam) {

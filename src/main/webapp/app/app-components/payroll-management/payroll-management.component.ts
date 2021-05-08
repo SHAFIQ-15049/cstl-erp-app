@@ -156,9 +156,11 @@ export class PayrollManagementComponent implements OnInit {
     this.showLoader = true;
     this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(
       res => {
+        this.monthlySalary = res.body!;
         this.jhiAlertService.success('Re-generation success');
         this.eventManager.broadcast('monthlySalaryDtlListModification');
         this.showLoader = false;
+        this.ngOnInit();
       },
       err => {
         this.showLoader = false;
