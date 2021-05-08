@@ -46,7 +46,7 @@ export const overTimeRoute: Routes = [
     canActivate: [UserRouteAccessService],
   },
   {
-    path: ':selectedYear/:selectedMonth/:selectedDesignationId',
+    path: ':selectedYear/:selectedMonth',
     component: OverTimeComponent,
     data: {
       authorities: [Authority.USER],

@@ -45,17 +45,17 @@ export class OverTimeService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  generateOverTimes(year?: number, month?: MonthType, designationId?: number): Observable<EntityArrayResponseType> {
+  generateOverTimes(year?: number, month?: MonthType): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IOverTime[]>(`${this.resourceUrl}/generate-over-time/${year}/${month}/${designationId}`, {
+      .get<IOverTime[]>(`${this.resourceUrl}/generate-over-time/${year}/${month}`, {
         observe: 'response',
       })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  regenerateOverTimes(year?: number, month?: MonthType, designationId?: number): Observable<EntityArrayResponseType> {
+  regenerateOverTimes(year?: number, month?: MonthType): Observable<EntityArrayResponseType> {
     return this.http
-      .get<IOverTime[]>(`${this.resourceUrl}/regenerate-over-time/${year}/${month}/${designationId}`, {
+      .get<IOverTime[]>(`${this.resourceUrl}/regenerate-over-time/${year}/${month}`, {
         observe: 'response',
       })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));

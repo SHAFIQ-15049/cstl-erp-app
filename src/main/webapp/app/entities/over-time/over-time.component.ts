@@ -34,8 +34,6 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   years: number[] = [];
   selectedYear?: number;
   designations: IDesignation[] = [];
-  selectedDesignation?: IDesignation;
-  selectedDesignationId?: number;
   selectedMonth?: MonthType;
   fromDate?: Moment;
   toDate?: Moment;
@@ -62,7 +60,6 @@ export class OverTimeComponent implements OnInit, OnDestroy {
         sort: ['id,asc'],
         'year.equals': this.selectedYear,
         'month.equals': this.selectedMonth,
-        'designationId.equals': this.selectedDesignationId,
       })
       .subscribe(
         (res: HttpResponse<IOverTime[]>) => {
@@ -76,13 +73,6 @@ export class OverTimeComponent implements OnInit, OnDestroy {
     this.configureYears();
     this.handleNavigation();
     this.registerChangeInOverTimes();
-    this.designationService
-      .query({
-        size: 10000,
-      })
-      .subscribe(res => {
-        this.designations = res.body || [];
-      });
   }
 
   protected handleNavigation(): void {
@@ -104,12 +94,11 @@ export class OverTimeComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.selectedYear = +params['selectedYear'];
         this.selectedMonth = params['selectedMonth'];
-        this.selectedDesignationId = +params['selectedDesignationId'];
         if (
           this.pageNumber !== this.page ||
           this.predicate !== this.predicate ||
           this.ascending !== this.ascending ||
-          (this.selectedYear && this.selectedMonth && this.selectedDesignationId)
+          (this.selectedYear && this.selectedMonth)
         ) {
           this.loadPage(this.pageNumber, true);
         }
@@ -117,10 +106,10 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   navigate(): void {
-    if (this.selectedYear && this.selectedMonth && this.selectedDesignationId) {
-      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth, this.selectedDesignationId]);
+    if (this.selectedYear && this.selectedMonth) {
+      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth]);
     } else {
-      this.alertService.error('Year, month and designation must be selected');
+      this.alertService.error('Year and month must be selected');
     }
   }
 
@@ -191,13 +180,13 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   generateOverTime(): void {
-    this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+    this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
       this.handleNavigation();
     });
   }
 
   regenerateOverTime(): void {
-    this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+    this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
       this.alertService.info('Overtime successfully generated');
       this.handleNavigation();
     });

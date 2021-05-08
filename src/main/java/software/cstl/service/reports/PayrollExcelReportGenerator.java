@@ -65,11 +65,13 @@ public class PayrollExcelReportGenerator {
         for(int i=0; i<monthlySalaryDtls.size(); i++){
             MonthlySalaryDtl monthlySalaryDtl = monthlySalaryDtls.get(i);
 
+            if(monthlySalaryDtl.getGross()==null)
+                continue;
             SalaryReportDto salaryReportDto = new SalaryReportDto();
             salaryReportDto.setSerial(i+1);
 
             EmployeeInfoDto employeeInfoDto = new EmployeeInfoDto();
-            employeeInfoDto.setName(ObjectUtils.defaultIfNull(monthlySalaryDtl.getEmployee().getPersonalInfo().getBanglaName(),monthlySalaryDtl.getEmployee().getName()));
+            employeeInfoDto.setName(monthlySalaryDtl.getEmployee().getPersonalInfo()==null?"No-Name": monthlySalaryDtl.getEmployee().getPersonalInfo().getBanglaName());
             employeeInfoDto.setDesignation(monthlySalaryDtl.getEmployee().getDesignation().getNameInBangla());
             employeeInfoDto.setEmployeeId(monthlySalaryDtl.getEmployee().getLocalId());
             employeeInfoDto.setJoiningDate(monthlySalaryDtl.getEmployee().getJoiningDate().format(DateTimeFormatter.ofPattern("dd-MM-yyyy")));

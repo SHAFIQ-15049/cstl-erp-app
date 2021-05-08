@@ -51,7 +51,7 @@ export class PayrollReportComponent implements OnInit {
 
   downloadReport(): void {
     this.payrollManagementService
-      .downloadReport(this.selectedYear!, this.selectedMonth!, this.selectedDepartmentId!, this.selectedDesignationId!)
+      .downloadReportWithoutDesignation(this.selectedYear!, this.selectedMonth!, this.selectedDepartmentId!)
       .subscribe(data => {
         const blob: any = new Blob([data], { type: 'application/octet-stream' });
         const downloadURL = window.URL.createObjectURL(data);

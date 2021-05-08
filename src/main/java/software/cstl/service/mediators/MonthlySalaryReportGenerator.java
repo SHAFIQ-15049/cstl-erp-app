@@ -72,9 +72,6 @@ public class MonthlySalaryReportGenerator {
         PdfWriter.getInstance(document, out);
         document.open();
 
-
-
-
         List<MonthlySalaryDtl> monthlySalaryDtls = new ArrayList<>(monthlySalary.getMonthlySalaryDtls())
             .stream()
             .sorted((o1,o2)-> o1.getEmployee().getId().compareTo(o2.getEmployee().getId()))
@@ -268,23 +265,28 @@ public class MonthlySalaryReportGenerator {
         // overtime
         PdfPTable overtimeMainTable = new PdfPTable(1);
 
-        OverTime overTime = overTimeRepository.findByYearAndMonthAndEmployee(monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth(), monthlySalaryDtl.getEmployee()).get();
+        OverTime overTime = new OverTime();
+        try{
+            overTime= overTimeRepository.findByYearAndMonthAndEmployee(monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth(), monthlySalaryDtl.getEmployee()).get();
+        }catch (NoSuchElementException e){
+            overTime = null;
+        }
 
         PdfPTable overtimeInnerTable = new PdfPTable(3);
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(overTime.getTotalOverTime().toString(), bodyFont));
+        cell.addElement(new Paragraph(overTime==null?"0": overTime.getTotalOverTime().toString(), bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         overtimeInnerTable.addCell(cell);
 
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(CodeNodeErpUtils.currencyWithChosenLocalisation(overTime.getTotalAmount().divide(new BigDecimal(overTime.getTotalOverTime()))), bodyFont));
+        cell.addElement(new Paragraph(overTime==null?"0": CodeNodeErpUtils.currencyWithChosenLocalisation(overTime.getTotalAmount().divide(new BigDecimal(overTime.getTotalOverTime()))), bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         overtimeInnerTable.addCell(cell);
 
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(CodeNodeErpUtils.currencyWithChosenLocalisation(overTime.getTotalAmount()), bodyFont));
+        cell.addElement(new Paragraph(overTime==null?"0": CodeNodeErpUtils.currencyWithChosenLocalisation(overTime.getTotalAmount()), bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         overtimeInnerTable.addCell(cell);
@@ -314,7 +316,7 @@ public class MonthlySalaryReportGenerator {
         FinePaymentHistory finePaymentHistory = finePaymentHistoryRepository.findByFine_EmployeeAndYearAndMonthType(monthlySalaryDtl.getEmployee(), monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth());
 
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(CodeNodeErpUtils.currencyWithChosenLocalisation(finePaymentHistory.getAmount()), bodyFont));
+        cell.addElement(new Paragraph(finePaymentHistory==null?"0": CodeNodeErpUtils.currencyWithChosenLocalisation(finePaymentHistory.getAmount()), bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         salaryDetailsTable.addCell(cell);
@@ -322,7 +324,7 @@ public class MonthlySalaryReportGenerator {
         AdvancePaymentHistory advancePaymentHistory = advancePaymentHistoryRepository.findByAdvance_EmployeeAndYearAndMonthType(monthlySalaryDtl.getEmployee(), monthlySalaryDtl.getMonthlySalary().getYear(), monthlySalaryDtl.getMonthlySalary().getMonth());
 
         cell = new PdfPCell();
-        cell.addElement(new Paragraph(CodeNodeErpUtils.currencyWithChosenLocalisation(advancePaymentHistory.getAmount()), bodyFont));
+        cell.addElement(new Paragraph(advancePaymentHistory==null?"0": CodeNodeErpUtils.currencyWithChosenLocalisation(advancePaymentHistory.getAmount()), bodyFont));
         cell.setHorizontalAlignment(Element.ALIGN_CENTER);
         cell.setVerticalAlignment(Element.ALIGN_MIDDLE);
         salaryDetailsTable.addCell(cell);
