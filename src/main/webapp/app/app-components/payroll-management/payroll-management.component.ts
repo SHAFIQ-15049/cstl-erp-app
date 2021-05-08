@@ -39,6 +39,7 @@ export class PayrollManagementComponent implements OnInit {
   fromDateStr?: string;
   toDateStr?: string;
   showMonthlySalaryDtl = false;
+  showLoader = false;
 
   constructor(
     private departmentService: DepartmentService,
@@ -100,6 +101,7 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   fetch(): void {
+    this.showLoader = true;
     if (this.selectedYear && this.selectedDepartment && this.selectedMonth) {
       this.monthlySalaryService
         .query({
@@ -111,6 +113,7 @@ export class PayrollManagementComponent implements OnInit {
           if (res.body?.length! > 0) {
             this.monthlySalary = res.body ? res.body[0]! : new MonthlySalary();
             this.showMonthlySalaryDtl = true;
+            this.showLoader = false;
             this.router.navigate(['monthly-salary-dtl'], {
               queryParams: { monthlySalaryId: this.monthlySalary.id },
               relativeTo: this.activatedRoute,
@@ -122,6 +125,7 @@ export class PayrollManagementComponent implements OnInit {
             monthlySalary.department = this.selectedDepartment;
             monthlySalary.month = this.selectedMonth;
             this.payrollManagementService.createEmptySalaries(monthlySalary).subscribe(response => {
+              this.showLoader = false;
               this.fetchExistingData();
             });
           }
@@ -132,19 +136,35 @@ export class PayrollManagementComponent implements OnInit {
   }
 
   generateSalaries(): void {
-    this.payrollManagementService.createSalaries(this.monthlySalary).subscribe(res => {
-      this.eventManager.broadcast('monthlySalaryDtlListModification');
-      this.navigate();
-    });
+    this.showLoader = true;
+    this.payrollManagementService.createSalaries(this.monthlySalary).subscribe(
+      res => {
+        this.eventManager.broadcast('monthlySalaryDtlListModification');
+        this.navigate();
+        this.showLoader = false;
+      },
+      err => {
+        this.jhiAlertService.error('Error in generating salaries.');
+        this.showLoader = false;
+      }
+    );
   }
 
   regenerateSalaries(): void {
     // this.monthlySalary.fromDate = moment(this.fromDate, DATE_TIME_FORMAT);
     // this.monthlySalary.toDate = moment(this.toDate, DATE_TIME_FORMAT);
-    this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(res => {
-      this.jhiAlertService.success('Re-generation success');
-      this.eventManager.broadcast('monthlySalaryDtlListModification');
-    });
+    this.showLoader = true;
+    this.payrollManagementService.regenerateSalaries(this.monthlySalary).subscribe(
+      res => {
+        this.jhiAlertService.success('Re-generation success');
+        this.eventManager.broadcast('monthlySalaryDtlListModification');
+        this.showLoader = false;
+      },
+      err => {
+        this.showLoader = false;
+        this.jhiAlertService.error('Error in re-generating salaries');
+      }
+    );
   }
 
   fetchExistingData(): void {

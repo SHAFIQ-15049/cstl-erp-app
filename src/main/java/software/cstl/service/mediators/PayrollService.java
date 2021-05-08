@@ -107,7 +107,6 @@ public class PayrollService {
     }
 
 
-    @Async
     public void createMonthlySalaries(MonthlySalary monthlySalaryParam){
         initializeGlobalValuesForAMonth(monthlySalaryParam);
         MonthlySalary monthlySalary = monthlySalaryRepository.getOne(monthlySalaryParam.getId());

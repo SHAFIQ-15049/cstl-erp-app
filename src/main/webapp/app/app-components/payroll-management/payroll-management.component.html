@@ -47,13 +47,19 @@
     </div>
     <div class="col-md-4" *ngIf="monthlySalary.status==='DONE'" align="right">
         <button class="btn btn-primary" (click)="regenerateSalaries()">Re-Generate Payroll</button>
-        <button class="btn btn-secondary" (click)="downloadReport()">Download Report</button>
+        <!--<button class="btn btn-secondary" (click)="downloadReport()">Download Report</button>-->
     </div>
     <div class="col-md-4" *ngIf="monthlySalary.status==='NOT_DONE'" align="right">
         <button class="btn btn-secondary" (click)="generateSalaries()">Generate Payroll</button>
     </div>
     <div class="col-md-12">
 
+    </div>
+</div>
+
+<div class="row" *ngIf="showLoader">
+    <div class="col-md-12" align="center">
+        <span><fa-icon icon="spinner" [pulse]="true" size="3x"></fa-icon></span>
     </div>
 </div>
 

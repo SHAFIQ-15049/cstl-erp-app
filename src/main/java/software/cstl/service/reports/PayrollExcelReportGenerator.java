@@ -98,7 +98,8 @@ public class PayrollExcelReportGenerator {
             salaryReportDto.setWeeklyLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getWeeklyLeave().toString()));
             salaryReportDto.setPresent(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getPresent().toString()));
             salaryReportDto.setAbsent(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getAbsent().toString()));
-            salaryReportDto.setTotalProvidedLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish((salaryReportDto.getRegularLeave()+salaryReportDto.getSickLeave()+salaryReportDto.getEarnedLeave()+salaryReportDto.getFestivalLeave()+salaryReportDto.getWeeklyLeave()).toString()));
+            Integer totalProviddedLeave = (Integer.parseInt(salaryReportDto.getRegularLeave())+Integer.parseInt(salaryReportDto.getSickLeave())+Integer.parseInt(salaryReportDto.getEarnedLeave())+Integer.parseInt(salaryReportDto.getFestivalLeave())+Integer.parseInt(salaryReportDto.getWeeklyLeave()));
+            salaryReportDto.setTotalProvidedLeave(CodeNodeErpUtils.getDigitBanglaFromEnglish(totalProviddedLeave.toString()));
             salaryReportDto.setTotalWorkingDays(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getTotalMonthDays().toString()));
             salaryReportDto.setOvertimeHour(CodeNodeErpUtils.getDigitBanglaFromEnglish(monthlySalaryDtl.getOverTimeHour().toString()));
             salaryReportDto.setOverTimePerHour(CodeNodeErpUtils.currencyWithChosenLocalisationInBangla(monthlySalaryDtl.getOverTimeSalaryHourly()));
