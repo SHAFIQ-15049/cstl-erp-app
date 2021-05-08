@@ -38,6 +38,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   fromDate?: Moment;
   toDate?: Moment;
   pageNumber?: number;
+  showLoader = false;
 
   constructor(
     protected overTimeService: OverTimeService,
@@ -52,7 +53,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
+    this.showLoader = true;
     this.overTimeService
       .query({
         page: pageToLoad - 1,
@@ -152,6 +153,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IOverTime[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
+    this.showLoader = false;
     if (navigate) {
       this.router.navigate(['/over-time'], {
         queryParams: {
@@ -166,6 +168,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   protected onError(): void {
+    this.showLoader = false;
     this.ngbPaginationPage = this.page ?? 1;
   }
 
@@ -180,20 +183,26 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   generateOverTime(): void {
+    this.showLoader = true;
     this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
+      this.showLoader = false;
       this.handleNavigation();
     });
   }
 
   regenerateOverTime(): void {
+    this.showLoader = true;
     this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
+      this.showLoader = false;
       this.alertService.info('Overtime successfully generated');
       this.handleNavigation();
     });
   }
 
   regenerateEmployeeOverTime(overTime: IOverTime): void {
+    this.showLoader = true;
     this.overTimeService.regenerateEmployeeOverTime(overTime.id).subscribe(res => {
+      this.showLoader = false;
       this.alertService.info('Employee overtime successfully generated');
       this.handleNavigation();
     });
