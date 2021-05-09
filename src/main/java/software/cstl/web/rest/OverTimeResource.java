@@ -94,18 +94,18 @@ public class OverTimeResource {
             .body(result);
     }
 
-    @GetMapping("/over-times/generate-over-time/{year}/{month}/{designationId}")
-    public ResponseEntity<List<OverTime>> generateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId){
-        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}", year, month, designationId);
-        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, month, designationId);
+    @GetMapping("/over-times/generate-over-time/{year}/{month}")
+    public ResponseEntity<List<OverTime>> generateOverTimes(@PathVariable Integer year, @PathVariable MonthType month){
+        log.debug("REST request to generate over time for year: {}, month: {}", year, month);
+        List<OverTime> overTimes = overTimeGenerationService.generateOverTime(year, month);
         return  ResponseEntity.ok()
             .body(overTimes);
     }
 
-    @GetMapping("/over-times/regenerate-over-time/{year}/{month}/{designationId}")
-    public ResponseEntity<List<OverTime>> regenerateOverTimes(@PathVariable Integer year, @PathVariable MonthType month, @PathVariable Long designationId){
-        log.debug("REST request to generate over time for year: {}, month: {}, designationId: {}", year, month, designationId);
-        List<OverTime> overTimes = overTimeGenerationService.regenerateOverTime(year, month, designationId);
+    @GetMapping("/over-times/regenerate-over-time/{year}/{month}")
+    public ResponseEntity<List<OverTime>> regenerateOverTimes(@PathVariable Integer year, @PathVariable MonthType month){
+        log.debug("REST request to generate over time for year: {}, month: {}", year, month);
+        List<OverTime> overTimes = overTimeGenerationService.regenerateOverTime(year, month);
         return  ResponseEntity.ok()
             .body(overTimes);
     }

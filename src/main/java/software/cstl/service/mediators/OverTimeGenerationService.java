@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import software.cstl.domain.Employee;
 import software.cstl.domain.EmployeeSalary;
 import software.cstl.domain.OverTime;
+import software.cstl.domain.enumeration.ActiveStatus;
+import software.cstl.domain.enumeration.EmployeeCategory;
 import software.cstl.domain.enumeration.EmployeeStatus;
 import software.cstl.domain.enumeration.MonthType;
 import software.cstl.repository.EmployeeSalaryRepository;
@@ -25,20 +27,28 @@ import java.time.ZoneId;
 import java.time.temporal.TemporalAccessor;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Component
 @Transactional
 @AllArgsConstructor
 public class OverTimeGenerationService {
+
+    Map<Long, List<AttendanceSummaryDTO>> employeeMapAttendanceSummaries;
+
     private final EmployeeExtRepository employeeExtRepository;
     private final AttendanceSummaryService attendanceSummaryService;
     private final EmployeeSalaryRepository employeeSalaryRepository;
     private final OverTimeRepository overTimeRepository;
 
-    public List<OverTime> generateOverTime(Integer year, MonthType monthType, Long designationId){
+    public List<OverTime> generateOverTime(Integer year, MonthType monthType){
         List<OverTime> overTimes = new ArrayList<>();
-        List<Employee> employees = employeeExtRepository.findAllByDesignation_IdAndStatus(designationId, EmployeeStatus.ACTIVE);
+        List<Employee> employees = employeeExtRepository.findAllByCategoryAndStatus(EmployeeCategory.WORKER, EmployeeStatus.ACTIVE);
+
         YearMonth yearMonth = YearMonth.of(year, monthType.ordinal()+1);
+
+        initializeEmployeeSummaries(year, yearMonth);
 
         for(Employee employee: employees){
             OverTime overTime = new OverTime();
@@ -56,14 +66,24 @@ public class OverTimeGenerationService {
         return overTimeRepository.saveAll(overTimes);
     }
 
-    public List<OverTime> regenerateOverTime(Integer year, MonthType monthType, Long designationId){
-        overTimeRepository.deleteOverTimeByYearAndMonthAndDesignation_Id(year, monthType, designationId);
+    private void initializeEmployeeSummaries(Integer year, YearMonth yearMonth) {
+        LocalDate fromDate = LocalDate.of(year, yearMonth.getMonth(), 1);
+        LocalDate toDate = LocalDate.of(year, yearMonth.getMonth(), yearMonth.lengthOfMonth());
+        employeeMapAttendanceSummaries = attendanceSummaryService.findAll( fromDate, toDate)
+            .stream()
+            .collect(Collectors.groupingBy(AttendanceSummaryDTO::getEmployeeId));
+    }
+
+    public List<OverTime> regenerateOverTime(Integer year, MonthType monthType){
+        overTimeRepository.deleteAllByYearAndMonth(year, monthType);
         overTimeRepository.flush();
-        return generateOverTime(year, monthType, designationId);
+        return generateOverTime(year, monthType);
     }
 
     public OverTime regenerateEmployeeOverTime(Long overTimeId){
         OverTime overTime = overTimeRepository.getOne(overTimeId);
+        YearMonth yearMonth = YearMonth.of(overTime.getYear(), overTime.getMonth().ordinal()+1);
+        initializeEmployeeSummaries(overTime.getYear(), yearMonth);
         return calculateEmployeeOverTime(overTime);
     }
 
@@ -80,7 +100,7 @@ public class OverTimeGenerationService {
         YearMonth yearMonth = YearMonth.of(overTime.getYear(), overTime.getMonth().ordinal()+1);
         LocalDate fromDate = LocalDate.of(overTime.getYear(), yearMonth.getMonth(), 1);
         LocalDate toDate = LocalDate.of(overTime.getYear(), yearMonth.getMonth(), yearMonth.lengthOfMonth());
-        List<AttendanceSummaryDTO> attendanceSummaries = attendanceSummaryService.findAll(overTime.getEmployee().getId(), fromDate, toDate);
+        List<AttendanceSummaryDTO> attendanceSummaries = employeeMapAttendanceSummaries.get(overTime.getEmployee().getId());
         Long validOverTimeHour = new Long((attendanceSummaries.size()*2));
         Long totalOverTimeHour = 0L;
         boolean overTimeOverLoaded = false;
@@ -91,8 +111,11 @@ public class OverTimeGenerationService {
             System.out.println(summaryDTO.getDiff());
             Long overTimeHourOfTheDay = summaryDTO.getOverTime().toHours();
             totalOverTimeHour = totalOverTimeHour+overTimeHourOfTheDay;
-
-            EmployeeSalary employeeSalaryOfTheDay = employeeSalaryRepository.getOne(summaryDTO.getEmployeeSalaryId());
+            EmployeeSalary employeeSalaryOfTheDay = new EmployeeSalary();
+            if(summaryDTO.getEmployeeSalaryId()!=null)
+                employeeSalaryOfTheDay = employeeSalaryRepository.getOne(summaryDTO.getEmployeeSalaryId());
+            else
+                employeeSalaryOfTheDay = employeeSalaryRepository.findByEmployee_IdAndStatus(summaryDTO.getEmployeeId(), ActiveStatus.ACTIVE);
             BigDecimal overTimeAmountPerHour = (employeeSalaryOfTheDay.getBasic().divide(new BigDecimal(208), RoundingMode.HALF_UP)).multiply(new BigDecimal(2));
             totalOverTimeSalary = totalOverTimeSalary.add(overTimeAmountPerHour.multiply(new BigDecimal(overTimeHourOfTheDay)));
 

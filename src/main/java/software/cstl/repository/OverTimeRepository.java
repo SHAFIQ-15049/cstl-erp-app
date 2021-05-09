@@ -17,5 +17,7 @@ import java.util.Optional;
 public interface OverTimeRepository extends JpaRepository<OverTime, Long>, JpaSpecificationExecutor<OverTime> {
     void deleteOverTimeByYearAndMonthAndDesignation_Id(Integer year, MonthType monthType, Long designationid);
 
+    void deleteAllByYearAndMonth(Integer year, MonthType monthType);
+
     Optional<OverTime> findByYearAndMonthAndEmployee(Integer year, MonthType monthType, Employee employee);
 }

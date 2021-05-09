@@ -34,12 +34,11 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   years: number[] = [];
   selectedYear?: number;
   designations: IDesignation[] = [];
-  selectedDesignation?: IDesignation;
-  selectedDesignationId?: number;
   selectedMonth?: MonthType;
   fromDate?: Moment;
   toDate?: Moment;
   pageNumber?: number;
+  showLoader = false;
 
   constructor(
     protected overTimeService: OverTimeService,
@@ -54,7 +53,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
 
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
-
+    this.showLoader = true;
     this.overTimeService
       .query({
         page: pageToLoad - 1,
@@ -62,7 +61,6 @@ export class OverTimeComponent implements OnInit, OnDestroy {
         sort: ['id,asc'],
         'year.equals': this.selectedYear,
         'month.equals': this.selectedMonth,
-        'designationId.equals': this.selectedDesignationId,
       })
       .subscribe(
         (res: HttpResponse<IOverTime[]>) => {
@@ -76,13 +74,6 @@ export class OverTimeComponent implements OnInit, OnDestroy {
     this.configureYears();
     this.handleNavigation();
     this.registerChangeInOverTimes();
-    this.designationService
-      .query({
-        size: 10000,
-      })
-      .subscribe(res => {
-        this.designations = res.body || [];
-      });
   }
 
   protected handleNavigation(): void {
@@ -104,12 +95,11 @@ export class OverTimeComponent implements OnInit, OnDestroy {
       .subscribe(params => {
         this.selectedYear = +params['selectedYear'];
         this.selectedMonth = params['selectedMonth'];
-        this.selectedDesignationId = +params['selectedDesignationId'];
         if (
           this.pageNumber !== this.page ||
           this.predicate !== this.predicate ||
           this.ascending !== this.ascending ||
-          (this.selectedYear && this.selectedMonth && this.selectedDesignationId)
+          (this.selectedYear && this.selectedMonth)
         ) {
           this.loadPage(this.pageNumber, true);
         }
@@ -117,10 +107,10 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   navigate(): void {
-    if (this.selectedYear && this.selectedMonth && this.selectedDesignationId) {
-      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth, this.selectedDesignationId]);
+    if (this.selectedYear && this.selectedMonth) {
+      this.router.navigate(['/over-time', this.selectedYear, this.selectedMonth]);
     } else {
-      this.alertService.error('Year, month and designation must be selected');
+      this.alertService.error('Year and month must be selected');
     }
   }
 
@@ -163,6 +153,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   protected onSuccess(data: IOverTime[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
+    this.showLoader = false;
     if (navigate) {
       this.router.navigate(['/over-time'], {
         queryParams: {
@@ -177,6 +168,7 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   protected onError(): void {
+    this.showLoader = false;
     this.ngbPaginationPage = this.page ?? 1;
   }
 
@@ -191,20 +183,26 @@ export class OverTimeComponent implements OnInit, OnDestroy {
   }
 
   generateOverTime(): void {
-    this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+    this.showLoader = true;
+    this.overTimeService.generateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
+      this.showLoader = false;
       this.handleNavigation();
     });
   }
 
   regenerateOverTime(): void {
-    this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth, this.selectedDesignationId).subscribe(res => {
+    this.showLoader = true;
+    this.overTimeService.regenerateOverTimes(this.selectedYear, this.selectedMonth).subscribe(res => {
+      this.showLoader = false;
       this.alertService.info('Overtime successfully generated');
       this.handleNavigation();
     });
   }
 
   regenerateEmployeeOverTime(overTime: IOverTime): void {
+    this.showLoader = true;
     this.overTimeService.regenerateEmployeeOverTime(overTime.id).subscribe(res => {
+      this.showLoader = false;
       this.alertService.info('Employee overtime successfully generated');
       this.handleNavigation();
     });

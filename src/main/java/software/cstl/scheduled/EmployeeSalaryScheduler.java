@@ -26,16 +26,16 @@ public class EmployeeSalaryScheduler {
 
     @Scheduled(fixedDelay = 90000, initialDelay = 0)
     public void updateNewSalary() throws Exception{
-        log.info("Updating new salary");
-        List<EmployeeSalary> employeeSalaries = employeeSalaryRepository.findAllByStatusAndSalaryStartDateIsBeforeAndSalaryEndDateIsAfter(ActiveStatus.NOT_ACTIVE, Instant.now(), Instant.now());
-        log.info("Total record found: {}", employeeSalaries.size());
-        for(int i=0; i<employeeSalaries.size(); i++){
-            EmployeeSalary currentActiveSalary = employeeSalaryRepository.findByEmployeeAndStatus(employeeSalaries.get(i).getEmployee(), ActiveStatus.ACTIVE);
-            currentActiveSalary.setStatus(ActiveStatus.NOT_ACTIVE);
-            employeeSalaryRepository.save(currentActiveSalary);
-            employeeSalaries.get(i).setStatus(ActiveStatus.ACTIVE);
-        }
-        employeeSalaryRepository.saveAll(employeeSalaries);
+//        log.info("Updating new salary");
+//        List<EmployeeSalary> employeeSalaries = employeeSalaryRepository.findAllByStatusAndSalaryStartDateIsBeforeAndSalaryEndDateIsAfter(ActiveStatus.NOT_ACTIVE, Instant.now(), Instant.now());
+//        log.info("Total record found: {}", employeeSalaries.size());
+//        for(int i=0; i<employeeSalaries.size(); i++){
+//            EmployeeSalary currentActiveSalary = employeeSalaryRepository.findByEmployeeAndStatus(employeeSalaries.get(i).getEmployee(), ActiveStatus.ACTIVE);
+//            currentActiveSalary.setStatus(ActiveStatus.NOT_ACTIVE);
+//            employeeSalaryRepository.save(currentActiveSalary);
+//            employeeSalaries.get(i).setStatus(ActiveStatus.ACTIVE);
+//        }
+//        employeeSalaryRepository.saveAll(employeeSalaries);
     }
 
 }
