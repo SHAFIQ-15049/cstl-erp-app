@@ -18,7 +18,7 @@ import java.util.List;
 @Repository
 public interface AttendanceRepository extends JpaRepository<Attendance, Long>, JpaSpecificationExecutor<Attendance> {
 
-    List<Attendance> findAllByAttendanceTimeBetween(Instant from, Instant to);
+    List<Attendance> findAttendancesByAttendanceTimeGreaterThanEqualAndAttendanceTimeLessThanEqual(Instant from, Instant to);
 
     List<Attendance> findAllByEmployeeAndAttendanceTimeBetween(Employee employee, Instant from, Instant to);
 

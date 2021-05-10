@@ -124,7 +124,7 @@ public class AttendanceService {
      * @return the list of entities.
      */
     public List<Attendance> findAll(Instant from, Instant to) {
-        return attendanceRepository.findAllByAttendanceTimeBetween(from, to);
+        return attendanceRepository.findAttendancesByAttendanceTimeGreaterThanEqualAndAttendanceTimeLessThanEqual(from, to);
     }
 
     /**

@@ -1,85 +1,78 @@
 <div>
     <h2 id="page-heading">
         <span>Attendance Summaries</span>
+
+        <div style="float: right">
+            <button class="btn btn-success" (click)="download()">
+                <fa-icon icon="download"></fa-icon>
+                Download
+            </button>
+        </div>
     </h2>
 
     <jhi-alert-error></jhi-alert-error>
 
     <jhi-alert></jhi-alert>
 
-    <div class="row">
-        <div class="col-12">
-            <div style="float: right">
-                <button class="btn btn-success" (click)="download()">
-                    <fa-icon icon="download"></fa-icon>
-                    Download
-                </button>
+    <form>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">Department</span>
             </div>
+            <select class="form-control" name="department"
+                    [(ngModel)]="departmentId" required>
+                <option [ngValue]="-1" selected>Select All</option>
+                <option [ngValue]="departmentOption.id"
+                        *ngFor="let departmentOption of departments;">{{ departmentOption.name }}</option>
+            </select>
+            <div class="input-group-prepend">
+                <span class="input-group-text">Id</span>
+            </div>
+            <input type="text" class="form-control" name="empId" [(ngModel)]="empId"
+                   required/>
+            <div class="input-group-prepend">
+                <span class="input-group-text">Employee</span>
+            </div>
+            <select class="form-control" name="employee"
+                    [(ngModel)]="employeeId" required>
+                <option [ngValue]="-1" selected>Select All</option>
+                <option [ngValue]="employeeOption.id"
+                        *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
+            </select>
         </div>
-    </div>
 
-    <div class="row">
-        <div class="col-md-12">
-            <form>
-                <h4>Filter by date</h4>
+        <div class="input-group mb-3">
+            <div class="input-group-prepend">
+                <span class="input-group-text">from</span>
+            </div>
+            <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
+                   required/>
 
-                <div class="input-group mb-3">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Department</span>
-                    </div>
-                    <select class="form-control" name="department"
-                            [(ngModel)]="departmentId" required>
-                        <option [ngValue]="-1" selected>Select All</option>
-                        <option [ngValue]="departmentOption.id"
-                                *ngFor="let departmentOption of departments;">{{ departmentOption.name }}</option>
-                    </select>
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Id</span>
-                    </div>
-                    <input type="text" class="form-control" name="empId" [(ngModel)]="empId"
-                           required/>
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">Employee</span>
-                    </div>
-                    <select class="form-control" name="employee"
-                            [(ngModel)]="employeeId" required>
-                        <option [ngValue]="-1" selected>Select All</option>
-                        <option [ngValue]="employeeOption.id"
-                                *ngFor="let employeeOption of employees;">{{ employeeOption.name }}</option>
-                    </select>
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">from</span>
-                    </div>
-                    <input type="date" class="form-control" name="start" [(ngModel)]="fromDate"
-                           required/>
+            <div class="input-group-append">
+                <span class="input-group-text">To</span>
+            </div>
+            <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
+                   required/>
 
-                    <div class="input-group-append">
-                        <span class="input-group-text">To</span>
-                    </div>
-                    <input type="date" class="form-control" name="end" [(ngModel)]="toDate"
-                           required/>
+            <div class="input-group-append">
+                <span class="input-group-text">Marked As</span>
+            </div>
+            <select class="form-control" name="markedType"
+                    [(ngModel)]="markedType" required>
+                <option value="null">Select All</option>
+                <option value="R">Regular</option>
+                <option value="WR">Weekend/Regular</option>
+                <option value="HR">Holiday/Regular</option>
+                <option value="WO">Weekend/Overtime</option>
+                <option value="HO">Holiday/Overtime</option>
+            </select>
 
-                    <div class="input-group-append">
-                        <span class="input-group-text">Marked As</span>
-                    </div>
-                    <select class="form-control" name="markedType"
-                            [(ngModel)]="markedType" required>
-                        <option value="null">Select All</option>
-                        <option value="R">Regular</option>
-                        <option value="WR">Weekend/Regular</option>
-                        <option value="HR">Holiday/Regular</option>
-                        <option value="WO">Weekend/Overtime</option>
-                        <option value="HO">Holiday/Overtime</option>
-                    </select>
+            <button type="submit" class="btn btn-info" (click)="loadAll()">
+                <fa-icon icon="search"></fa-icon>
+            </button>
 
-                    <button type="submit" class="btn btn-info" (click)="loadAll()">
-                        <fa-icon icon="search"></fa-icon>
-                    </button>
-
-                </div>
-            </form>
         </div>
-    </div>
+    </form>
 
     <div class="alert alert-warning" id="no-result" *ngIf="attendanceSummaries?.length === 0">
         <span>No attendanceSummaries found</span>
