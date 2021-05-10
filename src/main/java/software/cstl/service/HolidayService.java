@@ -160,4 +160,16 @@ public class HolidayService {
         LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
         return findAllHolidayDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
     }
+
+    /**
+     * Get count of holidayDateMapDTO.
+     *
+     * @param year the year.
+     * @param month the month.
+     * @return the HolidayDateMapDTO DTOs.
+     */
+    public int getTotalNumberOfHolidays(int year, Month month) {
+        log.debug("Request to get count of total holidays : {} {}", year, month);
+        return findAllHolidayDateMapDTOs(year, month).size();
+    }
 }
