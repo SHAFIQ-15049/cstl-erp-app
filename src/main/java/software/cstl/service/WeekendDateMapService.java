@@ -103,4 +103,16 @@ public class WeekendDateMapService {
         LocalDate lastDateOfTheYear = commonService.getLastDayOfTheYear(year);
         return findAllWeekendDateMapDTOs(startDateOfTheYear, lastDateOfTheYear);
     }
+
+    /**
+     * Get count of weekendDateMapDTO.
+     *
+     * @param year the year.
+     * @param month the month.
+     * @return the count.
+     */
+    public int getTotalNumberOfWeekends(int year, Month month) {
+        log.debug("Request to get count of total weekends : {} {}", year, month);
+        return findAllWeekendDateMapDTOs(year, month).size();
+    }
 }
