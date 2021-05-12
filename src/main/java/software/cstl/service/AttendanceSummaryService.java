@@ -16,6 +16,7 @@ import software.cstl.service.dto.AttendanceSummaryDTO;
 
 import java.time.*;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -199,16 +200,16 @@ public class AttendanceSummaryService {
                 Instant inTime = getInTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
                 Instant outTime = getOutTimeFromListOfDayEmployeeWiseAttendances(attendance, attendancesByEmployeeAndDateTime);
 
-                AttendanceSummaryDTO attendanceSummaryDTO = getAttendanceSummaryDTO(attendance, inTime, outTime, from.atZone(ZoneId.systemDefault()).toLocalDate());
+                AttendanceSummaryDTO attendanceSummaryDTO = getAttendanceSummaryDTO(attendance, inTime, outTime, start.atZone(ZoneId.systemDefault()).toLocalDate());
                 attendanceSummaryDTOs.add(attendanceSummaryDTO);
             }
 
             from = from.plusSeconds(86400);
 
             distinctAttendances = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
-            totalAttendanceSummary.addAll(getTotalAttendanceSummary(employees, employeeSalaries, distinctAttendances, from.atZone(ZoneId.systemDefault()).toLocalDate()));
+            totalAttendanceSummary.addAll(getTotalAttendanceSummary(employees, employeeSalaries, distinctAttendances, start.atZone(ZoneId.systemDefault()).toLocalDate()));
         }
-        return addSerial(totalAttendanceSummary);
+        return addSerial(distinctAttendances).stream().sorted(Comparator.comparing(AttendanceSummaryDTO::getEmpId).thenComparing(AttendanceSummaryDTO::getInTime)).collect(Collectors.toList());
     }
 
     private List<AttendanceSummaryDTO> getTotalAttendanceSummary(List<Employee> employees, List<EmployeeSalary> employeeSalaries, List<AttendanceSummaryDTO> distinctAttendances, LocalDate searchingDate) {
@@ -217,7 +218,7 @@ public class AttendanceSummaryService {
             boolean found = false;
             AttendanceSummaryDTO summaryDTO = null;
             for (AttendanceSummaryDTO attendanceSummaryDTO : distinctAttendances) {
-                if (employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId())) {
+                if (attendanceSummaryDTO.getAttendanceDate().equals(searchingDate) && employee.getAttendanceMachineId().equals(attendanceSummaryDTO.getEmployeeMachineId())) {
                     found = true;
                     summaryDTO = attendanceSummaryDTO;
                     break;
@@ -284,7 +285,7 @@ public class AttendanceSummaryService {
         }
         attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
         attendanceSummaryDTO.setLeaveAppliedStatus(attendance.getLeaveApplied());
-        if (attendanceSummaryDTO.getInTime() != null || attendanceSummaryDTO.getOutTime() != null) {
+        if (attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
             attendanceSummaryDTO.setAttendanceStatus("Present");
         } else {
             attendanceSummaryDTO.setAttendanceStatus("Absent");

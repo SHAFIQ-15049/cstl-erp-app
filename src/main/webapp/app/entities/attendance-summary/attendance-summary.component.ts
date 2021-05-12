@@ -35,6 +35,8 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
 
   private dateFormat = 'yyyy-MM-dd';
 
+  showLoader?: boolean;
+
   constructor(
     protected attendanceSummaryService: AttendanceSummaryService,
     protected employeeService: EmployeeService,
@@ -56,6 +58,7 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
   loadAll(): void {
     if (this.canLoad()) {
       this.attendanceSummaries = [];
+      this.showLoader = true;
       if (!this.empId) {
         this.empId = '-1';
       }
@@ -68,7 +71,10 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
           this.toDate,
           this.markedType.toString()
         )
-        .subscribe((res: HttpResponse<IAttendanceSummary[]>) => (this.attendanceSummaries = res.body || []));
+        .subscribe((res: HttpResponse<IAttendanceSummary[]>) => {
+          this.attendanceSummaries = res.body || [];
+          this.showLoader = false;
+        });
     }
   }
 
