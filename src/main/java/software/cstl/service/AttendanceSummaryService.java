@@ -209,7 +209,7 @@ public class AttendanceSummaryService {
             distinctAttendances = attendanceSummaryDTOs.stream().distinct().collect(Collectors.toList());
             totalAttendanceSummary.addAll(getTotalAttendanceSummary(employees, employeeSalaries, distinctAttendances, start.atZone(ZoneId.systemDefault()).toLocalDate()));
         }
-        return addSerial(distinctAttendances).stream().sorted(Comparator.comparing(AttendanceSummaryDTO::getEmpId).thenComparing(AttendanceSummaryDTO::getInTime)).collect(Collectors.toList());
+        return addSerial(totalAttendanceSummary);
     }
 
     private List<AttendanceSummaryDTO> getTotalAttendanceSummary(List<Employee> employees, List<EmployeeSalary> employeeSalaries, List<AttendanceSummaryDTO> distinctAttendances, LocalDate searchingDate) {
@@ -218,7 +218,7 @@ public class AttendanceSummaryService {
             boolean found = false;
             AttendanceSummaryDTO summaryDTO = null;
             for (AttendanceSummaryDTO attendanceSummaryDTO : distinctAttendances) {
-                if (attendanceSummaryDTO.getAttendanceDate().equals(searchingDate)) {
+                if (attendanceSummaryDTO.getEmployeeMachineId().equals(employee.getAttendanceMachineId()) && attendanceSummaryDTO.getAttendanceDate().equals(searchingDate)) {
                     found = true;
                     summaryDTO = attendanceSummaryDTO;
                     break;
@@ -251,10 +251,10 @@ public class AttendanceSummaryService {
         return totalAttendanceSummary;
     }
 
-    private List<AttendanceSummaryDTO> addSerial(List<AttendanceSummaryDTO> removeDuplicates) {
+    private List<AttendanceSummaryDTO> addSerial(List<AttendanceSummaryDTO> summaryDTOS) {
         List<AttendanceSummaryDTO> attendanceSummaryDTOs = new ArrayList<>();
         int serial = 0;
-        for (AttendanceSummaryDTO attendanceSummaryDTO : removeDuplicates) {
+        for (AttendanceSummaryDTO attendanceSummaryDTO : summaryDTOS) {
             serial++;
             attendanceSummaryDTO.setSerialNo(Long.parseLong(serial + ""));
             attendanceSummaryDTOs.add(attendanceSummaryDTO);
@@ -285,10 +285,10 @@ public class AttendanceSummaryService {
         }
         attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
         attendanceSummaryDTO.setLeaveAppliedStatus(attendance.getLeaveApplied());
-        if (attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
-            attendanceSummaryDTO.setAttendanceStatus("Present");
-        } else {
+        if (attendanceSummaryDTO.getInTime() == null && attendanceSummaryDTO.getOutTime() == null) {
             attendanceSummaryDTO.setAttendanceStatus("Absent");
+        } else {
+            attendanceSummaryDTO.setAttendanceStatus("Present");
         }
         return attendanceSummaryDTO;
     }
