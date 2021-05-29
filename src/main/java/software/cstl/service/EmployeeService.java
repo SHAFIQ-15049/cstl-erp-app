@@ -94,6 +94,10 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
+    public Employee findByEmpId(String empId){
+        return employeeRepository.findByEmpId(empId);
+    }
+
     /**
      * Delete the employee by id.
      *

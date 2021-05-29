@@ -3,6 +3,13 @@
         <span>Attendance Summaries</span>
 
         <div style="float: right">
+            <button class="btn btn-success" (click)="downloadPersonalStatus()">
+                <fa-icon icon="download"></fa-icon>
+                Personal Status
+            </button>
+        </div>
+
+        <div style="float: right; margin-right: 5px">
             <button class="btn btn-success" (click)="download()">
                 <fa-icon icon="download"></fa-icon>
                 Download

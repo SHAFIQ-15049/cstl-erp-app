@@ -78,6 +78,26 @@ export class AttendanceSummaryService {
       });
   }
 
+  downloadSummaryForPersonalStatus(
+    departmentId: number,
+    empId: string,
+    employeeId: number,
+    fromDate: string,
+    toDate: string,
+    markedAs: string
+  ): any {
+    return this.http
+      .get(
+        `${this.resourceUrl}/personal-attendance-status/departmentId/${departmentId}/empId/${empId}/employeeId/${employeeId}/fromDate/${fromDate}/toDate/${toDate}/markedAs/${markedAs}`,
+        {
+          responseType: 'blob',
+        }
+      )
+      .subscribe((data: any) => {
+        ReportUtil.writeFileContent(data, 'application/pdf', `Attendance Summary`);
+      });
+  }
+
   findByFromAndToDate(fromDate: string, toDate: string): Observable<EntityArrayResponseType> {
     return this.http
       .get<IAttendanceSummary[]>(`${this.resourceUrl}/fromDate/${fromDate}/toDate/${toDate}`, { observe: 'response' })

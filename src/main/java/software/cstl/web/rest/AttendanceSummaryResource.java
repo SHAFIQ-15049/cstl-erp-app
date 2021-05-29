@@ -4,6 +4,7 @@ import com.itextpdf.text.DocumentException;
 import io.github.jhipster.web.util.HeaderUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpHeaders;
@@ -13,6 +14,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import software.cstl.domain.enumeration.AttendanceMarkedAs;
 import software.cstl.security.AuthoritiesConstants;
+import software.cstl.service.AttendanceSummaryPersonalStatusService;
 import software.cstl.service.AttendanceSummaryReportService;
 import software.cstl.service.AttendanceSummaryService;
 import software.cstl.service.dto.AttendanceSummaryDTO;
@@ -38,12 +40,16 @@ public class AttendanceSummaryResource {
 
     private final AttendanceSummaryReportService attendanceSummaryReportService;
 
+
+    private  AttendanceSummaryPersonalStatusService attendanceSummaryPersonalStatusService;
+
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
 
-    public AttendanceSummaryResource(AttendanceSummaryService attendanceSummaryService, AttendanceSummaryReportService attendanceSummaryReportService) {
+    public AttendanceSummaryResource(AttendanceSummaryService attendanceSummaryService, AttendanceSummaryReportService attendanceSummaryReportService,AttendanceSummaryPersonalStatusService attendanceSummaryPersonalStatusService) {
         this.attendanceSummaryService = attendanceSummaryService;
         this.attendanceSummaryReportService = attendanceSummaryReportService;
+        this.attendanceSummaryPersonalStatusService = attendanceSummaryPersonalStatusService;
     }
 
     @PutMapping("/attendance-summaries/marked-as")
@@ -85,4 +91,19 @@ public class AttendanceSummaryResource {
             .contentType(MediaType.APPLICATION_PDF)
             .body(new InputStreamResource(byteArrayInputStream));
     }
+
+    @GetMapping(value = "/attendance-summaries/personal-attendance-status/departmentId/{departmentId}/empId/{empId}/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}", produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> getPersonalAttendanceStatus(@PathVariable Long departmentId, @PathVariable String empId, @PathVariable Long employeeId, @PathVariable LocalDate fromDate, @PathVariable LocalDate toDate, @PathVariable String markedAs) throws Exception, DocumentException {
+        log.debug("REST request to download attendance report");
+        ByteArrayInputStream byteArrayInputStream = attendanceSummaryPersonalStatusService.download(departmentId, empId, employeeId, fromDate, toDate, AttendanceMarkedAs.lookup(markedAs));
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition", "/attendance-summaries/personal-attendance-status/departmentId/{departmentId}/empId/{empId}/employeeId/{employeeId}/fromDate/{fromDate}/toDate/{toDate}/markedAs/{markedAs}");
+        return ResponseEntity
+            .ok()
+            .headers(headers)
+            .contentType(MediaType.APPLICATION_PDF)
+            .body(new InputStreamResource(byteArrayInputStream));
+    }
+
+
 }

@@ -64,6 +64,8 @@ public class AttendanceSummaryReportService {
 
         List<AttendanceSummaryDTO> attendanceSummaryDTOS = attendanceSummaryService.findAll(departmentId, empId, employeeId, fromDate, toDate, attendanceMarkedAs);
 
+
+
         Chunk chunk = null;
         Paragraph paragraph = null;
         PdfPTable pdfPTable = null;
@@ -216,6 +218,8 @@ public class AttendanceSummaryReportService {
             pdfPCell = new PdfPCell(new Paragraph(serial + "", TIME_ROMAN_10));
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
             pdfPTable.addCell(pdfPCell);
+
+
 
             pdfPCell = new PdfPCell(new Paragraph(attendanceSummaryDTO.getDepartmentName(), TIME_ROMAN_10));
             pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);

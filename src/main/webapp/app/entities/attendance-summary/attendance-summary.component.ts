@@ -148,4 +148,20 @@ export class AttendanceSummaryComponent implements OnInit, OnDestroy {
       );
     }
   }
+
+  public downloadPersonalStatus(): void {
+    if (this.canLoad()) {
+      if (!this.empId) {
+        this.empId = '-1';
+      }
+      this.attendanceSummaryService.downloadSummaryForPersonalStatus(
+        this.departmentId,
+        this.empId,
+        this.employeeId,
+        this.fromDate,
+        this.toDate,
+        this.markedType.toString()
+      );
+    }
+  }
 }

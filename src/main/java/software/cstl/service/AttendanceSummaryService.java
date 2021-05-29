@@ -285,9 +285,10 @@ public class AttendanceSummaryService {
         }
         attendanceSummaryDTO.setAttendanceMarkedAs(attendance.getMarkedAs());
         attendanceSummaryDTO.setLeaveAppliedStatus(attendance.getLeaveApplied());
-        if (attendanceSummaryDTO.getInTime() != null && attendanceSummaryDTO.getOutTime() != null) {
+        if (attendanceSummaryDTO.getInTime() != null || attendanceSummaryDTO.getOutTime()!= null) {
             attendanceSummaryDTO.setAttendanceStatus("Present");
-        } else {
+        }
+        else{
             attendanceSummaryDTO.setAttendanceStatus("Absent");
         }
         return attendanceSummaryDTO;
