@@ -299,7 +299,7 @@ public class AttendanceSummaryPersonalStatusService {
         pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
         pdfPTable.addCell(pdfPCell);
 
-        totalDays = Math.round(getNumberOfDays(fromDate.toString(),toDate.toString())) == 0 ? 1 : Math.round(getNumberOfDays(fromDate.toString(),toDate.toString()));
+        totalDays = Math.round(getNumberOfDays(fromDate.toString(),toDate.toString())) == 0 ? 1 : Math.round(getNumberOfDays(fromDate.toString(),toDate.toString()))+1;
 
 
         pdfPCell = new PdfPCell(new Paragraph(Integer.toString(totalDays), TIME_BOLD_12));
