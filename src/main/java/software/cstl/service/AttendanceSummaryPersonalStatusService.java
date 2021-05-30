@@ -228,7 +228,7 @@ public class AttendanceSummaryPersonalStatusService {
         pdfPTable.addCell(pdfPCell);
 
         int serial = 0;
-        int totalPresentDays = 0,totalAbsentDays = 0,totalLateDays = 0 ,totalLeaves = 0 , totalHolidays = 0;
+        int totalPresentDays = 0,totalAbsentDays = 0,totalLateDays = 0 ,totalLeaves = 0 , totalHolidays = 0,totalDays = 0;
         float totalLateHours = 0, totalOverTime = 0;
 
         for (AttendanceSummaryDTO attendanceSummaryDTO : attendanceSummaryDTOS) {
@@ -299,7 +299,10 @@ public class AttendanceSummaryPersonalStatusService {
         pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
         pdfPTable.addCell(pdfPCell);
 
-        pdfPCell = new PdfPCell(new Paragraph(Float.toString(getNumberOfDays(fromDate.toString(),toDate.toString())), TIME_BOLD_12));
+        totalDays = Math.round(getNumberOfDays(fromDate.toString(),toDate.toString())) == 0 ? 1 : Math.round(getNumberOfDays(fromDate.toString(),toDate.toString()));
+
+
+        pdfPCell = new PdfPCell(new Paragraph(Integer.toString(totalDays), TIME_BOLD_12));
         pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
         pdfPTable.addCell(pdfPCell);
 
@@ -356,7 +359,7 @@ public class AttendanceSummaryPersonalStatusService {
         pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
         pdfPTable.addCell(pdfPCell);
 
-        pdfPCell = new PdfPCell(new Paragraph(Integer.toString(Math.round(getNumberOfDays(fromDate.toString(),toDate.toString()))-(totalPresentDays+totalAbsentDays)), TIME_BOLD_12));
+        pdfPCell = new PdfPCell(new Paragraph(Integer.toString(totalDays-(totalPresentDays+totalAbsentDays)), TIME_BOLD_12));
         pdfPCell.setVerticalAlignment(Element.ALIGN_CENTER);
         pdfPTable.addCell(pdfPCell);
 
