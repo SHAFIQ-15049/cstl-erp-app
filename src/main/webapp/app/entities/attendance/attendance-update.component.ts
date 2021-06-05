@@ -76,17 +76,19 @@ export class AttendanceUpdateComponent implements OnInit {
 
       this.updateForm(attendance);
 
-      this.employeeService.query().subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
+      this.employeeService.query({ size: 10000 }).subscribe((res: HttpResponse<IEmployee[]>) => (this.employees = res.body || []));
 
-      this.employeeSalaryService.query().subscribe((res: HttpResponse<IEmployeeSalary[]>) => (this.employeesalaries = res.body || []));
+      this.employeeSalaryService
+        .query({ size: 10000 })
+        .subscribe((res: HttpResponse<IEmployeeSalary[]>) => (this.employeesalaries = res.body || []));
 
-      this.departmentService.query().subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
+      this.departmentService.query({ size: 10000 }).subscribe((res: HttpResponse<IDepartment[]>) => (this.departments = res.body || []));
 
-      this.designationService.query().subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
+      this.designationService.query({ size: 10000 }).subscribe((res: HttpResponse<IDesignation[]>) => (this.designations = res.body || []));
 
-      this.lineService.query().subscribe((res: HttpResponse<ILine[]>) => (this.lines = res.body || []));
+      this.lineService.query({ size: 10000 }).subscribe((res: HttpResponse<ILine[]>) => (this.lines = res.body || []));
 
-      this.gradeService.query().subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
+      this.gradeService.query({ size: 10000 }).subscribe((res: HttpResponse<IGrade[]>) => (this.grades = res.body || []));
     });
   }
 
