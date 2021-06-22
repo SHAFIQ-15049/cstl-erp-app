@@ -1,0 +1,93 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "relationships": [],
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fatherOrHusband",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "sex",
+      "fieldType": "GenderType",
+      "fieldValues": "MALE,FEMALE,OTHERS"
+    },
+    {
+      "fieldName": "phoneNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "nationality",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "dateOfBirth",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "guardiansName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "chassisNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "engineNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "yearsOfMfg",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "preRegnNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "poOrBank",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "voterIdNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "voterIdAttachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "passportAttachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "birthCertificateAttachment",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    },
+    {
+      "fieldName": "gassOrWaterOrElectricityBill",
+      "fieldType": "byte[]",
+      "fieldTypeBlobContent": "any"
+    }
+  ],
+  "changelogDate": "20210621080914",
+  "dto": "no",
+  "searchEngine": false,
+  "service": "serviceImpl",
+  "entityTableName": "customer",
+  "databaseType": "sql",
+  "readOnly": false,
+  "jpaMetamodelFiltering": true,
+  "pagination": "pagination"
+}

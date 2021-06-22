@@ -1,0 +1,227 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="Codenode (generated)" id="1624264944993-6">
+        <addColumn tableName="customer">
+            <column name="address" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-7">
+        <addColumn tableName="customer">
+            <column name="birth_certificate_attachment" type="longblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-8">
+        <addColumn tableName="customer">
+            <column name="birth_certificate_attachment_content_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-9">
+        <addColumn tableName="customer">
+            <column name="chassis_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-10">
+        <addColumn tableName="customer">
+            <column name="date_of_birth" type="date"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-11">
+        <addColumn tableName="customer">
+            <column name="engine_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-12">
+        <addColumn tableName="customer">
+            <column name="father_or_husband" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-13">
+        <addColumn tableName="customer">
+            <column name="gass_or_water_or_electricity_bill" type="longblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-14">
+        <addColumn tableName="customer">
+            <column name="gass_or_water_or_electricity_bill_content_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-15">
+        <addColumn tableName="customer">
+            <column name="guardians_name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-16">
+        <addColumn tableName="customer">
+            <column name="name" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-17">
+        <addColumn tableName="customer">
+            <column name="nationality" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-18">
+        <addColumn tableName="customer">
+            <column name="passport_attachment" type="longblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-19">
+        <addColumn tableName="customer">
+            <column name="passport_attachment_content_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-20">
+        <addColumn tableName="customer">
+            <column name="phone_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-21">
+        <addColumn tableName="customer">
+            <column name="po_or_bank" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-22">
+        <addColumn tableName="customer">
+            <column name="pre_regn_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-23">
+        <addColumn tableName="customer">
+            <column name="sex" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-24">
+        <addColumn tableName="customer">
+            <column name="voter_id_attachment" type="longblob"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-25">
+        <addColumn tableName="customer">
+            <column name="voter_id_attachment_content_type" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-26">
+        <addColumn tableName="customer">
+            <column name="voter_id_no" type="varchar(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-27">
+        <addColumn tableName="customer">
+            <column name="years_of_mfg" type="integer"/>
+        </addColumn>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-28">
+        <dropForeignKeyConstraint baseTableName="customer" constraintName="FK4hhfajhk3c59yqskjmqjhjbym"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-29">
+        <dropForeignKeyConstraint baseTableName="customer" constraintName="FK6gq0lg4j65l2fyepbg504ac5y"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-30">
+        <dropForeignKeyConstraint baseTableName="customer" constraintName="FKkoea8pc2dr48rmq93ib5p5eum"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-31">
+        <dropColumn columnName="area" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-32">
+        <dropColumn columnName="created_by" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-33">
+        <dropColumn columnName="created_date" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-34">
+        <dropColumn columnName="customer_name" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-35">
+        <dropColumn columnName="district_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-36">
+        <dropColumn columnName="division_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-37">
+        <dropColumn columnName="driving_license" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-38">
+        <dropColumn columnName="driving_license_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-39">
+        <dropColumn columnName="driving_license_type" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-40">
+        <dropColumn columnName="electricity_bill_copy" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-41">
+        <dropColumn columnName="electricity_bill_copy_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-42">
+        <dropColumn columnName="electricity_bill_copy_type" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-43">
+        <dropColumn columnName="email" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-44">
+        <dropColumn columnName="email" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-45">
+        <dropColumn columnName="father_name" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-46">
+        <dropColumn columnName="is_today_attend" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-47">
+        <dropColumn columnName="last_modified_by" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-48">
+        <dropColumn columnName="last_modified_date" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-49">
+        <dropColumn columnName="nid_attachment" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-50">
+        <dropColumn columnName="nid_attachment_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-51">
+        <dropColumn columnName="nid_attachment_type" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-52">
+        <dropColumn columnName="phone" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-53">
+        <dropColumn columnName="phone" tableName="mst_employee"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-54">
+        <dropColumn columnName="photo" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-55">
+        <dropColumn columnName="photo_content_type" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-56">
+        <dropColumn columnName="photo_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-57">
+        <dropColumn columnName="post_code" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-58">
+        <dropColumn columnName="street" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-59">
+        <dropColumn columnName="thana_id" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-60">
+        <dropColumn columnName="tin" tableName="customer"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-1">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="global_id" tableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-2">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="increment_amount" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-3">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="local_id" tableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-4">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_end_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624264944993-5">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_start_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+</databaseChangeLog>

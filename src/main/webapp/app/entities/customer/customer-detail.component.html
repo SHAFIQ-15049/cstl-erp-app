@@ -1,0 +1,110 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="customer">
+            <h2><span>Customer</span> {{ customer.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ customer.name }}</span>
+                </dd>
+                <dt><span>Father Or Husband</span></dt>
+                <dd>
+                    <span>{{ customer.fatherOrHusband }}</span>
+                </dd>
+                <dt><span>Address</span></dt>
+                <dd>
+                    <span>{{ customer.address }}</span>
+                </dd>
+                <dt><span>Sex</span></dt>
+                <dd>
+                    <span>{{ customer.sex }}</span>
+                </dd>
+                <dt><span>Phone No</span></dt>
+                <dd>
+                    <span>{{ customer.phoneNo }}</span>
+                </dd>
+                <dt><span>Nationality</span></dt>
+                <dd>
+                    <span>{{ customer.nationality }}</span>
+                </dd>
+                <dt><span>Date Of Birth</span></dt>
+                <dd>
+                    <span>{{ customer.dateOfBirth }}</span>
+                </dd>
+                <dt><span>Guardians Name</span></dt>
+                <dd>
+                    <span>{{ customer.guardiansName }}</span>
+                </dd>
+                <dt><span>Chassis No</span></dt>
+                <dd>
+                    <span>{{ customer.chassisNo }}</span>
+                </dd>
+                <dt><span>Engine No</span></dt>
+                <dd>
+                    <span>{{ customer.engineNo }}</span>
+                </dd>
+                <dt><span>Years Of Mfg</span></dt>
+                <dd>
+                    <span>{{ customer.yearsOfMfg }}</span>
+                </dd>
+                <dt><span>Pre Regn No</span></dt>
+                <dd>
+                    <span>{{ customer.preRegnNo }}</span>
+                </dd>
+                <dt><span>Po Or Bank</span></dt>
+                <dd>
+                    <span>{{ customer.poOrBank }}</span>
+                </dd>
+                <dt><span>Voter Id No</span></dt>
+                <dd>
+                    <span>{{ customer.voterIdNo }}</span>
+                </dd>
+                <dt><span>Voter Id Attachment</span></dt>
+                <dd>
+                    <div *ngIf="customer.voterIdAttachment">
+                        <a (click)="openFile(customer.voterIdAttachmentContentType, customer.voterIdAttachment)">open</a>
+                        {{ customer.voterIdAttachmentContentType }}, {{ byteSize(customer.voterIdAttachment) }}
+                    </div>
+                </dd>
+                <dt><span>Passport Attachment</span></dt>
+                <dd>
+                    <div *ngIf="customer.passportAttachment">
+                        <a (click)="openFile(customer.passportAttachmentContentType, customer.passportAttachment)">open</a>
+                        {{ customer.passportAttachmentContentType }}, {{ byteSize(customer.passportAttachment) }}
+                    </div>
+                </dd>
+                <dt><span>Birth Certificate Attachment</span></dt>
+                <dd>
+                    <div *ngIf="customer.birthCertificateAttachment">
+                        <a (click)="openFile(customer.birthCertificateAttachmentContentType, customer.birthCertificateAttachment)">open</a>
+                        {{ customer.birthCertificateAttachmentContentType }}, {{ byteSize(customer.birthCertificateAttachment) }}
+                    </div>
+                </dd>
+                <dt><span>Gass Or Water Or Electricity Bill</span></dt>
+                <dd>
+                    <div *ngIf="customer.gassOrWaterOrElectricityBill">
+                        <a (click)="openFile(customer.gassOrWaterOrElectricityBillContentType, customer.gassOrWaterOrElectricityBill)">open</a>
+                        {{ customer.gassOrWaterOrElectricityBillContentType }}, {{ byteSize(customer.gassOrWaterOrElectricityBill) }}
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/customer', customer.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

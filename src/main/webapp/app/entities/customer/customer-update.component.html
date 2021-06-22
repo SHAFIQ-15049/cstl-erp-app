@@ -1,0 +1,193 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-customer-heading">Create or edit a Customer</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fatherOrHusband">Father Or Husband</label>
+                    <input type="text" class="form-control" name="fatherOrHusband" id="field_fatherOrHusband"
+                           formControlName="fatherOrHusband"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_address">Address</label>
+                    <input type="text" class="form-control" name="address" id="field_address"
+                           formControlName="address"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_sex">Sex</label>
+                    <select class="form-control" name="sex" formControlName="sex" id="field_sex">
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHERS">OTHERS</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_phoneNo">Phone No</label>
+                    <input type="text" class="form-control" name="phoneNo" id="field_phoneNo"
+                           formControlName="phoneNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_nationality">Nationality</label>
+                    <input type="text" class="form-control" name="nationality" id="field_nationality"
+                           formControlName="nationality"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_dateOfBirth">Date Of Birth</label>
+                    <div class="input-group">
+                        <input id="field_dateOfBirth" type="text" class="form-control" name="dateOfBirth" ngbDatepicker #dateOfBirthDp="ngbDatepicker" formControlName="dateOfBirth"/>
+                        <span class="input-group-append">
+                            <button type="button" class="btn btn-secondary" (click)="dateOfBirthDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_guardiansName">Guardians Name</label>
+                    <input type="text" class="form-control" name="guardiansName" id="field_guardiansName"
+                           formControlName="guardiansName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_chassisNo">Chassis No</label>
+                    <input type="text" class="form-control" name="chassisNo" id="field_chassisNo"
+                           formControlName="chassisNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_engineNo">Engine No</label>
+                    <input type="text" class="form-control" name="engineNo" id="field_engineNo"
+                           formControlName="engineNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearsOfMfg">Years Of Mfg</label>
+                    <input type="number" class="form-control" name="yearsOfMfg" id="field_yearsOfMfg"
+                           formControlName="yearsOfMfg"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_preRegnNo">Pre Regn No</label>
+                    <input type="text" class="form-control" name="preRegnNo" id="field_preRegnNo"
+                           formControlName="preRegnNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_poOrBank">Po Or Bank</label>
+                    <input type="text" class="form-control" name="poOrBank" id="field_poOrBank"
+                           formControlName="poOrBank"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_voterIdNo">Voter Id No</label>
+                    <input type="text" class="form-control" name="voterIdNo" id="field_voterIdNo"
+                           formControlName="voterIdNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_voterIdAttachment">Voter Id Attachment</label>
+                    <div>
+                        <div *ngIf="editForm.get('voterIdAttachment')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('voterIdAttachmentContentType')!.value, editForm.get('voterIdAttachment')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('voterIdAttachmentContentType')!.value }}, {{ byteSize(editForm.get('voterIdAttachment')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({voterIdAttachment: null});editForm.patchValue({voterIdAttachmentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_voterIdAttachment" (change)="setFileData($event, 'voterIdAttachment', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="voterIdAttachment" id="field_voterIdAttachment"
+                           formControlName="voterIdAttachment"/>
+                    <input type="hidden" class="form-control" name="voterIdAttachmentContentType" id="field_voterIdAttachmentContentType"
+                           formControlName="voterIdAttachmentContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_passportAttachment">Passport Attachment</label>
+                    <div>
+                        <div *ngIf="editForm.get('passportAttachment')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('passportAttachmentContentType')!.value, editForm.get('passportAttachment')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('passportAttachmentContentType')!.value }}, {{ byteSize(editForm.get('passportAttachment')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({passportAttachment: null});editForm.patchValue({passportAttachmentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_passportAttachment" (change)="setFileData($event, 'passportAttachment', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="passportAttachment" id="field_passportAttachment"
+                           formControlName="passportAttachment"/>
+                    <input type="hidden" class="form-control" name="passportAttachmentContentType" id="field_passportAttachmentContentType"
+                           formControlName="passportAttachmentContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_birthCertificateAttachment">Birth Certificate Attachment</label>
+                    <div>
+                        <div *ngIf="editForm.get('birthCertificateAttachment')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('birthCertificateAttachmentContentType')!.value, editForm.get('birthCertificateAttachment')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('birthCertificateAttachmentContentType')!.value }}, {{ byteSize(editForm.get('birthCertificateAttachment')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({birthCertificateAttachment: null});editForm.patchValue({birthCertificateAttachmentContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_birthCertificateAttachment" (change)="setFileData($event, 'birthCertificateAttachment', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="birthCertificateAttachment" id="field_birthCertificateAttachment"
+                           formControlName="birthCertificateAttachment"/>
+                    <input type="hidden" class="form-control" name="birthCertificateAttachmentContentType" id="field_birthCertificateAttachmentContentType"
+                           formControlName="birthCertificateAttachmentContentType" />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_gassOrWaterOrElectricityBill">Gass Or Water Or Electricity Bill</label>
+                    <div>
+                        <div *ngIf="editForm.get('gassOrWaterOrElectricityBill')!.value" class="form-text text-danger clearfix">
+                            <a class="pull-left" (click)="openFile(editForm.get('gassOrWaterOrElectricityBillContentType')!.value, editForm.get('gassOrWaterOrElectricityBill')!.value)">open</a><br>
+                            <span class="pull-left">{{ editForm.get('gassOrWaterOrElectricityBillContentType')!.value }}, {{ byteSize(editForm.get('gassOrWaterOrElectricityBill')!.value) }}</span>
+                            <button type="button" (click)="editForm.patchValue({gassOrWaterOrElectricityBill: null});editForm.patchValue({gassOrWaterOrElectricityBillContentType: null});"
+                                    class="btn btn-secondary btn-xs pull-right">
+                                <fa-icon icon="times"></fa-icon>
+                            </button>
+                        </div>
+                        <input type="file" id="file_gassOrWaterOrElectricityBill" (change)="setFileData($event, 'gassOrWaterOrElectricityBill', false)"/>
+                    </div>
+                    <input type="hidden" class="form-control" name="gassOrWaterOrElectricityBill" id="field_gassOrWaterOrElectricityBill"
+                           formControlName="gassOrWaterOrElectricityBill"/>
+                    <input type="hidden" class="form-control" name="gassOrWaterOrElectricityBillContentType" id="field_gassOrWaterOrElectricityBillContentType"
+                           formControlName="gassOrWaterOrElectricityBillContentType" />
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

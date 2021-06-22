@@ -36,6 +36,7 @@
     <include context="prod,dev"  file="config/liquibase/changelog/20201226040545_added_entity_LeaveApplication.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210108052957_added_entity_AttendanceDataUpload.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210108055117_added_entity_Attendance.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20210621080914_added_entity_Customer.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
    <!-- <include file="config/liquibase/changelog/20201127213527_added_entity_constraints_Employee.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20201123192735_added_entity_constraints_Company.xml" relativeToChangelogFile="false"/>
@@ -125,6 +126,8 @@
     <include context="prod,dev" file="config/liquibase/changelog/20210327191935_entityIdCardManagementAdded.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210430111353_monthlySalary_unique_constraints_changed.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210502155538_department_added_MonthlySalary.xml" relativeToChangelogFile="false"/>
+
+
 
 
 
