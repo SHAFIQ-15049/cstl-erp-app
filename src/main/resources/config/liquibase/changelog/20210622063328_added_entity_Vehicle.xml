@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd
+                        http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+        <property name="autoIncrement" value="true"/>
+
+    <!--
+        Added the entity Vehicle.
+    -->
+    <changeSet id="20210622063328-1" author="jhipster">
+        <createTable tableName="vehicle">
+            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="vehicle_id" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="type" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="class_of_vehicle" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="type_of_body" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="colour" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="number_of_cylinders" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="engine_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="horse_power" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="cubic_capacity" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="no_of_standee" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="unladen_weight" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="prev_regn_no" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="makers_name" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="makers_country" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="years_of_manufacture" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="chassis_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="fuel_used" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
+            <column name="rpm" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="seats" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="wheel_base" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="max_laden" type="integer">
+                <constraints nullable="true" />
+            </column>
+            <column name="customer_id" type="bigint">
+                <constraints unique="true" nullable="true" uniqueConstraintName="ux_vehicle_customer_id" />
+            </column>
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createTable>
+    </changeSet>
+
+    <changeSet id="20210622063328-1-relations" author="jhipster">
+
+    </changeSet>
+    <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
+
+    <!--
+        Load sample data generated with Faker.js
+        - This data can be easily edited using a CSV editor (or even MS Excel) and
+          is located in the 'src/main/resources/config/liquibase/fake-data' directory
+        - By default this data is applied when running with the JHipster 'dev' profile.
+          This can be customized by adding or removing 'faker' in the 'spring.liquibase.contexts'
+          Spring Boot configuration key.
+    -->
+    <changeSet id="20210622063328-1-data" author="jhipster" context="faker">
+        <loadData
+                  file="config/liquibase/fake-data/vehicle.csv"
+                  separator=";"
+                  tableName="vehicle">
+            <column name="id" type="numeric"/>
+            <column name="name" type="string"/>
+            <column name="vehicle_id" type="string"/>
+            <column name="type" type="string"/>
+            <column name="class_of_vehicle" type="string"/>
+            <column name="type_of_body" type="string"/>
+            <column name="colour" type="string"/>
+            <column name="number_of_cylinders" type="string"/>
+            <column name="engine_number" type="string"/>
+            <column name="horse_power" type="numeric"/>
+            <column name="cubic_capacity" type="numeric"/>
+            <column name="no_of_standee" type="string"/>
+            <column name="unladen_weight" type="numeric"/>
+            <column name="prev_regn_no" type="string"/>
+            <column name="makers_name" type="string"/>
+            <column name="makers_country" type="string"/>
+            <column name="years_of_manufacture" type="numeric"/>
+            <column name="chassis_number" type="string"/>
+            <column name="fuel_used" type="string"/>
+            <column name="rpm" type="numeric"/>
+            <column name="seats" type="numeric"/>
+            <column name="wheel_base" type="numeric"/>
+            <column name="max_laden" type="numeric"/>
+            <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
+        </loadData>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,120 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="vehicle">
+            <h2><span>Vehicle</span> {{ vehicle.id }}</h2>
+
+            <hr>
+
+            <jhi-alert-error></jhi-alert-error>
+
+            <dl class="row-md jh-entity-details">
+                <dt><span>Name</span></dt>
+                <dd>
+                    <span>{{ vehicle.name }}</span>
+                </dd>
+                <dt><span>Vehicle Id</span></dt>
+                <dd>
+                    <span>{{ vehicle.vehicleId }}</span>
+                </dd>
+                <dt><span>Type</span></dt>
+                <dd>
+                    <span>{{ vehicle.type }}</span>
+                </dd>
+                <dt><span>Class Of Vehicle</span></dt>
+                <dd>
+                    <span>{{ vehicle.classOfVehicle }}</span>
+                </dd>
+                <dt><span>Type Of Body</span></dt>
+                <dd>
+                    <span>{{ vehicle.typeOfBody }}</span>
+                </dd>
+                <dt><span>Colour</span></dt>
+                <dd>
+                    <span>{{ vehicle.colour }}</span>
+                </dd>
+                <dt><span>Number Of Cylinders</span></dt>
+                <dd>
+                    <span>{{ vehicle.numberOfCylinders }}</span>
+                </dd>
+                <dt><span>Engine Number</span></dt>
+                <dd>
+                    <span>{{ vehicle.engineNumber }}</span>
+                </dd>
+                <dt><span>Horse Power</span></dt>
+                <dd>
+                    <span>{{ vehicle.horsePower }}</span>
+                </dd>
+                <dt><span>Cubic Capacity</span></dt>
+                <dd>
+                    <span>{{ vehicle.cubicCapacity }}</span>
+                </dd>
+                <dt><span>No Of Standee</span></dt>
+                <dd>
+                    <span>{{ vehicle.noOfStandee }}</span>
+                </dd>
+                <dt><span>Unladen Weight</span></dt>
+                <dd>
+                    <span>{{ vehicle.unladenWeight }}</span>
+                </dd>
+                <dt><span>Prev Regn No</span></dt>
+                <dd>
+                    <span>{{ vehicle.prevRegnNo }}</span>
+                </dd>
+                <dt><span>Makers Name</span></dt>
+                <dd>
+                    <span>{{ vehicle.makersName }}</span>
+                </dd>
+                <dt><span>Makers Country</span></dt>
+                <dd>
+                    <span>{{ vehicle.makersCountry }}</span>
+                </dd>
+                <dt><span>Years Of Manufacture</span></dt>
+                <dd>
+                    <span>{{ vehicle.yearsOfManufacture }}</span>
+                </dd>
+                <dt><span>Chassis Number</span></dt>
+                <dd>
+                    <span>{{ vehicle.chassisNumber }}</span>
+                </dd>
+                <dt><span>Fuel Used</span></dt>
+                <dd>
+                    <span>{{ vehicle.fuelUsed }}</span>
+                </dd>
+                <dt><span>Rpm</span></dt>
+                <dd>
+                    <span>{{ vehicle.rpm }}</span>
+                </dd>
+                <dt><span>Seats</span></dt>
+                <dd>
+                    <span>{{ vehicle.seats }}</span>
+                </dd>
+                <dt><span>Wheel Base</span></dt>
+                <dd>
+                    <span>{{ vehicle.wheelBase }}</span>
+                </dd>
+                <dt><span>Max Laden</span></dt>
+                <dd>
+                    <span>{{ vehicle.maxLaden }}</span>
+                </dd>
+                <dt><span>Customer</span></dt>
+                <dd>
+                    <div *ngIf="vehicle.customer">
+                        <a [routerLink]="['/customer', vehicle.customer?.id, 'view']">{{ vehicle.customer?.name }}</a>
+                    </div>
+                </dd>
+            </dl>
+
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
+
+            <button type="button"
+                    [routerLink]="['/vehicle', vehicle.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
+        </div>
+    </div>
+</div>

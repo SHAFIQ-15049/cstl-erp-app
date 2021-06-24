@@ -1,0 +1,185 @@
+<div class="row justify-content-center">
+    <div class="col-8">
+        <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+            <h2 id="jhi-vehicle-heading">Create or edit a Vehicle</h2>
+
+            <div>
+                <jhi-alert-error></jhi-alert-error>
+
+                <div class="form-group" [hidden]="!editForm.get('id')!.value">
+                    <label for="id">ID</label>
+                    <input type="text" class="form-control" id="id" name="id" formControlName="id" readonly />
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_name">Name</label>
+                    <input type="text" class="form-control" name="name" id="field_name"
+                           formControlName="name"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vehicleId">Vehicle Id</label>
+                    <input type="text" class="form-control" name="vehicleId" id="field_vehicleId"
+                           formControlName="vehicleId"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_type">Type</label>
+                    <select class="form-control" name="type" formControlName="type" id="field_type">
+                        <option value="VEHICLE">VEHICLE</option>
+                        <option value="TRAILER">TRAILER</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_classOfVehicle">Class Of Vehicle</label>
+                    <input type="text" class="form-control" name="classOfVehicle" id="field_classOfVehicle"
+                           formControlName="classOfVehicle"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_typeOfBody">Type Of Body</label>
+                    <input type="text" class="form-control" name="typeOfBody" id="field_typeOfBody"
+                           formControlName="typeOfBody"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_colour">Colour</label>
+                    <select class="form-control" name="colour" formControlName="colour" id="field_colour">
+                        <option value="BLACK">BLACK</option>
+                        <option value="SILVER">SILVER</option>
+                        <option value="WHITE">WHITE</option>
+                        <option value="BLUE">BLUE</option>
+                        <option value="GREEN">GREEN</option>
+                        <option value="YELLOW">YELLOW</option>
+                        <option value="ORANGE">ORANGE</option>
+                        <option value="RED">RED</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_numberOfCylinders">Number Of Cylinders</label>
+                    <select class="form-control" name="numberOfCylinders" formControlName="numberOfCylinders" id="field_numberOfCylinders">
+                        <option value="ONE">ONE</option>
+                        <option value="TWO">TWO</option>
+                        <option value="THREE">THREE</option>
+                        <option value="FOUR">FOUR</option>
+                        <option value="FIVE">FIVE</option>
+                        <option value="SIX">SIX</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_engineNumber">Engine Number</label>
+                    <input type="text" class="form-control" name="engineNumber" id="field_engineNumber"
+                           formControlName="engineNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_horsePower">Horse Power</label>
+                    <input type="number" class="form-control" name="horsePower" id="field_horsePower"
+                           formControlName="horsePower"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_cubicCapacity">Cubic Capacity</label>
+                    <input type="number" class="form-control" name="cubicCapacity" id="field_cubicCapacity"
+                           formControlName="cubicCapacity"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_noOfStandee">No Of Standee</label>
+                    <input type="text" class="form-control" name="noOfStandee" id="field_noOfStandee"
+                           formControlName="noOfStandee"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_unladenWeight">Unladen Weight</label>
+                    <input type="number" class="form-control" name="unladenWeight" id="field_unladenWeight"
+                           formControlName="unladenWeight"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_prevRegnNo">Prev Regn No</label>
+                    <input type="text" class="form-control" name="prevRegnNo" id="field_prevRegnNo"
+                           formControlName="prevRegnNo"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_makersName">Makers Name</label>
+                    <input type="text" class="form-control" name="makersName" id="field_makersName"
+                           formControlName="makersName"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_makersCountry">Makers Country</label>
+                    <input type="text" class="form-control" name="makersCountry" id="field_makersCountry"
+                           formControlName="makersCountry"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_yearsOfManufacture">Years Of Manufacture</label>
+                    <input type="number" class="form-control" name="yearsOfManufacture" id="field_yearsOfManufacture"
+                           formControlName="yearsOfManufacture"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_chassisNumber">Chassis Number</label>
+                    <input type="text" class="form-control" name="chassisNumber" id="field_chassisNumber"
+                           formControlName="chassisNumber"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_fuelUsed">Fuel Used</label>
+                    <select class="form-control" name="fuelUsed" formControlName="fuelUsed" id="field_fuelUsed">
+                        <option value="OCTANE">OCTANE</option>
+                        <option value="PETROL">PETROL</option>
+                        <option value="DIESEL">DIESEL</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_rpm">Rpm</label>
+                    <input type="number" class="form-control" name="rpm" id="field_rpm"
+                           formControlName="rpm"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_seats">Seats</label>
+                    <input type="number" class="form-control" name="seats" id="field_seats"
+                           formControlName="seats"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_wheelBase">Wheel Base</label>
+                    <input type="number" class="form-control" name="wheelBase" id="field_wheelBase"
+                           formControlName="wheelBase"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_maxLaden">Max Laden</label>
+                    <input type="number" class="form-control" name="maxLaden" id="field_maxLaden"
+                           formControlName="maxLaden"/>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-control-label" for="field_customer">Customer</label>
+                    <select class="form-control" id="field_customer" name="customer" formControlName="customer">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="customerOption.id === editForm.get('customer')!.value?.id ? editForm.get('customer')!.value : customerOption" *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.name }}</option>
+                    </select>
+                </div>
+            </div>
+
+            <div>
+                <button type="button" id="cancel-save" class="btn btn-secondary" (click)="previousState()">
+                    <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancel</span>
+                </button>
+
+                <button type="submit" id="save-entity" [disabled]="editForm.invalid || isSaving" class="btn btn-primary">
+                    <fa-icon icon="save"></fa-icon>&nbsp;<span>Save</span>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -2,21 +2,21 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { HttpHeaders, HttpResponse } from '@angular/common/http';
 import { ActivatedRoute, ParamMap, Router, Data } from '@angular/router';
 import { Subscription, combineLatest } from 'rxjs';
-import { JhiEventManager, JhiDataUtils } from 'ng-jhipster';
+import { JhiEventManager } from 'ng-jhipster';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
-import { ICustomer } from 'app/shared/model/customer.model';
+import { IVehicle } from 'app/shared/model/vehicle.model';
 
 import { ITEMS_PER_PAGE } from 'app/shared/constants/pagination.constants';
-import { CustomerService } from './customer.service';
-import { CustomerDeleteDialogComponent } from './customer-delete-dialog.component';
+import { VehicleService } from './vehicle.service';
+import { VehicleDeleteDialogComponent } from './vehicle-delete-dialog.component';
 
 @Component({
-  selector: 'jhi-customer',
-  templateUrl: './customer.component.html',
+  selector: 'jhi-vehicle',
+  templateUrl: './vehicle.component.html',
 })
-export class CustomerComponent implements OnInit, OnDestroy {
-  customers?: ICustomer[];
+export class VehicleComponent implements OnInit, OnDestroy {
+  vehicles?: IVehicle[];
   eventSubscriber?: Subscription;
   totalItems = 0;
   itemsPerPage = ITEMS_PER_PAGE;
@@ -26,9 +26,8 @@ export class CustomerComponent implements OnInit, OnDestroy {
   ngbPaginationPage = 1;
 
   constructor(
-    protected customerService: CustomerService,
+    protected vehicleService: VehicleService,
     protected activatedRoute: ActivatedRoute,
-    protected dataUtils: JhiDataUtils,
     protected router: Router,
     protected eventManager: JhiEventManager,
     protected modalService: NgbModal
@@ -37,21 +36,21 @@ export class CustomerComponent implements OnInit, OnDestroy {
   loadPage(page?: number, dontNavigate?: boolean): void {
     const pageToLoad: number = page || this.page || 1;
 
-    this.customerService
+    this.vehicleService
       .query({
         page: pageToLoad - 1,
         size: this.itemsPerPage,
         sort: this.sort(),
       })
       .subscribe(
-        (res: HttpResponse<ICustomer[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
+        (res: HttpResponse<IVehicle[]>) => this.onSuccess(res.body, res.headers, pageToLoad, !dontNavigate),
         () => this.onError()
       );
   }
 
   ngOnInit(): void {
     this.handleNavigation();
-    this.registerChangeInCustomers();
+    this.registerChangeInVehicles();
   }
 
   protected handleNavigation(): void {
@@ -75,26 +74,18 @@ export class CustomerComponent implements OnInit, OnDestroy {
     }
   }
 
-  trackId(index: number, item: ICustomer): number {
+  trackId(index: number, item: IVehicle): number {
     // eslint-disable-next-line @typescript-eslint/no-unnecessary-type-assertion
     return item.id!;
   }
 
-  byteSize(base64String: string): string {
-    return this.dataUtils.byteSize(base64String);
+  registerChangeInVehicles(): void {
+    this.eventSubscriber = this.eventManager.subscribe('vehicleListModification', () => this.loadPage());
   }
 
-  openFile(contentType = '', base64String: string): void {
-    return this.dataUtils.openFile(contentType, base64String);
-  }
-
-  registerChangeInCustomers(): void {
-    this.eventSubscriber = this.eventManager.subscribe('customerListModification', () => this.loadPage());
-  }
-
-  delete(customer: ICustomer): void {
-    const modalRef = this.modalService.open(CustomerDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
-    modalRef.componentInstance.customer = customer;
+  delete(vehicle: IVehicle): void {
+    const modalRef = this.modalService.open(VehicleDeleteDialogComponent, { size: 'lg', backdrop: 'static' });
+    modalRef.componentInstance.vehicle = vehicle;
   }
 
   sort(): string[] {
@@ -105,11 +96,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
     return result;
   }
 
-  protected onSuccess(data: ICustomer[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
+  protected onSuccess(data: IVehicle[] | null, headers: HttpHeaders, page: number, navigate: boolean): void {
     this.totalItems = Number(headers.get('X-Total-Count'));
     this.page = page;
     if (navigate) {
-      this.router.navigate(['/customer'], {
+      this.router.navigate(['/vehicle'], {
         queryParams: {
           page: this.page,
           size: this.itemsPerPage,
@@ -117,14 +108,11 @@ export class CustomerComponent implements OnInit, OnDestroy {
         },
       });
     }
-    this.customers = data || [];
+    this.vehicles = data || [];
     this.ngbPaginationPage = this.page;
   }
 
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
-  }
-  public download(customerId: number): void {
-    this.customerService.downloadReport(customerId);
   }
 }

@@ -1,6 +1,11 @@
 package software.cstl.web.rest;
 
+import com.itextpdf.text.DocumentException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
+import org.springframework.http.MediaType;
 import software.cstl.domain.Customer;
+import software.cstl.service.CustomerRegistrationReportService;
 import software.cstl.service.CustomerService;
 import software.cstl.web.rest.errors.BadRequestAlertException;
 import software.cstl.service.dto.CustomerCriteria;
@@ -20,6 +25,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.List;
@@ -42,6 +48,9 @@ public class CustomerResource {
     private final CustomerService customerService;
 
     private final CustomerQueryService customerQueryService;
+
+    @Autowired
+    private CustomerRegistrationReportService customerRegistrationReportService;
 
     public CustomerResource(CustomerService customerService, CustomerQueryService customerQueryService) {
         this.customerService = customerService;
@@ -103,4 +112,20 @@ public class CustomerResource {
         customerService.delete(id);
         return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
+
+    @GetMapping(value = "/customers/report-download/{customerId}",produces = MediaType.APPLICATION_PDF_VALUE)
+    public ResponseEntity<InputStreamResource> getSalaryReport(@PathVariable Long customerId)throws DocumentException {
+        log.debug("REST request to download salary report");
+
+        ByteArrayInputStream byteArrayInputStream = customerRegistrationReportService.download(customerId);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Disposition","/customers/report-download/{customerId}");
+
+        return ResponseEntity.ok().headers(headers).
+            contentType(MediaType.APPLICATION_PDF).body(new InputStreamResource(byteArrayInputStream));
+
+    }
+
+
 }

@@ -8,6 +8,7 @@ import { DATE_FORMAT } from 'app/shared/constants/input.constants';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { ICustomer } from 'app/shared/model/customer.model';
+import { ReportUtil } from 'app/shared/util/report-util';
 
 type EntityResponseType = HttpResponse<ICustomer>;
 type EntityArrayResponseType = HttpResponse<ICustomer[]>;
@@ -70,5 +71,11 @@ export class CustomerService {
       });
     }
     return res;
+  }
+
+  downloadReport(customerId: number): any {
+    return this.http.get(`${this.resourceUrl}/report-download/${customerId}`, { responseType: 'blob' }).subscribe((data: any) => {
+      ReportUtil.writeFileContent(data, 'application/pdf', `Registration Report`);
+    });
   }
 }

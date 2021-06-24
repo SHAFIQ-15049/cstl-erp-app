@@ -1,0 +1,120 @@
+{
+  "fluentMethods": true,
+  "clientRootFolder": "",
+  "relationships": [
+    {
+      "relationshipName": "customer",
+      "otherEntityName": "customer",
+      "relationshipType": "one-to-one",
+      "relationshipValidateRules": [],
+      "otherEntityField": "name",
+      "ownerSide": true,
+      "useJPADerivedIdentifier": false,
+      "otherEntityRelationshipName": "vehicle"
+    }
+  ],
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": []
+    },
+    {
+      "fieldName": "vehicleId",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "type",
+      "fieldType": "VehicleType",
+      "fieldValues": "VEHICLE,TRAILER"
+    },
+    {
+      "fieldName": "classOfVehicle",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "typeOfBody",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "colour",
+      "fieldType": "ColourType",
+      "fieldValues": "BLACK,SILVER,WHITE,BLUE,GREEN,YELLOW,ORANGE,RED"
+    },
+    {
+      "fieldName": "numberOfCylinders",
+      "fieldType": "CylinderNumber",
+      "fieldValues": "ONE,TWO,THREE,FOUR,FIVE,SIX"
+    },
+    {
+      "fieldName": "engineNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "horsePower",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "cubicCapacity",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "noOfStandee",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "unladenWeight",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "prevRegnNo",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "makersName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "makersCountry",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "yearsOfManufacture",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "chassisNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "fuelUsed",
+      "fieldType": "FuelType",
+      "fieldValues": "OCTANE,PETROL,DIESEL"
+    },
+    {
+      "fieldName": "rpm",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "seats",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "wheelBase",
+      "fieldType": "Integer"
+    },
+    {
+      "fieldName": "maxLaden",
+      "fieldType": "Integer"
+    }
+  ],
+  "changelogDate": "20210622063328",
+  "dto": "no",
+  "searchEngine": false,
+  "service": "serviceImpl",
+  "entityTableName": "vehicle",
+  "databaseType": "sql",
+  "readOnly": false,
+  "jpaMetamodelFiltering": true,
+  "pagination": "pagination"
+}
