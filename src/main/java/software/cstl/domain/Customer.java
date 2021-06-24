@@ -1,5 +1,6 @@
 package software.cstl.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
@@ -95,8 +96,8 @@ public class Customer implements Serializable {
     @Column(name = "gass_or_water_or_electricity_bill_content_type")
     private String gassOrWaterOrElectricityBillContentType;
 
-    @OneToOne
-    @JoinColumn(unique = true)
+    @ManyToOne
+    @JsonIgnoreProperties(value = "customers", allowSetters = true)
     private Vehicle vehicle;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here

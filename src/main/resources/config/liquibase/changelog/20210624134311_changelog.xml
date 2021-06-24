@@ -1,0 +1,51 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:pro="http://www.liquibase.org/xml/ns/pro" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd http://www.liquibase.org/xml/ns/pro http://www.liquibase.org/xml/ns/pro/liquibase-pro-3.9.xsd http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.9.xsd">
+    <changeSet author="Codenode (generated)" id="1624542204322-6">
+        <createTable tableName="customer">
+            <column autoIncrement="true" name="id" type="BIGINT">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="customerPK"/>
+            </column>
+            <column name="address" type="VARCHAR(255)"/>
+            <column name="birth_certificate_attachment" type="LONGBLOB"/>
+            <column name="birth_certificate_attachment_content_type" type="VARCHAR(255)"/>
+            <column name="chassis_no" type="VARCHAR(255)"/>
+            <column name="date_of_birth" type="date"/>
+            <column name="engine_no" type="VARCHAR(255)"/>
+            <column name="father_or_husband" type="VARCHAR(255)"/>
+            <column name="gass_or_water_or_electricity_bill" type="LONGBLOB"/>
+            <column name="gass_or_water_or_electricity_bill_content_type" type="VARCHAR(255)"/>
+            <column name="guardians_name" type="VARCHAR(255)"/>
+            <column name="name" type="VARCHAR(255)"/>
+            <column name="nationality" type="VARCHAR(255)"/>
+            <column name="passport_attachment" type="LONGBLOB"/>
+            <column name="passport_attachment_content_type" type="VARCHAR(255)"/>
+            <column name="phone_no" type="VARCHAR(255)"/>
+            <column name="po_or_bank" type="VARCHAR(255)"/>
+            <column name="pre_regn_no" type="VARCHAR(255)"/>
+            <column name="sex" type="VARCHAR(255)"/>
+            <column name="voter_id_attachment" type="LONGBLOB"/>
+            <column name="voter_id_attachment_content_type" type="VARCHAR(255)"/>
+            <column name="voter_id_no" type="VARCHAR(255)"/>
+            <column name="years_of_mfg" type="INT"/>
+            <column name="vehicle_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-7">
+        <addForeignKeyConstraint baseColumnNames="vehicle_id" baseTableName="customer" constraintName="FKrep5q7576typosw8wsvu2ubm8" deferrable="false" initiallyDeferred="false" referencedColumnNames="id" referencedTableName="vehicle" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-1">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="global_id" tableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-2">
+        <addNotNullConstraint columnDataType="decimal(21,2)" columnName="increment_amount" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-3">
+        <addNotNullConstraint columnDataType="varchar(255)" columnName="local_id" tableName="mst_employee" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-4">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_end_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+    <changeSet author="Codenode (generated)" id="1624542204322-5">
+        <addNotNullConstraint columnDataType="datetime(6)" columnName="salary_start_date" tableName="employee_salary" validate="true"/>
+    </changeSet>
+</databaseChangeLog>
