@@ -162,13 +162,6 @@
                            formControlName="maxLaden"/>
                 </div>
 
-                <div class="form-group">
-                    <label class="form-control-label" for="field_customer">Customer</label>
-                    <select class="form-control" id="field_customer" name="customer" formControlName="customer">
-                        <option [ngValue]="null"></option>
-                        <option [ngValue]="customerOption.id === editForm.get('customer')!.value?.id ? editForm.get('customer')!.value : customerOption" *ngFor="let customerOption of customers; trackBy: trackById">{{ customerOption.name }}</option>
-                    </select>
-                </div>
             </div>
 
             <div>

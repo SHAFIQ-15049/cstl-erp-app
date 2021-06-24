@@ -74,6 +74,8 @@ public class CustomerCriteria implements Serializable, Criteria {
 
     private StringFilter voterIdNo;
 
+    private LongFilter vehicleId;
+
     public CustomerCriteria() {
     }
 
@@ -93,6 +95,7 @@ public class CustomerCriteria implements Serializable, Criteria {
         this.preRegnNo = other.preRegnNo == null ? null : other.preRegnNo.copy();
         this.poOrBank = other.poOrBank == null ? null : other.poOrBank.copy();
         this.voterIdNo = other.voterIdNo == null ? null : other.voterIdNo.copy();
+        this.vehicleId = other.vehicleId == null ? null : other.vehicleId.copy();
     }
 
     @Override
@@ -220,6 +223,14 @@ public class CustomerCriteria implements Serializable, Criteria {
         this.voterIdNo = voterIdNo;
     }
 
+    public LongFilter getVehicleId() {
+        return vehicleId;
+    }
+
+    public void setVehicleId(LongFilter vehicleId) {
+        this.vehicleId = vehicleId;
+    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -245,7 +256,8 @@ public class CustomerCriteria implements Serializable, Criteria {
             Objects.equals(yearsOfMfg, that.yearsOfMfg) &&
             Objects.equals(preRegnNo, that.preRegnNo) &&
             Objects.equals(poOrBank, that.poOrBank) &&
-            Objects.equals(voterIdNo, that.voterIdNo);
+            Objects.equals(voterIdNo, that.voterIdNo)&&
+            Objects.equals(vehicleId, that.vehicleId);
     }
 
     @Override
@@ -265,7 +277,8 @@ public class CustomerCriteria implements Serializable, Criteria {
         yearsOfMfg,
         preRegnNo,
         poOrBank,
-        voterIdNo
+        voterIdNo,
+            vehicleId
         );
     }
 
@@ -288,6 +301,7 @@ public class CustomerCriteria implements Serializable, Criteria {
                 (preRegnNo != null ? "preRegnNo=" + preRegnNo + ", " : "") +
                 (poOrBank != null ? "poOrBank=" + poOrBank + ", " : "") +
                 (voterIdNo != null ? "voterIdNo=" + voterIdNo + ", " : "") +
+            (vehicleId != null ? "vehicleId=" + vehicleId + ", " : "") +
             "}";
     }
 

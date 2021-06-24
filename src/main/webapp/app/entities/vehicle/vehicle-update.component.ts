@@ -17,7 +17,6 @@ import { CustomerService } from 'app/entities/customer/customer.service';
 })
 export class VehicleUpdateComponent implements OnInit {
   isSaving = false;
-  customers: ICustomer[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -43,41 +42,13 @@ export class VehicleUpdateComponent implements OnInit {
     seats: [],
     wheelBase: [],
     maxLaden: [],
-    customer: [],
   });
 
-  constructor(
-    protected vehicleService: VehicleService,
-    protected customerService: CustomerService,
-    protected activatedRoute: ActivatedRoute,
-    private fb: FormBuilder
-  ) {}
+  constructor(protected vehicleService: VehicleService, protected activatedRoute: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ vehicle }) => {
       this.updateForm(vehicle);
-
-      this.customerService
-        .query({ 'vehicleId.specified': 'false' })
-        .pipe(
-          map((res: HttpResponse<ICustomer[]>) => {
-            return res.body || [];
-          })
-        )
-        .subscribe((resBody: ICustomer[]) => {
-          if (!vehicle.customer || !vehicle.customer.id) {
-            this.customers = resBody;
-          } else {
-            this.customerService
-              .find(vehicle.customer.id)
-              .pipe(
-                map((subRes: HttpResponse<ICustomer>) => {
-                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
-                })
-              )
-              .subscribe((concatRes: ICustomer[]) => (this.customers = concatRes));
-          }
-        });
     });
   }
 
@@ -106,7 +77,6 @@ export class VehicleUpdateComponent implements OnInit {
       seats: vehicle.seats,
       wheelBase: vehicle.wheelBase,
       maxLaden: vehicle.maxLaden,
-      customer: vehicle.customer,
     });
   }
 
@@ -150,7 +120,6 @@ export class VehicleUpdateComponent implements OnInit {
       seats: this.editForm.get(['seats'])!.value,
       wheelBase: this.editForm.get(['wheelBase'])!.value,
       maxLaden: this.editForm.get(['maxLaden'])!.value,
-      customer: this.editForm.get(['customer'])!.value,
     };
   }
 
@@ -168,9 +137,5 @@ export class VehicleUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
-  }
-
-  trackById(index: number, item: ICustomer): any {
-    return item.id;
   }
 }

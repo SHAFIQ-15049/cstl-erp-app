@@ -9,6 +9,9 @@ import { JhiDataUtils, JhiFileLoadError, JhiEventManager, JhiEventWithContent } 
 import { ICustomer, Customer } from 'app/shared/model/customer.model';
 import { CustomerService } from './customer.service';
 import { AlertError } from 'app/shared/alert/alert-error.model';
+import { IVehicle } from 'app/shared/model/vehicle.model';
+import { VehicleService } from 'app/entities/vehicle/vehicle.service';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'jhi-customer-update',
@@ -17,6 +20,8 @@ import { AlertError } from 'app/shared/alert/alert-error.model';
 export class CustomerUpdateComponent implements OnInit {
   isSaving = false;
   dateOfBirthDp: any;
+
+  vehicles: IVehicle[] = [];
 
   editForm = this.fb.group({
     id: [],
@@ -42,12 +47,14 @@ export class CustomerUpdateComponent implements OnInit {
     birthCertificateAttachmentContentType: [],
     gassOrWaterOrElectricityBill: [],
     gassOrWaterOrElectricityBillContentType: [],
+    vehicle: [],
   });
 
   constructor(
     protected dataUtils: JhiDataUtils,
     protected eventManager: JhiEventManager,
     protected customerService: CustomerService,
+    protected vehicleService: VehicleService,
     protected activatedRoute: ActivatedRoute,
     private fb: FormBuilder
   ) {}
@@ -55,6 +62,28 @@ export class CustomerUpdateComponent implements OnInit {
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ customer }) => {
       this.updateForm(customer);
+
+      this.vehicleService
+        .query({ 'customerId.specified': 'false' })
+        .pipe(
+          map((res: HttpResponse<IVehicle[]>) => {
+            return res.body || [];
+          })
+        )
+        .subscribe((resBody: IVehicle[]) => {
+          if (!customer.vehicle || !customer.vehicle.id) {
+            this.vehicles = resBody;
+          } else {
+            this.vehicleService
+              .find(customer.vehicle.id)
+              .pipe(
+                map((subRes: HttpResponse<IVehicle>) => {
+                  return subRes.body ? [subRes.body].concat(resBody) : resBody;
+                })
+              )
+              .subscribe((concatRes: IVehicle[]) => (this.vehicles = concatRes));
+          }
+        });
     });
   }
 
@@ -83,6 +112,7 @@ export class CustomerUpdateComponent implements OnInit {
       birthCertificateAttachmentContentType: customer.birthCertificateAttachmentContentType,
       gassOrWaterOrElectricityBill: customer.gassOrWaterOrElectricityBill,
       gassOrWaterOrElectricityBillContentType: customer.gassOrWaterOrElectricityBillContentType,
+      customer: customer.vehicle,
     });
   }
 
@@ -142,6 +172,7 @@ export class CustomerUpdateComponent implements OnInit {
       birthCertificateAttachment: this.editForm.get(['birthCertificateAttachment'])!.value,
       gassOrWaterOrElectricityBillContentType: this.editForm.get(['gassOrWaterOrElectricityBillContentType'])!.value,
       gassOrWaterOrElectricityBill: this.editForm.get(['gassOrWaterOrElectricityBill'])!.value,
+      vehicle: this.editForm.get(['vehicle'])!.value,
     };
   }
 
@@ -159,5 +190,9 @@ export class CustomerUpdateComponent implements OnInit {
 
   protected onSaveError(): void {
     this.isSaving = false;
+  }
+
+  trackById(index: number, item: IVehicle): any {
+    return item.id;
   }
 }

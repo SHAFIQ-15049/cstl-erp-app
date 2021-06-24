@@ -91,17 +91,19 @@
 
             </a>
             <ul [ngbCollapse]="!customerManagement" class="list-unstyled navbar-internal" id="cutomer">
-                <li>
-                    <a class="dropdown-item" routerLink="customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
-                        <fa-icon icon="user-clock" [fixedWidth]="true"></fa-icon>
-                        <span>Customer</span>
-                    </a>
-                </li>
+
 
                 <li>
                     <a class="dropdown-item" routerLink="vehicle" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
                         <fa-icon icon="equals" [fixedWidth]="true"></fa-icon>
                         <span>Vehicle Information</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a class="dropdown-item" routerLink="customer" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }" >
+                        <fa-icon icon="user-clock" [fixedWidth]="true"></fa-icon>
+                        <span>Customer</span>
                     </a>
                 </li>
 <!--                <li>-->

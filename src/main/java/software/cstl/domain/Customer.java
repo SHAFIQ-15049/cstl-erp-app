@@ -95,6 +95,10 @@ public class Customer implements Serializable {
     @Column(name = "gass_or_water_or_electricity_bill_content_type")
     private String gassOrWaterOrElectricityBillContentType;
 
+    @OneToOne
+    @JoinColumn(unique = true)
+    private Vehicle vehicle;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
         return id;
@@ -388,6 +392,19 @@ public class Customer implements Serializable {
 
     public void setGassOrWaterOrElectricityBillContentType(String gassOrWaterOrElectricityBillContentType) {
         this.gassOrWaterOrElectricityBillContentType = gassOrWaterOrElectricityBillContentType;
+    }
+
+    public Vehicle getVehicle() {
+        return vehicle;
+    }
+
+    public Vehicle vehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
+        return this.vehicle;
+    }
+
+    public void setVehicle(Vehicle vehicle) {
+        this.vehicle = vehicle;
     }
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 

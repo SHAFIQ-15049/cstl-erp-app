@@ -1,5 +1,6 @@
 import { Moment } from 'moment';
 import { GenderType } from 'app/shared/model/enumerations/gender-type.model';
+import { IVehicle } from 'app/shared/model/vehicle.model';
 
 export interface ICustomer {
   id?: number;
@@ -25,6 +26,7 @@ export interface ICustomer {
   birthCertificateAttachment?: any;
   gassOrWaterOrElectricityBillContentType?: string;
   gassOrWaterOrElectricityBill?: any;
+  vehicle?: IVehicle;
 }
 
 export class Customer implements ICustomer {
@@ -51,6 +53,7 @@ export class Customer implements ICustomer {
     public birthCertificateAttachmentContentType?: string,
     public birthCertificateAttachment?: any,
     public gassOrWaterOrElectricityBillContentType?: string,
-    public gassOrWaterOrElectricityBill?: any
+    public gassOrWaterOrElectricityBill?: any,
+    public vehicle?: IVehicle
   ) {}
 }

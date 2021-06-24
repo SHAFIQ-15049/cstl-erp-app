@@ -124,7 +124,7 @@ export class CustomerComponent implements OnInit, OnDestroy {
   protected onError(): void {
     this.ngbPaginationPage = this.page ?? 1;
   }
-  public download(customerId: number): void {
+  public download(customerId?: any): void {
     this.customerService.downloadReport(customerId);
   }
 }

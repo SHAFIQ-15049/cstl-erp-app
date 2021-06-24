@@ -290,7 +290,7 @@ public class VehicleResourceIT {
             .andExpect(jsonPath("$.[*].wheelBase").value(hasItem(DEFAULT_WHEEL_BASE)))
             .andExpect(jsonPath("$.[*].maxLaden").value(hasItem(DEFAULT_MAX_LADEN)));
     }
-    
+
     @Test
     @Transactional
     public void getVehicle() throws Exception {
@@ -2182,7 +2182,7 @@ public class VehicleResourceIT {
         Customer customer = CustomerResourceIT.createEntity(em);
         em.persist(customer);
         em.flush();
-        vehicle.setCustomer(customer);
+        customer.setVehicle(vehicle);
         vehicleRepository.saveAndFlush(vehicle);
         Long customerId = customer.getId();
 

@@ -127,6 +127,10 @@ public class CustomerQueryService extends QueryService<Customer> {
             if (criteria.getVoterIdNo() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getVoterIdNo(), Customer_.voterIdNo));
             }
+            if (criteria.getVehicleId() != null) {
+                specification = specification.and(buildSpecification(criteria.getVehicleId(),
+                    root -> root.join(Customer_.vehicle, JoinType.LEFT).get(Vehicle_.id)));
+            }
         }
         return specification;
     }

@@ -146,7 +146,7 @@ public class VehicleCriteria implements Serializable, Criteria {
 
     private IntegerFilter maxLaden;
 
-    private LongFilter customerId;
+
 
     public VehicleCriteria() {
     }
@@ -175,7 +175,7 @@ public class VehicleCriteria implements Serializable, Criteria {
         this.seats = other.seats == null ? null : other.seats.copy();
         this.wheelBase = other.wheelBase == null ? null : other.wheelBase.copy();
         this.maxLaden = other.maxLaden == null ? null : other.maxLaden.copy();
-        this.customerId = other.customerId == null ? null : other.customerId.copy();
+
     }
 
     @Override
@@ -367,13 +367,7 @@ public class VehicleCriteria implements Serializable, Criteria {
         this.maxLaden = maxLaden;
     }
 
-    public LongFilter getCustomerId() {
-        return customerId;
-    }
 
-    public void setCustomerId(LongFilter customerId) {
-        this.customerId = customerId;
-    }
 
 
     @Override
@@ -408,8 +402,7 @@ public class VehicleCriteria implements Serializable, Criteria {
             Objects.equals(rpm, that.rpm) &&
             Objects.equals(seats, that.seats) &&
             Objects.equals(wheelBase, that.wheelBase) &&
-            Objects.equals(maxLaden, that.maxLaden) &&
-            Objects.equals(customerId, that.customerId);
+            Objects.equals(maxLaden, that.maxLaden) ;
     }
 
     @Override
@@ -437,8 +430,7 @@ public class VehicleCriteria implements Serializable, Criteria {
         rpm,
         seats,
         wheelBase,
-        maxLaden,
-        customerId
+        maxLaden
         );
     }
 
@@ -469,7 +461,7 @@ public class VehicleCriteria implements Serializable, Criteria {
                 (seats != null ? "seats=" + seats + ", " : "") +
                 (wheelBase != null ? "wheelBase=" + wheelBase + ", " : "") +
                 (maxLaden != null ? "maxLaden=" + maxLaden + ", " : "") +
-                (customerId != null ? "customerId=" + customerId + ", " : "") +
+
             "}";
     }
 

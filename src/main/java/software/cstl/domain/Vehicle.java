@@ -99,9 +99,7 @@ public class Vehicle implements Serializable {
     @Column(name = "max_laden")
     private Integer maxLaden;
 
-    @OneToOne
-    @JoinColumn(unique = true)
-    private Customer customer;
+
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
     public Long getId() {
@@ -398,18 +396,7 @@ public class Vehicle implements Serializable {
         this.maxLaden = maxLaden;
     }
 
-    public Customer getCustomer() {
-        return customer;
-    }
 
-    public Vehicle customer(Customer customer) {
-        this.customer = customer;
-        return this;
-    }
-
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
-    }
 
     @Override
     public boolean equals(Object o) {

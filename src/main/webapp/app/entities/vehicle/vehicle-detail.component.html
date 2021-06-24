@@ -96,12 +96,7 @@
                 <dd>
                     <span>{{ vehicle.maxLaden }}</span>
                 </dd>
-                <dt><span>Customer</span></dt>
-                <dd>
-                    <div *ngIf="vehicle.customer">
-                        <a [routerLink]="['/customer', vehicle.customer?.id, 'view']">{{ vehicle.customer?.name }}</a>
-                    </div>
-                </dd>
+
             </dl>
 
             <button type="submit"

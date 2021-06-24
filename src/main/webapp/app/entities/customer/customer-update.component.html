@@ -177,6 +177,13 @@
                     <input type="hidden" class="form-control" name="gassOrWaterOrElectricityBillContentType" id="field_gassOrWaterOrElectricityBillContentType"
                            formControlName="gassOrWaterOrElectricityBillContentType" />
                 </div>
+                <div class="form-group">
+                    <label class="form-control-label" for="field_vehicle">Vehicle</label>
+                    <select class="form-control" id="field_vehicle" name="vehicle" formControlName="vehicle">
+                        <option [ngValue]="null"></option>
+                        <option [ngValue]="vehicleOption.id === editForm.get('vehicle')!.value?.id ? editForm.get('vehicle')!.value : vehicleOption" *ngFor="let vehicleOption of vehicles; trackBy: trackById">{{ vehicleOption.name }}</option>
+                    </select>
+                </div>
             </div>
 
             <div>

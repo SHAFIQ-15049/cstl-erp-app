@@ -28,7 +28,6 @@ export interface IVehicle {
   seats?: number;
   wheelBase?: number;
   maxLaden?: number;
-  customer?: ICustomer;
 }
 
 export class Vehicle implements IVehicle {
@@ -55,7 +54,6 @@ export class Vehicle implements IVehicle {
     public rpm?: number,
     public seats?: number,
     public wheelBase?: number,
-    public maxLaden?: number,
-    public customer?: ICustomer
+    public maxLaden?: number
   ) {}
 }

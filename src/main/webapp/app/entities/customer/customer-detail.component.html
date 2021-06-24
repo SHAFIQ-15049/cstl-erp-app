@@ -92,6 +92,12 @@
                         {{ customer.gassOrWaterOrElectricityBillContentType }}, {{ byteSize(customer.gassOrWaterOrElectricityBill) }}
                     </div>
                 </dd>
+                <dt><span>Vehicle</span></dt>
+                <dd>
+                    <div *ngIf="customer.vehicle">
+                        <a [routerLink]="['/vehicle', customer.vehicle?.id, 'view']">{{ customer.vehicle?.name }}</a>
+                    </div>
+                </dd>
             </dl>
 
             <button type="submit"

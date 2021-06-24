@@ -151,10 +151,6 @@ public class VehicleQueryService extends QueryService<Vehicle> {
             if (criteria.getMaxLaden() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getMaxLaden(), Vehicle_.maxLaden));
             }
-            if (criteria.getCustomerId() != null) {
-                specification = specification.and(buildSpecification(criteria.getCustomerId(),
-                    root -> root.join(Vehicle_.customer, JoinType.LEFT).get(Customer_.id)));
-            }
         }
         return specification;
     }

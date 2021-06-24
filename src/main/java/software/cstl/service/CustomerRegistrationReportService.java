@@ -296,7 +296,7 @@ public class CustomerRegistrationReportService {
         pdfPCell.setBorder(Rectangle.NO_BORDER);
         pdfPTable.addCell(pdfPCell);
 
-        pdfPCell = new PdfPCell(new Paragraph(customer.get().getSex().toString(),blackFont));
+        pdfPCell = new PdfPCell(new Paragraph(customer.get().getSex().toString().equals("null") ? " " : customer.get().getSex().toString(),blackFont));
         pdfPCell.setBorder(Rectangle.NO_BORDER);
         pdfPTable.addCell(pdfPCell);
 
