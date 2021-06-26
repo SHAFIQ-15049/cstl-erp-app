@@ -127,7 +127,7 @@
     <include context="prod,dev" file="config/liquibase/changelog/20210327191935_entityIdCardManagementAdded.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210430111353_monthlySalary_unique_constraints_changed.xml" relativeToChangelogFile="false"/>
     <include context="prod,dev" file="config/liquibase/changelog/20210502155538_department_added_MonthlySalary.xml" relativeToChangelogFile="false"/>
-<!--    <include context="prod,dev" file="config/liquibase/changelog/20210624075926_changelog.xml" relativeToChangelogFile="false"/>-->
+<!--    <include context="prod,dev" file="config/liquibase/changelog/20210626050226_changelog.xml" relativeToChangelogFile="false"/>-->
 
 <!--    <include context="prod,dev" file="config/liquibase/changelog/20210624080331_changelog.xml" relativeToChangelogFile="false"/>-->
 
